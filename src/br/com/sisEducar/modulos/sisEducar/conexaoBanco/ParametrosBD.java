@@ -5,7 +5,7 @@ public class ParametrosBD
 	String DRIVER = "org.postgresql.Driver";
 	String URL = "jdbc:postgresql://localhost:5432/sisEducar";
 	String usuario = "postgres";
-	String senha = "postgre";
+	String senha = "postgres";
 
 	/* Getters and Setters */
 	public String getDRIVER() {	return DRIVER; }

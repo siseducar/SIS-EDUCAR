@@ -70,14 +70,14 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Usuário" />
+															<input type="text" class="form-control" placeholder="Usuário" value="#{usuarioServlet.usuario.nome}"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Senha" />
+															<input type="password" class="form-control" placeholder="Senha" value="#{usuarioServlet.usuario.senha}"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -85,7 +85,7 @@
 													<div class="space"></div>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="button" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 														</button>

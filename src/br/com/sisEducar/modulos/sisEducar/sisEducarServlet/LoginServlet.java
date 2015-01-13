@@ -130,6 +130,7 @@ public class LoginServlet extends SisEducarServlet
 	{
 		try 
 		{
+			System.out.println("caiu no validar login");
 			Date date = new Date();
 			
 			if(usuario.getNome().isEmpty())
