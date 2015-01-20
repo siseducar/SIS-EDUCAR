@@ -6,8 +6,8 @@ id="WebApp_ID"
 version="3.0">
 
   <display-name>SIS-EDUCAR</display-name>
-  <welcome-file-list>
-  	<welcome-file>resources/templates/home.xhtml</welcome-file> 
+  <welcome-file-list> 
+  	<welcome-file>br/com/sisEducar/modulos/sisEducar/login/login.xhtml</welcome-file> 
   </welcome-file-list> 
   
   <!-- JSF --> 
