@@ -60,7 +60,7 @@
 									<div class="widget-body">
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
+												<i class="ace-icon fa fa-desktop blue"></i>
 												Digite seu usuário e senha
 											</h4>
 
@@ -70,14 +70,14 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Usuário" value="#{usuarioServlet.usuario.nome}"/>
+															<input type="text" class="form-control" placeholder="Usuário" value="#{usuarioServlet.usuario.nome}" required="required"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Senha" value="#{usuarioServlet.usuario.senha}"/>
+															<input type="password" class="form-control" placeholder="Senha" value="#{usuarioServlet.usuario.senha}" required="required"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -85,7 +85,7 @@
 													<div class="space"></div>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 														</button>
@@ -133,13 +133,13 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
+															<input type="email" class="form-control" placeholder="Email" required="required"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
 															<i class="ace-icon fa fa-lightbulb-o"></i>
 															<span class="bigger-110">Enviar</span>
 														</button>
@@ -172,41 +172,71 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
+															<input type="text" class="form-control" placeholder="RA Aluno" maxlength="15" required="required"/>
+															<i class="ace-icon fa fa-bookmark"></i>
+														</span>
+													</label>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="email" class="form-control" placeholder="Email" maxlength="30" required="required"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Usuário" />
+															<input type="text" class="form-control" placeholder="Usuário" maxlength="10" required="required"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Senha" />
+															<input type="password" class="form-control" placeholder="Senha" maxlength="8" required="required"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Confirmar Senha" />
+															<input type="password" class="form-control" placeholder="Confirmar Senha" maxlength="8" required="required"/>
 															<i class="ace-icon fa fa-retweet"></i>
 														</span>
 													</label>
 
+													<div class="control-group">
+														<label class="control-label bolder blue">Responsável</label>
+		
+														<div class="radio">
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_PAI"/>
+																<span class="lbl"> Pai</span>
+															</label>
+														</div>
+		
+														<div class="radio">
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_MAE"/>
+																<span class="lbl"> Mãe</span>
+															</label>
+														</div>
+														
+														<div class="radio">
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" checked="checked" value="constantesRH.TIPO_RESPONSAVEL_OUTRO"/>
+																<span class="lbl"> Outro</span>
+															</label>
+														</div>
+													</div>
+													
 													<div class="clearfix">
 														<button type="reset" class="width-30 pull-left btn btn-sm">
 															<i class="ace-icon fa fa-refresh"></i>
 															<span class="bigger-110">Resetar</span>
 														</button>
 
-														<button type="button" class="width-65 pull-right btn btn-sm btn-success">
+														<button type="submit" class="width-65 pull-right btn btn-sm btn-success" onclick="#{usuarioServlet.teste()}">
 															<span class="bigger-110">Registrar</span>
-
 															<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 														</button>
 													</div>

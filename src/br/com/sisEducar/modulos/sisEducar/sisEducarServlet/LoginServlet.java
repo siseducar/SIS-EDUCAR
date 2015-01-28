@@ -126,46 +126,35 @@ public class LoginServlet extends SisEducarServlet
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
 	 * @return String
 	 */
-	public String validarLogin()
+	public void validarLogin()
 	{
 		try 
 		{
-			System.out.println("caiu no validar login");
 			Date date = new Date();
 			
-			if(usuario.getNome().isEmpty())
+			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
-				FacesContext.getCurrentInstance().addMessage("validaSenhasLogin", new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));
-				return "Usuario";
-			}
-			else if(usuario.getSenha().isEmpty())
-			{
-				FacesContext.getCurrentInstance().addMessage("validaSenhasLogin", new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha é obrigatório", null));
-				return "Senha";
-			}
-			
-			//Criptografa a senha e faz a consulta no banco para ver se tem o usuário
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			Boolean result = new UsuarioDAO().validarUsuario(usuario); 
-			
-			//Seta o usuario logado na variavel
-			
-			validaPeriodoHorario(date);
-			if(result)
-			{
-				 FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "modulos/modulos.jsf");  
-				 return "Redirecionar";
-			}
-			else
-			{
-				FacesContext.getCurrentInstance().addMessage("validaSenhasLogin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha incorreto", null));  
-				return "Senha";
+				System.out.println("if 1");
+				//Criptografa a senha e faz a consulta no banco para ver se tem o usuário
+				usuario.setSenha(criptografarSenha(usuario.getSenha()));
+				Boolean result = new UsuarioDAO().validarUsuario(usuario); 
+				
+				//Seta o usuario logado na variavel
+				
+				if(result)
+				{
+					System.out.println("if 2");
+					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "modulos/modulos.jsf");  
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage("validaSenhasLogin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha incorreto", null));  
+				}
 			}
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("Validar login", "Erro ao validar o login, contate o administrador.");
-			return null;
 		}
 	}
 	

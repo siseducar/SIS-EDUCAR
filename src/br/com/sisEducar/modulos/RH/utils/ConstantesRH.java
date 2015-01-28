@@ -39,6 +39,10 @@ public class ConstantesRH
 	private int DOUTORADO = 49;
 	private int POS_DOUTORADO = 50;
 	
+	/* Responsavel pelo aluno*/
+	private int TIPO_RESPONSAVEL_PAI = 66;
+	private int TIPO_RESPONSAVEL_MAE = 69;
+	private int TIPO_RESPONSAVEL_OUTRO = 70;
 
 	//Getters and Setters
 	public int getTIPO_USUARIO_ADMIN() 									{return TIPO_USUARIO_ADMIN;}
@@ -87,4 +91,22 @@ public class ConstantesRH
 	public void setDOUTORADO(int dOUTORADO) 										{DOUTORADO = dOUTORADO;}
 	public int getPOS_DOUTORADO() 													{return POS_DOUTORADO;}
 	public void setPOS_DOUTORADO(int pOS_DOUTORADO) 								{POS_DOUTORADO = pOS_DOUTORADO;}
+	public int getTIPO_RESPONSAVEL_PAI() {
+		return TIPO_RESPONSAVEL_PAI;
+	}
+	public void setTIPO_RESPONSAVEL_PAI(int tIPO_RESPONSAVEL_PAI) {
+		TIPO_RESPONSAVEL_PAI = tIPO_RESPONSAVEL_PAI;
+	}
+	public int getTIPO_RESPONSAVEL_MAE() {
+		return TIPO_RESPONSAVEL_MAE;
+	}
+	public void setTIPO_RESPONSAVEL_MAE(int tIPO_RESPONSAVEL_MAE) {
+		TIPO_RESPONSAVEL_MAE = tIPO_RESPONSAVEL_MAE;
+	}
+	public int getTIPO_RESPONSAVEL_OUTRO() {
+		return TIPO_RESPONSAVEL_OUTRO;
+	}
+	public void setTIPO_RESPONSAVEL_OUTRO(int tIPO_RESPONSAVEL_OUTRO) {
+		TIPO_RESPONSAVEL_OUTRO = tIPO_RESPONSAVEL_OUTRO;
+	}
 }
