@@ -28,14 +28,4 @@ public class UsuarioServlet extends SisEducarServlet
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	/**
-	 * Método generico para redirecionamento de tela
-	 * @param idTela (1 = TelaCadastroUsuario, 2 = TelaCadastrUsuarioSimples, 3 = TelaRecuperarSenha)
-	 * @return String
-	 */
-	public void teste()
-	{
-		System.out.println("teste");
-	}
 }

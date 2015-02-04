@@ -140,10 +140,16 @@ public class LoginServlet extends SisEducarServlet
 				resultado = new UsuarioDAO().validarUsuario(usuario);
 				if(resultado)
 				{
-					System.out.println("sim");
+					System.out.println("usuário existe");
+					return "principal.xhtml?redirect=true";
+				}
+				else
+				{
+					System.out.println("usuário não existe");
+					return "";
 				}
 			}
-			return "principal.xhtml?redirect=true";
+			return "";
 		} 
 		catch (Exception e) 
 		{
