@@ -66,18 +66,18 @@
 
 											<div class="space-6"></div>
 
-											<form>
+											<h:form>
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Usuário" value="#{usuarioServlet.usuario.nome}" required="required"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" required="required"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Senha" value="#{usuarioServlet.usuario.senha}" required="required"/>
+															<h:inputText type="password" class="form-control" value="#{loginServlet.usuario.senha}" required="required"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -93,7 +93,7 @@
 
 													<div class="space-4"></div>
 												</fieldset>
-											</form>
+											</h:form>
 
 										</div><!-- /.widget-main -->
 

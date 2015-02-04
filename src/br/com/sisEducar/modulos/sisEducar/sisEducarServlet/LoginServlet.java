@@ -130,20 +130,16 @@ public class LoginServlet extends SisEducarServlet
 	{
 		try 
 		{
-			Date date = new Date();
-			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
-				System.out.println("if 1");
 				//Criptografa a senha e faz a consulta no banco para ver se tem o usuário
 				usuario.setSenha(criptografarSenha(usuario.getSenha()));
-				Boolean result = new UsuarioDAO().validarUsuario(usuario); 
+				Boolean result = new UsuarioDAO().validarUsuario(usuario);
 				
 				//Seta o usuario logado na variavel
 				
 				if(result)
 				{
-					System.out.println("if 2");
 					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "modulos/modulos.jsf");  
 				}
 				else
