@@ -13,6 +13,7 @@ public class Usuario
 	private String confirmarEmail;
 	private int tipo;
 	private Pessoa pessoa;
+	private int status;
 
 	public Usuario() {}
 	
@@ -33,4 +34,12 @@ public class Usuario
 	public void setConfirmarEmail(String confirmarEmail) { this.confirmarEmail = confirmarEmail; }
 	public Pessoa getPessoa() 				{ return pessoa; }
 	public void setPessoa(Pessoa pessoa) 	{ this.pessoa = pessoa; }
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 }

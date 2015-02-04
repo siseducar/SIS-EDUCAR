@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import sun.misc.BASE64Encoder;
 import br.com.sisEducar.modulos.RH.dao.UsuarioDAO;
 import br.com.sisEducar.modulos.RH.om.Usuario;
@@ -126,31 +128,27 @@ public class LoginServlet extends SisEducarServlet
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
 	 * @return String
 	 */
-	public void validarLogin()
+	public String validarLogin()
 	{
 		try 
 		{
+			Boolean resultado = false;
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
-				//Criptografa a senha e faz a consulta no banco para ver se tem o usuário
 				usuario.setSenha(criptografarSenha(usuario.getSenha()));
-				Boolean result = new UsuarioDAO().validarUsuario(usuario);
 				
-				//Seta o usuario logado na variavel
-				
-				if(result)
+				resultado = new UsuarioDAO().validarUsuario(usuario);
+				if(resultado)
 				{
-					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "modulos/modulos.jsf");  
-				}
-				else
-				{
-					FacesContext.getCurrentInstance().addMessage("validaSenhasLogin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha incorreto", null));  
+					System.out.println("sim");
 				}
 			}
+			return "principal.xhtml?redirect=true";
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("Validar login", "Erro ao validar o login, contate o administrador.");
+			return "";
 		}
 	}
 	
