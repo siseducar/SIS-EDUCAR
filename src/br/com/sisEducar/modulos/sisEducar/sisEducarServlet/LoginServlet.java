@@ -9,8 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import sun.misc.BASE64Encoder;
 import br.com.sisEducar.modulos.RH.dao.UsuarioDAO;
 import br.com.sisEducar.modulos.RH.om.Usuario;
@@ -140,12 +138,11 @@ public class LoginServlet extends SisEducarServlet
 				resultado = new UsuarioDAO().validarUsuario(usuario);
 				if(resultado)
 				{
-					System.out.println("usuário existe");
-					return "principal.xhtml?redirect=true";
+					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "/resources/templates/principal.xhtml");
+					return null;
 				}
 				else
 				{
-					System.out.println("usuário não existe");
 					return "";
 				}
 			}

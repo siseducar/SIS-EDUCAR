@@ -5,10 +5,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 id="WebApp_ID" 
 version="3.0">
 
+  <context-param>
+    <param-name>javax.faces.CONFIG_FILES</param-name>
+    <param-value>/WEB-INF/faces-config.xml</param-value>
+  </context-param> 
+  
   <display-name>SIS-EDUCAR</display-name>
   <welcome-file-list> 
-  	<welcome-file>br/com/sisEducar/modulos/sisEducar/login/login.xhtml</welcome-file> 
-  </welcome-file-list> 
+  	<welcome-file>/br/com/sisEducar/modulos/sisEducar/login/login.xhtml</welcome-file> 
+  </welcome-file-list>
   
   <!-- JSF --> 
   <servlet> 
@@ -16,11 +21,12 @@ version="3.0">
   	<servlet-class>javax.faces.webapp.FacesServlet</servlet-class> 
   	<load-on-startup>1</load-on-startup> 
   </servlet> 
-  
+   
   <servlet-mapping> 
   	<servlet-name>Faces Servlet</servlet-name> 
   	<url-pattern>*.jsf</url-pattern> 
   	<url-pattern>*.xhtml</url-pattern> 
   	<url-pattern>/faces/*</url-pattern> 
+  	<url-pattern>*.faces</url-pattern>
   </servlet-mapping>
 </web-app>
