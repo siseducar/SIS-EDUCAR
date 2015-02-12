@@ -12,7 +12,7 @@ version="3.0">
   
   <display-name>SIS-EDUCAR</display-name>
   <welcome-file-list> 
-  	<welcome-file>/br/com/sisEducar/modulos/sisEducar/login/login.xhtml</welcome-file> 
+  	<welcome-file>modulos/sisEducar/login/login.xhtml</welcome-file> 
   </welcome-file-list>
   
   <!-- JSF --> 
