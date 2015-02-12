@@ -126,32 +126,33 @@ public class LoginServlet extends SisEducarServlet
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
 	 * @return String
 	 */
-	public String validarLogin()
+	public void validarLogin()
 	{
 		try 
 		{
 			Boolean resultado = false;
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
-				usuario.setSenha(criptografarSenha(usuario.getSenha()));
-				
-				resultado = new UsuarioDAO().validarUsuario(usuario);
-				if(resultado)
+				if(usuario.getNome().length() > 0 && usuario.getSenha().length() >0)
 				{
-					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "/resources/templates/principal.xhtml");
-					return null;
-				}
-				else
-				{
-					return "";
+					usuario.setSenha(criptografarSenha(usuario.getSenha()));
+					
+					resultado = new UsuarioDAO().validarUsuario(usuario);
+					if(resultado)
+					{
+						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "/resources/templates/principal.xhtml");
+					}
+					else
+					{
+						
+					}
 				}
 			}
-			return "";
+			
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("Validar login", "Erro ao validar o login, contate o administrador.");
-			return "";
 		}
 	}
 	

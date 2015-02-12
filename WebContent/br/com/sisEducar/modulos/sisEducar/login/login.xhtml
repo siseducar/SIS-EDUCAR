@@ -67,7 +67,7 @@
 
 											<div class="space-6"></div>
 
-											<h:form>
+											<h:form id="formLogin">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -85,7 +85,20 @@
 
 													<div class="space"></div>
 
-													<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
+													<div id="divError" class="alert alert-danger" style="display:none;">
+														<button type="button" class="close" data-dismiss="alert">
+															<i class="ace-icon fa fa-times"></i>
+														</button>
+
+														<strong>
+															<i class="ace-icon fa fa-times"></i>
+															Ops
+														</strong>
+
+														Usuário/Senha incorretos
+													</div>
+														
+													<button id="btLogin" type="submit" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 													</button>
