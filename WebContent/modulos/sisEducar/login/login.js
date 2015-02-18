@@ -21,7 +21,15 @@ jQuery(function($)
 		$('button.close').on('click', function(){
 			$('#divError').hide(300);
 		});
-	});	
+	});
 });
+
+function erroLogin(data)
+{
+	if(data.status == 'begin')
+	{
+		alert('ssss');
+	}
+}
 
 	

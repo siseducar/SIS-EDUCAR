@@ -67,7 +67,7 @@
 
 											<div class="space-6"></div>
 
-											<h:form id="formLogin">
+											<h:form id="formLogin" prependId="false">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -98,9 +98,10 @@
 														Usuário/Senha incorretos
 													</div>
 														
-													<button id="btLogin" type="submit" class="width-35 pull-right btn btn-sm btn-primary" onclick="#{loginServlet.validarLogin()}">
-															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
+													<button id="btLogin" type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+														<i class="ace-icon fa fa-key"></i>
+														<span class="bigger-110">Login</span>
+														<f:ajax event="click" execute=":formLogin" render=":formLogin" onevent="erroLogin" listener="#{loginServlet.validarLogin()}"></f:ajax>
 													</button>
 														
 													<div class="space-4"></div>

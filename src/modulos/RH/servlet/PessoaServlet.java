@@ -48,7 +48,7 @@ public class PessoaServlet extends SisEducarServlet
 		{
 			if(idTela == 1)
 			{
-				FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO + "modulos/RH/cadastros/telaCadastroPessoa.jsf");  
+				FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "modulos/RH/cadastros/telaCadastroPessoa.jsf");  
 			}
 		}
 		catch (Exception e) 
