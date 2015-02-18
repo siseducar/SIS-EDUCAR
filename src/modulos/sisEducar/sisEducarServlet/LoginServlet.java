@@ -131,6 +131,8 @@ public class LoginServlet extends SisEducarServlet
 		try 
 		{
 			Boolean resultado = false;
+			SisEducarServlet sisEducarServlet = new SisEducarServlet();
+			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
 				if(usuario.getNome().length() > 0 && usuario.getSenha().length() >0)
@@ -140,11 +142,8 @@ public class LoginServlet extends SisEducarServlet
 					resultado = new UsuarioDAO().validarUsuario(usuario);
 					if(resultado)
 					{
+						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, usuario);
 						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/principal.xhtml");
-					}
-					else
-					{
-						
 					}
 				}
 			}
