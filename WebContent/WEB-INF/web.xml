@@ -5,10 +5,7 @@
 		 version="3.0">
 
   <display-name>SIS-EDUCAR</display-name>
-  <welcome-file-list>
-	<welcome-file>/modulos/sisEducar/login/login.xhtml</welcome-file>
-  </welcome-file-list>
-  
+
   <!-- JSF --> 
   <servlet> 
   	<servlet-name>Faces Servlet</servlet-name> 
@@ -38,6 +35,7 @@
   <filter-mapping>
    	<filter-name>AuthenticationFilter</filter-name>
    	<url-pattern>/modulos/*</url-pattern>
+   	<url-pattern>/resources/*</url-pattern>
   </filter-mapping>
   
 </web-app>

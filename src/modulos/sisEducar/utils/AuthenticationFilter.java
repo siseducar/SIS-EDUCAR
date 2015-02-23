@@ -26,7 +26,7 @@ public class AuthenticationFilter implements Filter
 	{
 		if(new SisEducarServlet().getSessionObject((HttpServletRequest)req, ConstantesSisEducar.USUARIO_LOGADO) == null) 
 		{
-			((HttpServletResponse)resp).sendRedirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/modulos/sisEducar/login/login.xhtml");
+			((HttpServletResponse)resp).sendRedirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");
 		} 
 		else 
 		{
