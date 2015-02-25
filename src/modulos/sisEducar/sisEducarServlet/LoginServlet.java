@@ -130,6 +130,7 @@ public class LoginServlet extends SisEducarServlet
 	{
 		try 
 		{
+			System.out.println("caius");
 			Boolean resultado = false;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			
@@ -143,7 +144,11 @@ public class LoginServlet extends SisEducarServlet
 					if(resultado)
 					{
 						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, usuario);
-						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/principal.xhtml");
+						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/principal.xhtml");
+					}
+					else
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha inválidos", null));  
 					}
 				}
 			}

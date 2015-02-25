@@ -38,5 +38,4 @@
    	<url-pattern>/resources/imagens/</url-pattern>
    	<url-pattern>/resources/templates/sisEducar/</url-pattern>
   </filter-mapping>
-  
 </web-app>

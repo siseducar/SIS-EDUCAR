@@ -29,8 +29,10 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.onpage-help.css" />
 		
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
-		<script type="text/javascript" src="login/login.js"></script>
 		
+		<!--  
+		<script type="text/javascript" src="/login/login.js"></script>
+		-->
 		<STYLE type="text/css">
 			.logoSis
 			{
@@ -42,6 +44,13 @@
 				height: 80px;
 			}
 		</STYLE>
+		
+		<SCRIPT type="text/javascript">
+		function erroLogin()
+		{
+				alert('ssss');
+		}
+		</SCRIPT>
 	</head>
 
 	<body class="login-layout light-login">
@@ -99,13 +108,13 @@
 
 														Usuário/Senha incorretos
 													</div>
-														
-													<button id="btLogin" type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-														<i class="ace-icon fa fa-key"></i>
-														<span class="bigger-110">Login</span>
-														<f:ajax event="click" execute=":formLogin" render=":formLogin" onevent="erroLogin" listener="#{loginServlet.validarLogin()}"></f:ajax>
-													</button>
-														
+													
+													<h:messages></h:messages>
+													<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
+															<i class="ace-icon fa fa-key"></i>
+															<span class="bigger-110">Login</span>
+													</h:commandLink>
+
 													<div class="space-4"></div>
 												</fieldset>
 											</h:form>

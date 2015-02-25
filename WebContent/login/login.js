@@ -10,23 +10,15 @@ jQuery(function($)
 		$('.widget-box.visible').removeClass('visible');//hide others
 		$(target).addClass('visible');//show target
     });
-	
-	$(document).ready(function()
-	{
-		$('#btLogin').click(function()
-		{
-			$('#divError').fadeToggle('slow');
-		});
-		
-		$('button.close').on('click', function(){
-			$('#divError').hide(300);
-		});
-	});
 });
 
 function erroLogin(data)
 {
 	if(data.status == 'begin')
+	{
+		alert('ssss');
+	}
+	else if(data.status == 'sucess')
 	{
 		alert('ssss');
 	}
