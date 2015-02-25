@@ -12,16 +12,4 @@ jQuery(function($)
     });
 });
 
-function erroLogin(data)
-{
-	if(data.status == 'begin')
-	{
-		alert('ssss');
-	}
-	else if(data.status == 'sucess')
-	{
-		alert('ssss');
-	}
-}
-
 	

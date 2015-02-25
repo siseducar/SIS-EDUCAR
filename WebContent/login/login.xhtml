@@ -3,6 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"  
 	lang="en">
 	
 	<head>
@@ -30,9 +31,8 @@
 		
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
 		
-		<!--  
 		<script type="text/javascript" src="/login/login.js"></script>
-		-->
+		
 		<STYLE type="text/css">
 			.logoSis
 			{
@@ -43,14 +43,19 @@
 				width: 300px;
 				height: 80px;
 			}
+			
+			.teste
+			{
+				margin:0 auto;
+				padding: 20px;
+				margin-bottom: 20px;
+				border: 1px solid transparent;
+				border-radius: 4px;
+				background-color: #f2dede;
+				border-color: #ebccd1;
+				color: #a94442;
+			}
 		</STYLE>
-		
-		<SCRIPT type="text/javascript">
-		function erroLogin()
-		{
-				alert('ssss');
-		}
-		</SCRIPT>
 	</head>
 
 	<body class="login-layout light-login">
@@ -95,21 +100,9 @@
 													</label>
 
 													<div class="space"></div>
-
-													<div id="divError" class="alert alert-danger" style="display:none;">
-														<button type="button" class="close" data-dismiss="alert">
-															<i class="ace-icon fa fa-times"></i>
-														</button>
-
-														<strong>
-															<i class="ace-icon fa fa-times"></i>
-															Ops
-														</strong>
-
-														Usuário/Senha incorretos
-													</div>
 													
-													<h:messages></h:messages>
+													<h:messages styleClass="teste"></h:messages>
+													
 													<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
