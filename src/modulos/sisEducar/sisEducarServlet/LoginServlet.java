@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 
 import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
-import modulos.RH.utils.ConstantesRH;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 import sun.misc.BASE64Encoder;
@@ -108,30 +107,6 @@ public class LoginServlet extends SisEducarServlet
 		{
 			return null;
 		}      
-	}
-	
-	/**
-	 * O método é usado para limpar os componentes da tela de usuario
-	 * @param limpar
-	 */
-	public void limparComponentes(Boolean limpar)
-	{
-		try 
-		{
-			if(limpar)
-			{
-				usuario.setNome(null);
-				usuario.setSenha(null);
-				usuario.setConfirmarSenha(null);
-				usuario.setEmail(null);
-				usuario.setConfirmarEmail(null);
-				usuario.setTipo(new ConstantesRH().getTIPO_USUARIO_ADMIN());
-			}
-		} 
-		catch (Exception e) 
-		{
-			Logs.addError("Limpar componentes da tela", "Erro ao limpar os componentes da tela, contate o administrador.");
-		}
 	}
 	
 	/**
