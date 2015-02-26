@@ -8,7 +8,7 @@ public class ConstantesSisEducar
 	/* Path do projeto, contem o caminho completo até o package sisEducar */
 	public static final String PATH_PROJETO_NOME = "/SIS-EDUCAR";
 	
-	public static final String USUARIO_LOGADO = "Logado";
+	public static String USUARIO_LOGADO = "";
 
 	/* Constante status ativo e removido*/
 	public static final int STATUS_ATIVO = 0;

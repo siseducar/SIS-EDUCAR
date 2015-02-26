@@ -19,7 +19,7 @@ public class UsuarioTeste {
 		System.out.println("Cadastrando...");
 		
 		Usuario usuario = new Usuario();
-		usuario.setNome("admin");
+		usuario.setNome("adm");
 		usuario.setSenha("123");
 		usuario.setSenha(LoginServlet.criptografarSenha(usuario.getSenha()));
 		

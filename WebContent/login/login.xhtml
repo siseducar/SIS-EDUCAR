@@ -29,33 +29,11 @@
 
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.onpage-help.css" />
 		
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/login/login.css" />
+
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
 		
 		<script type="text/javascript" src="/login/login.js"></script>
-		
-		<STYLE type="text/css">
-			.logoSis
-			{
-				margin-left:40px;
-				margin-top: 20px;
-				background-repeat:no-repeat;
-				background-image: url("resources/imagens/modulos/sisEducar/logoSis.png");
-				width: 300px;
-				height: 80px;
-			}
-			
-			.teste
-			{
-				margin:0 auto;
-				padding: 20px;
-				margin-bottom: 20px;
-				border: 1px solid transparent;
-				border-radius: 4px;
-				background-color: #f2dede;
-				border-color: #ebccd1;
-				color: #a94442;
-			}
-		</STYLE>
 	</head>
 
 	<body class="login-layout light-login">
@@ -101,7 +79,7 @@
 
 													<div class="space"></div>
 													
-													<h:messages styleClass="teste"></h:messages>
+													<h:messages styleClass="messages"></h:messages>
 													
 													<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
 															<i class="ace-icon fa fa-key"></i>

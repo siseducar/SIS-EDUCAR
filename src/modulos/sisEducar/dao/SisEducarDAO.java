@@ -2,10 +2,22 @@ package modulos.sisEducar.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class SisEducarDAO 
 {
+	// Realizando conexão com o banco
+	ConectaBanco conexao = new ConectaBanco();
+	Connection con = conexao.getConection();
+	Statement st = null;
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+		
 	/**
 	 * Este metodo recebe como parametro uma conexao com o banco de dados para encerrar a mesma
 	 * @param con
@@ -41,5 +53,22 @@ public class SisEducarDAO
 				con.close();
 			}
 		}
+	}
+	
+	public String obtemChaveAcesso() throws SQLException
+	{
+		String chaveAcesso = "";
+		String querySQL = "SELECT * FROM ChaveAcesso WHERE status = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			chaveAcesso = rs.getString("chave");
+		}
+		
+		return chaveAcesso;
 	}
 }

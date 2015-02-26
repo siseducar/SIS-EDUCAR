@@ -42,7 +42,6 @@ public class LoginServlet extends SisEducarServlet
 	{
 		try 
 		{
-			System.out.println("caius");
 			Boolean resultado = false;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			

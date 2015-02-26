@@ -8,7 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class MainSisEducar implements Servlet
 {
@@ -17,8 +18,13 @@ public class MainSisEducar implements Servlet
 	{
 		try
 		{
-			new ConectaBanco().getConection();
-			System.out.println("Sistema SisEducar iniciado");
+			//Busca a chave de acesso cadastrada no banco de dados
+			String chaveAcessoSimples = new SisEducarDAO().obtemChaveAcesso();
+
+			//Aqui ele defini qual será a chave de acesso do usuário logado
+			ConstantesSisEducar.USUARIO_LOGADO = new SisEducarServlet().gerarChaveAcessoCriptografada(chaveAcessoSimples);
+			
+			System.out.println("<-------Sistema SisEducar iniciado-------->");
 		}
 		catch(Exception e)
 		{ e.printStackTrace(); }
