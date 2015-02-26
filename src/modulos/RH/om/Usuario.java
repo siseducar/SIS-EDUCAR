@@ -5,14 +5,12 @@ import java.util.Date;
 public class Usuario 
 {
 	/* Variaveis*/
+	private String pkUsuario;
 	private String nome;
 	private String senha;
 	private Date dataLancamento;
-	private String confirmarSenha;
 	private String email;
-	private String confirmarEmail;
 	private int tipo;
-	private Pessoa pessoa;
 	private int status;
 
 	public Usuario() {}
@@ -28,12 +26,6 @@ public class Usuario
 	public void setEmail(String email) 		{ this.email = email; }
 	public int getTipo() 					{ return tipo; }
 	public void setTipo(int tipo) 			{ this.tipo = tipo; }
-	public String getConfirmarSenha() 		{ return confirmarSenha; }
-	public void setConfirmarSenha(String confirmarSenha) { this.confirmarSenha = confirmarSenha;}
-	public String getConfirmarEmail() 		{ return confirmarEmail; }
-	public void setConfirmarEmail(String confirmarEmail) { this.confirmarEmail = confirmarEmail; }
-	public Pessoa getPessoa() 				{ return pessoa; }
-	public void setPessoa(Pessoa pessoa) 	{ this.pessoa = pessoa; }
 
 	public int getStatus() {
 		return status;
@@ -41,5 +33,13 @@ public class Usuario
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getPkUsuario() {
+		return pkUsuario;
+	}
+
+	public void setPkUsuario(String pkUsuario) {
+		this.pkUsuario = pkUsuario;
 	}
 }
