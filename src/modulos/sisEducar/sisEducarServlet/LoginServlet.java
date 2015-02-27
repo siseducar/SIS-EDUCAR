@@ -44,6 +44,19 @@ public class LoginServlet extends SisEducarServlet
 			Boolean resultado = false;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			
+			if(usuario.getNome()!=null && usuario.getNome().length() == 0 && usuario.getSenha()!=null && usuario.getSenha().length() == 0)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Os campos usuário/senha são obrigatórios", null));  
+			}
+			else if(usuario.getNome()!=null && usuario.getNome().length() == 0)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "O campo usuário é obrigatório", null));  
+			}
+			else if(usuario.getSenha()!=null && usuario.getSenha().length() == 0)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "O campo senha é obrigatório", null));  
+			}
+			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
 				if(usuario.getNome().length() > 0 && usuario.getSenha().length() >0)
