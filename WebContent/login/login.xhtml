@@ -163,38 +163,43 @@
 											<div class="space-6"></div>
 											<p> Precisamos de apenas algumas informações: </p>
 
-											<form>
+											<h:form id="formCadastroUsuario">
 												<fieldset>
 													<label class="block clearfix">
+														<output>RA Aluno</output>
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="RA Aluno" maxlength="15" required="required"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
+														<output>Email</output>
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" maxlength="30" required="required"/>
+															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
+														<output>Usuário</output>
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Usuário" maxlength="10" required="required"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
+														<output>Senha</output>
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Senha" maxlength="8" required="required"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
+														<output>Confirmar Senha</output>
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Confirmar Senha" maxlength="8" required="required"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}"/>
 															<i class="ace-icon fa fa-retweet"></i>
 														</span>
 													</label>
@@ -229,14 +234,14 @@
 															<i class="ace-icon fa fa-refresh"></i>
 															<span class="bigger-110">Resetar</span>
 														</button>
-
-														<button type="submit" class="width-65 pull-right btn btn-sm btn-success">
+														
+														<h:commandLink id="btRegistrar" class="width-65 pull-right btn btn-sm btn-success">
 															<span class="bigger-110">Registrar</span>
 															<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-														</button>
+														</h:commandLink>	
 													</div>
 												</fieldset>
-											</form>
+											</h:form>
 										</div>
 
 										<div class="toolbar center">

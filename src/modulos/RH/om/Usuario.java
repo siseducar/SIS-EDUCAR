@@ -5,9 +5,11 @@ import java.util.Date;
 public class Usuario 
 {
 	/* Variaveis*/
+	private String raAluno;
 	private String pkUsuario;
 	private String nome;
 	private String senha;
+	private String confirmarSenha;
 	private Date dataLancamento;
 	private String email;
 	private int tipo;
@@ -41,5 +43,21 @@ public class Usuario
 
 	public void setPkUsuario(String pkUsuario) {
 		this.pkUsuario = pkUsuario;
+	}
+
+	public String getRaAluno() {
+		return raAluno;
+	}
+
+	public void setRaAluno(String raAluno) {
+		this.raAluno = raAluno;
+	}
+
+	public String getConfirmarSenha() {
+		return confirmarSenha;
+	}
+
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
 	}
 }
