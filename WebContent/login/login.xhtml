@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"  
 	lang="en">
 	
-	<head>
+	<h:head>
 		<base href="#{contextPathController.path}"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -34,7 +34,7 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
 		
 		<script type="text/javascript" src="login/login.js"></script>
-	</head>
+	</h:head>
 
 	<body class="login-layout light-login">
 		<div class="main-container">
@@ -79,7 +79,7 @@
 
 													<div class="space"></div>
 													
-													<h:messages styleClass="messages"></h:messages>
+													<p:messages></p:messages>
 													
 													<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
 															<i class="ace-icon fa fa-key"></i>
@@ -229,13 +229,15 @@
 														</div>
 													</div>
 													
+													<p:messages></p:messages>
+													
 													<div class="clearfix">
 														<button type="reset" class="width-30 pull-left btn btn-sm">
 															<i class="ace-icon fa fa-refresh"></i>
 															<span class="bigger-110">Resetar</span>
 														</button>
 														
-														<h:commandLink id="btRegistrar" class="width-65 pull-right btn btn-sm btn-success">
+														<h:commandLink id="btRegistrar" class="width-65 pull-right btn btn-sm btn-success" action="#{loginServlet.teste}">
 															<span class="bigger-110">Registrar</span>
 															<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 														</h:commandLink>	
