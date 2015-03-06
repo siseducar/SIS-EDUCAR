@@ -5,6 +5,12 @@
 		 version="3.0">
 
   <display-name>SIS-EDUCAR</display-name>
+  
+  <!-- Log de erros -->
+  <context-param>
+	<param-name>javax.faces.PROJECT_STAGE</param-name>
+	<param-value>Development</param-value>
+  </context-param>
 
   <!-- JSF --> 
   <servlet> 

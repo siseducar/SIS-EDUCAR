@@ -1,10 +1,8 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"  
-	lang="en">
+	xmlns:p="http://primefaces.org/ui">
 	
 	<h:head>
 		<base href="#{contextPathController.path}"/>
@@ -32,11 +30,12 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/login/login.css" />
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
-		
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery.min.js"/>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery1x.min.js"/>
 		<script type="text/javascript" src="login/login.js"></script>
 	</h:head>
 
-	<body class="login-layout light-login">
+	<h:body class="login-layout light-login">
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
@@ -64,7 +63,7 @@
 													<label class="block clearfix">
 														<output>Usuário</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" required="required"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
@@ -72,19 +71,21 @@
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 														<output>Senha</output>
-															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" required="required"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
 
 													<div class="space"></div>
 													
-													<p:messages></p:messages>
-													
-													<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
-															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
-													</h:commandLink>
+													<div class="clearfix">
+														<p:messages></p:messages>
+														
+														<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
+																<i class="ace-icon fa fa-key"></i>
+																<span class="bigger-110">Login</span>
+														</h:commandLink>
+													</div>
 
 													<div class="space-4"></div>
 												</fieldset>
@@ -124,7 +125,7 @@
 												Digite o email que foi cadastrado para seu usuário
 											</p>
 
-											<form>
+											<h:form>
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -140,7 +141,7 @@
 														</button>
 													</div>
 												</fieldset>
-											</form>
+											</h:form>
 										</div><!-- /.widget-main -->
 
 										<div class="toolbar center">
@@ -163,7 +164,7 @@
 											<div class="space-6"></div>
 											<p> Precisamos de apenas algumas informações: </p>
 
-											<h:form id="formCadastroUsuario">
+											<h:form id="formCadastroUsuario" prependId="false">
 												<fieldset>
 													<label class="block clearfix">
 														<output>RA Aluno</output>
@@ -229,17 +230,17 @@
 														</div>
 													</div>
 													
-													<p:messages></p:messages>
-													
 													<div class="clearfix">
+														<p:messages></p:messages>
 														<button type="reset" class="width-30 pull-left btn btn-sm">
 															<i class="ace-icon fa fa-refresh"></i>
 															<span class="bigger-110">Resetar</span>
 														</button>
 														
-														<h:commandLink id="btRegistrar" class="width-65 pull-right btn btn-sm btn-success" action="#{loginServlet.teste}">
+														<h:commandLink id="btRegistrar" class="width-65 pull-right btn btn-sm btn-success">
 															<span class="bigger-110">Registrar</span>
 															<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+															<p:ajax event="click" listener="#{loginServlet.cadastrarUsuarioSimples}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
 														</h:commandLink>	
 													</div>
 												</fieldset>
@@ -260,5 +261,5 @@
 				</div><!-- /.row -->
 			</div><!-- /.main-content -->
 		</div><!-- /.main-container -->
-	</body>
+	</h:body>
 </html>

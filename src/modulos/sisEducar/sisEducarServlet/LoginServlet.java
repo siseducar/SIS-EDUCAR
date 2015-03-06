@@ -78,10 +78,31 @@ public class LoginServlet extends SisEducarServlet
 		}
 	}
 	
-	public void teste()
+	/**
+	 * Método usado para cadastrar um usuário simples na tela de login
+	 */
+	public void cadastrarUsuarioSimples()
 	{
-		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "asasasa", null));  
+		try 
+		{
+			Boolean resultado = false;
+			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			
+			resultado = new UsuarioDAO().inserirUsuario(usuario);
+			
+			if(resultado)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário registrado", null));  
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado", null));  
+			}
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+		}
 	}
 	
 	/**
