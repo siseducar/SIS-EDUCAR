@@ -81,11 +81,24 @@ public class LoginServlet extends SisEducarServlet
 	/**
 	 * Método usado para cadastrar um usuário simples na tela de login
 	 */
-	public void cadastrarUsuarioSimples()
+	public String cadastrarUsuarioSimples()
 	{
 		try 
 		{
 			Boolean resultado = false;
+			
+			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 dígitos", null));
+				return null;
+			}
+			
+			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas são diferentes", null));
+				return null;
+			}
+			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 			
 			resultado = new UsuarioDAO().inserirUsuario(usuario);
@@ -98,10 +111,13 @@ public class LoginServlet extends SisEducarServlet
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado", null));  
 			}
+			
+			return null;
 		}
 		catch (Exception e) 
 		{
-			// TODO: handle exception
+			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuarioSimples");
+			return null;
 		}
 	}
 	
