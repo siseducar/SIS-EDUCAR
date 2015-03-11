@@ -6,6 +6,7 @@ public class Usuario
 {
 	/* Variaveis*/
 	private String raAluno;
+	private String cpf;
 	private String pkUsuario;
 	private String nome;
 	private String senha;
@@ -13,7 +14,7 @@ public class Usuario
 	private Date dataLancamento;
 	private String email;
 	private int tipo;
-	private int status;
+	private int status = 0;
 
 	public Usuario() {}
 	
@@ -59,5 +60,13 @@ public class Usuario
 
 	public void setConfirmarSenha(String confirmarSenha) {
 		this.confirmarSenha = confirmarSenha;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 }

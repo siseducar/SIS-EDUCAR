@@ -108,4 +108,29 @@ public class UsuarioDAO extends SisEducarDAO
 		
 		return false;
 	}
+	
+	/**
+	 * O método é usado para buscar a existencia do usuário pelo cpf do mesmo
+	 * @param cpf
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean verificaExistenciaUsuario(String cpf) throws SQLException
+	{
+		String querySQL = "SELECT r.* FROM Responsavel r" +
+					" INNER JOIN Pessoa p ON(r.fkPessoa = p.pkPessoa)" +
+					" INNER JOIN Aluno a ON(r.fkAluno = a.pkAluno)";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1 , ConstantesSisEducar.STATUS_ATIVO);
+		ps.setString(2, cpf);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

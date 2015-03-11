@@ -1,6 +1,7 @@
 package modulos.RH.om;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Pessoa
 {
@@ -23,7 +24,8 @@ public class Pessoa
 	private int tipoPessoa;
 	private Boolean falecido;
 	private Date dataFalecimento;
-	private int status;
+	private int status = 0;
+	private List<Aluno> alunos;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -145,5 +147,11 @@ public class Pessoa
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
 	}
 }

@@ -1,8 +1,7 @@
 package modulos.sisEducar.utils;
 
 import javax.faces.application.FacesMessage;
-
-import org.primefaces.context.RequestContext;
+import javax.faces.context.FacesContext;
 
 public class Logs 
 {
@@ -13,8 +12,7 @@ public class Logs
 	 */
 	public static void addInfo(String mensagemTitulo, String mensagemDescricao)
 	{
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, mensagemTitulo, mensagemDescricao);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagemTitulo, mensagemDescricao));
 	}
 	
 	/**
@@ -24,8 +22,7 @@ public class Logs
 	 */
 	public static void addError(String mensagemTitulo, String mensagemDescricao)
 	{
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagemTitulo, mensagemDescricao);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagemTitulo, mensagemDescricao));
 	}
 	
 	/**
@@ -35,8 +32,7 @@ public class Logs
 	 */
 	public static void addWarning(String mensagemTitulo, String mensagemDescricao)
 	{
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, mensagemTitulo, mensagemDescricao);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, mensagemTitulo, mensagemDescricao));
 	}
 	
 	/**
@@ -46,7 +42,6 @@ public class Logs
 	 */
 	public static void addFatal(String mensagemTitulo, String mensagemDescricao)
 	{
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, mensagemTitulo, mensagemDescricao);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, mensagemTitulo, mensagemDescricao));
 	}
 }

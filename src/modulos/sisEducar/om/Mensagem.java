@@ -1,6 +1,6 @@
 package modulos.sisEducar.om;
 
-public class Email 
+public class Mensagem 
 {
 	private String destino;
 	private String titulo;

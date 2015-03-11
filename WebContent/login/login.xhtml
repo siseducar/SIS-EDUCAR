@@ -167,9 +167,16 @@
 											<h:form id="formCadastroUsuario" prependId="false">
 												<fieldset>
 													<label class="block clearfix">
-														<output>RA Aluno</output>
+														<output>R.A. Aluno</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}"/>
+															<i class="ace-icon fa fa-bookmark"></i>
+														</span>
+													</label>
+													<label class="block clearfix">
+														<output>CPF Responsável</output>
+														<span class="block input-icon input-icon-right">
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpf}"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
 													</label>
@@ -192,7 +199,7 @@
 													<label class="block clearfix">
 														<output>Senha</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" maxlength="8"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -200,35 +207,13 @@
 													<label class="block clearfix">
 														<output>Confirmar Senha</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}" maxlength="8"/>
 															<i class="ace-icon fa fa-retweet"></i>
 														</span>
 													</label>
 
-													<div class="control-group">
-														<label class="control-label bolder blue">Responsável</label>
-		
-														<div class="radio">
-															<label>
-																<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_PAI"/>
-																<span class="lbl"> Pai</span>
-															</label>
-														</div>
-		
-														<div class="radio">
-															<label>
-																<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_MAE"/>
-																<span class="lbl"> Mãe</span>
-															</label>
-														</div>
-														
-														<div class="radio">
-															<label>
-																<input name="form-field-radio" type="radio" class="ace" checked="checked" value="constantesRH.TIPO_RESPONSAVEL_OUTRO"/>
-																<span class="lbl"> Outro</span>
-															</label>
-														</div>
-													</div>
+													<div class="space-6"></div>
+													<div class="space-6"></div>
 													
 													<div class="clearfix">
 														<p:messages></p:messages>

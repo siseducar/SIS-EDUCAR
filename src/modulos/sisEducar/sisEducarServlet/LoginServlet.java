@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -86,6 +87,32 @@ public class LoginServlet extends SisEducarServlet
 		try 
 		{
 			Boolean resultado = false;
+			Boolean resultadoExistenciaUsuario = false;
+			Boolean resultadoExistenciaAluno = false;
+			if(usuario.getRaAluno().isEmpty())
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. é obrigatório", null));
+				return null;
+			}
+			
+			resultadoExistenciaAluno = new AlunoDAO().verificaExistenciaAluno(usuario.getRaAluno());
+			//Se vier false é porque o ra do aluno não existe
+			if(!resultadoExistenciaAluno)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. não é válido", null));
+				return null;
+			}
+			else
+			{
+				//Se vier TRUE eu vou buscar a pessoa que está sendo cadastrada para verificar se está pessoa também existe
+				resultadoExistenciaUsuario = new UsuarioDAO().verificaExistenciaUsuario(usuario.getCpf());
+				
+				if(resultadoExistenciaUsuario)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usuário já existe", null));
+					return null;
+				}
+			}
 			
 			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
 			{
