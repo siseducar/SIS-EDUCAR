@@ -6,7 +6,7 @@ public class Usuario
 {
 	/* Variaveis*/
 	private String raAluno;
-	private String cpf;
+	private String cpfcnpj;
 	private String pkUsuario;
 	private String nome;
 	private String senha;
@@ -62,11 +62,11 @@ public class Usuario
 		this.confirmarSenha = confirmarSenha;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getCpfcnpj() {
+		return cpfcnpj;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpfcnpj(String cpfcnpj) {
+		this.cpfcnpj = cpfcnpj;
 	}
 }

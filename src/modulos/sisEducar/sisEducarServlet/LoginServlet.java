@@ -95,6 +95,12 @@ public class LoginServlet extends SisEducarServlet
 				return null;
 			}
 			
+			if(usuario.getCpfcnpj().isEmpty())
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ é obrigatório", null));
+				return null;
+			}
+			
 			resultadoExistenciaAluno = new AlunoDAO().verificaExistenciaAluno(usuario.getRaAluno());
 			//Se vier false é porque o ra do aluno não existe
 			if(!resultadoExistenciaAluno)
@@ -104,12 +110,13 @@ public class LoginServlet extends SisEducarServlet
 			}
 			else
 			{
-				//Se vier TRUE eu vou buscar a pessoa que está sendo cadastrada para verificar se está pessoa também existe
-				resultadoExistenciaUsuario = new UsuarioDAO().verificaExistenciaUsuario(usuario.getCpf());
+				/*Se vier TRUE é porque o usuário pode ser adicionado, se vier false é porque o usuário não tem permissão para ser cadastrado no sistema
+				caso vier false é porque o responsavel do aluno deixou esta pessoa como 1 dos responsaveis pelo aluno*/
+				resultadoExistenciaUsuario = new UsuarioDAO().verificaExistenciaResponsavel(usuario.getCpfcnpj());
 				
-				if(resultadoExistenciaUsuario)
+				if(!resultadoExistenciaUsuario)
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usuário já existe", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ inválido ou o usuário não tem permissão para se registrar, por favor entre em contato com a administração", null));
 					return null;
 				}
 			}

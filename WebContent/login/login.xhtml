@@ -84,6 +84,7 @@
 														<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
 																<i class="ace-icon fa fa-key"></i>
 																<span class="bigger-110">Login</span>
+																<p:ajax event="click" listener="#{loginServlet.validarLogin}" update=":formLogin" process=":formLogin"/>
 														</h:commandLink>
 													</div>
 
@@ -169,21 +170,21 @@
 													<label class="block clearfix">
 														<output>R.A. Aluno</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}" maxlength="15"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
-														<output>CPF Responsável</output>
+														<output>CPF/CNPJ Responsável</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpf}"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" maxlength="11"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<output>Email</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}"/>
+															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}" maxlength="30"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
@@ -191,7 +192,7 @@
 													<label class="block clearfix">
 														<output>Usuário</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>

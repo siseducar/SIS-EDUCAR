@@ -193,7 +193,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-05-30 23:44:25</creation_date>
-			<updated_date>2015-03-10 23:27:39</updated_date>
+			<updated_date>2015-03-11 18:58:02</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -313,8 +313,8 @@
 			<binary>false</binary>
 			<args></args>
 			<description></description>
-			<logical_name>cpf</logical_name>
-			<physical_name>cpf</physical_name>
+			<logical_name>cpfcnpj</logical_name>
+			<physical_name>cpfcnpj</physical_name>
 			<type>varchar</type>
 		</word>
 		<word>
@@ -875,7 +875,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>28</word_id>
+					<word_id>30</word_id>
 					<id>2</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -2083,7 +2083,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>30</word_id>
+					<word_id>29</word_id>
 					<id>35</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -2141,7 +2141,7 @@
 			<connections>
 				<relation>
 					<id>1</id>
-					<source>2</source>
+					<source>1</source>
 					<target>4</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2163,7 +2163,7 @@
 				</relation>
 				<relation>
 					<id>2</id>
-					<source>1</source>
+					<source>2</source>
 					<target>4</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2227,7 +2227,7 @@
 				<normal_column>
 					<id>37</id>
 					<referenced_column>25</referenced_column>
-					<relation>1</relation>
+					<relation>2</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name>fkAluno</logical_name>
@@ -2261,7 +2261,7 @@
 				<normal_column>
 					<id>38</id>
 					<referenced_column>3</referenced_column>
-					<relation>2</relation>
+					<relation>1</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name>fkPessoa</logical_name>
@@ -2293,7 +2293,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>29</word_id>
+					<word_id>28</word_id>
 					<id>39</id>
 					<description></description>
 					<unique_key_name></unique_key_name>

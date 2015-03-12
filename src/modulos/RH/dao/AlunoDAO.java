@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modulos.RH.om.Aluno;
+import modulos.RH.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -43,5 +45,20 @@ public class AlunoDAO extends SisEducarDAO
 		}
 		
 		return false;
+	}
+	
+	public Boolean inserirAluno(Aluno aluno) throws SQLException 
+	{
+		String querySQL = "INSERT INTO aluno "
+				+ " (ra, fkPessoa) "
+				+ " values(?,?)";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, aluno.getRa());
+		ps.setInt(2, aluno.getPessoa().getPkPessoa());
+		
+		fecharConexaoBanco(con, ps, true, true);
+		
+		return true;
 	}
 }

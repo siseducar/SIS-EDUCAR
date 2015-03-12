@@ -115,16 +115,22 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return TRUE || FALSE
 	 * @throws SQLException
 	 */
-	public Boolean verificaExistenciaUsuario(String cpf) throws SQLException
+	public Boolean verificaExistenciaResponsavel(String cpfcnpj) throws SQLException
 	{
-		String querySQL = "SELECT r.* FROM Responsavel r" +
-					" INNER JOIN Pessoa p ON(r.fkPessoa = p.pkPessoa)" +
-					" INNER JOIN Aluno a ON(r.fkAluno = a.pkAluno)";
+		String querySQL = "SELECT r.pkResponsavel, p.pkPessoa, a.pkAluno, " +
+							" CASE WHEN p.nome IS NOT NULL THEN p.nome" +
+							" ELSE p.nomefantasia" +
+							" END as pessoaNome" +
+						" INNER JOIN Pessoa p ON(r.fkPessoa = p.pkPessoa)" +
+						" INNER JOIN Aluno a ON(r.fkAluno = a.pkAluno)" +
+						" WHERE p.status = ?" +
+						" AND p.cpf = ? OR p.cnpj = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(1 , ConstantesSisEducar.STATUS_ATIVO);
-		ps.setString(2, cpf);
+		ps.setString(2, cpfcnpj);
+		ps.setString(3, cpfcnpj);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
