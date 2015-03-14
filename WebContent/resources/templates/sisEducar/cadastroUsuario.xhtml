@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="scriptConteudo">			
+			<h:body>
+				<div class="main-container ">
+					<div class="login-container">
+						<h4 class="header blue lighter bigger">
+							<i class="ace-icon fa fa-pencil-square-o bigger-250"></i>
+							Cadastro de Usúario
+						</h4>
+						
+						<h:form id="formCadastroUsuario" prependId="false">
+							
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>Usuário</output>
+									<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" required="required"/>
+									<i class="ace-icon fa fa-user "></i>
+								</span>
+							</label>
+							
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>Senha</output>
+									<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" required="required"/>
+									<i class="ace-icon fa fa-lock"></i>
+								</span>
+							</label>
+															
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>Confirmação de Senha</output>
+									<h:inputText type="text" class="form-control" required="required"/>
+									<i class="ace-icon fa fa-retweet"></i>
+								</span>
+							</label>
+							
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>CPF\CNPJ Responsável</output>
+									<h:inputText type="text" class="form-control" required="required"/>
+									<i class="ace-icon fa fa-bookmark"></i>
+								</span>
+							</label>
+																												
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>RA Do Aluno</output>
+									<h:inputText type="text" class="form-control" required="required"/>
+									<i class="ace-icon fa fa-bookmark"></i>
+								</span>
+							</label>								
+							
+							<label class="block clearfix">
+								<span class="block input-icon input-icon-right">
+									<output>Email</output>
+									<h:inputText type="text" class="form-control" required="required"/>
+									<i class="ace-icon fa fa-envelope"></i>
+								</span>
+							</label>
+															
+							<div class="control-group">
+								<label class="control-label border">Responsável</label>
+								<div class="radio">
+									<label>
+										<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_PAI"/>
+										<span class="lbl "> Pai</span>
+									</label>
+								</div>
+								
+								<div class="radio">
+									<label>
+										<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_MAE"/>
+										<span class="lbl"> Mãe</span>
+									</label>
+								</div>
+																
+								<div class="radio">
+									<label>
+										<input name="form-field-radio" type="radio" class="ace" checked="checked" value="constantesRH.TIPO_RESPONSAVEL_OUTRO"/>
+										<span class="lbl"> Outro</span>
+									</label>
+								</div>
+								
+							</div>
+							
+							<div class="space"></div>
+							<div class="space"></div>
+							
+							<div class="clearfix">
+								<p:messages></p:messages>
+								<h:commandLink id="btCancelar" class="width-40 pull-left btn btn-sm btn-danger">
+									<span class="bigger-110">Cancelar</span>
+									<i class="ace-icon fa fa-times white"></i>
+								</h:commandLink> 
+								
+								<h:commandLink id="btSalvar" class="width-40	 pull-right btn btn-sm btn-primary">
+									<span class="bigger-110">Registrar</span>
+									<i class="ace-icon fa fa-check"></i>
+								</h:commandLink>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</h:body>	
+		</ui:define>
+	</ui:composition>
+</h:html>
