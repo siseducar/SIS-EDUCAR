@@ -11,48 +11,30 @@ import modulos.sisEducar.utils.EmailUtils;
  
 public class EmailTeste 
 {
-    public static void main(String[] args) {
-        Email mj = new Email();
-        //configuracoes de envio
-        mj.setSmtpHostMail("smtp.gmail.com");
-        mj.setSmtpPortMail("587");
-        mj.setSmtpAuth("true");
-        mj.setSmtpStarttls("true");
-        mj.setUserMail("tccsiseducar@gmail.com");
-        mj.setFromNameMail("Sis-Educar");
-        mj.setPassMail("joao123michael123");
-        mj.setCharsetMail("ISO-8859-1");
-        mj.setSubjectMail("JavaMail");
-        mj.setBodyMail(htmlMessage());
-        mj.setTypeTextMail(Email.TYPE_TEXT_HTML);
+    public static void main(String[] args) throws UnsupportedEncodingException, MessagingException 
+    {
+        Email email = EmailUtils.inicializarPropriedades();
+        email.setSubjectMail("JavaMail");
+        email.setBodyMail(htmlMessage());
  
         //sete quantos destinatarios desejar
         Map<String, String> map = new HashMap<String, String>();
-        map.put("michaelseraphim@live.com", "email out");
+        map.put("jpbr.webdesigner@gmail.com", "");
  
-        mj.setToMailsUsers(map);
+        email.setToMailsUsers(map);
  
-        //seta quatos anexos desejar
-//        List<String> files = new ArrayList<String>();
-//      files.add("C:\\images\\hover_prev.png");
-//        mj.setFileMails(files);
- 
-        try {
-            new EmailUtils().senderMail(mj);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        new EmailUtils().enviarEmail(email);
     }
  
-    private static String textMessage() {
+    private static String textMessage() 
+    {
         return  "Leia o novo tutorial JavaMail do Programando com Java.n" +
                 "Saiba como enviar emails com anexo, em formato texto e html.n" +
                 "Envie seu email para mais de um destinatario.";
     }
  
-    private static String htmlMessage() {
+    private static String htmlMessage() 
+    {
         return
         "<html>n" +
         "t<head>n" +
