@@ -15,7 +15,7 @@ public class EmailTeste
         Email mj = new Email();
         //configuracoes de envio
         mj.setSmtpHostMail("smtp.gmail.com");
-        mj.setSmtpPortMail("465");
+        mj.setSmtpPortMail("587");
         mj.setSmtpAuth("true");
         mj.setSmtpStarttls("true");
         mj.setUserMail("tccsiseducar@gmail.com");
@@ -28,7 +28,7 @@ public class EmailTeste
  
         //sete quantos destinatarios desejar
         Map<String, String> map = new HashMap<String, String>();
-        map.put("jpbr.webdesigner@gmail.com", "email gmail");
+        map.put("michaelseraphim@live.com", "email out");
  
         mj.setToMailsUsers(map);
  
