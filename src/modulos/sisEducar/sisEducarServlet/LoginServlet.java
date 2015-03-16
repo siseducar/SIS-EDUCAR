@@ -2,6 +2,8 @@ package modulos.sisEducar.sisEducarServlet;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +13,9 @@ import javax.faces.context.FacesContext;
 import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
+import modulos.sisEducar.om.Email;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
 import sun.misc.BASE64Encoder;
 
@@ -86,9 +90,13 @@ public class LoginServlet extends SisEducarServlet
 	{
 		try 
 		{
+			Map<String, String> destinatarios = new HashMap<String, String>();
 			Boolean resultado = false;
 			Boolean resultadoExistenciaUsuario = false;
 			Boolean resultadoExistenciaAluno = false;
+			Boolean resultadoEnvioEmail = false;
+			Email email = null;
+			
 			if(usuario.getRaAluno().isEmpty())
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. é obrigatório", null));
@@ -155,12 +163,24 @@ public class LoginServlet extends SisEducarServlet
 			}
 			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+
+			email = EmailUtils.inicializarPropriedades();
+			email.setSubjectMail("Validação de registro SIS-EDUCAR");
+			email.setBodyMail("Email Teste");
+			destinatarios.put(usuario.getEmail(), usuario.getNome());
+			email.setToMailsUsers(destinatarios);
 			
-			resultado = new UsuarioDAO().inserirUsuario(usuario);
+			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 			
-			if(resultado)
+			//Inseri o usuário quando o email for enviado, mas deixo o usuário com o status de inativo, só será ativo novamente quando o usuario abrir o email e validar pelo link
+			if(resultadoEnvioEmail){ resultado = new UsuarioDAO().inserirUsuario(usuario); }
+			else
+			{ FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha ao enviar email", null)); }
+			
+			if(resultado && resultadoEnvioEmail)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário registrado", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Foi enviado um email de confirmação, por favor verifique sua conta de email", null));  
+				resetarUsuario();
 			}
 			else
 			{
@@ -173,6 +193,21 @@ public class LoginServlet extends SisEducarServlet
 		{
 			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuarioSimples");
 			return null;
+		}
+	}
+	
+	/**
+	 * Método usado para resetar o usuario, criando uma nova instancia do usuario
+	 */
+	public void resetarUsuario()
+	{
+		try
+		{
+			usuario = new Usuario();
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("Resetar", "Falha ao resetar o usuário");
 		}
 	}
 	

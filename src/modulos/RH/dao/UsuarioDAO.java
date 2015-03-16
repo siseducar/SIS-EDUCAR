@@ -61,7 +61,7 @@ public class UsuarioDAO extends SisEducarDAO
 	public Boolean inserirUsuario(Usuario usuario) throws SQLException 
 	{
 		String querySQL = "INSERT INTO usuario "
-				+ " (nome, senha, dataLancamento,  tipo, email) values(?,?,?,?,?)";
+				+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj) values(?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, usuario.getNome());
@@ -69,6 +69,8 @@ public class UsuarioDAO extends SisEducarDAO
 		ps.setDate(3, dataAtual);
 		ps.setInt(4, usuario.getTipo());
 		ps.setString(5, usuario.getEmail());
+		ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
+		ps.setString(7, usuario.getCpfcnpj());
 		
 		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
 		

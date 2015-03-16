@@ -13,4 +13,7 @@ public class ConstantesSisEducar
 	/* Constante status ativo e removido*/
 	public static final int STATUS_ATIVO = 0;
 	public static final int STATUS_REMOVIDO = 999;
+	
+	//Aguardando validação pelo email enviado para o usuário
+	public static final int STATUS_INCOMPLETO = 888;
 }
