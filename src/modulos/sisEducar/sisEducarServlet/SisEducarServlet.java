@@ -3,12 +3,14 @@ package modulos.sisEducar.sisEducarServlet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import sun.misc.BASE64Encoder;
 
+@SessionScoped
 public class SisEducarServlet 
 {
 	/**

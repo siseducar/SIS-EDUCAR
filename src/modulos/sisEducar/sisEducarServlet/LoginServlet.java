@@ -26,16 +26,7 @@ public class LoginServlet extends SisEducarServlet
 	//Objetos e variaveis
 	private String nomeUsuarioLogado;
 	
-	Usuario usuario;  
-	
-	/**
-	 * Construtor
-	 */
-	public LoginServlet ()
-	{
-		usuario = new Usuario();
-	}
-	
+	Usuario usuario = new Usuario();  
 	
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
@@ -44,7 +35,7 @@ public class LoginServlet extends SisEducarServlet
 	public void validarLogin()
 	{
 		try 
-		{
+		{ 
 			Boolean resultado = false;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			
@@ -166,7 +157,7 @@ public class LoginServlet extends SisEducarServlet
 
 			email = EmailUtils.inicializarPropriedades();
 			email.setSubjectMail("Validação de registro SIS-EDUCAR");
-			email.setBodyMail("Email Teste");
+			email.setBodyMail(EmailUtils.emailPadrao("Olá " + usuario.getNome() + ", precisamos que você clique no botão abaixo para que sua conta de usuário seja validada.", true, "", "Validar Usuário"));
 			destinatarios.put(usuario.getEmail(), usuario.getNome());
 			email.setToMailsUsers(destinatarios);
 			

@@ -2,6 +2,7 @@ package modulos.sisEducar.utils;
 
 import java.io.IOException;
 
+import javax.faces.bean.SessionScoped;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,6 +17,7 @@ import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 /**
  * Classe que verifica se existe um usuario logado antes de permitir o acesso a uma pagina
  */
+@SessionScoped
 public class AuthenticationFilter implements Filter 
 {
 	/*-*-*-* Variaveis e Objetos Privados *-*-*-*/

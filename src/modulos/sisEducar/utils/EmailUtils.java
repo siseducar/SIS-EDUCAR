@@ -130,4 +130,104 @@ public class EmailUtils
 			return false;
 		}
     }
+    
+    /**
+     * Este método é usado para definir um padrão de envio de email
+     * @param conteudo (O conteudo é o objetivo do email, o porque de estar sendo enviado)
+     * @param ativarBotao (o botão que estamos falando é um botão qualquer que recebrá um nome e uma URL para um redirecionamento)
+     * @param urlBotao (URL aonde será redirecionado)
+     * @param nomeBotao (nome do botão)
+     * @return String (Email Pronto)
+     */
+    public static String emailPadrao(String conteudo, Boolean ativarBotao, String urlBotao, String nomeBotao)
+    {
+    	String corpo = "<html>";
+    	corpo += " <td align=\"center\" valign=\"top\">";
+    	corpo += " <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color:#fff;background-image:none;background-repeat:repeat\">";
+    	corpo += " 	<tbody>";
+    	corpo += " 	<tr>";
+    	corpo += " 	<td align=\"center\" valign=\"top\">";
+    	corpo += " 		<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"90\" width=\"100%\" style=\"background-color:#ffffff;background-image:none;background-repeat:repeat\">";
+    	corpo += " 			<tbody><tr>";
+    	corpo += "			<td align=\"center\" valign=\"middle\">";
+    	corpo += "				<a href=\"http://s284.photobucket.com/user/jpbonetti/media/logoSis_zpsg785gftv.png.html\" target=\"_blank\"><img src=\"http://i284.photobucket.com/albums/ll14/jpbonetti/logoSis_zpsg785gftv.png\" border=\"0\" alt=\" photo logoSis_zpsg785gftv.png\"/></a>";
+    	corpo += "			</td></tr>";
+    	corpo += "		</tbody></table>";
+    	corpo += "	</td>";
+    	corpo += "	</tr>";
+    	corpo += "	<tr>";
+    	corpo += "	<td align=\"center\" valign=\"top\">";
+    	corpo += "		<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"1\" width=\"100%\">";
+    	corpo += "			<tbody><tr>";
+    	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#eeeeee\" width=\"249\"></td>";
+    	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#428BCA\" width=\"160\"></td>";
+    	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#eeeeee\" width=\"249\"></td>";
+    	corpo += "			</tr>";
+    	corpo += "		</tbody></table>";
+    	corpo += "	</td>";
+    	corpo += "	</tr>";
+    	corpo += "	<tr>";
+    	corpo += "		<td align=\"center\" valign=\"top\">";
+    	corpo += "			<table border=\"0\" cellpadding=\"20\" cellspacing=\"0\" height=\"0\" width=\"100%\">";
+    	corpo += "				<tbody><tr><td align=\"center\" valign=\"middle\"></td></tr></tbody></table>";
+    	corpo += "		</td>";
+    	corpo += "	</tr>";
+    	corpo += "	<tr>";
+    	corpo += "	<td align=\"center\" valign=\"top\">";
+    	corpo += "		<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"0\" width=\"100%\">";
+    	corpo += "			<tbody><tr>";
+    	corpo += "				<td align=\"center\" valign=\"middle\">";
+    	corpo += "					<div style=\"text-align:center;padding:0 20px 20px;font-size:14px;line-height:1.5;width:80%\">";
+    	corpo += "						<p>";
+    	corpo += 							conteudo;
+    	corpo += "						</p>";
+    	corpo += "					</div>";
+    	corpo += "				</td>";
+    	corpo += "			</tr>";
+    	corpo += "		</tbody></table>";
+    	corpo += "	</td>";
+    	corpo += "	</tr>";
+    	
+    	if(ativarBotao)
+    	{
+    		corpo += "<tr>";
+    		corpo += "	<td align=\"center\" valign=\"top\">";
+    		corpo += "		<table border=\"0\" cellpadding=\"30\" cellspacing=\"0\" height=\"0\" width=\"100%\" style=\"border-top-width:1px;border-top-style:solid;border-top-color:#eee\">";
+    		corpo += "	 		<tbody><tr>";
+    		corpo += "				<td align=\"center\" valign=\"middle\">";
+    		corpo += "					<div>";
+    		corpo += "						<a href=\""+ urlBotao + "\" style=\"background-color:#428BCA;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:14px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px\" target=\"_blank\"> " + nomeBotao + "</a><br>";
+    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta é uma notificação automática, por favor não responda.</small>";
+    		corpo += "					</div>";
+    		corpo += "				</td>";
+    		corpo += "				</tr>";
+    		corpo += "			</tbody></table>";
+    		corpo += "		</td>";
+    		corpo += "	</tr>";
+    	}
+    	else
+    	{
+    		corpo += "<tr>";
+    		corpo += "	<td align=\"center\" valign=\"top\">";
+    		corpo += "		<table border=\"0\" cellpadding=\"30\" cellspacing=\"0\" height=\"0\" width=\"100%\" style=\"border-top-width:1px;border-top-style:solid;border-top-color:#eee\">";
+    		corpo += "	 		<tbody><tr>";
+    		corpo += "				<td align=\"center\" valign=\"middle\">";
+    		corpo += "					<div>";
+    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta é uma notificação automática, por favor não responda.</small>";
+    		corpo += "					</div>";
+    		corpo += "				</td>";
+    		corpo += "				</tr>";
+    		corpo += "			</tbody></table>";
+    		corpo += "		</td>";
+    		corpo += "	</tr>";
+    		
+    	}
+    	
+    	corpo += "	</tbody>";
+    	corpo += "	</table>";
+    	corpo += "</td>";
+    	corpo += "</html>";
+    	
+    	return corpo;
+    }
 }

@@ -15,7 +15,7 @@ public class EmailTeste
     {
         Email email = EmailUtils.inicializarPropriedades();
         email.setSubjectMail("JavaMail");
-        email.setBodyMail(htmlMessage());
+        email.setBodyMail(EmailUtils.emailPadrao("Olá USUARIO_NOME, precisamos que você clique no botão abaixo para que sua conta de usuário seja validada.", true, "", "Validar Usuário"));
  
         //sete quantos destinatarios desejar
         Map<String, String> map = new HashMap<String, String>();
