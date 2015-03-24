@@ -134,12 +134,13 @@ public class EmailUtils
     /**
      * Este método é usado para definir um padrão de envio de email
      * @param conteudo (O conteudo é o objetivo do email, o porque de estar sendo enviado)
+     * @param conteudoBlocoDois (O conteudoDois aparecerá no corpo só que abaixo do segundo bloco)
      * @param ativarBotao (o botão que estamos falando é um botão qualquer que recebrá um nome e uma URL para um redirecionamento)
      * @param urlBotao (URL aonde será redirecionado)
      * @param nomeBotao (nome do botão)
      * @return String (Email Pronto)
      */
-    public static String emailPadrao(String conteudo, Boolean ativarBotao, String urlBotao, String nomeBotao)
+    public static String emailPadrao(String conteudo, String conteudoBlocoDois,  String urlBotao,  String urlLink, Boolean ativarBotao, String nomeBotao)
     {
     	String corpo = "<html>";
     	corpo += " <td align=\"center\" valign=\"top\">";
@@ -150,7 +151,7 @@ public class EmailUtils
     	corpo += " 		<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"90\" width=\"100%\" style=\"background-color:#ffffff;background-image:none;background-repeat:repeat\">";
     	corpo += " 			<tbody><tr>";
     	corpo += "			<td align=\"center\" valign=\"middle\">";
-    	corpo += "				<a href=\"http://s284.photobucket.com/user/jpbonetti/media/logoSis_zpsg785gftv.png.html\" target=\"_blank\"><img src=\"http://i284.photobucket.com/albums/ll14/jpbonetti/logoSis_zpsg785gftv.png\" border=\"0\" alt=\" photo logoSis_zpsg785gftv.png\"/></a>";
+    	corpo += "				<a href=\"http://www.siseducar.com\" target=\"_blank\"><img src=\"http://i284.photobucket.com/albums/ll14/jpbonetti/logoSis_zpsg785gftv.png\" border=\"0\" alt=\" photo logoSis_zpsg785gftv.png\"/></a>";
     	corpo += "			</td></tr>";
     	corpo += "		</tbody></table>";
     	corpo += "	</td>";
@@ -160,7 +161,7 @@ public class EmailUtils
     	corpo += "		<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"1\" width=\"100%\">";
     	corpo += "			<tbody><tr>";
     	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#eeeeee\" width=\"249\"></td>";
-    	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#428BCA\" width=\"160\"></td>";
+    	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#428BCA\" width=\"280\"></td>";
     	corpo += "				<td align=\"center\" valign=\"middle\" style=\"background-color:#eeeeee\" width=\"249\"></td>";
     	corpo += "			</tr>";
     	corpo += "		</tbody></table>";
@@ -185,6 +186,11 @@ public class EmailUtils
     	corpo += "				</td>";
     	corpo += "			</tr>";
     	corpo += "		</tbody></table>";
+    	corpo += "		<a href=\""+ urlBotao + "\" style=\"background-color:#428BCA;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:14px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px\" target=\"_blank\"> " + nomeBotao + "</a><br>";
+    	corpo += "		<div style=\"text-align:center;padding:0 20px 20px;font-size:14px;line-height:1.5;width:80%\">";
+    	corpo += "			<p> " + conteudoBlocoDois + "</p>";
+    	corpo += "		</div>";
+    	corpo += "		<a href=\"localHost:8080/SIS-EDUCAR/login/login.xhtml\" target=\"_blank\">" + urlBotao + "</a>";
     	corpo += "	</td>";
     	corpo += "	</tr>";
     	
@@ -196,7 +202,6 @@ public class EmailUtils
     		corpo += "	 		<tbody><tr>";
     		corpo += "				<td align=\"center\" valign=\"middle\">";
     		corpo += "					<div>";
-    		corpo += "						<a href=\""+ urlBotao + "\" style=\"background-color:#428BCA;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:14px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px\" target=\"_blank\"> " + nomeBotao + "</a><br>";
     		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta é uma notificação automática, por favor não responda.</small>";
     		corpo += "					</div>";
     		corpo += "				</td>";

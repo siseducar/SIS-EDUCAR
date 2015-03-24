@@ -87,6 +87,7 @@ public class LoginServlet extends SisEducarServlet
 			Boolean resultadoExistenciaAluno = false;
 			Boolean resultadoEnvioEmail = false;
 			Email email = null;
+			String urlBotaoLink = ConstantesSisEducar.PATH_PROJETO_NOME + "/validacao=";
 			
 			if(usuario.getRaAluno().isEmpty())
 			{
@@ -154,23 +155,11 @@ public class LoginServlet extends SisEducarServlet
 			}
 			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-
-			email = EmailUtils.inicializarPropriedades();
-			email.setSubjectMail("Validação de registro SIS-EDUCAR");
-			email.setBodyMail(EmailUtils.emailPadrao("Olá " + usuario.getNome() + ", precisamos que você clique no botão abaixo para que sua conta de usuário seja validada.", true, "", "Validar Usuário"));
-			destinatarios.put(usuario.getEmail(), usuario.getNome());
-			email.setToMailsUsers(destinatarios);
+			resultado = new UsuarioDAO().inserirUsuario(usuario);
 			
-			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
-			
-			//Inseri o usuário quando o email for enviado, mas deixo o usuário com o status de inativo, só será ativo novamente quando o usuario abrir o email e validar pelo link
-			if(resultadoEnvioEmail){ resultado = new UsuarioDAO().inserirUsuario(usuario); }
-			else
-			{ FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha ao enviar email", null)); }
-			
-			if(resultado && resultadoEnvioEmail)
+			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Foi enviado um email de confirmação, por favor verifique sua conta de email", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de validação para sua caixa de email", null));  
 				resetarUsuario();
 			}
 			else
@@ -178,6 +167,18 @@ public class LoginServlet extends SisEducarServlet
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado", null));  
 			}
 			
+			urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
+			
+			email = EmailUtils.inicializarPropriedades();
+			email.setSubjectMail("Validação de registro SIS-EDUCAR");
+			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
+					" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
+					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
+			
+			destinatarios.put(usuario.getEmail(), usuario.getNome());
+			email.setToMailsUsers(destinatarios);
+			
+			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 			return null;
 		}
 		catch (Exception e) 

@@ -7,6 +7,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import sun.misc.BASE64Encoder;
 
@@ -58,6 +60,34 @@ public class SisEducarServlet
 		{
 			return null;
 		}      
+	}
+	
+	/**
+	 * Método responsavel por criptografar um conteudo como por exemplo(algum conteudo a ser concatenado em uma URL)
+	 * @param criptografar
+	 * @param conteudo
+	 * @return String
+	 */
+	public static String criptografarURL(Boolean criptografar, String conteudo)
+	{
+		try 
+		{
+			byte[] encodedBytes = Base64.encodeBase64(conteudo.getBytes());
+			byte[] decodedBytes = Base64.decodeBase64(encodedBytes);
+
+			if(criptografar)
+			{
+				return new String(encodedBytes);
+			}
+			else
+			{
+				return new String(decodedBytes);
+			}
+		} 
+		catch (Exception e) 
+		{
+			return null;
+		}
 	}
 	
 	public Object getSessionObject(String chave)
