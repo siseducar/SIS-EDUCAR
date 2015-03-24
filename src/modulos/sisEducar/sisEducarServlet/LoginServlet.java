@@ -59,6 +59,7 @@ public class LoginServlet extends SisEducarServlet
 					{
 						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, usuario);
 						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/principal.xhtml");
+						resetarUsuario();
 					}
 					else
 					{
