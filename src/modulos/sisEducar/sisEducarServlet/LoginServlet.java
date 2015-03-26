@@ -88,7 +88,7 @@ public class LoginServlet extends SisEducarServlet
 			Boolean resultadoExistenciaAluno = false;
 			Boolean resultadoEnvioEmail = false;
 			Email email = null;
-			String urlBotaoLink = ConstantesSisEducar.PATH_PROJETO_NOME + "/validacao=";
+			String urlBotaoLink = "http://siseducar.com/validacao=?";
 			
 			if(usuario.getRaAluno().isEmpty())
 			{
