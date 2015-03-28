@@ -5,63 +5,128 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<h:head>
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroUsuario.css" />
+	</h:head>
 	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
 		<ui:define name="scriptConteudo">			
 			<h:body>
 				<div class="content" style="margin-left: 90px">
 					<div class="main-container " style="margin-left: 90px">
 						<div class="login-container" style= "width:auto; height:auto; margin-left: 25px" size="400px">
-							<h4 class="header blue lighter bigger-230">
+							<h4 class="header blue lighter bigger-200">
 								<i class="ace-icon fa fa-pencil-square-o bigger-250"></i>
 								Cadastro de Usúario                                                                 
 							</h4>
 							
 							<h:form id="formCadastroUsuario" prependId="false">
+								<span class="profile-picture">
+									<img id="avatar" class="editable img-responsive editable-click editable-empty editable-open" alt="Alex's Avatar" src="../assets/avatars/profile-pic.jpg" style="display: none;"/>
+									<span class="editable-container editable-inline">
+										<div>
+											<div class="editableform-loading" style="display: none;">
+												<i class="ace-icon fa fa-spinner fa-spin fa-2x light-blue"/>
+											</div>
+											
+											<form class="form-inline editableform" style="">
+												<div class="control-group form-group">
+													<div>
+														<div class="editable-input editable-image">
+															<span>
+																<input type="hidden" name="avatar-hidden" value=""/>
+															</span>
+															
+															<span>
+																<label class="ace-file-input ace-file-multiple" style="width: 150px;">
+																	<input type="file" name="avatar"/>
+																	<span class="ace-file-container" data-title="Change Avatar">
+																		<span class="ace-file-name" data-title="No File ...">
+																			<i class=" ace-icon fa fa-picture-o"/>
+																		</span>
+																	</span>
+																	
+																	<a class="remove" href="#">
+																		<i class=" ace-icon fa fa-times"/>
+																	</a>
+																</label>
+															</span>
+														</div>
+										
+														<div class="editable-buttons">
+															<button type="submit" class="btn btn-info editable-submit">
+																<i class="ace-icon fa fa-check"/>
+															</button>
+															
+															<button type="button" class="btn editable-cancel">
+																<i class="ace-icon fa fa-times"/>
+															</button>
+														</div>
+													</div>
+													
+													<div class="editable-error-block help-block" style="display: none;"/>
+												</div>
+											</form>
+										</div>
+									</span>
+								</span>	
 								
-								<label >
+								<label class="block clearfix">
 									<output>Usuário</output>
 									<span class="block input-icon input-icon-left">
-										<h:inputText type="text" value="#{loginServlet.usuario.nome}" required="required" size="80" />
+										<h:inputText type="text" value="#{loginServlet.usuario.nome}" required="required" size="112" />
 										<i class="ace-icon fa fa-user "></i>
 									</span>
 								</label>
 								
-								<label class="block clearfix">
-									<output>Senha</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputSecret type="password" value="#{loginServlet.usuario.senha}" required="required" size="30"/>
-										<i class="ace-icon fa fa-lock"></i>
-									</span>
-								</label>
-																
-								<label class="block clearfix">
-									<output>Confirmação de Senha</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputText type="text" required="required" size="30"/>
-										<i class="ace-icon fa fa-retweet"></i>
-									</span>
-								</label>
+								<div class="row">
+									<div class="col-xs-3">
+										<label>
+											<output>Senha</output>	
+											<span class="block input-icon input-icon-left">
+												<h:inputSecret type="password" value="#{loginServlet.usuario.senha}" required="required" size="50" />
+												<i class="ace-icon fa fa-lock"></i>
+											</span>
+										</label>
+									</div>
+									
+									<div class="col-xs-3">						
+										<label >
+											<output>Confirmação de Senha</output>
+											<span class="block input-icon input-icon-left">
+												<h:inputText type="text" required="required" size="50"/>
+												<i class="ace-icon fa fa-retweet"></i>
+											</span>
+										</label>
+									</div>
+								</div>
 								
-								<label class="block clearfix">
-									<output>CPF\CNPJ Responsável</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputText type="text" required="required" size="20"/>
-										<i class="ace-icon fa fa-bookmark"></i>
-									</span>
-								</label>
-																													
-								<label class="block clearfix">
-									<output>RA Do Aluno</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputText type="text"  required="required" size="20"/>
-										<i class="ace-icon fa fa-bookmark"></i>
-									</span>
-								</label>								
+								<div class="row">
+									<div class="col-xs-3">
+										<label>
+											<output>CPF\CNPJ Responsável</output>
+											<span class="block input-icon input-icon-left">
+												<h:inputText type="text" required="required" size="40"/>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</label>																				
+									</div>
+									
+									<div class="col-xs-3">
+										<label>
+											<output>RA Do Aluno</output>
+											<span class="block input-icon input-icon-left">
+												<h:inputText type="text"  required="required" size="30"/>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</label>
+									</div>								
+								</div>
+								
 								
 								<label class="block clearfix">
 									<output>Email</output>
 									<span class="block input-icon input-icon-left">
-										<h:inputText type="text"  required="required" size="50"/>
+										<h:inputText type="text"  required="required" size="92"/>
 										<i class="ace-icon fa fa-envelope"></i>
 									</span>
 								</label>
@@ -88,23 +153,29 @@
 											<span class="lbl"> Outro</span>
 										</label>
 									</div>
-									
+									<div class="space-6"></div>
 								</div>
 								
-								<div class="space"></div>
+								
 								
 								<div style="margin-left: 200">
+									
 									<p:messages></p:messages>
-									<h:commandLink id="btCancelar" class="width-40 pull-left btn btn-sm btn-danger" >
-										<span class="bigger-110">Cancelar</span>
+									<div class="row">
+									<div class="col-xs-3">
+									<h:commandLink id="btCancelar" class="width-15 pull-right btn  btn-danger">
+										<span class="bigger-100">Cancelar</span>
 										<i class="ace-icon fa fa-times white"></i>
 									</h:commandLink> 
-									
-									<h:commandLink id="btSalvar" class="width-40	 pull-right btn btn-sm btn-primary">
-										<span class="bigger-110">Registrar</span>
+									</div>
+									<div class="col-xs-3">
+									<h:commandLink id="btSalvar" class="width-15	 pull-right btn btn-primary ">
+										<span class="bigger-100">Registrar</span>
 										<i class="ace-icon fa fa-check"></i>
 										<p:ajax event="click" listener="#{loginServlet.cadastrarUsuarioSimples}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
 									</h:commandLink>
+									</div>
+									</div>
 								</div>
 							</h:form>
 						</div>
