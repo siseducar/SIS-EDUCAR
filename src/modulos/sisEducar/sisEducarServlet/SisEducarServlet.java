@@ -1,20 +1,34 @@
 package modulos.sisEducar.sisEducarServlet;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.Logs;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import modulos.sisEducar.utils.ConstantesSisEducar;
 import sun.misc.BASE64Encoder;
 
 @SessionScoped
-public class SisEducarServlet 
+@ManagedBean(name="sisEducarServlet")
+public class SisEducarServlet implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
+	private static String parametroUsuarioURL = "";
+	
+	public SisEducarServlet()
+	{
+		System.out.println(getParameterURL());
+	}
+	
 	/**
 	 * Gera uma chave de acesso criptografada
 	 * @param chaveOriginal
@@ -90,6 +104,23 @@ public class SisEducarServlet
 		}
 	}
 	
+	public String getParameterURL()
+	{
+		try 
+		{
+			HttpServletRequest request = (HttpServletRequest) FacesContext 
+					.getCurrentInstance().getExternalContext().getRequest(); 
+			
+			parametroUsuarioURL = request.getParameter("page");
+			return parametroUsuarioURL;
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("getParameterURL", "Falha ao obter URL");
+			return "";
+		}
+	}
+	
 	public Object getSessionObject(String chave)
 	{
 		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(chave);
@@ -103,5 +134,13 @@ public class SisEducarServlet
 	public void putSessionObject(String chave, Object object)
 	{
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(chave, object);
+	}
+
+	public static String getParametroUsuarioURL() {
+		return parametroUsuarioURL;
+	}
+
+	public static void setParametroUsuarioURL(String parametroUsuarioURL) {
+		SisEducarServlet.parametroUsuarioURL = parametroUsuarioURL;
 	}
 }

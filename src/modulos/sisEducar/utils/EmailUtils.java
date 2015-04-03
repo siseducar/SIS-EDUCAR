@@ -190,7 +190,7 @@ public class EmailUtils
     	corpo += "		<div style=\"text-align:center;padding:0 20px 20px;font-size:14px;line-height:1.5;width:80%\">";
     	corpo += "			<p> " + conteudoBlocoDois + "</p>";
     	corpo += "		</div>";
-    	corpo += "		<a href=\"http://localHost:8080/SIS-EDUCAR/login/login.xhtml\" target=\"_blank\">" + urlBotao + "</a>";
+    	corpo += "		<a href=\"" + urlLink + "\" target=\"_blank\">" + urlBotao + "</a>";
     	corpo += "	</td>";
     	corpo += "	</tr>";
     	

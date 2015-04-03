@@ -1,5 +1,6 @@
 package modulos.sisEducar.sisEducarServlet;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -21,8 +22,10 @@ import sun.misc.BASE64Encoder;
 
 @SessionScoped
 @ManagedBean(name= "loginServlet")
-public class LoginServlet extends SisEducarServlet
+public class LoginServlet extends SisEducarServlet implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	//Objetos e variaveis
 	private String nomeUsuarioLogado;
 	
@@ -88,7 +91,7 @@ public class LoginServlet extends SisEducarServlet
 			Boolean resultadoExistenciaAluno = false;
 			Boolean resultadoEnvioEmail = false;
 			Email email = null;
-			String urlBotaoLink = "http://siseducar.com/validacao=?";
+			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/?page=";
 			
 			if(usuario.getRaAluno().isEmpty())
 			{
