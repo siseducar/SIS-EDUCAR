@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,18 +16,13 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import sun.misc.BASE64Encoder;
 
-@SessionScoped
+@RequestScoped
 @ManagedBean(name="sisEducarServlet")
 public class SisEducarServlet implements Serializable
-{
+{	
 	private static final long serialVersionUID = 1L;
 	
-	private static String parametroUsuarioURL = "";
-	
-	public SisEducarServlet()
-	{
-		System.out.println(getParameterURL());
-	}
+	private static String parametroUsuarioURL = null;
 	
 	/**
 	 * Gera uma chave de acesso criptografada
@@ -104,20 +99,20 @@ public class SisEducarServlet implements Serializable
 		}
 	}
 	
-	public String getParameterURL()
-	{
+	/**
+	 * Método usado para obter o parametro da URL de validacao de usuario
+	 * @return
+	 */
+	public void getParameterURL()
+	{	
 		try 
 		{
-			HttpServletRequest request = (HttpServletRequest) FacesContext 
-					.getCurrentInstance().getExternalContext().getRequest(); 
-			
-			parametroUsuarioURL = request.getParameter("page");
-			return parametroUsuarioURL;
+			parametroUsuarioURL = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("validacao"); 
+			System.out.println(parametroUsuarioURL);
 		}
 		catch (Exception e) 
 		{
 			Logs.addFatal("getParameterURL", "Falha ao obter URL");
-			return "";
 		}
 	}
 	
