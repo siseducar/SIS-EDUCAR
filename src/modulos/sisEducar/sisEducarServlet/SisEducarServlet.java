@@ -3,12 +3,15 @@ package modulos.sisEducar.sisEducarServlet;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import modulos.RH.dao.UsuarioDAO;
+import modulos.RH.om.Usuario;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -23,6 +26,7 @@ public class SisEducarServlet implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private static String parametroUsuarioURL = null;
+	private static String parametroUsuarioURLDescriptografado = null;
 	
 	/**
 	 * Gera uma chave de acesso criptografada
@@ -82,7 +86,7 @@ public class SisEducarServlet implements Serializable
 		try 
 		{
 			byte[] encodedBytes = Base64.encodeBase64(conteudo.getBytes());
-			byte[] decodedBytes = Base64.decodeBase64(encodedBytes);
+			byte[] decodedBytes = Base64.decodeBase64(conteudo.getBytes());
 
 			if(criptografar)
 			{
@@ -107,8 +111,41 @@ public class SisEducarServlet implements Serializable
 	{	
 		try 
 		{
+			Usuario usuario = null;
+			java.util.Date dataAtualPermitida = new java.util.Date();
+			Date dataCadastro = null;
+			Boolean resultadoUpdateUsuario = false;
+			
+			parametroUsuarioURLDescriptografado = "";
+			//Aqui eu pego o conteudo do parametro
 			parametroUsuarioURL = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("validacao"); 
-			System.out.println(parametroUsuarioURL);
+			
+			//Depois que eu pegar o conteudo do parametro eu descriptografo para obter o email do usuario
+			parametroUsuarioURLDescriptografado = criptografarURL(false, parametroUsuarioURL);
+			
+			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografado, ConstantesSisEducar.STATUS_INCOMPLETO);
+			
+			if(usuario!=null)
+			{
+				dataCadastro = (Date) usuario.getDataLancamento().clone();
+				
+				//Aqui eu subtraio 2 dias (48 horas) da data atual para ver se o link expirou
+				dataAtualPermitida.setDate(dataAtualPermitida.getDate() - 2);
+				
+				if(dataCadastro.before(dataAtualPermitida))
+				{
+					System.out.println("expirou");
+				}
+				else
+				{
+					resultadoUpdateUsuario = new UsuarioDAO().atualizarUsuarioIncompleto(usuario.getPkUsuario());
+					
+					if(resultadoUpdateUsuario)
+					{
+						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");
+					}
+				}
+			}
 		}
 		catch (Exception e) 
 		{

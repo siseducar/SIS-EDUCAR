@@ -142,4 +142,67 @@ public class UsuarioDAO extends SisEducarDAO
 		
 		return false;
 	}
+	
+	/**
+	 * Método usado para obter um usuario, pode ser adicionado mais parametros neste método, so deve ser verificado aonde esta usando este metodo
+	 * para que nas chamadas do mesmo sejam passados os novos parametros
+	 * @param email
+	 * @param status
+	 * @return {@link} Usuario
+	 * @throws SQLException
+	 */
+	public Usuario obtemUsuario(String email, Integer status) throws SQLException
+	{
+		Usuario usuario = new Usuario();
+		String querySQL = "SELECT * FROM Usuario "
+				+ " WHERE email = ?"
+				+ " AND status = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, email);
+		ps.setInt(2 , status);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			usuario.setPkUsuario(rs.getString("pkUsuario"));
+			usuario.setNome(rs.getString("nome"));
+			usuario.setSenha(rs.getString("senha"));
+			usuario.setEmail(rs.getString("email"));
+			usuario.setDataLancamento(rs.getDate("dataLancamento"));
+			usuario.setCpfcnpj(rs.getString("cpfcnpj"));
+			usuario.setStatus(rs.getInt("status"));
+			usuario.setTipo(rs.getInt("tipo"));
+			
+			return usuario;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Método usado para atualizar o usuario que esta com o status incompleto
+	 * @param pkUsuario
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean atualizarUsuarioIncompleto(String pkUsuario) throws SQLException
+	{
+		String querySQL = "UPDATE Usuario "
+				+ " SET status = ?"
+				+ " WHERE pkUsuario = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setString(2 , pkUsuario);
+		ResultSet rs = ps.executeQuery();
+		
+		while (rs.next()) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }
