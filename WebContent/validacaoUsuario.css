@@ -1,0 +1,17 @@
+.logoSis
+{
+	margin-left:40px;
+	margin-top: 20px;
+	background-repeat:no-repeat;
+	background-image: url("../resources/imagens/modulos/sisEducar/logoSis.png");
+	width: 300px;
+	height: 80px;
+}
+
+.iconTimeExpired
+{
+	margin-left:40px;
+	margin-top: 20px;
+	background-repeat:no-repeat;
+	background-image: url("../resources/imagens/modulos/sisEducar/validacaoUsuario.png");
+}
