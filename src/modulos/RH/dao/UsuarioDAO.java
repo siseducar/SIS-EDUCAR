@@ -46,9 +46,11 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
+			fecharConexaoBanco(con, ps, true, false);
 			return true;
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -108,6 +110,7 @@ public class UsuarioDAO extends SisEducarDAO
 			return true;
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -137,9 +140,11 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
+			fecharConexaoBanco(con, ps, true, false);
 			return true;
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -174,9 +179,11 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setStatus(rs.getInt("status"));
 			usuario.setTipo(rs.getInt("tipo"));
 			
+			fecharConexaoBanco(con, ps, true, false);
 			return usuario;
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
 		return null;
 	}
 	
@@ -195,14 +202,11 @@ public class UsuarioDAO extends SisEducarDAO
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setString(2 , pkUsuario);
-		ResultSet rs = ps.executeQuery();
+		ps.setInt(2 , Integer.parseInt(pkUsuario));
+		ps.execute();
 		
-		while (rs.next()) 
-		{
-			return true;
-		}
-		
-		return false;
+		fecharConexaoBanco(con, ps, true, true);
+
+		return true;
 	}
 }

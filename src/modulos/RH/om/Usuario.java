@@ -1,6 +1,7 @@
 package modulos.RH.om;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 public class Usuario 
 {

@@ -127,16 +127,12 @@ public class SisEducarServlet implements Serializable
 			
 			if(usuario!=null)
 			{
-				dataCadastro = (Date) usuario.getDataLancamento().clone();
+				dataCadastro = usuario.getDataLancamento();
 				
 				//Aqui eu subtraio 2 dias (48 horas) da data atual para ver se o link expirou
 				dataAtualPermitida.setDate(dataAtualPermitida.getDate() - 2);
 				
-				if(dataCadastro.before(dataAtualPermitida))
-				{
-					System.out.println("expirou");
-				}
-				else
+				if(!dataCadastro.before(dataAtualPermitida))
 				{
 					resultadoUpdateUsuario = new UsuarioDAO().atualizarUsuarioIncompleto(usuario.getPkUsuario());
 					

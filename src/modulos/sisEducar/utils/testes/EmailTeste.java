@@ -30,7 +30,6 @@ public class EmailTeste
  
         email.setToMailsUsers(map);
  
-        System.out.println(email.getBodyMail());
         new EmailUtils().enviarEmail(email);
     }
 }

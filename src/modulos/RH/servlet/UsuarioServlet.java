@@ -18,6 +18,8 @@ import modulos.sisEducar.utils.EmailUtils;
 @SessionScoped
 public class UsuarioServlet extends SisEducarServlet
 {
+	private static final long serialVersionUID = 1L;
+
 	//Variaveis
 	Usuario usuario;
 	
