@@ -28,6 +28,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 
 	//Objetos e variaveis
 	private String nomeUsuarioLogado;
+	private String emailRedefinicaoSenha = null;
 	
 	Usuario usuario = new Usuario();  
 	
@@ -193,6 +194,61 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	
 	/**
+	 * O método é usado para enviar um email para o usuario que quiser realizar a recuperação de senha dele
+	 */
+	public void redefinirSenha()
+	{
+		try 
+		{
+			Usuario usuario = null;
+			Map<String, String> destinatarios = new HashMap<String, String>();
+			Boolean resultadoEnvioEmail = false;
+			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/redifinirSenha.xhtml?redefinir=";
+			Email email = new Email();
+
+			if(emailRedefinicaoSenha!=null && emailRedefinicaoSenha.length() >0)
+			{
+				usuario = new UsuarioDAO().obtemUsuario(emailRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO);
+				
+				if(usuario!=null)
+				{
+					email = EmailUtils.inicializarPropriedades();
+					email.setSubjectMail("SIS-EDUCAR - Redefinição de Senha");
+					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
+							" <p style=\"text-align:left; font-size:17px; \">Recebemos uma solicitação de refinição de senha para eu usuário, se não foi você que efetuou esta solicitação por favor desconsidere o email.</p> " + 
+							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para continuar o processo de redefinição de senha clique no botão abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Redefinir Senha"));
+					
+					destinatarios.put(emailRedefinicaoSenha, emailRedefinicaoSenha);
+					email.setToMailsUsers(destinatarios);
+					
+					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+					
+					if(resultadoEnvioEmail)
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Foi enviado um email para sua caixa de emails", null));
+					}
+					else
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível enviar o email", null));
+					}
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Não existe usuário cadastrado com este email", null));
+				}
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é obrigatório", null));
+			}
+		}
+		catch (Exception e) 
+		{
+			Logs.addError("Redefinir Senha", "Houve um erro ao enviar o email");
+		}
+	}
+	
+	/**
 	 * Método usado para resetar o usuario, criando uma nova instancia do usuario
 	 */
 	public void resetarUsuario()
@@ -232,5 +288,13 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
 	public String getNomeUsuarioLogado()	{ return nomeUsuarioLogado; }
-	public void setNomeUsuarioLogado(String nomeUsuarioLogado) { this.nomeUsuarioLogado = nomeUsuarioLogado; } 
+	public void setNomeUsuarioLogado(String nomeUsuarioLogado) { this.nomeUsuarioLogado = nomeUsuarioLogado; }
+
+	public String getEmailRedefinicaoSenha() {
+		return emailRedefinicaoSenha;
+	}
+
+	public void setEmailRedefinicaoSenha(String emailRedefinicaoSenha) {
+		this.emailRedefinicaoSenha = emailRedefinicaoSenha;
+	} 
 }

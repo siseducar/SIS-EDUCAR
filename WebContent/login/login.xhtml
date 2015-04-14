@@ -82,9 +82,9 @@
 														<p:messages></p:messages>
 														
 														<h:commandLink id="btLogin" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
-																<i class="ace-icon fa fa-key"></i>
-																<span class="bigger-110">Login</span>
-																<p:ajax event="click" listener="#{loginServlet.validarLogin}" update=":formLogin" process=":formLogin"/>
+															<i class="ace-icon fa fa-key"></i>
+															<span class="bigger-110">Login</span>
+															<p:ajax event="click" listener="#{loginServlet.validarLogin}" update=":formLogin" process=":formLogin"/>
 														</h:commandLink>
 													</div>
 
@@ -126,21 +126,23 @@
 												Digite o email que foi cadastrado para seu usuário
 											</p>
 
-											<h:form>
+											<h:form id="formRedefinirSenha">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" required="required"/>
+															<h:inputText class="form-control" value="#{loginServlet.emailRedefinicaoSenha}"></h:inputText>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
 
-													<div class="clearfix">
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
-															<i class="ace-icon fa fa-lightbulb-o"></i>
-															<span class="bigger-110">Enviar</span>
-														</button>
-													</div>
+													<p:messages></p:messages>
+
+													<h:commandLink id="btEnviar" class="width-35 pull-right btn btn-sm btn-danger">
+														<i class="ace-icon fa fa-lightbulb-o"></i>
+														<span class="bigger-110">Enviar</span>
+														<p:ajax event="click" listener="#{loginServlet.redefinirSenha}" update=":formRedefinirSenha" process=":formRedefinirSenha"/>
+													</h:commandLink>
+													
 												</fieldset>
 											</h:form>
 										</div><!-- /.widget-main -->

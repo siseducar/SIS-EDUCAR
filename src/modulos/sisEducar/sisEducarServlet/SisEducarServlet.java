@@ -28,6 +28,9 @@ public class SisEducarServlet implements Serializable
 	private static String parametroUsuarioURL = null;
 	private static String parametroUsuarioURLDescriptografado = null;
 	
+	private static String parametroUsuarioURLRedefinicaoSenha = null;
+	private static String parametroUsuarioURLDescriptografadoRedefinicaoSenha = null;
+	
 	/**
 	 * Gera uma chave de acesso criptografada
 	 * @param chaveOriginal
@@ -149,6 +152,37 @@ public class SisEducarServlet implements Serializable
 		}
 	}
 	
+	/**
+	 * Este método é usado para obter o parametro da tela de redefinição de senha para que seja possivel concluir o processo de redefinição de senha
+	 */
+	public void getParameterURLRedefinicaoSenha()
+	{
+		try 
+		{
+			Usuario usuario = null;
+			//Aqui eu pego o conteudo do parametro
+			parametroUsuarioURLRedefinicaoSenha = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("redefinicaoSenha"); 
+			
+			//Depois que eu pegar o conteudo do parametro eu descriptografo para obter o email do usuario
+			parametroUsuarioURLDescriptografadoRedefinicaoSenha = criptografarURL(false, parametroUsuarioURL);
+			
+			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografado, ConstantesSisEducar.STATUS_ATIVO);
+			
+			if(usuario!=null)
+			{
+				
+			}
+			else
+			{
+				
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("getParameterURLRedefinicaoSenha", "");
+		}
+	}
+	
 	public Object getSessionObject(String chave)
 	{
 		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(chave);
@@ -170,5 +204,23 @@ public class SisEducarServlet implements Serializable
 
 	public static void setParametroUsuarioURL(String parametroUsuarioURL) {
 		SisEducarServlet.parametroUsuarioURL = parametroUsuarioURL;
+	}
+
+	public static String getParametroUsuarioURLRedefinicaoSenha() {
+		return parametroUsuarioURLRedefinicaoSenha;
+	}
+
+	public static void setParametroUsuarioURLRedefinicaoSenha(
+			String parametroUsuarioURLRedefinicaoSenha) {
+		SisEducarServlet.parametroUsuarioURLRedefinicaoSenha = parametroUsuarioURLRedefinicaoSenha;
+	}
+
+	public static String getParametroUsuarioURLDescriptografadoRedefinicaoSenha() {
+		return parametroUsuarioURLDescriptografadoRedefinicaoSenha;
+	}
+
+	public static void setParametroUsuarioURLDescriptografadoRedefinicaoSenha(
+			String parametroUsuarioURLDescriptografadoRedefinicaoSenha) {
+		SisEducarServlet.parametroUsuarioURLDescriptografadoRedefinicaoSenha = parametroUsuarioURLDescriptografadoRedefinicaoSenha;
 	}
 }

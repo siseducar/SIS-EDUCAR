@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
+	
+	<h:head>
+		<base href="#{contextPathController.path}"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Redefinição de senha</title>
+
+		<meta name="description" content="User login page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.min.css" />
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.min.css" />
+
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-rtl.min.css" />
+
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.onpage-help.css" />
+		
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/login/login.css" />
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery.min.js"/>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery1x.min.js"/>
+	</h:head>
+	
+	<h:body class="login-layout light-login" onload="#{sisEducarServlet.getParameterURLRedefinicaoSenha()}">
+		<div class="space"></div>
+		<div class="space"></div>
+		<div class="main-container">
+			<div class="main-content">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="login-container">
+							<div class="center">
+									<a href="http://localHost:8080/SIS-EDUCAR/" class="logoSis"> <img src="resources/imagens/modulos/sisEducar/logoSis.png" /> </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formLinkExpirado">
+			<div class="space"></div>
+			<div class="space"></div>
+			
+			<h1 class="grey lighter smaller center">
+				<span class="blue bigger-100">
+					<a> <img src="resources/imagens/modulos/sisEducar/validacaoUsuario.png"/> </a>
+				</span>
+				O link expirou, por favor realize um novo cadastro
+			</h1>
+		</h:form>
+	</h:body>
+</html>
