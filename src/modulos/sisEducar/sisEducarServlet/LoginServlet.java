@@ -196,14 +196,14 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	/**
 	 * O método é usado para enviar um email para o usuario que quiser realizar a recuperação de senha dele
 	 */
-	public void redefinirSenha()
+	public void enviarEmailRedefinicaoSenha()
 	{
 		try 
 		{
 			Usuario usuario = null;
 			Map<String, String> destinatarios = new HashMap<String, String>();
 			Boolean resultadoEnvioEmail = false;
-			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/redifinirSenha.xhtml?redefinir=";
+			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/redefinirSenha.xhtml?redefinir=";
 			Email email = new Email();
 
 			if(emailRedefinicaoSenha!=null && emailRedefinicaoSenha.length() >0)
@@ -212,6 +212,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				
 				if(usuario!=null)
 				{
+					urlBotaoLink += criptografarURL(true, emailRedefinicaoSenha);
 					email = EmailUtils.inicializarPropriedades();
 					email.setSubjectMail("SIS-EDUCAR - Redefinição de Senha");
 					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
@@ -221,13 +222,10 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					destinatarios.put(emailRedefinicaoSenha, emailRedefinicaoSenha);
 					email.setToMailsUsers(destinatarios);
 					
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fique atento, será enviado para você um email", null));
 					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 					
-					if(resultadoEnvioEmail)
-					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Foi enviado um email para sua caixa de emails", null));
-					}
-					else
+					if(!resultadoEnvioEmail)
 					{
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível enviar o email", null));
 					}
@@ -244,7 +242,50 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		}
 		catch (Exception e) 
 		{
-			Logs.addError("Redefinir Senha", "Houve um erro ao enviar o email");
+			Logs.addError("Enviar email redefinicao senha", "");
+		}
+	}
+	
+	/**
+	 * Realiza um update no banco para trocar a senha do usuario
+	 */
+	public String redefinirSenha()
+	{
+		try 
+		{
+			String novaSenha = "";
+			if(usuario!=null && (!usuario.getSenha().isEmpty() || !usuario.getConfirmarSenha().isEmpty()))
+			{
+				if(usuario.getSenha().length() <8 || usuario.getConfirmarSenha().length() <8)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 caracteres", null));
+					return null;
+				}
+				
+				if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas são diferentes", null));
+					return null;
+				}
+				else
+				{
+					new UsuarioDAO().redefinirSenha(usuario.getPkUsuario(), novaSenha);
+				}
+				
+				novaSenha = criptografarSenha(usuario.getSenha());
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas são obrigatórias", null));
+				return null;
+			}
+			
+			return null;
+		}
+		catch (Exception e) 
+		{
+			Logs.addError("redefinirSenha", "");
+			return null;
 		}
 	}
 	

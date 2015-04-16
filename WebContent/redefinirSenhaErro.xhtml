@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 xmlns:ui="http://java.sun.com/jsf/facelets" 
 xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:p="http://primefaces.org/ui">
+xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:head>
 		<base href="#{contextPathController.path}"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Redefinição de senha</title>
+		<title>Falha na redefinição de senha</title>
 
 		<meta name="description" content="User login page" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -35,7 +34,7 @@ xmlns:p="http://primefaces.org/ui">
 		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery1x.min.js"/>
 	</h:head>
 	
-	<h:body class="login-layout light-login" onload="#{sisEducarServlet.getParameterURLRedefinicaoSenha()}">
+	<h:body class="login-layout light-login">
 		<div class="space"></div>
 		<div class="space"></div>
 		<div class="main-container">
@@ -44,54 +43,22 @@ xmlns:p="http://primefaces.org/ui">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="login-container">
 							<div class="center">
-									<a href="http://localHost:8080/SIS-EDUCAR/" class="logoSis"> <img src="resources/imagens/modulos/sisEducar/logoSis.png" /> </a>
+									<a href="http://localHost:8080/SIS-EDUCAR/" class="logoSis"> <img src="resources/imagens/modulos/sisEducar/logoSis.png"/> </a>
 							</div>
-							
-							<h:form id="formRedefinir">
-								<div class="position-relative">
-									<div id="login-box" class="login-box visible widget-box no-border">
-										<div class="widget-body">
-											<div class="widget-main">
-												<h4 class="header blue lighter bigger">
-													<i class="ace-icon fa fa-lock SB blue"></i>
-													Insira uma nova senha
-												</h4>
-												
-												<label class="block clearfix">
-													<output>Nova Senha</output>
-													<span class="block input-icon input-icon-right">
-														<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" maxlength="8"/>
-														<i class="ace-icon fa fa-lock"></i>
-													</span>
-												</label>
-												
-												<label class="block clearfix">
-													<output>Confirmar Senha</output>
-													<span class="block input-icon input-icon-right">
-														<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}" maxlength="8"/>
-														<i class="ace-icon fa fa-lock"></i>
-													</span>
-												</label>
-												
-												<div class="clearfix">
-													<p:messages></p:messages>
-													
-													<h:commandLink id="btRedefinirSenha" class="width-35 pull-right btn btn-sm btn-primary" action="#{loginServlet.validarLogin}">
-														<i class="ace-icon fa fa-key"></i>
-														<span class="bigger-110">Login</span>
-														<p:ajax event="click" listener="#{loginServlet.redefinirSenha}" update=":formRedefinir" process=":formRedefinir"/>
-													</h:commandLink>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</h:form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		
+		<div class="space"></div>
+		<div class="space"></div>
+		
+		<h1 class="grey lighter smaller center">
+			<span class="blue bigger-100">
+				<a> <img src="resources/imagens/modulos/sisEducar/urlBroken.png"/> </a>
+			</span>
+			Ops! Página não encontrada
+		</h1>
 	</h:body>
 </html>

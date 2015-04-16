@@ -209,4 +209,27 @@ public class UsuarioDAO extends SisEducarDAO
 
 		return true;
 	}
+	
+	/**
+	 * O método é usado para atualizar a senha do usuario
+	 * @param pkUsuario
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean redefinirSenha(String pkUsuario, String novaSenha) throws SQLException
+	{
+		String querySQL = "UPDATE Usuario "
+				+ " SET senha = ?"
+				+ " WHERE pkUsuario = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, novaSenha);
+		ps.setInt(2 , Integer.parseInt(pkUsuario));
+		ps.execute();
+		
+		fecharConexaoBanco(con, ps, true, true);
+		
+		return true;
+	}
 }

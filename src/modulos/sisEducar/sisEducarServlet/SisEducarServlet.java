@@ -161,20 +161,20 @@ public class SisEducarServlet implements Serializable
 		{
 			Usuario usuario = null;
 			//Aqui eu pego o conteudo do parametro
-			parametroUsuarioURLRedefinicaoSenha = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("redefinicaoSenha"); 
+			parametroUsuarioURLRedefinicaoSenha = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("redefinir"); 
 			
 			//Depois que eu pegar o conteudo do parametro eu descriptografo para obter o email do usuario
-			parametroUsuarioURLDescriptografadoRedefinicaoSenha = criptografarURL(false, parametroUsuarioURL);
+			parametroUsuarioURLDescriptografadoRedefinicaoSenha = criptografarURL(false, parametroUsuarioURLRedefinicaoSenha);
 			
-			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografado, ConstantesSisEducar.STATUS_ATIVO);
+			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografadoRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO);
 			
 			if(usuario!=null)
 			{
-				
+				new LoginServlet().setUsuario(usuario);
 			}
 			else
 			{
-				
+				FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/redefinirSenhaErro.xhtml");
 			}
 		} 
 		catch (Exception e) 

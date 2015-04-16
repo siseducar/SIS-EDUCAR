@@ -140,7 +140,7 @@
 													<h:commandLink id="btEnviar" class="width-35 pull-right btn btn-sm btn-danger">
 														<i class="ace-icon fa fa-lightbulb-o"></i>
 														<span class="bigger-110">Enviar</span>
-														<p:ajax event="click" listener="#{loginServlet.redefinirSenha}" update=":formRedefinirSenha" process=":formRedefinirSenha"/>
+														<p:ajax event="click" listener="#{loginServlet.enviarEmailRedefinicaoSenha}" update=":formRedefinirSenha" process=":formRedefinirSenha"/>
 													</h:commandLink>
 													
 												</fieldset>

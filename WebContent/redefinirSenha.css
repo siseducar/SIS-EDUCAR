@@ -15,3 +15,10 @@
 	background-repeat:no-repeat;
 	background-image: url("../resources/imagens/modulos/sisEducar/validacaoUsuario.png");
 }
+.urlBroken
+{
+	margin-left:40px;
+	margin-top: 20px;
+	background-repeat:no-repeat;
+	background-image: url("../resources/imagens/modulos/sisEducar/urlBroken.png");
+}
