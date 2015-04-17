@@ -10,178 +10,44 @@
 	</h:head>
 	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
 		<ui:define name="scriptConteudo">			
-			<h:body>
-				<div class="content" style="margin-left: 90px">
-					<div class="main-container " style="margin-left: 90px">
-						<div class="login-container" style= "width:auto; height:auto; margin-left: 25px" size="400px">
-							<h4 class="header blue lighter bigger-200">
-								<i class="ace-icon fa fa-pencil-square-o bigger-250"></i>
-								Cadastro de Usúario                                                                 
-							</h4>
-							
-							<h:form id="formCadastroUsuario" prependId="false">
-								<span class="profile-picture">
-									<img id="avatar" class="editable img-responsive editable-click editable-empty editable-open" alt="Alex's Avatar" src="../assets/avatars/profile-pic.jpg" style="display: none;"/>
-									<span class="editable-container editable-inline">
-										<div>
-											<div class="editableform-loading" style="display: none;">
-												<i class="ace-icon fa fa-spinner fa-spin fa-2x light-blue"/>
-											</div>
-											
-											<form class="form-inline editableform" style="">
-												<div class="control-group form-group">
-													<div>
-														<div class="editable-input editable-image">
-															<span>
-																<input type="hidden" name="avatar-hidden" value=""/>
-															</span>
-															
-															<span>
-																<label class="ace-file-input ace-file-multiple" style="width: 150px;">
-																	<input type="file" name="avatar"/>
-																	<span class="ace-file-container" data-title="Change Avatar">
-																		<span class="ace-file-name" data-title="No File ...">
-																			<i class=" ace-icon fa fa-picture-o"/>
-																		</span>
-																	</span>
-																	
-																	<a class="remove" href="#">
-																		<i class=" ace-icon fa fa-times"/>
-																	</a>
-																</label>
-															</span>
-														</div>
+		
+		<body class="no-skin">
+			<div class="main-container" id="main-container">
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<div class="page-content">
+							<div class="page-content-area">
+								<div class="page-header">
+									<h1>
+										Cadastro Usuario
+									</h1>
+								</div>
+								
+								<div class="row">
+									<div class="col-xs-12">
 										
-														<div class="editable-buttons">
-															<button type="submit" class="btn btn-info editable-submit">
-																<i class="ace-icon fa fa-check"/>
-															</button>
-															
-															<button type="button" class="btn editable-cancel">
-																<i class="ace-icon fa fa-times"/>
-															</button>
-														</div>
-													</div>
-													
-													<div class="editable-error-block help-block" style="display: none;"/>
-												</div>
-											</form>
+										<div class="col-sm-6">
+											<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Text Field </label>
+
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5"/>
 										</div>
-									</span>
-								</span>	
-								
-								<label class="block clearfix">
-									<output>Usuário</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputText type="text" value="#{loginServlet.usuario.nome}" required="required" size="107" />
-										<i class="ace-icon fa fa-user "></i>
-									</span>
-								</label>
-								
-								<div class="row">
-									<div class="col-xs-3">
-										<label>
-											<output>Senha</output>	
-											<span class="block input-icon input-icon-left">
-												<h:inputSecret type="password" value="#{loginServlet.usuario.senha}" required="required" size="50" />
-												<i class="ace-icon fa fa-lock"></i>
-											</span>
-										</label>
 									</div>
-									
-									<div class="col-xs-3">						
-										<label >
-											<output>Confirmação de Senha</output>
-											<span class="block input-icon input-icon-left">
-												<h:inputText type="text" required="required" size="50"/>
-												<i class="ace-icon fa fa-retweet"></i>
-											</span>
-										</label>
+										</div>
+										
+										<div class="vspace-6-sm"/>
+										
+										</div>
+											</div>	
 									</div>
 								</div>
-								
-								<div class="row">
-									<div class="col-xs-3">
-										<label>
-											<output>CPF\CNPJ Responsável</output>
-											<span class="block input-icon input-icon-left">
-												<h:inputText type="text" required="required" size="40"/>
-												<i class="ace-icon fa fa-bookmark"></i>
-											</span>
-										</label>																				
-									</div>
-									
-									<div class="col-xs-3">
-										<label>
-											<output>RA Do Aluno</output>
-											<span class="block input-icon input-icon-left">
-												<h:inputText type="text"  required="required" size="40"/>
-												<i class="ace-icon fa fa-bookmark"></i>
-											</span>
-										</label>
-									</div>								
-								</div>
-								
-								
-								<label class="block clearfix">
-									<output>Email</output>
-									<span class="block input-icon input-icon-left">
-										<h:inputText type="text"  required="required" size="92"/>
-										<i class="ace-icon fa fa-envelope"></i>
-									</span>
-								</label>
-																
-								<div class="control-group">
-									<label class="control-label border">Responsável</label>
-									<div class="radio">
-										<label>
-											<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_PAI"/>
-											<span class="lbl "> Pai</span>
-										</label>
-									</div>
-									
-									<div class="radio">
-										<label>
-											<input name="form-field-radio" type="radio" class="ace" value="constantesRH.TIPO_RESPONSAVEL_MAE"/>
-											<span class="lbl"> Mãe</span>
-										</label>
-									</div>
-																	
-									<div class="radio">
-										<label>
-											<input name="form-field-radio" type="radio" class="ace" checked="checked" value="constantesRH.TIPO_RESPONSAVEL_OUTRO"/>
-											<span class="lbl"> Outro</span>
-										</label>
-									</div>
-									<div class="space-6"></div>
-								</div>
-								
-								
-								
-								<div style="margin-left: 200">
-									
-									<p:messages></p:messages>
-									<div class="row">
-									<div class="col-xs-3">
-									<h:commandLink id="btCancelar" class="width-15 pull-right btn  btn-danger">
-										<span class="bigger-100">Cancelar</span>
-										<i class="ace-icon fa fa-times white"></i>
-									</h:commandLink> 
-									</div>
-									<div class="col-xs-3">
-									<h:commandLink id="btSalvar" class="width-15	 pull-right btn btn-primary ">
-										<span class="bigger-100">Registrar</span>
-										<i class="ace-icon fa fa-check"></i>
-										<p:ajax event="click" listener="#{loginServlet.cadastrarUsuarioSimples}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
-									</h:commandLink>
-									</div>
-									</div>
-								</div>
-							</h:form>
+							</div>
 						</div>
 					</div>
-				</div>
-			</h:body>	
+
+		</body>	
+			
 		</ui:define>
 	</ui:composition>
 </h:html>
