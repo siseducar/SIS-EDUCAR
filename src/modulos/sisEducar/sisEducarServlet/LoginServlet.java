@@ -31,6 +31,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	private String emailRedefinicaoSenha = null;
 	
 	Usuario usuario = new Usuario();  
+	Usuario usuarioTemporario = new Usuario();  
 	
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
@@ -164,8 +165,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			
 			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de validação para sua caixa de email", null));  
-				resetarUsuario();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos uma confirmação de usuário para sua caixa de email", null));  
 			}
 			else
 			{
@@ -184,6 +184,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			email.setToMailsUsers(destinatarios);
 			
 			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+			
+			resetarUsuario();
 			return null;
 		}
 		catch (Exception e) 
@@ -205,7 +207,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			Boolean resultadoEnvioEmail = false;
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/redefinirSenha.xhtml?redefinir=";
 			Email email = new Email();
-
+			String parametro = "&validacao=";
+			
 			if(emailRedefinicaoSenha!=null && emailRedefinicaoSenha.length() >0)
 			{
 				usuario = new UsuarioDAO().obtemUsuario(emailRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO);
@@ -222,7 +225,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					destinatarios.put(emailRedefinicaoSenha, emailRedefinicaoSenha);
 					email.setToMailsUsers(destinatarios);
 					
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fique atento, será enviado para você um email", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Será enviado uma notificação para o email informado", null));
 					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 					
 					if(!resultadoEnvioEmail)
@@ -254,6 +257,11 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		try 
 		{
 			String novaSenha = "";
+			Boolean respostaUpdate = false;
+			
+			usuarioTemporario = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+			putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, null);
+			
 			if(usuario!=null && (!usuario.getSenha().isEmpty() || !usuario.getConfirmarSenha().isEmpty()))
 			{
 				if(usuario.getSenha().length() <8 || usuario.getConfirmarSenha().length() <8)
@@ -269,10 +277,19 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				}
 				else
 				{
-					new UsuarioDAO().redefinirSenha(usuario.getPkUsuario(), novaSenha);
+					novaSenha = criptografarSenha(usuario.getSenha());
+					respostaUpdate = new UsuarioDAO().redefinirSenha(usuarioTemporario.getPkUsuario(), novaSenha);
+					
+					if(respostaUpdate)
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha foi atualizada", null));
+					}
+					else
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Não foi possível redefinir a senha", null));
+					}
 				}
 				
-				novaSenha = criptografarSenha(usuario.getSenha());
 			}
 			else
 			{

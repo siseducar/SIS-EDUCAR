@@ -211,6 +211,32 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * O metodo é usado para atualizar o usuario quando for enviado um email de redefinicao de senha para o mesmo
+	 * @param pkUsuario
+	 * @param status (ConstantesSisEducar.STATUS_REDEFINICAO_SENHA_LIBERADO || ConstantesSisEducar.STATUS_REDEFINICAO_SENHA_LIBERADO)
+	 * @param parametro (é a string criptografada que será gerada randomicamente)
+	 * @return true || false
+	 * @throws SQLException
+	 */
+	public Boolean atualizarUsuarioStatusRedefinicaoSenha(String pkUsuario, int status, String parametro) throws SQLException
+	{
+		String querySQL = "UPDATE Usuario "
+				+ " SET (statusRedeficaoSenha, ultimaRedefinicao) = (?,?)"
+				+ " WHERE pkUsuario = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, status);
+		ps.setString(2 , parametro);
+		ps.setInt(3 , Integer.parseInt(pkUsuario));
+		ps.execute();
+		
+		fecharConexaoBanco(con, ps, true, true);
+		
+		return true;
+	}
+	
+	/**
 	 * O método é usado para atualizar a senha do usuario
 	 * @param pkUsuario
 	 * @return TRUE || FALSE

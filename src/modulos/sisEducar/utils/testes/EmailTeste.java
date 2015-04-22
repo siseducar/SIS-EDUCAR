@@ -3,6 +3,7 @@ package modulos.sisEducar.utils.testes;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.mail.MessagingException;
 
@@ -10,7 +11,7 @@ import modulos.sisEducar.om.Email;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.EmailUtils;
  
-public class EmailTeste 
+public class EmailTeste extends SisEducarServlet
 {
     public static void main(String[] args) throws UnsupportedEncodingException, MessagingException 
     {

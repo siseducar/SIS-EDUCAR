@@ -16,4 +16,8 @@ public class ConstantesSisEducar
 	
 	//Aguardando validação pelo email enviado para o usuário
 	public static final int STATUS_INCOMPLETO = 888;
+	
+	/*Este status é para quando o usuario solicita uma redefinição de senha*/
+	public static final int STATUS_REDEFINICAO_SENHA_LIBERADO = 777;
+	public static final int STATUS_REDEFINICAO_SENHA_CONCLUIDO = 778;
 }

@@ -170,7 +170,7 @@ public class SisEducarServlet implements Serializable
 			
 			if(usuario!=null)
 			{
-				new LoginServlet().setUsuario(usuario);
+				putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, usuario);
 			}
 			else
 			{

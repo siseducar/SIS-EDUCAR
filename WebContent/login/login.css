@@ -1,11 +1,10 @@
 .logoSis
 {
-	margin-left:40px;
-	margin-top: 20px;
-	background-repeat:no-repeat;
-	background-image: url("../resources/imagens/modulos/sisEducar/logoSis.png");
+	margin:0 auto;
 	width: 300px;
 	height: 80px;
+	background-repeat:no-repeat;
+	background-image: url("../resources/imagens/modulos/sisEducar/logoSis.png");
 }
 
 .messages
