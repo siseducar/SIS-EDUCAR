@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 	  
 	<h:head>
 		<base href="#{contextPathController.path}"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
 
+		<title>SIS-EDUCAR</title>
+		
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
@@ -24,10 +28,11 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-rtl.min.css" />
 		
-		<script src="resources/templates/ace/assets/js/ace-extra.min.js"></script>
-		<script src="resources/templates/sisEducar/principal.js"></script>
-	
-		<title>SIS-EDUCAR</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery.min.js"/>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery1x.min.js"/>
+		<script type="text/javascript" src="resources/templates/ace/assets/js/ace-extra.min.js"></script>
+		<script type="text/javascript" src="resources/templates/sisEducar/principal.js"></script>
 	</h:head>
 
 	<h:body class="no-skin">
@@ -57,111 +62,160 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- Barra Navegação -->
-	<div class="breadcrumbs" id="breadcrumbs">
-		<script type="text/javascript">
-			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-		</script>
 
-		<ul class="breadcrumb">
-			<li>
-				<i class="ace-icon fa fa-home home-icon"></i>
-				<a href="#">Home</a>
-			</li>
-			<ui:insert name="barraNavegacao" />
-		</ul><!-- /.breadcrumb -->
-	</div>
-
-	<!-- Menu Lateral Esquerdo -->
-	<div id="sidebar" class="sidebar                  responsive">
-			<script type="text/javascript">
-				try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-			</script>
-
-			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<button class="btn btn-success">
-						<i class="ace-icon fa fa-signal"></i>
-					</button>
-
-					<button class="btn btn-info">
-						<i class="ace-icon fa fa-pencil"></i>
-					</button>
-
-					<!-- #section:basics/sidebar.layout.shortcuts -->
-					<button class="btn btn-warning">
-						<i class="ace-icon fa fa-users"></i>
-					</button>
-
-					<button class="btn btn-danger">
-						<i class="ace-icon fa fa-cogs"></i>
-					</button>
-
-					<!-- /section:basics/sidebar.layout.shortcuts -->
-				</div>
-
-				<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-					<span class="btn btn-success"></span>
-
-					<span class="btn btn-info"></span>
-
-					<span class="btn btn-warning"></span>
-
-					<span class="btn btn-danger"></span>
-				</div>
-			</div><!-- /.sidebar-shortcuts -->
-
-			<ul class="nav nav-list">
-
-				<li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-desktop"></i>
-						<span class="menu-text"> Cadastro Usuario </span>
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-
-					<b class="arrow"></b>
-
-					<ul class="submenu">
-						<li class="">
-							<a href="#" class="dropdown-toggle">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Cadastros
-								<b class="arrow fa fa-angle-down"></b>
-							</a>
-
-							<b class="arrow"></b>
-
+<!-- Barra Navegação -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+			
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">Home</a>
 						</li>
-					</ul>
-				</li>
-
-			</ul><!-- /.nav-list -->
-
-
-			<!-- /section:basics/sidebar.layout.minimize -->
-			<script type="text/javascript">
-				try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-			</script>
-		</div>
-
-		<!-- Conteúdo-->
-		<div class="content" style="margin-left: 0px;">
-			<ui:insert name="scriptConteudo" />
-		</div>
-		
-		<!-- Rodape -->
-		<div class="footer">
-			<div class="footer-inner">
-				<div class="footer-content">
-					<span class="bigger-120">
-						<span class="blue bolder">Sis-Educar</span>
-						Mão Pa cara© 2015
-					</span>
+						<ui:insert name="barraNavegacao" />
+					</ul><!-- /.breadcrumb -->
 				</div>
 			</div>
 		</div>
+	
+	
+	<!-- Menu Lateral Esquerdo -->
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+		</script>
+
+		<div id="sidebar" class="sidebar                  responsive">
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+				</script>
+	
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<button class="btn btn-success">
+							<i class="ace-icon fa fa-signal"></i>
+						</button>
+	
+						<button class="btn btn-info">
+							<i class="ace-icon fa fa-pencil"></i>
+						</button>
+	
+						<!-- #section:basics/sidebar.layout.shortcuts -->
+						<button class="btn btn-warning">
+							<i class="ace-icon fa fa-users"></i>
+						</button>
+	
+						<button class="btn btn-danger">
+							<i class="ace-icon fa fa-cogs"></i>
+						</button>
+	
+						<!-- /section:basics/sidebar.layout.shortcuts -->
+					</div>
+	
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span>
+	
+						<span class="btn btn-info"></span>
+	
+						<span class="btn btn-warning"></span>
+	
+						<span class="btn btn-danger"></span>
+					</div>
+				</div><!-- /.sidebar-shortcuts -->
+	
+				<!-- MENU-->
+				<ul class="nav nav-list">
+					<li class="open">
+						<a href="#" class="dropdown-toggl">
+							<i class="menu-icon fa fa-file"></i>
+							<span class="menu-text"> Cadastros </span>
+		
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+		
+						<b class="arrow"></b>
+		
+						<ul class="submenu nav-show" style="display: block;">
+							<li class="">
+								<a href="modulos/RH/cadastros/cadastroUsuario.xhtml">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Usuário
+								</a>
+		
+								<b class="arrow"></b>
+							</li>
+		
+							<li class="">
+								<a href="modulos/RH/cadastros/cadastroPessoa.xhtml">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Pessoa
+								</a>
+		
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+	
+			<!-- Conteúdo-->
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="content" style="margin-left: 0px;">
+						<ui:insert name="scriptConteudo" />
+					</div>
+				</div>
+			</div>
+			
+			<!-- Rodape -->
+			<div class="footer">
+				<div class="footer-inner">
+					<div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">Sis-Educar</span>
+							Mão Pa cara© 2015
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<script src="resources/templates/ace/assets/js/jquery-ui.custom.js"></script>
+		<script src="resources/templates/ace/assets/js/jquery.ui.touch-punch.js"></script>
+		<script src="resources/templates/ace/assets/js/jquery.easypiechart.js"></script>
+		<script src="resources/templates/ace/assets/js/jquery.sparkline.js"></script>
+		<script src="resources/templates/ace/assets/js/flot/jquery.flot.js"></script>
+		<script src="resources/templates/ace/assets/js/flot/jquery.js"></script>
+		<script src="resources/templates/ace/assets/js/flot/jquery.ui.js"></script>
+		<script src="resources/templates/ace/assets/js/flot/jquery.flot.pie.js"></script>
+		<script src="resources/templates/ace/assets/js/flot/jquery.flot.resize.js"></script>
+
+		<!-- ace scripts -->
+		<script src="resources/templates/ace/assets/js/ace/elements.scroller.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.colorpicker.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.fileinput.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.typeahead.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.wysiwyg.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.spinner.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.treeview.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.wizard.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/elements.aside.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.ajax-content.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.touch-drag.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.sidebar.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.submenu-hover.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.widget-box.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.settings.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.settings-rtl.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.settings-skin.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.widget-on-reload.js"></script>
+		<script src="resources/templates/ace/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 	
 		<script src="resources/templates/ace/assets/js/bootstrap.min.js"></script>
 		
@@ -176,7 +230,8 @@
 		<!-- ace scripts -->
 		<script src="resources/templates/ace/assets/js/ace-elements.min.js"></script>
 		<script src="resources/templates/ace/assets/js/ace.min.js"></script>
-		
+		<link rel="stylesheet" href="resources/templates/ace/assets/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="resources/templates/ace/docs/assets/js/themes/sunburst.css" />
 	
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
 		<script src="resources/templates/ace/assets/js/ace/elements.onpage-help.js"></script>
