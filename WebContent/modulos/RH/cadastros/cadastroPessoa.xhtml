@@ -9,21 +9,26 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
 	</h:head>
 	
-		<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
-			<ui:define name="scriptConteudo">
-				<div class="main-content">
-					<div class="main-content-inner">
-						<p></p>t
-						<p></p>t
-						<p></p>t
-						<p></p>t
-						<p></p>x	
-						<p></p>x	
-						<p></p>x	
-						<p></p>x	
-						<p></p>x	
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li><a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Cadastros</a></li>
+			<li class="active">Pessoa </li>
+		</ui:define>
+
+		<ui:define name="scriptConteudo">
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="page-header">
+						<h1>
+							Cadastro de pessoas
+							<small>
+								<i class="ace-icon fa fa-angle-double-right"></i>
+								Esta página é responsável por cadastrar no sistema as pessoas relacionadas à instituição de ensino.
+							</small>
+						</h1>
 					</div>
 				</div>
-			</ui:define>
-		</ui:composition>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:html>

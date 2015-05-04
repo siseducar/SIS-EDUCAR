@@ -8,46 +8,27 @@
 	<h:head>
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroUsuario.css" />
 	</h:head>
+	
 	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li><a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Cadastros</a></li>
+			<li class="active">Usuário </li>
+		</ui:define>
+
 		<ui:define name="scriptConteudo">			
-		
-		<body class="no-skin">
-			<div class="main-container" id="main-container">
-				<div class="main-content">
-					<div class="breadcrumbs" id="breadcrumbs">
-						<div class="page-content">
-							<div class="page-content-area">
-								<div class="page-header">
-									<h1>
-										Cadastro Usuario
-									</h1>
-								</div>
-								
-								<div class="row">
-									<div class="col-xs-12">
-										
-										<div class="col-sm-6">
-											<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Text Field </label>
-
-										<div class="col-sm-9">
-											<input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5"/>
-										</div>
-									</div>
-										</div>
-										
-										<div class="vspace-6-sm"/>
-										
-										</div>
-											</div>	
-									</div>
-								</div>
-							</div>
-						</div>
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="page-header">
+						<h1>
+							Cadastro de usuários
+							<small>
+								<i class="ace-icon fa fa-angle-double-right"></i>
+								Esta página é responsável por cadastrar no sistema os usuários que terão permissão de usá-lo.
+							</small>
+						</h1>
 					</div>
-
-		</body>	
-			
+				</div>
+			</div>
 		</ui:define>
 	</ui:composition>
 </h:html>
