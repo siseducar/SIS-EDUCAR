@@ -7,6 +7,20 @@
 	
 	<h:head>
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
+		
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.js"></script>
 	</h:head>
 	
 	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
@@ -16,18 +30,82 @@
 		</ui:define>
 
 		<ui:define name="scriptConteudo">
-			<div class="main-content">
-				<div class="main-content-inner">
-					<div class="page-header">
-						<h1>
-							Cadastro de pessoas
-							<small>
-								<i class="ace-icon fa fa-angle-double-right"></i>
-								Esta página é responsável por cadastrar no sistema as pessoas relacionadas à instituição de ensino.
-							</small>
-						</h1>
-					</div>
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						Cadastro de pessoas
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							Esta página é responsável por cadastrar no sistema as pessoas que terão permissão de usá-lo.
+						</small>
+					</h1>
 				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- #section:pages/inbox -->
+								<div class="tabbable">
+									<ul id="inbox-tabs" class="inbox-tabs nav nav-tabs padding-16 tab-size-bigger tab-space-1">
+										<!-- /section:pages/inbox.compose-btn -->
+										<li class="active">
+											<a data-toggle="tab" href="#inbox" data-target="inbox">
+												<i class="blue ace-icon fa fa-certificate bigger-130"></i>
+												<span class="bigger-110">Principal</span>
+											</a>
+										</li>
+
+										<li>
+											<a data-toggle="tab" href="#sent" data-target="sent">
+												<i class="orange ace-icon fa fa-envelope-o bigger-130"></i>
+												<span class="bigger-110">Endereçamento</span>
+											</a>
+										</li>
+
+										<li>
+											<a data-toggle="tab" href="#draft" data-target="draft">
+												<i class="green ace-icon fa fa-phone bigger-130"></i>
+												<span class="bigger-110">Contato</span>
+											</a>
+										</li>
+										<li>
+											<a data-toggle="tab" href="#" data-target="draft">
+												<i class="green ace-icon fa fa-check bigger-130"></i>
+												<span class="bigger-110">Confirmação</span>
+											</a>
+										</li>
+
+									</ul>
+
+									<div class="tab-content no-border no-padding">
+										<div id="inbox" class="tab-pane in active">
+											<div class="message-container">
+												<!-- #section:pages/inbox.navbar -->
+												<div id="id-message-list-navbar" class="message-navbar clearfix">
+													<div class="message-bar">
+														<div class="message-infobar" id="id-message-infobar">
+															Aqui eu pensei em deixar uma breve descrição ou algo deiferente sobre a aba selecionada
+														</div>
+
+													</div>
+
+												</div>
+
+										</div>
+										</div>
+									</div><!-- /.tab-content -->
+								</div><!-- /.tabbable -->
+								
+								E aqui vai o conteudo da página
+
+								<!-- /section:pages/inbox -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+						<!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
 			</div>
 		</ui:define>
 	</ui:composition>
