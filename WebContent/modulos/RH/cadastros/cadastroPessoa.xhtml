@@ -1,112 +1,609 @@
 <!DOCTYPE html>
-<h:html xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets" 
-	xmlns:f="http://java.sun.com/jsf/core" 
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<h:head>
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
-		
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.css" />
 
-		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
+<h:head>
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
 
-		<!-- text fonts -->
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.css" />
 
-		<!-- ace styles -->
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+	<!-- page specific plugin styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
 
-		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.js"></script>
-	</h:head>
-	
-	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
-		<ui:define name="barraNavegacao">
-			<li><a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Cadastros</a></li>
-			<li class="active">Pessoa </li>
-		</ui:define>
+	<!-- text fonts -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
 
-		<ui:define name="scriptConteudo">
-			<div class="page-content">
-				<div class="page-header">
-					<h1>
-						Cadastro de pessoas
-						<small>
-							<i class="ace-icon fa fa-angle-double-right"></i>
-							Esta página é responsável por cadastrar no sistema as pessoas que terão permissão de usá-lo.
-						</small>
-					</h1>
-				</div>
+	<!-- ace styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css"
+		class="ace-main-stylesheet" id="main-ace-style" />
 
-				<div class="row">
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- #section:pages/inbox -->
-								<div class="tabbable">
-									<ul id="inbox-tabs" class="inbox-tabs nav nav-tabs padding-16 tab-size-bigger tab-space-1">
-										<!-- /section:pages/inbox.compose-btn -->
-										<li class="active">
-											<a data-toggle="tab" href="#inbox" data-target="inbox">
-												<i class="blue ace-icon fa fa-certificate bigger-130"></i>
-												<span class="bigger-110">Principal</span>
-											</a>
-										</li>
+	<script
+		src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.js"></script>
+</h:head>
 
-										<li>
-											<a data-toggle="tab" href="#sent" data-target="sent">
-												<i class="orange ace-icon fa fa-envelope-o bigger-130"></i>
-												<span class="bigger-110">Endereçamento</span>
-											</a>
-										</li>
+<ui:composition
+	template="/resources/templates/sisEducar/principal.xhtml">
+	<ui:define name="barraNavegacao">
+		<li><a
+			href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Cadastros</a></li>
+		<li class="active">Pessoa</li>
+	</ui:define>
 
-										<li>
-											<a data-toggle="tab" href="#draft" data-target="draft">
-												<i class="green ace-icon fa fa-phone bigger-130"></i>
-												<span class="bigger-110">Contato</span>
-											</a>
-										</li>
-										<li>
-											<a data-toggle="tab" href="#" data-target="draft">
-												<i class="green ace-icon fa fa-check bigger-130"></i>
-												<span class="bigger-110">Confirmação</span>
-											</a>
-										</li>
+	<ui:define name="scriptConteudo">
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					Cadastro de pessoas <small> <i
+						class="ace-icon fa fa-angle-double-right"></i> Esta página é
+						responsável por cadastrar no sistema as pessoas que terão
+						permissão de usá-lo.
+					</small>
+				</h1>
+			</div>
 
-									</ul>
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- PAGE CONTENT BEGINS -->
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- #section:pages/inbox -->
+							<div class="tabbable">
+								<ul id="inbox-tabs"
+									class="inbox-tabs nav nav-tabs padding-16 tab-size-bigger tab-space-1">
+									<!-- /section:pages/inbox.compose-btn -->
+									<li class="active"><a data-toggle="tab" href="#inbox"
+										data-target="inbox"> <i
+											class="blue ace-icon fa fa-certificate bigger-130"></i> <span
+											class="bigger-110">Principal</span>
+									</a></li>
 
-									<div class="tab-content no-border no-padding">
-										<div id="inbox" class="tab-pane in active">
-											<div class="message-container">
-												<!-- #section:pages/inbox.navbar -->
-												<div id="id-message-list-navbar" class="message-navbar clearfix">
-													<div class="message-bar">
-														<div class="message-infobar" id="id-message-infobar">
-															Aqui eu pensei em deixar uma breve descrição ou algo deiferente sobre a aba selecionada
-														</div>
+									<li><a data-toggle="tab" href="#sent" data-target="sent">
+											<i class="orange ace-icon fa fa-envelope-o bigger-130"></i> <span
+											class="bigger-110">Endereçamento</span>
+									</a></li>
 
-													</div>
+									<li><a data-toggle="tab" href="#draft" data-target="draft">
+											<i class="green ace-icon fa fa-phone bigger-130"></i> <span
+											class="bigger-110">Contato</span>
+									</a></li>
+									<li><a data-toggle="tab" href="#" data-target="draft">
+											<i class="green ace-icon fa fa-check bigger-130"></i> <span
+											class="bigger-110">Confirmação</span>
+									</a></li>
+
+								</ul>
+
+								<div class="tab-content no-border no-padding">
+									<div id="inbox" class="tab-pane in active">
+										<div class="message-container">
+											<!-- #section:pages/inbox.navbar -->
+											<div id="id-message-list-navbar"
+												class="message-navbar clearfix">
+												<div class="message-bar">
+													<div class="message-infobar" id="id-message-infobar">
+														Aqui eu pensei em deixar uma breve descrição ou algo
+														deiferente sobre a aba selecionada</div>
 
 												</div>
 
-										</div>
-										</div>
-									</div><!-- /.tab-content -->
-								</div><!-- /.tabbable -->
-								
-								E aqui vai o conteudo da página
+											</div>
 
-								<!-- /section:pages/inbox -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-						<!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-				</div><!-- /.row -->
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-content -->
+							</div>
+							<!-- /.tabbable -->
+
+							<div class="tab-content no-border padding-24">
+								<div id="faq-tab-1" class="tab-pane fade active in">
+									<h4 class="blue">
+										<i class="ace-icon fa fa-check bigger-110"></i> Informações Principais
+									</h4>
+
+									<div class="space-8"></div>
+
+									<div id="faq-list-1"
+										class="panel-group accordion-style1 accordion-style2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-1-1" data-parent="#faq-list-1"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-left pull-right"
+													data-icon-hide="ace-icon fa fa-chevron-down"
+													data-icon-show="ace-icon fa fa-chevron-left"></i> <i
+													class="ace-icon fa fa-user bigger-130"></i>
+													Responsavel
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-1-1">
+												<div class="panel-body">
+													<div id="faq-list-nested-1"
+														class="panel-group accordion-style1 accordion-style2">
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<a href="#faq-list-1-sub-1"
+																	data-parent="#faq-list-nested-1" data-toggle="collapse"
+																	class="accordion-toggle collapsed">
+																	<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right" 
+																	data-icon-hide="ace-icon fa fa-angle-down" 
+																	data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados da Mãe</h5>
+																</a>
+															</div>
+
+															<div class="panel-collapse collapse"
+																id="faq-list-1-sub-1">
+																<div class="panel-body">
+																	conteudo da mae
+																</div>
+															</div>
+														</div>
+
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<a href="#faq-list-1-sub-2"
+																	data-parent="#faq-list-nested-1" data-toggle="collapse"
+																	class="accordion-toggle collapsed">
+																	<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right" 
+																	data-icon-hide="ace-icon fa fa-angle-down" 
+																	data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados do Pai</h5>
+																</a>
+															</div>
+
+															<div class="panel-collapse collapse"
+																id="faq-list-1-sub-2">
+																<div class="panel-body">
+																	<div class="form-group">
+																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
+																		<div class="col-sm-0">
+																			<input type="text" id="form-field-1" placeholder="Nome" style="width: 47%"/>
+																		</div>
+																	</div>
+																	<div class="form-group" style="width: 100%">
+																		<div class="col-sm-0">
+																			<!-- #section:elements.form.input-icon -->
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">RG</label>
+																				<input type="text"  placeholder="XX.XXX.XXX-X" style="width: 100%"/>
+																			</span>
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">CPF</label>
+																				<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 128%"/>
+																			</span>
+																		</div>
+																	</div>
+																	<div class="form-group" style="width: 100%">
+																		<div class="col-sm-0">
+																			<!-- #section:elements.form.input-icon -->
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">Telefone</label>
+																				<input type="text"  placeholder="(XX) XXXX-XXXX" style="width: 100%"/>
+																			</span>
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">Celular</label>
+																				<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 100%"/>
+																			</span>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> EMAIL </label>
+																		<div class="col-sm-0">
+																			<input type="text" placeholder="Email" style="width: 47%"/>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
+																		<div class="col-sm-0">
+																			<input type="text"  placeholder="Empresa" style="width: 47%"/>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<div class="col-sm-0">
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">Telefone</label>
+																				<input type="text"  placeholder="(XX) XXXX-XXXX" style="width: 100%"/>
+																			</span>
+																			<span class="input-icon input-icon-right">
+																				<label class="col-sm-0 control-label no-padding-right">Ramal</label>
+																				<input type="text" placeholder="XXXX" style="width: 100%"/>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<a href="#faq-list-1-sub-3"
+																	data-parent="#faq-list-nested-1" data-toggle="collapse"
+																	class="accordion-toggle collapsed">
+																	<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right" 
+																	data-icon-hide="ace-icon fa fa-angle-down" 
+																	data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados de Outros</h5>
+																</a>
+															</div>
+
+															<div class="panel-collapse collapse"
+																id="faq-list-1-sub-3">
+																<div class="panel-body">
+																	conteudo de outros
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-1-2" data-parent="#faq-list-2"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-left pull-right"
+													data-icon-hide="ace-icon fa fa-chevron-down"
+													data-icon-show="ace-icon fa fa-chevron-left"></i> <i
+													class="ace-icon fa fa-user bigger-130"></i>
+													Aluno
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-1-2">
+												<div class="panel-body">
+													<div id="faq-list-nested-1"
+														class="panel-group accordion-style1 accordion-style2">
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<a href="#faq-list-2-sub-1"
+																	data-parent="#faq-list-nested-1" data-toggle="collapse"
+																	class="accordion-toggle collapsed">
+																	Cadastro de Outros
+																</a>
+															</div>
+															
+															<div class="panel-collapse collapse"
+																id="faq-list-2-sub-1">
+																<div class="panel-body">
+																	conteudo de outros
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="faq-tab-2" class="tab-pane fade">
+									<h4 class="blue">
+										<i class="green ace-icon fa fa-user bigger-110"></i> Account
+										Questions
+									</h4>
+
+									<div class="space-8"></div>
+
+									<div id="faq-list-2"
+										class="panel-group accordion-style1 accordion-style2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-2-1" data-parent="#faq-list-2"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-right smaller-80"
+													data-icon-hide="ace-icon fa fa-chevron-down align-top"
+													data-icon-show="ace-icon fa fa-chevron-right"></i>
+													Enim eiusmod high life accusamus terry richardson?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-2-1">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-2-2" data-parent="#faq-list-2"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-right smaller-80"
+													data-icon-hide="ace-icon fa fa-chevron-down align-top"
+													data-icon-show="ace-icon fa fa-chevron-right"></i>
+													Single-origin coffee nulla assumenda shoreditch et?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-2-2">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-2-3" data-parent="#faq-list-2"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-right middle smaller-80"
+													data-icon-hide="ace-icon fa fa-chevron-down align-top"
+													data-icon-show="ace-icon fa fa-chevron-right"></i>
+													Sunt aliqua put a bird on it squid?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-2-3">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-2-4" data-parent="#faq-list-2"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-chevron-right smaller-80"
+													data-icon-hide="ace-icon fa fa-chevron-down align-top"
+													data-icon-show="ace-icon fa fa-chevron-right"></i>
+													Brunch 3 wolf moon tempor sunt aliqua put?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-2-4">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="faq-tab-3" class="tab-pane fade">
+									<h4 class="blue">
+										<i class="orange ace-icon fa fa-credit-card bigger-110"></i>
+										Payment Questions
+									</h4>
+
+									<div class="space-8"></div>
+
+									<div id="faq-list-3"
+										class="panel-group accordion-style1 accordion-style2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-3-1" data-parent="#faq-list-3"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i> Enim
+													eiusmod high life accusamus terry richardson?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-3-1">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-3-2" data-parent="#faq-list-3"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i>
+													Single-origin coffee nulla assumenda shoreditch et?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-3-2">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-3-3" data-parent="#faq-list-3"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i>Sunt aliqua
+													put a bird on it squid?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-3-3">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-3-4" data-parent="#faq-list-3"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i>Brunch 3
+													wolf moon tempor sunt aliqua put?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-3-4">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="faq-tab-4" class="tab-pane fade">
+									<h4 class="blue">
+										<i class="purple ace-icon fa fa-magic bigger-110"></i>
+										Miscellaneous Questions
+									</h4>
+
+									<div class="space-8"></div>
+
+									<div id="faq-list-4"
+										class="panel-group accordion-style1 accordion-style2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-4-1" data-parent="#faq-list-4"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-hand-o-right"
+													data-icon-hide="ace-icon fa fa-hand-o-down"
+													data-icon-show="ace-icon fa fa-hand-o-right"></i>
+													Enim eiusmod high life accusamus terry richardson?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-4-1">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-4-2" data-parent="#faq-list-4"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-frown-o bigger-120"
+													data-icon-hide="ace-icon fa fa-smile-o"
+													data-icon-show="ace-icon fa fa-frown-o"></i>
+													Single-origin coffee nulla assumenda shoreditch et?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-4-2">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-4-3" data-parent="#faq-list-4"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i>Sunt aliqua
+													put a bird on it squid?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-4-3">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<a href="#faq-4-4" data-parent="#faq-list-4"
+													data-toggle="collapse" class="accordion-toggle collapsed">
+													<i class="ace-icon fa fa-plus smaller-80"
+													data-icon-hide="ace-icon fa fa-minus"
+													data-icon-show="ace-icon fa fa-plus"></i> Brunch 3
+													wolf moon tempor sunt aliqua put?
+												</a>
+											</div>
+
+											<div class="panel-collapse collapse" id="faq-4-4">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- /section:pages/inbox -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<!-- PAGE CONTENT ENDS -->
+				</div>
+				<!-- /.col -->
 			</div>
-		</ui:define>
-	</ui:composition>
+			<!-- /.row -->
+		</div>
+	</ui:define>
+</ui:composition>
 </h:html>

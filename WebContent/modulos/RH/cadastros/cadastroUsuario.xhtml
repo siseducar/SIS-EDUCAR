@@ -19,12 +19,114 @@
 			<div class="page-content">
 				<div class="page-header">
 					<h1>
-						Cadastro de usuários
+						Cadastros
 						<small>
 							<i class="ace-icon fa fa-angle-double-right"></i>
-							Esta página é responsável por cadastrar no sistema os usuários que terão permissão de usá-lo.
+							Cadastro de Usuario.
 						</small>
 					</h1>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<h:form class="form-horizontal" role="form">
+						<div class="form-group">
+								<div class="col-sm-9">
+									<span class="input-icon input-icon-right">
+										<div style="margin-left: 650px">
+											<span class="profile-picture inpt-icon-right">
+												<img id="avatar" class="editable img-responsive editable-click editable-empty" 
+														src="/SIS-EDUCAR/resources/templates/ace/assets/avatars/profile-pic.jpg" style="display: block;"></img>
+												<div class="space-4"/>
+												<div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+													<div class="inline position-relative">
+														<a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
+															<i class="ace-icon fa fa-circle light-green"/>
+															<span class="white">Alex M. Doe</span>
+														</a>
+														<ul class="align-left dropdown-menu dropdown-caret dropdown-lighter">
+															<li class="dropdown-header"> Change Status </li>
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-circle green"/>
+																	<span class="green">Available</span>
+																</a>
+															</li>
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-circle red"/>
+																	<span class="red">Busy</span>
+																</a>
+															</li>
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-circle grey"></i>
+																	<span class="grey">Invisible</span>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</span>
+										</div>
+									</span>
+									<span class="input-icon input-icon-right col-sm-10" style="margin-top: -255px">
+										<div class="form-group">
+											<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Usuário </label>
+											<div class="col-sm-0">
+												<input type="text" id="form-field-1" placeholder="Username" style="width: 75%"/>
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<div class="col-sm-0">
+												<span class="input-icon input-icon-right">
+													<label class="col-sm-0 control-label no-padding-right">Senha</label>
+													<input type="password" id="form-field-icon-1" placeholder="Senha" style="width: 100%"/>
+												</span>
+												<span class="input-icon input-icon-right">
+													<label class="col-sm-0 control-label no-padding-right">Confirmação de Senha</label>
+													<input type="password" id="form-field-icon-2" placeholder="Confirmação de Senha" style="width: 90%" 	/>
+												</span>
+											</div>
+										</div>
+										<div class="form-group">
+												<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Email </label>
+											<div class="col-sm-0">
+												<input type="text" id="form-field-1" placeholder="Email" style="width: 75%"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-0">
+												<!-- #section:elements.form.input-icon -->
+												<span class="input-icon input-icon-right">
+													<label class="col-sm-0 control-label no-padding-right">RA Aluno</label>
+													<input type="password" id="form-field-icon-1" placeholder="RA Aluno" style="width: 100%"/>
+												</span>
+												<span class="input-icon input-icon-right">
+												<label class="col-sm-0 control-label no-padding-right">CPF/CNPJ Responsavel</label>
+													<input type="password" id="form-field-icon-2" placeholder="CPF/CNPJ Responsavel" style="width: 84%" 	/>
+												</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="form-field-select-1 col-sm-0">Responsavel</label>
+											<div>
+												<select class="form-control " id="form-field-select-1" style="width: 42%">
+													<option value=""></option>
+													<option value="p">Pai</option>
+													<option value="m">Mãe</option>
+													<option value="o">Outros</option>
+												</select>
+											</div>
+										</div>
+									</span>
+									
+								</div>
+							</div>
+							
+						</h:form>
+					</div>
 				</div>
 			</div>
 		</ui:define>
