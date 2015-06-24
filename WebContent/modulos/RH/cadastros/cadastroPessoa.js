@@ -6,7 +6,10 @@ jQuery(function($) {
 				.on('change', function(){
 					$(this).closest('form').validate().element($(this));
 				}); 
-			
+				
+				$(document).ready(function() {
+					$("#cpf").mask("999.999.999-99");
+				})
 			
 				var $validation = false;
 				$('#fuelux-wizard-container')
@@ -63,10 +66,10 @@ jQuery(function($) {
 			
 			
 				//documentation : http://docs.jquery.com/Plugins/Validation/validate
-			
+				
 			
 				$.mask.definitions['~']='[+-]';
-				$('#phone').mask('(999) 999-9999');
+				$('#phone').mask('(99) 999-9999');
 			
 				jQuery.validator.addMethod("phone", function (value, element) {
 					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
