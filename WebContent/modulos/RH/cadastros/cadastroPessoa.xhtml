@@ -37,9 +37,16 @@
 <ui:composition
 	template="/resources/templates/sisEducar/principal.xhtml">
 	<ui:define name="barraNavegacao">
-		<li><a
-			href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Cadastros</a></li>
-		<li class="active">Pessoa</li>
+		<li>
+			<i class="ace-icon fa fa-file"></i>
+			<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
+				Cadastros
+			</a>
+		</li>
+		<li class="active">
+			<i class="ace-icon fa fa-user"></i>
+			Pessoa
+		</li>
 	</ui:define>
 
 	<ui:define name="scriptConteudo">
@@ -47,7 +54,7 @@
 			<div class="page-header">
 				<h1>
 					Cadastro <small> <i
-						class="ace-icon fa fa-angle-double-right" /> Pessoas
+						class="ace-icon fa fa-angle-double-right" /> Cadastro de Pessoas
 					</small>
 				</h1>
 			</div>
@@ -57,354 +64,351 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<div class="row">
 						<div class="col-xs-12">
-							<!-- #section:pages/inbox -->
-							<div class="tabbable">
-								<ul class="nav nav-tabs padding-18 tab-size-bigger">
-
-									<!-- Dados Principais-->
-									<li class="active">
-										<a data-toggle="tab" href="#faq-tab-1">
-											<i class="green ace-icon fa fa-users	bigger-130" /> 
-											<span class="bigger-110">Principal </span>
-										</a>
-									</li>
-									<li>
-										<a data-toggle="tab" href="#faq-tab-2">
-											<i class="red ace-icon fa fa-home	bigger-130" /> 
-											<span class="bigger-110">Endereço </span>
-										</a>
-									</li>
-								</ul>
-							</div>
-
-
 							<!-- Informações Cadastrais sobre responsaveis-->
 							<div class="tab-content no-border padding-24">
-								<div id="faq-tab-1" class="tab-pane fade active in">
-									<h4 class="blue">
-										Informações Principais
-									</h4>
+								<div class="profile-user-info">
+									<div class="profile-info-row">
+										<h4 class="blue">
+											Tipos de Pessoas:
+											<small>Para facilitar e organizar o cadastro temos algumas dicas.</small>
+										</h4>
+									</div>
+									<div class="hr hr-8 dotted"></div>
+									
+									<div class="space-4"></div>
+									
+									<div class="profile-info-row">
+										<h4 class="blue">
+											Aluno:
+											<small>Para cadastrar um aluno clique na opção "Responsável" e após o término do mesmo clique na opção "Aluno".</small>
+										</h4>
+									</div>
+									<div class="profile-info-row">
+										<h4 class="blue">
+											Outros:
+											<small>Para o cadastro de outras pessoas apenas clique na opção "Responsável".</small>
+										</h4>
+									</div>
+								</div>
+								<div class="space-8"></div>
 
-									<div class="space-8"></div>
+								<div id="faq-list-1"
+									class="panel-group accordion-style1 accordion-style2">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<a href="#faq-1-1" data-parent="#faq-list-1"
+												data-toggle="collapse" class="accordion-toggle collapsed">
+												<i class="ace-icon fa fa-chevron-left pull-right"
+												data-icon-hide="ace-icon fa fa-chevron-down"
+												data-icon-show="ace-icon fa fa-chevron-left"></i> <i
+												class="ace-icon fa fa-user bigger-130"></i> Responsável
+											</a>
+										</div>
 
-									<div id="faq-list-1"
-										class="panel-group accordion-style1 accordion-style2">
-										<div class="panel panel-default">
-											<div class="panel-heading">
-												<a href="#faq-1-1" data-parent="#faq-list-1"
-													data-toggle="collapse" class="accordion-toggle collapsed">
-													<i class="ace-icon fa fa-chevron-left pull-right"
-													data-icon-hide="ace-icon fa fa-chevron-down"
-													data-icon-show="ace-icon fa fa-chevron-left"></i> <i
-													class="ace-icon fa fa-user bigger-130"></i> Responsavel
-												</a>
-											</div>
+										<!-- Informações para cadastro referente a Mãe-->
+										<div class="panel-collapse collapse" id="faq-1-1">
+											<div class="panel-body">
+												<div id="faq-list-nested-1"
+													class="panel-group accordion-style1 accordion-style2">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<a href="#faq-list-1-sub-1"
+																data-parent="#faq-list-nested-1" data-toggle="collapse"
+																class="accordion-toggle collapsed">
+																<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right"
+																		data-icon-hide="ace-icon fa fa-angle-down"
+																		data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados da Mãe
+																</h5>
+															</a>
+														</div>
 
-											<!-- Informações para cadastro referente a Mãe-->
-											<div class="panel-collapse collapse" id="faq-1-1">
-												<div class="panel-body">
-													<div id="faq-list-nested-1"
-														class="panel-group accordion-style1 accordion-style2">
-														<div class="panel panel-default">
-															<div class="panel-heading">
-																<a href="#faq-list-1-sub-1"
-																	data-parent="#faq-list-nested-1" data-toggle="collapse"
-																	class="accordion-toggle collapsed">
-																	<h5 class="green">
-																		<i class="bigger-110 ace-icon fa fa-angle-right"
-																			data-icon-hide="ace-icon fa fa-angle-down"
-																			data-icon-show="ace-icon fa fa-angle-right"></i>
-																		Dados da Mãe
-																	</h5>
-																</a>
-															</div>
-
-															<div class="panel-collapse collapse"
-																id="faq-list-1-sub-1">
-																<div class="panel-body">
-																	<div class="form-group">
-																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
-																			<div class="col-sm-0">
-																				<input type="text" placeholder="Nome" style="width: 70%"/>
-																			</div>
-																	</div>
-																	
-																	<!-- Text RG && Text CPF -->
-																	<div class="form-group" style=" width: 70%">
+														<div class="panel-collapse collapse"
+															id="faq-list-1-sub-1">
+															<div class="panel-body">
+																<div class="form-group">
+																	<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
 																		<div class="col-sm-0">
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">RG</label>
-																				<div>
-																					<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">CPF</label>
-																				<div>
-																					<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
-																				</div>
-																			</span>
+																			<input type="text" placeholder="Nome" style="width: 70%"/>
 																		</div>
+																</div>
+																
+																<!-- Text RG && Text CPF -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0">
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">RG</label>
+																			<div>
+																				<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">CPF</label>
+																			<div>
+																				<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text CELULAR  -->
-																	<div class="form-group" style=" width: 70%">
-																		<div>
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Celular</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text CELULAR  -->
+																<div class="form-group" style=" width: 70%">
+																	<div>
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Celular</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text EMAIL -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
-																		<div>
-																			<input type="text" placeholder="Email" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text EMAIL -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
+																	<div>
+																		<input type="text" placeholder="Email" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text NOME EMPRESA -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
-																		<div>
-																			<input type="text" placeholder="Empresa" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text NOME EMPRESA -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
+																	<div>
+																		<input type="text" placeholder="Empresa" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text RAMAL -->
-																	<div class="form-group" style=" width: 70%">
-																		<div class="col-sm-0" >
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Ramal</label>
-																				<div>
-																					<input type="text" placeholder="XXXX" style="width: 40%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text RAMAL -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0" >
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Ramal</label>
+																			<div>
+																				<input type="text" placeholder="XXXX" style="width: 40%" />
+																			</div>
+																		</span>
 																	</div>
 																</div>
 															</div>
 														</div>
+													</div>
 
-														<!-- Informações para cadastro referente ao Pai-->
-														<div class="panel panel-default">
-															<div class="panel-heading">
-																<a href="#faq-list-1-sub-2"
-																	data-parent="#faq-list-nested-1" data-toggle="collapse"
-																	class="accordion-toggle collapsed">
-																	<h5 class="green">
-																		<i class="bigger-110 ace-icon fa fa-angle-right"
-																			data-icon-hide="ace-icon fa fa-angle-down"
-																			data-icon-show="ace-icon fa fa-angle-right"></i>
-																		Dados do Pai
-																	</h5>
-																</a>
-															</div>
+													<!-- Informações para cadastro referente ao Pai-->
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<a href="#faq-list-1-sub-2"
+																data-parent="#faq-list-nested-1" data-toggle="collapse"
+																class="accordion-toggle collapsed">
+																<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right"
+																		data-icon-hide="ace-icon fa fa-angle-down"
+																		data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados do Pai
+																</h5>
+															</a>
+														</div>
 
-															<div class="panel-collapse collapse"
-																id="faq-list-1-sub-2">
-																<div class="panel-body">
-																	<div class="form-group">
-																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
-																			<div class="col-sm-0">
-																				<input type="text" placeholder="Nome" style="width: 70%"/>
-																			</div>
-																	</div>
-																	
-																	<!-- Text RG && Text CPF -->
-																	<div class="form-group" style=" width: 70%">
+														<div class="panel-collapse collapse"
+															id="faq-list-1-sub-2">
+															<div class="panel-body">
+																<div class="form-group">
+																	<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
 																		<div class="col-sm-0">
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">RG</label>
-																				<div>
-																					<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">CPF</label>
-																				<div>
-																					<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
-																				</div>
-																			</span>
+																			<input type="text" placeholder="Nome" style="width: 70%"/>
 																		</div>
+																</div>
+																
+																<!-- Text RG && Text CPF -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0">
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">RG</label>
+																			<div>
+																				<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">CPF</label>
+																			<div>
+																				<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text CELULAR  -->
-																	<div class="form-group" style=" width: 70%">
-																		<div>
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Celular</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text CELULAR  -->
+																<div class="form-group" style=" width: 70%">
+																	<div>
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Celular</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text EMAIL -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
-																		<div>
-																			<input type="text" placeholder="Email" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text EMAIL -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
+																	<div>
+																		<input type="text" placeholder="Email" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text NOME EMPRESA -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
-																		<div>
-																			<input type="text" placeholder="Empresa" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text NOME EMPRESA -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
+																	<div>
+																		<input type="text" placeholder="Empresa" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text RAMAL -->
-																	<div class="form-group" style=" width: 70%">
-																		<div class="col-sm-0" >
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Ramal</label>
-																				<div>
-																					<input type="text" placeholder="XXXX" style="width: 40%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text RAMAL -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0" >
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Ramal</label>
+																			<div>
+																				<input type="text" placeholder="XXXX" style="width: 40%" />
+																			</div>
+																		</span>
 																	</div>
 																</div>
 															</div>
 														</div>
+													</div>
 
-														<!-- Informações para cadastro referente a Outros-->
-														<div class="panel panel-default">
-															<div class="panel-heading">
-																<a href="#faq-list-1-sub-3"
-																	data-parent="#faq-list-nested-1" data-toggle="collapse"
-																	class="accordion-toggle collapsed">
-																	<h5 class="green">
-																		<i class="bigger-110 ace-icon fa fa-angle-right"
-																			data-icon-hide="ace-icon fa fa-angle-down"
-																			data-icon-show="ace-icon fa fa-angle-right"></i>
-																			Dados de Outros
-																	</h5>
-																</a>
-															</div>
+													<!-- Informações para cadastro referente a Outros-->
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<a href="#faq-list-1-sub-3"
+																data-parent="#faq-list-nested-1" data-toggle="collapse"
+																class="accordion-toggle collapsed">
+																<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right"
+																		data-icon-hide="ace-icon fa fa-angle-down"
+																		data-icon-show="ace-icon fa fa-angle-right"></i>
+																		Dados de Outros
+																</h5>
+															</a>
+														</div>
 
-															<div class="panel-collapse collapse"
-																id="faq-list-1-sub-3">
-																<div class="panel-body">
-																	<div class="form-group">
-																		<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
-																			<div class="col-sm-0">
-																				<input type="text" placeholder="Nome" style="width: 70%"/>
-																			</div>
-																	</div>
-																	
-																	<!-- Text RG && Text CPF -->
-																	<div class="form-group" style=" width: 70%">
+														<div class="panel-collapse collapse"
+															id="faq-list-1-sub-3">
+															<div class="panel-body">
+																<div class="form-group">
+																	<label class="col-sm-0 control-label no-padding-right" for="form-field-1"> Nome </label>
 																		<div class="col-sm-0">
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">RG</label>
-																				<div>
-																					<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">CPF</label>
-																				<div>
-																					<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
-																				</div>
-																			</span>
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Parentesco</label>
-																				<div>
-																					<select class="form-control">
-																						<option value=""></option>
-																						<option value="t">Tio/Tia</option>
-																						<option value="a">Avó/Avô</option>
-																						<option value="i">Irmão/Irmã</option>
-																						<option value="o">Outros</option>
-																					</select>
-																				</div>
-																			</span>
+																			<input type="text" placeholder="Nome" style="width: 70%"/>
 																		</div>
+																</div>
+																
+																<!-- Text RG && Text CPF -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0">
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">RG</label>
+																			<div>
+																				<input type="text" placeholder="XX.XXX.XXX-X" style="width: 95%"/>
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">CPF</label>
+																			<div>
+																				<input type="text" placeholder="XXX.XXX.XXX-XX" style="width: 90%"/>
+																			</div>
+																		</span>
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Parentesco</label>
+																			<div>
+																				<select class="form-control">
+																					<option value=""></option>
+																					<option value="t">Tio/Tia</option>
+																					<option value="a">Avó/Avô</option>
+																					<option value="i">Irmão/Irmã</option>
+																					<option value="o">Outros</option>
+																				</select>
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text CELULAR  -->
-																	<div class="form-group" style=" width: 70%">
-																		<div>
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="control-label no-padding-right">Celular</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text CELULAR  -->
+																<div class="form-group" style=" width: 70%">
+																	<div>
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="control-label no-padding-right">Celular</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXXX-XXXX" style="width: 90%" />
+																			</div>
+																		</span>
 																	</div>
-																	
-																	<!-- Text EMAIL -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
-																		<div>
-																			<input type="text" placeholder="Email" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text EMAIL -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> EMAIL </label>
+																	<div>
+																		<input type="text" placeholder="Email" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text NOME EMPRESA -->
-																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
-																		<div>
-																			<input type="text" placeholder="Empresa" style="width: 70%" />
-																		</div>
+																</div>
+																
+																<!-- Text NOME EMPRESA -->
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="form-field-1"> Nome da Empresa </label>
+																	<div>
+																		<input type="text" placeholder="Empresa" style="width: 70%" />
 																	</div>
-																	
-																	<!-- Text TELEFONE && Text RAMAL -->
-																	<div class="form-group" style=" width: 70%">
-																		<div class="col-sm-0" >
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Telefone</label>
-																				<div>
-																					<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
-																				</div>
-																			</span> 
-																			<span class="input-icon input-icon-right"> 
-																				<label class="col-sm-0 control-label no-padding-right">Ramal</label>
-																				<div>
-																					<input type="text" placeholder="XXXX" style="width: 40%" />
-																				</div>
-																			</span>
-																		</div>
+																</div>
+																
+																<!-- Text TELEFONE && Text RAMAL -->
+																<div class="form-group" style=" width: 70%">
+																	<div class="col-sm-0" >
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Telefone</label>
+																			<div>
+																				<input type="text" placeholder="(XX) XXXX-XXXX" style="width: 95%" />
+																			</div>
+																		</span> 
+																		<span class="input-icon input-icon-right"> 
+																			<label class="col-sm-0 control-label no-padding-right">Ramal</label>
+																			<div>
+																				<input type="text" placeholder="XXXX" style="width: 40%" />
+																			</div>
+																		</span>
 																	</div>
 																</div>
 															</div>
@@ -413,41 +417,41 @@
 												</div>
 											</div>
 										</div>
+									</div>
 
-										<!-- Informações cadastrais referente ao Aluno-->
-										<div class="panel panel-default">
-											<div class="panel-heading">
-												<a href="#faq-1-2" data-parent="#faq-list-2"
-													data-toggle="collapse" class="accordion-toggle collapsed">
-													<i class="ace-icon fa fa-chevron-left pull-right"
-													data-icon-hide="ace-icon fa fa-chevron-down"
-													data-icon-show="ace-icon fa fa-chevron-left"></i> <i
-													class="ace-icon fa fa-user bigger-130"></i> Aluno
-												</a>
-											</div>
+									<!-- Informações cadastrais referente ao Aluno-->
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<a href="#faq-1-2" data-parent="#faq-list-2"
+												data-toggle="collapse" class="accordion-toggle collapsed">
+												<i class="ace-icon fa fa-chevron-left pull-right"
+												data-icon-hide="ace-icon fa fa-chevron-down"
+												data-icon-show="ace-icon fa fa-chevron-left"></i> <i
+												class="ace-icon fa fa-user bigger-130"></i> Aluno
+											</a>
+										</div>
 
-											<div class="panel-collapse collapse" id="faq-1-2">
-												<div class="panel-body">
-													<div id="faq-list-nested-1"
-														class="panel-group accordion-style1 accordion-style2">
-														<div class="panel panel-default">
-															<div class="panel-heading">
-																<a href="#faq-list-2-sub-1"
-																	data-parent="#faq-list-nested-1" data-toggle="collapse"
-																	class="accordion-toggle collapsed">
-																	<h5 class="green">
-																		<i class="bigger-110 ace-icon fa fa-angle-right"
-																			data-icon-hide="ace-icon fa fa-angle-down"
-																			data-icon-show="ace-icon fa fa-angle-right"></i>
-																		Dados de Alunos
-																	</h5>
-																</a>
-															</div>
+										<div class="panel-collapse collapse" id="faq-1-2">
+											<div class="panel-body">
+												<div id="faq-list-nested-1"
+													class="panel-group accordion-style1 accordion-style2">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<a href="#faq-list-2-sub-1"
+																data-parent="#faq-list-nested-1" data-toggle="collapse"
+																class="accordion-toggle collapsed">
+																<h5 class="green">
+																	<i class="bigger-110 ace-icon fa fa-angle-right"
+																		data-icon-hide="ace-icon fa fa-angle-down"
+																		data-icon-show="ace-icon fa fa-angle-right"></i>
+																	Dados do Aluno
+																</h5>
+															</a>
+														</div>
 
-															<div class="panel-collapse collapse"
-																id="faq-list-2-sub-1">
-																<div class="panel-body">conteudo de Alunos</div>
-															</div>
+														<div class="panel-collapse collapse"
+															id="faq-list-2-sub-1">
+															<div class="panel-body">conteúdo de Alunos</div>
 														</div>
 													</div>
 												</div>
