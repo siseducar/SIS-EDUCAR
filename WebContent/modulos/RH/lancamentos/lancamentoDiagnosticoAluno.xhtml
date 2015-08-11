@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
+
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.css" />
+
+	<!-- page specific plugin styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
+
+	<!-- text fonts -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
+
+	<!-- ace styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css"
+		class="ace-main-stylesheet" id="main-ace-style" />
+
+	
+	<!-- javaScript -->
+	<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.js"/>
+
+</h:head>
+
+<ui:composition
+	template="/resources/templates/sisEducar/principal.xhtml">
+	<ui:define name="barraNavegacao">
+		<li>
+			<i class="ace-icon fa fa-indent"></i>
+			<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
+				Lançamentos
+			</a>
+		</li>
+		<li class="active">
+			<i class="ace-icon fa fa-align-left"></i>
+			Diagnóstico Aluno
+		</li>
+	</ui:define>
+
+	<ui:define name="scriptConteudo">
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					Lançamento <small> <i
+						class="ace-icon fa fa-angle-double-right" /> Lançamento de Diagnóstico
+					</small>
+				</h1>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- PAGE CONTENT BEGINS -->
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- Informações Cadastrais sobre responsaveis-->
+							<div class="tab-content no-border padding-24">
+								Conteudo da página
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<!-- PAGE CONTENT ENDS -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+	</ui:define>
+</ui:composition>
+</h:html>
