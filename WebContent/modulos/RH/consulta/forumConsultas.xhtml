@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
+
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.css" />
+
+	<!-- page specific plugin styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
+
+	<!-- text fonts -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
+
+	<!-- ace styles -->
+	<link rel="stylesheet"
+		href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css"
+		class="ace-main-stylesheet" id="main-ace-style" />
+
+	
+	<!-- javaScript -->
+	<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.js"/>
+
+</h:head>
+<ui:composition
+	template="/resources/templates/sisEducar/principal.xhtml">
+	<ui:define name="barraNavegacao">
+		<li>
+			<i class="ace-icon fa fa-file"></i>
+			<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
+				Consulta
+			</a>
+		</li>
+		<li class="active">
+			<i class="ace-icon fa fa-user"></i>
+			Forum
+		</li>
+	</ui:define>
+
+	<ui:define name="scriptConteudo">
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					Consulta <small> <i
+						class="ace-icon fa fa-angle-double-right" /> Forum para Perguntas e Duvidas Sobre as Aulas
+					</small>
+				</h1>
+			</div>
+			<div class="col-sm-3">
+				<div class="widget-box widget-color-green2">
+					<div class="widget-header">
+						<h4 class="widget-title lighter smaller">Arquivos Disponiveis Para Estudo</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main padding-8">
+							<div id="tree2" class="tree tree-unselectable">
+								<div class="tree-folder" style="display:none;">
+									<div class="tree-folder-header">
+										<i class=" ace-icon ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"></div>	
+									</div>				
+									<div class="tree-folder-content"></div>	
+									<div class="tree-loader" style="display: none;"></div>
+								</div>	
+								<div class="tree-item" style="display:none;">
+									<div class="tree-item-name"></div>	
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Português </div>
+									</div>	
+									<div class="tree-folder-content" style="display: block;">
+										<div class="tree-folder" style="display: block;">	
+											<div class="tree-folder-header">	
+												<i class="black ace-icon fa fa-folder"></i>
+												<div class="tree-folder-name">Documentos de Texto</div>
+											</div>
+											<div class="tree-folder-content" style="display: block;">
+												<div class="tree-item" style="display: block;">
+													<div class="tree-item-name">
+														<i class="fa fa-file-text"></i> 
+															Aula 1.txt
+													</div>
+												</div>
+												<div class="tree-item" style="display: block;">
+													<div class="tree-item-name">
+														<i class="fa fa-file-text"></i> 
+															Aula 2.txt
+													</div>
+												</div>
+												<div class="tree-item" style="display: block;">
+													<div class="tree-item-name">
+														<i class="fa fa-file-text"></i>
+															Aula 3.txt
+													</div>	
+												</div>
+												<div class="tree-item" style="display: block;">
+													<div class="tree-item-name">
+														<i class=" fa fa-file-text"></i> 
+															Aula 4.txt
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="tree-folder-header">	
+												<i class="black ace-icon fa fa-folder"></i>
+												<div class="tree-folder-name"> Livros Para Estudo </div>
+										</div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Matemática </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Inglês </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Geografia </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> História </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Química </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Física </div>
+									</div>
+								</div>
+								<div class="tree-folder" style="display: block;">
+									<div class="tree-folder-header">
+										<i class="red ace-icon fa fa-folder"></i>
+										<div class="tree-folder-name"> Biologia </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- #section:pages/inbox -->
+						<div class="tabbable">
+							<div class="tab-content no-border no-padding">
+								<div id="inbox" class="tab-pane in active">
+									<div class="message-container">
+										<div id="id-message-list-navbar" class="message-navbar clearfix">
+											<div class="message-bar">
+												<div class="message-infobar" id="id-message-infobar">
+													<span class="blue bigger-150">Perguntas e Duvidas</span>
+												</div>
+											</div>
+											<div>
+												<div class="nav-search minimized">
+													<form class="form-search">
+														<span class="input-icon">
+															<input type="text" autocomplete="off" class="input-small nav-search-input" placeholder="Search inbox ..."/>
+															<i class="ace-icon fa fa-search nav-search-icon"></i>
+														</span>
+													</form>
+												</div>
+											</div>
+										</div>
+										<div class="message-list-container">
+											<div class="message-list" id="message-list">
+												<div class="message-item message-unread">
+													<label class="inline">
+														<input type="checkbox" class="ace" disabled="enable"/>
+														<span class="lbl"></span>
+													</label>
+													<span class="sender" title="4 Comentarios"> Felipe Smith </span>
+													<span class="time">2:45 pm</span>
+													<span class="summary">
+														<span class="text">
+															Duvida no exercicio 3 Matematica
+														</span>
+													</span>
+												</div>
+												<div class="message-item message-unread">
+													<label class="inline">
+														<input type="checkbox" class="ace" disabled="enable"/>
+														<span class="lbl"></span>
+													</label>
+													<span class="sender" title="1 Comentarios"> Flavia Santos </span>
+													<span class="time">1:22 pm</span>
+													<span class="summary">
+														<span class="text">
+															Duvidas nos exercicios 4 ao 10 de Fisica
+														</span>
+													</span>
+												</div>
+												<div class="message-item message-unread">
+													<label class="inline">
+														<input type="checkbox" class="ace" disabled="enable"/>
+														<span class="lbl"></span>
+													</label>
+													<span class="sender" title="1 Comentarios"> Marcel Campos </span>
+													<span class="time">1:22 pm</span>
+													<span class="summary">
+														<span class="text">
+															Exercicios para treinamento de Química
+														</span>
+													</span>
+												</div>
+												<div class="message-item message-unread">
+													<label class="inline">
+														<input type="checkbox" class="ace" disabled="enable"/>
+														<span class="lbl"></span>
+													</label>
+													<span class="sender" title="4 Comentarios"> João Fernandes	 </span>
+													<span class="time">5:54 pm</span>
+													<span class="summary">
+														<span class="text">
+															Como é para fazer o trabalho de Portugues
+														</span>
+													</span>
+												</div>
+												
+											</div>
+										</div>
+										<div class="message-footer clearfix">
+											<div class="pull-left"> 12 Duvidas ao total </div>
+											<div class="pull-right">
+												<div class="inline middle"> page 1 of 2 </div>
+												<ul class="pagination middle">
+													<li class="disabled">
+														<span>
+															<i class="ace-icon fa fa-step-backward middle"></i>
+														</span>
+													</li>
+													<li class="disabled">
+														<span>
+															<i class="ace-icon fa fa-caret-left bigger-140 middle"></i>
+														</span>
+													</li>
+													<li>
+														<span>
+															<input value="1" maxlength="3" type="text"/>
+														</span>
+													</li>
+													<li>
+														<a href="#">
+															<i class="ace-icon fa fa-caret-right bigger-140 middle"></i>
+														</a>
+													</li>
+													<li>
+														<a href="#">
+															<i class="ace-icon fa fa-step-forward middle"></i>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="hide message-footer message-footer-style2 clearfix">
+											<div class="pull-left"> simpler footer </div>
+
+											<div class="pull-right">
+												<div class="inline middle"> message 1 of 12 </div>												<ul class="pagination middle">
+													<li class="disabled">
+														<span>
+															<i class="ace-icon fa fa-angle-left bigger-150"></i>
+														</span>
+													</li>
+													<li>
+														<a href="#">
+															<i class="ace-icon fa fa-angle-right bigger-150"></i>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!-- /.col -->
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</h:html>
