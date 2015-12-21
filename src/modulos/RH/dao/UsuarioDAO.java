@@ -149,6 +149,34 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Métoso usado para verificar se o usuário existe
+	 * @author João Paulo
+	 * @param cpf
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean verificaExistenciaUsuario(String cpf) throws SQLException
+	{
+		String querySQL = "SELECT * FROM Usuario" +
+				" WHERE status <> ?" + 
+				" AND cpfcnpj = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1 , ConstantesSisEducar.STATUS_REMOVIDO);
+		ps.setString(2, cpf);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			fecharConexaoBanco(con, ps, true, false);
+			return true;
+		}
+		
+		fecharConexaoBanco(con, ps, true, false);
+		return false;
+	}
+	
+	/**
 	 * Método usado para obter um usuario, pode ser adicionado mais parametros neste método, so deve ser verificado aonde esta usando este metodo
 	 * para que nas chamadas do mesmo sejam passados os novos parametros
 	 * @param email

@@ -5,14 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
+import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.EmailUtils;
+import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
 @SessionScoped
@@ -29,6 +33,142 @@ public class UsuarioServlet extends SisEducarServlet
 	public UsuarioServlet()
 	{
 		usuario = new Usuario();
+	}
+	
+	/**
+	 * Método usado para cadastrar um novo usuário no banco de dados, este usuário será cadastrado da tela de cadastro de usuário
+	 * @author João Paulo
+	 * @return NULL - Apenas para retornar a função
+	 */
+	public String cadastrarUsuario()
+	{
+		try 
+		{
+			Map<String, String> destinatarios = new HashMap<String, String>();
+			Boolean resultado = false;
+			Boolean resultadoExistenciaUsuario = false;
+			Boolean resultadoEnvioEmail = false;
+			Email email = null;
+			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
+			
+			/*Se vier TRUE é porque o usuário pode ser adicionado, se vier false é porque o usuário não tem permissão para ser cadastrado no sistema
+			caso vier false é porque o responsavel do aluno deixou esta pessoa como 1 dos responsaveis pelo aluno*/
+			
+			if(usuario.getCpfcnpj().isEmpty())
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF é obrigatório", null));
+				return null;
+			}
+			else
+			{
+				resultadoExistenciaUsuario = new UsuarioDAO().verificaExistenciaUsuario(usuario.getCpfcnpj());
+			}
+			
+			//Se voltar TRUE é porque o usuário já existe
+			if(resultadoExistenciaUsuario)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Já existe um usuário cadastrado para o CPF informado", null));
+				return null;
+			}
+			
+			if(usuario.getEmail().isEmpty())
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é obrigatório", null));
+				return null;
+			}
+			
+			if(!usuario.getEmail().contains("@") || !usuario.getEmail().contains("."))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é inválido", null));
+				return null;
+			}
+			
+			if(!usuario.getEmail().equals(usuario.getConfirmarEmail()))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Os emails estão diferentes", null));
+				return null;
+			}
+			
+			if(usuario.getNome().isEmpty())
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usuário é obrigatório", null));
+				return null;
+			}
+			
+			/*
+			 * Validação de senha
+			 * <Senha> -----------------------------
+			 */
+			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter no mínimo 8 dígitos", null));
+				return null;
+			}
+			
+			if(usuario.getSenha().equals("12345678"))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
+				return null;
+			}
+			/**
+			 * </Senha> -----------------------------
+			 */
+			
+			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas estão diferentes", null));
+				return null;
+			}
+			
+			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			resultado = new UsuarioDAO().inserirUsuario(usuario);
+			
+			if(resultado)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos uma confirmação de cadastro de usuário para sua caixa de email", null));  
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado", null));  
+			}
+			
+			urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
+			
+			email = EmailUtils.inicializarPropriedades();
+			email.setSubjectMail("Confirmação de cadastro de usuário");
+			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
+					" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
+					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
+			
+			destinatarios.put(usuario.getEmail(), usuario.getNome());
+			email.setToMailsUsers(destinatarios);
+			
+			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+			
+			resetarUsuario();
+			return null;
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuarioSimples");
+			return null;
+		}
+	}
+	
+	/**
+	 * Método usado para inicializar novamente o Usuario
+	 * @author João Paulo
+	 */
+	public void resetarUsuario()
+	{
+		try
+		{
+			usuario = new Usuario();
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("Resetar", "Falha ao resetar o usuário");
+		}
 	}
 	
 	/**

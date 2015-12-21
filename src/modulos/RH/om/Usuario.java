@@ -14,6 +14,7 @@ public class Usuario
 	private String confirmarSenha;
 	private Date dataLancamento;
 	private String email;
+	private String confirmarEmail;
 	private int tipo;
 	private int status;
 
@@ -69,5 +70,13 @@ public class Usuario
 
 	public void setRaAluno(String raAluno) {
 		this.raAluno = raAluno;
+	}
+
+	public String getConfirmarEmail() {
+		return confirmarEmail;
+	}
+
+	public void setConfirmarEmail(String confirmarEmail) {
+		this.confirmarEmail = confirmarEmail;
 	}
 }

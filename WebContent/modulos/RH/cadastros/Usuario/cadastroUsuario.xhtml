@@ -67,53 +67,66 @@
 				
 				<div class="row">
 					<div class="col-sm-10">
-						<div class="clearfix form-actions">
-							<div class="form-group">
-								<div class="col-sm-7">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="inputCpf" placeholder="CPF" class="col-xs-12 "/>
+						<h:form id="formCadastroUsuario">
+							<div class="clearfix form-actions">
+								<div class="form-group">
+									<div class="col-sm-7">
+										<div>
+											<output>CPF</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.cpfcnpj}" maxlength="11"></h:inputText>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="nome" placeholder="Nome Completo" class="col-xs-12 "/>
+									<div class="col-sm-6">
+										<div>
+											<output>Email</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50"></h:inputText>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="email" placeholder="Email" class="col-xs-12 "/>
+									<div class="col-sm-6">
+										<div>
+											<output>Confirmação de Email</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50"></h:inputText>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="emailConfirma" placeholder="Confirmação de Email" class="col-xs-12 col-sm-12"/>		
+									<div class="col-sm-7">
+										<div>
+											<output>Usuário</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11"></h:inputText>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="col-sm-7">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="inputUsuario" placeholder="Usuário" class="col-xs-12 "/>
+									<div class="col-sm-6">
+										<div>
+											<output>Senha</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11"></h:inputSecret>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="inputSenha" placeholder="Senha" class="col-xs-12 "/>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="space-6"></div>
-									<div>
-										<input type="text" id="inputConfirmacaoSenha" placeholder="Confirmação de Senha" class="col-xs-12 col-sm-12"/>		
+									<div class="col-sm-6">
+										<div>
+											<output>Confirmação de Senha</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11"></h:inputSecret>
+												<i class="ace-icon fa fa-bookmark"></i>
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<h:form id="formCadastroUsuario">
+						
 							<div class="clearfix">
 								<p:messages></p:messages>
 								<button type="reset" class="btn btn-sm">
@@ -124,13 +137,12 @@
 								<h:commandLink id="btRegistrar" class="btn btn-sm btn-success">
 									<span class="bigger-110">Registrar</span>
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{loginServlet.cadastrarUsuarioSimples}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
+									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
 								</h:commandLink>	
 							</div>
 						</h:form>
 					</div>
 					
-									
 					<!-- 
 					<div class="col-sm-4">
 						<div class="clearfix form-actions col-sm-6">
