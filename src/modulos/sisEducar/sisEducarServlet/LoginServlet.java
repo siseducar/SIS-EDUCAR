@@ -44,6 +44,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		{ 
 			Boolean resultado = false;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
+			//Remove espaços da string
+			usuario.setNome(usuario.getNome().trim());
 			
 			if(usuario.getNome()!=null && usuario.getNome().length() == 0)
 			{
