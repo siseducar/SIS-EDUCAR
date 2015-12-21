@@ -33,6 +33,10 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/themes/sunburst.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
 		<script src="modulos/RH/cadastros/cadastroPessoa.js"></script>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
+		<script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.min.js"/>
+		<script type="text/javascript" src="${facesContext.externalContext.requestContextPath}resources/templates/ace/assets/js/jquery1x.min.js"/>
 	</h:head>
 
 	<h:body class="no-skin">
@@ -362,7 +366,7 @@
 		
 						<ul class="submenu">
 							<li class="">
-								<a href="modulos/RH/cadastros/cadastroUsuario.xhtml">
+								<a href="modulos/RH/cadastros/Usuario/cadastroUsuario.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
 									Usuário
@@ -370,10 +374,26 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="modulos/RH/cadastros/cadastroPessoa.xhtml">
+								<a href="modulos/RH/cadastros/Pessoa/cadastroPessoa.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
-									Pessoa
+									Responsável
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="modulos/RH/cadastros/Aluno/cadastroAluno.xhtml">
+									<i class="menu-icon fa fa-caret-right"></i>
+									<i class="ace-icon fa fa-user"></i>
+									Aluno
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="modulos/RH/cadastros/Funcionario/cadastroFuncionario.xhtml">
+									<i class="menu-icon fa fa-caret-right"></i>
+									<i class="ace-icon fa fa-user"></i>
+									Funcionários
 								</a>
 								<b class="arrow"></b>
 							</li>
@@ -451,67 +471,5 @@
 				</div>
 			</div>
 		</div>
-	
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
-		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery.min.js"/>
-		<script type="text/javascript" src="resources/templates/ace/assets/js/jquery1x.min.js"/>
-		<script type="text/javascript" src="resources/templates/ace/assets/js/ace-extra.min.js"></script>
-		<script type="text/javascript" src="resources/templates/sisEducar/principal.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery-ui.custom.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.ui.touch-punch.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.easypiechart.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.sparkline.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.ui.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.pie.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.resize.js"></script>
-
-		<!-- ace scripts -->
-		<script src="resources/templates/ace/assets/js/ace/elements.scroller.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.colorpicker.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.fileinput.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.typeahead.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.wysiwyg.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.spinner.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.treeview.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.wizard.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/elements.aside.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.ajax-content.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.touch-drag.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.sidebar.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.submenu-hover.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.widget-box.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.settings.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.settings-rtl.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.settings-skin.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.widget-on-reload.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.searchbox-autocomplete.js"></script>
-	
-		<script src="resources/templates/ace/assets/js/bootstrap.min.js"></script>
-		
-		<script src="resources/templates/ace/assets/js/jquery-ui.custom.min.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.ui.touch-punch.min.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.easypiechart.min.js"></script>
-		<script src="resources/templates/ace/assets/js/jquery.sparkline.min.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.min.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.pie.min.js"></script>
-		<script src="resources/templates/ace/assets/js/flot/jquery.flot.resize.min.js"></script>
-
-		<!-- ace scripts -->
-		<script src="resources/templates/ace/assets/js/ace-elements.min.js"></script>
-		<script src="resources/templates/ace/assets/js/ace.min.js"></script>
-	
-		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="resources/templates/ace/assets/js/ace/elements.onpage-help.js"></script>
-		<script src="resources/templates/ace/assets/js/ace/ace.onpage-help.js"></script>
-		<script src="resources/templates/ace/docs/assets/js/rainbow.js"></script>
-		<script src="resources/templates/ace/docs/assets/js/language/generic.js"></script>
-		<script src="resources/templates/ace/docs/assets/js/language/html.js"></script>
-		<script src="resources/templates/ace/docs/assets/js/language/css.js"></script>
-		<script src="resources/templates/ace/docs/assets/js/language/javascript.js"></script>
-		<script src="resources/templates/ace/assets/js/fuelux/fuelux.wizard.js"></script>
 	</h:body>
 </html>

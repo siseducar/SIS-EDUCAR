@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta charset="utf-8"/>
+		<title>User Profile Page - Ace Admin</title>
+
+		<meta name="description" content="User login page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	</head>
+	
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon fa fa-file"></i>
+				<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
+					Cadastros
+				</a>
+			</li>
+			<li class="active">
+				<i class="ace-icon fa fa-user"></i>
+				Funcionários
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo">			
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						Cadastro
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							Cadastro de Funcionários
+						</small>
+					</h1>
+				</div>
+			</div>
+			
+		</ui:define>
+	</ui:composition>
+</h:html>
