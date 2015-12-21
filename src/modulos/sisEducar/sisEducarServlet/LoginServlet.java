@@ -35,6 +35,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
+	 * @author João Paulo
 	 * @return String
 	 */
 	public void validarLogin()
@@ -82,6 +83,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	
 	/**
 	 * Método usado para cadastrar um usuário simples na tela de login
+	 * @author João Paulo
 	 */
 	public String cadastrarUsuarioSimples()
 	{
@@ -148,24 +150,37 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				return null;
 			}
 			
+			/*
+			 * Validação de senha
+			 * <Senha> -----------------------------
+			 */
 			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 dígitos", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter no mínimo 8 dígitos", null));
+				return null;
+			}
+			
+			if(usuario.getSenha().equals("12345678"))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
 				return null;
 			}
 			
 			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas são diferentes", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas estão diferentes", null));
 				return null;
 			}
+			/**
+			 * </Senha> -----------------------------
+			 */
 			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 			resultado = new UsuarioDAO().inserirUsuario(usuario);
 			
 			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos uma confirmação de cadastro de usuário para sua caixa de email", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email informado", null));  
 			}
 			else
 			{
@@ -197,6 +212,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	
 	/**
 	 * O método é usado para enviar um email para o usuario que quiser realizar a recuperação de senha dele
+	 * @author João Paulo
 	 */
 	public void enviarEmailRedefinicaoSenha()
 	{

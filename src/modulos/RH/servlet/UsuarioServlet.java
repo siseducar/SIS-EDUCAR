@@ -71,6 +71,10 @@ public class UsuarioServlet extends SisEducarServlet
 				return null;
 			}
 			
+			/*
+			 * Validação de email
+			 * <Email> -----------------------------
+			 */
 			if(usuario.getEmail().isEmpty())
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é obrigatório", null));
@@ -88,6 +92,9 @@ public class UsuarioServlet extends SisEducarServlet
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Os emails estão diferentes", null));
 				return null;
 			}
+			/**
+			 * </Email> -----------------------------
+			 */
 			
 			if(usuario.getNome().isEmpty())
 			{
@@ -110,22 +117,22 @@ public class UsuarioServlet extends SisEducarServlet
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
 				return null;
 			}
-			/**
-			 * </Senha> -----------------------------
-			 */
 			
 			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas estão diferentes", null));
 				return null;
 			}
+			/**
+			 * </Senha> -----------------------------
+			 */
 			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 			resultado = new UsuarioDAO().inserirUsuario(usuario);
 			
 			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos uma confirmação de cadastro de usuário para sua caixa de email", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email informado", null));  
 			}
 			else
 			{
