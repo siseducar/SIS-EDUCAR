@@ -22,7 +22,6 @@
 		<!-- JQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="dist/js/bootstrap-submenu.min.js"></script>
 		
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.min.css" />
 
@@ -104,31 +103,25 @@
 						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 							<li class="dropdown-header">
 								<i class="ace-icon fa fa-check"></i>
-								1 atualização disponível
+								Atualizações do Sistema
 							</li>
 
-							<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
-								<ul class="dropdown-menu dropdown-navbar">
-									<li>
-										<a href="#">
-											<div class="clearfix">
-												<span class="pull-left">Atualizações do sistema</span>
-												<span class="pull-right">10%</span>
-											</div>
-
-											<div class="progress progress-mini">
-												<div style="width:10%" class="progress-bar"></div>
-											</div>
-										</a>
-									</li>
-								</ul>
-							</div></li>
-
-							<li class="dropdown-footer">
-								<a href="#">
-									Mais detalhes
-									<i class="ace-icon fa fa-arrow-right"></i>
-								</a>
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"></div>
+								</div>
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">Versão 1.0</span>
+													<span class="pull-right">24/12/2015</span>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 						</ul>
 					</li>
@@ -136,37 +129,36 @@
 					<li class="purple">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 							<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-							<span class="badge badge-important">3</span>
+							<span class="badge badge-important">2</span>
 						</a>
 
 						<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 							<li class="dropdown-header">
 								<i class="ace-icon fa fa-exclamation-triangle"></i>
-								3 notificações
+								2 notificações
 							</li>
 
-							<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
-								<ul class="dropdown-menu dropdown-navbar navbar-pink">
-									<li>
-										<a href="#">
-											<i class="btn btn-xs btn-primary fa fa-user"></i>
-											Aula de história nas salas 2,3...
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<i class="btn btn-xs btn-primary fa fa-user"></i>
-											Reunião marcada para amanhã...
-										</a>
-									</li>
-								</ul>
-							</div></li>
-
-							<li class="dropdown-footer">
-								<a href="#">
-									Veja todas as notificações
-									<i class="ace-icon fa fa-arrow-right"></i>
-								</a>
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"></div>
+								</div>
+								
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										<li>
+											<a href="#">
+												<i class="btn btn-xs btn-primary fa fa-user"></i>
+												Aula de história nas salas A2 e A3
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												<i class="btn btn-xs btn-primary fa fa-user"></i>
+												Reunião marcada para 24/12/2015
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 						</ul>
 					</li>
@@ -180,69 +172,50 @@
 						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 							<li class="dropdown-header">
 								<i class="ace-icon fa fa-envelope-o"></i>
-								5 Mensagens
+								2 Mensagens
 							</li>
 
-							<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
-								<ul class="dropdown-menu dropdown-navbar">
-									<li>
-										<a href="#" class="clearfix">
-											<img src="resources/templates/ace/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>
-											<span class="msg-body">
-												<span class="msg-title">
-													<span class="blue">Paulo:</span>
-													Boa Tarde, temos que conversar, é sobre o aluno...
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"></div>
+								</div>
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#" class="clearfix">
+												<img src="resources/templates/ace/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Paulo:</span>
+														Boa Tarde, temos que conversar, é sobre o aluno...
+													</span>
+	
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>Momentos atrás</span>
+													</span>
 												</span>
-
-												<span class="msg-time">
-													<i class="ace-icon fa fa-clock-o"></i>
-													<span>Momentos atrás</span>
+											</a>
+										</li>
+	
+										<li>
+											<a href="#" class="clearfix">
+												<img src="resources/templates/ace/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar"/>
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Susana:</span>
+														Oi, vamos marcar um happy-hour amanhã?
+													</span>
+	
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>20 minutos atrás</span>
+													</span>
 												</span>
-											</span>
-										</a>
-									</li>
-
-									<li>
-										<a href="#" class="clearfix">
-											<img src="resources/templates/ace/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar"/>
-											<span class="msg-body">
-												<span class="msg-title">
-													<span class="blue">Susana:</span>
-													Oi, vamos marcar um happy-hour amanhã?
-												</span>
-
-												<span class="msg-time">
-													<i class="ace-icon fa fa-clock-o"></i>
-													<span>20 minutos atrás</span>
-												</span>
-											</span>
-										</a>
-									</li>
-
-									<li>
-										<a href="#" class="clearfix">
-											<img src="resources/templates/ace/assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar"/>
-											<span class="msg-body">
-												<span class="msg-title">
-													<span class="blue">Celso:</span>
-													Nossa ontem meu dia foi péssimo, fui dar aula para...
-												</span>
-
-												<span class="msg-time">
-													<i class="ace-icon fa fa-clock-o"></i>
-													<span>3:15 pm</span>
-												</span>
-											</span>
-										</a>
-									</li>
-								</ul>
-							</div></li>
-
-							<li class="dropdown-footer">
-								<a href="inbox.html">
-									Veja todas as mensagens
-									<i class="ace-icon fa fa-arrow-right"></i>
-								</a>
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 						</ul>
 					</li>
