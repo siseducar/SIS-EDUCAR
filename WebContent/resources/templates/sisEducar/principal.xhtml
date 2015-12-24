@@ -222,10 +222,13 @@
 
 					<li class="light-blue">
 						<a data-toggle="dropdown" href="#" class="dropdown-toggle" aria-expanded="false">
-							<img class="nav-user-photo" src="resources/imagens/modulos/sisEducar/user.png" alt="Jason's Photo"/>
+							<img class="nav-user-photo" src="resources/imagens/modulos/sisEducar/user-female-36.png" style="display:#{loginServlet.generoFeminino}"/>
+							<img class="nav-user-photo" src="resources/imagens/modulos/sisEducar/user-male-36.png" style="display:#{loginServlet.generoMasculino}"/>
 							<span class="user-info">
 								<small>Bem Vindo,</small>
-								<small id="smallNomeUsuarioLogado" class="bigger-110">#{loginServlet.nomeUsuarioLogado}</small>
+								<small id="smallNomeUsuarioLogado" class="bigger-110">
+									#{loginServlet.nomeUsuarioLogado}									     
+								</small>
 							</span>
 
 							<i class="ace-icon fa fa-caret-down"></i>

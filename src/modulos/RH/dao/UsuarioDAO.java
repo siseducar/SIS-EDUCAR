@@ -88,7 +88,7 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Boolean validarUsuario(Usuario usuario) throws SQLException
+	public Usuario validarUsuario(Usuario usuario) throws SQLException
 	{
 		String querySQL = "SELECT * FROM usuario "
 				+ " WHERE nome = ?"
@@ -103,15 +103,19 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
+			usuario.setPkUsuario(rs.getString("pkusuario"));
 			usuario.setNome(rs.getString("nome"));
 			usuario.setSenha(rs.getString("senha"));
+			usuario.setGenero(rs.getString("genero"));
+			usuario.setEmail(rs.getString("email"));
+			usuario.setCpfcnpj(rs.getString("cpfcnpj"));			
 			
 			fecharConexaoBanco(con, ps, true, false);
-			return true;
+			return usuario;
 		}
 		
 		fecharConexaoBanco(con, ps, true, false);
-		return false;
+		return null;
 	}
 	
 	/**

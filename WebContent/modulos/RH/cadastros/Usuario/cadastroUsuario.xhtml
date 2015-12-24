@@ -42,7 +42,6 @@
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.cpfcnpj}" maxlength="11"></h:inputText>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
@@ -51,7 +50,6 @@
 											<output>Email</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50"></h:inputText>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
@@ -60,7 +58,6 @@
 											<output>Confirmação de Email</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50"></h:inputText>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
@@ -69,7 +66,6 @@
 											<output>Usuário</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11"></h:inputText>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
@@ -78,7 +74,6 @@
 											<output>Senha</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11"></h:inputSecret>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
@@ -87,13 +82,29 @@
 											<output>Confirmação de Senha</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11"></h:inputSecret>
-												<i class="ace-icon fa fa-bookmark"></i>
 											</span>
 										</div>
 									</div>
 								</div>
+								
+								<div class="col-sm-6">
+									<div class="control-group">
+										<output>Gênero</output>
+										<div class="inline">
+											<label>
+												<input checked="checked" name="form-field-radio" type="radio" class="ace" value="masculino"/>
+												<span class="lbl">Masculino</span>
+											</label>
+											
+											<label>
+												<input name="form-field-radio" type="radio" class="ace" value="feminino"/>
+												<span class="lbl">Feminino</span>
+											</label>
+										</div>
+									</div>
+								</div>
 							</div>
-						
+													
 							<div class="clearfix">
 								<p:messages></p:messages>
 								<button type="reset" class="btn btn-sm">

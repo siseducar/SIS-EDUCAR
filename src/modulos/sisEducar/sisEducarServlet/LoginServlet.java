@@ -33,6 +33,9 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	Usuario usuario = new Usuario();  
 	Usuario usuarioTemporario = new Usuario();  
 	
+	public String generoMasculino = "none";
+	public String generoFeminino = "none";
+	
 	public LoginServlet()
 	{
 		//Aqui eu pego o nome do usuário logado e seto a variável global
@@ -42,6 +45,14 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			
 			//Essa variável contem o nome do usuário logado para que seja aexebida na tela principal
 			nomeUsuarioLogado = SisEducarServlet.usuarioLogado.getNome();
+			if(SisEducarServlet.usuarioLogado.getGenero().equals("masculino"))
+			{
+				generoMasculino = "initial";
+			}
+			else
+			{
+				generoFeminino = "initial";
+			}
 		}
 	}
 	/**
@@ -53,7 +64,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	{
 		try 
 		{ 
-			Boolean resultado = false;
+			Usuario resultadoUsuario = null;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			//Remove espaços da string
 			usuario.setNome(usuario.getNome().trim());
@@ -73,10 +84,10 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				{
 					usuario.setSenha(criptografarSenha(usuario.getSenha()));
 					
-					resultado = new UsuarioDAO().validarUsuario(usuario);
-					if(resultado)
+					resultadoUsuario = new UsuarioDAO().validarUsuario(usuario);
+					if(resultadoUsuario!=null)
 					{
-						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, usuario);
+						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, resultadoUsuario);
 						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/principal.xhtml");
 						resetarUsuario();
 					}
@@ -384,4 +395,16 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	public void setEmailRedefinicaoSenha(String emailRedefinicaoSenha) {
 		this.emailRedefinicaoSenha = emailRedefinicaoSenha;
 	} 
+	public String getGeneroMasculino() {
+		return generoMasculino;
+	}
+	public void setGeneroMasculino(String generoMasculino) {
+		this.generoMasculino = generoMasculino;
+	}
+	public String getGeneroFeminino() {
+		return generoFeminino;
+	}
+	public void setGeneroFeminino(String generoFeminino) {
+		this.generoFeminino = generoFeminino;
+	}
 }

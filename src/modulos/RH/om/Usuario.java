@@ -17,6 +17,7 @@ public class Usuario
 	private String confirmarEmail;
 	private int tipo;
 	private int status;
+	private String genero;
 
 	public Usuario() {}
 	
@@ -78,5 +79,13 @@ public class Usuario
 
 	public void setConfirmarEmail(String confirmarEmail) {
 		this.confirmarEmail = confirmarEmail;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 }
