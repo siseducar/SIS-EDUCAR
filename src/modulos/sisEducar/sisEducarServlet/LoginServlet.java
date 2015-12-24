@@ -27,12 +27,23 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	//Objetos e variaveis
-	private String nomeUsuarioLogado;
+	private String nomeUsuarioLogado = "";
 	private String emailRedefinicaoSenha = null;
 	
 	Usuario usuario = new Usuario();  
 	Usuario usuarioTemporario = new Usuario();  
 	
+	public LoginServlet()
+	{
+		//Aqui eu pego o nome do usuário logado e seto a variável global
+		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!=null)
+		{
+			SisEducarServlet.usuarioLogado = (Usuario)new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+			
+			//Essa variável contem o nome do usuário logado para que seja aexebida na tela principal
+			nomeUsuarioLogado = SisEducarServlet.usuarioLogado.getNome();
+		}
+	}
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
 	 * @author João Paulo
