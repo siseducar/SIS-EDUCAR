@@ -15,9 +15,14 @@
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.css" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css"/>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="dist/js/bootstrap-submenu.min.js"></script>
+		
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.min.css" />
 
 		<!-- text fonts -->
@@ -25,18 +30,13 @@
 
 		<!-- ace styles -->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.min.css" id="main-ace-style" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-rtl.min.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.onpage-help.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/themes/sunburst.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/select2.css" />
-		<script src="modulos/RH/cadastros/cadastroPessoa.js"></script>
-		
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js "></script>
-		<script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.min.js"/>
-		<script type="text/javascript" src="${facesContext.externalContext.requestContextPath}resources/templates/ace/assets/js/jquery1x.min.js"/>
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/sisEducar/principal.css" />
 	</h:head>
 
 	<h:body class="no-skin">
@@ -309,17 +309,17 @@
 		</div>
 	
 	
-	<!-- Menu Lateral Esquerdo -->
-	<div class="main-container" id="main-container">
-		<script type="text/javascript">
-			try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-		</script>
-
-		<div id="sidebar" class="sidebar                  responsive">
+		<!-- Menu Lateral Esquerdo -->
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+	
+			<div id="sidebar" class="sidebar                  responsive">
 				<script type="text/javascript">
 					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 				</script>
-	
+		
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 						<button class="btn btn-success">
@@ -352,28 +352,38 @@
 						<span class="btn btn-danger"></span>
 					</div>
 				</div><!-- /.sidebar-shortcuts -->
-	
+		
 				<!-- MENU-->
 				<ul class="nav nav-list">
-					<li class="active open hsub">
-						<a href="#" class="dropdown-toggle">
+					<li class="dropdown">
+					  <a class="dropdown-toggle" data-toggle="dropdown">
+						 <i class="menu-icon fa fa-file"></i>
+						 <span class="menu-text"> RH </span>
+						 <b class="arrow fa fa-angle-down"></b>
+					  </a>
+					  
+					  <b class="arrow"></b>
+					  
+					  <ul class="dropdown-menu rightMenu" style="width:100%;">
+					    <li class="dropdown-submenu">
+						  <a class="dropdown-toggle" data-toggle="dropdown">
 							<i class="menu-icon fa fa-file"></i>
-							<span class="menu-text"> Cadastros </span>
-		
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-						<b class="arrow"></b>
-		
-						<ul class="submenu">
-							<li class="">
-								<a href="modulos/RH/cadastros/Usuario/cadastroUsuario.xhtml">
+							<span class="menu-text"> Cadastros</span>
+						  </a>
+						  
+						  <b class="arrow"></b>
+						  
+						  <!-- SUB MENU - CADASTROS -->
+						  <ul class="dropdown-menu rightSubMenu">
+						    <li>
+						    	<a href="modulos/RH/cadastros/Usuario/cadastroUsuario.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
 									Usuário
 								</a>
 								<b class="arrow"></b>
-							</li>
-							<li class="">
+						    </li>
+						    <li class="">
 								<a href="modulos/RH/cadastros/Pessoa/cadastroPessoa.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
@@ -381,7 +391,7 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li class="">
+						    <li class="">
 								<a href="modulos/RH/cadastros/Aluno/cadastroAluno.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
@@ -389,7 +399,7 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li class="">
+						    <li class="">
 								<a href="modulos/RH/cadastros/Funcionario/cadastroFuncionario.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-user"></i>
@@ -397,19 +407,21 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-						</ul>
-					</li>
-					<li class="active hsub open">
-						<a href="#" class="dropdown-toggle">
+						  </ul>
+						</li>
+						
+						<!-- SUB MENU - LANÇAMENTOS -->
+					    <li class="dropdown-submenu">
+						  <a class="dropdown-toggle" data-toggle="dropdown">
 							<i class="menu-icon fa fa-indent"></i>
-							<span class="menu-text"> Lançamentos </span>
-		
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-						<b class="arrow"></b>
-		
-						<ul class="submenu">
-							<li class="">
+							<span class="menu-text"> Lançamentos</span>
+						  </a>
+						  
+						  <b class="arrow"></b>
+						  
+						  <!-- SUB MENU - CADASTROS -->
+						  <ul class="dropdown-menu rightSubMenu">
+						    <li class="">
 								<a href="modulos/RH/lancamentos/lancamentoDiagnosticoAluno.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-align-left"></i>
@@ -417,19 +429,21 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-						</ul>
-					</li>
-					<li class="active open hsub">
-						<a href="#" class="dropdown-toggle">
+						  </ul>
+						</li>
+						
+						<!-- SUB MENU - CONSULTAS -->
+					    <li class="dropdown-submenu">
+						  <a class="dropdown-toggle" data-toggle="dropdown">
 							<i class="menu-icon fa fa-search"></i>
-							<span class="menu-text"> Consulta </span>
-		
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-						<b class="arrow"></b>
-		
-						<ul class="submenu nav-hide" >
-							<li class="">
+							<span class="menu-text"> Consultas</span>
+						  </a>
+						  
+						  <b class="arrow"></b>
+						  
+						  <!-- SUB MENU - CADASTROS -->
+						  <ul class="dropdown-menu rightSubMenu">
+						    <li class="">
 								<a href="modulos/RH/consulta/consultaDadosEscolares.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-file-text"></i>
@@ -437,7 +451,7 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li class="">
+						    <li class="">
 								<a href="modulos/RH/consulta/forumConsultas.xhtml">
 									<i class="menu-icon fa fa-caret-right"></i>
 									<i class="ace-icon fa fa-comments"></i>
@@ -445,7 +459,9 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-						</ul>
+						  </ul>
+						</li>
+					  </ul>
 					</li>
 				</ul>
 			</div>
@@ -471,5 +487,7 @@
 				</div>
 			</div>
 		</div>
+		
+		<script src="modulos/RH/cadastros/cadastroPessoa.js"></script>
 	</h:body>
 </html>
