@@ -7,3 +7,8 @@ function atualizarGenero(val)
 {
 	document.getElementById('inputGeneroAux').value = val;
 }
+
+function teste()
+{
+	alert();
+}

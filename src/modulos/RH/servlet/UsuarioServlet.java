@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
+import sun.org.mozilla.javascript.internal.ast.ForInLoop;
 import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
 import modulos.sisEducar.om.Email;
@@ -45,6 +46,9 @@ public class UsuarioServlet extends SisEducarServlet
 	{
 		try 
 		{
+			for (int i = 0; i < 20000; i++) {
+				System.out.println(i + i);
+			}
 			Map<String, String> destinatarios = new HashMap<String, String>();
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			Boolean resultado = false;

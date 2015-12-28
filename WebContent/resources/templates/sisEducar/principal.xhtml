@@ -36,7 +36,8 @@
 		
 		<!-- Telas -->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/sisEducar/principal.css" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/cadastroPessoa.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Usuario/cadastroUsuario.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/login/login.css" />
 	</h:head>
 
@@ -424,7 +425,11 @@
 			<div class="main-content">
 				<div class="main-content-inner">
 					<div class="content" style="margin-left: 0px;">
-						<ui:insert name="scriptConteudo" />
+						<div class="loaderDiv hidden">
+							<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+							<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+						</div>
+						<ui:insert name="scriptConteudo"/>
 					</div>
 				</div>
 			</div>

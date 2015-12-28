@@ -23,6 +23,15 @@
 	color: #ffff80;
 }
 
-#inputsenhal{
+#inputsenhal
+{
 	size: 220px;
+}
+
+.loaderDiv
+{
+	position:absolute;
+	z-index:5;
+	width: 85.9%;
+	height: 87%;
 }
