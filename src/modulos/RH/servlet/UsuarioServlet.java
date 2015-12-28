@@ -46,9 +46,6 @@ public class UsuarioServlet extends SisEducarServlet
 	{
 		try 
 		{
-			for (int i = 0; i < 20000; i++) {
-				System.out.println(i + i);
-			}
 			Map<String, String> destinatarios = new HashMap<String, String>();
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			Boolean resultado = false;
