@@ -46,11 +46,9 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
-			fecharConexaoBanco(con, ps, true, false);
 			return true;
 		}
 		
-		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -60,25 +58,32 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Boolean inserirUsuario(Usuario usuario) throws SQLException 
+	public Boolean inserirUsuario(Usuario usuario)
 	{
-		String querySQL = "INSERT INTO usuario "
-				+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj) values(?,?,?,?,?,?,?)";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setString(1, usuario.getNome());
-		ps.setString(2, usuario.getSenha());
-		ps.setDate(3, dataAtual);
-		ps.setInt(4, usuario.getTipo());
-		ps.setString(5, usuario.getEmail());
-		ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
-		ps.setString(7, usuario.getCpfcnpj());
-		
-		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
-		
-		fecharConexaoBanco(con, ps, true, true);
-		
-		return true;
+		try 
+		{
+			String querySQL = "INSERT INTO usuario "
+					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero) values(?,?,?,?,?,?,?,?)";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, usuario.getNome());
+			ps.setString(2, usuario.getSenha());
+			ps.setDate(3, dataAtual);
+			ps.setInt(4, usuario.getTipo());
+			ps.setString(5, usuario.getEmail());
+			ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setString(7, usuario.getCpfcnpj());
+			ps.setString(8, usuario.getGenero());
+			
+			fecharConexaoBanco(con, ps, false, true);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+			return false;
+		}
 	}
 	
 	/**
@@ -110,12 +115,72 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setEmail(rs.getString("email"));
 			usuario.setCpfcnpj(rs.getString("cpfcnpj"));			
 			
-			fecharConexaoBanco(con, ps, true, false);
 			return usuario;
 		}
 		
-		fecharConexaoBanco(con, ps, true, false);
 		return null;
+	}
+	
+	/**
+	 * Método responsável por buscar um usuário completo a partir de suas informações básicas (nome, senha e status)
+	 * @author João Paulo
+	 * @param usuario
+	 * @return Usuario
+	 * @throws SQLException
+	 */
+	public Usuario buscarUsuario(Usuario usuario) throws SQLException
+	{
+		String querySQL = "SELECT * FROM usuario "
+				+ " WHERE nome = ?"
+				+ " AND senha = ?"
+				+ " AND status = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, usuario.getNome());
+		ps.setString(2, usuario.getSenha());
+		ps.setInt(3, usuario.getStatus());
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			usuario.setPkUsuario(rs.getString("pkusuario"));
+			usuario.setNome(rs.getString("nome"));
+			usuario.setSenha(rs.getString("senha"));
+			usuario.setGenero(rs.getString("genero"));
+			usuario.setEmail(rs.getString("email"));
+			usuario.setCpfcnpj(rs.getString("cpfcnpj"));			
+			
+			return usuario;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Este método será responsável por remover um usuário
+	 * @author João Paulo
+	 * @param usuario
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean removerUsuario(Usuario usuario) throws SQLException
+	{
+		String querySQL = "UPDATE usuario "
+				+ " SET status = ?"
+				+ " WHERE pkUsuario = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+		ps.setString(2, usuario.getPkUsuario());
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -144,11 +209,9 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
-			fecharConexaoBanco(con, ps, true, false);
 			return true;
 		}
 		
-		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -172,11 +235,9 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
-			fecharConexaoBanco(con, ps, true, false);
 			return true;
 		}
 		
-		fecharConexaoBanco(con, ps, true, false);
 		return false;
 	}
 	
@@ -211,11 +272,9 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setStatus(rs.getInt("status"));
 			usuario.setTipo(rs.getInt("tipo"));
 			
-			fecharConexaoBanco(con, ps, true, false);
 			return usuario;
 		}
 		
-		fecharConexaoBanco(con, ps, true, false);
 		return null;
 	}
 	
@@ -237,7 +296,7 @@ public class UsuarioDAO extends SisEducarDAO
 		ps.setInt(2 , Integer.parseInt(pkUsuario));
 		ps.execute();
 		
-		fecharConexaoBanco(con, ps, true, true);
+		fecharConexaoBanco(con, ps, false, true);
 
 		return true;
 	}
@@ -263,7 +322,7 @@ public class UsuarioDAO extends SisEducarDAO
 		ps.setInt(3 , Integer.parseInt(pkUsuario));
 		ps.execute();
 		
-		fecharConexaoBanco(con, ps, true, true);
+		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;
 	}
@@ -286,7 +345,7 @@ public class UsuarioDAO extends SisEducarDAO
 		ps.setInt(2 , Integer.parseInt(pkUsuario));
 		ps.execute();
 		
-		fecharConexaoBanco(con, ps, true, true);
+		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;
 	}

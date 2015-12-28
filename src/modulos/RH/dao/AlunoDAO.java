@@ -57,7 +57,7 @@ public class AlunoDAO extends SisEducarDAO
 		ps.setString(1, aluno.getRa());
 		ps.setInt(2, aluno.getPessoa().getPkPessoa());
 		
-		fecharConexaoBanco(con, ps, true, true);
+		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;
 	}

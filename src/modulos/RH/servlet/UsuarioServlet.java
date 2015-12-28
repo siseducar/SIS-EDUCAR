@@ -15,6 +15,7 @@ import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
 
@@ -23,7 +24,7 @@ import modulos.sisEducar.utils.Logs;
 public class UsuarioServlet extends SisEducarServlet
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	//Variaveis
 	Usuario usuario;
 	
@@ -45,14 +46,14 @@ public class UsuarioServlet extends SisEducarServlet
 		try 
 		{
 			Map<String, String> destinatarios = new HashMap<String, String>();
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			Boolean resultado = false;
 			Boolean resultadoExistenciaUsuario = false;
 			Boolean resultadoEnvioEmail = false;
+			Boolean resultadoRemocaoUsuario = false;
 			Email email = null;
+			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
-			
-			/*Se vier TRUE é porque o usuário pode ser adicionado, se vier false é porque o usuário não tem permissão para ser cadastrado no sistema
-			caso vier false é porque o responsavel do aluno deixou esta pessoa como 1 dos responsaveis pelo aluno*/
 			
 			if(usuario.getCpfcnpj().isEmpty())
 			{
@@ -61,7 +62,7 @@ public class UsuarioServlet extends SisEducarServlet
 			}
 			else
 			{
-				resultadoExistenciaUsuario = new UsuarioDAO().verificaExistenciaUsuario(usuario.getCpfcnpj());
+				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario.getCpfcnpj());
 			}
 			
 			//Se voltar TRUE é porque o usuário já existe
@@ -127,20 +128,27 @@ public class UsuarioServlet extends SisEducarServlet
 			 * </Senha> -----------------------------
 			 */
 			
+			//Se o genero selecionado tiver null é porque o usuário deixou a opção masculino marcada, se for <> null é porque ele clicou em algum rádio do tipo gênero
+			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
+			else 														{ usuario.setGenero("masculino"); }
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			resultado = new UsuarioDAO().inserirUsuario(usuario);
+			
+			//Aqui eu busco novamente o usuário, mas este usuário estará completo
+			resultado = usuarioDAO.inserirUsuario(usuario);
 			
 			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email informado", null));  
+				//Como o usuário estará em confirmação ele estará com o status imcompleto, então eu setoo status imcompleto nele
+				usuario.setStatus(ConstantesSisEducar.STATUS_INCOMPLETO);
+				usuario = usuarioDAO.buscarUsuario(usuario);
 			}
 			else
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado", null));  
 			}
 			
+			/* Envio de email de validação */
 			urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
-			
 			email = EmailUtils.inicializarPropriedades();
 			email.setSubjectMail("Confirmação de cadastro de usuário");
 			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
@@ -151,6 +159,17 @@ public class UsuarioServlet extends SisEducarServlet
 			email.setToMailsUsers(destinatarios);
 			
 			resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+			
+			//Se o envio não der certo eu removo o usuário que foi cadastrado no sistema
+			if(!resultadoEnvioEmail)
+			{
+				resultadoRemocaoUsuario = usuarioDAO.removerUsuario(usuario);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não registrado 2", null));
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email informado", null));	
+			}
 			
 			resetarUsuario();
 			return null;

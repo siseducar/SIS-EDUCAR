@@ -87,17 +87,21 @@
 									</div>
 								</div>
 								
+								<!-- Este campo estará escondido para armazenar o genero selecionado -->
+								<input id="inputGeneroAux" name="inputGeneroAux" class="hidden"/>
+								
 								<div class="col-sm-6">
 									<div class="control-group">
 										<output>Gênero</output>
 										<div class="inline">
 											<label>
-												<input checked="checked" name="form-field-radio" type="radio" class="ace" value="masculino"/>
+												<input id="inputGeneroMasculino" checked="checked" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('masculino')">
+												</input>
 												<span class="lbl">Masculino</span>
 											</label>
 											
 											<label>
-												<input name="form-field-radio" type="radio" class="ace" value="feminino"/>
+												<input id="inputGeneroFeminino" name="form-field-radio" value="teste" type="radio" class="ace" onclick="atualizarGenero('feminino')"/>
 												<span class="lbl">Feminino</span>
 											</label>
 										</div>
@@ -112,7 +116,7 @@
 									<span class="bigger-110">Novo</span>
 								</button>
 								
-								<h:commandLink id="btRegistrar" class="btn btn-sm btn-success">
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success">
 									<span class="bigger-110">Registrar</span>
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>

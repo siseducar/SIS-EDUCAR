@@ -52,7 +52,7 @@ public class PessoaDAO extends SisEducarDAO
 		
 		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
 		
-		fecharConexaoBanco(con, ps, true, true);
+		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;
 	}

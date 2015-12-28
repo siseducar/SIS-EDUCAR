@@ -39,18 +39,17 @@ public class SisEducarDAO
 	 */
 	public void fecharConexaoBanco(Connection con, PreparedStatement ps, Boolean fecharConexao, Boolean commit) throws SQLException
 	{
-		if(fecharConexao)
+		if(con !=null && ps !=null)
 		{
-			if(con !=null && ps !=null)
+			if(fecharConexao)
 			{
-				if(commit)
-				{
-					ps.execute();
-					con.commit();
-				}
-				
 				ps.close();
 				con.close();
+			}
+			if(commit)
+			{
+				ps.execute();
+				con.commit();
 			}
 		}
 	}
