@@ -42,6 +42,7 @@
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.cpfcnpj}" maxlength="11"></h:inputText>
+												<i class="ace-icon fa fa-credit-card"></i>
 											</span>
 										</div>
 									</div>
@@ -50,6 +51,7 @@
 											<output>Email</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50"></h:inputText>
+												<i class="ace-icon fa fa-envelope"></i>
 											</span>
 										</div>
 									</div>
@@ -58,14 +60,16 @@
 											<output>Confirmação de Email</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50"></h:inputText>
+												<i class="ace-icon fa fa-envelope"></i>
 											</span>
 										</div>
 									</div>
 									<div class="col-sm-7">
 										<div>
-											<output>Usuário</output>
+											<output>Nome de Usuário</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11"></h:inputText>
+												<i class="ace-icon fa fa-user"></i>
 											</span>
 										</div>
 									</div>
@@ -74,6 +78,7 @@
 											<output>Senha</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11"></h:inputSecret>
+												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
 									</div>
@@ -82,6 +87,7 @@
 											<output>Confirmação de Senha</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11"></h:inputSecret>
+												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
 									</div>
@@ -112,7 +118,7 @@
 							<div class="clearfix">
 								<p:messages></p:messages>
 								<button type="reset" class="btn btn-sm">
-									<i class="ace-icon fa fa-square-o"></i>
+									<i class="ace-icon fa fa-file"></i>
 									<span class="bigger-110">Novo</span>
 								</button>
 								

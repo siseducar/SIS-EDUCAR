@@ -60,7 +60,7 @@
 											<h:form id="formLogin" prependId="false">
 												<fieldset>
 													<label class="block clearfix">
-														<output>Usuário</output>
+														<output>Nome de Usuário</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}"/>
 															<i class="ace-icon fa fa-user"></i>
@@ -176,10 +176,10 @@
 														</span>
 													</label>
 													<label class="block clearfix">
-														<output>CPF/CNPJ Responsável</output>
+														<output>CPF Responsável</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" maxlength="11"/>
-															<i class="ace-icon fa fa-bookmark"></i>
+															<i class="ace-icon fa fa-credit-card"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
@@ -191,7 +191,7 @@
 													</label>
 
 													<label class="block clearfix">
-														<output>Usuário</output>
+														<output>Nome de Usuário</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15"/>
 															<i class="ace-icon fa fa-user"></i>
@@ -210,7 +210,7 @@
 														<output>Confirmar Senha</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}" maxlength="8"/>
-															<i class="ace-icon fa fa-retweet"></i>
+															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
 
@@ -220,7 +220,7 @@
 													<div class="clearfix">
 														<p:messages></p:messages>
 														<button type="reset" class="width-30 pull-left btn btn-sm">
-															<i class="ace-icon fa fa-square-o"></i>
+															<i class="ace-icon fa fa-file"></i>
 															<span class="bigger-110">Novo</span>
 														</button>
 														
