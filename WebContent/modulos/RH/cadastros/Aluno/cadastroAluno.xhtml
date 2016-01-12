@@ -5,45 +5,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta charset="utf-8"/>
-		<title> Cadastro de Alunos </title>
-
-		<meta name="description" content="3 styles with inline editable feature"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
-		<meta name="description" content="Pagina de Cadastro de Alunos" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-	</head>
-	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
-		<ui:define name="barraNavegacao">
-		</ui:define>
-		<ui:define name="scriptConteudo">
-			<div class="page-content">
-				<div class="page-header">
-					<h1>
-						Cadastro
-						<small>
-							<i class="ace-icon fa fa-angle-double-right"></i>
-							Cadastro de Alunos
-						</small>
-					</h1>
-				</div>
-				<!-- Conteudo da Pagina -->
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="clearfix form-actions">
-							<div class="form-group">
-									<label class="control-label no-padding-right" for="registroAcademico"> RA </label>
-								<div>
-									<input type="text" id="registroAcademico" disabled="true" title="Campo gerado automaticamente com o RA do aluno."/>
-								</div>
-							</div>
+	<ui:composition template="/modulos/RH/cadastros/Generico/Cadastro_Generico.xhtml">
+		<ui:define name="scriptDadosAdicionais">
+			<!-- Dados Referentes ao Aluno -->
+			<h:panelGroup id="dadosAluno" style="width: 99%" rendered="true" class="clearfix form-actions">
+				<h3 class="header smaller lighter blue"> Dados Complementares </h3>
+				<div class="form-group">
+					<div class="col-sm-10">
+						<label class="control-label no-padding-lefth"> Nome da Mãe </label>
+						<div>
+							<input type="text" id="nomeMae" placeholder="Nome completo da Mãe" class="col-sm-12"/>
 						</div>
 					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<div class="col-sm-10">
+						<label class="control-label no-padding-lefth"> Nome do Pai </label>
+						<div>
+							<input type="text" id="nomePai" placeholder="Nome completo do Pai" class="col-sm-12"/>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+			<!-- Dados Referentes ao Aluno -->
 		</ui:define>
 	</ui:composition>
 </h:html>
