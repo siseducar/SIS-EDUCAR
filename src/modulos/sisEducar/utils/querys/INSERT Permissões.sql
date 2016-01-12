@@ -1,0 +1,18 @@
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Administrador Sistema', 0, 101);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Secretaria da Unidade Escolar', 0, 102);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Professor', 0, 103);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Coordenador Escolar', 0, 104);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Diretor Escolar', 0, 105);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Secretaria Educação', 0, 106);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Assitente Social', 0, 107);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Psicólogo', 0, 108);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Nutricionista', 0, 109);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Digitador Almoxarifado', 0, 110);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Digitador Patrimônio', 0, 111);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Bibliotecário', 0, 112);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Transporte', 0, 113);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Protocolo', 0, 114);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Ouvidoria', 0, 115);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Aluno', 0, 116);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Ex-Aluno', 0, 117);
+INSERT INTO Permissao (nome, status, tipo) VALUES ('Responsável', 0, 118);
