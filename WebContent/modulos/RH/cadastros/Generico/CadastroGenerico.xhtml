@@ -5,17 +5,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta charset="utf-8"/>
-		<title> Cadastro de Alunos </title>
-
-		<meta name="description" content="3 styles with inline editable feature"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
-		<meta name="description" content="Pagina de Cadastro de Alunos" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-	</head>
 	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
 		<ui:define name="barraNavegacao">
 		</ui:define>
@@ -44,18 +33,9 @@
 								<h3 class="header smaller lighter blue"> Dados Pessoais </h3>
 								<div class="form-group">
 									<div class="col-sm-2">
-										<label class="control-label no-padding-right"> Tipo de Cadastro </label>
-										<select class="form-control" id="estCivil">
-											<option></option>
-											<option value="cadastroAluno">Aluno</option>
-											<option value="cadastroFuncionario">Funcionario</option>
-											<option value="cadastroFornecedor">Fornecedor</option>
-										</select>
-									</div>
-									<div class="col-sm-2">
 										<label class="control-label no-padding-lefth"> Código da Pessoa </label>
 										<div>
-											<input type="text" id="codigoPessoa" class="col-sm-12"
+											<h:inputText type="text" id="codigoPessoa" class="col-sm-12"
 											disabled="true"/>
 										</div>
 									</div>
@@ -64,7 +44,7 @@
 									<div class="col-sm-10">
 										<label class="control-label no-padding-lefth"> Nome </label>
 										<div>
-											<input type="text" id="nomePessoa" placeholder="Nome completo" class="col-sm-12"/>
+											<h:inputText type="text" id="nomePessoa" placeholder="Nome completo" class="col-sm-12"/>
 										</div>
 									</div>
 								</div>
@@ -72,13 +52,13 @@
 									<div class="col-sm-4">
 										<label class="control-label no-padding-lefth"> CPF </label>
 										<div>
-											<input type="text" id="numCPF" placeholder="Numero do CPF" class="col-sm-12"/>
+											<h:inputText type="text" id="numCPF" placeholder="Numero do CPF" class="col-sm-12"/>
 										</div>
 									</div>
 									<div class="col-sm-4">
 										<label class="control-label no-padding-lefth"> RG </label>
 										<div>
-											<input type="text" id="numRG" placeholder="Numero do RG" class="col-sm-12"/>
+											<h:inputText type="text" id="numRG" placeholder="Numero do RG" class="col-sm-12"/>
 										</div>
 									</div>
 								</div>
@@ -92,44 +72,58 @@
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> Sexo </label>
 										<div>
-											<select class="form-control" id="sexo">
-												<option></option>
-												<option value="masculino">Masculino</option>
-												<option value="feminino">Feminino</option>
-											</select>
+											<h:selectOneMenu class="form-control" id="sexo">
+											</h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> Nacionalidade </label>
 										<div>
-											<select class="form-control" id="nacionalidade">
-												<option></option>
-												<option value="br">Brasileiro</option>
-											</select>
+											<h:selectOneMenu class="form-control" id="nacionalidade">
+											</h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> Estado Civil </label>
 										<div>
-											<select class="form-control" id="estCivil">
-												<option></option>
-												<option value="br">Solteiro(a)</option>
-												<option value="br">Casado(a)</option>
-												<option value="br">Divorciado(a)</option>
-												<option value="br">Viuvo(a)</option>
-											</select>
+											<h:selectOneMenu class="form-control" id="estCivil">
+											</h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> Grau de Instrução </label>
 										<div>
-											<select class="form-control" id="estCivil">
-												<option></option>
-												<option value="br">1</option>
-												<option value="br">2</option>
-												<option value="br">3</option>
-												<option value="br">4</option>
-											</select>
+											<h:selectOneMenu class="form-control" id="grauInstrucao" >
+											</h:selectOneMenu>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Raça </label>
+										<div>
+											<h:inputText type="date" id="codRaca" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Cor </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codCor">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Situação Economica </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codSitEconomica">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Religião </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codReligiao">
+											</h:selectOneMenu>
 										</div>
 									</div>
 								</div>
@@ -137,18 +131,24 @@
 								<!-- Dados Pessoas -->
 								
 								<!-- Dados de endereço -->
-								<h3 class="header smaller lighter blue"> Endereço </h3>							
+								<h3 class="header smaller lighter blue"> Endereço/Contato </h3>							
 								<div class="form-group">
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> Pais </label>
 										<div>
-											<input type="text" id="codPais" class="col-sm-12"/>
+											<h:inputText type="text" id="codPais" class="col-sm-12"/>
 										</div>
 									</div>
 									<div class="col-sm-4">
 										<label class="control-label no-padding-right"> Estado </label>
 										<div>
-											<input type="text" id="codEstado" class="col-sm-12"/>
+											<h:inputText type="text" id="codEstado" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<label class="control-label no-padding-right"> Municipio </label>
+										<div>
+											<h:inputText type="text" id="codMunicipio" class="col-sm-12"/>
 										</div>
 									</div>
 								</div>
@@ -156,41 +156,73 @@
 									<div class="col-sm-2">
 										<label class="control-label no-padding-right"> CEP </label>
 										<div>
-											<input type="text" id="codCep" class="col-sm-12"/>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<label class="control-label no-padding-right"> Municipio </label>
-										<div>
-											<input type="text" id="codMunicipio" class="col-sm-12"/>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<label class="control-label no-padding-right"> Bairro </label>
-										<div>
-											<input type="text" id="codBairro" class="col-sm-12"/>
-										</div>
-									</div>
-									
-								</div>
-								<div class="form-group">
-									<div class="col-sm-6">
-										<label class="control-label no-padding-right"> Rua </label>
-										<div>
-											<input type="text" id="codRua" class="col-sm-12"/>
+											<h:inputText type="text" id="codCep" class="col-sm-12"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Bairro </label>
+										<div>
+											<h:inputText type="text" id="codBairro" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<label class="control-label no-padding-right"> Rua </label>
+										<div>
+											<h:inputText type="text" id="codRua" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-1">
 										<label class="control-label no-padding-right"> Numero </label>
 										<div>
-											<input type="text" id="numCasa" class="col-sm-12"/>
+											<h:inputText type="text" id="numCasa" class="col-sm-12"/>
 										</div>
 									</div>
 								</div>
+								<div class="form-group">
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Telefone/Contato </label>
+										<h:inputText type="text" id="numTelefone" class="col-sm-12"/>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Telefone/Celular </label>
+										<h:inputText type="text" id="numCelular" class="col-sm-12"/>
+									</div>
+									<div class="col-sm-6">
+										<label class="control-label no-pading-right"> Email </label>
+										<h:inputText type="text" id="email" class="col-sm-12"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-6">
+										<label class="control-label no-pading-right"> Complemento </label>
+										<h:inputText type="text" id="codComplemento" class="col-sm-12"/>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Zona Residencial </label>
+										<h:selectOneMenu class="form-control" id="zonaResidencial">
+										</h:selectOneMenu>
+									</div>
+								</div>
 								<!-- Dados de endereço -->
+
+								<!-- Tipo de Pessoa -->
+								<div class="control-group">
+									<label class="control-label bolder blue"> Tipos de Pessoa </label>
+									<div class="checkbox">
+										<label>
+											<input name="form-field-checkbox" type="checkbox" class="ace"/>   
+											<span class="lbl"> Aluno </span>
+										</label>
+										<label>
+											<input name="form-field-checkbox" type="checkbox" class="ace"/>
+											<span class="lbl"> Funcionario </span>
+										</label>
+									</div>
+								</div>
+								<!-- Tipo de Pessoa -->
 							</h:panelGroup>
 							<div class="row">
-								<div class="space-12"/>
+								<div class="space-3"/>
 							</div>
 							
 							<!-- Rendereização da Pagina de cada tipo de usuario -->
