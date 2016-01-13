@@ -93,16 +93,45 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-3">
+					<div class="col-sm-2">
 						<div>
 							<label class="control=label no-pading-right"> RM </label>
 							<h:inputText class="form-control" id="codRM"/>
 						</div>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-2">
 						<div>
 							<label class="control=label no-pading-right"> RA </label>
 							<h:inputText class="form-control" id="codRA"/>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<label class="control-label no-pading-right"> Turno </label>
+						<div>
+							<h:selectOneMenu class="form-control" id="codTurno">
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<label class="control-label no-pading-right"> Foto do Aluno </label>
+						<div>
+							<label class="ace-file-input">
+								<input type="file" id="fotoAluno"/>
+								<span class="ace-file-container" data-title="Carregar">
+									<span class="ace-file-name" data-title="Escolha um arquivo">
+										<i class=" ace-icon fa fa-upload"/>
+									</span>
+								</span>
+								<a class="remove" href="#">
+									<i class=" ace-icon fa fa-times"/>
+								</a>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div>
+							<label class="control=label no-pading-right"> Aluno com Deficiencia </label>
+							<h:inputText class="form-control" id="descriDeficiencia"/>
 						</div>
 					</div>
 				</div>
