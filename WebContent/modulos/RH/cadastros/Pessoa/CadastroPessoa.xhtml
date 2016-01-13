@@ -430,10 +430,12 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="control-group">
-										<label class="control-label bolder blue"> Concursado:  </label>
-										<input name="form-field-checkbox" type="checkbox" class="ace" id="comboConcursado"/>   
-										<span class="lbl"></span>
+									<div class="col-sm-3">
+										<div class="control-group">
+											<label class="control-label bolder blue"> Concursado:  </label>
+											<input name="form-field-checkbox" type="checkbox" class="ace" id="comboConcursado"/>   
+											<span class="lbl"></span>
+										</div>
 									</div>
 								</div>
 								<h:panelGroup id="panelConcursado">
@@ -441,20 +443,128 @@
 									<div class="form-group">
 										<div class="col-sm-3">
 											<label class="control=label no-pading-right"> Numero Inscrição </label>
-											<h:inputText type="text" class="form-control" id="numInscricao"/>
+											<div>
+												<h:inputText type="text" class="form-control" id="numInscricao"/>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<label class="control=label no-pading-right"> Numero Contrato </label>
+											<div>
+												<h:inputText type="text" class="form-control" id="numContraConcur"/>
+											</div>
 										</div>
 										<div class="col-sm-1">
 											<label class="control=label no-pading-right"> Posição </label>
-											<h:inputText type="text" class="form-control" id="numPosicao"/>
+											<div>
+												<h:inputText type="text" class="form-control" id="numPosicao"/>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-3">
+											<label class="control-label no-padding-right"> Dat. do Concur. </label>
+											<div>
+												<input type="date" id="datConcurso" class="col-sm-12"/>
+											</div>
 										</div>
 									</div>
 								</h:panelGroup>
-							</h:panelGroup>
+							</h:panelGroup> 
 							<!-- Dados Referentes ao Fornecedor -->
 							
 							<!-- Dados Referentes ao Fornecedor -->
 							<h:panelGroup id="dadosFornecedor" style="width: 99%" rendered="true" class="clearfix form-actions">
-								<h3 class="header smaller lighter blue"> Dados Complementares </h3>
+								<h3 class="header smaller lighter blue"> Dados Complementares do Fornecedor </h3>
+								<div class="form-group">
+									<div class="col-sm-3">
+										<label class="control-label no-pading-right"> Código </label>
+										<div>
+											<h:inputText type="text" id="codFornecedor" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-5">
+										<label class="control-label no-pading-right"> Razão Social </label>
+										<div>
+											<h:inputText type="text" id="nomeRazaoSocial" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<label class="control-label no-pading-right"> Nome Fantasia </label>
+										<div>
+											<h:inputText type="text" id="nomeFantasia" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-4">
+										<label class="control-label no-pading-right"> CNPJ </label>
+										<div>
+											<h:inputText type="text" id="numCNPJ" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label class="control-label no-pading-right"> Responsavel </label>
+										<div>
+											<h:inputText type="text" id="nomRespoForne" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-5">
+										<label class="control-label no-pading-right"> Email/Contato </label>
+										<div>
+											<h:inputText type="text" id="emailForne" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="control-label no-pading-right"> Telefone </label>
+										<div>
+											<h:inputText type="text" id="teleForne" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-4">
+										<label class="control-label no-padding-right"> Estado </label>
+										<div>
+											<h:inputText type="text" id="codEstadoForne" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<label class="control-label no-padding-right"> Municipio </label>
+										<div>
+											<h:inputText type="text" id="codMunicipioForne" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-padding-right"> Numero </label>
+										<div>
+											<h:inputText type="text" id="numEnderForne" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-5">
+										<label class="control-label no-pading-right"> Endereço </label>
+										<div>
+											<h:inputText type="text" id="enderForne" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="control-label no-pading-right"> Bairro </label>
+										<div>
+											<h:inputText type="text" id="bairroForne" class="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> CEP </label>
+										<div>
+											<h:inputText type="text" id="cepForne" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
 							</h:panelGroup>
 							<!-- Dados Referentes ao Fornecedor -->
 							
