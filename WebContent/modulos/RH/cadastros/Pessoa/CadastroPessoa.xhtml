@@ -31,6 +31,19 @@
 							<!-- Dados Pessoas -->	
 							<h:panelGroup id="dadosGenericos" style="width: 99%" class="clearfix form-actions">
 								<h3 class="header smaller lighter blue"> Dados Pessoais </h3>
+								<!-- Tipo de Pessoa -->
+								<div class="control-group">
+									<label class="control-label bolder blue"> Tipos de Pessoa:  </label>
+									<label>
+										<input name="form-field-checkbox" type="checkbox" class="ace"/>   
+										<span class="lbl"> Aluno </span>
+										<input name="form-field-checkbox" type="checkbox" class="ace"/>
+										<span class="lbl"> Funcionario </span>
+										<input name="form-field-checkbox" type="checkbox" class="ace"/>
+										<span class="lbl"> Fornecedor </span>
+									</label>
+								</div>
+								<!-- Tipo de Pessoa -->
 								<div class="form-group">
 									<div class="col-sm-2">
 										<label class="control-label no-padding-lefth"> Código da Pessoa </label>
@@ -204,30 +217,151 @@
 									</div>
 								</div>
 								<!-- Dados de endereço -->
-
-								<!-- Tipo de Pessoa -->
-								<div class="control-group">
-									<label class="control-label bolder blue"> Tipos de Pessoa </label>
-									<div class="checkbox">
-										<label>
-											<input name="form-field-checkbox" type="checkbox" class="ace"/>   
-											<span class="lbl"> Aluno </span>
-										</label>
-										<label>
-											<input name="form-field-checkbox" type="checkbox" class="ace"/>
-											<span class="lbl"> Funcionario </span>
-										</label>
-									</div>
-								</div>
-								<!-- Tipo de Pessoa -->
 							</h:panelGroup>
 							<div class="row">
 								<div class="space-3"/>
 							</div>
 							
-							<!-- Rendereização da Pagina de cada tipo de usuario -->
-							<ui:insert name="scriptDadosAdicionais"/>
-							<!-- Rendereização da Pagina de cada tipo de usuario -->
+							<!-- Rendereização dos elementos de cada tipo de usuario -->
+							<!-- Dados Referentes ao Aluno -->
+							<h:panelGroup id="dadosAluno" style="width: 99%" class="clearfix form-actions">
+								<h3 class="header smaller lighter blue"> Dados Complementares </h3>
+								<div class="form-group">
+									<div class="col-sm-10">
+										<label class="control-label no-padding-right"> Nome da Mãe </label>
+										<div>
+											<input type="text" id="nomeMae" placeholder="Nome completo da Mãe" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-10">
+										<label class="control-label no-padding-right"> Nome do Pai </label>
+										<div>
+											<input type="text" id="nomePai" placeholder="Nome completo do Pai" class="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Certidão de Nascimento </label>
+										<div>
+											<label class="ace-file-input">
+												<input type="file" id="certNascimento"/>
+												<span class="ace-file-container" data-title="Carregar">
+													<span class="ace-file-name" data-title="Escolha um arquivo">
+														<i class=" ace-icon fa fa-upload"/>
+													</span>
+												</span>
+												<a class="remove" href="#">
+													<i class=" ace-icon fa fa-times"/>
+												</a>
+											</label>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Comprovante de Residencia </label>
+										<div>
+											<label class="ace-file-input">
+												<input type="file" id="comproResidencia"/>
+												<span class="ace-file-container" data-title="Carregar">
+													<span class="ace-file-name" data-title="Escolha um arquivo">
+														<i class=" ace-icon fa fa-upload"/>
+													</span>
+												</span>
+												<a class="remove" href="#">
+													<i class=" ace-icon fa fa-times"/>
+												</a>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!-- Dados Escolares -->
+								<h3 class="header smaller lighter blue"> Dados Escolares </h3>
+								<div class="form-group">
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Rede de Ensino </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codRedeEnsino">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="control-label no-pading-right"> Unidade Escolar </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codUnidadeEscolar">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Etapa </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codEtapa">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="control-label no-pading-right"> Curso </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codCurso">
+											</h:selectOneMenu>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2">
+										<div>
+											<label class="control=label no-pading-right"> RM </label>
+											<h:inputText class="form-control" id="codRM"/>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div>
+											<label class="control=label no-pading-right"> RA </label>
+											<h:inputText class="form-control" id="codRA"/>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Turno </label>
+										<div>
+											<h:selectOneMenu class="form-control" id="codTurno">
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="control-label no-pading-right"> Foto do Aluno </label>
+										<div>
+											<label class="ace-file-input">
+												<input type="file" id="fotoAluno"/>
+												<span class="ace-file-container" data-title="Carregar">
+													<span class="ace-file-name" data-title="Escolha um arquivo">
+														<i class=" ace-icon fa fa-upload"/>
+													</span>
+												</span>
+												<a class="remove" href="#">
+													<i class=" ace-icon fa fa-times"/>
+												</a>
+											</label>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div>
+											<label class="control=label no-pading-right"> Aluno com Deficiencia </label>
+											<h:inputText class="form-control" id="descriDeficiencia"/>
+										</div>
+									</div>
+								</div>
+								<!-- Dados Escolares -->
+							</h:panelGroup>
+							<!-- Dados Referentes ao Aluno -->
+							
+							<!-- Dados Referentes ao Fornecedor -->
+							<h:panelGroup id="dadosAluno" style="width: 99%" rendered="true">
+								
+							</h:panelGroup>
+							<!-- Dados Referentes ao Fornecedor -->
+							
+							<!-- Rendereização dos elementos de cada tipo de usuario -->
 						</h:form>
 						<!-- Dados Referentes Genericamente -->
 					</div>
