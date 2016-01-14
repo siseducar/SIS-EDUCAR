@@ -44,4 +44,24 @@ public class PopulaRHDAO extends SisEducarDAO
 		
 		fecharConexaoBanco(con, ps, false, true);
 	}
+	
+	/**
+	 * Adiciona as raças no banco de dados de acordo com a informações passadas como parâmetro
+	 * @author João Paulo
+	 * @param codigo
+	 * @param descricao
+	 * @param status
+	 * @throws SQLException
+	 */
+	public void inserirParametros(String nomeTabela, String codigo, String descricao, Integer status) throws SQLException 
+	{
+		String querySQL = "INSERT INTO " + nomeTabela + " (codigo, descricao, status) VALUES (?, ?, ?)";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, codigo);
+		ps.setString(2, descricao);
+		ps.setInt(3, status);
+		
+		fecharConexaoBanco(con, ps, false, true);
+	}
 }

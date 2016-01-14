@@ -38,6 +38,46 @@ public class PopulaRH
 		populaRHDAO.inserirPermissoes("Aluno", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_ALUNO);
 		populaRHDAO.inserirPermissoes("Ex-Aluno", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_EX_ALUNO);
 		populaRHDAO.inserirPermissoes("Responsável", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_RESPONSAVEL);
-		System.out.println("Popula de Permissões Finalizado");
+		System.out.println("Popula de Permissões Finalizado \n");
+		
+		System.out.println("Populando Raças...");
+		populaRHDAO.inserirParametros("Raca", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Raças Finalizado \n");
+		
+		System.out.println("Populando Cor...");
+		populaRHDAO.inserirParametros("Cor", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Cor Finalizado \n");
+		
+		System.out.println("Populando Situação Econômica...");
+		populaRHDAO.inserirParametros("SituacaoEconomica", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Situação Econômica Finalizado \n");
+		
+		System.out.println("Populando Religião...");
+		populaRHDAO.inserirParametros("Religiao", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Religião Finalizado \n");
+		
+		System.out.println("Populando Tipo Deficiência...");
+		populaRHDAO.inserirParametros("TipoDeficiencia", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Tipo Deficiência Finalizado \n");
+		
+		System.out.println("Populando Região...");
+		populaRHDAO.inserirParametros("Regiao", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Região Finalizado \n");
+		
+		System.out.println("Populando Nacionalidade...");
+		populaRHDAO.inserirParametros("Nacionalidade", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Nacionalidade Finalizado \n");
+		
+		System.out.println("Populando Estado Civil...");
+		populaRHDAO.inserirParametros("EstadoCivil", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Estado Civil Finalizado \n");
+		
+		System.out.println("Populando Turno...");
+		populaRHDAO.inserirParametros("Turno", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Turno Finalizado \n");
+		
+		System.out.println("Populando Grau Instrução...");
+		populaRHDAO.inserirParametros("GrauInstrucao", "01", "", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Grau Instrução Finalizado \n");
 	}
 }
