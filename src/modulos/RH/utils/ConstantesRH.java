@@ -12,8 +12,8 @@ public class ConstantesRH
 	public static int TIPO_PESSOA_JURIDICA = 11;
 	
 	/* Sexo */
-	public static int SEXO_MASCULINO = 20;
-	public static int SEXO_FEMININO = 21;
+	public static String SEXO_MASCULINO = "M";
+	public static String SEXO_FEMININO = "F";
 	
 	/* 	Estado Civil*/
 	public static int ESTADO_CIVIL_SOLTEIRO = 30;

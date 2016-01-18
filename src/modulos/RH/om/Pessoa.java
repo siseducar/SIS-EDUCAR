@@ -8,13 +8,13 @@ public class Pessoa
 	private int pkPessoa;
 	private String nome;
 	private String nomeFantasia;
-	private Boolean semCpf;
 	private String cpf;
 	private String cnpj;
+	private Boolean semCpf;
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
-	private int sexo;
+	private String sexo;
 	private String endereco;
 	private String enderecoNumero;
 	private String cep;
@@ -28,6 +28,7 @@ public class Pessoa
 	private Date dataFalecimento;
 	private int status = 0;
 	private List<Aluno> alunos;
+	private UnidadeEscolar unidadeEscolar;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -162,10 +163,16 @@ public class Pessoa
 	public void setSemCpf(Boolean semCpf) {
 		this.semCpf = semCpf;
 	}
-	public int getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(int sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+	public UnidadeEscolar getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
 	}
 }

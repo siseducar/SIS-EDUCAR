@@ -36,7 +36,7 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setBoolean(5, pessoa.getSemCpf());
 		ps.setDate(6, pessoa.getDataNascimento());
 		ps.setDate(7, pessoa.getDataCadastro());
-		ps.setInt(8, pessoa.getSexo());
+		ps.setString(8, pessoa.getSexo());
 		ps.setString(9, pessoa.getEndereco());
 		ps.setString(10, pessoa.getEnderecoNumero());
 		ps.setString(11, pessoa.getCep());
