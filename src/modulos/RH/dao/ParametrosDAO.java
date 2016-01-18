@@ -41,26 +41,6 @@ public class ParametrosDAO {
 			return listaRaca;
 		}
 		
-		/* Metodo para retornar os tipos de cores padrao */
-		public List<ParametrosSecretaria> consultaCor() throws SQLException{
-			
-			ParametrosSecretaria paramCor = new ParametrosSecretaria();
-			List<ParametrosSecretaria> listaCor = new ArrayList<ParametrosSecretaria>();
-			
-			String querySQL = "SELECT * FROM PARAM_COR";
-			ps.getConnection().prepareStatement(querySQL);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()){
-				paramCor.setCodCor(rs.getInt("CODIGO_COR"));
-				paramCor.setDescriCor(rs.getString("DESCRI_COR"));
-				
-				listaCor.add(paramCor);
-			}
-			
-			return listaCor;
-		}
-		
 		/* Metodo para retornar os tipos de Situacao Economica */
 		public List<ParametrosSecretaria> consultaSituacaoEcon() throws SQLException{
 			
