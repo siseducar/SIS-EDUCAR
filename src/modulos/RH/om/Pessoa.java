@@ -15,11 +15,6 @@ public class Pessoa
 	private Date dataNascimento;
 	private Date dataCadastro;
 	private String sexo;
-	private String endereco;
-	private String enderecoNumero;
-	private String cep;
-	private String estado;
-	private String cidade;
 	private int telefoneComercial;
 	private int telefoneResidencial;
 	private int telefoneCelular;
@@ -29,6 +24,7 @@ public class Pessoa
 	private int status = 0;
 	private List<Aluno> alunos;
 	private UnidadeEscolar unidadeEscolar;
+	private Endereco endereco;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -78,36 +74,6 @@ public class Pessoa
 	}
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
-	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-	public String getEnderecoNumero() {
-		return enderecoNumero;
-	}
-	public void setEnderecoNumero(String enderecoNumero) {
-		this.enderecoNumero = enderecoNumero;
-	}
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	public String getCidade() {
-		return cidade;
-	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
 	}
 	public int getTelefoneComercial() {
 		return telefoneComercial;
@@ -174,5 +140,11 @@ public class Pessoa
 	}
 	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
 		this.unidadeEscolar = unidadeEscolar;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 }

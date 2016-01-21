@@ -23,10 +23,10 @@ public class PessoaDAO extends SisEducarDAO
 	public Boolean inserirPessoa(Pessoa pessoa) throws SQLException 
 	{
 		String querySQL = "INSERT INTO pessoa "
-				+ " (nome, nomefantasia, cpf, cnpj, semcpf, rg, datanascimento, datacadastro, sexo, endereco,"
-				+ "endereconumero, cep, estado, cidade, telefonecomercial, telefoneresidencial, telefonecelular,"
-				+ "tipoPessoa, falecido, datafalecimento, status) "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " (nome, nomefantasia, cpf, cnpj, semcpf, rg, datanascimento, datacadastro, sexo, telefonecomercial, "
+				+ " telefoneresidencial, telefonecelular,"
+				+ " tipoPessoa, falecido, datafalecimento, status) "
+				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, pessoa.getNome());
@@ -37,18 +37,13 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setDate(6, pessoa.getDataNascimento());
 		ps.setDate(7, pessoa.getDataCadastro());
 		ps.setString(8, pessoa.getSexo());
-		ps.setString(9, pessoa.getEndereco());
-		ps.setString(10, pessoa.getEnderecoNumero());
-		ps.setString(11, pessoa.getCep());
-		ps.setString(12, pessoa.getEstado());
-		ps.setString(13, pessoa.getCidade());
-		ps.setInt(14, pessoa.getTelefoneComercial());
-		ps.setInt(15, pessoa.getTelefoneResidencial());
-		ps.setInt(16, pessoa.getTelefoneCelular());
-		ps.setInt(17, pessoa.getTipoPessoa());
-		ps.setBoolean(18, pessoa.getFalecido());
-		ps.setDate(19, pessoa.getDataFalecimento());
-		ps.setInt(20, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(9, pessoa.getTelefoneComercial());
+		ps.setInt(10, pessoa.getTelefoneResidencial());
+		ps.setInt(11, pessoa.getTelefoneCelular());
+		ps.setInt(12, pessoa.getTipoPessoa());
+		ps.setBoolean(13, pessoa.getFalecido());
+		ps.setDate(14, pessoa.getDataFalecimento());
+		ps.setInt(15, ConstantesSisEducar.STATUS_ATIVO);
 		
 		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
 		

@@ -12,6 +12,8 @@ public class Aluno
 	private String livroUF;
 	private Pessoa pessoa;
 	private int anoLetivo;
+	private String nomePai;
+	private String nomeMae;
 
 	public String getRa() {
 		return ra;
@@ -72,5 +74,17 @@ public class Aluno
 	}
 	public void setLivroUF(String livroUF) {
 		this.livroUF = livroUF;
+	}
+	public String getNomePai() {
+		return nomePai;
+	}
+	public void setNomePai(String nomePai) {
+		this.nomePai = nomePai;
+	}
+	public String getNomeMae() {
+		return nomeMae;
+	}
+	public void setNomeMae(String nomeMae) {
+		this.nomeMae = nomeMae;
 	}
 }

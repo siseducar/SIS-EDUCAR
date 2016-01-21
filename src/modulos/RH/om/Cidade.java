@@ -2,18 +2,19 @@ package modulos.RH.om;
 
 public class Cidade 
 {
-	private Integer pkEstado;
+	private Integer pkCidade;
 	private String nome;
 	private Integer codigoibge;
+	private Integer codigoContabilMunicipio;
 	private String sigla;
 	private Integer status;
 	private Estado estado;
 	
 	public Integer getPkEstado() {
-		return pkEstado;
+		return pkCidade;
 	}
 	public void setPkEstado(Integer pkEstado) {
-		this.pkEstado = pkEstado;
+		this.pkCidade = pkEstado;
 	}
 	public String getNome() {
 		return nome;
@@ -44,5 +45,11 @@ public class Cidade
 	}
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	public Integer getCodigoContabilMunicipio() {
+		return codigoContabilMunicipio;
+	}
+	public void setCodigoContabilMunicipio(Integer codigoContabilMunicipio) {
+		this.codigoContabilMunicipio = codigoContabilMunicipio;
 	}
 }

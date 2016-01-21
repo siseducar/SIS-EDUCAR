@@ -4,16 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import modulos.RH.om.Aluno;
+import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.UnidadeEscolar;
-import modulos.RH.utils.ConstantesRH;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -106,13 +104,18 @@ public class PoiLeitorArquivoExcel
 			
 			Integer countPosicao = 0;
 			List<Object> listaAuxiliar = null;
+			Aluno aluno = null;
+			UnidadeEscolar unidadeEscolar = null;
+			Pessoa pessoa = null;
+			Endereco endereco = null;
+			
 			for (Map.Entry<Integer, List<Object>> entry : map.entrySet()) 
 			{
-				Aluno aluno = new Aluno();
-				UnidadeEscolar unidadeEscolar = new UnidadeEscolar();
-				Pessoa pessoa = new Pessoa();
+				aluno = new Aluno();
+				unidadeEscolar = new UnidadeEscolar();
+				pessoa = new Pessoa();
+				endereco = new Endereco();
 				listaAuxiliar = new ArrayList<Object>();
-				
 				listaAuxiliar = entry.getValue();
 				
 				//Monta a unidade
@@ -120,11 +123,23 @@ public class PoiLeitorArquivoExcel
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
-				//Monta o aluno
-				aluno.setRa((String)listaAuxiliar.get(4)); //RA
-				aluno.setRa2((String)listaAuxiliar.get(5)); //RA2
-				//6 UF
+				//Monta o endereço
+				endereco.setLogradouro((String)listaAuxiliar.get(10));
+				endereco.setNumero((Integer)listaAuxiliar.get(11));
+				endereco.setBairro((String)listaAuxiliar.get(12));
+				endereco.setCep((Integer)listaAuxiliar.get(13));
 				
+				//Monta o aluno
+				aluno.setRa((String)listaAuxiliar.get(5)); //RA
+				aluno.setRa2((String)listaAuxiliar.get(6)); //RA2
+				aluno.setNomePai((String)listaAuxiliar.get(8)); //Nome Pai
+				aluno.setNomeMae((String)listaAuxiliar.get(9)); //Nome Mãe
+				aluno.setFolha((String)listaAuxiliar.get(15));
+				aluno.setLivro((String)listaAuxiliar.get(16));
+				aluno.setRegistro((Integer)listaAuxiliar.get(17));
+				
+				//Cidade
+				aluno.setLivroUF((String)listaAuxiliar.get(19));
 				
 				//Monta a pessoa
 				pessoa.setNome((String)listaAuxiliar.get(2)); //Nome
@@ -132,8 +147,12 @@ public class PoiLeitorArquivoExcel
 				
 				//UF - Criar OM Estado
 				//Cidade - Criar OM Cidade
-				pessoa.setEndereco((String)listaAuxiliar.get(10));
-				pessoa.setEnderecoNumero((String)listaAuxiliar.get(11));
+				endereco.setLogradouro((String)listaAuxiliar.get(10));
+				endereco.setNumero((Integer)listaAuxiliar.get(11));
+				endereco.setBairro((String)listaAuxiliar.get(12));
+				endereco.setCep((Integer)listaAuxiliar.get(13));
+				
+				pessoa.setEndereco(endereco);
 				
 				listaAuxiliar.get(1);
 			    pessoa.setUnidadeEscolar(unidadeEscolar);
