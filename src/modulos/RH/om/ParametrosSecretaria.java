@@ -5,133 +5,170 @@ public class ParametrosSecretaria {
 	 *Atributos dos parametros utilizados 
 	 * 
 	 */
-	/* Raça */
-	private int codRaca;
-	private String descriRaca;
 	
 	/* Cor */
-	private int codCor;
+	private int pkCor;
+	private String codCor;
 	private String descriCor;
 	
 	/* Situacao Economica */
-	private int codSituaEconomica;
+	private int pksituacaoeconomica;
+	private String codSituacaoEcon;
 	private String descriSituEconomica;
 	
 	/* Religiao */
-	private int codReligiao;
+	private int pkReligiao;
+	private String codReligiao;
 	private String descriReligiao;
 	
 	/* Nacionalidade */
-	private int codNacionalidade;
+	private int pkNacionalidade;
+	private String codNacionalidade;
 	private String descriNacionalidade;
 	
 	/* Turno */
-	private int codTurno;
+	private int pkTurno;
+	private String codTurno;
 	private String descriTurno;
 	
 	/* Grau de Instrucao */
-	private int codGrauInstrucao;
+	private int pkGrauInstru;
+	private String codGrauInstrucao;
 	private String descriGrauIntrucao;
 	
 	/* Estado Civil */
-	private int codEstadoCivil;
+	private int pkCodEstCivil;
+	private String codEstadoCivil;
 	private String descriEstadoCivil;
 	
 	/* Getters and Setters */
-	public int getCodRaca() {
-		return codRaca;
+	public int getPkCor() {
+		return pkCor;
 	}
-	public void setCodRaca(int codRaca) {
-		this.codRaca = codRaca;
-	}
-	public String getDescriRaca() {
-		return descriRaca;
-	}
-	public void setDescriRaca(String descriRaca) {
-		this.descriRaca = descriRaca;
-	}
-	public int getCodCor() {
+	public String getCodCor() {
 		return codCor;
-	}
-	public void setCodCor(int codCor) {
-		this.codCor = codCor;
 	}
 	public String getDescriCor() {
 		return descriCor;
 	}
-	public void setDescriCor(String descriCor) {
-		this.descriCor = descriCor;
+	public int getPksituacaoeconomica() {
+		return pksituacaoeconomica;
 	}
-	public int getCodSituaEconomica() {
-		return codSituaEconomica;
-	}
-	public void setCodSituaEconomica(int codSituaEconomica) {
-		this.codSituaEconomica = codSituaEconomica;
+	public String getCodSituacaoEcon() {
+		return codSituacaoEcon;
 	}
 	public String getDescriSituEconomica() {
 		return descriSituEconomica;
 	}
-	public void setDescriSituEconomica(String descriSituEconomica) {
-		this.descriSituEconomica = descriSituEconomica;
+	public int getPkReligiao() {
+		return pkReligiao;
 	}
-	public int getCodReligiao() {
+	public String getCodReligiao() {
 		return codReligiao;
-	}
-	public void setCodReligiao(int codReligiao) {
-		this.codReligiao = codReligiao;
 	}
 	public String getDescriReligiao() {
 		return descriReligiao;
 	}
-	public void setDescriReligiao(String descriReligiao) {
-		this.descriReligiao = descriReligiao;
+	public int getPkNacionalidade() {
+		return pkNacionalidade;
 	}
-	public int getCodNacionalidade() {
+	public String getCodNacionalidade() {
 		return codNacionalidade;
-	}
-	public void setCodNacionalidade(int codNacionalidade) {
-		this.codNacionalidade = codNacionalidade;
 	}
 	public String getDescriNacionalidade() {
 		return descriNacionalidade;
 	}
-	public void setDescriNacionalidade(String descriNacionalidade) {
-		this.descriNacionalidade = descriNacionalidade;
+	public int getPkTurno() {
+		return pkTurno;
 	}
-	public int getCodTurno() {
+	public String getCodTurno() {
 		return codTurno;
-	}
-	public void setCodTurno(int codTurno) {
-		this.codTurno = codTurno;
 	}
 	public String getDescriTurno() {
 		return descriTurno;
 	}
-	public void setDescriTurno(String descriTurno) {
-		this.descriTurno = descriTurno;
+	public int getPkGrauInstru() {
+		return pkGrauInstru;
 	}
-	public int getCodGrauInstrucao() {
+	public String getCodGrauInstrucao() {
 		return codGrauInstrucao;
-	}
-	public void setCodGrauInstrucao(int codGrauInstrucao) {
-		this.codGrauInstrucao = codGrauInstrucao;
 	}
 	public String getDescriGrauIntrucao() {
 		return descriGrauIntrucao;
 	}
-	public void setDescriGrauIntrucao(String descriGrauIntrucao) {
-		this.descriGrauIntrucao = descriGrauIntrucao;
+	public int getPkCodEstCivil() {
+		return pkCodEstCivil;
 	}
-	public int getCodEstadoCivil() {
+	public String getCodEstadoCivil() {
 		return codEstadoCivil;
-	}
-	public void setCodEstadoCivil(int codEstadoCivil) {
-		this.codEstadoCivil = codEstadoCivil;
 	}
 	public String getDescriEstadoCivil() {
 		return descriEstadoCivil;
 	}
+	public void setPkCor(int pkCor) {
+		this.pkCor = pkCor;
+	}
+	public void setCodCor(String codCor) {
+		this.codCor = codCor;
+	}
+	public void setDescriCor(String descriCor) {
+		this.descriCor = descriCor;
+	}
+	public void setPksituacaoeconomica(int pksituacaoeconomica) {
+		this.pksituacaoeconomica = pksituacaoeconomica;
+	}
+	public void setCodSituacaoEcon(String codSituacaoEcon) {
+		this.codSituacaoEcon = codSituacaoEcon;
+	}
+	public void setDescriSituEconomica(String descriSituEconomica) {
+		this.descriSituEconomica = descriSituEconomica;
+	}
+	public void setPkReligiao(int pkReligiao) {
+		this.pkReligiao = pkReligiao;
+	}
+	public void setCodReligiao(String codReligiao) {
+		this.codReligiao = codReligiao;
+	}
+	public void setDescriReligiao(String descriReligiao) {
+		this.descriReligiao = descriReligiao;
+	}
+	public void setPkNacionalidade(int pkNacionalidade) {
+		this.pkNacionalidade = pkNacionalidade;
+	}
+	public void setCodNacionalidade(String codNacionalidade) {
+		this.codNacionalidade = codNacionalidade;
+	}
+	public void setDescriNacionalidade(String descriNacionalidade) {
+		this.descriNacionalidade = descriNacionalidade;
+	}
+	public void setPkTurno(int pkTurno) {
+		this.pkTurno = pkTurno;
+	}
+	public void setCodTurno(String codTurno) {
+		this.codTurno = codTurno;
+	}
+	public void setDescriTurno(String descriTurno) {
+		this.descriTurno = descriTurno;
+	}
+	public void setPkGrauInstru(int pkGrauInstru) {
+		this.pkGrauInstru = pkGrauInstru;
+	}
+	public void setCodGrauInstrucao(String codGrauInstrucao) {
+		this.codGrauInstrucao = codGrauInstrucao;
+	}
+	public void setDescriGrauIntrucao(String descriGrauIntrucao) {
+		this.descriGrauIntrucao = descriGrauIntrucao;
+	}
+	public void setPkCodEstCivil(int pkCodEstCivil) {
+		this.pkCodEstCivil = pkCodEstCivil;
+	}
+	public void setCodEstadoCivil(String codEstadoCivil) {
+		this.codEstadoCivil = codEstadoCivil;
+	}
 	public void setDescriEstadoCivil(String descriEstadoCivil) {
 		this.descriEstadoCivil = descriEstadoCivil;
 	}
+	
+	
+	
 }

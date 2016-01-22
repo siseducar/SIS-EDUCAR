@@ -6,25 +6,30 @@ import java.util.List;
 public class Pessoa
 {
 	private int pkPessoa;
+	private int codigo;
 	private String nome;
 	private String nomeFantasia;
+	private Boolean semCpf;
 	private String cpf;
 	private String cnpj;
-	private Boolean semCpf;
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
-	private String sexo;
+	private int sexo;
+	private String endereco;
+	private String enderecoNumero;
+	private String cep;
+	private String estado;
+	private String cidade;
 	private int telefoneComercial;
 	private int telefoneResidencial;
 	private int telefoneCelular;
 	private int tipoPessoa;
 	private Boolean falecido;
 	private Date dataFalecimento;
-	private int status = 0;
-	private List<Aluno> alunos;
-	private UnidadeEscolar unidadeEscolar;
-	private Endereco endereco;
+	private int status;
+	private String nacionalidade;
+	private String estadoCivil;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -75,6 +80,36 @@ public class Pessoa
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+	public String getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+	public String getEnderecoNumero() {
+		return enderecoNumero;
+	}
+	public void setEnderecoNumero(String enderecoNumero) {
+		this.enderecoNumero = enderecoNumero;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 	public int getTelefoneComercial() {
 		return telefoneComercial;
 	}
@@ -117,34 +152,34 @@ public class Pessoa
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
-	}
 	public Boolean getSemCpf() {
 		return semCpf;
 	}
 	public void setSemCpf(Boolean semCpf) {
 		this.semCpf = semCpf;
 	}
-	public String getSexo() {
+	public int getSexo() {
 		return sexo;
 	}
-	public void setSexo(String sexo) {
+	public void setSexo(int sexo) {
 		this.sexo = sexo;
 	}
-	public UnidadeEscolar getUnidadeEscolar() {
-		return unidadeEscolar;
+	public int getCodigo() {
+		return codigo;
 	}
-	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
-		this.unidadeEscolar = unidadeEscolar;
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
-	public Endereco getEndereco() {
-		return endereco;
+	public String getNacionalidade() {
+		return nacionalidade;
 	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setNacionalidade(String nacionalidade) {
+		this.nacionalidade = nacionalidade;
+	}
+	public String getEstadoCivil() {
+		return estadoCivil;
+	}
+	public void setEstadoCivil(String estadoCivil) {
+		this.estadoCivil = estadoCivil;
 	}
 }

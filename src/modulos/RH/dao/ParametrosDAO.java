@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
+import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
+
 import modulos.RH.om.ParametrosSecretaria;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
@@ -20,65 +24,108 @@ public class ParametrosDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		/* Metodo para retornar os tipos de raca padrao */		
+		/* Metodo para retornar os tipos de cores padrao */
 		public List<ParametrosSecretaria> consultaRaca() throws SQLException{
 			
-			ParametrosSecretaria paramRaca = new ParametrosSecretaria();
 			List<ParametrosSecretaria> listaRaca = new ArrayList<ParametrosSecretaria>();
 			
-			String querySQL = "SELECT * FROM PARAM_RACA";
-			ps = con.prepareStatement(querySQL);
-			ResultSet rs = ps.executeQuery();
+			String querySQL = "SELECT * FROM RACA ORDER BY PKRACA";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
 			
-			while (rs.next()) 
-			{
-				paramRaca.setCodRaca(rs.getInt("CODIGO_RACA"));
-				paramRaca.setDescriRaca(rs.getString("DESCRI_RACA"));
+			while (rs.next()){
+				ParametrosSecretaria paramCor = new ParametrosSecretaria();
+				paramCor.setPkCor(rs.getInt("PKRACA"));
+				paramCor.setCodCor(rs.getString("CODIGO"));
+				paramCor.setDescriCor(rs.getString("DESCRICAO"));
 				
-				listaRaca.add(paramRaca);
+				listaRaca.add(paramCor);
 			}
 			
 			return listaRaca;
 		}
 		
-		/* Metodo para retornar os tipos de Situacao Economica */
-		public List<ParametrosSecretaria> consultaSituacaoEcon() throws SQLException{
+		/* Metodo para retornar os tipos de ESTADO CIVIL padrao */
+		public List<ParametrosSecretaria> consultaEstaCivil() throws SQLException{
 			
-			ParametrosSecretaria paramSituacaoEcon = new ParametrosSecretaria();
-			List<ParametrosSecretaria> listaSituacaoEcon = new ArrayList<ParametrosSecretaria>();
+			List<ParametrosSecretaria> listaEstaCivil = new ArrayList<>();
 			
-			String querySQL = "SELECT * FROM PARAM_SITU_ECONOMICA";
-			ps.getConnection().prepareStatement(querySQL);
-			ResultSet rs = ps.executeQuery();
+			String querySQL = "SELECT * FROM ESTADOCIVIL ORDER BY DESCRICAO";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
 			
-			while (rs.next()){
-				paramSituacaoEcon.setCodSituaEconomica(rs.getInt("CODIGO_SITU_ECONOMICA"));
-				paramSituacaoEcon.setDescriSituEconomica(rs.getString("DESCRI_SITU_ECONOMICA"));
+			while(rs.next()){
+				ParametrosSecretaria paramEstCivil = new ParametrosSecretaria();
+				paramEstCivil.setPkCodEstCivil(rs.getInt("PKESTADOCIVIL"));
+				paramEstCivil.setCodEstadoCivil(rs.getString("CODIGO"));
+				paramEstCivil.setDescriEstadoCivil(rs.getString("DESCRICAO"));
 				
-				listaSituacaoEcon.add(paramSituacaoEcon);
+				listaEstaCivil.add(paramEstCivil);
 			}
 			
-			return null;
+			return listaEstaCivil;
 		}
 		
-		/* Metodo para retornar os tipos de Religiao */
-		public List<ParametrosSecretaria> consultaReligiao() throws SQLException{
+		/* Metodo para retornar os tipos de GRAU DE INSTRUCAO padrao */
+		public List<ParametrosSecretaria> consultaGrauInstru() throws SQLException {
 			
-			ParametrosSecretaria paramReligiao = new ParametrosSecretaria();
-			List<ParametrosSecretaria> listareligiao = new ArrayList<ParametrosSecretaria>();
+			List<ParametrosSecretaria> listaGrauInstru = new ArrayList<>();
 			
-			String querySQL = "SELECT * FROM PARAM_RELIGIAO";
-			ps.getConnection().prepareStatement(querySQL);
-			ResultSet rs = ps.executeQuery();
+			String querySQL = "SELECT * FROM GRAUINSTRUCAO ORDER BY PKGRAUINSTRUCAO";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
 			
-			while (rs.next()){
-				paramReligiao.setCodReligiao(rs.getInt("CODIGO_RELIGIAO"));
-				paramReligiao.setDescriReligiao(rs.getString("DESCRI_RELIGIAO"));
+			while(rs.next()) {
+				ParametrosSecretaria paramGrauInstru = new ParametrosSecretaria();
+				paramGrauInstru.setPkGrauInstru(rs.getInt("PKGRAUINSTRUCAO"));
+				paramGrauInstru.setCodGrauInstrucao(rs.getString("CODIGO"));
+				paramGrauInstru.setDescriGrauIntrucao(rs.getString("DESCRICAO"));
 				
-				listareligiao.add(paramReligiao);
+				listaGrauInstru.add(paramGrauInstru);
 			}
 			
-			return null;
+			return listaGrauInstru;
 		}
 		
+		/* Metodo para retornar os tipos de NACIONALIDADE padrao */
+		public List<ParametrosSecretaria> consultaNacionalidade() throws SQLException {
+			
+			List<ParametrosSecretaria> listaNacionalidade = new ArrayList<>();
+			
+			String querySQL = "SELECT * FROM GRAUINSTRUCAO ORDER BY DESCRICAO";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
+			
+			while(rs.next()) {
+				ParametrosSecretaria paramNacionalidade = new ParametrosSecretaria();
+				paramNacionalidade.setPkNacionalidade(rs.getInt("PKNACIONALIDADE"));
+				paramNacionalidade.setCodNacionalidade(rs.getString("CODIGO"));
+				paramNacionalidade.setDescriNacionalidade(rs.getString("DESCRICAO"));
+				
+				listaNacionalidade.add(paramNacionalidade);
+			}
+			
+			return listaNacionalidade;
+		}
+		
+		/* Metodo para retornar os tipos de RELIGIAO padrao */
+		public List<ParametrosSecretaria> consultaReligiao() throws SQLException {
+			
+			List<ParametrosSecretaria> listaReligiao = new ArrayList<>();
+			
+			String querySQL = "SELECT * FROM RELIGIAO ORDER BY DESCRICAO";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
+			
+			while(rs.next()) {
+				ParametrosSecretaria paramReligiao = new ParametrosSecretaria();
+				paramReligiao.setPkReligiao(rs.getInt("PKRELIGIAO"));
+				paramReligiao.setCodReligiao(rs.getString("CODIGO"));
+				paramReligiao.setDescriReligiao(rs.getString("DESCRICAO"));
+				
+				listaReligiao.add(paramReligiao);
+			}
+			
+			return listaReligiao;
+		}
 }
