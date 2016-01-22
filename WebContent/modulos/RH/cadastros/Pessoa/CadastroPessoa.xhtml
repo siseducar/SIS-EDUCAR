@@ -37,6 +37,7 @@
 									<h:selectOneRadio value="#{cadastroServlet.tipoPessoa}">
 										<f:selectItem itemValue="1" itemLabel="Aluno"/>
 										<f:selectItem itemValue="2" itemLabel="Funcionario"/>
+										<f:selectItem itemValue="3" itemLabel="Fornecedor"/>
 									</h:selectOneRadio>
 									
 								</div>
@@ -154,7 +155,7 @@
 								<h3 class="header smaller lighter blue"> Endereço/Contato </h3>							
 								<div class="form-group">
 									<div class="col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>>
+										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
 										<div>
 											<h:inputText type="text" id="codPais" class="col-sm-12"/>
 										</div>
@@ -218,7 +219,7 @@
 										<h:inputText type="text" id="codComplemento" class="col-sm-12"/>
 									</div>
 									<div class="col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.nome']}"/>
+										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
 										<h:selectOneMenu class="form-control" id="zonaResidencial">
 										</h:selectOneMenu>
 									</div>
@@ -580,7 +581,7 @@
 							<!-- Rendereização dos elementos de cada tipo de usuario -->
 							<div class="col-xs-12">
 								<p:messages showDetail="false" autoUpdate="true" closable="true"/>
-								<h:panelGroup id="panelBotoes" styleClass="col-ls-12" class="clearfix form-actions">
+								<h:panelGroup id="panelBotoes"  class="clearfix form-actions">
 									<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success">
 										<span class="bigger-110">Registrar</span>	
 										<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
