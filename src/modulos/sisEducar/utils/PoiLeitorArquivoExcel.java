@@ -117,17 +117,29 @@ public class PoiLeitorArquivoExcel
 				endereco = new Endereco();
 				listaAuxiliar = new ArrayList<Object>();
 				listaAuxiliar = entry.getValue();
+				HSSFCell cell = null;
 				
 				//Monta a unidade
-				unidadeEscolar.setCodigo((String)listaAuxiliar.get(1)); //Cod Unidade
+				cell = (HSSFCell) listaAuxiliar.get(1);
+				
+				unidadeEscolar.setCodigo(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false));
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
 				//Monta o endereço
-				endereco.setLogradouro((String)listaAuxiliar.get(10));
-				endereco.setNumero((Integer)listaAuxiliar.get(11));
-				endereco.setBairro((String)listaAuxiliar.get(12));
-				endereco.setCep((Integer)listaAuxiliar.get(13));
+				cell = (HSSFCell) listaAuxiliar.get(10);
+				endereco.setLogradouro(cell.getStringCellValue());
+
+				cell = (HSSFCell) listaAuxiliar.get(11);
+				endereco.setNumero(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false)));
+				
+				cell = (HSSFCell) listaAuxiliar.get(12);
+				endereco.setBairro(cell.getStringCellValue());
+				
+				cell = (HSSFCell) listaAuxiliar.get(13);
+				String cep = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), true);
+				
+				endereco.setCep(new Integer(cep));
 				
 				//Monta o aluno
 				aluno.setRa((String)listaAuxiliar.get(5)); //RA
@@ -164,5 +176,36 @@ public class PoiLeitorArquivoExcel
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); }
 		catch (IOException e) 			{ e.printStackTrace(); }
+	}
+	
+	public static String cortarCasasDecimais(String numeroOrigem, Boolean validarCEP)
+	{
+		Integer posicaoPonto = 0;
+		String numeroDestino = "";
+		
+		if(numeroOrigem!=null && numeroOrigem.length() >0)
+		{
+			if(validarCEP)
+			{
+				Integer numeroDe0 = 0;
+				Integer posicaoCortar = 0;
+				String stringNova = "";
+				numeroDestino = numeroOrigem.replace(".", "");
+				numeroDe0 = numeroDestino.indexOf("E");
+				posicaoCortar = numeroDestino.indexOf("E");
+				stringNova = numeroDestino.substring(0, posicaoCortar);
+				for (int i = 0; i < numeroDe0; i++) 
+				{
+					stringNova += "0";
+				}
+				return stringNova;
+			}
+			
+			posicaoPonto = numeroOrigem.indexOf(".");
+			numeroDestino = numeroOrigem.substring(0, posicaoPonto);
+			return numeroDestino;
+		}
+		
+		return null;
 	}
 }
