@@ -1,7 +1,6 @@
 package modulos.RH.om;
 
 import java.sql.Date;
-import java.util.List;
 
 public class Pessoa
 {
@@ -15,8 +14,7 @@ public class Pessoa
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
-	private int sexo;
-	private String endereco;
+	private String sexo;
 	private String enderecoNumero;
 	private String cep;
 	private String estado;
@@ -30,6 +28,8 @@ public class Pessoa
 	private int status;
 	private String nacionalidade;
 	private String estadoCivil;
+	private Endereco endereco;
+	private UnidadeEscolar unidadeEscolar;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -80,10 +80,10 @@ public class Pessoa
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-	public String getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(String endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 	public String getEnderecoNumero() {
@@ -158,10 +158,10 @@ public class Pessoa
 	public void setSemCpf(Boolean semCpf) {
 		this.semCpf = semCpf;
 	}
-	public int getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(int sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 	public int getCodigo() {
@@ -181,5 +181,11 @@ public class Pessoa
 	}
 	public void setEstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
+	}
+	public UnidadeEscolar getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
 	}
 }
