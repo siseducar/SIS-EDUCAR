@@ -118,11 +118,12 @@ public class PoiLeitorArquivoExcel
 				listaAuxiliar = new ArrayList<Object>();
 				listaAuxiliar = entry.getValue();
 				HSSFCell cell = null;
+				String stringAux = "";
 				
 				//Monta a unidade
 				cell = (HSSFCell) listaAuxiliar.get(1);
 				
-				unidadeEscolar.setCodigo(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false));
+				unidadeEscolar.setCodigo(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false));
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
@@ -131,38 +132,55 @@ public class PoiLeitorArquivoExcel
 				endereco.setLogradouro(cell.getStringCellValue());
 
 				cell = (HSSFCell) listaAuxiliar.get(11);
-				endereco.setNumero(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false)));
+				endereco.setNumero(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false)));
 				
 				cell = (HSSFCell) listaAuxiliar.get(12);
 				endereco.setBairro(cell.getStringCellValue());
 				
 				cell = (HSSFCell) listaAuxiliar.get(13);
-				String cep = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), true);
-				
+				String cep = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), true, false);
 				endereco.setCep(new Integer(cep));
+
+				endereco.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
 				//Monta o aluno
-				aluno.setRa((String)listaAuxiliar.get(5)); //RA
-				aluno.setRa2((String)listaAuxiliar.get(6)); //RA2
-				aluno.setNomePai((String)listaAuxiliar.get(8)); //Nome Pai
-				aluno.setNomeMae((String)listaAuxiliar.get(9)); //Nome Mãe
-				aluno.setFolha((String)listaAuxiliar.get(15));
-				aluno.setLivro((String)listaAuxiliar.get(16));
-				aluno.setRegistro((Integer)listaAuxiliar.get(17));
+				cell = (HSSFCell) listaAuxiliar.get(5);
+				aluno.setRa(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, true)); //RA
+
+				cell = (HSSFCell) listaAuxiliar.get(6);
+				stringAux = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, true);
+				stringAux = stringAux.substring(0, 1);
+				aluno.setRa2(stringAux); //RA2
+				if(aluno.getRa2().equals("-1")) 	{ aluno.setRa2("X"); }
+				else if(aluno.getRa2().equals("-2")){ aluno.setRa2("NULL"); }
 				
-				//Cidade
-				aluno.setLivroUF((String)listaAuxiliar.get(19));
+				cell = (HSSFCell) listaAuxiliar.get(8);
+				aluno.setNomePai(cell.getStringCellValue()); //Nome Pai
+				
+				cell = (HSSFCell) listaAuxiliar.get(9);
+				aluno.setNomeMae(cell.getStringCellValue()); //Nome Mãe
+				
+				cell = (HSSFCell) listaAuxiliar.get(15); //Folha
+				//aluno.setFolha((String)listaAuxiliar.get(15));
+				
+				cell = (HSSFCell) listaAuxiliar.get(16); //Livro
+				//aluno.setLivro((String)listaAuxiliar.get(16));
+				
+				cell = (HSSFCell) listaAuxiliar.get(17); //Registro
+				aluno.setRegistro(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false)));
+				
+				cell = (HSSFCell) listaAuxiliar.get(19); //Livro UF
+				stringAux = cell.getStringCellValue();
+				aluno.setLivroUF(stringAux);
 				
 				//Monta a pessoa
-				pessoa.setNome((String)listaAuxiliar.get(2)); //Nome
-				pessoa.setSexo((String)listaAuxiliar.get(3)); //Sexo
+				cell = (HSSFCell) listaAuxiliar.get(2); //Livro UF
+				pessoa.setNome(cell.getStringCellValue()); //Nome
 				
-				//UF - Criar OM Estado
+				cell = (HSSFCell) listaAuxiliar.get(3); //Livro UF
+				pessoa.setSexo(cell.getStringCellValue()); //Sexo
+				
 				//Cidade - Criar OM Cidade
-				endereco.setLogradouro((String)listaAuxiliar.get(10));
-				endereco.setNumero((Integer)listaAuxiliar.get(11));
-				endereco.setBairro((String)listaAuxiliar.get(12));
-				endereco.setCep((Integer)listaAuxiliar.get(13));
 				
 				pessoa.setEndereco(endereco);
 				
@@ -178,10 +196,11 @@ public class PoiLeitorArquivoExcel
 		catch (IOException e) 			{ e.printStackTrace(); }
 	}
 	
-	public static String cortarCasasDecimais(String numeroOrigem, Boolean validarCEP)
+	public static String cortarCasasDecimais(String numeroOrigem, Boolean validarCEP, Boolean apenasRetirarPonto)
 	{
 		Integer posicaoPonto = 0;
 		String numeroDestino = "";
+		String stringNova = "";
 		
 		if(numeroOrigem!=null && numeroOrigem.length() >0)
 		{
@@ -189,7 +208,6 @@ public class PoiLeitorArquivoExcel
 			{
 				Integer numeroDe0 = 0;
 				Integer posicaoCortar = 0;
-				String stringNova = "";
 				numeroDestino = numeroOrigem.replace(".", "");
 				numeroDe0 = numeroDestino.indexOf("E");
 				posicaoCortar = numeroDestino.indexOf("E");
@@ -198,6 +216,11 @@ public class PoiLeitorArquivoExcel
 				{
 					stringNova += "0";
 				}
+				return stringNova;
+			}
+			else if(apenasRetirarPonto)
+			{
+				stringNova = numeroOrigem.replace(".", "");
 				return stringNova;
 			}
 			
