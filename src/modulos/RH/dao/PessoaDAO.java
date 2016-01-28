@@ -45,8 +45,6 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setDate(14, pessoa.getDataFalecimento());
 		ps.setInt(15, ConstantesSisEducar.STATUS_ATIVO);
 		
-		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
-		
 		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;

@@ -10,6 +10,7 @@ public class Endereco
 	private Integer cep;
 	private String tipo;
 	private Integer status;
+	private Cidade cidade;
 	
 	public Integer getPkEndereco() {
 		return pkEndereco;
@@ -58,5 +59,11 @@ public class Endereco
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Cidade getCidade() {
+		return cidade;
+	}
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 }

@@ -10,10 +10,10 @@ public class Cidade
 	private Integer status;
 	private Estado estado;
 	
-	public Integer getPkEstado() {
+	public Integer getPkCidade() {
 		return pkCidade;
 	}
-	public void setPkEstado(Integer pkEstado) {
+	public void setPkCidade(Integer pkEstado) {
 		this.pkCidade = pkEstado;
 	}
 	public String getNome() {

@@ -3,12 +3,16 @@ package modulos.sisEducar.utils;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import modulos.RH.dao.CidadeDAO;
+import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.om.Aluno;
+import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.UnidadeEscolar;
@@ -20,7 +24,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class PoiLeitorArquivoExcel 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws SQLException 
 	{
 		try 
 		{
@@ -39,65 +43,65 @@ public class PoiLeitorArquivoExcel
 				//Obtem a linha
 				linha = worksheet.getRow(i);
 				
-				coluna = linha.getCell((int) 0); //COD
-				listAux.add(coluna);
+				coluna = linha.getCell((int) 0); //COD 
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((int) 1); //UNIDADE
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 2); //NOME
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 3); //SEXO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 4); //DTNASCIMENTO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 5); //RA1
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 6); //RA2
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 7); //UF
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 8); //NOME PAI
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 9); //NOME MÃE
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 10); //NOME RUA
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 11); //NúMERO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 12); //BAIRRO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 13); //CEP
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 14); //CIDADE
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 15); //FOLHA
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 16); //LIVRO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 17); //REGISTRO
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 18); //CIDADENA SC
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 19); //LIVRO UF
-				listAux.add(coluna);
+				listAux.add(coluna.toString());
 				
 				map.put(i, listAux);
 			}
@@ -108,6 +112,8 @@ public class PoiLeitorArquivoExcel
 			UnidadeEscolar unidadeEscolar = null;
 			Pessoa pessoa = null;
 			Endereco endereco = null;
+			Cidade cidade = null;
+			Cidade cidadeNascimento = null;
 			
 			for (Map.Entry<Integer, List<Object>> entry : map.entrySet()) 
 			{
@@ -117,80 +123,61 @@ public class PoiLeitorArquivoExcel
 				endereco = new Endereco();
 				listaAuxiliar = new ArrayList<Object>();
 				listaAuxiliar = entry.getValue();
-				HSSFCell cell = null;
 				String stringAux = "";
+				cidade = new Cidade();
+				
+				//Aqui eu retorno apenas a PK da cidade
+				cidade.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14)));
 				
 				//Monta a unidade
-				cell = (HSSFCell) listaAuxiliar.get(1);
-				
-				unidadeEscolar.setCodigo(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false));
+				unidadeEscolar.setCodigo(cortarCasasDecimais((String)listaAuxiliar.get(1), false, false));
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
 				//Monta o endereço
-				cell = (HSSFCell) listaAuxiliar.get(10);
-				endereco.setLogradouro(cell.getStringCellValue());
-
-				cell = (HSSFCell) listaAuxiliar.get(11);
-				endereco.setNumero(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false)));
-				
-				cell = (HSSFCell) listaAuxiliar.get(12);
-				endereco.setBairro(cell.getStringCellValue());
-				
-				cell = (HSSFCell) listaAuxiliar.get(13);
-				String cep = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), true, false);
-				endereco.setCep(new Integer(cep));
-
+				endereco.setLogradouro((String)listaAuxiliar.get(10));
+				endereco.setNumero(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false)));
+				endereco.setBairro((String)listaAuxiliar.get(12));
+				endereco.setCep(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(13), true, false)));
 				endereco.setStatus(ConstantesSisEducar.STATUS_ATIVO);
+				endereco.setCidade(cidade);
 				
 				//Monta o aluno
-				cell = (HSSFCell) listaAuxiliar.get(5);
-				aluno.setRa(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, true)); //RA
+				aluno.setRa(cortarCasasDecimais(new Double((String)listaAuxiliar.get(5)).toString(), false, true)); //RA
 
-				cell = (HSSFCell) listaAuxiliar.get(6);
-				stringAux = cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, true);
+				stringAux = cortarCasasDecimais(new Double((String)listaAuxiliar.get(6)).toString(), false, true);
 				stringAux = stringAux.substring(0, 1);
 				aluno.setRa2(stringAux); //RA2
 				if(aluno.getRa2().equals("-1")) 	{ aluno.setRa2("X"); }
 				else if(aluno.getRa2().equals("-2")){ aluno.setRa2("NULL"); }
 				
-				cell = (HSSFCell) listaAuxiliar.get(8);
-				aluno.setNomePai(cell.getStringCellValue()); //Nome Pai
+				aluno.setNomePai((String)listaAuxiliar.get(8)); //Nome Pai
+				aluno.setNomeMae((String)listaAuxiliar.get(9)); //Nome Mãe
+				aluno.setFolha(cortarCasasDecimais((String)listaAuxiliar.get(15), false, false)); //Folha
+				aluno.setLivro(cortarCasasDecimais((String)listaAuxiliar.get(16), false, false));
 				
-				cell = (HSSFCell) listaAuxiliar.get(9);
-				aluno.setNomeMae(cell.getStringCellValue()); //Nome Mãe
-				
-				cell = (HSSFCell) listaAuxiliar.get(15); //Folha
-				//aluno.setFolha((String)listaAuxiliar.get(15));
-				
-				cell = (HSSFCell) listaAuxiliar.get(16); //Livro
-				//aluno.setLivro((String)listaAuxiliar.get(16));
-				
-				cell = (HSSFCell) listaAuxiliar.get(17); //Registro
-				aluno.setRegistro(new Integer(cortarCasasDecimais(new Double(cell.getNumericCellValue()).toString(), false, false)));
-				
-				cell = (HSSFCell) listaAuxiliar.get(19); //Livro UF
-				stringAux = cell.getStringCellValue();
-				aluno.setLivroUF(stringAux);
+				aluno.setRegistro(new Integer(cortarCasasDecimais(new Double((String)listaAuxiliar.get(17)).toString(), false, false)));
+				aluno.setLivroUF((String)listaAuxiliar.get(19));
 				
 				//Monta a pessoa
-				cell = (HSSFCell) listaAuxiliar.get(2); //Livro UF
-				pessoa.setNome(cell.getStringCellValue()); //Nome
+				pessoa.setNome((String)listaAuxiliar.get(2)); //Nome
+				pessoa.setSexo((String)listaAuxiliar.get(3)); //Sexo
 				
-				cell = (HSSFCell) listaAuxiliar.get(3); //Livro UF
-				pessoa.setSexo(cell.getStringCellValue()); //Sexo
+				//salva endereço 
+				endereco = new EnderecoDAO().inserirEndereco(endereco);
 				
 				//Cidade - Criar OM Cidade
-				
 				pessoa.setEndereco(endereco);
+				aluno.setPessoa(pessoa);
+				aluno.setCidadeNascimento(cidadeNascimento);
 				
 				listaAuxiliar.get(1);
 			    pessoa.setUnidadeEscolar(unidadeEscolar);
 			    
 			    countPosicao ++;
+			    
+			    break;
 			}
-			
-			System.out.println(map.get(1));
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); }
 		catch (IOException e) 			{ e.printStackTrace(); }
@@ -202,7 +189,7 @@ public class PoiLeitorArquivoExcel
 		String numeroDestino = "";
 		String stringNova = "";
 		
-		if(numeroOrigem!=null && numeroOrigem.length() >0)
+		if(numeroOrigem!=null && numeroOrigem.length() >0 && numeroOrigem.contains("."))
 		{
 			if(validarCEP)
 			{
@@ -228,7 +215,9 @@ public class PoiLeitorArquivoExcel
 			numeroDestino = numeroOrigem.substring(0, posicaoPonto);
 			return numeroDestino;
 		}
-		
-		return null;
+		else
+		{
+			return numeroOrigem;
+		}
 	}
 }
