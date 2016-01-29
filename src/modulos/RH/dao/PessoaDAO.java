@@ -22,41 +22,112 @@ public class PessoaDAO extends SisEducarDAO
 	
 	public Pessoa inserirPessoa(Pessoa pessoa) throws SQLException 
 	{
+		Integer numeroArgumentos = 1;
 		String querySQL = "INSERT INTO pessoa "
-				+ " (nome, nomefantasia, cpf, cnpj, semcpf, rg, datanascimento, datacadastro, sexo, telefonecomercial, "
-				+ " telefoneresidencial, telefonecelular,"
-				+ " tipoPessoa, falecido, datafalecimento, status, fkRaca, fkSituacaoEconomica, fkReligiao, "
-				+ " fkTipoDeficiencia, fkRegiao, fkNacionalidade, fkEstadoCivil, fkTurno, "
-				+ " fkGrauInstrucao, fkUnidadeEscolar, fkEndereco) "
+				+ " ("
+					+ " nome, nomefantasia, cpf, cnpj, semcpf, rg, datanascimento, datacadastro, sexo, telefonecomercial, "
+					+ " telefoneresidencial, telefonecelular, tipoPessoa, falecido, datafalecimento, status, fkRaca, fkSituacaoEconomica, fkReligiao, "
+					+ " fkTipoDeficiencia, fkRegiao, fkNacionalidade, fkEstadoCivil, fkTurno, fkGrauInstrucao, fkUnidadeEscolar, fkEndereco"
+				+ ") "
 				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setString(1, pessoa.getNome());
-		ps.setString(2, pessoa.getNomeFantasia());
-		ps.setString(3, pessoa.getCpf());
-		ps.setString(4, pessoa.getCnpj());
-		ps.setBoolean(5, pessoa.getSemCpf());
-		ps.setDate(6, pessoa.getDataNascimento());
-		ps.setDate(7, pessoa.getDataCadastro());
-		ps.setString(8, pessoa.getSexo());
-		ps.setInt(9, pessoa.getTelefoneComercial());
-		ps.setInt(10, pessoa.getTelefoneResidencial());
-		ps.setInt(11, pessoa.getTelefoneCelular());
-		ps.setInt(12, pessoa.getTipoPessoa());
-		ps.setBoolean(13, pessoa.getFalecido());
-		ps.setDate(14, pessoa.getDataFalecimento());
-		ps.setInt(15, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setInt(16, pessoa.getRaca()!=null ? pessoa.getRaca().getPkRaca() : null);
-		ps.setInt(17, pessoa.getSituacaoEconomica()!=null ? pessoa.getSituacaoEconomica().getPkSituacaoEconomica() : null);
-		ps.setInt(18, pessoa.getReligiao()!=null ? pessoa.getReligiao().getPkReligiao() : null);
-		ps.setInt(19, pessoa.getTipoDeficiencia()!=null ? pessoa.getTipoDeficiencia().getPkTipoDeficiencia() : null);
-		ps.setInt(20, pessoa.getRegiao()!=null ? pessoa.getRegiao().getPkRegiao() : null);
-		ps.setInt(21, pessoa.getNacionalidade()!=null ? pessoa.getNacionalidade().getPkNacionalidade() : null);
-		ps.setInt(22, pessoa.getEstadoCivil()!=null ? pessoa.getEstadoCivil().getPkEstadoCivil() : null);
-		ps.setInt(23, pessoa.getTurno()!=null ? pessoa.getTurno().getPkRaca() : null);
-		ps.setInt(24, pessoa.getGrauInstrucao()!=null ? pessoa.getGrauInstrucao().getPkGrauInstrucao() : null);
-		ps.setInt(25, pessoa.getUnidadeEscolar()!=null ? pessoa.getUnidadeEscolar().getPkUnidadeEscolar() : null);
-		ps.setInt(26, pessoa.getEndereco()!=null ? pessoa.getEndereco().getPkEndereco() : null);
+		ps.setString(numeroArgumentos, pessoa.getNome());
+		numeroArgumentos++;
+		ps.setString(numeroArgumentos, pessoa.getNomeFantasia());
+		numeroArgumentos++;
+		ps.setString(numeroArgumentos, pessoa.getCpf());
+		numeroArgumentos++;
+		ps.setString(numeroArgumentos, pessoa.getCnpj());
+		numeroArgumentos++;
+		ps.setBoolean(numeroArgumentos, pessoa.getSemCpf() !=null ? pessoa.getSemCpf() : false);
+		numeroArgumentos++;
+		ps.setDate(numeroArgumentos, pessoa.getDataNascimento());
+		numeroArgumentos++;
+		ps.setDate(numeroArgumentos, pessoa.getDataCadastro());
+		numeroArgumentos++;
+		ps.setString(numeroArgumentos, pessoa.getSexo());
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, pessoa.getTelefoneComercial());
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, pessoa.getTelefoneResidencial());
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, pessoa.getTelefoneCelular());
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, pessoa.getTipoPessoa());
+		numeroArgumentos++;
+		ps.setBoolean(numeroArgumentos, pessoa.getFalecido()!=null ? pessoa.getFalecido() : false);
+		numeroArgumentos++;
+		ps.setDate(numeroArgumentos, pessoa.getDataFalecimento());
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		numeroArgumentos++;
+		
+		if(pessoa.getRaca()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getRaca().getPkRaca());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getSituacaoEconomica()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getSituacaoEconomica().getPkSituacaoEconomica());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getReligiao()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getReligiao().getPkReligiao());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getTipoDeficiencia()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getTipoDeficiencia().getPkTipoDeficiencia());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getRegiao()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getRegiao().getPkRegiao());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getNacionalidade()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getNacionalidade().getPkNacionalidade());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getEstadoCivil()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getEstadoCivil().getPkEstadoCivil());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getTurno()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getTurno().getPkRaca());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getGrauInstrucao()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getGrauInstrucao().getPkGrauInstrucao());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getUnidadeEscolar()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getUnidadeEscolar().getPkUnidadeEscolar());
+			numeroArgumentos++;
+		}
+		
+		if(pessoa.getEndereco()!=null)
+		{
+			ps.setInt(numeroArgumentos, pessoa.getEndereco().getPkEndereco());
+			numeroArgumentos++;
+		}
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
