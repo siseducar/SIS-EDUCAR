@@ -1,6 +1,7 @@
 package modulos.RH.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +20,11 @@ public class PessoaDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
+	public PessoaDAO() throws SQLException
+	{
+		desabilitarAutoCommit(con);
+	}
 	
 	public Pessoa inserirPessoa(Pessoa pessoa) throws SQLException 
 	{
@@ -42,9 +48,11 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setBoolean(numeroArgumentos, pessoa.getSemCpf() !=null ? pessoa.getSemCpf() : false);
 		numeroArgumentos++;
-		ps.setDate(numeroArgumentos, pessoa.getDataNascimento());
+		ps.setString(numeroArgumentos, pessoa.getRg());
 		numeroArgumentos++;
-		ps.setDate(numeroArgumentos, pessoa.getDataCadastro());
+		ps.setDate(numeroArgumentos, new Date(0));
+		numeroArgumentos++;
+		ps.setDate(numeroArgumentos, new Date(0));
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
 		numeroArgumentos++;
@@ -62,7 +70,27 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		numeroArgumentos++;
-		
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, null);
 		if(pessoa.getRaca()!=null)
 		{
 			ps.setInt(numeroArgumentos, pessoa.getRaca().getPkRaca());
