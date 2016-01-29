@@ -166,9 +166,11 @@ public class PoiLeitorArquivoExcel
 				
 				//salva endereço 
 				//endereco = new EnderecoDAO().inserirEndereco(endereco);
-				pessoa = new PessoaDAO().inserirPessoa(pessoa);
-				//Cidade - Criar OM Cidade
 				pessoa.setEndereco(endereco);
+				
+				//salva pessoa
+				//pessoa = new PessoaDAO().inserirPessoa(pessoa);
+				
 				aluno.setPessoa(pessoa);
 				aluno.setCidadeNascimento(cidadeNascimento);
 				

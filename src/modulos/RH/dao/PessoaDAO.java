@@ -70,92 +70,27 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getRaca()!=null ? pessoa.getRaca().getPkRaca() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getSituacaoEconomica()!=null ? pessoa.getSituacaoEconomica().getPkSituacaoEconomica() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getReligiao()!=null ? pessoa.getRegiao().getPkRegiao() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getTipoDeficiencia()!=null ? pessoa.getTipoDeficiencia().getPkTipoDeficiencia() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getRegiao()!=null ? pessoa.getRegiao().getPkRegiao() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getNacionalidade()!=null ? pessoa.getNacionalidade().getPkNacionalidade() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getEstadoCivil()!=null ? pessoa.getEstadoCivil().getPkEstadoCivil() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getTurno()!=null ? pessoa.getTurno().getPkRaca() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getGrauInstrucao()!=null ? pessoa.getGrauInstrucao().getPkGrauInstrucao() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
+		ps.setObject(numeroArgumentos, pessoa.getUnidadeEscolar()!=null ? pessoa.getUnidadeEscolar().getPkUnidadeEscolar() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, null);
-		if(pessoa.getRaca()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getRaca().getPkRaca());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getSituacaoEconomica()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getSituacaoEconomica().getPkSituacaoEconomica());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getReligiao()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getReligiao().getPkReligiao());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getTipoDeficiencia()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getTipoDeficiencia().getPkTipoDeficiencia());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getRegiao()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getRegiao().getPkRegiao());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getNacionalidade()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getNacionalidade().getPkNacionalidade());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getEstadoCivil()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getEstadoCivil().getPkEstadoCivil());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getTurno()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getTurno().getPkRaca());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getGrauInstrucao()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getGrauInstrucao().getPkGrauInstrucao());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getUnidadeEscolar()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getUnidadeEscolar().getPkUnidadeEscolar());
-			numeroArgumentos++;
-		}
-		
-		if(pessoa.getEndereco()!=null)
-		{
-			ps.setInt(numeroArgumentos, pessoa.getEndereco().getPkEndereco());
-			numeroArgumentos++;
-		}
+		ps.setObject(numeroArgumentos, pessoa.getEndereco()!=null ? pessoa.getEndereco().getPkEndereco() : null);
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
