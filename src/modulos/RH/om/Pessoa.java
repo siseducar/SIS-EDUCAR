@@ -26,10 +26,17 @@ public class Pessoa
 	private Boolean falecido;
 	private Date dataFalecimento;
 	private int status;
-	private String nacionalidade;
-	private String estadoCivil;
-	private Endereco endereco;
+	private Raca raca;
+	private SituacaoEconomica situacaoEconomica;
+	private Religiao religiao;
+	private TipoDeficiencia tipoDeficiencia;
+	private Regiao regiao;
+	private Nacionalidade nacionalidade;
+	private EstadoCivil estadoCivil;
+	private Turno turno;
+	private GrauInstrucao grauInstrucao;
 	private UnidadeEscolar unidadeEscolar;
+	private Endereco endereco;
 	
 	//Getters and setters
 	public int getPkPessoa() {
@@ -170,22 +177,64 @@ public class Pessoa
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public String getNacionalidade() {
-		return nacionalidade;
-	}
-	public void setNacionalidade(String nacionalidade) {
-		this.nacionalidade = nacionalidade;
-	}
-	public String getEstadoCivil() {
-		return estadoCivil;
-	}
-	public void setEstadoCivil(String estadoCivil) {
-		this.estadoCivil = estadoCivil;
-	}
 	public UnidadeEscolar getUnidadeEscolar() {
 		return unidadeEscolar;
 	}
 	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
 		this.unidadeEscolar = unidadeEscolar;
+	}
+	public Raca getRaca() {
+		return raca;
+	}
+	public void setRaca(Raca raca) {
+		this.raca = raca;
+	}
+	public SituacaoEconomica getSituacaoEconomica() {
+		return situacaoEconomica;
+	}
+	public void setSituacaoEconomica(SituacaoEconomica situacaoEconomica) {
+		this.situacaoEconomica = situacaoEconomica;
+	}
+	public Religiao getReligiao() {
+		return religiao;
+	}
+	public void setReligiao(Religiao religiao) {
+		this.religiao = religiao;
+	}
+	public TipoDeficiencia getTipoDeficiencia() {
+		return tipoDeficiencia;
+	}
+	public void setTipoDeficiencia(TipoDeficiencia tipoDeficiencia) {
+		this.tipoDeficiencia = tipoDeficiencia;
+	}
+	public Regiao getRegiao() {
+		return regiao;
+	}
+	public void setRegiao(Regiao regiao) {
+		this.regiao = regiao;
+	}
+	public Nacionalidade getNacionalidade() {
+		return nacionalidade;
+	}
+	public void setNacionalidade(Nacionalidade nacionalidade) {
+		this.nacionalidade = nacionalidade;
+	}
+	public EstadoCivil getEstadoCivil() {
+		return estadoCivil;
+	}
+	public void setEstadoCivil(EstadoCivil estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+	public Turno getTurno() {
+		return turno;
+	}
+	public void setTurno(Turno turno) {
+		this.turno = turno;
+	}
+	public GrauInstrucao getGrauInstrucao() {
+		return grauInstrucao;
+	}
+	public void setGrauInstrucao(GrauInstrucao grauInstrucao) {
+		this.grauInstrucao = grauInstrucao;
 	}
 }

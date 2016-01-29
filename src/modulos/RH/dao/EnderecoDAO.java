@@ -25,6 +25,12 @@ public class EnderecoDAO extends SisEducarDAO
 		desabilitarAutoCommit(con);
 	}
 	
+	/**
+	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
+	 * @author João Paulo
+	 * @param endereco
+	 * @return Endereco
+	 */
 	public Endereco inserirEndereco(Endereco endereco)
 	{
 		try 
@@ -56,6 +62,19 @@ public class EnderecoDAO extends SisEducarDAO
 		}
 	}
 	
+	/**
+	 * Busca apenas a pk do endereço a partir dos parâmetros recebidos
+	 * @author João Paulo
+	 * @param cep
+	 * @param logradouro
+	 * @param bairro
+	 * @param numero
+	 * @param complemento
+	 * @param tipo
+	 * @param fkCidade
+	 * @return Integer pkEndereco
+	 * @throws SQLException
+	 */
 	public Integer obtemPKEndereco(Integer cep, String logradouro, String bairro, Integer numero, String complemento, String tipo, Integer fkCidade) throws SQLException
 	{
 		Integer numeroArgumentos = 1;

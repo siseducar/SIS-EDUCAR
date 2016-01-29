@@ -11,6 +11,7 @@ import java.util.Map;
 
 import modulos.RH.dao.CidadeDAO;
 import modulos.RH.dao.EnderecoDAO;
+import modulos.RH.dao.PessoaDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
@@ -164,8 +165,8 @@ public class PoiLeitorArquivoExcel
 				pessoa.setSexo((String)listaAuxiliar.get(3)); //Sexo
 				
 				//salva endereço 
-				endereco = new EnderecoDAO().inserirEndereco(endereco);
-				
+				//endereco = new EnderecoDAO().inserirEndereco(endereco);
+				pessoa = new PessoaDAO().inserirPessoa(pessoa);
 				//Cidade - Criar OM Cidade
 				pessoa.setEndereco(endereco);
 				aluno.setPessoa(pessoa);
