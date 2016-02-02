@@ -62,10 +62,10 @@ public class AlunoDAO extends SisEducarDAO
 	{
 		String querySQL = "INSERT INTO aluno "
 				+ " ("
-					+ " ra, ra2, folha, livro, registro, fkPessoa, anoletivo,"
-					+ " cidadenascimento, livrouf, nomepai, nomemae"
+					+ " ra, ra2, folha, livro, registro, fkPessoa,"
+					+ " fkcidadenascimento, livrouf, nomepai, nomemae"
 				+ ") "
-				+ " values(?,?,?,?,?,?,?,?,?,?,?)";
+				+ " values(?,?,?,?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, aluno.getRa());
@@ -74,11 +74,10 @@ public class AlunoDAO extends SisEducarDAO
 		ps.setString(4, aluno.getLivro());
 		ps.setInt(5, aluno.getRegistro());
 		ps.setInt(6, aluno.getPessoa().getPkPessoa());
-		ps.setInt(7, aluno.getAnoLetivo());
-		ps.setObject(8, aluno.getCidadeNascimento()!=null ? aluno.getCidadeNascimento().getPkCidade() : null);
-		ps.setString(9, aluno.getLivroUF());
-		ps.setString(10, aluno.getNomePai());
-		ps.setString(11, aluno.getNomeMae());
+		ps.setObject(7, aluno.getCidadeNascimento()!=null ? aluno.getCidadeNascimento().getPkCidade() : null);
+		ps.setString(8, aluno.getLivroUF());
+		ps.setString(9, aluno.getNomePai());
+		ps.setString(10, aluno.getNomeMae());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
@@ -101,20 +100,14 @@ public class AlunoDAO extends SisEducarDAO
 		Integer numeroArgumentos = 1;
 		
 		String querySQL = "SELECT * FROM aluno"
-				+ " WHERE status = ?";
+				+ " WHERE ra = ?";
 		
-		if(ra!=null && ra.length() >0) 				{ querySQL += " AND ra = ?"; }
 		if(ra2!=null && ra2.length() >0)		 	{ querySQL += " AND ra2 = ?"; }
 		if(registro!=null && registro >0)	{ querySQL += " AND registro = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
-		if(ra!=null && ra.length() >0) 
-		{ 
-			numeroArgumentos ++; 
-			ps.setString(numeroArgumentos, ra);
-		}
+		ps.setString(numeroArgumentos, ra);
 		
 		if(ra2!=null && ra2.length()>0)	
 		{ 

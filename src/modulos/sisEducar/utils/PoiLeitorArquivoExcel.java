@@ -3,15 +3,18 @@ package modulos.sisEducar.utils;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.CidadeDAO;
 import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.PessoaDAO;
+import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
@@ -126,58 +129,79 @@ public class PoiLeitorArquivoExcel
 				listaAuxiliar = entry.getValue();
 				String stringAux = "";
 				cidade = new Cidade();
+				cidadeNascimento = new Cidade();
+				
+				pessoa.setDataNascimento((Date) ConversorUtils.convertStringToTimestamp(correcaoStringToStringDate((String)listaAuxiliar.get(4))));
 				
 				//Aqui eu retorno apenas a PK da cidade
-				cidade.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14)));
+				if(!listaAuxiliar.get(14).equals("NULL")) { cidade.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
+				else { cidade = null; }
 				
 				//Monta a unidade
 				unidadeEscolar.setCodigo(cortarCasasDecimais((String)listaAuxiliar.get(1), false, false));
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
+				unidadeEscolar = new UnidadeEscolarDAO().inserirUnidadeEscolar(unidadeEscolar);
+				
 				//Monta o endereço
-				endereco.setLogradouro((String)listaAuxiliar.get(10));
-				endereco.setNumero(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false)));
-				endereco.setBairro((String)listaAuxiliar.get(12));
-				endereco.setCep(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(13), true, false)));
+				if(!listaAuxiliar.get(10).equals("NULL")) { endereco.setLogradouro((String)listaAuxiliar.get(10)); }
+				if(!listaAuxiliar.get(11).equals("NULL")) { endereco.setNumero(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false))); }
+				if(!listaAuxiliar.get(12).equals("NULL")) { endereco.setBairro((String)listaAuxiliar.get(12)); }
+				if(!listaAuxiliar.get(13).equals("NULL")) { endereco.setCep(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(13), true, false))); }
+				if(cidade!=null) { endereco.setCidade(cidade); }
 				endereco.setStatus(ConstantesSisEducar.STATUS_ATIVO);
-				endereco.setCidade(cidade);
 				
 				//Monta o aluno
 				aluno.setRa(cortarCasasDecimais(new Double((String)listaAuxiliar.get(5)).toString(), false, true)); //RA
-
-				stringAux = cortarCasasDecimais(new Double((String)listaAuxiliar.get(6)).toString(), false, true);
-				stringAux = stringAux.substring(0, 1);
-				aluno.setRa2(stringAux); //RA2
-				if(aluno.getRa2().equals("-1")) 	{ aluno.setRa2("X"); }
-				else if(aluno.getRa2().equals("-2")){ aluno.setRa2("NULL"); }
 				
-				aluno.setNomePai((String)listaAuxiliar.get(8)); //Nome Pai
-				aluno.setNomeMae((String)listaAuxiliar.get(9)); //Nome Mãe
-				aluno.setFolha(cortarCasasDecimais((String)listaAuxiliar.get(15), false, false)); //Folha
-				aluno.setLivro(cortarCasasDecimais((String)listaAuxiliar.get(16), false, false));
+				if(listaAuxiliar.get(6).equals("-1")) 		{ aluno.setRa2(""); }
+				else if(listaAuxiliar.get(6).equals("-2"))  { aluno.setRa2("NULL"); }
+				else 
+				{ 
+					stringAux = cortarCasasDecimais(new Double((String)listaAuxiliar.get(6)).toString(), false, true); //RA2
+					stringAux = stringAux.substring(0, 1);
+					aluno.setRa2(stringAux); //RA2
+				}
 				
-				aluno.setRegistro(new Integer(cortarCasasDecimais(new Double((String)listaAuxiliar.get(17)).toString(), false, false)));
-				aluno.setLivroUF((String)listaAuxiliar.get(19));
+				if(!listaAuxiliar.get(8).equals("NULL")) { aluno.setNomePai((String)listaAuxiliar.get(8)); } //Nome Pai
+				if(!listaAuxiliar.get(9).equals("NULL")) { aluno.setNomeMae((String)listaAuxiliar.get(9)); } //Nome Mãe
+				if(!listaAuxiliar.get(15).equals("NULL")) { aluno.setFolha(cortarCasasDecimais((String)listaAuxiliar.get(15), false, false)); } //Folha
+				if(!listaAuxiliar.get(16).equals("NULL")) { aluno.setLivro(cortarCasasDecimais((String)listaAuxiliar.get(16), false, false)); }
+				if(!listaAuxiliar.get(17).equals("NULL")) { aluno.setRegistro(new Integer(cortarCasasDecimais(new Double((String)listaAuxiliar.get(17)).toString(), false, false))); }
+				if(!listaAuxiliar.get(19).equals("NULL")) { aluno.setLivroUF((String)listaAuxiliar.get(19)); }
 				
 				//Monta a pessoa
 				pessoa.setNome((String)listaAuxiliar.get(2)); //Nome
 				pessoa.setSexo((String)listaAuxiliar.get(3)); //Sexo
 				
+				
 				//salva endereço 
-				//endereco = new EnderecoDAO().inserirEndereco(endereco);
+				endereco = new EnderecoDAO().inserirEndereco(endereco);
 				pessoa.setEndereco(endereco);
+				pessoa.setUnidadeEscolar(unidadeEscolar);
 				
 				//salva pessoa
-				//pessoa = new PessoaDAO().inserirPessoa(pessoa);
+				pessoa = new PessoaDAO().inserirPessoa(pessoa);
 				
 				aluno.setPessoa(pessoa);
+				if(!listaAuxiliar.get(18).equals("NULL")) { cidadeNascimento.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
+				else {cidadeNascimento = null; }
 				aluno.setCidadeNascimento(cidadeNascimento);
 				
-				listaAuxiliar.get(1);
-			    pessoa.setUnidadeEscolar(unidadeEscolar);
-			    
-			    countPosicao ++;
+				aluno = new AlunoDAO().inserirAluno(aluno);
+				
+				countPosicao ++;
+				if(aluno!=null && aluno.getPkAluno()>0 
+						&& pessoa!=null && pessoa.getPkPessoa()>0
+						&& endereco!=null && endereco.getPkEndereco()>0)
+				{
+						System.out.println(countPosicao);
+				}
+				else
+				{
+					System.out.println("A linha número " + countPosicao + " não deu certo");
+				}
 			    
 			    break;
 			}
@@ -221,6 +245,27 @@ public class PoiLeitorArquivoExcel
 		else
 		{
 			return numeroOrigem;
+		}
+	}
+	
+	public static String correcaoStringToStringDate(String original)
+	{
+		String ano = "";
+		String mes = "";
+		String dia = "";
+		if(original!=null)
+		{
+			original = original.substring(0, original.length()-2);
+			original = original.replace(".", "");
+			ano = original.substring(original.length()-4, original.length());
+			mes = original.substring(original.length()-6, original.length()-4);
+			dia = original.substring(0, original.length()-6);
+			
+			return dia + "/" + mes + "/" + ano;
+		}
+		else 
+		{
+			return original;
 		}
 	}
 }

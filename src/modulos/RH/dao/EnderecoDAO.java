@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -47,12 +48,14 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setString(5, endereco.getComplemento());
 			ps.setInt(6, 0);
 			ps.setInt(7, ConstantesSisEducar.STATUS_ATIVO);
-			ps.setInt(8, endereco.getCidade().getPkCidade());
+			
+			if(endereco!=null && endereco.getCidade()!=null && endereco.getCidade().getPkCidade()>0) { ps.setInt(8, endereco.getCidade().getPkCidade()); }
+			else { ps.setObject(8, null); }
 			
 			fecharConexaoBanco(con, ps, false, true);
-			
+
 			endereco.setPkEndereco(obtemPKEndereco(endereco.getCep(), endereco.getLogradouro(), endereco.getBairro(), endereco.getNumero(), endereco.getComplemento(), endereco.getTipo(), 
-					endereco.getCidade().getPkCidade()));
+					endereco.getCidade()));
 			
 			return endereco;
 		} 
@@ -75,7 +78,7 @@ public class EnderecoDAO extends SisEducarDAO
 	 * @return Integer pkEndereco
 	 * @throws SQLException
 	 */
-	public Integer obtemPKEndereco(Integer cep, String logradouro, String bairro, Integer numero, String complemento, String tipo, Integer fkCidade) throws SQLException
+	public Integer obtemPKEndereco(Integer cep, String logradouro, String bairro, Integer numero, String complemento, String tipo, Cidade cidade) throws SQLException
 	{
 		Integer numeroArgumentos = 1;
 		
@@ -87,8 +90,8 @@ public class EnderecoDAO extends SisEducarDAO
 		if(bairro!=null && bairro.length() >0)		 	{ querySQL += " AND bairro = ?"; }
 		if(numero!=null && numero >0)					{ querySQL += " AND numero = ?"; }
 		if(complemento!=null && complemento.length() >0){ querySQL += " AND complemento = ?"; }
-		if(tipo!=null && tipo.length() >0)	 					{ querySQL += " AND tipo = ?"; }
-		if(fkCidade!=null && fkCidade >0)	 			{ querySQL += " AND fkcidade = ?"; }
+		if(tipo!=null && tipo.length() >0)	 			{ querySQL += " AND tipo = ?"; }
+		if(cidade!=null && cidade.getPkCidade() >0)	 	{ querySQL += " AND fkcidade = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
 		
@@ -129,10 +132,10 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setString(numeroArgumentos, tipo);
 		}
 		
-		if(fkCidade!=null && fkCidade >0)	
+		if(cidade!=null && cidade.getPkCidade() >0)	
 		{ 
 			numeroArgumentos ++; 
-			ps.setInt(numeroArgumentos, fkCidade);
+			ps.setInt(numeroArgumentos, cidade.getPkCidade());
 		}
 		
 		ResultSet rs = ps.executeQuery();

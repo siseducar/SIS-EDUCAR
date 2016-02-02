@@ -9,7 +9,6 @@ public class Aluno
 	private String livro;
 	private Integer registro;
 	private Pessoa pessoa;
-	private int anoLetivo;
 	private Cidade cidadeNascimento;
 	private String livroUF;
 	private String nomePai;
@@ -80,11 +79,5 @@ public class Aluno
 	}
 	public void setPkAluno(int pkAluno) {
 		this.pkAluno = pkAluno;
-	}
-	public int getAnoLetivo() {
-		return anoLetivo;
-	}
-	public void setAnoLetivo(int anoLetivo) {
-		this.anoLetivo = anoLetivo;
 	}
 }
