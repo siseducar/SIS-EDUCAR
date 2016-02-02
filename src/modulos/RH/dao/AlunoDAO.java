@@ -72,7 +72,7 @@ public class AlunoDAO extends SisEducarDAO
 		ps.setString(2, aluno.getRa2());
 		ps.setString(3, aluno.getFolha());
 		ps.setString(4, aluno.getLivro());
-		ps.setInt(5, aluno.getRegistro());
+		ps.setInt(5, aluno.getRegistro()!=null ? aluno.getRegistro() : -1);
 		ps.setInt(6, aluno.getPessoa().getPkPessoa());
 		ps.setObject(7, aluno.getCidadeNascimento()!=null ? aluno.getCidadeNascimento().getPkCidade() : null);
 		ps.setString(8, aluno.getLivroUF());

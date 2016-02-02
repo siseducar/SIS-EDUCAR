@@ -35,7 +35,7 @@ public class PessoaDAO extends SisEducarDAO
 					+ " telefoneresidencial, telefonecelular, tipoPessoa, falecido, datafalecimento, status, fkRaca, fkSituacaoEconomica, fkReligiao, "
 					+ " fkTipoDeficiencia, fkRegiao, fkNacionalidade, fkEstadoCivil, fkTurno, fkGrauInstrucao, fkUnidadeEscolar, fkEndereco"
 				+ ") "
-				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " values(?,?,?,?,?,?,?, now(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(numeroArgumentos, pessoa.getNome());
@@ -51,8 +51,6 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setString(numeroArgumentos, pessoa.getRg());
 		numeroArgumentos++;
 		ps.setDate(numeroArgumentos, pessoa.getDataNascimento()!=null ? pessoa.getDataNascimento() : new Date(0));
-		numeroArgumentos++;
-		ps.setDate(numeroArgumentos, new Date(0));
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
 		numeroArgumentos++;

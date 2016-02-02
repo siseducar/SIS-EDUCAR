@@ -118,9 +118,14 @@ public class PoiLeitorArquivoExcel
 			Endereco endereco = null;
 			Cidade cidade = null;
 			Cidade cidadeNascimento = null;
-			
+			AlunoDAO alunoDAO = new AlunoDAO();
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			for (Map.Entry<Integer, List<Object>> entry : map.entrySet()) 
 			{
+				
 				aluno = new Aluno();
 				unidadeEscolar = new UnidadeEscolar();
 				pessoa = new Pessoa();
@@ -132,7 +137,7 @@ public class PoiLeitorArquivoExcel
 				cidadeNascimento = new Cidade();
 				
 				//Aqui eu retorno apenas a PK da cidade
-				if(!listaAuxiliar.get(14).equals("NULL")) { cidade.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
+				if(!listaAuxiliar.get(14).equals("NULL")) { cidade.setPkCidade(cidadeDAO.obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
 				else { cidade = null; }
 				
 				//Monta a unidade
@@ -140,14 +145,14 @@ public class PoiLeitorArquivoExcel
 				unidadeEscolar.setNome("nd");
 				unidadeEscolar.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
-				unidadeEscolar = new UnidadeEscolarDAO().inserirUnidadeEscolar(unidadeEscolar);
+				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 				
 				//Monta o endereço
 				if(!listaAuxiliar.get(10).equals("NULL")) { endereco.setLogradouro((String)listaAuxiliar.get(10)); }
-				if(!listaAuxiliar.get(11).equals("NULL")) { endereco.setNumero(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false))); }
+				if(!listaAuxiliar.get(11).equals("NULL")) { endereco.setNumero(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false)); }
 				if(!listaAuxiliar.get(12).equals("NULL")) { endereco.setBairro((String)listaAuxiliar.get(12)); }
-				if(!listaAuxiliar.get(13).equals("NULL")) { endereco.setCep(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(13), true, false))); }
-				if(cidade!=null) { endereco.setCidade(cidade); }
+				//if(!listaAuxiliar.get(13).equals("NULL")) { endereco.setCep(new Integer(cortarCasasDecimais((String)listaAuxiliar.get(13), true, false))); }
+				if(cidade!=null && cidade.getPkCidade()!=null && cidade.getPkCidade()>0) { endereco.setCidade(cidade); }
 				endereco.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				
 				//Monta o aluno
@@ -176,19 +181,19 @@ public class PoiLeitorArquivoExcel
 				//pessoa.setDataCadastro((Date) ConversorUtils.convertStringToTimestamp(new java.util.Date().toString("")));				
 				
 				//salva endereço 
-				endereco = new EnderecoDAO().inserirEndereco(endereco);
+				endereco = enderecoDAO.inserirEndereco(endereco);
 				pessoa.setEndereco(endereco);
 				pessoa.setUnidadeEscolar(unidadeEscolar);
 				
 				//salva pessoa
-				pessoa = new PessoaDAO().inserirPessoa(pessoa);
+				pessoa = pessoaDAO.inserirPessoa(pessoa);
 				
 				aluno.setPessoa(pessoa);
-				if(!listaAuxiliar.get(18).equals("NULL")) { cidadeNascimento.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(18))); }
+				if(!listaAuxiliar.get(18).equals("NULL")) { cidadeNascimento.setPkCidade(cidadeDAO.obtemPKCidade(null, (String)listaAuxiliar.get(18))); }
 				else {cidadeNascimento = null; }
 				aluno.setCidadeNascimento(cidadeNascimento);
 				
-				aluno = new AlunoDAO().inserirAluno(aluno);
+				aluno = alunoDAO.inserirAluno(aluno);
 				
 				countPosicao ++;
 				if(aluno!=null && aluno.getPkAluno()>0 
@@ -201,8 +206,6 @@ public class PoiLeitorArquivoExcel
 				{
 					System.out.println("A linha número " + countPosicao + " não deu certo");
 				}
-			    
-			    break;
 			}
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); }
@@ -252,10 +255,13 @@ public class PoiLeitorArquivoExcel
 		String ano = "";
 		String mes = "";
 		String dia = "";
+		String aux = "";
 		if(original!=null)
 		{
 			original = original.substring(0, original.length()-2);
 			original = original.replace(".", "");
+			
+			if(original.length()==5){original += "000";}
 			ano = original.substring(original.length()-4, original.length());
 			mes = original.substring(original.length()-6, original.length()-4);
 			dia = original.substring(0, original.length()-6);

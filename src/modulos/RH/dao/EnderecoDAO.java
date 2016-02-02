@@ -41,10 +41,10 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setInt(1, endereco.getCep());
+			ps.setInt(1, 13830000);
 			ps.setString(2, endereco.getLogradouro());
 			ps.setString(3, endereco.getBairro());
-			ps.setInt(4, endereco.getNumero());
+			ps.setString(4, endereco.getNumero());
 			ps.setString(5, endereco.getComplemento());
 			ps.setInt(6, 0);
 			ps.setInt(7, ConstantesSisEducar.STATUS_ATIVO);
@@ -78,7 +78,7 @@ public class EnderecoDAO extends SisEducarDAO
 	 * @return Integer pkEndereco
 	 * @throws SQLException
 	 */
-	public Integer obtemPKEndereco(Integer cep, String logradouro, String bairro, Integer numero, String complemento, String tipo, Cidade cidade) throws SQLException
+	public Integer obtemPKEndereco(Integer cep, String logradouro, String bairro, String numero, String complemento, String tipo, Cidade cidade) throws SQLException
 	{
 		Integer numeroArgumentos = 1;
 		
@@ -88,7 +88,7 @@ public class EnderecoDAO extends SisEducarDAO
 		if(cep!=null && cep >0) 						{ querySQL += " AND cep = ?"; }
 		if(logradouro!=null && logradouro.length() >0)	{ querySQL += " AND logradouro = ?"; }
 		if(bairro!=null && bairro.length() >0)		 	{ querySQL += " AND bairro = ?"; }
-		if(numero!=null && numero >0)					{ querySQL += " AND numero = ?"; }
+		if(numero!=null && numero.length() >0)			{ querySQL += " AND numero = ?"; }
 		if(complemento!=null && complemento.length() >0){ querySQL += " AND complemento = ?"; }
 		if(tipo!=null && tipo.length() >0)	 			{ querySQL += " AND tipo = ?"; }
 		if(cidade!=null && cidade.getPkCidade() >0)	 	{ querySQL += " AND fkcidade = ?"; }
@@ -114,10 +114,10 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setString(numeroArgumentos, bairro);
 		}
 		
-		if(numero!=null && numero >0)	
+		if(numero!=null && numero.length() >0)	
 		{ 
 			numeroArgumentos ++; 
-			ps.setInt(numeroArgumentos, numero);
+			ps.setString(numeroArgumentos, numero);
 		}
 		
 		if(complemento!=null && complemento.length() >0)	
