@@ -17,7 +17,7 @@ public class ConversorUtils
 	     Date parsed = null;
 	     try 
 	     {
-	        parsed = sdf.parse("3/04/2016");
+	        parsed = sdf.parse(str_date);
 	     } 
 	     catch (ParseException e1) 
 	     {

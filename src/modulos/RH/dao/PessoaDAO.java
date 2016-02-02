@@ -50,7 +50,7 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getRg());
 		numeroArgumentos++;
-		ps.setDate(numeroArgumentos, new Date(0));
+		ps.setDate(numeroArgumentos, pessoa.getDataNascimento()!=null ? pessoa.getDataNascimento() : new Date(0));
 		numeroArgumentos++;
 		ps.setDate(numeroArgumentos, new Date(0));
 		numeroArgumentos++;

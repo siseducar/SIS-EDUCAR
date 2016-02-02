@@ -131,8 +131,6 @@ public class PoiLeitorArquivoExcel
 				cidade = new Cidade();
 				cidadeNascimento = new Cidade();
 				
-				pessoa.setDataNascimento((Date) ConversorUtils.convertStringToTimestamp(correcaoStringToStringDate((String)listaAuxiliar.get(4))));
-				
 				//Aqui eu retorno apenas a PK da cidade
 				if(!listaAuxiliar.get(14).equals("NULL")) { cidade.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
 				else { cidade = null; }
@@ -174,7 +172,8 @@ public class PoiLeitorArquivoExcel
 				//Monta a pessoa
 				pessoa.setNome((String)listaAuxiliar.get(2)); //Nome
 				pessoa.setSexo((String)listaAuxiliar.get(3)); //Sexo
-				
+				pessoa.setDataNascimento((Date) ConversorUtils.convertStringToTimestamp(correcaoStringToStringDate((String)listaAuxiliar.get(4))));				
+				//pessoa.setDataCadastro((Date) ConversorUtils.convertStringToTimestamp(new java.util.Date().toString("")));				
 				
 				//salva endereço 
 				endereco = new EnderecoDAO().inserirEndereco(endereco);
@@ -185,7 +184,7 @@ public class PoiLeitorArquivoExcel
 				pessoa = new PessoaDAO().inserirPessoa(pessoa);
 				
 				aluno.setPessoa(pessoa);
-				if(!listaAuxiliar.get(18).equals("NULL")) { cidadeNascimento.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(14))); }
+				if(!listaAuxiliar.get(18).equals("NULL")) { cidadeNascimento.setPkCidade(new CidadeDAO().obtemPKCidade(null, (String)listaAuxiliar.get(18))); }
 				else {cidadeNascimento = null; }
 				aluno.setCidadeNascimento(cidadeNascimento);
 				
