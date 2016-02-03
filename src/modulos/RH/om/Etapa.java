@@ -1,18 +1,19 @@
 package modulos.RH.om;
 
-public class Turno
+public class Etapa
 {
-	private Integer pkTurno;
+	private Integer pkEtapa;
 	private String codigo;
 	private String descricao;
 	private Integer ordemExibicao;
 	private Integer status;
+	private Curso curso; 
 	
-	public Integer getPkRaca() {
-		return pkTurno;
+	public Integer getPkEtapa() {
+		return pkEtapa;
 	}
-	public void setPkRaca(Integer pkTurno) {
-		this.pkTurno = pkTurno;
+	public void setPkEtapa(Integer pkEtapa) {
+		this.pkEtapa = pkEtapa;
 	}
 	public String getCodigo() {
 		return codigo;
@@ -26,16 +27,22 @@ public class Turno
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	public Integer getOrdemExibicao() {
+		return ordemExibicao;
+	}
+	public void setOrdemExibicao(Integer ordemExibicao) {
+		this.ordemExibicao = ordemExibicao;
+	}
 	public Integer getStatus() {
 		return status;
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Integer getOrdemExibicao() {
-		return ordemExibicao;
+	public Curso getCurso() {
+		return curso;
 	}
-	public void setOrdemExibicao(Integer ordemExibicao) {
-		this.ordemExibicao = ordemExibicao;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 }

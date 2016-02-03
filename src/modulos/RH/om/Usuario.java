@@ -18,6 +18,7 @@ public class Usuario
 	private int tipo;
 	private int status;
 	private String genero;
+	private Pessoa pessoa;
 
 	public Usuario() {}
 	
@@ -87,5 +88,13 @@ public class Usuario
 
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 }

@@ -1,18 +1,17 @@
 package modulos.RH.om;
 
-public class UnidadeEscolar 
+public class RedeEnsino 
 {
-	private int pkUnidadeEscolar;
+	private int pkRedeEnsino;
 	private String codigo;
 	private String nome;
 	private int status;
-	private RedeEnsino redeEnsino;
 	
-	public int getPkUnidadeEscolar() {
-		return pkUnidadeEscolar;
+	public int getPkRedeEnsino() {
+		return pkRedeEnsino;
 	}
-	public void setPkUnidadeEscolar(int pkUnidadeEscolar) {
-		this.pkUnidadeEscolar = pkUnidadeEscolar;
+	public void setPkRedeEnsino(int pkRedeEnsino) {
+		this.pkRedeEnsino = pkRedeEnsino;
 	}
 	public String getCodigo() {
 		return codigo;
@@ -31,11 +30,5 @@ public class UnidadeEscolar
 	}
 	public void setStatus(int status) {
 		this.status = status;
-	}
-	public RedeEnsino getRedeEnsino() {
-		return redeEnsino;
-	}
-	public void setRedeEnsino(RedeEnsino redeEnsino) {
-		this.redeEnsino = redeEnsino;
 	}
 }

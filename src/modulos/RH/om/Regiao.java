@@ -5,6 +5,7 @@ public class Regiao
 	private Integer pkRegiao;
 	private String codigo;
 	private String descricao;
+	private Integer ordemExibicao;
 	private Integer status;
 	
 	public Integer getPkRegiao() {
@@ -30,5 +31,11 @@ public class Regiao
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Integer getOrdemExibicao() {
+		return ordemExibicao;
+	}
+	public void setOrdemExibicao(Integer ordemExibicao) {
+		this.ordemExibicao = ordemExibicao;
 	}
 }

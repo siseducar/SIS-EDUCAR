@@ -5,6 +5,7 @@ public class Aluno
 	private int pkAluno;
 	private String ra;
 	private String ra2;
+	private String rm;
 	private String folha;
 	private String livro;
 	private Integer registro;
@@ -12,8 +13,28 @@ public class Aluno
 	private Cidade cidadeNascimento;
 	private String livroUF;
 	private String nomePai;
+	private String cpfPai;
 	private String nomeMae;
+	private String cpfMae;
 
+	public String getRm() {
+		return rm;
+	}
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+	public String getCpfPai() {
+		return cpfPai;
+	}
+	public void setCpfPai(String cpfPai) {
+		this.cpfPai = cpfPai;
+	}
+	public String getCpfMae() {
+		return cpfMae;
+	}
+	public void setCpfMae(String cpfMae) {
+		this.cpfMae = cpfMae;
+	}
 	public String getRa2() {
 		return ra2;
 	}

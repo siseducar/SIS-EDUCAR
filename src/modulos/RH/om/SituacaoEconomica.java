@@ -5,6 +5,7 @@ public class SituacaoEconomica
 	private Integer pkSituacaoEconomica;
 	private String codigo;
 	private String descricao;
+	private Integer ordemExibicao;
 	private Integer status;
 	
 	public Integer getPkSituacaoEconomica() {
@@ -30,5 +31,11 @@ public class SituacaoEconomica
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Integer getOrdemExibicao() {
+		return ordemExibicao;
+	}
+	public void setOrdemExibicao(Integer ordemExibicao) {
+		this.ordemExibicao = ordemExibicao;
 	}
 }
