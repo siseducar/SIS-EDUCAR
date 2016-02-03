@@ -189,14 +189,14 @@
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
-
+													
 													<label class="block clearfix">
 														<output>Nome de Usuário</output>
 														<span class="block input-icon input-icon-right">
 															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
-													</label>
+													</label> 
 
 													<label class="block clearfix">
 														<output>Senha</output>
@@ -213,6 +213,27 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
+													
+													<label class="block clearfix">
+														<input id="inputGeneroAux" name="inputGeneroAux" class="hidden"/>
+														<div class="col-sm-6">
+															<div class="control-group">
+																<output>Gênero</output>
+																<div class="inline">
+																	<label>
+																		<input id="inputGeneroMasculino" checked="checked" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('masculino')">
+																		</input>
+																		<span class="lbl">Masculino</span>
+																	</label>
+																	
+																	<label>
+																		<input id="inputGeneroFeminino" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('feminino')"/>
+																		<span class="lbl">Feminino</span>
+																	</label>
+																</div>
+															</div>
+														</div>
+													</label> 
 
 													<div class="space-6"></div>
 													<div class="space-6"></div>

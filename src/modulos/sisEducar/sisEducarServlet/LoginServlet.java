@@ -119,6 +119,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			Boolean resultadoExistenciaAluno = false;
 			Boolean resultadoEnvioEmail = false;
 			Email email = null;
+			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
 			
 			if(usuario.getRaAluno().isEmpty())
@@ -126,6 +127,10 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. é obrigatório", null));
 				return null;
 			}
+			
+			//Se o genero selecionado tiver null é porque o usuário deixou a opção masculino marcada, se for <> null é porque ele clicou em algum rádio do tipo gênero
+			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
+			else 														{ usuario.setGenero("masculino"); }
 			
 			resultadoExistenciaAluno = new AlunoDAO().verificaExistenciaAluno(usuario.getRaAluno());
 			//Se vier false é porque o ra do aluno não existe

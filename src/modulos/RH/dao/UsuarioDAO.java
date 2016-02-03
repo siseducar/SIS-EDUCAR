@@ -191,15 +191,16 @@ public class UsuarioDAO extends SisEducarDAO
 	 */
 	public Boolean verificaExistenciaResponsavel(String cpfcnpj) throws SQLException
 	{
-		String querySQL = "SELECT r.pkResponsavel, p.pkPessoa, a.pkAluno, " +
-								" CASE WHEN p.nome IS NOT NULL THEN p.nome" +
-								" ELSE p.nomefantasia" +
-								" END as pessoaNome" +
-							" FROM Responsavel r" +
-							" INNER JOIN Pessoa p ON(r.fkPessoa = p.pkPessoa)" +
-							" INNER JOIN Aluno a ON(r.fkAluno = a.pkAluno)" +
-							" WHERE p.status = ?" +
-							" AND p.cpf = ? OR p.cnpj = ?";
+		String querySQL = "SELECT pr.pkPessoaResponsavel, pe.pkPessoa, a.pkAluno, " +
+								" CASE WHEN pe.nome IS NOT NULL " +
+									" THEN pe.nome " +
+									" ELSE pe.nomefantasia " +
+								" END as pessoaNome " +
+							" FROM PessoaResponsavel pr " +
+							" JOIN Pessoa pe ON(pr.fkPessoa = pe.pkPessoa)" +
+							" JOIN Aluno a ON(pr.fkAluno = a.pkAluno)" +
+							" WHERE pe.status = ?" +
+							" AND pe.cpf = ? OR pe.cnpj = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		

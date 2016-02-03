@@ -21,6 +21,7 @@ public class UsuarioTeste {
 		Usuario usuario = new Usuario();
 		usuario.setNome("adm");
 		usuario.setSenha("123");
+		usuario.setGenero("m");
 		usuario.setSenha(LoginServlet.criptografarSenha(usuario.getSenha()));
 		
 		resultado = new UsuarioDAO().inserirUsuario(usuario);
