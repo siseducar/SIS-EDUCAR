@@ -7,18 +7,11 @@ public class Pessoa
 	private int pkPessoa;
 	private int codigo;
 	private String nome;
-	private String nomeFantasia;
-	private Boolean semCpf;
 	private String cpf;
-	private String cnpj;
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
 	private String sexo;
-	private String enderecoNumero;
-	private String cep;
-	private String estado;
-	private String cidade;
 	private int telefoneComercial;
 	private int telefoneResidencial;
 	private int telefoneCelular;
@@ -26,6 +19,7 @@ public class Pessoa
 	private Boolean falecido;
 	private Date dataFalecimento;
 	private int status;
+	private String email;
 	private Raca raca;
 	private SituacaoEconomica situacaoEconomica;
 	private Religiao religiao;
@@ -37,7 +31,15 @@ public class Pessoa
 	private GrauInstrucao grauInstrucao;
 	private UnidadeEscolar unidadeEscolar;
 	private Endereco endereco;
+	private Pais pais;
+	private Estado estado;
 	
+	public Estado getEstado() {
+		return estado;
+	}
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 	//Getters and setters
 	public int getPkPessoa() {
 		return pkPessoa;
@@ -51,23 +53,11 @@ public class Pessoa
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getNomeFantasia() {
-		return nomeFantasia;
-	}
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
-	}
 	public String getCpf() {
 		return cpf;
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-	public String getCnpj() {
-		return cnpj;
-	}
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
 	}
 	public String getRg() {
 		return rg;
@@ -92,30 +82,6 @@ public class Pessoa
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-	public String getEnderecoNumero() {
-		return enderecoNumero;
-	}
-	public void setEnderecoNumero(String enderecoNumero) {
-		this.enderecoNumero = enderecoNumero;
-	}
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	public String getCidade() {
-		return cidade;
-	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
 	}
 	public int getTelefoneComercial() {
 		return telefoneComercial;
@@ -158,12 +124,6 @@ public class Pessoa
 	}
 	public void setStatus(int status) {
 		this.status = status;
-	}
-	public Boolean getSemCpf() {
-		return semCpf;
-	}
-	public void setSemCpf(Boolean semCpf) {
-		this.semCpf = semCpf;
 	}
 	public String getSexo() {
 		return sexo;
@@ -236,5 +196,17 @@ public class Pessoa
 	}
 	public void setGrauInstrucao(GrauInstrucao grauInstrucao) {
 		this.grauInstrucao = grauInstrucao;
+	}
+	public Pais getPais() {
+		return pais;
+	}
+	public void setPais(Pais pais) {
+		this.pais = pais;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

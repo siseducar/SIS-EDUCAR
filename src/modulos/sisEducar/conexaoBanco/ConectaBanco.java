@@ -19,11 +19,9 @@ public class ConectaBanco
 		try 
 		{
 			Class.forName(conf.getDRIVER());
-			System.out.println("Driver encontrado com sucesso");
 			try 
 			{
 				con = DriverManager.getConnection(conf.getURL(), conf.getUsuario(), conf.getSenha());
-				System.out.println("Banco conectado com sucesso");
 			} 
 			catch (SQLException e) 
 			{

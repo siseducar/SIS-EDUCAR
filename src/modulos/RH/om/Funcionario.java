@@ -20,6 +20,8 @@ public class Funcionario
 	private Date dataAposentadoria;
 	private String numeroInscricao;
 	private Boolean concursado;
+	private String nomeConcurso;
+	private Integer numContraConcurso;
 	private Date dataConcurso;
 	private Integer posicao;
 	private Pessoa pessoa;
@@ -144,5 +146,17 @@ public class Funcionario
 	}
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
+	}
+	public Integer getNumContraConcurso() {
+		return numContraConcurso;
+	}
+	public void setNumContraConcurso(Integer numContraConcurso) {
+		this.numContraConcurso = numContraConcurso;
+	}
+	public String getNomeConcurso() {
+		return nomeConcurso;
+	}
+	public void setNomeConcurso(String nomeConcurso) {
+		this.nomeConcurso = nomeConcurso;
 	}
 }

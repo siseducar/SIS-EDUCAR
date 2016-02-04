@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.RH.om.Estado;
 import modulos.RH.om.Pais;
@@ -64,5 +66,24 @@ public class EstadoDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	public List<Estado> consultaEstado() throws SQLException{		
+		List<Estado> listaEstado = new ArrayList<Estado>();
+		String querySQL = "SELECT * FROM ESTADO ORDER BY NOME";
+		Statement stm;
+		stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			Estado paramEstado = new Estado();
+			paramEstado.setPkEstado(rs.getInt("PKESTADO"));
+			paramEstado.setNome(rs.getString("NOME"));
+			paramEstado.setSigla(rs.getString("SIGLA"));
+			
+			listaEstado.add(paramEstado);
+		}
+		
+		return listaEstado;
 	}
 }

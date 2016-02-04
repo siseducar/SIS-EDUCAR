@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import modulos.RH.om.Estado;
 import modulos.RH.om.Pais;
-import modulos.RH.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -61,5 +61,26 @@ public class PaisDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	
+	
+	public List<Pais> consultaPais() throws SQLException{		
+		List<Pais> listaPais = new ArrayList<Pais>();
+		String querySQL = "SELECT * FROM PAIS ORDER BY NOME";
+		Statement stm;
+		stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			Pais paramPais = new Pais();
+			paramPais.setPkPais(rs.getInt("PKPAIS"));
+			paramPais.setNome(rs.getString("NOME"));
+			paramPais.setSigla(rs.getString("SIGLA"));
+			
+			listaPais.add(paramPais);
+		}
+		
+		return listaPais;
 	}
 }

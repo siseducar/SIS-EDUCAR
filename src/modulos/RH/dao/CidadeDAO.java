@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.RH.om.Cidade;
+import modulos.RH.om.Pais;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -113,5 +116,24 @@ public class CidadeDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	public List<Cidade> consultaCidade() throws SQLException{		
+		List<Cidade> listaCidade = new ArrayList<Cidade>();
+		String querySQL = "SELECT * FROM CIDADE ORDER BY NOME";
+		Statement stm;
+		stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			Cidade paramCidade = new Cidade();
+			paramCidade.setPkCidade(rs.getInt("PKCIDADE"));
+			paramCidade.setNome(rs.getString("NOME"));
+			paramCidade.setSigla(rs.getString("SIGLA"));
+			
+			listaCidade.add(paramCidade);
+		}
+		
+		return listaCidade;
 	}
 }

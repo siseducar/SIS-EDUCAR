@@ -39,7 +39,7 @@ public class PessoaDAO extends SisEducarDAO
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(numeroArgumentos, pessoa.getNome());
-		numeroArgumentos++;
+		/*numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getNomeFantasia());
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getCpf());
@@ -49,7 +49,7 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setBoolean(numeroArgumentos, pessoa.getSemCpf() !=null ? pessoa.getSemCpf() : false);
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getRg());
-		numeroArgumentos++;
+		numeroArgumentos++;*/
 		ps.setDate(numeroArgumentos, pessoa.getDataNascimento()!=null ? pessoa.getDataNascimento() : new Date(0));
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
@@ -92,7 +92,7 @@ public class PessoaDAO extends SisEducarDAO
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
-		pessoa.setPkPessoa(obtemPKPessoa(pessoa.getNome(), pessoa.getNomeFantasia(), pessoa.getCpf(), pessoa.getCnpj()));
+		//pessoa.setPkPessoa(obtemPKPessoa(pessoa.getNome(), pessoa.getNomeFantasia(), pessoa.getCpf(), pessoa.getCnpj()));
 		
 		return pessoa;
 	}

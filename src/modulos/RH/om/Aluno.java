@@ -5,7 +5,6 @@ public class Aluno
 	private int pkAluno;
 	private String ra;
 	private String ra2;
-	private String rm;
 	private String folha;
 	private String livro;
 	private Integer registro;
@@ -16,25 +15,19 @@ public class Aluno
 	private String cpfPai;
 	private String nomeMae;
 	private String cpfMae;
-
-	public String getRm() {
-		return rm;
-	}
-	public void setRm(String rm) {
-		this.rm = rm;
-	}
-	public String getCpfPai() {
-		return cpfPai;
-	}
-	public void setCpfPai(String cpfPai) {
-		this.cpfPai = cpfPai;
-	}
-	public String getCpfMae() {
-		return cpfMae;
-	}
-	public void setCpfMae(String cpfMae) {
-		this.cpfMae = cpfMae;
-	}
+	private String nomeResponsavel;
+	private Byte certiNascimento;
+	private Byte comproResidencia;
+	private String rm;
+	private Byte fotoAluno;
+	private String redeEnsino;
+	private String unidadeEscolar;
+	private String etapa;
+	private String curso;
+	private String turno;
+	private Boolean alunoDeficiente;
+	private String deficiencia;
+	
 	public String getRa2() {
 		return ra2;
 	}
@@ -100,5 +93,89 @@ public class Aluno
 	}
 	public void setPkAluno(int pkAluno) {
 		this.pkAluno = pkAluno;
+	}
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+	public Byte getCertiNascimento() {
+		return certiNascimento;
+	}
+	public void setCertiNascimento(Byte certiNascimento) {
+		this.certiNascimento = certiNascimento;
+	}
+	public Byte getComproResidencia() {
+		return comproResidencia;
+	}
+	public void setComproResidencia(Byte comproResidencia) {
+		this.comproResidencia = comproResidencia;
+	}
+	public String getRm() {
+		return rm;
+	}
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+	public Byte getFotoAluno() {
+		return fotoAluno;
+	}
+	public void setFotoAluno(Byte fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
+	public String getRedeEnsino() {
+		return redeEnsino;
+	}
+	public void setRedeEnsino(String redeEnsino) {
+		this.redeEnsino = redeEnsino;
+	}
+	public String getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+	public void setUnidadeEscolar(String unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
+	}
+	public String getEtapa() {
+		return etapa;
+	}
+	public void setEtapa(String etapa) {
+		this.etapa = etapa;
+	}
+	public String getCurso() {
+		return curso;
+	}
+	public void setCurso(String curso) {
+		this.curso = curso;
+	}
+	public String getTurno() {
+		return turno;
+	}
+	public void setTurno(String turno) {
+		this.turno = turno;
+	}
+	public Boolean getAlunoDeficiente() {
+		return alunoDeficiente;
+	}
+	public void setAlunoDeficiente(Boolean alunoDeficiente) {
+		this.alunoDeficiente = alunoDeficiente;
+	}
+	public String getDeficiencia() {
+		return deficiencia;
+	}
+	public void setDeficiencia(String deficiencia) {
+		this.deficiencia = deficiencia;
+	}
+	public String getCpfPai() {
+		return cpfPai;
+	}
+	public void setCpfPai(String cpfPai) {
+		this.cpfPai = cpfPai;
+	}
+	public String getCpfMae() {
+		return cpfMae;
+	}
+	public void setCpfMae(String cpfMae) {
+		this.cpfMae = cpfMae;
 	}
 }
