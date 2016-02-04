@@ -107,9 +107,9 @@ public class UsuarioServlet extends SisEducarServlet
 			 * Validação de senha
 			 * <Senha> -----------------------------
 			 */
-			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
+			if(usuario.getSenha().length() != 8 && usuario.getConfirmarSenha().length() != 8)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter no mínimo 8 dígitos", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ters 8 dígitos", null));
 				return null;
 			}
 			

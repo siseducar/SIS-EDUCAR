@@ -3,10 +3,10 @@ package modulos.sisEducar.conexaoBanco;
 public class ParametrosBD 
 {
 	String nomeBaseOriginal = "sisEducar";
-	String nomeBaseTeste = "sisEducarTeste";
+	String nomeBaseTeste = "postgres";
 	
 	String DRIVER = "org.postgresql.Driver";
-	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseOriginal;
+	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseTeste;
 	String usuario = "postgres";
 	String senha = "postgres";
 
