@@ -112,7 +112,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo responsavel por validar o tipo de cadastro
 	 * 
 	 * */
-	public String validarTipoCadastro(){
+	public void validarTipoCadastro(){
 		if( pessoaDados.getTipoPessoa() == 0 ) {
 			cadastroPessoa();
 			System.out.println(pessoaDados.getNome());
@@ -125,7 +125,6 @@ public class PessoaServlet implements Serializable{
 				}
 			}
 		}
-		return null;
 	}
 	
 	/*
