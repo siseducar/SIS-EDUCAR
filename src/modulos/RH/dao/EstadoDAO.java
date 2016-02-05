@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.RH.om.Estado;
-import modulos.RH.om.Pais;
-import modulos.RH.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -36,7 +34,6 @@ public class EstadoDAO extends SisEducarDAO
 	public Estado obtemEstado(Integer pkEstado, String sigla, String nome) throws SQLException
 	{
 		Estado estado = null;
-		Pais pais = null;
 		String querySQL = "SELECT * FROM estado"
 				+ " WHERE status = ?";
 		
@@ -68,18 +65,21 @@ public class EstadoDAO extends SisEducarDAO
 		return null;
 	}
 	
-	public List<Estado> consultaEstado() throws SQLException{		
+	public List<Estado> consultaEstado(Integer pkPais) throws SQLException{		
+		
 		List<Estado> listaEstado = new ArrayList<Estado>();
-		String querySQL = "SELECT * FROM ESTADO ORDER BY NOME";
-		Statement stm;
-		stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM ESTADO WHERE FKPAIS = ? ORDER BY NOME";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, pkPais);
+		
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			Estado paramEstado = new Estado();
 			paramEstado.setPkEstado(rs.getInt("PKESTADO"));
 			paramEstado.setNome(rs.getString("NOME"));
-			paramEstado.setSigla(rs.getString("SIGLA"));
 			
 			listaEstado.add(paramEstado);
 		}

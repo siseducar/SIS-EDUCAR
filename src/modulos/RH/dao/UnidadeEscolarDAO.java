@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -105,5 +108,27 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	/* Metodo para retornar os tipos de Unidade Escolar de acordo com a rede */
+	public List<UnidadeEscolar> consultaUnidadeEscolar(Integer pkRedeEnsino) throws SQLException{
+		
+		List<UnidadeEscolar> listaUnidadeEscolar = new ArrayList<UnidadeEscolar>();
+		
+		String querySQL = "SELECT * FROM UNIDADEESCOLAR WHERE FKREDEENSINO = ? ORDER BY NOME";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, pkRedeEnsino);
+		rs = ps.executeQuery();
+		
+		while (rs.next()){
+			UnidadeEscolar paramUnidadeEscolar = new UnidadeEscolar();
+			paramUnidadeEscolar.setPkUnidadeEscolar(rs.getInt("PKUNIDADEESCOLAR"));
+			paramUnidadeEscolar.setNome(rs.getString("NOME"));
+			
+			listaUnidadeEscolar.add(paramUnidadeEscolar);
+		}
+		
+		return listaUnidadeEscolar;
 	}
 }

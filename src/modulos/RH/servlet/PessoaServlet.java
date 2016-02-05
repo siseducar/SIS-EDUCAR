@@ -17,10 +17,12 @@ import modulos.RH.dao.GrauInstrucaoDAO;
 import modulos.RH.dao.NacionalidadeDAO;
 import modulos.RH.dao.PaisDAO;
 import modulos.RH.dao.RacaDAO;
+import modulos.RH.dao.RedeEnsinoDAO;
 import modulos.RH.dao.RegiaoDAO;
 import modulos.RH.dao.ReligiaoDAO;
 import modulos.RH.dao.SituacaoEconomicaDAO;
 import modulos.RH.dao.TipoDeficienciaDAO;
+import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cargo;
 import modulos.RH.om.Cidade;
@@ -33,10 +35,12 @@ import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.Raca;
+import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
 import modulos.RH.om.Religiao;
 import modulos.RH.om.SituacaoEconomica;
 import modulos.RH.om.TipoDeficiencia;
+import modulos.RH.om.UnidadeEscolar;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -48,7 +52,10 @@ public class PessoaServlet implements Serializable{
 	Pessoa pessoaDados;
 	Aluno alunoDados;
 	Fornecedor fornecedorDados;
-	Funcionario funcionarioDados;	
+	Funcionario funcionarioDados;
+	Pais paisDados;
+	Estado estadoDados;
+	Cidade cidadeDados;
 
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -81,6 +88,15 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.fornecedorDados == null){
 			this.fornecedorDados = new Fornecedor();
+		}
+		if(this.paisDados == null){
+			this.paisDados = new Pais();
+		}
+		if(this.estadoDados == null){
+			this.estadoDados = new Estado();
+		}
+		if(this.cidadeDados == null){
+			this.cidadeDados = new Cidade();
 		}
 		complementoAluno = false;
 		complementoFuncionario = false;
@@ -191,6 +207,7 @@ public class PessoaServlet implements Serializable{
 		System.out.println(funcionarioDados);
 		return false;
 	}
+
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
@@ -309,6 +326,8 @@ public class PessoaServlet implements Serializable{
 		   s.setLabel(param.getNome());
 		   comboPais.add(s);
 		}
+		estadoDados.setPkEstado(null);
+		cidadeDados.setPkCidade(null);
 		return comboPais;
 	}
 	
@@ -316,34 +335,41 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() throws SQLException {
-		EstadoDAO estadoDAO = new EstadoDAO();
-		List<SelectItem> comboEstado = new ArrayList<SelectItem>();
-		List<Estado> paramEstado = estadoDAO.consultaEstado();
-		
-		for (Estado param : paramEstado){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkEstado());
-		   s.setLabel(param.getNome());
-		   comboEstado.add(s);
+		if(paisDados.getPkPais() != null){
+			EstadoDAO estadoDAO = new EstadoDAO();
+			List<SelectItem> comboEstado = new ArrayList<SelectItem>();
+			List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
+			
+			for (Estado param : paramEstado){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkEstado());
+			   s.setLabel(param.getNome());
+			   comboEstado.add(s);
+			}
+			return comboEstado;
 		}
-		return comboEstado;
+		return null;
 	}
 	
 	/*
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() throws SQLException {
-		CidadeDAO cidadeDAO = new CidadeDAO();
-		List<SelectItem> comboCidade = new ArrayList<SelectItem>();
-		List<Cidade> paramCidade = cidadeDAO.consultaCidade();
-		
-		for (Cidade param : paramCidade){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkCidade());
-		   s.setLabel(param.getNome());
-		   comboCidade.add(s);
+		if(estadoDados.getPkEstado() != null){
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			List<SelectItem> comboCidade = new ArrayList<SelectItem>();
+			List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
+			
+			for (Cidade param : paramCidade){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkCidade());
+			   s.setLabel(param.getNome());
+			   comboCidade.add(s);
+			}
+			return comboCidade;
 		}
-		return comboCidade;
+		
+		return null;
 	}
 	
 	/*
@@ -395,6 +421,42 @@ public class PessoaServlet implements Serializable{
 		   comboCargo.add(s);
 		}
 		return comboCargo;
+	}
+	
+	/*
+	 * Metodo para carregar as rede de ensino
+	 * */
+	public List<SelectItem> getConsultaRedeEnsino() throws SQLException {
+		RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
+		List<SelectItem> comboRedeEnsino = new ArrayList<>();
+		List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
+		
+		for (RedeEnsino param : paramRedeEnsino){
+		   SelectItem  s = new SelectItem();
+		   s.setValue(param.getPkRedeEnsino());
+		   s.setLabel(param.getNome());
+		   comboRedeEnsino.add(s);
+		}
+		alunoDados.setUnidadeEscolar(null);
+		return comboRedeEnsino;
+	}
+	
+	public List<SelectItem> getConsultaUnidadeEscolar() throws NumberFormatException, SQLException {
+		if(alunoDados.getRedeEnsino() != null) {
+			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
+			List<SelectItem> comboUnidadeEscolar = new ArrayList<>();
+			List<UnidadeEscolar> paramUnidadeEscolar = 
+						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
+			
+			for (UnidadeEscolar param : paramUnidadeEscolar){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkUnidadeEscolar());
+			   s.setLabel(param.getNome());
+			   comboUnidadeEscolar.add(s);
+			}
+			return comboUnidadeEscolar;
+		}
+		return null;
 	}
 	
 	/* GETTERS AND SETTERS */
@@ -476,5 +538,28 @@ public class PessoaServlet implements Serializable{
 
 	public void setFuncDemitido(Boolean funcDemitido) {
 		this.funcDemitido = funcDemitido;
+	}
+	public Pais getPaisDados() {
+		return paisDados;
+	}
+
+	public void setPaisDados(Pais paisDados) {
+		this.paisDados = paisDados;
+	}
+
+	public Estado getEstadoDados() {
+		return estadoDados;
+	}
+
+	public void setEstadoDados(Estado estadoDados) {
+		this.estadoDados = estadoDados;
+	}
+
+	public Cidade getCidadeDados() {
+		return cidadeDados;
+	}
+
+	public void setCidadeDados(Cidade cidadeDados) {
+		this.cidadeDados = cidadeDados;
 	}
 }

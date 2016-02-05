@@ -118,12 +118,16 @@ public class CidadeDAO extends SisEducarDAO
 		return null;
 	}
 	
-	public List<Cidade> consultaCidade() throws SQLException{		
+	public List<Cidade> consultaCidade(Integer pkEstado) throws SQLException{		
+		
 		List<Cidade> listaCidade = new ArrayList<Cidade>();
-		String querySQL = "SELECT * FROM CIDADE ORDER BY NOME";
-		Statement stm;
-		stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM CIDADE WHERE FKESTADO = ? ORDER BY NOME";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, pkEstado);
+		
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			Cidade paramCidade = new Cidade();

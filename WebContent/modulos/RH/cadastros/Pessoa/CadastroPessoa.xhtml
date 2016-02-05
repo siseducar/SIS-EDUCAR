@@ -169,34 +169,35 @@
 									<div class="form-group">
 										<div class="col-sm-3">
 											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
 												<h:selectOneMenu class="form-control" id="codPais"
-													value="#{pessoaServlet.pessoaDados.pais.pkPais}">
-													<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
+													value="#{pessoaServlet.paisDados.pkPais}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{pessoaServlet.consultaPais}"/>
-													<f:convertNumber type="number"/>
+													<f:selectItems value="#{pessoaServlet.consultaPais}"
+														var="pais" itemLabel="{pais.nome}" itemValue="{pais.pkPais}"/>
+													<p:ajax event="change" update="codEstado,codCidade"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
 												<h:selectOneMenu class="form-control" id="codEstado"
-													value="#{pessoaServlet.pessoaDados.estado.pkEstado}">
-													<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
+													value="#{pessoaServlet.estadoDados.pkEstado}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{pessoaServlet.consultaEstado}"/>
-													<f:convertNumber type="number"/>
+													<f:selectItems value="#{pessoaServlet.consultaEstado}"
+														var="estado" itemLabel="{estado.nome}" itemValue="{estado.pkEstado}"/>
+													<p:ajax event="change" update="codCidade"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 												<h:selectOneMenu class="form-control" id="codCidade"
 													value="#{pessoaServlet.pessoaDados.endereco.cidade}">
-													<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
 													<f:selectItems value="#{pessoaServlet.consultaCidade}"/>
-													<f:convertNumber type="number"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -388,6 +389,9 @@
 											<div>
 												<h:selectOneMenu class="form-control" id="codRedeEnsino"
 													value="#{pessoaServlet.alunoDados.redeEnsino}">
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<f:selectItems value="#{pessoaServlet.consultaRedeEnsino}"/>
+													<p:ajax event="change" update="codUniEscolar"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -396,6 +400,8 @@
 											<div>
 												<h:selectOneMenu class="form-control" id="codUniEscolar"
 													value="#{pessoaServlet.alunoDados.unidadeEscolar}">
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<f:selectItems value="#{pessoaServlet.consultaUnidadeEscolar}"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -640,7 +646,7 @@
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success">
 									<span class="bigger-110">Registrar</span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{pessoaServlet.validarTipoCadastro}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
+									<p:ajax event="click" listener="#{pessoaServlet.cadastroFuncionario}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 								</h:commandLink>	
 							</div>
 						</h:form>
