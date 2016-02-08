@@ -128,19 +128,19 @@ public class PessoaServlet implements Serializable{
 	 * Metodo responsavel por validar o tipo de cadastro
 	 * 
 	 * */
-	public void validarTipoCadastro(){
+	public String validarTipoCadastro(){
 		if( pessoaDados.getTipoPessoa() == 0 ) {
-			cadastroPessoa();
-			System.out.println(pessoaDados.getNome());
+			 return cadastroPessoa(); 
 		}else {
 			if ( pessoaDados.getTipoPessoa() == 1 ) {
-				cadastroAluno();
+				return cadastroAluno();
 			}else{
 				if( pessoaDados.getTipoPessoa() == 2 ) {
-					cadastroFuncionario();
+					return cadastroFuncionario();
 				}
 			}
 		}
+		return null;
 	}
 	
 	/*
@@ -183,29 +183,29 @@ public class PessoaServlet implements Serializable{
 	 *Metodo para salvar os dados da pessoa 
 	 * 
 	 * */
-	public Boolean cadastroPessoa(){
+	public String cadastroPessoa(){
 		System.out.println(pessoaDados);
-		return false;
+		return pessoaDados.getNome();
 	}
 	
 	/*
 	 * Metodo para salvar os dados do aluno
 	 * 
 	 * */
-	public Boolean cadastroAluno() {
+	public String cadastroAluno() {
 		System.out.println(pessoaDados);
 		System.out.println(alunoDados);
-		return false;
+		return alunoDados.getRm();
 	}
 	
 	/*
 	 * Metodo para salvar os dados do funcionario
 	 * 
 	 * */
-	public Boolean cadastroFuncionario() {
+	public String cadastroFuncionario() {
 		System.out.println(pessoaDados);
 		System.out.println(funcionarioDados);
-		return false;
+		return funcionarioDados.getMatricula();
 	}
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -441,6 +441,9 @@ public class PessoaServlet implements Serializable{
 		return comboRedeEnsino;
 	}
 	
+	/*
+	 * Metodo para carregar as Unidades Escolares
+	 * */
 	public List<SelectItem> getConsultaUnidadeEscolar() throws NumberFormatException, SQLException {
 		if(alunoDados.getRedeEnsino() != null) {
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();

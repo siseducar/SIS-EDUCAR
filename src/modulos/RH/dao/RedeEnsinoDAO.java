@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulos.RH.om.Raca;
 import modulos.RH.om.RedeEnsino;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
@@ -26,7 +25,7 @@ public class RedeEnsinoDAO {
 		
 		List<RedeEnsino> listaRedeEnsino = new ArrayList<RedeEnsino>();
 		
-		String querySQL = "SELECT * FROM REDEENSINO ORDER BY NOME";
+		String querySQL = "SELECT * FROM REDEENSINO ORDER BY ORDEMEXIBICAO";
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(querySQL);
 		
