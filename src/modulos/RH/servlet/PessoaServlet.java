@@ -18,6 +18,7 @@ import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
 import modulos.RH.dao.NacionalidadeDAO;
 import modulos.RH.dao.PaisDAO;
+import modulos.RH.dao.PessoaDAO;
 import modulos.RH.dao.RacaDAO;
 import modulos.RH.dao.RedeEnsinoDAO;
 import modulos.RH.dao.RegiaoDAO;
@@ -77,6 +78,9 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar demissao */
 	private Boolean funcDemitido;
 	
+	/* Codigo da pessoa cadastrada */
+	private Integer codigoPessoa;
+
 	/* Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
@@ -100,12 +104,16 @@ public class PessoaServlet implements Serializable{
 		if(this.cidadeDados == null){
 			this.cidadeDados = new Cidade();
 		}
+		if(this.codigoPessoa == null){
+			this.codigoPessoa = new Integer(getCodigoPessoa());
+		}
 		complementoAluno = false;
 		complementoFuncionario = false;
 		alunoDeficiente = false;
 		funcConcursado = false;
 		funcAposentado = false;
 		funcDemitido = false;
+		
 	}
 	
 	/*
@@ -630,5 +638,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setCidadeDados(Cidade cidadeDados) {
 		this.cidadeDados = cidadeDados;
+	}
+	public Integer getCodigoPessoa() throws SQLException {
+		codigoPessoa = new PessoaDAO().consultaCodigo();
+		return codigoPessoa;
+	}
+
+	public void setCodigoPessoa(Integer codigoPessoa) {
+		this.codigoPessoa = codigoPessoa;
 	}
 }

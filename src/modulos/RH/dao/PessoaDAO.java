@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import modulos.RH.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -153,5 +156,30 @@ public class PessoaDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	
+	/*
+	 * Método para retornar o ultimo codigo cadastrado no banco
+	 * */
+	public Integer consultaCodigo() {
+		try {
+			Integer codigo = 0;
+			
+			String querySQL = "SELECT MAX(PKPESSOA) AS PKPESSOA FROM PESSOA";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(querySQL);
+			
+			while(rs.next()) {
+				codigo = rs.getInt("PKPESSOA");				
+			}
+			
+			codigo += 1;
+			return codigo;
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao validar codigo da pessoa, contate o administrador do sistema!", null));
+			return null;
+		}
 	}
 }
