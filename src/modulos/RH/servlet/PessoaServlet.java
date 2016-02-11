@@ -80,6 +80,15 @@ public class PessoaServlet implements Serializable{
 	
 	/* Codigo da pessoa cadastrada */
 	private Integer codigoPessoa;
+	
+	/* Nome da Mãe do aluno */
+	private String nomeMae;
+	
+	/* Nome do Pai do aluno */
+	private String nomePai;
+	
+	/* Nome do Responsavel pelo aluno */
+	private String nomeResponsavel;
 
 	/* Construtor */
 	public PessoaServlet() throws SQLException{
@@ -646,5 +655,33 @@ public class PessoaServlet implements Serializable{
 
 	public void setCodigoPessoa(Integer codigoPessoa) {
 		this.codigoPessoa = codigoPessoa;
+	}
+
+	public String getNomeMae() {
+		if(alunoDados.getCpfMae() != null && !alunoDados.getCpfMae().equals("")){
+			
+			return nomeMae;
+		}
+		return null;
+	}
+
+	public void setNomeMae(String nomeMae) {
+		this.nomeMae = nomeMae;
+	}
+
+	public String getNomePai() {
+		return nomePai;
+	}
+
+	public void setNomePai(String nomePai) {
+		this.nomePai = nomePai;
+	}
+
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
 	}
 }

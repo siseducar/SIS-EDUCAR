@@ -129,4 +129,10 @@ public class AlunoDAO extends SisEducarDAO
 		
 		return null;
 	}
+	
+	public String consultaNomeMãe(Integer cpf){
+		
+		String querySQL = "SELECT NOME";
+		return null;
+	}
 }

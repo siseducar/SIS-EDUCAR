@@ -96,6 +96,14 @@
 											</h:selectOneMenu>
 										</div>
 									</div>
+									<div class="col-sm-2">
+										<h:outputLabel value="Naturalidade"/>
+										<div>
+											<h:selectOneMenu class="form-control" id="codNaturalidade">
+												<f:selectItem itemLabel="Selecione..." itemValue=""/>
+											</h:selectOneMenu>
+										</div>
+									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-2">
@@ -276,7 +284,7 @@
 									<h3 class="header smaller lighter blue"> Dados Complementares do Aluno </h3>
 									<div class="form-group">
 										<div class="col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf']}"/>
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
 											<div>
 												<p:inputMask mask="999.999.999-99" id="numCpfMae" placeholder="Numero do CPF" styleClass="col-sm-12"/>
 											</div>
@@ -291,7 +299,7 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf']}"/>
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf.pai']}"/>
 											<div>
 												<p:inputMask mask="999.999.999-99" id="numCpfPai" placeholder="Numero do CPF" styleClass="col-sm-12"/>
 											</div>
@@ -306,7 +314,7 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf']}"/>
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
 											<div>
 												<p:inputMask mask="999.999.999-99" id="numCpfResponsavel" placeholder="Numero do CPF" styleClass="col-sm-12"/>
 											</div>
