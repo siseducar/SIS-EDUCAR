@@ -9,12 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.RH.om.Cargo;
-import modulos.RH.om.Religiao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class CargoDAO {
 
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;

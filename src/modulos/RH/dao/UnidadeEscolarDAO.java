@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -16,7 +15,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class UnidadeEscolarDAO extends SisEducarDAO 
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -29,8 +28,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Insere a unidade e j· obtem a pk salva e retorna o objeto completo
-	 * @author Jo„o Paulo
+	 * Insere a unidade e j√° obtem a pk salva e retorna o objeto completo
+	 * @author Jo√£o Paulo
 	 * @param unidadeEscolar
 	 * @return unidadeEscolar
 	 */
@@ -64,8 +63,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Busca apenas a pk do endereÁo a partir dos par‚metros recebidos
-	 * @author Jo„o Paulo
+	 * Busca apenas a pk do endere√ßo a partir dos par√¢metros recebidos
+	 * @author Jo√£o Paulo
 	 * @param cep
 	 * @param logradouro
 	 * @param bairro
@@ -110,7 +109,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		return null;
 	}
 	
-	/* Metodo para retornar os tipos de Unidade Escolar de acordo com a rede */
+	/* Metodo para retornar os tipos de UNIDADES ESCOLARES de acordo com a rede */
 	public List<UnidadeEscolar> consultaUnidadeEscolar(Integer pkRedeEnsino) throws SQLException{
 		
 		List<UnidadeEscolar> listaUnidadeEscolar = new ArrayList<UnidadeEscolar>();

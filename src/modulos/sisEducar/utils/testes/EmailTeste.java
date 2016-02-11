@@ -3,7 +3,6 @@ package modulos.sisEducar.utils.testes;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import javax.mail.MessagingException;
 
@@ -13,7 +12,12 @@ import modulos.sisEducar.utils.EmailUtils;
  
 public class EmailTeste extends SisEducarServlet
 {
-    public static void main(String[] args) throws UnsupportedEncodingException, MessagingException 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static void main(String[] args) throws UnsupportedEncodingException, MessagingException 
     {
         Email email = EmailUtils.inicializarPropriedades();
         String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
@@ -21,10 +25,10 @@ public class EmailTeste extends SisEducarServlet
         urlBotaoLink += SisEducarServlet.criptografarURL(true, "teste@teste");
 		
 		email = EmailUtils.inicializarPropriedades();
-		email.setSubjectMail("ValidaÁ„o de registro SIS-EDUCAR");
-		email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol· " + "Jo„o P" + ",</p> " + 
-				" <p style=\"text-align:left; font-size:17px; \">A sua solicitaÁ„o de cadastro foi realizada com sucesso.</p> " + 
-				" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no bot„o abaixo. AtenÁ„o o link ir· expirar em 48 horas.</b></p>", "<p style=\"font-style:italic; font-size:17px; text-align:left;\">Caso o bot„o acima n„o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usu·rio"));
+		email.setSubjectMail("Valida√ß√£o de registro SIS-EDUCAR");
+		email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol√° " + "Jo√£o P" + ",</p> " + 
+				" <p style=\"text-align:left; font-size:17px; \">A sua solicita√ß√£o de cadastro foi realizada com sucesso.</p> " + 
+				" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no bot√£o abaixo. Aten√ß√£o o link ir√° expirar em 48 horas.</b></p>", "<p style=\"font-style:italic; font-size:17px; text-align:left;\">Caso o bot√£o acima n√£o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usu√°rio"));
         //sete quantos destinatarios desejar
         Map<String, String> map = new HashMap<String, String>();
         map.put("jpbr.webdesigner@gmail.com", "");

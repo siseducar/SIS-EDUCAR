@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class GrauInstrucaoDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	/* Metodo para retornar os tipos de GRAU DE INSTRUCAO padrao */
+	/* Metodo para retornar os tipos de GRAUS DE INSTRUCOES padrões */
 	public List<GrauInstrucao> consultaGrauInstru() throws SQLException {
 		
 		List<GrauInstrucao> listaGrauInstru = new ArrayList<>();

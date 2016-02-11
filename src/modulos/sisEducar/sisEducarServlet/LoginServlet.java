@@ -38,12 +38,12 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	
 	public LoginServlet()
 	{
-		//Aqui eu pego o nome do usu·rio logado e seto a vari·vel global
+		//Aqui eu pego o nome do usu√°rio logado e seto a vari√°vel global
 		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!=null)
 		{
 			SisEducarServlet.usuarioLogado = (Usuario)new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 			
-			//Essa vari·vel contem o nome do usu·rio logado para que seja aexebida na tela principal
+			//Essa vari√°vel contem o nome do usu√°rio logado para que seja exebida na tela principal
 			nomeUsuarioLogado = SisEducarServlet.usuarioLogado.getNome();
 			if(SisEducarServlet.usuarioLogado.getGenero().equals("masculino"))
 			{
@@ -56,8 +56,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		}
 	}
 	/**
-	 * O mÈtodo È usado para validar se existe um usuario no banco com as informaÁıes passadas pelo usuario (nome, senha)
-	 * @author Jo„o Paulo
+	 * O m√©todo √© usado para validar se existe um usuario no banco com as informa√ß√µes passadas pelo usuario (nome, senha)
+	 * @author Jo√£o Paulo
 	 * @return String
 	 */
 	public void validarLogin()
@@ -66,16 +66,16 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		{ 
 			Usuario resultadoUsuario = null;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
-			//Remove espaÁos da string
+			//Remove espa√ßos da string
 			usuario.setNome(usuario.getNome().trim());
 			
 			if(usuario.getNome()!=null && usuario.getNome().length() == 0)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usu·rio È obrigatÛrio", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usu√°rio √© obrigat√≥rio", null));  
 			}
 			else if(usuario.getSenha()!=null && usuario.getSenha().length() == 0)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha È obrigatÛrio", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha √© obrigat√≥rio", null));  
 			}
 			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
@@ -93,7 +93,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					}
 					else
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usu·rio/Senha inv·lidos", null));  
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usu√°rio/Senha inv√°lidos", null));  
 					}
 				}
 			}
@@ -106,8 +106,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * MÈtodo usado para cadastrar um usu·rio simples na tela de login
-	 * @author Jo„o Paulo
+	 * M√©todo usado para cadastrar um usu√°rio simples na tela de login
+	 * @author Jo√£o Paulo
 	 */
 	public String cadastrarUsuarioSimples()
 	{
@@ -124,29 +124,29 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			
 			if(usuario.getRaAluno().isEmpty())
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. È obrigatÛrio", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. √© obrigat√≥rio", null));
 				return null;
 			}
 			
-			//Se o genero selecionado tiver null È porque o usu·rio deixou a opÁ„o masculino marcada, se for <> null È porque ele clicou em algum r·dio do tipo gÍnero
+			//Se o genero selecionado tiver null √© porque o usu√°rio deixou a op√ß√£o masculino marcada, se for <> null √© porque ele clicou em algum r√°dio do tipo g√™nero
 			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
 			else 														{ usuario.setGenero("masculino"); }
 			
 			resultadoExistenciaAluno = new AlunoDAO().verificaExistenciaAluno(usuario.getRaAluno());
-			//Se vier false È porque o ra do aluno n„o existe
+			//Se vier false √© porque o ra do aluno n√£o existe
 			if(!resultadoExistenciaAluno)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. n„o È v·lido", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O R.A. n√£o √© v√°lido", null));
 				return null;
 			}
 			else
 			{
-				/*Se vier TRUE È porque o usu·rio pode ser adicionado, se vier false È porque o usu·rio n„o tem permiss„o para ser cadastrado no sistema
-				caso vier false È porque o responsavel do aluno deixou esta pessoa como 1 dos responsaveis pelo aluno*/
+				/*Se vier TRUE √© porque o usu√°rio pode ser adicionado, se vier false √© porque o usu√°rio n√£o tem permiss√£o para ser cadastrado no sistema
+				caso vier false √© porque o responsavel do aluno deixou esta pessoa como 1 dos responsaveis pelo aluno*/
 				
 				if(usuario.getCpfcnpj().isEmpty())
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ È obrigatÛrio", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ √© obrigat√≥rio", null));
 					return null;
 				}
 				else
@@ -156,48 +156,48 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				
 				if(!resultadoExistenciaUsuario)
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ inv·lido ou o usu·rio n„o tem permiss„o para se registrar, por favor entre em contato com a administraÁ„o", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF/CNPJ inv√°lido ou o usu√°rio n√£o tem permiss√£o para se registrar, por favor entre em contato com a administra√ß√£o", null));
 					return null;
 				}
 			}
 			
 			if(usuario.getEmail().isEmpty())
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email È obrigatÛrio", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email √© obrigat√≥rio", null));
 				return null;
 			}
 			
 			if(!usuario.getEmail().contains("@") || !usuario.getEmail().contains("."))
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email È inv·lido", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email √© inv√°lido", null));
 				return null;
 			}
 			
 			if(usuario.getNome().isEmpty())
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usu·rio È obrigatÛrio", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usu√°rio √© obrigat√≥rio", null));
 				return null;
 			}
 			
 			/*
-			 * ValidaÁ„o de senha
+			 * Valida√ß√£o de senha
 			 * <Senha> -----------------------------
 			 */
 			if(usuario.getSenha().length() !=8 && usuario.getConfirmarSenha().length() !=8)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter no mÌnimo 8 dÌgitos", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 d√≠gitos", null));
 				return null;
 			}
 			
 			if(usuario.getSenha().equals("12345678"))
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha n„o pode ser sequencial", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha n√£o pode ser sequencial", null));
 				return null;
 			}
 			
 			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas est„o diferentes", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas est√£o diferentes", null));
 				return null;
 			}
 			/**
@@ -209,20 +209,20 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			
 			if(resultado)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmaÁ„o para o email informado", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirma√ß√£o para o email informado", null));  
 			}
 			else
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usu·rio n„o registrado", null));  
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usu√°rio n√£o registrado", null));  
 			}
 			
 			urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
 			
 			email = EmailUtils.inicializarPropriedades();
-			email.setSubjectMail("ConfirmaÁ„o de cadastro de usu·rio");
-			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol· " + usuario.getNome() + ",</p> " + 
-					" <p style=\"text-align:left; font-size:17px; \">A sua solicitaÁ„o de cadastro foi realizada com sucesso.</p> " + 
-					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no bot„o abaixo. AtenÁ„o o link ir· expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o bot„o acima n„o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usu·rio"));
+			email.setSubjectMail("Confirma√ß√£o de cadastro de usu√°rio");
+			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">OlÔøΩ " + usuario.getNome() + ",</p> " + 
+					" <p style=\"text-align:left; font-size:17px; \">A sua solicita√ß√£o de cadastro foi realizada com sucesso.</p> " + 
+					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no bot√£o abaixo. Aten√ß√£o o link ir√° expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o bot√£o acima n√£o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usu√°rio"));
 			
 			destinatarios.put(usuario.getEmail(), usuario.getNome());
 			email.setToMailsUsers(destinatarios);
@@ -240,8 +240,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * O mÈtodo È usado para enviar um email para o usuario que quiser realizar a recuperaÁ„o de senha dele
-	 * @author Jo„o Paulo
+	 * O m√©todo √© usado para enviar um email para o usuario que quiser realizar a recupera√ß√£o de senha dele
+	 * @author Jo√£o Paulo
 	 */
 	public void enviarEmailRedefinicaoSenha()
 	{
@@ -262,30 +262,30 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				{
 					urlBotaoLink += criptografarURL(true, emailRedefinicaoSenha);
 					email = EmailUtils.inicializarPropriedades();
-					email.setSubjectMail("SIS-EDUCAR - RedefiniÁ„o de Senha");
-					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol· " + usuario.getNome() + ",</p> " + 
-							" <p style=\"text-align:left; font-size:17px; \">Recebemos uma solicitaÁ„o de refiniÁ„o de senha para eu usu·rio, se n„o foi vocÍ que efetuou esta solicitaÁ„o por favor desconsidere o email.</p> " + 
-							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para continuar o processo de redefiniÁ„o de senha clique no bot„o abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o bot„o acima n„o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Redefinir Senha"));
+					email.setSubjectMail("SIS-EDUCAR - Redefini√ß√£o de Senha");
+					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">OlÔøΩ " + usuario.getNome() + ",</p> " + 
+							" <p style=\"text-align:left; font-size:17px; \">Recebemos uma solicita√ß√£o de refini√ß√£o de senha para este usu√°rio, se n√£o foi voc√™ que efetuou esta solicita√ß√£o por favor desconsidere o email.</p> " + 
+							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para continuar o processo de redefini√ß√£o de senha clique no bot√£o abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o bot√£o acima n√£o funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Redefinir Senha"));
 					
 					destinatarios.put(emailRedefinicaoSenha, emailRedefinicaoSenha);
 					email.setToMailsUsers(destinatarios);
 					
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ser· enviado uma notificaÁ„o para o email informado", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ser√° enviado uma notifica√ß√£o para o email informado", null));
 					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 					
 					if(!resultadoEnvioEmail)
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "N„o foi possÌvel enviar o email", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "N√£o foi poss√≠vel enviar o email", null));
 					}
 				}
 				else
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N„o existe usu·rio cadastrado com este email", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N√£o existe usu√°rio cadastrado com este email", null));
 				}
 			}
 			else
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email È obrigatÛrio", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email √© obrigat√≥rio", null));
 			}
 		}
 		catch (Exception e) 
@@ -317,7 +317,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				
 				if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas s„o diferentes", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas s√£o diferentes", null));
 					return null;
 				}
 				else
@@ -331,14 +331,14 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					}
 					else
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N„o foi possÌvel redefinir a senha", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N√£o foi poss√≠vel redefinir a senha", null));
 					}
 				}
 				
 			}
 			else
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas s„o obrigatÛrias", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas sÔøΩo obrigatÔøΩrias", null));
 				return null;
 			}
 			
@@ -352,7 +352,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * MÈtodo usado para resetar o usuario, criando uma nova instancia do usuario
+	 * M√©todo usado para resetar o usuario, criando uma nova instancia do usuario
 	 */
 	public void resetarUsuario()
 	{
@@ -362,13 +362,13 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		}
 		catch (Exception e) 
 		{
-			Logs.addFatal("Resetar", "Falha ao resetar o usu·rio");
+			Logs.addFatal("Resetar", "Falha ao resetar o usu√°rio");
 		}
 	}
 	
 	/**
-	 * O mÈtodo È usado para criptografar senhas
-	 * @param senha sem modificaÁıes
+	 * O m√©todo √© usado para criptografar senhas
+	 * @param senha sem modifica√ß√µes
 	 * @return senha modificada
 	 */
 	public static String criptografarSenha (String senha) 

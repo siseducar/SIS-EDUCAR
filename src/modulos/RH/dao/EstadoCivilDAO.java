@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class EstadoCivilDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	/* Metodo para retornar os tipos de ESTADO CIVIL padrao */
+	/* Método para retornar os tipos de ESTADO CIVIL padrões */
 	public List<EstadoCivil> consultaEstaCivil() throws SQLException{
 		
 		List<EstadoCivil> listaEstaCivil = new ArrayList<>();

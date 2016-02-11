@@ -21,7 +21,7 @@ public class MainSisEducar implements Servlet
 			//Busca a chave de acesso cadastrada no banco de dados
 			String chaveAcessoSimples = new SisEducarDAO().obtemChaveAcesso();
 
-			//Aqui ele defini qual ser· a chave de acesso do usu·rio logado
+			//Aqui ele defini qual ser√° a chave de acesso do usu√°rio logado
 			ConstantesSisEducar.USUARIO_LOGADO = new SisEducarServlet().gerarChaveAcessoCriptografada(chaveAcessoSimples);
 			
 			System.out.println("<-------Sistema SisEducar iniciado-------->");

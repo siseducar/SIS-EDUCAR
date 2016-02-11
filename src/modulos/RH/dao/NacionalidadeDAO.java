@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class NacionalidadeDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 			
-	/* Metodo para retornar os tipos de NACIONALIDADE padrao */
+	/* Método para retornar os tipos de NACIONALIDADES padrões */
 	public List<Nacionalidade> consultaNacionalidade() throws SQLException {
 		
 		List<Nacionalidade> listaNacionalidade = new ArrayList<>();

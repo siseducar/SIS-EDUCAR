@@ -8,20 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulos.RH.om.Raca;
 import modulos.RH.om.SituacaoEconomica;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class SituacaoEconomicaDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
 		Connection con = conexao.getConection();
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		/* Metodo para retornar os tipos de cores padrao */
+		/* Metodo para retornar os tipos de SITUACOES ECONOMICAS padrões */
 		public List<SituacaoEconomica> consultaSituEconomica() throws SQLException{
 			
 			List<SituacaoEconomica> listaSituEconomica = new ArrayList<SituacaoEconomica>();

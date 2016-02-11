@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class RacaDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	/* Metodo para retornar os tipos de cores padrao */
+	/* Metodo para retornar os tipos de RACAS padrões */
 	public List<Raca> consultaRaca() throws SQLException{
 		
 		List<Raca> listaRaca = new ArrayList<Raca>();

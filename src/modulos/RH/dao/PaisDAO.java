@@ -15,7 +15,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class PaisDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -23,8 +23,8 @@ public class PaisDAO extends SisEducarDAO
 	ResultSet rs = null;
 	
 	/**
-	 * Busca o paÌs de acordo com os par‚metros passado
-	 * @author Jo„o Paulo
+	 * Busca o pa√≠s de acordo com os par√¢metros passado
+	 * @author Jo√£o Paulo
 	 * @param sigla
 	 * @param nome
 	 * @return Pais

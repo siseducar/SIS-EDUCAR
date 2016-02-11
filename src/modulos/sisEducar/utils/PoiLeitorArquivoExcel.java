@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.CidadeDAO;
 import modulos.RH.dao.EnderecoDAO;
@@ -20,11 +25,6 @@ import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.UnidadeEscolar;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class PoiLeitorArquivoExcel 
 {
@@ -74,13 +74,13 @@ public class PoiLeitorArquivoExcel
 				coluna = linha.getCell((short) 8); //NOME PAI
 				listAux.add(coluna.toString());
 				
-				coluna = linha.getCell((short) 9); //NOME MÃE
+				coluna = linha.getCell((short) 9); //NOME Mï¿½E
 				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 10); //NOME RUA
 				listAux.add(coluna.toString());
 				
-				coluna = linha.getCell((short) 11); //NúMERO
+				coluna = linha.getCell((short) 11); //NÃšMERO
 				listAux.add(coluna.toString());
 				
 				coluna = linha.getCell((short) 12); //BAIRRO
@@ -147,7 +147,7 @@ public class PoiLeitorArquivoExcel
 				
 				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 				
-				//Monta o endereço
+				//Monta o endereÃ§o
 				if(!listaAuxiliar.get(10).equals("NULL")) { endereco.setLogradouro((String)listaAuxiliar.get(10)); }
 				if(!listaAuxiliar.get(11).equals("NULL")) { endereco.setNumero(cortarCasasDecimais((String)listaAuxiliar.get(11), false, false)); }
 				if(!listaAuxiliar.get(12).equals("NULL")) { endereco.setBairro((String)listaAuxiliar.get(12)); }
@@ -168,7 +168,7 @@ public class PoiLeitorArquivoExcel
 				}
 				
 				if(!listaAuxiliar.get(8).equals("NULL")) { aluno.setNomePai((String)listaAuxiliar.get(8)); } //Nome Pai
-				if(!listaAuxiliar.get(9).equals("NULL")) { aluno.setNomeMae((String)listaAuxiliar.get(9)); } //Nome Mãe
+				if(!listaAuxiliar.get(9).equals("NULL")) { aluno.setNomeMae((String)listaAuxiliar.get(9)); } //Nome MÃ£e
 				if(!listaAuxiliar.get(15).equals("NULL")) { aluno.setFolha(cortarCasasDecimais((String)listaAuxiliar.get(15), false, false)); } //Folha
 				if(!listaAuxiliar.get(16).equals("NULL")) { aluno.setLivro(cortarCasasDecimais((String)listaAuxiliar.get(16), false, false)); }
 				if(!listaAuxiliar.get(17).equals("NULL")) { aluno.setRegistro(new Integer(cortarCasasDecimais(new Double((String)listaAuxiliar.get(17)).toString(), false, false))); }
@@ -180,7 +180,7 @@ public class PoiLeitorArquivoExcel
 				pessoa.setDataNascimento((Date) ConversorUtils.convertStringToTimestamp(correcaoStringToStringDate((String)listaAuxiliar.get(4))));				
 				//pessoa.setDataCadastro((Date) ConversorUtils.convertStringToTimestamp(new java.util.Date().toString("")));				
 				
-				//salva endereço 
+				//salva endereÃ§o 
 				endereco = enderecoDAO.inserirEndereco(endereco);
 				pessoa.setEndereco(endereco);
 				pessoa.setUnidadeEscolar(unidadeEscolar);
@@ -204,7 +204,7 @@ public class PoiLeitorArquivoExcel
 				}
 				else
 				{
-					System.out.println("A linha número " + countPosicao + " não deu certo");
+					System.out.println("A linha nÃºmero " + countPosicao + " nÃ£o deu certo");
 				}
 			}
 		} 

@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.RH.om.Cidade;
-import modulos.RH.om.Pais;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class CidadeDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -24,8 +23,8 @@ public class CidadeDAO extends SisEducarDAO
 	ResultSet rs = null;
 
 	/**
-	 * O mÈtodo busca o objeto cidade completo com estado e pais
-	 * @author Jo„o Paulo
+	 * O m√©todo busca o objeto cidade completo com estado e pais
+	 * @author Jo√£o Paulo
 	 * @param sigla
 	 * @param nome
 	 * @return Cidade
@@ -76,8 +75,8 @@ public class CidadeDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo busca a pk da cidade
-	 * @author Jo„o Paulo
+	 * O m√©todo busca a pk da cidade
+	 * @author Jo√£o Paulo
 	 * @param sigla
 	 * @param nome
 	 * @return Cidade
@@ -118,6 +117,10 @@ public class CidadeDAO extends SisEducarDAO
 		return null;
 	}
 	
+	/**
+	 * O m√©todo busca a cidade de acordo com o estado selecionado na tela
+	 * 
+	 *  */
 	public List<Cidade> consultaCidade(Integer pkEstado) throws SQLException{		
 		
 		List<Cidade> listaCidade = new ArrayList<Cidade>();

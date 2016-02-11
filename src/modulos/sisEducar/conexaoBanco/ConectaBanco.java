@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConectaBanco 
 {
 	/**
-	 * MÈtodo de conex„o com o banco de dados PostgreSQL
+	 * M√©todo de conex√£o com o banco de dados PostgreSQL
 	 * @return
 	 */
 	public Connection getConection() 

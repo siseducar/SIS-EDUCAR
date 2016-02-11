@@ -6,7 +6,7 @@ import javax.faces.context.FacesContext;
 public class Logs 
 {
 	/**
-	 * Este método é usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
+	 * Este mÃ©todo Ã© usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
 	 * @param mensagemTitulo
 	 * @param mensagemDescricao
 	 */
@@ -16,7 +16,7 @@ public class Logs
 	}
 	
 	/**
-	 * Este método é usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
+	 * Este mÃ©todo Ã© usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
 	 * @param mensagemTitulo
 	 * @param mensagemDescricao
 	 */
@@ -26,7 +26,7 @@ public class Logs
 	}
 	
 	/**
-	 * Este método é usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
+	 * Este mÃ©todo Ã© usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
 	 * @param mensagemTitulo
 	 * @param mensagemDescricao
 	 */
@@ -36,7 +36,7 @@ public class Logs
 	}
 	
 	/**
-	 * Este método é usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
+	 * Este mÃ©todo Ã© usado para exibir uma dialog na tela para o usuario, o titulo e a descricao da dialog sera recebido como parametro
 	 * @param mensagemTitulo
 	 * @param mensagemDescricao
 	 */

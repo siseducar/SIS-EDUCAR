@@ -21,8 +21,8 @@ import modulos.sisEducar.om.Email;
 public class EmailUtils 
 {
 	/**
-	 * Este mÈtodo dever· ser usado para inicializar as propriedades do email, este mÈtodo dever· ser chamdo sempre que montarmos
-	 * uma novo mÈtodo de envio de email
+	 * Este m√©todo dever√° ser usado para inicializar as propriedades do email, este m√©todo dever√° ser chamdo sempre que montarmos
+	 * um novo m√©todo de envio de email
 	 * @return
 	 */
 	public static Email inicializarPropriedades()
@@ -68,7 +68,7 @@ public class EmailUtils
     		props.setProperty("mail.smtp.port", mail.getSmtpPortMail());
     		props.setProperty("mail.mime.charset", mail.getCharsetMail());
     		
-    		//classe anonima que realiza a autenticaÁ„o
+    		//classe anonima que realiza a autentica√ß√£o
     		//do usuario no servidor de email.
     		Authenticator auth = new Authenticator() 
     		{
@@ -78,12 +78,12 @@ public class EmailUtils
     			}
     		};
     		
-    		// Cria a sessao passando as propriedades e a autenticaÁ„o
+    		// Cria a sessao passando as propriedades e a autentica√ß√£o
     		Session session = Session.getDefaultInstance(props, auth);
     		// Gera um log no console referente ao processo de envio
     		session.setDebug(true);
     		
-    		//cria a mensagem setando o remetente e seus destinat·rios
+    		//cria a mensagem setando o remetente e seus destinatarios
     		Message msg = new MimeMessage(session);
     		//aqui seta o remetente
     		msg.setFrom(new InternetAddress(mail.getUserMail(), mail.getFromNameMail()));
@@ -92,7 +92,7 @@ public class EmailUtils
     		{
     			if (first) 
     			{
-    				//setamos o 1∞ destinatario
+    				//setamos o 1¬∫ destinatario
     				msg.addRecipient(Message.RecipientType.TO, new InternetAddress(map.getKey(), map.getValue()));
     				first = false;
     			} 
@@ -116,7 +116,7 @@ public class EmailUtils
     		//adiciona o corpo texto da mensagem
     		mps.addBodyPart(textPart);
     		
-    		//adiciona a mensagem o conte˙do texto e anexo
+    		//adiciona a mensagem o conteudo texto e anexo
     		msg.setContent(mps);
     		
     		// Envia a Mensagem
@@ -132,12 +132,12 @@ public class EmailUtils
     }
     
     /**
-     * Este mÈtodo È usado para definir um padr„o de envio de email
-     * @param conteudo (O conteudo È o objetivo do email, o porque de estar sendo enviado)
-     * @param conteudoBlocoDois (O conteudoDois aparecer· no corpo sÛ que abaixo do segundo bloco)
-     * @param ativarBotao (o bot„o que estamos falando È um bot„o qualquer que recebr· um nome e uma URL para um redirecionamento)
-     * @param urlBotao (URL aonde ser· redirecionado)
-     * @param nomeBotao (nome do bot„o)
+     * Este m√©todo √© usado para definir um padr√£o de envio de email
+     * @param conteudo (O conteudo √© o objetivo do email, o porque de estar sendo enviado)
+     * @param conteudoBlocoDois (O conteudoDois aparecera no corpo so que abaixo do segundo bloco)
+     * @param ativarBotao (o bot√£o que estamos falando √© um bot√£o qualquer que recebera um nome e uma URL para um redirecionamento)
+     * @param urlBotao (URL aonde ser√° redirecionado)
+     * @param nomeBotao (nome do bot√£o)
      * @return String (Email Pronto)
      */
     public static String emailPadrao(String conteudo, String conteudoBlocoDois,  String urlBotao,  String urlLink, Boolean ativarBotao, String nomeBotao)
@@ -202,7 +202,7 @@ public class EmailUtils
     		corpo += "	 		<tbody><tr>";
     		corpo += "				<td align=\"center\" valign=\"middle\">";
     		corpo += "					<div>";
-    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta È uma notificaÁ„o autom·tica, por favor n„o responda.</small>";
+    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta √© uma notifica√ß√£o autom√°tica, por favor n√£o responda.</small>";
     		corpo += "					</div>";
     		corpo += "				</td>";
     		corpo += "				</tr>";
@@ -218,7 +218,7 @@ public class EmailUtils
     		corpo += "	 		<tbody><tr>";
     		corpo += "				<td align=\"center\" valign=\"middle\">";
     		corpo += "					<div>";
-    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta È uma notificaÁ„o autom·tica, por favor n„o responda.</small>";
+    		corpo += "						<small style=\"color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px\">Esta √© uma notifica√ß√£o autom√°tica, por favor n√£o responda.</small>";
     		corpo += "					</div>";
     		corpo += "				</td>";
     		corpo += "				</tr>";

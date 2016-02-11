@@ -11,7 +11,7 @@ import modulos.sisEducar.dao.SisEducarDAO;
 
 public class PopulaRHDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -24,8 +24,8 @@ public class PopulaRHDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Adiciona as permissıes no banco de dados de acordo com a informaÁıes passadas como par‚metro
-	 * @author Jo„o Paulo
+	 * Adiciona as permiss√µes no banco de dados de acordo com a informa√ß√µes passadas como par√¢metro
+	 * @author Jo√£o Paulo
 	 * @param nomePermissao
 	 * @param status
 	 * @param tipoPermissao
@@ -46,8 +46,8 @@ public class PopulaRHDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Adiciona as raÁas no banco de dados de acordo com a informaÁıes passadas como par‚metro
-	 * @author Jo„o Paulo
+	 * Adiciona as ra√ßas no banco de dados de acordo com a informa√ß√µes passadas como par√¢metro
+	 * @author Jo√£o Paulo
 	 * @param codigo
 	 * @param descricao
 	 * @param status

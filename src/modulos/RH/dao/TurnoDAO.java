@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class TurnoDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
 		Connection con = conexao.getConection();
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		/* Metodo para retornar os tipos de cores padrao */
+		/* Metodo para retornar os tipos de TURNOS padrões */
 		public List<Turno> consultaTurno() throws SQLException{
 			
 			List<Turno> listaTurno = new ArrayList<Turno>();

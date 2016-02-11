@@ -13,7 +13,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class AlunoDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -26,7 +26,7 @@ public class AlunoDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Este mÈtodo È usado para verificar a existÍncia de um aluno no banco de dados, sendo buscado pelo prÛprio RA
+	 * Este m√©todo √© usado para verificar a exist√™ncia de um aluno no banco de dados, sendo buscado pelo pr√≥prio RA
 	 * @param raAluno
 	 * @return TRUE || FALSE
 	 * @throws SQLException
@@ -53,7 +53,7 @@ public class AlunoDAO extends SisEducarDAO
 	
 	/**
 	 * Inseri um aluno
-	 * @author Jo„o Paulo
+	 * @author Jo√£o Paulo
 	 * @param aluno
 	 * @return Aluno
 	 * @throws SQLException
@@ -87,8 +87,8 @@ public class AlunoDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Obtem a pk do aluno salvo pelos par‚meros passados
-	 * @author Jo„o Paulo
+	 * Obtem a pk do aluno salvo pelos par√¢meros passados
+	 * @author Jo√£o Paulo
 	 * @param ra
 	 * @param ra2
 	 * @param registro

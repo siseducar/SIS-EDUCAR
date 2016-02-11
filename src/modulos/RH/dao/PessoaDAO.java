@@ -14,7 +14,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class PessoaDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -99,7 +99,7 @@ public class PessoaDAO extends SisEducarDAO
 	
 	/**
 	 * Busca pk da pessoa salva
-	 * @author Jo„o Paulo
+	 * @author Jo√£o Paulo
 	 * @param nome
 	 * @param nomeFantasia
 	 * @param cpf

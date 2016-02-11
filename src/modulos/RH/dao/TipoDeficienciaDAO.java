@@ -8,20 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulos.RH.om.Cargo;
 import modulos.RH.om.TipoDeficiencia;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class TipoDeficienciaDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
 		Connection con = conexao.getConection();
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		/* Metodo para retornar os tipos de RELIGIAO padrao */
+		/* Metodo para retornar os tipos de DEFICIENCIAS padrões */
 		public List<TipoDeficiencia> consultaTipoDeficiencia() throws SQLException {
 			
 			List<TipoDeficiencia> listaTipoDeficiencia = new ArrayList<>();

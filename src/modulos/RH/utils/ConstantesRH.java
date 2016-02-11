@@ -22,7 +22,7 @@ public class ConstantesRH
 	public static int ESTADO_CIVIL_DIVORCIADO = 34;
 	public static int ESTADO_CIVIL_VIUVO = 35;
 	
-	/* Formação Acadêmica*/
+	/* FormaÃ§Ã£o AcadÃªmica*/
 	public static int ENSINO_FUNDAMENTAL_INCOMPLETO = 40;
 	public static int ENSINO_FUNDAMENTAL_COMPLETO = 41;
 	public static int ENSINO_MEDIO_INCOMPLETO = 42;
@@ -41,7 +41,7 @@ public class ConstantesRH
 	public static int TIPO_RESPONSAVEL_OUTRO = 70;
 	
 	/**
-	 * Tipos Permissão
+	 * Tipos PermissÃ£o
 	 */
 	public static int PERMISSAO_TIPO_ADMINISTRADOR_SISTEMA = 101;
 	public static int PERMISSAO_TIPO_SECRETARIA_UNIDADE_ESCOLAR = 102;

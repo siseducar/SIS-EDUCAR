@@ -15,7 +15,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class EstadoDAO extends SisEducarDAO 
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -23,8 +23,8 @@ public class EstadoDAO extends SisEducarDAO
 	ResultSet rs = null;
 
 	/**
-	 * Este mÈtodo eu busco os estados com paÌs
-	 * @author Jo„o Paulo
+	 * Este m√©todo eu busco os estados com pa√≠s
+	 * @author Jo√£o Paulo
 	 * @param pkEstado
 	 * @param sigla
 	 * @param nome
@@ -64,6 +64,7 @@ public class EstadoDAO extends SisEducarDAO
 		
 		return null;
 	}
+	
 	
 	public List<Estado> consultaEstado(Integer pkPais) throws SQLException{		
 		

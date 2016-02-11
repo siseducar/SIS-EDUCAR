@@ -11,7 +11,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class SisEducarDAO 
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -29,7 +29,7 @@ public class SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo È usado para fechar a conex„o com o banco recebendo como parametro a conex„o, o preparedStatment e assim a resposta se fechara a conex„o e tambÈm
+	 * O m√©todo √© usado para fechar a conex√£o com o banco recebendo como parametro a conex√£o, o preparedStatment e assim a resposta se fechara a conex√£o e tamb√©m
 	 * se executara um commit
 	 * @param Connection con
 	 * @param PreparedStatement ps

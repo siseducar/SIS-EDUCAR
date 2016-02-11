@@ -5,7 +5,7 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean(name="sisEducarConstantes")
 public class ConstantesSisEducar 
 {
-	/* Path do projeto, contem o caminho completo atÈ o package sisEducar */
+	/* Path do projeto, contem o caminho completo at√© o package sisEducar */
 	public static final String PATH_PROJETO_NOME = "/SIS-EDUCAR";
 	
 	public static String USUARIO_LOGADO = "";
@@ -14,10 +14,10 @@ public class ConstantesSisEducar
 	public static final int STATUS_ATIVO = 0;
 	public static final int STATUS_REMOVIDO = 999;
 	
-	//Aguardando validaÁ„o pelo email enviado para o usu·rio
+	//Aguardando valida√ß√£o pelo email enviado para o usu√°rio
 	public static final int STATUS_INCOMPLETO = 888;
 	
-	/*Este status È para quando o usuario solicita uma redefiniÁ„o de senha*/
+	/*Este status √© para quando o usuario solicita uma redefini√ß√£o de senha*/
 	public static final int STATUS_REDEFINICAO_SENHA_LIBERADO = 777;
 	public static final int STATUS_REDEFINICAO_SENHA_CONCLUIDO = 778;
 }

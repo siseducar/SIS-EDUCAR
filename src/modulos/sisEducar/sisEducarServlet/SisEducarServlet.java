@@ -10,13 +10,12 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import modulos.RH.dao.UsuarioDAO;
 import modulos.RH.om.Usuario;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
-
-import org.apache.tomcat.util.codec.binary.Base64;
-
 import sun.misc.BASE64Encoder;
 
 @RequestScoped
@@ -61,8 +60,8 @@ public class SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * O método é usado para criptografar senhas
-	 * @param senha sem modificações
+	 * O mÃ©todo Ã© usado para criptografar senhas
+	 * @param senha sem modificaÃ§Ãµes
 	 * @return senha modificada
 	 */
 	public static String criptografarSenha (String senha) 
@@ -81,7 +80,7 @@ public class SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * Método responsavel por criptografar um conteudo como por exemplo(algum conteudo a ser concatenado em uma URL)
+	 * MÃ©todo responsavel por criptografar um conteudo como por exemplo(algum conteudo a ser concatenado em uma URL)
 	 * @param criptografar
 	 * @param conteudo
 	 * @return String
@@ -109,7 +108,7 @@ public class SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * Método usado para obter o parametro da URL de validacao de usuario
+	 * MÃ©todo usado para obter o parametro da URL de validacao de usuario
 	 * @return
 	 */
 	public void getParameterURL()
@@ -155,7 +154,7 @@ public class SisEducarServlet implements Serializable
 	}
 	
 	/**
-	 * Este método é usado para obter o parametro da tela de redefinição de senha para que seja possivel concluir o processo de redefinição de senha
+	 * Este mÃ©todo Ã© usado para obter o parametro da tela de redefiniÃ§Ã£o de senha para que seja possivel concluir o processo de redefiniÃ§Ã£o de senha
 	 */
 	public void getParameterURLRedefinicaoSenha()
 	{

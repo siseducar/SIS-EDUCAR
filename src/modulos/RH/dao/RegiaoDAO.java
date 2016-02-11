@@ -8,20 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulos.RH.om.Raca;
 import modulos.RH.om.Regiao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class RegiaoDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
 		Connection con = conexao.getConection();
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		/* Metodo para retornar os tipos de cores padrao */
+		/* Metodo para retornar os tipos de REGIOES padrões */
 		public List<Regiao> consultaRegiao() throws SQLException{
 			
 			List<Regiao> listaRegiao = new ArrayList<Regiao>();

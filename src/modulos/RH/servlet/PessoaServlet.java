@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import modulos.RH.dao.CargoDAO;
@@ -207,146 +209,198 @@ public class PessoaServlet implements Serializable{
 		System.out.println(funcionarioDados);
 		return funcionarioDados.getMatricula();
 	}
+	
+	/*
+	 * Metodo que realizara o upload das imagens
+	 * */
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
 	 * Metodo para carregar as Naturalidades
 	 * */
-	public List<SelectItem> getConsultaNacionalidade() throws SQLException {
-		NacionalidadeDAO nacionalidadeDAO = new NacionalidadeDAO();
-		List<SelectItem> comboNacionalidade = new ArrayList<SelectItem>();
-		List<Nacionalidade> paramNacionalidade = nacionalidadeDAO.consultaNacionalidade();
-		
-		for (Nacionalidade param : paramNacionalidade){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkNacionalidade());
-		   s.setLabel(param.getDescricao());
-		   comboNacionalidade.add(s);
+	public List<SelectItem> getConsultaNacionalidade() {
+		try {
+			NacionalidadeDAO nacionalidadeDAO = new NacionalidadeDAO();
+			List<SelectItem> comboNacionalidade = new ArrayList<SelectItem>();
+			List<Nacionalidade> paramNacionalidade = nacionalidadeDAO.consultaNacionalidade();
+			
+			for (Nacionalidade param : paramNacionalidade){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkNacionalidade());
+			   s.setLabel(param.getDescricao());
+			   comboNacionalidade.add(s);
+			}
+			return comboNacionalidade;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de NACIONALIDADE, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboNacionalidade;
 	}
 	
 	/*
 	 * Metodo para carregar as Racas
 	 * */
-	public List<SelectItem> getConsultaRaca() throws SQLException {
-		RacaDAO racaDAO = new RacaDAO();
-		List<SelectItem> comboRaca = new ArrayList<SelectItem>();
-		List<Raca> paramRaca = racaDAO.consultaRaca();
-		
-		for (Raca param : paramRaca){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkRaca());
-		   s.setLabel(param.getDescricao());
-		   comboRaca.add(s);
+	public List<SelectItem> getConsultaRaca() {
+		try {
+			RacaDAO racaDAO = new RacaDAO();
+			List<SelectItem> comboRaca = new ArrayList<SelectItem>();
+			List<Raca> paramRaca = racaDAO.consultaRaca();
+			
+			for (Raca param : paramRaca){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkRaca());
+			   s.setLabel(param.getDescricao());
+			   comboRaca.add(s);
+			}
+			return comboRaca;
+		} catch (SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de RAÇA, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboRaca;
 	}
 	
 	/*
 	 * Metodo para carregar os Estados Civis
 	 * */
-	public List<SelectItem> getConsultaEstaCivil() throws SQLException {
-		EstadoCivilDAO estaCivilDAO = new EstadoCivilDAO();
-		List<SelectItem> comboEstaCivil = new ArrayList<SelectItem>();
-		List<EstadoCivil> paramEstaCivil = estaCivilDAO.consultaEstaCivil();
-		
-		for (EstadoCivil param : paramEstaCivil){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkEstadoCivil());
-		   s.setLabel(param.getDescricao());
-		   comboEstaCivil.add(s);
+	public List<SelectItem> getConsultaEstaCivil() {
+		try {
+			EstadoCivilDAO estaCivilDAO = new EstadoCivilDAO();
+			List<SelectItem> comboEstaCivil = new ArrayList<SelectItem>();
+			List<EstadoCivil> paramEstaCivil = estaCivilDAO.consultaEstaCivil();
+			
+			for (EstadoCivil param : paramEstaCivil){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkEstadoCivil());
+			   s.setLabel(param.getDescricao());
+			   comboEstaCivil.add(s);
+			}
+			return comboEstaCivil;
+		}catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de ESTADOS CIVIS, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboEstaCivil;
 	}
 	
 	/*
 	 * Metodo para carregar os Graus de Instrucoes
 	 * */
-	public List<SelectItem> getConsultaGrauInstru() throws SQLException {
-		GrauInstrucaoDAO grauInstruDAO = new GrauInstrucaoDAO();
-		List<SelectItem> comboGrauInstru = new ArrayList<SelectItem>();
-		List<GrauInstrucao> paramGrauInstru = grauInstruDAO.consultaGrauInstru();
-		
-		for (GrauInstrucao param : paramGrauInstru){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkGrauInstrucao());
-		   s.setLabel(param.getDescricao());
-		   comboGrauInstru.add(s);
+	public List<SelectItem> getConsultaGrauInstru() {
+		try {
+			GrauInstrucaoDAO grauInstruDAO = new GrauInstrucaoDAO();
+			List<SelectItem> comboGrauInstru = new ArrayList<SelectItem>();
+			List<GrauInstrucao> paramGrauInstru = grauInstruDAO.consultaGrauInstru();
+			
+			for (GrauInstrucao param : paramGrauInstru){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkGrauInstrucao());
+			   s.setLabel(param.getDescricao());
+			   comboGrauInstru.add(s);
+			}
+			return comboGrauInstru;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de GRAU DE INSTRUÇÃO, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboGrauInstru;
 	}
 	
 	/*
 	 * Metodo para carregar as situacoes economicas
 	 * */
-	public List<SelectItem> getConsultaSituEconomica() throws SQLException {
-		SituacaoEconomicaDAO situEconomicaDAO = new SituacaoEconomicaDAO();
-		List<SelectItem> comboSituEconomica = new ArrayList<SelectItem>();
-		List<SituacaoEconomica> paramSituEconomica = situEconomicaDAO.consultaSituEconomica();
-		
-		for (SituacaoEconomica param : paramSituEconomica){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkSituacaoEconomica());
-		   s.setLabel(param.getDescricao());
-		   comboSituEconomica.add(s);
+	public List<SelectItem> getConsultaSituEconomica() {
+		try {
+			SituacaoEconomicaDAO situEconomicaDAO = new SituacaoEconomicaDAO();
+			List<SelectItem> comboSituEconomica = new ArrayList<SelectItem>();
+			List<SituacaoEconomica> paramSituEconomica = situEconomicaDAO.consultaSituEconomica();
+			
+			for (SituacaoEconomica param : paramSituEconomica){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkSituacaoEconomica());
+			   s.setLabel(param.getDescricao());
+			   comboSituEconomica.add(s);
+			}
+			return comboSituEconomica;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de SITUAÇÕES ECONÔMICAS, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboSituEconomica;
 	}
 	
 	/*
 	 * Metodo para carregar as Religioes
 	 * */
-	public List<SelectItem> getConsultaReligiao() throws SQLException {
-		ReligiaoDAO religiaoDAO = new ReligiaoDAO();
-		List<SelectItem> comboReligiao = new ArrayList<SelectItem>();
-		List<Religiao> paramReligiao = religiaoDAO.consultaReligiao();
-		
-		for (Religiao param : paramReligiao){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkReligiao());
-		   s.setLabel(param.getDescricao());
-		   comboReligiao.add(s);
+	public List<SelectItem> getConsultaReligiao() {
+		try {
+			ReligiaoDAO religiaoDAO = new ReligiaoDAO();
+			List<SelectItem> comboReligiao = new ArrayList<SelectItem>();
+			List<Religiao> paramReligiao = religiaoDAO.consultaReligiao();
+			
+			for (Religiao param : paramReligiao){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkReligiao());
+			   s.setLabel(param.getDescricao());
+			   comboReligiao.add(s);
+			}
+			return comboReligiao;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de RELIGIÕES, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboReligiao;
 	}
 	
 	/*
 	 * Metodo para carregar os Paises
 	 * */
-	public List<SelectItem> getConsultaPais() throws SQLException {
-		PaisDAO paisDAO = new PaisDAO();
-		List<SelectItem> comboPais = new ArrayList<SelectItem>();
-		List<Pais> paramPais = paisDAO.consultaPais();
-		
-		for (Pais param : paramPais){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkPais());
-		   s.setLabel(param.getNome());
-		   comboPais.add(s);
+	public List<SelectItem> getConsultaPais() {
+		try {
+			PaisDAO paisDAO = new PaisDAO();
+			List<SelectItem> comboPais = new ArrayList<SelectItem>();
+			List<Pais> paramPais = paisDAO.consultaPais();
+			
+			for (Pais param : paramPais){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkPais());
+			   s.setLabel(param.getNome());
+			   comboPais.add(s);
+			}
+			estadoDados.setPkEstado(null);
+			cidadeDados.setPkCidade(null);
+			return comboPais;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de PAÍS, contate o administrador do sistema!", null));
+			return null;
 		}
-		estadoDados.setPkEstado(null);
-		cidadeDados.setPkCidade(null);
-		return comboPais;
 	}
 	
 	/*
 	 * Metodo para carregar os Estados
 	 * */
-	public List<SelectItem> getConsultaEstado() throws SQLException {
+	public List<SelectItem> getConsultaEstado() {
 		if(paisDados.getPkPais() != null){
-			EstadoDAO estadoDAO = new EstadoDAO();
-			List<SelectItem> comboEstado = new ArrayList<SelectItem>();
-			List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
-			
-			for (Estado param : paramEstado){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkEstado());
-			   s.setLabel(param.getNome());
-			   comboEstado.add(s);
+			try {
+				EstadoDAO estadoDAO = new EstadoDAO();
+				List<SelectItem> comboEstado = new ArrayList<SelectItem>();
+				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
+				
+				for (Estado param : paramEstado){
+				   SelectItem  s = new SelectItem();
+				   s.setValue(param.getPkEstado());
+				   s.setLabel(param.getNome());
+				   comboEstado.add(s);
+				}
+				return comboEstado;
+			}catch(SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Erro ao carregar os dados de ESTADO, contate o administrador do sistema!", null));
+				return null;
 			}
-			return comboEstado;
 		}
 		return null;
 	}
@@ -354,19 +408,25 @@ public class PessoaServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Cidades
 	 * */
-	public List<SelectItem> getConsultaCidade() throws SQLException {
+	public List<SelectItem> getConsultaCidade() {
 		if(estadoDados.getPkEstado() != null){
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			List<SelectItem> comboCidade = new ArrayList<SelectItem>();
-			List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
-			
-			for (Cidade param : paramCidade){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkCidade());
-			   s.setLabel(param.getNome());
-			   comboCidade.add(s);
+			try {
+				CidadeDAO cidadeDAO = new CidadeDAO();
+				List<SelectItem> comboCidade = new ArrayList<SelectItem>();
+				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
+				
+				for (Cidade param : paramCidade){
+				   SelectItem  s = new SelectItem();
+				   s.setValue(param.getPkCidade());
+				   s.setLabel(param.getNome());
+				   comboCidade.add(s);
+				}
+				return comboCidade;
+			}catch(SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Erro ao carregar os dados de CIDADE, contate o administrador do sistema!", null));
+				return null;
 			}
-			return comboCidade;
 		}
 		
 		return null;
@@ -375,35 +435,41 @@ public class PessoaServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Zonas Residencias
 	 * */
-	public List<SelectItem> getConsultaRegiao() throws SQLException {
-		RegiaoDAO regiaoDAO = new RegiaoDAO();
-		List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
-		List<Regiao> paramRegiao = regiaoDAO.consultaRegiao();
-		
-		for (Regiao param : paramRegiao){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkRegiao());
-		   s.setLabel(param.getDescricao());
-		   comboRegiao.add(s);
+	public List<SelectItem> getConsultaRegiao() {
+		try {
+			RegiaoDAO regiaoDAO = new RegiaoDAO();
+			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
+			List<Regiao> paramRegiao = regiaoDAO.consultaRegiao();
+			
+			for (Regiao param : paramRegiao){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkRegiao());
+			   s.setLabel(param.getDescricao());
+			   comboRegiao.add(s);
+			}
+			return comboRegiao;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de REGIÃO, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboRegiao;
 	}
 	
 	/*
 	 * Metodo para carregar os tipos de Deficiencia
 	 * */
 	public List<SelectItem> getConsultaTipoDeficiencia() throws SQLException {
-		TipoDeficienciaDAO tipoDeficienciaDAO = new TipoDeficienciaDAO();
-		List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
-		List<TipoDeficiencia> paramTipoDeficiencia = tipoDeficienciaDAO.consultaTipoDeficiencia();
-		
-		for (TipoDeficiencia param : paramTipoDeficiencia){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkTipoDeficiencia());
-		   s.setLabel(param.getDescricao());
-		   comboRegiao.add(s);
-		}
-		return comboRegiao;
+			TipoDeficienciaDAO tipoDeficienciaDAO = new TipoDeficienciaDAO();
+			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
+			List<TipoDeficiencia> paramTipoDeficiencia = tipoDeficienciaDAO.consultaTipoDeficiencia();
+			
+			for (TipoDeficiencia param : paramTipoDeficiencia){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkTipoDeficiencia());
+			   s.setLabel(param.getDescricao());
+			   comboRegiao.add(s);
+			}
+			return comboRegiao;
 	}
 	
 	/*

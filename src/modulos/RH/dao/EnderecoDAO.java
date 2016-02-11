@@ -14,7 +14,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class EnderecoDAO extends SisEducarDAO 
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -27,8 +27,8 @@ public class EnderecoDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Insere o endereÁo e j· obtem a pk do enreÁo salvo e retorna o objeto completo
-	 * @author Jo„o Paulo
+	 * Insere o endere√ßo e j√° obtem a pk do enre√ßo salvo e retorna o objeto completo
+	 * @author Jo√£o Paulo
 	 * @param endereco
 	 * @return Endereco
 	 */
@@ -66,8 +66,8 @@ public class EnderecoDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Busca apenas a pk do endereÁo a partir dos par‚metros recebidos
-	 * @author Jo„o Paulo
+	 * Busca apenas a pk do endere√ßo a partir dos par√¢metros recebidos
+	 * @author Jo√£o Paulo
 	 * @param cep
 	 * @param logradouro
 	 * @param bairro

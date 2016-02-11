@@ -13,14 +13,14 @@ import modulos.sisEducar.conexaoBanco.ConectaBanco;
 
 public class ReligiaoDAO {
 
-	// Realizando conex�o com o banco
+	// Realizando conexão com o banco
 			ConectaBanco conexao = new ConectaBanco();
 			Connection con = conexao.getConection();
 			Statement st = null;
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			
-			/* Metodo para retornar os tipos de RELIGIAO padrao */
+			/* Metodo para retornar os tipos de RELIGIOES padrões */
 			public List<Religiao> consultaReligiao() throws SQLException {
 				
 				List<Religiao> listaReligiao = new ArrayList<>();

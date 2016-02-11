@@ -14,7 +14,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class UsuarioDAO extends SisEducarDAO
 {
-	// Realizando conex„o com o banco
+	// Realizando conex√£o com o banco
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -25,7 +25,7 @@ public class UsuarioDAO extends SisEducarDAO
 	
 	public UsuarioDAO() throws SQLException
 	{
-		//Quando construir a classe, dever· desabilitar o autoCommit
+		//Quando construir a classe, dever√° desabilitar o autoCommit
 		desabilitarAutoCommit(con);
 	}
 	
@@ -53,7 +53,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo È usado para inserir um novo usu·rio no banco de dados
+	 * O m√©todo √© usado para inserir um novo usu√°rio no banco de dados
 	 * @param loginBean
 	 * @return
 	 * @throws SQLException 
@@ -87,7 +87,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo È usado para consultar o banco e verificar se existe o usu
+	 * O m√©todo √© usado para consultar o banco e verificar se existe o usu√°rio
 	 * 
 	 * @param loginBean
 	 * @return
@@ -122,8 +122,8 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * MÈtodo respons·vel por buscar um usu·rio completo a partir de suas informaÁıes b·sicas (nome, senha e status)
-	 * @author Jo„o Paulo
+	 * M√©todo respons√°vel por buscar um usu√°rio completo a partir de suas informa√ß√µes b√°sicas (nome, senha e status)
+	 * @author Jo√£o Paulo
 	 * @param usuario
 	 * @return Usuario
 	 * @throws SQLException
@@ -157,8 +157,8 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Este mÈtodo ser· respons·vel por remover um usu·rio
-	 * @author Jo„o Paulo
+	 * Este m√©todo ser√° respons√°vel por remover um usu√°rio
+	 * @author Jo√£o Paulo
 	 * @param usuario
 	 * @return TRUE || FALSE
 	 * @throws SQLException
@@ -184,7 +184,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo È usado para buscar a existencia do usu·rio pelo cpf do mesmo
+	 * O m√©todo √© usado para buscar a existencia do usu√°rio pelo cpf do mesmo
 	 * @param cpf
 	 * @return TRUE || FALSE
 	 * @throws SQLException
@@ -217,8 +217,8 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * MÈtoso usado para verificar se o usu·rio existe
-	 * @author Jo„o Paulo
+	 * M√©toso usado para verificar se o usu√°rio existe
+	 * @author Jo√£o Paulo
 	 * @param cpf
 	 * @return TRUE || FALSE
 	 * @throws SQLException
@@ -243,7 +243,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * MÈtodo usado para obter um usuario, pode ser adicionado mais parametros neste mÈtodo, so deve ser verificado aonde esta usando este metodo
+	 * M√©todo usado para obter um usuario, pode ser adicionado mais parametros neste m√©todo, so deve ser verificado aonde esta usando este metodo
 	 * para que nas chamadas do mesmo sejam passados os novos parametros
 	 * @param email
 	 * @param status
@@ -280,7 +280,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * MÈtodo usado para atualizar o usuario que esta com o status incompleto
+	 * M√©todo usado para atualizar o usuario que esta com o status incompleto
 	 * @param pkUsuario
 	 * @return TRUE || FALSE
 	 * @throws SQLException
@@ -303,10 +303,10 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O metodo È usado para atualizar o usuario quando for enviado um email de redefinicao de senha para o mesmo
+	 * O metodo √© usado para atualizar o usuario quando for enviado um email de redefinicao de senha para o mesmo
 	 * @param pkUsuario
 	 * @param status (ConstantesSisEducar.STATUS_REDEFINICAO_SENHA_LIBERADO || ConstantesSisEducar.STATUS_REDEFINICAO_SENHA_LIBERADO)
-	 * @param parametro (È a string criptografada que ser· gerada randomicamente)
+	 * @param parametro (√© a string criptografada que ser√° gerada randomicamente)
 	 * @return true || false
 	 * @throws SQLException
 	 */
@@ -329,7 +329,7 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * O mÈtodo È usado para atualizar a senha do usuario
+	 * O m√©todo √© usado para atualizar a senha do usuario
 	 * @param pkUsuario
 	 * @return TRUE || FALSE
 	 * @throws SQLException
