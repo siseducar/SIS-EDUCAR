@@ -55,12 +55,7 @@ public class UsuarioServlet extends SisEducarServlet
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
 			
-			if(usuario.getCpfcnpj().isEmpty())
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "CPF é obrigatório", null));
-				return null;
-			}
-			else
+			if(!usuario.getCpfcnpj().isEmpty())
 			{
 				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario.getCpfcnpj());
 			}
@@ -76,12 +71,6 @@ public class UsuarioServlet extends SisEducarServlet
 			 * Validação de email
 			 * <Email> -----------------------------
 			 */
-			if(usuario.getEmail().isEmpty())
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é obrigatório", null));
-				return null;
-			}
-			
 			if(!usuario.getEmail().contains("@") || !usuario.getEmail().contains("."))
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é inválido", null));
@@ -91,15 +80,6 @@ public class UsuarioServlet extends SisEducarServlet
 			if(!usuario.getEmail().equals(usuario.getConfirmarEmail()))
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Os emails estão diferentes", null));
-				return null;
-			}
-			/**
-			 * </Email> -----------------------------
-			 */
-			
-			if(usuario.getNome().isEmpty())
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O usuário é obrigatório", null));
 				return null;
 			}
 			

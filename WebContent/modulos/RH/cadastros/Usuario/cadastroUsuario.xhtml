@@ -41,7 +41,8 @@
 										<div>
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.cpfcnpj}" maxlength="11"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.cpfcnpj}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.cpf']}" ></h:inputText>
 												<i class="ace-icon fa fa-credit-card"></i>
 											</span>
 										</div>
@@ -50,7 +51,8 @@
 										<div>
 											<output>Email</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.email']}"></h:inputText>
 												<i class="ace-icon fa fa-envelope"></i>
 											</span>
 										</div>
@@ -59,7 +61,8 @@
 										<div>
 											<output>Confirmação de Email</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
 												<i class="ace-icon fa fa-envelope"></i>
 											</span>
 										</div>
@@ -68,7 +71,8 @@
 										<div>
 											<output>Nome de Usuário</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
 												<i class="ace-icon fa fa-user"></i>
 											</span>
 										</div>
@@ -77,7 +81,8 @@
 										<div>
 											<output>Senha</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11"></h:inputSecret>
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.senha']}"></h:inputSecret>
 												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
@@ -86,7 +91,8 @@
 										<div>
 											<output>Confirmação de Senha</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11"></h:inputSecret>
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoSenha']}"></h:inputSecret>
 												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
