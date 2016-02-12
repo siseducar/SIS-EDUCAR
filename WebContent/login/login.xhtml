@@ -171,21 +171,24 @@
 													<label class="block clearfix">
 														<output>R.A. Aluno</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}" maxlength="15"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}" maxlength="15" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.raSimples']}"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<output>CPF Responsável</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" maxlength="11"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" maxlength="11" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.cpfSimples']}"/>
 															<i class="ace-icon fa fa-credit-card"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<output>Email</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}" maxlength="30"/>
+															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}" maxlength="30" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.emailSimples']}"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
@@ -193,7 +196,8 @@
 													<label class="block clearfix">
 														<output>Nome de Usuário</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15"/>
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.usuarioSimples']}"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label> 
@@ -201,7 +205,8 @@
 													<label class="block clearfix">
 														<output>Senha</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" maxlength="8"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.senha}" maxlength="8" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.senhaSimples']}"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -209,7 +214,8 @@
 													<label class="block clearfix">
 														<output>Confirmar Senha</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}" maxlength="8"/>
+															<h:inputSecret type="password" class="form-control" value="#{loginServlet.usuario.confirmarSenha}" maxlength="8" required="true"
+																requiredMessage="#{mensagens['mensagem.requerido.confirmacaoSenhaSimples']}"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
