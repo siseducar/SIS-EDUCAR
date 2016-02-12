@@ -50,11 +50,11 @@ public class PopulaRH
 		System.out.println("Popula de Raças Finalizado \n");
 		
 		System.out.println("Populando Situação Econômica...");
-		populaRHDAO.inserirParametros("SituacaoEconomica", "A", "20 SM+", ConstantesSisEducar.STATUS_ATIVO);
-		populaRHDAO.inserirParametros("SituacaoEconomica", "B", "10/20 SM", ConstantesSisEducar.STATUS_ATIVO);
-		populaRHDAO.inserirParametros("SituacaoEconomica", "C", "4/10 SM", ConstantesSisEducar.STATUS_ATIVO);
-		populaRHDAO.inserirParametros("SituacaoEconomica", "D", "2/4 SM", ConstantesSisEducar.STATUS_ATIVO);
-		populaRHDAO.inserirParametros("SituacaoEconomica", "E", "2 SM-", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("SituacaoEconomica", "A", "Entre 0 e 2 Salários Mínimos", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("SituacaoEconomica", "B", "Entre 2 e 4 Salários Mínimos", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("SituacaoEconomica", "C", "Entre 4 e 10 Salários Mínimos", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("SituacaoEconomica", "D", "Entre 10 e 20 Salários Mínimos", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("SituacaoEconomica", "E", "Mais de 20 Salários Mínimos", ConstantesSisEducar.STATUS_ATIVO);
 		System.out.println("Popula de Situação Econômica Finalizado \n");
 		
 		System.out.println("Populando Religião...");
