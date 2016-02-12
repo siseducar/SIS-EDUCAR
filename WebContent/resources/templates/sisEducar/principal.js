@@ -21,3 +21,13 @@ $(function() {
         prevText: 'Anterior',
     });
   });
+
+$(function() { 
+	var esportes = [ 
+	                 "Natação", 
+	                 "Futebol", 
+	                 "Vôlei", 
+	                 "Basquete"
+	                ]; 
+	$("#esporte" ).autocomplete({ source: esportes }); 
+}); 
