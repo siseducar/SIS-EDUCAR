@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import modulos.RH.dao.ReligiaoDAO;
 import modulos.RH.om.Religiao;
 
+@FacesConverter(value="religiaoConverter", forClass=Religiao.class)
 public class ReligiaoConverter implements Converter {
 
 	@Override

@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import modulos.RH.dao.SituacaoEconomicaDAO;
 import modulos.RH.om.SituacaoEconomica;
 
+@FacesConverter(value="situEconomicaConverter", forClass=SituacaoEconomica.class)
 public class SituEconomicaConverter implements Converter{
 
 	@Override

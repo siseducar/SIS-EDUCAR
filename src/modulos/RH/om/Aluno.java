@@ -19,7 +19,7 @@ public class Aluno
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
-	private Byte fotoAluno;
+	private byte[] fotoAluno;
 	private String redeEnsino;
 	private String unidadeEscolar;
 	private String etapa;
@@ -118,12 +118,6 @@ public class Aluno
 	public void setRm(String rm) {
 		this.rm = rm;
 	}
-	public Byte getFotoAluno() {
-		return fotoAluno;
-	}
-	public void setFotoAluno(Byte fotoAluno) {
-		this.fotoAluno = fotoAluno;
-	}
 	public String getRedeEnsino() {
 		return redeEnsino;
 	}
@@ -177,5 +171,11 @@ public class Aluno
 	}
 	public void setCpfMae(String cpfMae) {
 		this.cpfMae = cpfMae;
+	}
+	public byte[] getFotoAluno() {
+		return fotoAluno;
+	}
+	public void setFotoAluno(byte[] fotoAluno) {
+		this.fotoAluno = fotoAluno;
 	}
 }

@@ -41,5 +41,23 @@ public class RacaDAO {
 		
 		return listaRaca;
 	}
+	
+	public Raca consultaRacaEspecifica(String valor) throws SQLException{
+		Raca paramRaca = new Raca();
+		String querySQL = "SELECT * FROM RACA WHERE PKRACA = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, valor);
 
+		ResultSet rs = ps.executeQuery(querySQL);
+		
+		while (rs.next()){
+			paramRaca.setPkRaca(rs.getInt("PKRACA"));
+			paramRaca.setCodigo(rs.getString("CODIGO"));
+			paramRaca.setDescricao(rs.getString("DESCRICAO"));
+			paramRaca.setOrdemExibicao(rs.getInt("ORDEMEXIBICAO"));
+			
+		}		
+		return paramRaca;
+	}
 }

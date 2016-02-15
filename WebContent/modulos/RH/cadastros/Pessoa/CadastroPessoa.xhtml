@@ -26,7 +26,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<!-- Dados Referentes Genericamente -->
-					<h:form id="formCadastroPessoa" class="form-horizontal" role="form">
+					<h:form id="formCadastroPessoa" class="form-horizontal">
 						<!-- Dados Genericos da Pessoas -->
 						<!-- Dados Pessoas -->
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
@@ -48,8 +48,7 @@
 									<h:outputLabel
 										value="#{mensagens['label.cadastro.pessoa.codigo']}" />
 									<div>
-										<h:inputText type="text" id="codigoPessoa" class="col-sm-12"
-											value="#{pessoaServlet.codigoPessoa}" disabled="true"/>
+										<h:inputText type="text" id="codigoPessoa" class="col-sm-12"/>
 									</div>
 								</div>
 								<div class="col-sm-10">
@@ -114,9 +113,10 @@
 										value="#{mensagens['label.cadastro.pessoa.nacionalidade']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="codNacionalidade"
-											value="#{pessoaServlet.pessoaDados.nacionalidade}">
+											value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaNacionalidade}" />
+											<f:selectItems value="#{pessoaServlet.consultaNacionalidade}" 
+												var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -125,9 +125,10 @@
 										value="#{mensagens['label.cadastro.pessoa.raca']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="codRaca"
-											value="#{pessoaServlet.pessoaDados.raca}">
+											value="#{pessoaServlet.racaDados.pkRaca}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaRaca}" />
+											<f:selectItems value="#{pessoaServlet.consultaRaca}" 
+												var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -136,9 +137,10 @@
 										value="#{mensagens['label.cadastro.pessoa.esta.civil']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="codEstCivil"
-											value="#{pessoaServlet.pessoaDados.estadoCivil}">
+											value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaEstaCivil}" />
+											<f:selectItems value="#{pessoaServlet.consultaEstaCivil}"
+												var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -147,9 +149,10 @@
 										value="#{mensagens['label.cadastro.pessoa.grau.instru']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="codGrauInstrucao"
-											value="#{pessoaServlet.pessoaDados.grauInstrucao}">
+											value="#{pessoaServlet.grauInstruDados}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaGrauInstru}" />
+											<f:selectItems value="#{pessoaServlet.consultaGrauInstru}" 
+												var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -158,9 +161,10 @@
 										value="#{mensagens['label.cadastro.pessoa.situ.econo']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="codSituEconomica"
-											value="#{pessoaServlet.pessoaDados.situacaoEconomica}">
+											value="#{pessoaServlet.situEconomicaDados}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaSituEconomica}" />
+											<f:selectItems value="#{pessoaServlet.consultaSituEconomica}" 
+												var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -169,9 +173,10 @@
 										value="#{mensagens['label.cadastro.pessoa.religiao']}" />
 									<div>
 										<h:selectOneMenu class="form-control" id="religiao"
-											value="#{pessoaServlet.pessoaDados.religiao}">
+											value="#{pessoaServlet.religiaoDados}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaReligiao}" />
+											<f:selectItems value="#{pessoaServlet.consultaReligiao}" 
+												var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -182,7 +187,7 @@
 
 						<!-- Dados de Endereco -->
 						<h:panelGroup id="enderePessoa" style="width: 100%"
-							class="clearfix form-actions">
+							class="clearfix form-actions" rendered="false">
 							<div id="conteudoEndereco">
 								<h3 class="header smaller lighter blue">Endereço/Contato</h3>
 								<div class="form-group">
@@ -218,8 +223,7 @@
 										<div>
 											<h:outputLabel
 												value="#{mensagens['label.cadastro.pessoa.municipio']}" />
-											<h:selectOneMenu class="form-control" id="codCidade"
-												value="#{pessoaServlet.pessoaDados.endereco.cidade}">
+											<h:selectOneMenu class="form-control" id="codCidade">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{pessoaServlet.consultaCidade}" />
 											</h:selectOneMenu>
@@ -381,17 +385,18 @@
 										<div>
 											<label class="ace-file-input"> <input type="file"
 												id="certNascimento"
-												value="#{pessoaServlet.alunoDados.certiNascimento}" /> <span
+												value="#{pessoaServlet.fotografia}" /> <span
 												class="ace-file-container" data-title="Carregar"> <span
 													class="ace-file-name" data-title="Escolha um arquivo">
 														<i class=" ace-icon fa fa-upload" />
 												</span>
 											</span> <a class="remove" href="#"> <i
-													class=" ace-icon fa fa-times" />
+													class=" ace-icon fa fa-times"/>	
 											</a>
 											</label>
 										</div>
 									</div>
+									
 									<div class="col-sm-3">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.aluno.compro.resid']}" />
@@ -762,20 +767,19 @@
 
 						<!-- Rendereização dos elementos de cada tipo de usuario -->
 						<div class="clearfix">
-							<p:messages showDetail="false" autoUpdate="true" closable="true" />
-							<button type="reset" class="btn btn-sm">
-								<i class="ace-icon fa fa-file" /> <span class="bigger-110">Novo</span>
-							</button>
-
-							<h:commandLink type="submit" id="btRegistrar"
-								class="btn btn-sm btn-success">
-								<span class="bigger-110">Registrar</span>
-								<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-								<p:ajax event="click"
-									listener="#{pessoaServlet.validarTipoCadastro}"
-									update=":formCadastroPessoa" process=":formCadastroPessoa" />
-							</h:commandLink>
-						</div>
+								<p:messages></p:messages>
+								
+								<button type="reset" class="btn btn-sm">
+									<i class="ace-icon fa fa-file"></i>
+									<span class="bigger-110">Novo</span>
+								</button>
+								
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
+									<span class="bigger-110">Registrar</span>	
+									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
+								</h:commandLink>	
+							</div>
 					</h:form>
 					<!-- Dados Referentes Genericamente -->
 				</div>
