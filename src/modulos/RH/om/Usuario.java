@@ -19,6 +19,7 @@ public class Usuario
 	private int status;
 	private String genero;
 	private Pessoa pessoa;
+	private Cidade cidadeOrigem;
 
 	public Usuario() {}
 	
@@ -96,5 +97,13 @@ public class Usuario
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public Cidade getCidadeOrigem() {
+		return cidadeOrigem;
+	}
+
+	public void setCidadeOrigem(Cidade cidadeOrigem) {
+		this.cidadeOrigem = cidadeOrigem;
 	}
 }

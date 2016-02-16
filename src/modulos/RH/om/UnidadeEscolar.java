@@ -7,6 +7,7 @@ public class UnidadeEscolar
 	private String nome;
 	private int status;
 	private RedeEnsino redeEnsino;
+	private Endereco endereco;
 	
 	public int getPkUnidadeEscolar() {
 		return pkUnidadeEscolar;
@@ -37,5 +38,11 @@ public class UnidadeEscolar
 	}
 	public void setRedeEnsino(RedeEnsino redeEnsino) {
 		this.redeEnsino = redeEnsino;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 }
