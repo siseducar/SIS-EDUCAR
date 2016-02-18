@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
+import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.EstadoCivilDAO;
 import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
@@ -28,6 +30,7 @@ import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cargo;
 import modulos.RH.om.Cidade;
+import modulos.RH.om.Endereco;
 import modulos.RH.om.Estado;
 import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.Fornecedor;
@@ -45,7 +48,7 @@ import modulos.RH.om.TipoDeficiencia;
 import modulos.RH.om.UnidadeEscolar;
 
 @ManagedBean(name="pessoaServlet")
-@RequestScoped
+@ViewScoped
 public class PessoaServlet implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -58,6 +61,7 @@ public class PessoaServlet implements Serializable{
 	Pais paisDados;
 	Estado estadoDados;
 	Cidade cidadeDados;
+	Endereco enderecoDados;
 	Nacionalidade nacionalidadeDados;
 	Raca racaDados;
 	EstadoCivil estaCivilDados;
@@ -83,8 +87,11 @@ public class PessoaServlet implements Serializable{
 	
 	/* Componente para validar demissao */
 	private Boolean funcDemitido;
+	
+	private Part arquivo; 
+	
 
-	/* Construtor */
+	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
 			this.pessoaDados = new Pessoa();
@@ -106,6 +113,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.cidadeDados == null){
 			this.cidadeDados = new Cidade();
+		}
+		if(this.enderecoDados == null) {
+			this.enderecoDados = new Endereco();
 		}
 		if(this.nacionalidadeDados == null) {
 			this.nacionalidadeDados = new Nacionalidade();
@@ -130,7 +140,7 @@ public class PessoaServlet implements Serializable{
 		alunoDeficiente = false;
 		funcConcursado = false;
 		funcAposentado = false;
-		funcDemitido = false;		
+		funcDemitido = false;
 	}
 	
 	/*
@@ -198,7 +208,7 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	
-	public String testaAtributos () {
+	public void testaAtributos () {
 		System.out.println(
 				pessoaDados.getNome() + " " +
 				pessoaDados.getCpf() + " " +
@@ -222,8 +232,40 @@ public class PessoaServlet implements Serializable{
 		System.out.print(
 				religiaoDados.getDescricao() + " " +
 				religiaoDados.getPkReligiao());
-		
-		return "OK";
+	}
+	
+	public void consultaEndereco(){
+		try {
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			Endereco dadosEndereco = enderecoDAO.retornEnderecoDados(enderecoDados.getCep());
+			
+			enderecoDados.setLogradouro(dadosEndereco.getLogradouro());
+			enderecoDados.setBairro(dadosEndereco.getBairro());
+			enderecoDados.setNumero(dadosEndereco.getNumero());
+			enderecoDados.setComplemento(dadosEndereco.getComplemento());
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"CEP não encontrado", null));
+		}
+	}
+	
+	public List<String> consultaCep(String cep) throws SQLException {
+        List<String> results = new ArrayList<String>();
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        
+        results = enderecoDAO.consultaCEP(cep);
+                 
+        return results;
+    }
+	
+	public String validaPessoa(){
+		System.out.println(pessoaDados);
+		System.out.println(paisDados);
+		System.out.println(estadoDados);
+		System.out.println(racaDados);
+		System.out.println(nacionalidadeDados);
+		System.out.println();
+		return null;
 	}
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -395,10 +437,10 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() {
-		EstadoDAO estadoDAO = new EstadoDAO();
 		List<SelectItem> comboEstado = new ArrayList<SelectItem>();
 		if(paisDados.getPkPais() != null){
 			try {
+				EstadoDAO estadoDAO = new EstadoDAO();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
 				
 				for (Estado param : paramEstado){
@@ -424,9 +466,9 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public List<SelectItem> getConsultaCidade() {
 		List<SelectItem> comboCidade = new ArrayList<SelectItem>();
-		CidadeDAO cidadeDAO = new CidadeDAO();
 		if(estadoDados.getPkEstado() != null){
 			try {
+				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
 				
 				for (Cidade param : paramCidade){
@@ -445,7 +487,7 @@ public class PessoaServlet implements Serializable{
 		comboCidade.clear();
 		return null;
 	}
-	
+
 	/*
 	 * Metodo para carregar as Zonas Residencias
 	 * */
@@ -541,87 +583,40 @@ public class PessoaServlet implements Serializable{
 		}
 		return null;
 	}
-	
+
 	/* GETTERS AND SETTERS */
 	public Pessoa getPessoaDados() {
 		return pessoaDados;
-	}
-
-	public Aluno getAlunoDados() {
-		return alunoDados;
-	}
-
-	public Fornecedor getFornecedorDados() {
-		return fornecedorDados;
-	}
-
-	public Funcionario getFuncionarioDados() {
-		return funcionarioDados;
 	}
 
 	public void setPessoaDados(Pessoa pessoaDados) {
 		this.pessoaDados = pessoaDados;
 	}
 
+	public Aluno getAlunoDados() {
+		return alunoDados;
+	}
+
 	public void setAlunoDados(Aluno alunoDados) {
 		this.alunoDados = alunoDados;
+	}
+
+	public Fornecedor getFornecedorDados() {
+		return fornecedorDados;
 	}
 
 	public void setFornecedorDados(Fornecedor fornecedorDados) {
 		this.fornecedorDados = fornecedorDados;
 	}
 
+	public Funcionario getFuncionarioDados() {
+		return funcionarioDados;
+	}
+
 	public void setFuncionarioDados(Funcionario funcionarioDados) {
 		this.funcionarioDados = funcionarioDados;
 	}
-	
-	public Boolean getComplementoAluno() {
-		return complementoAluno;
-	}
 
-	public Boolean getComplementoFuncionario() {
-		return complementoFuncionario;
-	}
-
-	public void setComplementoAluno(Boolean complementoAluno) {
-		this.complementoAluno = complementoAluno;
-	}
-
-	public void setComplementoFuncionario(Boolean complementoFuncionario) {
-		this.complementoFuncionario = complementoFuncionario;
-	}
-
-	public Boolean getFuncConcursado() {
-		return funcConcursado;
-	}
-
-	public void setFuncConcursado(Boolean funcConcursado) {
-		this.funcConcursado = funcConcursado;
-	}
-
-	public Boolean getAlunoDeficiente() {
-		return alunoDeficiente;
-	}
-
-	public void setAlunoDeficiente(Boolean alunoDeficiente) {
-		this.alunoDeficiente = alunoDeficiente;
-	}
-
-	public Boolean getFuncAposentado() {
-		return funcAposentado;
-	}
-
-	public void setFuncAposentado(Boolean funcAposentado) {
-		this.funcAposentado = funcAposentado;
-	}
-
-	public Boolean getFuncDemitido() {
-		return funcDemitido;
-	}
-
-	public void setFuncDemitido(Boolean funcDemitido) {
-		this.funcDemitido = funcDemitido;
-	}
 	public Pais getPaisDados() {
 		return paisDados;
 	}
@@ -692,5 +687,69 @@ public class PessoaServlet implements Serializable{
 
 	public void setReligiaoDados(Religiao religiaoDados) {
 		this.religiaoDados = religiaoDados;
+	}
+
+	public Boolean getComplementoAluno() {
+		return complementoAluno;
+	}
+
+	public void setComplementoAluno(Boolean complementoAluno) {
+		this.complementoAluno = complementoAluno;
+	}
+
+	public Boolean getComplementoFuncionario() {
+		return complementoFuncionario;
+	}
+
+	public void setComplementoFuncionario(Boolean complementoFuncionario) {
+		this.complementoFuncionario = complementoFuncionario;
+	}
+
+	public Boolean getAlunoDeficiente() {
+		return alunoDeficiente;
+	}
+
+	public void setAlunoDeficiente(Boolean alunoDeficiente) {
+		this.alunoDeficiente = alunoDeficiente;
+	}
+
+	public Boolean getFuncConcursado() {
+		return funcConcursado;
+	}
+
+	public void setFuncConcursado(Boolean funcConcursado) {
+		this.funcConcursado = funcConcursado;
+	}
+
+	public Boolean getFuncAposentado() {
+		return funcAposentado;
+	}
+
+	public void setFuncAposentado(Boolean funcAposentado) {
+		this.funcAposentado = funcAposentado;
+	}
+
+	public Boolean getFuncDemitido() {
+		return funcDemitido;
+	}
+
+	public void setFuncDemitido(Boolean funcDemitido) {
+		this.funcDemitido = funcDemitido;
+	}
+
+	public Part getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Part arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public Endereco getEnderecoDados() {
+		return enderecoDados;
+	}
+
+	public void setEnderecoDados(Endereco enderecoDados) {
+		this.enderecoDados = enderecoDados;
 	}
 }

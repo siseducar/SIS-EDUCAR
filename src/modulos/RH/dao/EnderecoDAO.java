@@ -5,6 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
@@ -145,5 +150,61 @@ public class EnderecoDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	public Endereco retornEnderecoDados(Integer cep) {
+		try {
+			Endereco paramEndereco = new Endereco();
+
+			String querySQL = "select "
+					+ "	logradouro, "
+					+ " numero, "
+					+ " bairro, "
+					+ " complemento "
+					+ " from endereco "
+					+ " where cep = ? "
+					+ " limit 1";
+			
+			ps = con.prepareStatement(querySQL);
+			ps.setInt(1, cep);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {				
+				paramEndereco.setLogradouro(rs.getString("LOGRADOURO"));
+				paramEndereco.setNumero(rs.getString("NUMERO"));
+				paramEndereco.setBairro(rs.getString("BAIRRO"));
+				paramEndereco.setComplemento(rs.getString("COMPLEMENTO"));
+			}
+
+			
+			return paramEndereco;
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao consultar endereço, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	public List<String> consultaCEP(String numeroCep){
+		
+		List<String> listaEndereco = new ArrayList<String>();
+		Integer CEP = null;
+		try {
+		String querySQL = "SELECT DISTINCT(CEP) FROM ENDERECO WHERE CAST(CEP AS TEXT) LIKE '"+ numeroCep +"%'";
+		
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			CEP = rs.getInt("CEP");
+			listaEndereco.add(CEP.toString());
+		}
+		return listaEndereco;
+		
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao consultar o CEP, contate o administrador do sistema!", null));
+			return null;
+		}
 	}
 }

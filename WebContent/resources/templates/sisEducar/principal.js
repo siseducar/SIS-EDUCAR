@@ -22,12 +22,9 @@ $(function() {
     });
   });
 
-$(function() { 
-	var esportes = [ 
-	                 "Natação", 
-	                 "Futebol", 
-	                 "Vôlei", 
-	                 "Basquete"
-	                ]; 
-	$("#esporte" ).autocomplete({ source: esportes }); 
-}); 
+$(function($) {
+	$("#formCadastroPessoa\\:numCpf").mask("999.999.999-99");
+	$("#formCadastroPessoa\\:numRg").mask("99.999.999-*");
+	$("#formCadastroPessoa\\:numTelefone").mask("(99)9999-9999");
+	$("#formCadastroPessoa\\:numCelular").mask("(99) 9 9999-9999");
+});
