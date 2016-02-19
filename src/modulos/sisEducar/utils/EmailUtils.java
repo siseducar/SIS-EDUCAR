@@ -186,11 +186,24 @@ public class EmailUtils
     	corpo += "				</td>";
     	corpo += "			</tr>";
     	corpo += "		</tbody></table>";
-    	corpo += "		<a href=\""+ urlBotao + "\" style=\"background-color:#428BCA;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:14px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px\" target=\"_blank\"> " + nomeBotao + "</a><br>";
-    	corpo += "		<div style=\"text-align:center;padding:0 20px 20px;font-size:14px;line-height:1.5;width:80%\">";
-    	corpo += "			<p> " + conteudoBlocoDois + "</p>";
-    	corpo += "		</div>";
-    	corpo += "		<a href=\"" + urlLink + "\" target=\"_blank\">" + urlBotao + "</a>";
+    	
+    	if(ativarBotao)
+    	{
+    		corpo += "		<a href=\""+ urlBotao + "\" style=\"background-color:#428BCA;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:14px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px\" target=\"_blank\"> " + nomeBotao + "</a><br>";
+    	}
+    	
+    	if(conteudoBlocoDois!=null && conteudoBlocoDois.length()>0)
+    	{
+    		corpo += "		<div style=\"text-align:center;padding:0 20px 20px;font-size:14px;line-height:1.5;width:80%\">";
+    		corpo += "			<p> " + conteudoBlocoDois + "</p>";
+    		corpo += "		</div>";
+    	}
+    	
+    	if(ativarBotao)
+    	{
+    		corpo += "		<a href=\"" + urlLink + "\" target=\"_blank\">" + urlBotao + "</a>";
+    	}
+    	
     	corpo += "	</td>";
     	corpo += "	</tr>";
     	

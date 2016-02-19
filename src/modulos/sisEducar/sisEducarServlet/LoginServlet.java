@@ -31,10 +31,13 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	private String emailRedefinicaoSenha = null;
 	
 	Usuario usuario = new Usuario();  
+	private Usuario usuarioLogado = new Usuario();  
 	Usuario usuarioTemporario = new Usuario();  
 	
 	public String generoMasculino = "none";
 	public String generoFeminino = "none";
+	
+	private String senhaAtual = "";
 	
 	public LoginServlet()
 	{
@@ -42,6 +45,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!=null)
 		{
 			SisEducarServlet.usuarioLogado = (Usuario)new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+			
+			setUsuarioLogado(SisEducarServlet.usuarioLogado);
 			
 			//Essa variável contem o nome do usuário logado para que seja exebida na tela principal
 			nomeUsuarioLogado = SisEducarServlet.usuarioLogado.getNome();
@@ -411,5 +416,17 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	public void setGeneroFeminino(String generoFeminino) {
 		this.generoFeminino = generoFeminino;
+	}
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
+	public String getSenhaAtual() {
+		return senhaAtual;
+	}
+	public void setSenhaAtual(String senhaAtual) {
+		this.senhaAtual = senhaAtual;
 	}
 }

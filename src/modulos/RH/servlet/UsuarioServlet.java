@@ -162,6 +162,96 @@ public class UsuarioServlet extends SisEducarServlet
 	}
 	
 	/**
+	 * Método usado para atualizar as informações do usuário quando ele entrar pela tela de consulta perfil
+	 * @author João Paulo
+	 * @return String
+	 */
+	public String atualizarUsuario()
+	{
+		try
+		{
+			Map<String, String> destinatarios = new HashMap<String, String>();
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			Boolean resultado = false;
+			Boolean resultadoEnvioEmail = false;
+			Boolean resultadoRemocaoUsuario = false;
+			Email email = null;
+			
+			/*
+			 * Validação de email
+			 * <Email> -----------------------------
+			 */
+			if(!usuarioLogado.getEmail().contains("@") || !usuarioLogado.getEmail().contains("."))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O email é inválido", null));
+				return null;
+			}
+			
+			if(!usuarioLogado.getEmail().equals(usuarioLogado.getConfirmarEmail()))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Os emails estão diferentes", null));
+				return null;
+			}
+			
+			/*
+			 * Validação de senha
+			 * <Senha> -----------------------------
+			 */
+			if(usuarioLogado.getSenha().length() != 8)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 dígitos", null));
+				return null;
+			}
+			
+			if(usuarioLogado.getSenha().equals("12345678"))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
+				return null;
+			}
+			
+			usuarioLogado.setSenha(criptografarSenha(usuarioLogado.getSenha()));
+			
+			//Aqui eu busco novamente o usuário, mas este usuário estará completo
+			resultado = usuarioDAO.atualizarUsuario(usuarioLogado);
+			
+			if(resultado)
+			{
+				email = EmailUtils.inicializarPropriedades();
+				email.setSubjectMail("Confirmação das modificações no cadastro de seu usuário");
+				email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuarioLogado.getNome() + ",</p> " + 
+						" <p style=\"text-align:left; font-size:17px; \">Suas modificações foram efetuadas com sucesso.</p> " + 
+						" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Suas novas informações estarão disponíveis somente no próximo acesso ao sistema.</b></p>", null, null, null, false, null));
+				
+				destinatarios.put(usuarioLogado.getEmail(), usuarioLogado.getNome());
+				email.setToMailsUsers(destinatarios);
+				
+				resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+				
+				//Se o envio não der certo eu removo o usuário que foi cadastrado no sistema
+				if(!resultadoEnvioEmail)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não atualizado", "2"));
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Suas modificações estarão disponíveis no próximo acesso ao sistema", null));	
+				}
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não atualizado", null));  
+			}
+			
+			return null;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addFatal("Erro ao atualizar!", "atualizarUsuario");
+			return null;
+		}
+	}
+	
+	/**
 	 * Método usado para inicializar novamente o Usuario
 	 * @author João Paulo
 	 */

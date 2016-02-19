@@ -10,7 +10,6 @@
 			<li>
 				<i class="ace-icon fa fa-file"></i>
 				<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
-					
 					Consultas
 				</a>
 			</li>
@@ -34,11 +33,60 @@
 				
 				<div class="row">
 					<div class="col-sm-10">
-						<h:form id="formCadastroUsuario">
+						<h:form id="formConsultaPerfil">
 							<div class="clearfix form-actions">
+								<!-- Componentes -->
 								<div class="form-group">
-									Página em construção
+									<div class="col-sm-7">
+										<div>
+											<output>Nome de Usuário</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{loginServlet.usuarioLogado.nome}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
+												<i class="ace-icon fa fa-user"></i>
+											</span>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div>
+											<output>Email</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{loginServlet.usuarioLogado.email}" maxlength="50" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.email']}"></h:inputText>
+												<i class="ace-icon fa fa-envelope"></i>
+											</span>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div>
+											<output>Confirmação de Email</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{loginServlet.usuarioLogado.confirmarEmail}" maxlength="50" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
+												<i class="ace-icon fa fa-envelope"></i>
+											</span>
+										</div>
+									</div>
+									<div id="divSenhaAtual" class="col-sm-6">
+										<div>
+											<output>Senha</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputSecret type="text" class="form-control" value="#{loginServlet.usuarioLogado.senha}" maxlength="11"></h:inputSecret>
+												<i class="ace-icon fa fa-lock"></i>
+											</span>
+										</div>
+									</div>
 								</div>
+							</div>
+							
+							<!-- Botões -->
+							<div class="clearfix">
+								<p:messages></p:messages>
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success">
+									<span class="bigger-110">Editar</span>	
+									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<p:ajax event="click" listener="#{usuarioServlet.atualizarUsuario}" update=":formConsultaPerfil" process=":formConsultaPerfil"/>
+								</h:commandLink>	
 							</div>
 						</h:form>
 					</div>
