@@ -35,21 +35,168 @@
 					<div class="col-sm-10">
 						<h:form id="formCadastroUnidadeEscolar">
 							<div class="clearfix form-actions">
-								<!-- Componentes -->
-								<div class="form-group">
-									<div class="col-sm-7">
-										<div>
-											<output>Nome</output>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
-												requiredMessage=""></h:inputText>
-												<i class="ace-icon fa fa-user"></i>
-											</span>
-										</div>
+								<h3 class="header smaller lighter blue">Informações Principais</h3>
+								<div class="col-sm-5">
+									<div>
+										<output>Código</output>
+										<span class="block input-icon input-icon-right">
+											<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
+											requiredMessage=""></h:inputText>
+											<i class="ace-icon fa fa-key"></i>
+										</span>
+									</div>
+								</div>
+								<div class="col-sm-10">
+									<div>
+										<output>Nome</output>
+										<span class="block input-icon input-icon-right">
+											<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
+											requiredMessage=""></h:inputText>
+											<i class="ace-icon fa fa-user"></i>
+										</span>
+									</div>
+									<div class="space-4"></div>
+								</div>
+								<div class="col-sm-5">
+									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}" />
+									<div>
+										<h:selectOneMenu class="form-control" id="codRedeEnsino"
+											value="#{pessoaServlet.alunoDados.redeEnsino}">
+											<f:selectItem itemValue="" itemLabel="Selecione..." />
+											<f:selectItems value="#{pessoaServlet.consultaRedeEnsino}" />
+										</h:selectOneMenu>
 									</div>
 								</div>
 							</div>
 							
+							<h:panelGroup id="enderePessoa" style="width: 100%"
+							class="clearfix form-actions">
+								<div id="conteudoEndereco">
+									<h3 class="header smaller lighter blue">Endereço/Contato</h3>
+									<div class="form-group">
+										<div class="col-sm-3">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}" />
+											<div>
+												<h:selectOneMenu id="codPais"
+													class="form-control" title="Pais residente"
+													value="#{pessoaServlet.paisDados.pkPais}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{pessoaServlet.consultaPais}"/>
+													<p:ajax event="change" update="codEstado, codCidade" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}" />
+											<div>	
+												<h:selectOneMenu id="codEstado"
+													class="form-control" title="Estado residente"
+													value="#{pessoaServlet.estadoDados.pkEstado}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{pessoaServlet.consultaEstado}"/>
+													<p:ajax event="change" update="codCidade" />
+												</h:selectOneMenu>
+											</div>	
+										</div>
+										<div class="col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}" />
+											<div>
+												<h:selectOneMenu id="codCidade"
+													class="form-control" title="Município residente"
+													value="#{pessoaServlet.cidadeDados.pkCidade}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{pessoaServlet.consultaCidade}"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
+											<div>
+												<h:inputText
+													class="form-control" title="Numero do CEP"
+													value="#{pessoaServlet.enderecoDados.cep}">
+													<p:ajax event="blur" listner="#{pessoaServlet.consultaEndereco}"
+														update="codRua, numCasa, codBairro, codComplemento"/>
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-6">
+											<h:outputLabel
+												value="#{mensagens['label.cadastro.pessoa.rua']}" />
+											<div>
+												<h:inputText type="text" id="codRua"
+													class="col-sm-12" title="Nome da Rua"
+													value="#{pessoaServlet.enderecoDados.logradouro}" />
+											</div>
+										</div>
+										<div class="col-sm-1">
+											<h:outputLabel
+												value="#{mensagens['label.cadastro.pessoa.numero']}" />
+											<div>
+												<h:inputText type="text" id="numCasa" 
+													class="col-sm-12" title="Numero da Casa"
+	 												value="#{pessoaServlet.enderecoDados.numero}" />
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<h:outputLabel
+												value="#{mensagens['label.cadastro.pessoa.bairro']}" />
+											<div>
+												<h:inputText type="text" id="codBairro" 
+													class="col-sm-12" title="Nome do Bairro"
+													value="#{pessoaServlet.enderecoDados.bairro}" />
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}" />
+											<div>
+												<h:inputText type="text" id="codComplemento" 
+													class="col-sm-12" title="Complemento da Casa"
+													value="#{pessoaServlet.enderecoDados.complemento}" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-2">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}" />
+											<div>
+												<h:selectOneMenu id="codZonaResi"
+													class="form-control" title="Tipo de Zona Residencial"
+													required="true" requiredMessage="#{mensagens['mensagem.requerido.zona.residencial']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{pessoaServlet.consultaRegiao}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
+											<div>
+												<h:inputText type="text" id="numTelefone"
+												class="col-sm-12" title="Numero do Telefone"/>											
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
+											<div>
+												<h:inputText type="text" id="numCelular"
+												class="col-sm-12" title="Numero do Celular"
+												value="#{pessoaServlet.pessoaDados.telefoneCelular}"/>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}" />
+											<div>
+												<h:inputText type="text" id="email"
+													class="col-sm-12" title="E-mail da Pessoa"
+													value="#{pessoaServlet.pessoaDados.email}" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+								
 							<!-- Botões -->
 						</h:form>
 					</div>
