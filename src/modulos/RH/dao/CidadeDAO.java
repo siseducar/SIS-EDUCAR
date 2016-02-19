@@ -126,11 +126,8 @@ public class CidadeDAO extends SisEducarDAO
 		List<Cidade> listaCidade = new ArrayList<Cidade>();
 		String querySQL = "SELECT * FROM CIDADE WHERE FKESTADO = ? ORDER BY NOME";
 		
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, pkEstado);
-		
-		rs = ps.executeQuery();
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
 		
 		while (rs.next()){
 			Cidade paramCidade = new Cidade();

@@ -3,7 +3,7 @@ package modulos.RH.om;
 import java.sql.Date;
 
 public class Pessoa
-{
+{	
 	private int pkPessoa;
 	private int codigo;
 	private String nome;
