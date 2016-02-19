@@ -148,7 +148,7 @@
 									<div>
 										<h:selectOneMenu id="codGrauInstrucao"
 											class="form-control" title="Grau de Instrução da Pessoa"
-											value="#{pessoaServlet.grauInstruDados}">
+											value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{pessoaServlet.consultaGrauInstru}" 
 												var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
@@ -161,7 +161,7 @@
 									<div>
 										<h:selectOneMenu id="codSituEconomica"
 											class="form-control" title="Situação Econômica da Pessoa"
-											value="#{pessoaServlet.situEconomicaDados}">
+											value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{pessoaServlet.consultaSituEconomica}" 
 												var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
@@ -174,7 +174,7 @@
 									<div>
 										<h:selectOneMenu id="codReligiao"
 											class="form-control" title="Religião da Pessoa"
-											value="#{pessoaServlet.religiaoDados}">
+											value="#{pessoaServlet.religiaoDados.pkReligiao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{pessoaServlet.consultaReligiao}" 
 												var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
@@ -199,7 +199,8 @@
 												class="form-control" title="Pais residente"
 												value="#{pessoaServlet.paisDados.pkPais}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{pessoaServlet.consultaPais}"/>
+												<f:selectItems value="#{pessoaServlet.consultaPais}"
+													var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
 												<p:ajax event="change" update="codEstado, codCidade" />
 											</h:selectOneMenu>
 										</div>
@@ -211,7 +212,8 @@
 												class="form-control" title="Estado residente"
 												value="#{pessoaServlet.estadoDados.pkEstado}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{pessoaServlet.consultaEstado}"/>
+												<f:selectItems value="#{pessoaServlet.consultaEstado}"
+													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
 												<p:ajax event="change" update="codCidade" />
 											</h:selectOneMenu>
 										</div>	
@@ -223,7 +225,9 @@
 												class="form-control" title="Município residente"
 												value="#{pessoaServlet.cidadeDados.pkCidade}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{pessoaServlet.consultaCidade}"/>
+												<f:selectItems value="#{pessoaServlet.consultaCidade}"
+													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
+													<p:ajax listner="#{pessoaServlet.testaAtributos}"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -789,7 +793,7 @@
 								
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
 									<span class="bigger-110">Registrar</span>	
-									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<i class="ace-icon fa fa	-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 								</h:commandLink>	
 							</div>
