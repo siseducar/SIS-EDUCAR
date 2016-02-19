@@ -87,6 +87,36 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Atualiza o usuário com as novas informações
+	 * @author João Paulo
+	 * @param usuario
+	 * @return Boolean
+	 */
+	public Boolean atualizarUsuario(Usuario usuario)
+	{
+		try 
+		{
+			String querySQL = "UPDATE usuario "
+					+ " SET (nome, senha, email) = (?,?,?) WHERE pkusuario = CAST(? as bigint) ";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, usuario.getNome());
+			ps.setString(2, usuario.getSenha());
+			ps.setString(3, usuario.getEmail());
+			ps.setString(4, usuario.getPkUsuario());
+			
+			fecharConexaoBanco(con, ps, false, true);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	/**
 	 * O método é usado para consultar o banco e verificar se existe o usuário
 	 * 
 	 * @param loginBean
