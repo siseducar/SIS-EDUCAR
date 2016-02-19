@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon fa fa-file"></i>
+				<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">
+					Cadastros
+				</a>
+			</li>
+			<li class="active">
+				<i class="ace-icon fa fa-user"></i>
+				Unidade Escolar 
+			</li>
+		</ui:define>
+
+		<ui:define name="scriptConteudo">			
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						Cadastro
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							Cadastro Unidade Escolar
+						</small>
+					</h1>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-10">
+						<h:form id="formCadastroUnidadeEscolar">
+							<div class="clearfix form-actions">
+								<!-- Componentes -->
+								<div class="form-group">
+									<div class="col-sm-7">
+										<div>
+											<output>Nome</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
+												requiredMessage=""></h:inputText>
+												<i class="ace-icon fa fa-user"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Botões -->
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:html>
