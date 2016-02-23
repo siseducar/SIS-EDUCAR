@@ -333,6 +333,8 @@
 						<h:panelGroup id="dadosComplementares" style="width: 100%">
 							<!-- Dados Referentes ao Aluno -->
 
+							<div onload="principal.js">
+							
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoAluno}">
 								<h3 class="header smaller lighter blue">Dados
@@ -688,7 +690,7 @@
 											<div>
 												<h:inputText type="text" class="form-control"
 													id="codRecisao"
-													value="#{pessoaServlet.funcionarioDados.codRecisao}" />
+													value="#{pessoaServlet.funcionarioDados.codigoRecisao}" />
 											</div>
 										</div>
 									</h:panelGroup>
@@ -787,23 +789,39 @@
 								</h:panelGroup>
 							</h:panelGroup>
 							<!-- Dados Referentes ao Funcionario -->
+							</div>
 						</h:panelGroup>
 
 						<!-- Rendereização dos elementos de cada tipo de usuario -->
 						<div class="clearfix">
-								<p:messages showDetail="false" autoUpdate="true" closable="true"/>
-								
-								<button type="reset" class="btn btn-sm">
-									<i class="ace-icon fa fa-file"></i>
-									<span class="bigger-110">Novo</span>
-								</button>
-								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
-									<span class="bigger-110">Registrar</span>	
-									<i class="ace-icon fa fa	-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
-								</h:commandLink>	
+							<p:messages showDetail="false" autoUpdate="true" closable="true"/>
+							
+							<button type="reset" class="btn btn-sm">
+								<i class="ace-icon fa fa-file"></i>
+								<span class="bigger-110">Novo</span>
+							</button>
+							
+							<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
+								<span class="bigger-110">Registrar</span>	
+								<i class="ace-icon fa fa	-arrow-right icon-on-right"></i>
+								<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
+							</h:commandLink>
+							
+							<input id="btn" type="button" value="Validate" />	
+						</div>
+						
+						<!-- Dialogi de confirmação de cadastro  -->
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-body">
+									<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" style="margin-top: -10px;">×</button>
+									<div class="bootbox-body">Thank you! Your information was successfully saved!</div>
+								</div>
+								<div class="modal-footer">
+									<button data-bb-handler="success" type="button" class="btn btn-sm btn-primary">OK</button>
+								</div>
 							</div>
+						</div>
 					</h:form>
 					<!-- Dados Referentes Genericamente -->
 				</div>
