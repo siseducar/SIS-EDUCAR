@@ -117,5 +117,14 @@ public class PopulaRH
 		populaRHDAO.inserirParametros("GrauInstrucao", "ME", "Mestrado", ConstantesSisEducar.STATUS_ATIVO);
 		populaRHDAO.inserirParametros("GrauInstrucao", "DO", "Doutorado", ConstantesSisEducar.STATUS_ATIVO);
 		System.out.println("Popula de Grau Instrução Finalizado \n");
+		
+		System.out.println("Populando Situacao Funcionamento...");
+		populaRHDAO.inserirParametros("SituacaoFuncionamento", "EA", "Em Atividade", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Situacao Funcionamento Finalizado \n");
+		
+		System.out.println("Populando Tipo Ocupacao...");
+		populaRHDAO.inserirParametros("TipoOcupacao", "P", "Próprio", ConstantesSisEducar.STATUS_ATIVO);
+		populaRHDAO.inserirParametros("TipoOcupacao", "A", "Alugado", ConstantesSisEducar.STATUS_ATIVO);
+		System.out.println("Popula de Tipo Ocupacao Finalizado \n");
 	}
 }
