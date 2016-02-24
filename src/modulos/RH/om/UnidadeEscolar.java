@@ -14,6 +14,7 @@ public class UnidadeEscolar
 	private SituacaoFuncionamento situacaoFuncionamento;
 	private Terreno terreno;
 	private Regiao regiao;
+	private Pessoa diretor;
 	
 	public Boolean getUnidadeControlada() {
 		return unidadeControlada;
@@ -86,5 +87,11 @@ public class UnidadeEscolar
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	public Pessoa getDiretor() {
+		return diretor;
+	}
+	public void setDiretor(Pessoa diretor) {
+		this.diretor = diretor;
 	}
 }
