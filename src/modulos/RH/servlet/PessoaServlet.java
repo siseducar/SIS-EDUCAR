@@ -130,7 +130,7 @@ public class PessoaServlet implements Serializable{
 			this.grauInstruDados = new GrauInstrucao();
 		}
 		if(this.situEconomicaDados == null) {
-			this.grauInstruDados = new GrauInstrucao();
+			this.situEconomicaDados = new SituacaoEconomica();
 		}
 		if(this.religiaoDados == null) {
 			this.religiaoDados = new Religiao();
@@ -202,13 +202,16 @@ public class PessoaServlet implements Serializable{
 	 *Metodo para salvar os dados da pessoa 
 	 * 
 	 * */
-	public String cadastroPessoa(){
-		System.out.println(pessoaDados);
+	public String getCadastroPessoa(){
+		cidadeDados.getNome();
+		cidadeDados.getPkCidade();
+		
+		pessoaDados.getNome();
 		return pessoaDados.getNome();
 	}
 	
 	
-	public void testaAtributos () {
+	public String getTestaAtributos () {
 		System.out.println(
 				pessoaDados.getNome() + " " +
 				pessoaDados.getCpf() + " " +
@@ -232,6 +235,7 @@ public class PessoaServlet implements Serializable{
 		System.out.print(
 				religiaoDados.getDescricao() + " " +
 				religiaoDados.getPkReligiao());
+		return "Cadastro com sucesso";
 	}
 	
 	public void consultaEndereco(){
