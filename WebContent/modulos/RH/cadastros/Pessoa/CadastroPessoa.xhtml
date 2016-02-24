@@ -8,6 +8,14 @@
 <ui:composition
 	template="/resources/templates/sisEducar/principal.xhtml">
 	<ui:define name="barraNavegacao">
+		<li>
+			<i class="ace-icon fa fa-file"/>
+			Cadastros
+		</li>
+		<li class="active">
+			<i class="ace-icon fa fa-user"/>
+			Pessoa
+		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo">
 		<div class="page-content">
@@ -49,11 +57,14 @@
 									<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.nome']}" />
 									<div>
-										<h:inputText type="text" id="nomePessoa"
-											styleClass="col-sm-12"
-											value="#{pessoaServlet.pessoaDados.nome}" 
-											maxlength="100" title="Nome Completo."
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.nome']}" />
+										<span class="block input-icon input-icon-right">
+											<h:inputText type="text" id="nomePessoa"
+												styleClass="col-sm-12"
+												value="#{pessoaServlet.pessoaDados.nome}" 
+												maxlength="100" title="Nome Completo."
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.nome']}" />
+												<i class="ace-icon fa fa-user"/>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -104,9 +115,12 @@
 								<div class="col-sm-4">
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
 									<div>
-										<h:inputText id="codNaturalidade" 
-											class="col-sm-12">
-										</h:inputText>
+										<span class="block input-icon input-icon-right">
+											<h:inputText id="codNaturalidade" 
+												class="col-sm-12">
+											</h:inputText>
+											<i class="ace-icon fa fa-user"/>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -791,7 +805,6 @@
 							<!-- Dados Referentes ao Funcionario -->
 							</div>
 						</h:panelGroup>
-
 						<!-- Rendereização dos elementos de cada tipo de usuario -->
 						<div class="clearfix">
 							<p:messages showDetail="false" autoUpdate="true" closable="true"/>
@@ -806,21 +819,6 @@
 								<i class="ace-icon fa fa	-arrow-right icon-on-right"></i>
 								<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
-							
-							<input id="btn" type="button" value="Validate" />	
-						</div>
-						
-						<!-- Dialogi de confirmação de cadastro  -->
-						<div class="modal-dialog" >
-							<div class="modal-content">
-								<div class="modal-body">
-									<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" style="margin-top: -10px;">×</button>
-									<div class="bootbox-body">Thank you! Your information was successfully saved!</div>
-								</div>
-								<div class="modal-footer">
-									<button data-bb-handler="success" type="button" class="btn btn-sm btn-primary">OK</button>
-								</div>
-							</div>
 						</div>
 					</h:form>
 					<!-- Dados Referentes Genericamente -->
