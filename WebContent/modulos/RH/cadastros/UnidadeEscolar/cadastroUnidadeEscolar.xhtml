@@ -40,8 +40,8 @@
 									<div>
 										<output>Código</output>
 										<span class="block input-icon input-icon-right">
-											<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
-											requiredMessage=""></h:inputText>
+											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" maxlength="11" required="true"
+											requiredMessage="CÓDIGO"></h:inputText>
 											<i class="ace-icon fa fa-key"></i>
 										</span>
 									</div>
@@ -50,8 +50,8 @@
 									<div>
 										<output>Nome</output>
 										<span class="block input-icon input-icon-right">
-											<h:inputText type="text" class="form-control" value="" maxlength="11" required="true"
-											requiredMessage=""></h:inputText>
+											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" maxlength="11" required="true"
+											requiredMessage="NOME"></h:inputText>
 											<i class="ace-icon fa fa-user"></i>
 										</span>
 									</div>
@@ -68,7 +68,6 @@
 									</div>
 								</div>
 							</div>
-							
 							
 							<h:panelGroup id="enderePessoa" style="width: 100%"
 							class="clearfix form-actions">
@@ -205,36 +204,36 @@
 										<div class="col-sm-4">
 											<h:outputLabel value="Distância até a sede" />
 											<div>
-												<h:inputText type="text" id="email" class="col-sm-8" 
-													value="" />
+												<h:inputText type="text" class="col-sm-8" 
+													value="#{unidadeEscolarServlet.terreno.distanciaAteSede}" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<h:outputLabel value="Área Terreno M²" />
 											<div>
-												<h:inputText type="text" id="email" class="col-sm-8" 
-													value="" />
+												<h:inputText type="text" class="col-sm-8" 
+													value="#{unidadeEscolarServlet.terreno.areaTerrenoM2}" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<h:outputLabel value="Área Construção M²" />
 											<div>
-												<h:inputText type="text" id="email" class="col-sm-8" 
-													value="" />
+												<h:inputText type="text" class="col-sm-8" 
+													value="#{unidadeEscolarServlet.terreno.areaConstrucaoM2}" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<h:outputLabel value="Latitude" />
 											<div>
-												<h:inputText type="text" id="email" class="col-sm-8" 
-													value="" />
+												<h:inputText type="text" class="col-sm-8" 
+													value="#{unidadeEscolarServlet.terreno.latitude}" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<h:outputLabel value="Longitude" />
 											<div>
 												<h:inputText type="text" id="email" class="col-sm-8" 
-													value="" />
+													value="#{unidadeEscolarServlet.terreno.longitude}" />
 											</div>
 										</div>
 									<div class="form-group">
