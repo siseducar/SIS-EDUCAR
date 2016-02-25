@@ -33,37 +33,37 @@
 				
 				<div class="row">
 					<div class="col-sm-10">
-						<h:form id="formCadastroUnidadeEscolar">
+						<h:form id="formPrincipal">
 							<div class="clearfix form-actions">
 								<h3 class="header smaller lighter blue">Informações Principais</h3>
 								<div class="col-sm-5">
 									<div>
-										<output>Código</output>
+										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigo']}"/>
 										<span class="block input-icon input-icon-right">
 											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" maxlength="11" required="true"
-											requiredMessage="CÓDIGO"></h:inputText>
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
 											<i class="ace-icon fa fa-key"></i>
 										</span>
 									</div>
 								</div>
 								<div class="col-sm-10">
+									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome']}"/>
 									<div>
-										<output>Nome</output>
 										<span class="block input-icon input-icon-right">
 											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" maxlength="11" required="true"
-											requiredMessage="NOME"></h:inputText>
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
 											<i class="ace-icon fa fa-user"></i>
 										</span>
 									</div>
 									<div class="space-4"></div>
 								</div>
 								<div class="col-sm-5">
-									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}" />
+									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codRedeEnsino"
-											value="#{pessoaServlet.alunoDados.redeEnsino}">
+											value="#{parametrosServlet.alunoDados.redeEnsino}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{pessoaServlet.consultaRedeEnsino}" />
+											<f:selectItems value="#{parametrosServlet.consultaRedeEnsino}" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -79,9 +79,9 @@
 											<div>
 												<h:selectOneMenu id="codPais"
 													class="form-control" title="Pais residente"
-													value="#{pessoaServlet.paisDados.pkPais}">
+													value="#{parametrosServlet.paisDados.pkPais}">
 													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{pessoaServlet.consultaPais}"/>
+													<f:selectItems value="#{parametrosServlet.consultaPais}"/>
 													<p:ajax event="change" update="codEstado, codCidade" />
 												</h:selectOneMenu>
 											</div>
@@ -91,9 +91,9 @@
 											<div>	
 												<h:selectOneMenu id="codEstado"
 													class="form-control" title="Estado residente"
-													value="#{pessoaServlet.estadoDados.pkEstado}">
+													value="#{parametrosServlet.estadoDados.pkEstado}">
 													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{pessoaServlet.consultaEstado}"/>
+													<f:selectItems value="#{parametrosServlet.consultaEstado}"/>
 													<p:ajax event="change" update="codCidade" />
 												</h:selectOneMenu>
 											</div>	
@@ -103,9 +103,9 @@
 											<div>
 												<h:selectOneMenu id="codCidade"
 													class="form-control" title="Município residente"
-													value="#{pessoaServlet.cidadeDados.pkCidade}">
+													value="#{parametrosServlet.cidadeDados.pkCidade}">
 													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{pessoaServlet.consultaCidade}"/>
+													<f:selectItems value="#{parametrosServlet.consultaCidade}"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -114,8 +114,8 @@
 											<div>
 												<h:inputText
 													class="form-control" title="Numero do CEP"
-													value="#{pessoaServlet.enderecoDados.cep}">
-													<p:ajax event="blur" listner="#{pessoaServlet.consultaEndereco}"
+													value="#{parametrosServlet.enderecoDados.cep}">
+													<p:ajax event="blur" listner="#{parametrosServlet.consultaEndereco}"
 														update="codRua, numCasa, codBairro, codComplemento"/>
 												</h:inputText>
 											</div>
@@ -128,7 +128,7 @@
 											<div>
 												<h:inputText type="text" id="codRua"
 													class="col-sm-12" title="Nome da Rua"
-													value="#{pessoaServlet.enderecoDados.logradouro}" />
+													value="#{parametrosServlet.enderecoDados.logradouro}" />
 											</div>
 										</div>
 										<div class="col-sm-1">
@@ -137,7 +137,7 @@
 											<div>
 												<h:inputText type="text" id="numCasa" 
 													class="col-sm-12" title="Numero da Casa"
-	 												value="#{pessoaServlet.enderecoDados.numero}" />
+	 												value="#{parametrosServlet.enderecoDados.numero}" />
 											</div>
 										</div>
 										<div class="col-sm-3">
@@ -146,7 +146,7 @@
 											<div>
 												<h:inputText type="text" id="codBairro" 
 													class="col-sm-12" title="Nome do Bairro"
-													value="#{pessoaServlet.enderecoDados.bairro}" />
+													value="#{parametrosServlet.enderecoDados.bairro}" />
 											</div>
 										</div>
 										<div class="col-sm-2">
@@ -154,7 +154,7 @@
 											<div>
 												<h:inputText type="text" id="codComplemento" 
 													class="col-sm-12" title="Complemento da Casa"
-													value="#{pessoaServlet.enderecoDados.complemento}" />
+													value="#{parametrosServlet.enderecoDados.complemento}" />
 											</div>
 										</div>
 									</div>
@@ -163,10 +163,9 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}" />
 											<div>
 												<h:selectOneMenu id="codZonaResi"
-													class="form-control" title="Tipo de Zona Residencial"
-													required="true" requiredMessage="#{mensagens['mensagem.requerido.zona.residencial']}">
+													class="form-control" title="Tipo de Zona Residencial">
 													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{pessoaServlet.consultaRegiao}" />
+													<f:selectItems value="#{parametrosServlet.consultaRegiao}" />
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -182,7 +181,7 @@
 											<div>
 												<h:inputText type="text" id="numCelular"
 												class="col-sm-12" title="Numero do Celular"
-												value="#{pessoaServlet.pessoaDados.telefoneCelular}"/>
+												value="#{parametrosServlet.pessoaDados.telefoneCelular}"/>
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -190,14 +189,14 @@
 											<div>
 												<h:inputText type="text" id="email"
 													class="col-sm-12" title="E-mail da Pessoa"
-													value="#{pessoaServlet.pessoaDados.email}" />
+													value="#{parametrosServlet.pessoaDados.email}" />
 											</div>
 										</div>
 									</div>
 								</div>
 							</h:panelGroup>
 							
-							<h:panelGroup id="enderePessoa" style="width: 100%"
+							<h:panelGroup id="panelTerreno" style="width: 100%"
 							class="clearfix form-actions">
 								<div id="conteudoEndereco">
 									<h3 class="header smaller lighter blue">Informações Geográficas</h3>
@@ -232,12 +231,10 @@
 										<div class="col-sm-4">
 											<h:outputLabel value="Longitude" />
 											<div>
-												<h:inputText type="text" id="email" class="col-sm-8" 
+												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.longitude}" />
 											</div>
 										</div>
-									<div class="form-group">
-									</div>
 								</div>
 							</h:panelGroup>
 								
@@ -249,10 +246,11 @@
 									<span class="bigger-110">Novo</span>
 								</button>
 								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success">
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
 									<span class="bigger-110">Registrar</span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-								</h:commandLink>	
+									<p:ajax event="click" listener="#{unidadeEscolarServlet.cadastrarUnidadeEscolar}" update=":formPrincipal" process=":formPrincipal"/>
+							</h:commandLink>	
 							</div>
 						</h:form>
 					</div>
