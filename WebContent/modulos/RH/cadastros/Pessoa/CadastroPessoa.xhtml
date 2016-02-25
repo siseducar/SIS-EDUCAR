@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition
-	template="/resources/templates/sisEducar/principal2.xhtml">
+	template="/resources/templates/sisEducar/principal.xhtml">
 	<ui:define name="barraNavegacao">
 		<li>
 			<i class="ace-icon fa fa-file"/>
@@ -23,8 +23,9 @@
 			<!-- Conteudo do cabeçalho da pagina -->
 			<div class="page-header">
 				<h1>
-					Cadastro <small> <i
-						class="ace-icon fa fa-angle-double-right"></i> Cadastro de Pessoas
+					Cadastro 
+					<small> 
+						<i class="ace-icon fa fa-angle-double-right"></i> Cadastro de Pessoas
 					</small>
 				</h1>
 			</div>
@@ -34,7 +35,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<!-- Dados Referentes Genericamente -->
-					<h:form id="formCadastroPessoa" class="form-horizontal" role="form" >
+					<h:form id="formCadastroPessoa" class="form-horizontal" role="form" enctype="multipart/form-data" >
 						<!-- Dados Genericos da Pessoas -->
 						<!-- Dados Pessoas -->
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
@@ -61,8 +62,7 @@
 											<h:inputText type="text" id="nomePessoa"
 												styleClass="col-sm-12"
 												value="#{pessoaServlet.pessoaDados.nome}" 
-												maxlength="100" title="Nome Completo."
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.nome']}" />
+												maxlength="100" title="Nome Completo."/>
 												<i class="ace-icon fa fa-user"/>
 										</span>
 									</div>
@@ -83,18 +83,14 @@
 									<div>
 										<h:inputText type="text" id="numRg"
 											class="col-sm-12" title="Numero do RG"
-											value="#{pessoaServlet.pessoaDados.rg}" 
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.rg']}" />
+											value="#{pessoaServlet.pessoaDados.rg}"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
 									<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.dat.nasci']}" />
 									<div>
-										<p:inputText type="date" id="datNascPessoa"
-											styleClass="col-sm-12" title="Data de Nascimento"
-											value="#{pessoaServlet.pessoaDados.dataNascimento}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.datNasci']}"/>
+										
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -103,8 +99,7 @@
 									<div>
 										<h:selectOneMenu id="codSexo"
 											class="form-control" title="Sexo da Pessoa"
-											value="#{pessoaServlet.pessoaDados.sexo}" 
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.sexo']}">
+											value="#{pessoaServlet.pessoaDados.sexo}" >
 											<f:selectItem itemLabel="Selecione..." itemValue="" />
 											<f:selectItem itemLabel="Masculino" itemValue="1" />
 											<f:selectItem itemLabel="Feminino" itemValue="2" />
@@ -248,7 +243,6 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{pessoaServlet.consultaCidade}"
 													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-													<p:ajax listner="#{pessoaServlet.testaAtributos}"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -306,8 +300,7 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}" />
 										<div>
 											<h:selectOneMenu id="codZonaResi"
-												class="form-control" title="Tipo de Zona Residencial"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.zona.residencial']}">
+												class="form-control" title="Tipo de Zona Residencial">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{pessoaServlet.consultaRegiao}" />
 											</h:selectOneMenu>
@@ -393,8 +386,7 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}" />
 										<div>
-											<p:inputMask mask="999.999.999-99" id="numCpfResponsavel"
-												placeholder="Numero do CPF" styleClass="col-sm-12" />
+											
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -417,43 +409,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.cert.nascim']}" />
-										<div>
-											<label class="ace-file-input"> 
-												<input type="file" id="certNascimento" value="#{pessoaServlet.arquivo}" />
-												<span class="ace-file-container" data-title="Carregar"> 
-													<span class="ace-file-name" data-title="Escolha um arquivo">
-														<i class=" ace-icon fa fa-upload" />
-													</span>
-												</span> 
-												<a class="remove" href="#"> 
-													<i class=" ace-icon fa fa-times"/>	
-												</a>
-											</label>
-										</div>
-									</div>
-									
-									<div class="col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.compro.resid']}" />
-										<div>
-											<label class="ace-file-input"> <input type="file"
-												id="comproResidencia"
-												value="#{pessoaServlet.alunoDados.comproResidencia}" /> <span
-												class="ace-file-container" data-title="Carregar"> <span
-													class="ace-file-name" data-title="Escolha um arquivo">
-														<i class=" ace-icon fa fa-upload" />
-												</span>
-											</span> <a class="remove" href="#"> <i
-													class=" ace-icon fa fa-times" />
-											</a>
-											</label>
-										</div>
-									</div>
-								</div>
+								
 								<!-- Dados Escolares -->
 								<h3 class="header smaller lighter blue">Dados Escolares</h3>
 								<div class="form-group">
@@ -483,14 +439,14 @@
 											value="#{mensagens['label.cadastro.aluno.foto']}" />
 										<div>
 											<label class="ace-file-input"> 
-												<input type="file"
-													id="fotoAluno" value="#{imagem64B.imagemB64}" />
-													<span class="ace-file-container" data-title="Carregar">
-														<span class="ace-file-name" data-title="Escolha um arquivo">
-															<i class=" ace-icon fa fa-upload" />
+												<input type="file" id="certNascimento" value="#{pessoaServlet.imagem}"/>
+												<span class="ace-file-container" data-title="Carregar"> 
+													<span class="ace-file-name" data-title="Escolha um arquivo">
+														<i class=" ace-icon fa fa-upload" />
 													</span>
-												</span> <a class="remove" href="#"> <i
-														class=" ace-icon fa fa-times" />
+												</span> 
+												<a class="remove" href="#"> 
+													<i class=" ace-icon fa fa-times"/>	
 												</a>
 											</label>
 										</div>
@@ -670,20 +626,14 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.sem']}" />
 										<div>
-											<p:inputMask mask="99" type="text" styleClass="form-control"
-												id="cargaSemanal"
-												value="#{pessoaServlet.funcionarioDados.cargaSemanal}"
-												maxlength="2" />
+											
 										</div>
 									</div>
 									<div class="col-sm-2">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.men']}" />
 										<div>
-											<p:inputMask mask="999" type="text" styleClass="form-control"
-												id="cargaMensal"
-												value="#{pessoaServlet.funcionarioDados.cargaMensal}"
-												maxlength="3" />
+											
 										</div>
 									</div>
 
@@ -817,7 +767,6 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
 								<span class="bigger-110">Registrar</span>	
 								<i class="ace-icon fa fa	-arrow-right icon-on-right"></i>
-								<p:ajax event="click" listener="#{pessoaServlet.testaAtributos}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>
 					</h:form>

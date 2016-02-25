@@ -1,738 +1,865 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-	  
 	<h:head>
 		<base href="#{contextPathController.path}"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-
 		<title>SIS-EDUCAR</title>
-		
+
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.min.css"/>
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/font-awesome.min.css" />
 
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/jquery-ui.min.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/jquery-ui.custom.min.css" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/jquery.gritter.css" />
+		
+		
 		<!-- text fonts -->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-fonts.css" />
 
 		<!-- ace styles -->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.min.css" id="main-ace-style" />
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/sisEducar/principal.css"/>
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/sisEducar/principal.js"/>
 
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-part2.min.css" />
+		<![endif]-->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-rtl.min.css" />
-		
-		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.min.js"></script>
-		
-		<!-- Telas -->
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/sisEducar/principal.css" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Usuario/cadastroUsuario.css" />
-		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/login/login.css" />
-		
-		
+	
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace-ie.min.css" />
+		<![endif]-->
 
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/html5shiv.min.js"></script>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/respond.min.js"></script>
+		<![endif]-->
+	
+		<script type="text/javascript">
+			window.jQuery || document.write("&lt;script src='${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.min.js'>"+"&lt;"+"/script>");
+		</script>
 	</h:head>
 
 	<h:body class="no-skin">
-	<div id="navbar" class="navbar navbar-default">
-		<div class="navbar-container" id="navbar-container">
-		
-			<!-- Menu lateral - Mobile -->
-			<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-				<span class="sr-only">Toggle sidebar</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+		<!-- #section:basics/navbar.layout -->
+		<div id="navbar" class="navbar navbar-default">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
 
-			<!-- Barra superior - Nome do sistema -->
-			<div class="navbar-header pull-left">
-				<a class="navbar-brand">
-					<small>
-						<i class="fa fa-pencil"></i>
-						SIS-EDUCAR
-					</small>
-				</a>
-			</div>
+			<div class="navbar-container" id="navbar-container">
+				<!-- #section:basics/sidebar.mobile.toggle -->
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 
-			<!-- Barra superior - Botões -->
-			<div class="navbar-buttons navbar-header pull-right" role="navigation">
-				<ul class="nav ace-nav">
-					<li class="black">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-reorder"></i>
-							<span class="">Acessibilidade</span>
-						</a>
-					</li>
-					<li class="white">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon glyphicon glyphicon-eye-open"></i>
-							<span class="">Alto Contraste</span>
-						</a>
-					</li>
-					<li class="white">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-font"></i>
-							<span class="">Fonte</span>
-						</a>
-					</li>
-					<li class="white">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-bullhorn"></i>
-							<span class="">Voz</span>
-						</a>
-					</li>
-					
-					<li class="grey">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-tasks"></i>
-							<span class="badge badge-grey">1</span>
-						</a>
+				<!-- Barra superior - Nome do sistema -->
+				<div class="navbar-header pull-left">
+					<!-- #section:basics/navbar.layout.brand -->
+					<a href="#" class="navbar-brand">
+						<small>
+							<i class="fa fa-pencil"></i>
+							SIS-EDUCAR
+						</small>
+					</a>
+				</div>
 
-						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-							<li class="dropdown-header">
-								<i class="ace-icon fa fa-check"></i>
-								Atualizações do Sistema
-							</li>
-
-							<li class="dropdown-content ace-scroll" style="position: relative;">
-								<div class="scroll-track" style="display: none;">
-									<div class="scroll-bar"></div>
-								</div>
-								<div class="scroll-content" style="max-height: 200px;">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">Versão 1.0</span>
-													<span class="pull-right">24/12/2015</span>
-												</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-						</ul>
-					</li>
-
-					<li class="purple">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-							<span class="badge badge-important">2</span>
-						</a>
-
-						<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-							<li class="dropdown-header">
-								<i class="ace-icon fa fa-exclamation-triangle"></i>
-								2 notificações
-							</li>
-
-							<li class="dropdown-content ace-scroll" style="position: relative;">
-								<div class="scroll-track" style="display: none;">
-									<div class="scroll-bar"></div>
-								</div>
-								
-								<div class="scroll-content" style="max-height: 200px;">
-									<ul class="dropdown-menu dropdown-navbar navbar-pink">
-										<li>
-											<a href="#">
-												<i class="btn btn-xs btn-primary fa fa-user"></i>
-												Aula de história nas salas A2 e A3
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												<i class="btn btn-xs btn-primary fa fa-user"></i>
-												Reunião marcada para 24/12/2015
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-						</ul>
-					</li>
-
-					<li class="green">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-							<span class="badge badge-success">2</span>
-						</a>
-
-						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-							<li class="dropdown-header">
-								<i class="ace-icon fa fa-envelope-o"></i>
-								2 Mensagens
-							</li>
-
-							<li class="dropdown-content ace-scroll" style="position: relative;">
-								<div class="scroll-track" style="display: none;">
-									<div class="scroll-bar"></div>
-								</div>
-								<div class="scroll-content" style="max-height: 200px;">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#" class="clearfix">
-												<img src="resources/templates/ace/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Paulo:</span>
-														Boa Tarde, temos que conversar, é sobre o aluno...
-													</span>
-	
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>Momentos atrás</span>
-													</span>
-												</span>
-											</a>
-										</li>
-	
-										<li>
-											<a href="#" class="clearfix">
-												<img src="resources/templates/ace/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar"/>
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Susana:</span>
-														Oi, vamos marcar um happy-hour amanhã?
-													</span>
-	
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>20 minutos atrás</span>
-													</span>
-												</span>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-						</ul>
-					</li>
-
-					<li class="light-blue">
-						<a data-toggle="dropdown" href="#" class="dropdown-toggle" aria-expanded="false">
-							<img class="nav-user-photo" src="resources/imagens/modulos/sisEducar/user-female-36.png" style="display:#{loginServlet.generoFeminino}"/>
-							<img class="nav-user-photo" src="resources/imagens/modulos/sisEducar/user-male-36.png" style="display:#{loginServlet.generoMasculino}"/>
-							<span class="user-info">
-								<small>Bem Vindo,</small>
-								<small id="smallNomeUsuarioLogado" class="bigger-110">
-									#{loginServlet.nomeUsuarioLogado}									     
-								</small>
-							</span>
-
-							<i class="ace-icon fa fa-caret-down"></i>
-						</a>
-
-						<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-							<li>
-								<a href="/SIS-EDUCAR/modulos/sisEducar/consultaPerfillUsuario.xhtml">
-									<i class="ace-icon fa fa-user"></i>
-									Perfil
-								</a>
-							</li>
-
-							<li class="divider"></li>
-
-							<li>
-								<a href="/SIS-EDUCAR/login/login.xhtml">
-									<i class="ace-icon fa fa-power-off"></i>
-									Sair
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-
-			<!-- /section:basics/navbar.dropdown -->
-		</div><!-- /.navbar-container -->
-	</div>
-	
-<!-- Barra Navegação -->
-		<div class="main-content">
-			<div class="main-content-inner">
-				<div class="breadcrumbs" id="breadcrumbs">
-					<script type="text/javascript">
-						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-					</script>
-			
-					<ul class="breadcrumb">
-						<li>
-							<i class="ace-icon fa fa-home home-icon"></i>
-							<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal.xhtml">Início</a>
+				<!-- #section:basics/navbar.dropdown -->
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="black">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-reorder"></i>
+								<span class="">Acessibilidade</span>
+							</a>
 						</li>
-						<ui:insert name="barraNavegacao">
-						</ui:insert>
-					</ul><!-- /.breadcrumb -->
+						<li class="white">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon glyphicon glyphicon-eye-open"></i>
+								<span class="">Alto Contraste</span>
+							</a>
+						</li>
+						<li class="white">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-font"></i>
+								<span class="">Fonte</span>
+							</a>
+						</li>
+						<li class="white">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bullhorn"></i>
+								<span class="">Voz</span>
+							</a>
+						</li>
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-tasks"></i>
+								<span class="badge badge-grey">1</span>
+							</a>
+	
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-check"></i>
+									Atualizações do Sistema
+								</li>
+	
+								<li class="dropdown-content ace-scroll" style="position: relative;">
+									<div class="scroll-track" style="display: none;">
+										<div class="scroll-bar"></div>
+									</div>
+									<div class="scroll-content" style="max-height: 200px;">
+										<ul class="dropdown-menu dropdown-navbar">
+											<li>
+												<a href="#">
+													<div class="clearfix">
+														<span class="pull-left">Versão 1.0</span>
+														<span class="pull-right">24/12/2015</span>
+													</div>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="purple">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<span class="badge badge-important">2</span>
+							</a>
+	
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-exclamation-triangle"></i>
+									2 notificações
+								</li>
+	
+								<li class="dropdown-content ace-scroll" style="position: relative;">
+									<div class="scroll-track" style="display: none;">
+										<div class="scroll-bar"></div>
+									</div>
+									
+									<div class="scroll-content" style="max-height: 200px;">
+										<ul class="dropdown-menu dropdown-navbar navbar-pink">
+											<li>
+												<a href="#">
+													<i class="btn btn-xs btn-primary fa fa-user"></i>
+													Aula de história nas salas A2 e A3
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													<i class="btn btn-xs btn-primary fa fa-user"></i>
+													Reunião marcada para 24/12/2015
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+	
+						<li class="green">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+								<span class="badge badge-success">2</span>
+							</a>
+	
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-envelope-o"></i>
+									2 Mensagens
+								</li>
+	
+								<li class="dropdown-content ace-scroll" style="position: relative;">
+									<div class="scroll-track" style="display: none;">
+										<div class="scroll-bar"></div>
+									</div>
+									<div class="scroll-content" style="max-height: 200px;">
+										<ul class="dropdown-menu dropdown-navbar">
+											<li>
+												<a href="#" class="clearfix">
+													<img src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="blue">Paulo:</span>
+															Boa Tarde, temos que conversar, é sobre o aluno...
+														</span>
+		
+														<span class="msg-time">
+															<i class="ace-icon fa fa-clock-o"></i>
+															<span>Momentos atrás</span>
+														</span>
+													</span>
+												</a>
+											</li>
+		
+											<li>
+												<a href="#" class="clearfix">
+													<img src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar"/>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="blue">Susana:</span>
+															Oi, vamos marcar um happy-hour amanhã?
+														</span>
+		
+														<span class="msg-time">
+															<i class="ace-icon fa fa-clock-o"></i>
+															<span>20 minutos atrás</span>
+														</span>
+													</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle" aria-expanded="false">
+								<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-female-36.png" style="display:#{loginServlet.generoFeminino}"/>
+								<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-male-36.png" style="display:#{loginServlet.generoMasculino}"/>
+								<span class="user-info">
+									<small>Bem Vindo,</small>
+									<small id="smallNomeUsuarioLogado" class="bigger-110">
+										#{loginServlet.nomeUsuarioLogado}									     
+									</small>
+								</span>
+	
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+	
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="/SIS-EDUCAR/modulos/sisEducar/consultaPerfillUsuario.xhtml">
+										<i class="ace-icon fa fa-user"></i>
+										Perfil
+									</a>
+								</li>
+	
+								<li class="divider"></li>
+	
+								<li>
+									<a href="/SIS-EDUCAR/login/login.xhtml">
+										<i class="ace-icon fa fa-power-off"></i>
+										Sair
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
-	
-	
-		<!-- Menu Lateral Esquerdo -->
+
+		<!-- /section:basics/navbar.layout -->
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 			</script>
-	
-			<div id="sidebar" class="sidebar responsive">
+
+			<!-- #section:basics/sidebar -->
+			<div id="sidebar" class="sidebar                  responsive">
 				<script type="text/javascript">
 					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 				</script>
-		
+
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<a class="navbar-brand">
-							<small class="bigger-110 tituloModulos">
-								Módulos
-							</small>
-						</a>
-					</div>
-	
-					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-	
-						<span class="btn btn-info"></span>
-	
-						<span class="btn btn-warning"></span>
-	
-						<span class="btn btn-danger"></span>
+						<h4 style="color: #438eb9">
+							Módulos
+						</h4>
 					</div>
 				</div><!-- /.sidebar-shortcuts -->
-		
-				<!-- MENU-->
+
 				<ul class="nav nav-list">
-					<li class="dropdown">
-					  <a class="dropdown-toggle" data-toggle="dropdown">
-						 <i class="menu-icon fa fa-folder blue"></i>
-						 <span class="menu-text"> Secretaria </span>
-						 <b class="arrow fa fa-arrow-right "></b>
-					  </a>
-					  
-					  
-					  <b class="arrow"></b>
-					  
-					  <ul class="dropdown-menu rightMenu" style="width:100%;">
-					    <li class="dropdown-submenu">
-						  <a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-file"></i>
-							<span class="menu-text"> Cadastros</span>
-						  </a>
-						  
-						  <b class="arrow"></b>
-						  
-						  <!-- SUB MENU - CADASTROS -->
-						  <ul class="dropdown-menu rightSubMenu">
-						    <li>
-						    	<a href="modulos/RH/cadastros/Usuario/cadastroUsuario.xhtml">
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-folder blue"></i>
+							<span class="menu-text"> SECRETARIA </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="#" class="dropdown-toggle">
 									<i class="menu-icon fa fa-caret-right"></i>
-									<i class="ace-icon fa fa-user"></i>
-									Usuário
+
+									CADASTROS
+									<b class="arrow fa fa-angle-down"></b>
 								</a>
+
 								<b class="arrow"></b>
-						    </li>
-						    <li class="">
-								<a href="modulos/RH/cadastros/Pessoa/CadastroPessoa.xhtml">
-									<i class="menu-icon fa fa-caret-right"></i>
-									<i class="ace-icon fa fa-user"></i>
-									Pessoa
-								</a>
-								<b class="arrow"></b>
-							</li>
-						    <li class="">
-								<a href="modulos/RH/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.xhtml">
-									<i class="menu-icon fa fa-caret-right"></i>
-									<i class="ace-icon fa fa-flag"></i>
-									Unidade Escolar
-								</a>
-								<b class="arrow"></b>
-							</li>
-						  </ul>
-						</li>
-						<li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Parametros </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Programas do Governo </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Ano Letivo </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Modulos </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Lista de Espera </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Censo Escolar </span>
-							  </a>
-							 </li>
-					  </ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-graduation-cap purple"></i>
-							<span class="menu-text"> Escola </span>
-							<b class="arrow fa fa-arrow-right"></b>
-						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Turmas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Matricula </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Notas e Faltas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Remanejamento </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Transferencia </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Aprendizagem </span>
-							  </a>
-							 </li>
-					  	</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-cutlery green"></i>
-							<span class="menu-text"> Merenda </span>
-							<b class="arrow fa fa-arrow-right"></b>
-						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Elaboração </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Execução </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Cozinha Online </span>
-							  </a>
-							 </li>
-					  	</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-user orange"></i>
-							<span class="menu-text"> Docentes </span>
-							<b class="arrow fa fa-arrow-right"></b>
-						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Habilitação </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Vagas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Pontuação </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Pregão Atribuição </span>
-							  </a>
-							 </li>
-					  	</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-hand-o-down"></i>
-							<span class="menu-text"> Portal </span>
-							<b class="arrow fa fa-arrow-right"></b>
-						</a>
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li>
-							    <a href="http://www.lothusgp.com.br/portal/educaposse/">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Santo Antônio de Posse
-								</a>
+
+								<ul class="submenu">
+									<li class="">
+										<a href="modulos/RH/cadastros/Pessoa/CadastroPessoa.xhtml">
+											<i class="menu-icon fa fa-caret-right"></i>
+											<i class="ace-icon fa fa-user"></i>
+											Pessoa
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+
+									<li class="">
+										<a href="modulos/RH/cadastros/Usuario/cadastroUsuario.xhtml">
+											<i class="menu-icon fa fa-caret-right"></i>
+											<i class="ace-icon fa fa-user"></i>
+											Usuário
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+
+									<li class="">
+										<a href="modulos/RH/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.xhtml">
+											<i class="menu-icon fa fa-caret-right"></i>
+											<i class="ace-icon fa fa-flag"></i>
+											Unidade Escolar
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-graduation-cap purple"></i>
+							<span class="menu-text"> ESCOLA </span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="tables.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Simple &amp; Dynamic
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="jqgrid.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									jqGrid plugin
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-cutlery green"></i>
+							<span class="menu-text"> MERENDA </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-user orange"></i>
+							<span class="menu-text"> Docentes </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-hand-o-down"></i>
+							<span class="menu-text"> PORTAL </span>
+						</a>
+					</li>
+
+					<li class="">
+						<a href="#">
 							<i class="menu-icon fa fa-university light blue"></i>
-							<span class="menu-text"> Patrimonio </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> PATRIMONIO </span>
+							
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Transferencia </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Baixa </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Depreciação </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Valorização </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-archive coral"></i>
-							<span class="menu-text"> Almoxarifado </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> ALMOXARIFADO </span>
+
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Transferencia </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Baixa </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Depreciação </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Valorização </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="profile.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									User Profile
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="inbox.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Inbox
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="pricing.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Pricing Tables
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="invoice.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Invoice
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="timeline.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Timeline
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="email.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Email Templates
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="login.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Login &amp; Register
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-book brown"></i>
-							<span class="menu-text"> Biblioteca </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> BIBLIOTECA </span>
+
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Emprestimo </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Devolução </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Renovação </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Reserva </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-car red"></i>
-							<span class="menu-text"> Transporte </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> TRANSPORTE </span>
+
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Veiculos </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Motoristas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Multas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Rotas </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Passes </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-users pink"></i>
-							<span class="menu-text"> Social </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> SOCIAL </span>
+
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Bolsa Familia </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Viva Leite </span>
-							  </a>
-							 </li>
-							 <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Evasao </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="menu-icon fa fa-phone brown"></i>
-							<span class="menu-text"> Ouvidoria </span>
-							<b class="arrow fa fa-arrow-right"></b>
-						</a>
-						
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Solicitacoes </span>
-							  </a>
-							 </li>
-					  	</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-file-archive-o"></i>
-							<span class="menu-text"> Protocolo </span>
-							<b class="arrow fa fa-arrow-right"></b>
+							<span class="menu-text"> PROTOCOLO </span>
+
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
-						<ul class="dropdown-menu rightMenu" style="width:100%;">
-						    <li class="dropdown-submenu">
-							  <a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="menu-icon fa fa-file"></i>
-								<span class="menu-text"> Tramite documento </span>
-							  </a>
-							 </li>
-					  	</ul>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-				</ul>
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-phone brown"></i>
+							<span class="menu-text"> OUVIDORIA </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="form-elements.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Form Elements
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+				</ul><!-- /.nav-list -->
+
+				<!-- #section:basics/sidebar.layout.minimize -->
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+
+				<!-- /section:basics/sidebar.layout.minimize -->
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+				</script>
 			</div>
-	
-			<!-- Conteúdo-->
+
+
 			<div class="main-content">
-				<div class="main-content-inner">
-					<div class="content" style="margin-left: 0px;">
-						<div class="loaderDiv hidden">
-							<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-							<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+							
+				<!-- Componente de redenrização da barra de navegação da pagina -->
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="/SIS-EDUCAR/resources/templates/sisEducar/principal2.xhtml">Início</a>
+						</li>
+						<ui:insert name="barraNavegacao">
+						</ui:insert>
+					</ul>
+				</div>
+
+				<!-- Componenete de redenrização do corpo da pagina -->
+				<div class="main-content">
+					<div class="main-content-inner">
+						<div class="content" style="margin-left: 0px;">
+							<ui:insert name="scriptConteudo"/>	
 						</div>
-						<ui:insert name="scriptConteudo"/>
 					</div>
 				</div>
 			</div>
 			
-			<!-- Rodape -->
+			<!-- Componente de renderizacao do rodapé da pagina -->
 			<div class="footer">
 				<div class="footer-inner">
 					<div class="footer-content">
@@ -743,14 +870,54 @@
 					</div>
 				</div>
 			</div>
-		</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
 		
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("&lt;script src='${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.mobile.custom.min.js'>"+"&lt;"+"/script>");
+		</script>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/bootstrap.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!--[if lte IE 8]>
+		  <script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/excanvas.min.js"/>
+		<![endif]-->
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery-ui.custom.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.ui.touch-punch.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.easypiechart.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.sparkline.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/flot/jquery.flot.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/flot/jquery.flot.pie.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/flot/jquery.flot.resize.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.validate.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 		
-		<!-- JQUERY - Telas -->
+
+		<!-- ace scripts -->
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace-elements.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace.min.js"/>
+
+		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/css/ace.onpage-help.css" />
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/themes/sunburst.css" />
 
-		
+		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace/elements.onpage-help.js"/>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/ace/ace.onpage-help.js"/>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/rainbow.js"/>
@@ -758,16 +925,5 @@
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/language/html.js"/>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/language/css.js"/>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/docs/assets/js/language/javascript.js"/>
-		
-		
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="login/login.js"></script>
-		<script src="modulos/RH/cadastros/cadastroPessoa.js"></script>
-		<script src="modulos/RH/cadastros/Usuario/cadastroUsuario.js"></script>
-		<script src="modulos/sisEducar/consultaPerfillUsuario.js"></script>
-		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	</h:body>
 </html>

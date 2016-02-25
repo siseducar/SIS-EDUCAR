@@ -1,5 +1,6 @@
 package modulos.RH.servlet;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
+
+import org.postgresql.util.Base64;
 
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
@@ -90,7 +93,6 @@ public class PessoaServlet implements Serializable{
 	private Boolean funcDemitido;
 	
 	private Part imagem;
-
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
@@ -213,35 +215,7 @@ public class PessoaServlet implements Serializable{
 		pessoaDados.getNome();
 		return pessoaDados.getNome();
 	}
-	
-	
-	public String getTestaAtributos () {
-		System.out.println(
-				pessoaDados.getNome() + " " +
-				pessoaDados.getCpf() + " " +
-				pessoaDados.getRg() + " " +
-				pessoaDados.getSexo());
-		System.out.println(
-				nacionalidadeDados.getDescricao() + " " +
-				nacionalidadeDados.getPkNacionalidade());
-		System.out.println(
-				racaDados.getDescricao() + " " +
-				racaDados.getPkRaca());
-		System.out.println(
-				estaCivilDados.getDescricao() + " " +
-				estaCivilDados.getPkEstadoCivil());
-		System.out.println(
-				grauInstruDados.getDescricao() + " " +
-				grauInstruDados.getPkGrauInstrucao());
-		System.out.println(
-				situEconomicaDados.getDescricao() + " " +
-				situEconomicaDados.getPkSituacaoEconomica());
-		System.out.print(
-				religiaoDados.getDescricao() + " " +
-				religiaoDados.getPkReligiao());
-		return "Cadastro com sucesso";
-	}
-	
+		
 	public void consultaEndereco(){
 		try {
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
@@ -266,17 +240,49 @@ public class PessoaServlet implements Serializable{
         return results;
     }
 	
-	public String validaPessoa(){
-		System.out.println(pessoaDados);
-		System.out.println(paisDados);
-		System.out.println(estadoDados);
-		System.out.println(racaDados);
-		System.out.println(nacionalidadeDados);
-		System.out.println();
-		return null;
+	public String upload(){
+		String formato = imagem.getContentType();
+		String nome = imagem.getName();
+		byte[] imageAsByte = new byte[(int) imagem.getSize()];
+		
+		try {
+			imagem.getInputStream().read(imageAsByte);
+			String base64AsString = new String(Base64.encodeBytes(imageAsByte));
+			imagem64B.setImagemB64(base64AsString);
+			imagem64B.setTipoImagem(formato);
+			imagem64B.setNome(nome);
+			
+			System.out.println(base64AsString);
+			System.out.println(formato);
+			System.out.println(nome);
+		} catch (IOException e ){
+			e.printStackTrace();
+		}
+		return "sucesso";
+	}
+	public void converteImagem(){
+		String formato = imagem.getContentType();
+		String nome = imagem.getName();
+		byte[] imageAsByte = new byte[(int) imagem.getSize()];
+		
+		try {
+			imagem.getInputStream().read(imageAsByte);
+			String base64AsString = new String(Base64.encodeBytes(imageAsByte));
+			imagem64B.setImagemB64(base64AsString);
+			imagem64B.setTipoImagem(formato);
+			imagem64B.setNome(nome);
+			
+			System.out.println(base64AsString);
+			System.out.println(formato);
+			System.out.println(nome);
+		} catch (IOException e ){
+			e.printStackTrace();
+		}
 	}
 	
-		
+	public void teste(){
+		System.out.println(pessoaDados.getNome());
+	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
@@ -760,5 +766,13 @@ public class PessoaServlet implements Serializable{
 	
 	public void setImagem(Part imagem) { 
 		this.imagem = imagem; 
+	}
+
+	public ImagemBase64 getImagem64B() {
+		return imagem64B;
+	}
+
+	public void setImagem64B(ImagemBase64 imagem64b) {
+		imagem64B = imagem64b;
 	} 
 }
