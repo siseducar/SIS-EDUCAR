@@ -1,0 +1,48 @@
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/resources/templates/sisEducar/principal2.xhtml">
+		<ui:define name="barraNavegacao">
+			<i class="ace-icon fa fa-file"></i>
+				<a href="modulos/RH/cadastros/Cadastro.xhtml">
+					Cadastros
+				</a>
+		</ui:define>
+		
+		<ui:define name="scriptConteudo">			
+			<div class="page-content">
+				<div class="page-header">
+					<h1> Cadastro </h1>
+				</div>
+			
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- Dados Referentes Genericamente -->
+					<h:form id="formCadastro" class="form-horizontal" role="form" >
+						<div class="col-sm-6">
+							<h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-calendar-o smaller-90"></i>
+								Datepicker
+							</h3>
+
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="input-group input-group-sm">
+										<input type="text" id="datepicker" class="form-control hasDatepicker"/>
+										<span class="input-group-addon">
+											<i class="ace-icon fa fa-calendar"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>					</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:html>

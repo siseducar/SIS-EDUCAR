@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition
-	template="/resources/templates/sisEducar/principal.xhtml">
+	template="/resources/templates/sisEducar/principal2.xhtml">
 	<ui:define name="barraNavegacao">
 		<li>
 			<i class="ace-icon fa fa-file"/>
@@ -73,10 +73,9 @@
 									<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.cpf']}" />
 									<div>
-										<h:inputText type="text" id="numCpf"
+										<h:inputText type="text" id="numCpf" name="numCpf"
 											class="col-sm-12" title="Numero do CPF"
-											value="#{pessoaServlet.pessoaDados.cpf}"  
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cpf']}"/>
+											value="#{pessoaServlet.pessoaDados.cpf}"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -483,15 +482,16 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.aluno.foto']}" />
 										<div>
-											<label class="ace-file-input"> <input type="file"
-												id="fotoAluno" value="#{pessoaServlet.alunoDados.fotoAluno}" />
-												<span class="ace-file-container" data-title="Carregar">
-													<span class="ace-file-name" data-title="Escolha um arquivo">
-														<i class=" ace-icon fa fa-upload" />
-												</span>
-											</span> <a class="remove" href="#"> <i
-													class=" ace-icon fa fa-times" />
-											</a>
+											<label class="ace-file-input"> 
+												<input type="file"
+													id="fotoAluno" value="#{imagem64B.imagemB64}" />
+													<span class="ace-file-container" data-title="Carregar">
+														<span class="ace-file-name" data-title="Escolha um arquivo">
+															<i class=" ace-icon fa fa-upload" />
+													</span>
+												</span> <a class="remove" href="#"> <i
+														class=" ace-icon fa fa-times" />
+												</a>
 											</label>
 										</div>
 									</div>

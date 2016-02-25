@@ -32,13 +32,3 @@ $(function() {
 		$("numCpfPai").mask("999.999.999-99");
 	};
 });
-
-$(function(){
-	$("#formCadastroPessoa").validate({
-		rules : {
-			'numCpf' : {
-				cpf: true
-			}
-		}
-	});
-});

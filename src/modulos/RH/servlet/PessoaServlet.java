@@ -36,6 +36,7 @@ import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.Fornecedor;
 import modulos.RH.om.Funcionario;
 import modulos.RH.om.GrauInstrucao;
+import modulos.RH.om.ImagemBase64;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
@@ -68,7 +69,7 @@ public class PessoaServlet implements Serializable{
 	GrauInstrucao grauInstruDados;
 	SituacaoEconomica situEconomicaDados;
 	Religiao religiaoDados;
-	
+	ImagemBase64 imagem64B;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -88,9 +89,9 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar demissao */
 	private Boolean funcDemitido;
 	
-	private Part arquivo; 
-	
+	private Part imagem;
 
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
@@ -134,6 +135,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.religiaoDados == null) {
 			this.religiaoDados = new Religiao();
+		}
+		if(this.imagem64B == null) {
+			this.imagem64B = new ImagemBase64();
 		}
 		complementoAluno = false;
 		complementoFuncionario = false;
@@ -271,7 +275,8 @@ public class PessoaServlet implements Serializable{
 		System.out.println();
 		return null;
 	}
-
+	
+		
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
@@ -740,15 +745,7 @@ public class PessoaServlet implements Serializable{
 	public void setFuncDemitido(Boolean funcDemitido) {
 		this.funcDemitido = funcDemitido;
 	}
-
-	public Part getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(Part arquivo) {
-		this.arquivo = arquivo;
-	}
-
+	
 	public Endereco getEnderecoDados() {
 		return enderecoDados;
 	}
@@ -756,4 +753,12 @@ public class PessoaServlet implements Serializable{
 	public void setEnderecoDados(Endereco enderecoDados) {
 		this.enderecoDados = enderecoDados;
 	}
+	
+	public Part getImagem() { 
+		return imagem; 
+	} 
+	
+	public void setImagem(Part imagem) { 
+		this.imagem = imagem; 
+	} 
 }
