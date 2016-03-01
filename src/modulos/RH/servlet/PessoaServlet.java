@@ -93,6 +93,12 @@ public class PessoaServlet implements Serializable{
 	
 	private Part imagem;
 	
+	List<SelectItem> comboPais;
+	
+	List<SelectItem> comboEstado;
+	
+	List<SelectItem> comboCidade;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
@@ -149,6 +155,9 @@ public class PessoaServlet implements Serializable{
 		funcConcursado = false;
 		funcAposentado = false;
 		funcDemitido = false;
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
 	}
 	
 	/*
@@ -291,7 +300,15 @@ public class PessoaServlet implements Serializable{
 			if(regiaoDados != null) {
 				pessoaDadosFinal.setRegiao(regiaoDados);
 			}
-			
+			if(paisDados != null){
+				System.out.println(paisDados);
+			}
+			if(estadoDados != null){
+				System.out.println(estadoDados);
+			}
+			if(cidadeDados != null){
+				System.out.println(cidadeDados);
+			}
 			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					"Cadastro Realizado com sucesso",null));
@@ -450,7 +467,6 @@ public class PessoaServlet implements Serializable{
 	public List<SelectItem> getConsultaPais() {
 		try {
 			PaisDAO paisDAO = new PaisDAO();
-			List<SelectItem> comboPais = new ArrayList<SelectItem>();
 			List<Pais> paramPais = paisDAO.consultaPais();
 			
 			for (Pais param : paramPais){
@@ -459,8 +475,8 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboPais.add(s);
 			}
-			estadoDados.setPkEstado(null);
-			cidadeDados.setPkCidade(null);
+			comboEstado.clear();
+			comboCidade.clear();
 			return comboPais;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -473,8 +489,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() {
-		List<SelectItem> comboEstado = new ArrayList<SelectItem>();
-		if(paisDados.getPkPais() != null){
+		if(paisDados.getPkPais() != null && !comboPais.isEmpty()){
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
@@ -485,6 +500,7 @@ public class PessoaServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboEstado.add(s);
 				}
+				comboCidade.clear();
 				return comboEstado;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -492,6 +508,7 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
+		estadoDados.setPkEstado(null);
 		comboEstado.clear();
 		return null;
 	}
@@ -500,9 +517,8 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() {
-		if(estadoDados.getPkEstado() != null){
+		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
 			try {
-				List<SelectItem> comboCidade = new ArrayList<SelectItem>();
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
 				
@@ -519,6 +535,8 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
+		cidadeDados.setPkCidade(null);
+		comboCidade.clear();
 		return null;
 	}
 
