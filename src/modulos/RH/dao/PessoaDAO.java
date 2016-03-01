@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import modulos.RH.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -158,28 +155,55 @@ public class PessoaDAO extends SisEducarDAO
 		return null;
 	}
 	
-	
-	/*
-	 * Método para retornar o ultimo codigo cadastrado no banco
-	 * */
-	public Integer consultaCodigo() {
+	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException{
 		try {
-			Integer codigo = 0;
+			String querySQL = 
+				"INSERT INTO PESSOA ( " +
+					" NOME, " + 
+					" CPF, " +
+					" RG, " + 
+					" DATANASCIMENTO, " + 
+				    " DATACADASTRO, " +
+					" SEXO, " +
+					" TELEFONERESIDENCIAL, " +
+					" TELEFONECELULAR, " +
+					" TIPOPESSOA, " +
+					" STATUS, " +
+					" FKRACA, " +
+					" FKSITUACAOECONOMICA, " +
+					" FKRELIGIAO, " +
+					" FKREGIAO, " +
+					" FKNACIONALIDADE, " +
+					" FKESTADOCIVIL, " +
+					" FKGRAUINSTRUCAO " +
+				" ) VALUES ( " +
+					" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
-			String querySQL = "SELECT MAX(PKPESSOA) AS PKPESSOA FROM PESSOA";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(querySQL);
+			ps = con.prepareStatement(querySQL);
 			
-			while(rs.next()) {
-				codigo = rs.getInt("PKPESSOA");				
-			}
+			ps.setString(1, pessoaDados.getNome());
+			ps.setString(2, pessoaDados.getCpf());
+			ps.setString(3, pessoaDados.getRg());
+			ps.setDate(4, pessoaDados.getDataNascimento());
+			ps.setDate(5, pessoaDados.getDataCadastro());
+			ps.setString(6, pessoaDados.getSexo());
+			ps.setLong(7, pessoaDados.getTelefoneResidencial());
+			ps.setLong(8, pessoaDados.getTelefoneCelular());
+			ps.setInt(9, pessoaDados.getTipoPessoa());
+			ps.setInt(10, pessoaDados.getStatus());
+			ps.setInt(11, pessoaDados.getRaca().getPkRaca());
+			ps.setInt(12, pessoaDados.getSituacaoEconomica().getPkSituacaoEconomica());
+			ps.setInt(13, pessoaDados.getReligiao().getPkReligiao());
+			ps.setInt(14, pessoaDados.getRegiao().getPkRegiao());
+			ps.setInt(15, pessoaDados.getNacionalidade().getPkNacionalidade());
+			ps.setInt(16, pessoaDados.getEstadoCivil().getPkEstadoCivil());
+			ps.setInt(17, pessoaDados.getGrauInstrucao().getPkGrauInstrucao());
 			
-			codigo += 1;
-			return codigo;
-		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao validar codigo da pessoa, contate o administrador do sistema!", null));
-			return null;
+			fecharConexaoBanco(con, ps, false, true);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 }

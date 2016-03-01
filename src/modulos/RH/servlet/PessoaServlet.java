@@ -1,6 +1,5 @@
 package modulos.RH.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
 
-import org.postgresql.util.Base64;
-
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
 import modulos.RH.dao.EnderecoDAO;
@@ -23,6 +20,7 @@ import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
 import modulos.RH.dao.NacionalidadeDAO;
 import modulos.RH.dao.PaisDAO;
+import modulos.RH.dao.PessoaDAO;
 import modulos.RH.dao.RacaDAO;
 import modulos.RH.dao.RedeEnsinoDAO;
 import modulos.RH.dao.RegiaoDAO;
@@ -72,6 +70,7 @@ public class PessoaServlet implements Serializable{
 	GrauInstrucao grauInstruDados;
 	SituacaoEconomica situEconomicaDados;
 	Religiao religiaoDados;
+	Regiao regiaoDados;
 	ImagemBase64 imagem64B;
 		
 	/* Componente de dados complementares do aluno */
@@ -140,6 +139,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.imagem64B == null) {
 			this.imagem64B = new ImagemBase64();
+		}
+		if(this.regiaoDados == null) {
+			this.regiaoDados = new Regiao();
 		}
 		complementoAluno = false;
 		complementoFuncionario = false;
@@ -231,57 +233,76 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
-	public List<String> consultaCep(String cep) throws SQLException {
-        List<String> results = new ArrayList<String>();
-        EnderecoDAO enderecoDAO = new EnderecoDAO();
-        
-        results = enderecoDAO.consultaCEP(cep);
-                 
-        return results;
-    }
-	
-	public String upload(){
-		String formato = imagem.getContentType();
-		String nome = imagem.getName();
-		byte[] imageAsByte = new byte[(int) imagem.getSize()];
-		
-		try {
-			imagem.getInputStream().read(imageAsByte);
-			String base64AsString = new String(Base64.encodeBytes(imageAsByte));
-			imagem64B.setImagemB64(base64AsString);
-			imagem64B.setTipoImagem(formato);
-			imagem64B.setNome(nome);
-			
-			System.out.println(base64AsString);
-			System.out.println(formato);
-			System.out.println(nome);
-		} catch (IOException e ){
-			e.printStackTrace();
+	public void salvarCadastro(){
+		if(pessoaDados.getTipoPessoa() == 0 && pessoaDados != null) {
+			salvarCadastroPessoa();
+		} else {
+			if(pessoaDados.getTipoPessoa() == 1 && pessoaDados != null) {
+				System.out.println("aluno");
+			} else {
+				System.out.println("funcionario");
+			}
 		}
-		return "sucesso";
-	}
-	public void converteImagem(){
-		String formato = imagem.getContentType();
-		String nome = imagem.getName();
-		byte[] imageAsByte = new byte[(int) imagem.getSize()];
 		
-		try {
-			imagem.getInputStream().read(imageAsByte);
-			String base64AsString = new String(Base64.encodeBytes(imageAsByte));
-			imagem64B.setImagemB64(base64AsString);
-			imagem64B.setTipoImagem(formato);
-			imagem64B.setNome(nome);
-			
-			System.out.println(base64AsString);
-			System.out.println(formato);
-			System.out.println(nome);
-		} catch (IOException e ){
-			e.printStackTrace();
-		}
 	}
 	
-	public void teste(){
-		System.out.println(pessoaDados.getNome());
+	
+	public String salvarCadastroPessoa(){
+		try {
+			Pessoa pessoaDadosFinal = new Pessoa();
+			
+			if( pessoaDados != null ) {
+				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
+				pessoaDadosFinal.setNome(pessoaDados.getNome());
+				pessoaDadosFinal.setCpf(pessoaDados.getCpf());
+				pessoaDadosFinal.setRg(pessoaDados.getRg());
+				pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
+				pessoaDadosFinal.setSexo(pessoaDados.getSexo());
+				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
+			}
+			if( paisDados != null ) {
+				pessoaDadosFinal.setPais(paisDados);
+			}
+			if( estadoDados != null ) {
+				pessoaDadosFinal.setEstado(estadoDados);
+			}
+			if( enderecoDados != null ) {
+				enderecoDados.setCidade(cidadeDados);
+				pessoaDadosFinal.setEndereco(enderecoDados);
+			}
+			if( nacionalidadeDados != null ) {
+				pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
+			}
+			if( racaDados != null ) {
+				pessoaDadosFinal.setRaca(racaDados);
+			}
+			if( estaCivilDados != null ) {
+				pessoaDadosFinal.setEstadoCivil(estaCivilDados);
+			}
+			if( grauInstruDados != null ) {
+				pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
+			}		
+			if( situEconomicaDados != null ) {
+				pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
+			}
+			if( religiaoDados != null ) {
+				pessoaDadosFinal.setReligiao(religiaoDados);
+			}
+			if(regiaoDados != null) {
+				pessoaDadosFinal.setRegiao(regiaoDados);
+			}
+			
+			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Cadastro Realizado com sucesso",null));
+			
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao cadastrar",null));
+			return null;
+		}
+		
+		return null;
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
@@ -471,7 +492,6 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
-		estadoDados.setPkEstado(null);
 		comboEstado.clear();
 		return null;
 	}
@@ -480,9 +500,9 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() {
-		List<SelectItem> comboCidade = new ArrayList<SelectItem>();
 		if(estadoDados.getPkEstado() != null){
 			try {
+				List<SelectItem> comboCidade = new ArrayList<SelectItem>();
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
 				
@@ -499,7 +519,6 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
-		comboCidade.clear();
 		return null;
 	}
 
@@ -774,5 +793,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setImagem64B(ImagemBase64 imagem64b) {
 		imagem64B = imagem64b;
-	} 
+	}
+
+	public Regiao getRegiaoDados() {
+		return regiaoDados;
+	}
+
+	public void setRegiaoDados(Regiao regiaoDados) {
+		this.regiaoDados = regiaoDados;
+	}
 }
