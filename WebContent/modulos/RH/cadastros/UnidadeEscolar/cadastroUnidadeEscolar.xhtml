@@ -50,7 +50,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome']}"/>
 									<div>
 										<span class="block input-icon input-icon-right">
-											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" maxlength="11" required="true"
+											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" maxlength="100" required="true"
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
 											<i class="ace-icon fa fa-user"></i>
 										</span>
@@ -99,13 +99,15 @@
 											</div>	
 										</div>
 										<div class="col-sm-4">
-												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}" />
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}" />
 											<div>
 												<h:selectOneMenu id="codCidade"
 													class="form-control" title="Município residente"
 													value="#{parametrosServlet.cidadeDados.pkCidade}">
 													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{parametrosServlet.consultaCidade}"/>
+													<f:selectItems value="#{parametrosServlet.consultaCidade}"
+														var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
+														<p:ajax listner="#{parametrosServlet.testaAtributos}"/>
 												</h:selectOneMenu>
 											</div>
 										</div>

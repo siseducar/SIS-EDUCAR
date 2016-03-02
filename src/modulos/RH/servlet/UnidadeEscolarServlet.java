@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.RedeEnsino;
@@ -48,19 +49,33 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	/**
 	 * Método usado para cadastrar um novo usuário no banco de dados, este usuário será cadastrado da tela de cadastro de usuário
 	 * @author João Paulo
-	 * @return NULL - Apenas para retornar a fun��o
+	 * @return NULL - Apenas para retornar a função
 	 */
 	public String cadastrarUnidadeEscolar()
 	{
 		try 
 		{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Já existe um usuário cadastrado para o CPF informado", null));
-			resetarUnidadeEscolar();
+			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
+			//unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
+			
+			System.out.println(ParametrosServlet.enderecoDados);
+			System.out.println(ParametrosServlet.cidadeDados);
+			
+			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade Escolar cadastrada com sucesso", null));
+				resetarUnidadeEscolar();
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade escolar não registrada", null));
+			}
+			
 			return null;
 		}
 		catch (Exception e) 
 		{
-			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuarioSimples");
+			Logs.addFatal("Erro ao cadastrar!", "cadastrarUnidadeEscolar");
 			return null;
 		}
 	}
