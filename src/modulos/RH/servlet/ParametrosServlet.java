@@ -52,64 +52,64 @@ public class ParametrosServlet implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	/* Atributos */
-	Pessoa pessoaDados;
-	Aluno alunoDados;
-	Fornecedor fornecedorDados;
-	Funcionario funcionarioDados;
-	Pais paisDados;
-	Estado estadoDados;
-	Cidade cidadeDados;
-	Endereco enderecoDados;
-	Nacionalidade nacionalidadeDados;
-	Raca racaDados;
-	EstadoCivil estaCivilDados;
-	GrauInstrucao grauInstruDados;
-	SituacaoEconomica situEconomicaDados;
-	Religiao religiaoDados;
+	static Pessoa pessoaDados;
+	static Aluno alunoDados;
+	static Fornecedor fornecedorDados;
+	static Funcionario funcionarioDados;
+	static Pais paisDados;
+	static Estado estadoDados;
+	static Cidade cidadeDados;
+	static Endereco enderecoDados;
+	static Nacionalidade nacionalidadeDados;
+	static Raca racaDados;
+	static EstadoCivil estaCivilDados;
+	static GrauInstrucao grauInstruDados;
+	static SituacaoEconomica situEconomicaDados;
+	static Religiao religiaoDados;
 	
 	/* Metodo Construtor */
 	public ParametrosServlet() throws SQLException{
-		if(this.pessoaDados == null){
-			this.pessoaDados = new Pessoa();
+		if(pessoaDados == null){
+			pessoaDados = new Pessoa();
 		}
-		if(this.funcionarioDados == null){
-			this.funcionarioDados = new Funcionario();
+		if(funcionarioDados == null){
+			funcionarioDados = new Funcionario();
 		}
-		if(this.alunoDados == null){
-			this.alunoDados = new Aluno();
+		if(alunoDados == null){
+			alunoDados = new Aluno();
 		}
-		if(this.fornecedorDados == null){
-			this.fornecedorDados = new Fornecedor();
+		if(fornecedorDados == null){
+			fornecedorDados = new Fornecedor();
 		}
-		if(this.paisDados == null){
-			this.paisDados = new Pais();
+		if(paisDados == null){
+			paisDados = new Pais();
 		}
-		if(this.estadoDados == null){
-			this.estadoDados = new Estado();
+		if(estadoDados == null){
+			estadoDados = new Estado();
 		}
-		if(this.cidadeDados == null){
-			this.cidadeDados = new Cidade();
+		if(cidadeDados == null){
+			cidadeDados = new Cidade();
 		}
-		if(this.enderecoDados == null) {
-			this.enderecoDados = new Endereco();
+		if(enderecoDados == null) {
+			enderecoDados = new Endereco();
 		}
-		if(this.nacionalidadeDados == null) {
-			this.nacionalidadeDados = new Nacionalidade();
+		if(nacionalidadeDados == null) {
+			nacionalidadeDados = new Nacionalidade();
 		}
-		if(this.racaDados == null) {
-			this.racaDados = new Raca();
+		if(racaDados == null) {
+			racaDados = new Raca();
 		}
-		if(this.estaCivilDados == null) {
-			this.estaCivilDados = new EstadoCivil();
+		if(estaCivilDados == null) {
+			estaCivilDados = new EstadoCivil();
 		}
-		if(this.grauInstruDados == null){
-			this.grauInstruDados = new GrauInstrucao();
+		if(grauInstruDados == null){
+			grauInstruDados = new GrauInstrucao();
 		}
-		if(this.situEconomicaDados == null) {
-			this.situEconomicaDados = new SituacaoEconomica();
+		if(situEconomicaDados == null) {
+			situEconomicaDados = new SituacaoEconomica();
 		}
-		if(this.religiaoDados == null) {
-			this.religiaoDados = new Religiao();
+		if(religiaoDados == null) {
+			religiaoDados = new Religiao();
 		}
 	}
 
