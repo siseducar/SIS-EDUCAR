@@ -13,6 +13,7 @@ import javax.faces.model.SelectItem;
 
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
+import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.EstadoCivilDAO;
 import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
@@ -67,6 +68,10 @@ public class ParametrosServlet implements Serializable{
 	static SituacaoEconomica situEconomicaDados;
 	static Religiao religiaoDados;
 	
+	List<SelectItem> comboPais;
+	List<SelectItem> comboEstado;
+	List<SelectItem> comboCidade;
+	
 	/* Metodo Construtor */
 	public ParametrosServlet() throws SQLException{
 		if(pessoaDados == null){
@@ -111,6 +116,10 @@ public class ParametrosServlet implements Serializable{
 		if(religiaoDados == null) {
 			religiaoDados = new Religiao();
 		}
+		
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
 	}
 
 	/*
@@ -257,7 +266,6 @@ public class ParametrosServlet implements Serializable{
 	public List<SelectItem> getConsultaPais() {
 		try {
 			PaisDAO paisDAO = new PaisDAO();
-			List<SelectItem> comboPais = new ArrayList<SelectItem>();
 			List<Pais> paramPais = paisDAO.consultaPais();
 			
 			for (Pais param : paramPais){
@@ -266,8 +274,8 @@ public class ParametrosServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboPais.add(s);
 			}
-			estadoDados.setPkEstado(null);
-			cidadeDados.setPkCidade(null);
+			comboEstado.clear();
+			comboCidade.clear();
 			return comboPais;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -280,8 +288,7 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() {
-		List<SelectItem> comboEstado = new ArrayList<SelectItem>();
-		if(paisDados.getPkPais() != null){
+		if(paisDados.getPkPais() != null && !comboPais.isEmpty()){
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
@@ -292,6 +299,7 @@ public class ParametrosServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboEstado.add(s);
 				}
+				comboCidade.clear();
 				return comboEstado;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -308,8 +316,7 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() {
-		List<SelectItem> comboCidade = new ArrayList<SelectItem>();
-		if(estadoDados.getPkEstado() != null){
+		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
 			try {
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
@@ -327,6 +334,7 @@ public class ParametrosServlet implements Serializable{
 				return null;
 			}
 		}
+		cidadeDados.setPkCidade(null);
 		comboCidade.clear();
 		return null;
 	}
@@ -425,6 +433,21 @@ public class ParametrosServlet implements Serializable{
 			return comboUnidadeEscolar;
 		}
 		return null;
+	}
+	
+	public void consultaEndereco(){
+		try {
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			Endereco dadosEndereco = enderecoDAO.retornEnderecoDados(enderecoDados.getCep());
+			
+			enderecoDados.setLogradouro(dadosEndereco.getLogradouro());
+			enderecoDados.setBairro(dadosEndereco.getBairro());
+			enderecoDados.setNumero(dadosEndereco.getNumero());
+			enderecoDados.setComplemento(dadosEndereco.getComplemento());
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"CEP não encontrado", null));
+		}
 	}
 
 	/* GETTERS AND SETTERS */

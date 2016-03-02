@@ -898,6 +898,10 @@
 					
 					<div class="main-content-inner">
 						<div class="content" style="margin-left: 0px;" >
+							<div class="loaderDiv hidden">
+								<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+								<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+							</div>
 							<ui:insert name="scriptConteudo"/>	
 						</div>
 					</div>
