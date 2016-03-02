@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/resources/templates/sisEducar/principal.html">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon fa fa-file"></i>
+				Cadastros
+			</li>
+			<li class="active">
+				<i class="ace-icon fa fa-user"></i>
+				Pessoa
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo">
+			<div class="page-header">
+				<h1>
+					Cadastro <small> <i
+						class="ace-icon fa fa-angle-double-right"></i> Cadastro de Pessoas
+					</small>
+				</h1>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

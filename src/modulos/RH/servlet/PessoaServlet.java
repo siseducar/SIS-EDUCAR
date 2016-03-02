@@ -20,6 +20,7 @@ import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
 import modulos.RH.dao.NacionalidadeDAO;
 import modulos.RH.dao.PaisDAO;
+import modulos.RH.dao.PessoaDAO;
 import modulos.RH.dao.RacaDAO;
 import modulos.RH.dao.RedeEnsinoDAO;
 import modulos.RH.dao.RegiaoDAO;
@@ -36,6 +37,7 @@ import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.Fornecedor;
 import modulos.RH.om.Funcionario;
 import modulos.RH.om.GrauInstrucao;
+import modulos.RH.om.ImagemBase64;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
@@ -68,7 +70,8 @@ public class PessoaServlet implements Serializable{
 	GrauInstrucao grauInstruDados;
 	SituacaoEconomica situEconomicaDados;
 	Religiao religiaoDados;
-	
+	Regiao regiaoDados;
+	ImagemBase64 imagem64B;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -88,9 +91,14 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar demissao */
 	private Boolean funcDemitido;
 	
-	private Part arquivo; 
+	private Part imagem;
 	
-
+	List<SelectItem> comboPais;
+	
+	List<SelectItem> comboEstado;
+	
+	List<SelectItem> comboCidade;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
@@ -135,12 +143,21 @@ public class PessoaServlet implements Serializable{
 		if(this.religiaoDados == null) {
 			this.religiaoDados = new Religiao();
 		}
+		if(this.imagem64B == null) {
+			this.imagem64B = new ImagemBase64();
+		}
+		if(this.regiaoDados == null) {
+			this.regiaoDados = new Regiao();
+		}
 		complementoAluno = false;
 		complementoFuncionario = false;
 		alunoDeficiente = false;
 		funcConcursado = false;
 		funcAposentado = false;
 		funcDemitido = false;
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
 	}
 	
 	/*
@@ -209,35 +226,7 @@ public class PessoaServlet implements Serializable{
 		pessoaDados.getNome();
 		return pessoaDados.getNome();
 	}
-	
-	
-	public String getTestaAtributos () {
-		System.out.println(
-				pessoaDados.getNome() + " " +
-				pessoaDados.getCpf() + " " +
-				pessoaDados.getRg() + " " +
-				pessoaDados.getSexo());
-		System.out.println(
-				nacionalidadeDados.getDescricao() + " " +
-				nacionalidadeDados.getPkNacionalidade());
-		System.out.println(
-				racaDados.getDescricao() + " " +
-				racaDados.getPkRaca());
-		System.out.println(
-				estaCivilDados.getDescricao() + " " +
-				estaCivilDados.getPkEstadoCivil());
-		System.out.println(
-				grauInstruDados.getDescricao() + " " +
-				grauInstruDados.getPkGrauInstrucao());
-		System.out.println(
-				situEconomicaDados.getDescricao() + " " +
-				situEconomicaDados.getPkSituacaoEconomica());
-		System.out.print(
-				religiaoDados.getDescricao() + " " +
-				religiaoDados.getPkReligiao());
-		return "Cadastro com sucesso";
-	}
-	
+		
 	public void consultaEndereco(){
 		try {
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
@@ -253,25 +242,85 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
-	public List<String> consultaCep(String cep) throws SQLException {
-        List<String> results = new ArrayList<String>();
-        EnderecoDAO enderecoDAO = new EnderecoDAO();
-        
-        results = enderecoDAO.consultaCEP(cep);
-                 
-        return results;
-    }
+	public void salvarCadastro(){
+		if(pessoaDados.getTipoPessoa() == 0 && pessoaDados != null) {
+			salvarCadastroPessoa();
+		} else {
+			if(pessoaDados.getTipoPessoa() == 1 && pessoaDados != null) {
+				System.out.println("aluno");
+			} else {
+				System.out.println("funcionario");
+			}
+		}
+		
+	}
 	
-	public String validaPessoa(){
-		System.out.println(pessoaDados);
-		System.out.println(paisDados);
-		System.out.println(estadoDados);
-		System.out.println(racaDados);
-		System.out.println(nacionalidadeDados);
-		System.out.println();
+	
+	public String salvarCadastroPessoa(){
+		try {
+			Pessoa pessoaDadosFinal = new Pessoa();
+			
+			if( pessoaDados != null ) {
+				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
+				pessoaDadosFinal.setNome(pessoaDados.getNome());
+				pessoaDadosFinal.setCpf(pessoaDados.getCpf());
+				pessoaDadosFinal.setRg(pessoaDados.getRg());
+				pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
+				pessoaDadosFinal.setSexo(pessoaDados.getSexo());
+				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
+			}
+			if( paisDados != null ) {
+				pessoaDadosFinal.setPais(paisDados);
+			}
+			if( estadoDados != null ) {
+				pessoaDadosFinal.setEstado(estadoDados);
+			}
+			if( enderecoDados != null ) {
+				enderecoDados.setCidade(cidadeDados);
+				pessoaDadosFinal.setEndereco(enderecoDados);
+			}
+			if( nacionalidadeDados != null ) {
+				pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
+			}
+			if( racaDados != null ) {
+				pessoaDadosFinal.setRaca(racaDados);
+			}
+			if( estaCivilDados != null ) {
+				pessoaDadosFinal.setEstadoCivil(estaCivilDados);
+			}
+			if( grauInstruDados != null ) {
+				pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
+			}		
+			if( situEconomicaDados != null ) {
+				pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
+			}
+			if( religiaoDados != null ) {
+				pessoaDadosFinal.setReligiao(religiaoDados);
+			}
+			if(regiaoDados != null) {
+				pessoaDadosFinal.setRegiao(regiaoDados);
+			}
+			if(paisDados != null){
+				System.out.println(paisDados);
+			}
+			if(estadoDados != null){
+				System.out.println(estadoDados);
+			}
+			if(cidadeDados != null){
+				System.out.println(cidadeDados);
+			}
+			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Cadastro Realizado com sucesso",null));
+			
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao cadastrar",null));
+			return null;
+		}
+		
 		return null;
 	}
-
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
@@ -418,7 +467,6 @@ public class PessoaServlet implements Serializable{
 	public List<SelectItem> getConsultaPais() {
 		try {
 			PaisDAO paisDAO = new PaisDAO();
-			List<SelectItem> comboPais = new ArrayList<SelectItem>();
 			List<Pais> paramPais = paisDAO.consultaPais();
 			
 			for (Pais param : paramPais){
@@ -427,8 +475,8 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboPais.add(s);
 			}
-			estadoDados.setPkEstado(null);
-			cidadeDados.setPkCidade(null);
+			comboEstado.clear();
+			comboCidade.clear();
 			return comboPais;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -441,8 +489,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() {
-		List<SelectItem> comboEstado = new ArrayList<SelectItem>();
-		if(paisDados.getPkPais() != null){
+		if(paisDados.getPkPais() != null && !comboPais.isEmpty()){
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
@@ -453,6 +500,7 @@ public class PessoaServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboEstado.add(s);
 				}
+				comboCidade.clear();
 				return comboEstado;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -469,8 +517,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() {
-		List<SelectItem> comboCidade = new ArrayList<SelectItem>();
-		if(estadoDados.getPkEstado() != null){
+		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
 			try {
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
@@ -488,6 +535,7 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
+		cidadeDados.setPkCidade(null);
 		comboCidade.clear();
 		return null;
 	}
@@ -740,20 +788,36 @@ public class PessoaServlet implements Serializable{
 	public void setFuncDemitido(Boolean funcDemitido) {
 		this.funcDemitido = funcDemitido;
 	}
-
-	public Part getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(Part arquivo) {
-		this.arquivo = arquivo;
-	}
-
+	
 	public Endereco getEnderecoDados() {
 		return enderecoDados;
 	}
 
 	public void setEnderecoDados(Endereco enderecoDados) {
 		this.enderecoDados = enderecoDados;
+	}
+	
+	public Part getImagem() { 
+		return imagem; 
+	} 
+	
+	public void setImagem(Part imagem) { 
+		this.imagem = imagem; 
+	}
+
+	public ImagemBase64 getImagem64B() {
+		return imagem64B;
+	}
+
+	public void setImagem64B(ImagemBase64 imagem64b) {
+		imagem64B = imagem64b;
+	}
+
+	public Regiao getRegiaoDados() {
+		return regiaoDados;
+	}
+
+	public void setRegiaoDados(Regiao regiaoDados) {
+		this.regiaoDados = regiaoDados;
 	}
 }

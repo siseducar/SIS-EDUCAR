@@ -13,7 +13,6 @@ import javax.faces.model.SelectItem;
 
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
-import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.EstadoCivilDAO;
 import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
@@ -113,70 +112,7 @@ public class ParametrosServlet implements Serializable{
 			religiaoDados = new Religiao();
 		}
 	}
-	
-	/*
-	 *Metodo para salvar os dados da pessoa 
-	 * 
-	 * */
-	public String getCadastroPessoa(){
-		cidadeDados.getNome();
-		cidadeDados.getPkCidade();
-		
-		pessoaDados.getNome();
-		return pessoaDados.getNome();
-	}
-	
-	public String getTestaAtributos () {
-		System.out.println(
-				pessoaDados.getNome() + " " +
-				pessoaDados.getCpf() + " " +
-				pessoaDados.getRg() + " " +
-				pessoaDados.getSexo());
-		System.out.println(
-				nacionalidadeDados.getDescricao() + " " +
-				nacionalidadeDados.getPkNacionalidade());
-		System.out.println(
-				racaDados.getDescricao() + " " +
-				racaDados.getPkRaca());
-		System.out.println(
-				estaCivilDados.getDescricao() + " " +
-				estaCivilDados.getPkEstadoCivil());
-		System.out.println(
-				grauInstruDados.getDescricao() + " " +
-				grauInstruDados.getPkGrauInstrucao());
-		System.out.println(
-				situEconomicaDados.getDescricao() + " " +
-				situEconomicaDados.getPkSituacaoEconomica());
-		System.out.print(
-				religiaoDados.getDescricao() + " " +
-				religiaoDados.getPkReligiao());
-		return "Cadastro com sucesso";
-	}
-	
-	public void consultaEndereco(){
-		try {
-			EnderecoDAO enderecoDAO = new EnderecoDAO();
-			Endereco dadosEndereco = enderecoDAO.retornEnderecoDados(enderecoDados.getCep());
-			
-			enderecoDados.setLogradouro(dadosEndereco.getLogradouro());
-			enderecoDados.setBairro(dadosEndereco.getBairro());
-			enderecoDados.setNumero(dadosEndereco.getNumero());
-			enderecoDados.setComplemento(dadosEndereco.getComplemento());
-		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"CEP não encontrado", null));
-		}
-	}
-	
-	public List<String> consultaCep(String cep) throws SQLException {
-        List<String> results = new ArrayList<String>();
-        EnderecoDAO enderecoDAO = new EnderecoDAO();
-        
-        results = enderecoDAO.consultaCEP(cep);
-                 
-        return results;
-    }
-	
+
 	/*
 	 * Metodo para carregar as Naturalidades
 	 * */

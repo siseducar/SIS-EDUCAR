@@ -22,23 +22,15 @@ $(function() {
     });
   });
 
-$(function() {
-	$("#formCadastroPessoa")(){
-		$("numCpf").mask("999.999.999-99");
-		$("numRg").mask("99.999.999-*");
-		$("numTelefone").mask("(99)9999-9999");
-		$("numCelular").mask("(99) 9 9999-9999");
-		$("numCpfMae").mask("999.999.999-99");
-		$("numCpfPai").mask("999.999.999-99");
-	};
-});
 
-$(function(){
-	$("#formCadastroPessoa").validate({
-		rules : {
-			'numCpf' : {
-				cpf: true
-			}
-		}
-	});
-});
+function validarEmail(email, validacao) {
+    var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    var valid = document.getElementById(validacao);
+    result = ck_email.test(email);
+    if (!result) {
+        valid.innerHTML = "Endereço de e-mail inválido";
+    } else {
+        valid.innerHTML = "Endereço de e-mail válido";
+    }
+    return result;
+}
