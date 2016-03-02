@@ -4,21 +4,21 @@ import java.sql.Date;
 
 public class Pessoa
 {	
-	private int pkPessoa;
-	private int codigo;
+	private Integer pkPessoa;
+	private Integer codigo;
 	private String nome;
 	private String cpf;
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
 	private String sexo;
-	private int telefoneComercial;
-	private int telefoneResidencial;
-	private int telefoneCelular;
-	private int tipoPessoa;
+	private Integer telefoneComercial;
+	private Integer telefoneResidencial;
+	private Integer telefoneCelular;
+	private Integer tipoPessoa;
 	private Boolean falecido;
 	private Date dataFalecimento;
-	private int status;
+	private Integer status;
 	private String email;
 	private Raca raca;
 	private SituacaoEconomica situacaoEconomica;
@@ -34,18 +34,18 @@ public class Pessoa
 	private Pais pais;
 	private Estado estado;
 	
-	public Estado getEstado() {
-		return estado;
-	}
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-	//Getters and setters
-	public int getPkPessoa() {
+	/* GETTERS AND SETTERS */
+	public Integer getPkPessoa() {
 		return pkPessoa;
 	}
-	public void setPkPessoa(int pkPessoa) {
+	public void setPkPessoa(Integer pkPessoa) {
 		this.pkPessoa = pkPessoa;
+	}
+	public Integer getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 	public String getNome() {
 		return nome;
@@ -77,34 +77,34 @@ public class Pessoa
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-	public Endereco getEndereco() {
-		return endereco;
+	public String getSexo() {
+		return sexo;
 	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
-	public int getTelefoneComercial() {
+	public Integer getTelefoneComercial() {
 		return telefoneComercial;
 	}
-	public void setTelefoneComercial(int telefoneComercial) {
+	public void setTelefoneComercial(Integer telefoneComercial) {
 		this.telefoneComercial = telefoneComercial;
 	}
-	public int getTelefoneResidencial() {
+	public Integer getTelefoneResidencial() {
 		return telefoneResidencial;
 	}
-	public void setTelefoneResidencial(int telefoneResidencial) {
+	public void setTelefoneResidencial(Integer telefoneResidencial) {
 		this.telefoneResidencial = telefoneResidencial;
 	}
-	public int getTelefoneCelular() {
+	public Integer getTelefoneCelular() {
 		return telefoneCelular;
 	}
-	public void setTelefoneCelular(int telefoneCelular) {
+	public void setTelefoneCelular(Integer telefoneCelular) {
 		this.telefoneCelular = telefoneCelular;
 	}
-	public int getTipoPessoa() {
+	public Integer getTipoPessoa() {
 		return tipoPessoa;
 	}
-	public void setTipoPessoa(int tipoPessoa) {
+	public void setTipoPessoa(Integer tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
 	public Boolean getFalecido() {
@@ -119,29 +119,17 @@ public class Pessoa
 	public void setDataFalecimento(Date dataFalecimento) {
 		this.dataFalecimento = dataFalecimento;
 	}
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public String getSexo() {
-		return sexo;
+	public String getEmail() {
+		return email;
 	}
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-	public int getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	public UnidadeEscolar getUnidadeEscolar() {
-		return unidadeEscolar;
-	}
-	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
-		this.unidadeEscolar = unidadeEscolar;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public Raca getRaca() {
 		return raca;
@@ -197,16 +185,30 @@ public class Pessoa
 	public void setGrauInstrucao(GrauInstrucao grauInstrucao) {
 		this.grauInstrucao = grauInstrucao;
 	}
+	public UnidadeEscolar getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 	public Pais getPais() {
 		return pais;
 	}
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
-	public String getEmail() {
-		return email;
+	public Estado getEstado() {
+		return estado;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
+	
+
 }
