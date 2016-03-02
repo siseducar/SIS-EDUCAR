@@ -899,10 +899,15 @@
 					<div class="main-content-inner">
 						<div class="content" style="margin-left: 0px;" >
 							<div class="loaderDiv hidden">
-								<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-								<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+								<p:ajaxStatus onstart="PF('statusDialog').show()" 
+									onsuccess="PF('statusDialog').hide()" />
+								<p:dialog widgetVar="statusDialog" modal="true" 
+									draggable="false" closable="false" resizable="false" showHeader="false">
+									<h:outputText value="Testando modal"/>
+								</p:dialog>
 							</div>
-							<ui:insert name="scriptConteudo"/>	
+							<ui:insert name="scriptConteudo"/>
+							<p:growl id="msgGrow" showDetail="false" autoUpdate="true" life="5000"/>	
 						</div>
 					</div>
 				</div>
@@ -921,7 +926,7 @@
 			</div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"/>
 			</a>
 		</div><!-- /.main-container -->
 
