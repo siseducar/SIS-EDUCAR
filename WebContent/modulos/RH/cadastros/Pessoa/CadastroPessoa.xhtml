@@ -796,7 +796,9 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastro}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
+								
+								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastro}" 
+									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>
 					</h:form>
