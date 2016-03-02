@@ -75,51 +75,69 @@
 									<h3 class="header smaller lighter blue">Endereço/Contato</h3>
 									<div class="form-group">
 										<div class="col-sm-3">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}" />
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
 											<div>
 												<h:selectOneMenu id="codPais"
 													class="form-control" title="Pais residente"
-													value="#{parametrosServlet.paisDados.pkPais}">
-													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{parametrosServlet.consultaPais}"/>
-													<p:ajax event="change" update="codEstado, codCidade" />
+													value="#{parametrosServlet.paisDados.pkPais}"
+													required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.pais']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<f:selectItems value="#{parametrosServlet.consultaPais}"
+														var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
+													<p:ajax event="change" update="codEstado, codCidade"/>
 												</h:selectOneMenu>
+											</div>
+											<div>
+												<h:message for="codPais" styleClass="red"/>
 											</div>
 										</div>
 										<div class="col-sm-3">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}" />
-											<div>	
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
+											<div>
 												<h:selectOneMenu id="codEstado"
 													class="form-control" title="Estado residente"
-													value="#{parametrosServlet.estadoDados.pkEstado}">
-													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{parametrosServlet.consultaEstado}"/>
-													<p:ajax event="change" update="codCidade" />
+													value="#{parametrosServlet.estadoDados.pkEstado}"
+													required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.estado']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<f:selectItems value="#{parametrosServlet.consultaEstado}"
+														var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
+													<p:ajax event="change" update="codCidade"/>
 												</h:selectOneMenu>
-											</div>	
+											</div>
+											<div>
+												<h:message for="codEstado" styleClass="red"/>
+											</div>
 										</div>
 										<div class="col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}" />
+												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 											<div>
 												<h:selectOneMenu id="codCidade"
-													class="form-control" title="Município residente"
-													value="#{parametrosServlet.cidadeDados.pkCidade}">
-													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													class="form-control" title="Cidade residente"
+													value="#{parametrosServlet.cidadeDados.pkCidade}"
+													required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.municipio']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
 													<f:selectItems value="#{parametrosServlet.consultaCidade}"
 														var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-														<p:ajax listner="#{parametrosServlet.testaAtributos}"/>
+													<p:ajax event="change" update="numCep"/>
 												</h:selectOneMenu>
+											</div>
+											<div>
+												<h:message for="codCidade" styleClass="red"/>
 											</div>
 										</div>
 										<div class="col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 											<div>
 												<h:inputText
-													class="form-control" title="Numero do CEP"
-													value="#{parametrosServlet.enderecoDados.cep}">
+													class="form-control" id="numCep" title="Numero do CEP"
+													value="#{parametrosServlet.enderecoDados.cep}"
+													required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.cep']}">
 													<p:ajax event="blur" listner="#{parametrosServlet.consultaEndereco}"
 														update="codRua, numCasa, codBairro, codComplemento"/>
 												</h:inputText>
+											</div>
+											<div>
+												<h:message for="numCep" styleClass="red"/>
 											</div>
 										</div>
 									</div>
