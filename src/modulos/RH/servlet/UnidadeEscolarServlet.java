@@ -14,7 +14,9 @@ import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.Terreno;
 import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
+import modulos.RH.utils.ConstantesRH;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="unidadeEscolarServlet")
@@ -58,13 +60,28 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			//unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			
-			if(ParametrosServlet.cidadeDados!=null && ParametrosServlet.cidadeDados.getPkCidade()!=null)
+			/* Rede Ensino */
+			if(ParametrosServlet.alunoDados!=null && ParametrosServlet.alunoDados.getRedeEnsino()!=null && ParametrosServlet.alunoDados.getRedeEnsino().length()>0)
 			{
-				
+				unidadeEscolar.setRedeEnsino(new RedeEnsino());
+				unidadeEscolar.getRedeEnsino().setPkRedeEnsino(new Integer(ParametrosServlet.alunoDados.getRedeEnsino()));
 			}
 			
-			System.out.println(ParametrosServlet.enderecoDados);
-			System.out.println(ParametrosServlet.cidadeDados);
+			/*----Endereço----*/
+			if(ParametrosServlet.cidadeDados!=null && ParametrosServlet.cidadeDados.getPkCidade()!=null)
+			{
+				if(ParametrosServlet.enderecoDados!=null && ParametrosServlet.enderecoDados.getPkEndereco()!=null)
+				{
+					ParametrosServlet.enderecoDados.setStatus(ConstantesSisEducar.STATUS_ATIVO);
+					ParametrosServlet.enderecoDados.setCidade(ParametrosServlet.cidadeDados);
+				}
+			}
+			
+			/* Terreno */
+			if(terreno!=null)
+			{
+				unidadeEscolar.setTerreno(terreno);
+			}
 			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
 			{
