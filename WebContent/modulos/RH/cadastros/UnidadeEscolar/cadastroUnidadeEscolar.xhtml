@@ -87,9 +87,6 @@
 													<p:ajax event="change" update="codEstado, codCidade"/>
 												</h:selectOneMenu>
 											</div>
-											<div>
-												<h:message for="codPais" styleClass="red"/>
-											</div>
 										</div>
 										<div class="col-sm-3">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
@@ -103,9 +100,6 @@
 														var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
 													<p:ajax event="change" update="codCidade"/>
 												</h:selectOneMenu>
-											</div>
-											<div>
-												<h:message for="codEstado" styleClass="red"/>
 											</div>
 										</div>
 										<div class="col-sm-4">
@@ -121,9 +115,6 @@
 													<p:ajax event="change" update="numCep"/>
 												</h:selectOneMenu>
 											</div>
-											<div>
-												<h:message for="codCidade" styleClass="red"/>
-											</div>
 										</div>
 										<div class="col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
@@ -135,9 +126,6 @@
 													<p:ajax event="blur" listner="#{parametrosServlet.consultaEndereco}"
 														update="codRua, numCasa, codBairro, codComplemento"/>
 												</h:inputText>
-											</div>
-											<div>
-												<h:message for="numCep" styleClass="red"/>
 											</div>
 										</div>
 									</div>
@@ -260,7 +248,6 @@
 								
 							<!-- Botões -->
 							<div class="clearfix">
-								<p:messages></p:messages>
 								<button type="reset" class="btn btn-sm">
 									<i class="ace-icon fa fa-file"></i>
 									<span class="bigger-110">Novo</span>

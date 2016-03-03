@@ -67,6 +67,7 @@ public class ParametrosServlet implements Serializable{
 	static GrauInstrucao grauInstruDados;
 	static SituacaoEconomica situEconomicaDados;
 	static Religiao religiaoDados;
+	static RedeEnsino redeEnsino;
 	
 	List<SelectItem> comboPais;
 	List<SelectItem> comboEstado;
@@ -115,6 +116,9 @@ public class ParametrosServlet implements Serializable{
 		}
 		if(religiaoDados == null) {
 			religiaoDados = new Religiao();
+		}
+		if(redeEnsino == null) {
+			redeEnsino = new RedeEnsino();
 		}
 		
 		comboPais = new ArrayList<SelectItem>();
@@ -561,5 +565,13 @@ public class ParametrosServlet implements Serializable{
 
 	public void setEnderecoDados(Endereco enderecoDados) {
 		this.enderecoDados = enderecoDados;
+	}
+
+	public static RedeEnsino getRedeEnsino() {
+		return redeEnsino;
+	}
+
+	public static void setRedeEnsino(RedeEnsino redeEnsino) {
+		ParametrosServlet.redeEnsino = redeEnsino;
 	}
 }
