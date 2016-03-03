@@ -54,11 +54,11 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
 		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, pessoa.getTelefoneComercial());
+		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneComercial()));
 		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, pessoa.getTelefoneResidencial());
+		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneResidencial()));
 		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, pessoa.getTelefoneCelular());
+		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneCelular()));
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, pessoa.getTipoPessoa());
 		numeroArgumentos++;
@@ -155,6 +155,7 @@ public class PessoaDAO extends SisEducarDAO
 		return null;
 	}
 	
+
 	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException{
 		try {
 			String querySQL = 
@@ -182,13 +183,13 @@ public class PessoaDAO extends SisEducarDAO
 			ps = con.prepareStatement(querySQL);
 			
 			ps.setString(1, pessoaDados.getNome());
-			ps.setString(2, pessoaDados.getCpf());
+			ps.setLong(2, pessoaDados.getCpf());
 			ps.setString(3, pessoaDados.getRg());
 			ps.setDate(4, pessoaDados.getDataNascimento());
 			ps.setDate(5, pessoaDados.getDataCadastro());
 			ps.setString(6, pessoaDados.getSexo());
-			ps.setLong(7, pessoaDados.getTelefoneResidencial());
-			ps.setLong(8, pessoaDados.getTelefoneCelular());
+			ps.setLong(7, Long.parseLong(pessoaDados.getTelefoneResidencial()));
+			ps.setLong(8, Long.parseLong(pessoaDados.getTelefoneCelular()));
 			ps.setInt(9, pessoaDados.getTipoPessoa());
 			ps.setInt(10, pessoaDados.getStatus());
 			ps.setInt(11, pessoaDados.getRaca().getPkRaca());

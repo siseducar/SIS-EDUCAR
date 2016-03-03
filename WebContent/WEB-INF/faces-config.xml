@@ -18,5 +18,19 @@
        		<var>mensagens</var>
   		</resource-bundle>
 	</application>
+	
+	<converter>
+    	<converter-id>converter.CPF</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteCPF</converter-class>
+	</converter>
+ 	<converter>
+    	<converter-id>converter.DATA</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteData</converter-class>
+	</converter>
  	
+ 	
+ 	<validator>
+    	<validator-id>validar.CpfValidator</validator-id>
+    	<validator-class>modulos.sisEducar.validator.ValidaCPF</validator-class>
+	</validator>
 </faces-config>

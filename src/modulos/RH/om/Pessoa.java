@@ -7,14 +7,14 @@ public class Pessoa
 	private Integer pkPessoa;
 	private Integer codigo;
 	private String nome;
-	private String cpf;
+	private Long cpf;
 	private String rg;
 	private Date dataNascimento;
 	private Date dataCadastro;
 	private String sexo;
-	private Integer telefoneComercial;
-	private Integer telefoneResidencial;
-	private Integer telefoneCelular;
+	private String telefoneComercial;
+	private String telefoneResidencial;
+	private String telefoneCelular;
 	private Integer tipoPessoa;
 	private Boolean falecido;
 	private Date dataFalecimento;
@@ -53,12 +53,7 @@ public class Pessoa
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+
 	public String getRg() {
 		return rg;
 	}
@@ -83,22 +78,23 @@ public class Pessoa
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Integer getTelefoneComercial() {
+	
+	public String getTelefoneComercial() {
 		return telefoneComercial;
 	}
-	public void setTelefoneComercial(Integer telefoneComercial) {
+	public void setTelefoneComercial(String telefoneComercial) {
 		this.telefoneComercial = telefoneComercial;
 	}
-	public Integer getTelefoneResidencial() {
+	public String getTelefoneResidencial() {
 		return telefoneResidencial;
 	}
-	public void setTelefoneResidencial(Integer telefoneResidencial) {
+	public void setTelefoneResidencial(String telefoneResidencial) {
 		this.telefoneResidencial = telefoneResidencial;
 	}
-	public Integer getTelefoneCelular() {
+	public String getTelefoneCelular() {
 		return telefoneCelular;
 	}
-	public void setTelefoneCelular(Integer telefoneCelular) {
+	public void setTelefoneCelular(String telefoneCelular) {
 		this.telefoneCelular = telefoneCelular;
 	}
 	public Integer getTipoPessoa() {
@@ -208,6 +204,12 @@ public class Pessoa
 	}
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	public Long getCpf() {
+		return cpf;
+	}
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
 	}
 	
 

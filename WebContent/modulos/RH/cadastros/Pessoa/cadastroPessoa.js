@@ -10,10 +10,6 @@ $(function($) {
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
 		$(this).attr('placeholder','');
         $(this).unmask();
-        
-        var numeroCPF   = (this).value;
-        numeroCPF = numeroCPF.replace(/[^\d]+/g,''); 
-        var n     = numeroCPF.length;
     });
 	
 	/* Componente RG */
@@ -52,13 +48,13 @@ $(function($) {
         $(this).unmask();
     });
 	
-	/* Componente DATA DE NASCIMENTO */
-	$("#dataNasci").on('focus',function(){
+	/* Componente CALENDARIO */
+	$(".calendario").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
         $(this).attr('placeholder','Ex.: 00/00/0000');
         $(this).mask("99/99/9999");
     });
-	$("#dataNasci").blur(function(){
+	$(".calendario").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
         $(this).attr('placeholder','');
         $(this).unmask();
@@ -66,7 +62,7 @@ $(function($) {
 });
 
 $(function() {
-    $( "#dataNasci" ).datepicker({
+    $( ".calendario" ).datepicker({
     	dateFormat: 'dd/mm/yy',
         dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
         dayNamesMin: ['D','S','T','Q','Q','S','S','D'],

@@ -35,8 +35,7 @@
 								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 								<f:selectItem itemLabel="Aluno" itemValue="1"/>
 								<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-								<p:ajax event="change" update="dadosComplementares" 
-									listener="#{pessoaServlet.complementoDados}"/>
+								<f:ajax event="change" render="dadosComplementares" listener="#{pessoaServlet.complementoDados}"/>
 							</h:selectOneRadio>
 							<div class="space-4"/>
 							<div class="form-group">
@@ -47,11 +46,8 @@
 										<span class="block input-icon input-icon-right">
 											<h:inputText type="text" id="nomePessoa"
 												styleClass="col-sm-12"
-												value="#{pessoaServlet.pessoaDados.nome}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nome']}"
-												title="Nome Completo." validatorMessage="Nome deve conter entre 5 e 100 caracteres">
-												<f:validateLength maximum="100" minimum="5" for="nomePessoa"/>
-											</h:inputText>
+												value="#{pessoaServlet.pessoaDados.nome}" title="Nome Completo."
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nome']}"/>
 											<i class="ace-icon fa fa-user"/>
 										</span>
 									</div>
@@ -64,7 +60,10 @@
 									<div>
 										<h:inputText type="text" id="numCpf"
 											class="col-sm-12 CPF" title="Numero do CPF"
-											value="#{pessoaServlet.pessoaDados.cpf}" maxlength="11"/>
+											value="#{pessoaServlet.pessoaDados.cpf}">
+											<f:validator validatorId="validar.CpfValidator"/>
+											<f:converter converterId="converter.CPF"/>
+										</h:inputText>
 											
 									</div>
 								</div>
@@ -74,9 +73,7 @@
 									<div>
 										<h:inputText type="text" id="numRg"
 											class="col-sm-12" title="Numero do RG"
-											value="#{pessoaServlet.pessoaDados.rg}"
-											required="true"  requiredMessage="#{mensagens['mensagem.requerido.cadastro.rg']}">
-										</h:inputText>
+											value="#{pessoaServlet.pessoaDados.rg}"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -84,8 +81,9 @@
 										value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
 									<div>
 										<h:inputText type="text" id="dataNasci" 
-											class="col-sm-12" title="Data de Nascimento"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
+											class="col-sm-12 calendario" title="Data de Nascimento"
+											value="#{pessoaServlet.pessoaDados.dataNascimento}">
+											<f:converter converterId="converter.DATA"/>
 										</h:inputText>
 									</div>
 								</div>

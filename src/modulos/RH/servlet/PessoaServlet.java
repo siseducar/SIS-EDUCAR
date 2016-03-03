@@ -260,9 +260,8 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
+			replaceCampos();
 			
-			pessoaDados.getCpf().replaceAll(".-","");
-			pessoaDados.getRg().replaceAll(".-","");
 			if( pessoaDados != null ) {
 				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
 				pessoaDadosFinal.setNome(pessoaDados.getNome());
@@ -271,6 +270,10 @@ public class PessoaServlet implements Serializable{
 				pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
 				pessoaDadosFinal.setSexo(pessoaDados.getSexo());
 				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
+				pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
+				pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
+				pessoaDadosFinal.setStatus(Integer.valueOf(0));
+				
 			}
 			if( paisDados != null ) {
 				pessoaDadosFinal.setPais(paisDados);
@@ -315,7 +318,7 @@ public class PessoaServlet implements Serializable{
 			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					"Cadastro Realizado com sucesso",null));
-			
+			limparFormulario();
 		} catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao cadastrar",null));
@@ -323,6 +326,54 @@ public class PessoaServlet implements Serializable{
 		}
 		
 		return null;
+	}
+	
+	public void replaceCampos(){
+		/* RG */
+		pessoaDados.setRg(pessoaDados.getRg().replace(".", ""));
+		pessoaDados.setRg(pessoaDados.getRg().replace("-", ""));
+		pessoaDados.setRg(pessoaDados.getRg().replace(" ", ""));
+		
+		/* TELFONE RESIDENCIAL */
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("(", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(")", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(" ", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("-", ""));
+		
+		/* TELEFONE CELULAR */
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("(", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(")", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("-", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(" ", ""));
+		
+	}
+	
+	public void limparFormulario(){
+		pessoaDados = new Pessoa();
+		alunoDados = new Aluno();
+		fornecedorDados = new Fornecedor();
+		funcionarioDados = new Funcionario();
+		paisDados = new Pais();
+		estadoDados = new Estado();
+		cidadeDados = new Cidade();
+		enderecoDados = new Endereco();
+		nacionalidadeDados = new Nacionalidade();
+		racaDados = new Raca();
+		estaCivilDados = new EstadoCivil();
+		grauInstruDados = new GrauInstrucao();
+		situEconomicaDados = new SituacaoEconomica();
+		religiaoDados = new Religiao();
+		regiaoDados = new Regiao();
+		pessoaDados.setTipoPessoa(0);
+		complementoAluno = false;
+		complementoFuncionario = false;
+		alunoDeficiente = false;
+		funcConcursado = false;
+		funcAposentado = false;
+		funcDemitido = false;
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
 	}
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
