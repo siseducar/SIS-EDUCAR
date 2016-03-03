@@ -48,7 +48,7 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	
 	/**
 	 * Método usado para cadastrar um novo usuário no banco de dados, este usuário será cadastrado da tela de cadastro de usuário
-	 * @author João Paulo
+	 * @author João Paulo 
 	 * @return NULL - Apenas para retornar a função
 	 */
 	public String cadastrarUnidadeEscolar()
@@ -57,6 +57,11 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 		{
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			//unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
+			
+			if(ParametrosServlet.cidadeDados!=null && ParametrosServlet.cidadeDados.getPkCidade()!=null)
+			{
+				
+			}
 			
 			System.out.println(ParametrosServlet.enderecoDados);
 			System.out.println(ParametrosServlet.cidadeDados);
