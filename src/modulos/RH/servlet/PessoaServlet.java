@@ -149,6 +149,7 @@ public class PessoaServlet implements Serializable{
 		if(this.regiaoDados == null) {
 			this.regiaoDados = new Regiao();
 		}
+		pessoaDados.setTipoPessoa(0);
 		complementoAluno = false;
 		complementoFuncionario = false;
 		alunoDeficiente = false;

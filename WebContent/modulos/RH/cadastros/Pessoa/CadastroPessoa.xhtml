@@ -26,7 +26,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-					<h:form id="formCadastroPessoa" class="form-horizontal" role="form">
+					<h:form id="formCadastroPessoa" class="form-horizontal" role="form" prependId="false">
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
 							class="clearfix form-actions">
 							<h3 class="header smaller lighter blue">Dados Pessoais</h3>
@@ -35,7 +35,7 @@
 								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 								<f:selectItem itemLabel="Aluno" itemValue="1"/>
 								<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-								<f:ajax event="change" render="dadosComplementares"
+								<p:ajax event="change" update="dadosComplementares" 
 									listener="#{pessoaServlet.complementoDados}"/>
 							</h:selectOneRadio>
 							<div class="space-4"/>
@@ -55,9 +55,6 @@
 											<i class="ace-icon fa fa-user"/>
 										</span>
 									</div>
-									<div>
-										<h:message for="nomePessoa" styleClass="red"/>
-									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -66,11 +63,8 @@
 										value="#{mensagens['label.cadastro.pessoa.cpf']}"/>
 									<div>
 										<h:inputText type="text" id="numCpf"
-											class="col-sm-12" title="Numero do CPF"
+											class="col-sm-12 CPF" title="Numero do CPF"
 											value="#{pessoaServlet.pessoaDados.cpf}" maxlength="11"/>
-									</div>
-									<div>
-										<h:message for="numCpf" styleClass="red"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -85,22 +79,15 @@
 											<f:validateLength maximum="9" minimum="9" for="nomePessoa"/>
 										</h:inputText>
 									</div>
-									<div>
-										<h:message for="numRg" styleClass="red"/>
-									</div>
 								</div>
 								<div class="col-sm-2">
 									<h:outputLabel
 										value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
 									<div>
-										<h:inputText type="text" id="datNascPessoa" 
-										class="col-sm-12" title="Data de Nascimento"
-										required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
-										<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
-									</h:inputText>
-									</div>
-									<div>
-										<h:message for="datNascPessoa" styleClass="red"/>
+										<h:inputText type="text" id="dataNasci" 
+											class="col-sm-12" title="Data de Nascimento"
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
+										</h:inputText>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -116,9 +103,6 @@
 											<f:selectItem itemLabel="Feminino" itemValue="2"/>
 										</h:selectOneMenu>
 									</div>
-									<div>
-										<h:message for="codSexo" styleClass="red"/>
-									</div>
 								</div>
 								<div class="col-sm-4">
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
@@ -129,9 +113,6 @@
 											</h:inputText>
 											<i class="ace-icon fa fa-user"/>
 										</span>
-									</div>
-									<div>
-										<h:message for="codNaturalidade" styleClass="red"/>
 									</div>
 								</div>
 							</div>
@@ -149,9 +130,6 @@
 												var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
 										</h:selectOneMenu>
 									</div>
-									<div>
-										<h:message for="codNacionalidade" styleClass="red"/>
-									</div>
 								</div>
 								<div class="col-sm-2">
 									<h:outputLabel
@@ -165,9 +143,6 @@
 											<f:selectItems value="#{pessoaServlet.consultaRaca}"
 												var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
 										</h:selectOneMenu>
-									</div>
-									<div>
-										<h:message for="codRaca" styleClass="red"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -183,9 +158,6 @@
 												var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
 										</h:selectOneMenu>
 									</div>
-									<div>
-										<h:message for="codEstCivil" styleClass="red"/>
-									</div>
 								</div>
 								<div class="col-sm-2">
 									<h:outputLabel
@@ -199,9 +171,6 @@
 											<f:selectItems value="#{pessoaServlet.consultaGrauInstru}"
 												var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
 										</h:selectOneMenu>
-									</div>
-									<div>
-										<h:message for="codGrauInstru" styleClass="red"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -217,9 +186,6 @@
 												var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
 										</h:selectOneMenu>
 									</div>
-									<div>
-										<h:message for="codSituEconomica" styleClass="red"/>
-									</div>
 								</div>
 								<div class="col-sm-2">
 									<h:outputLabel
@@ -233,9 +199,6 @@
 											<f:selectItems value="#{pessoaServlet.consultaReligiao}"
 												var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
 										</h:selectOneMenu>
-									</div>
-									<div>
-										<h:message for="codReligiao" styleClass="red"/>
 									</div>
 								</div>
 							</div>
@@ -259,9 +222,6 @@
 												<p:ajax event="change" update="codEstado, codCidade"/>
 											</h:selectOneMenu>
 										</div>
-										<div>
-											<h:message for="codPais" styleClass="red"/>
-										</div>
 									</div>
 									<div class="col-sm-3">
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
@@ -276,9 +236,6 @@
 												<p:ajax event="change" update="codCidade"/>
 											</h:selectOneMenu>
 										</div>
-										<div>
-											<h:message for="codEstado" styleClass="red"/>
-										</div>
 									</div>
 									<div class="col-sm-4">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
@@ -290,11 +247,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.consultaCidade}"
 													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-												<p:ajax event="change" update="numCep"/>
 											</h:selectOneMenu>
-										</div>
-										<div>
-											<h:message for="codCidade" styleClass="red"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -304,12 +257,7 @@
 												class="form-control" id="numCep" title="Numero do CEP"
 												value="#{pessoaServlet.enderecoDados.cep}"
 												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.cep']}">
-												<p:ajax event="blur" listner="#{pessoaServlet.consultaEndereco}"
-													update="codRua, numCasa, codBairro, codComplemento"/>
 											</h:inputText>
-										</div>
-										<div>
-											<h:message for="numCep" styleClass="red"/>
 										</div>
 									</div>
 								</div>
@@ -366,7 +314,8 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}"/>
 										<div>
 											<h:inputText type="text" id="numTelefone"
-											class="col-sm-12" title="Numero do Telefone"/>					
+											class="col-sm-12" title="Numero do Celular"
+											value="#{pessoaServlet.pessoaDados.telefoneResidencial}"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -389,9 +338,9 @@
 							</div>
 						</h:panelGroup>
 						<h:panelGroup id="dadosComplementares" style="width: 100%">
-							<div onload="principal.js">
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.js"/>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
-								rendered="#{pessoaServlet.complementoAluno}">
+								rendered="#{pessoaServlet.complementoAluno}" >
 								<h3 class="header smaller lighter blue">Dados
 									Complementares do Aluno</h3>
 								<div class="form-group">
@@ -400,7 +349,7 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfMae"
-											class="col-sm-12" title="Numero do CPF"/>
+											class="col-sm-12 CPF" title="Numero do CPF"/>
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -418,7 +367,7 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.pai']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfPai"
-												class="col-sm-12" title="Numero do CPF"/>
+												class="col-sm-12 CPF" title="Numero do CPF"/>
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -434,6 +383,10 @@
 									<div class="col-sm-2">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
+										<div>
+											<h:inputText type="text" id="numCpfResponsavel"
+												class="col-sm-12 CPF" title="Numero do CPF"/>
+										</div>
 									</div>
 									<div class="col-sm-8">
 										<h:outputLabel
@@ -785,10 +738,8 @@
 									</h:panelGroup>
 								</h:panelGroup>
 							</h:panelGroup>
-							</div>
 						</h:panelGroup>
 						<div class="clearfix">
-							<p:growl id="msgGrow" showDetail="false" autoUpdate="true" life="4000"/>
 							<button type="reset" class="btn btn-sm">
 								<i class="ace-icon fa fa-file"/>
 								<span class="bigger-110">Novo</span>
@@ -796,13 +747,19 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastro}" update=":formCadastroPessoa" process=":formCadastroPessoa"/>
+								
+								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastro}" 
+									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>
 					</h:form>
 				</div>
 			</div>
 		</div>
+	
+	</ui:define>
+	<ui:define name="scripPagina">
+		<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.js"/>
 	</ui:define>
 </ui:composition>
 </h:html>
