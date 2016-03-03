@@ -261,6 +261,8 @@ public class PessoaServlet implements Serializable{
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
 			
+			pessoaDados.getCpf().replaceAll(".-","");
+			pessoaDados.getRg().replaceAll(".-","");
 			if( pessoaDados != null ) {
 				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
 				pessoaDadosFinal.setNome(pessoaDados.getNome());
@@ -322,6 +324,7 @@ public class PessoaServlet implements Serializable{
 		
 		return null;
 	}
+
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*

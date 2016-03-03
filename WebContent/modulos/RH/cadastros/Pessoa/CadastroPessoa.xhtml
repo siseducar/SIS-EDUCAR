@@ -41,7 +41,7 @@
 							<div class="space-4"/>
 							<div class="form-group">
 								<div class="col-sm-10">
-									<h:outputLabel 
+										<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.nome']}" />
 									<div>
 										<span class="block input-icon input-icon-right">
@@ -65,6 +65,7 @@
 										<h:inputText type="text" id="numCpf"
 											class="col-sm-12 CPF" title="Numero do CPF"
 											value="#{pessoaServlet.pessoaDados.cpf}" maxlength="11"/>
+											
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -74,9 +75,7 @@
 										<h:inputText type="text" id="numRg"
 											class="col-sm-12" title="Numero do RG"
 											value="#{pessoaServlet.pessoaDados.rg}"
-											required="true"  requiredMessage="#{mensagens['mensagem.requerido.cadastro.rg']}"
-											validatorMessage="O Numero de RG deve conter 9 digitos ">
-											<f:validateLength maximum="9" minimum="9" for="nomePessoa"/>
+											required="true"  requiredMessage="#{mensagens['mensagem.requerido.cadastro.rg']}">
 										</h:inputText>
 									</div>
 								</div>
