@@ -6,8 +6,8 @@ public class UnidadeEscolar
 	private String codigo;
 	private String nome;
 	private int status;
-	private Boolean unidadeControlada;
-	private Boolean unidadeInformatizada;
+	private Boolean unidadeControlada = false;
+	private Boolean unidadeInformatizada = false;
 	private RedeEnsino redeEnsino;
 	private Endereco endereco;
 	private TipoOcupacao tipoOcupacao;

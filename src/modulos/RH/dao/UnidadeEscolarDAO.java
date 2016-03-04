@@ -40,14 +40,57 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			Integer pkUnidadeEscolarExistente = obtemPKUnidadeEscolar(unidadeEscolar.getCodigo(), unidadeEscolar.getNome());
 			if(pkUnidadeEscolarExistente==null)
 			{
+				Integer numeroArgumentos = 1;
 				String querySQL = "INSERT INTO unidadeescolar "
-						+ " (codigo, nome, status) values(CAST( ? as int),?,?)";
+						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno) "
+						+ "values(?,?,?,?,?,?,?,?,?,?)";
 				
 				ps = con.prepareStatement(querySQL);
 				
-				ps.setString(1, unidadeEscolar.getCodigo());
-				ps.setString(2, unidadeEscolar.getNome());
-				ps.setInt(3, ConstantesSisEducar.STATUS_ATIVO);
+				ps.setString(numeroArgumentos, unidadeEscolar.getCodigo());
+				numeroArgumentos++;
+				
+				ps.setString(numeroArgumentos, unidadeEscolar.getNome());
+				numeroArgumentos++;
+				
+				ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+				numeroArgumentos++;
+				
+				if(unidadeEscolar.getRedeEnsino()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getRedeEnsino().getPkRedeEnsino());
+					numeroArgumentos++;
+				}
+				
+				if(unidadeEscolar.getRegiao()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getRegiao().getPkRegiao());
+					numeroArgumentos++;
+				}
+				
+				if(unidadeEscolar.getSituacaoFuncionamento()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getSituacaoFuncionamento().getPkSituacaoFuncionamento());
+					numeroArgumentos++;
+				}
+				
+				ps.setBoolean(numeroArgumentos, unidadeEscolar.getUnidadeControlada());
+				numeroArgumentos++;
+				
+				ps.setBoolean(numeroArgumentos, unidadeEscolar.getUnidadeInformatizada());
+				numeroArgumentos++;
+				
+				if(unidadeEscolar.getTipoOcupacao()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getTipoOcupacao().getPkTipoOcupacao());
+					numeroArgumentos++;
+				}
+				
+				if(unidadeEscolar.getTerreno()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getTerreno().getPkTerreno());
+					numeroArgumentos++;
+				}
 				
 				fecharConexaoBanco(con, ps, false, true);
 			}
@@ -81,8 +124,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		String querySQL = "SELECT * FROM unidadeescolar"
 				+ " WHERE status = ?";
 		
-		if(codigo!=null && codigo.length() >0) 						{ querySQL += " AND codigo = CAST(? as int)"; }
-		if(nome!=null && nome.length() >0)							{ querySQL += " AND nome = ?"; }
+		if(codigo!=null && codigo.length() >0) 	{  querySQL += " AND codigo = ?"; }
+		if(nome!=null && nome.length() >0)		{ querySQL += " AND nome = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
 		

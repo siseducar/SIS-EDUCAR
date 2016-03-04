@@ -14,7 +14,6 @@ import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.Terreno;
 import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
-import modulos.RH.utils.ConstantesRH;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
@@ -82,6 +81,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			{
 				unidadeEscolar.setTerreno(terreno);
 			}
+			
+			unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
 			{
