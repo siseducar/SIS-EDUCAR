@@ -59,20 +59,32 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				if(unidadeEscolar.getRedeEnsino()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getRedeEnsino().getPkRedeEnsino());
-					numeroArgumentos++;
 				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
 				
 				if(unidadeEscolar.getRegiao()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getRegiao().getPkRegiao());
-					numeroArgumentos++;
 				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
 				
 				if(unidadeEscolar.getSituacaoFuncionamento()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getSituacaoFuncionamento().getPkSituacaoFuncionamento());
-					numeroArgumentos++;
 				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
 				
 				ps.setBoolean(numeroArgumentos, unidadeEscolar.getUnidadeControlada());
 				numeroArgumentos++;
@@ -83,14 +95,22 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				if(unidadeEscolar.getTipoOcupacao()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getTipoOcupacao().getPkTipoOcupacao());
-					numeroArgumentos++;
 				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
 				
 				if(unidadeEscolar.getTerreno()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getTerreno().getPkTerreno());
-					numeroArgumentos++;
 				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
 				
 				fecharConexaoBanco(con, ps, false, true);
 			}

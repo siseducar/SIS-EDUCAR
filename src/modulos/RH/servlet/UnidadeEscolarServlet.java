@@ -5,6 +5,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import modulos.RH.dao.EnderecoDAO;
+import modulos.RH.dao.TerrenoDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
@@ -56,6 +58,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	{
 		try 
 		{
+			Terreno terrenoAux = null;
+			Endereco enderecoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			//unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			
@@ -69,19 +73,28 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			/*----Endereço----*/
 			if(ParametrosServlet.cidadeDados!=null && ParametrosServlet.cidadeDados.getPkCidade()!=null)
 			{
-				if(ParametrosServlet.enderecoDados!=null && ParametrosServlet.enderecoDados.getPkEndereco()!=null)
+				if(ParametrosServlet.enderecoDados!=null)
 				{
 					ParametrosServlet.enderecoDados.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 					ParametrosServlet.enderecoDados.setCidade(ParametrosServlet.cidadeDados);
 				}
 			}
 			
-			/* Terreno */
-			if(terreno!=null)
+			/* Salva o endeço */
+			if(ParametrosServlet.enderecoDados!=null)
 			{
-				unidadeEscolar.setTerreno(terreno);
+				enderecoAux = new EnderecoDAO().inserirEndereco(ParametrosServlet.enderecoDados);
+				if(enderecoAux!=null && enderecoAux.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoAux); }
 			}
 			
+			/* Salva o Terreno */
+			if(terreno!=null)
+			{
+				terrenoAux = new TerrenoDAO().inserirTerreno(terreno);
+				if(terrenoAux!=null && terrenoAux.getPkTerreno()!=null) 	{ unidadeEscolar.setTerreno(terreno); }
+			}
+			
+			/* Salva a unidade escolar */
 			unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
