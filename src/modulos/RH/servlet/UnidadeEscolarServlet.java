@@ -61,7 +61,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			Terreno terrenoAux = null;
 			Endereco enderecoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
-			//unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			
 			/* Rede Ensino */
 			if(ParametrosServlet.alunoDados!=null && ParametrosServlet.alunoDados.getRedeEnsino()!=null && ParametrosServlet.alunoDados.getRedeEnsino().length()>0)
@@ -84,6 +83,18 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			if(ParametrosServlet.regiaoDados!=null && ParametrosServlet.regiaoDados.getPkRegiao()!=null)
 			{
 				unidadeEscolar.setRegiao(ParametrosServlet.regiaoDados);
+			}
+			
+			/* Situaçao Funcionamento */
+			if(ParametrosServlet.situacaoFuncionamentoDados!=null && ParametrosServlet.situacaoFuncionamentoDados.getPkSituacaoFuncionamento()!=null)
+			{
+				unidadeEscolar.setSituacaoFuncionamento(ParametrosServlet.situacaoFuncionamentoDados);
+			}
+			
+			/* Tipo Ocupação */
+			if(ParametrosServlet.tipoOcupacaoDados!=null && ParametrosServlet.tipoOcupacaoDados.getPkTipoOcupacao()!=null)
+			{
+				unidadeEscolar.setTipoOcupacao(ParametrosServlet.tipoOcupacaoDados);
 			}
 			
 			/* Salva o endeço */

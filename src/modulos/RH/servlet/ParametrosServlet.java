@@ -26,6 +26,7 @@ import modulos.RH.dao.ReligiaoDAO;
 import modulos.RH.dao.SituacaoEconomicaDAO;
 import modulos.RH.dao.SituacaoFuncionamentoDAO;
 import modulos.RH.dao.TipoDeficienciaDAO;
+import modulos.RH.dao.TipoOcupacaoDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cargo;
@@ -46,6 +47,7 @@ import modulos.RH.om.Religiao;
 import modulos.RH.om.SituacaoEconomica;
 import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.TipoDeficiencia;
+import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
 
 @ManagedBean(name="parametrosServlet")
@@ -72,6 +74,7 @@ public class ParametrosServlet implements Serializable{
 	static RedeEnsino redeEnsino;
 	static Regiao regiaoDados;
 	static SituacaoFuncionamento situacaoFuncionamentoDados;
+	static TipoOcupacao tipoOcupacaoDados;
 	
 	List<SelectItem> comboPais;
 	List<SelectItem> comboEstado;
@@ -129,6 +132,9 @@ public class ParametrosServlet implements Serializable{
 		}
 		if(situacaoFuncionamentoDados == null) {
 			situacaoFuncionamentoDados = new SituacaoFuncionamento();
+		}
+		if(tipoOcupacaoDados == null) {
+			tipoOcupacaoDados = new TipoOcupacao();
 		}
 		
 		comboPais = new ArrayList<SelectItem>();
@@ -201,6 +207,29 @@ public class ParametrosServlet implements Serializable{
 		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de SITUAÇÃO FUNCIONAMENTO, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os tipos ocupação
+	 * */
+	public List<SelectItem> getConsultaTipoOcupacao() {
+		try {
+			TipoOcupacaoDAO tipoOcupacaoDAO = new TipoOcupacaoDAO();
+			List<SelectItem> comboTipoOcupacao = new ArrayList<SelectItem>();
+			List<TipoOcupacao> paramTipoOcupacao = tipoOcupacaoDAO.consultaTipoOcupacao();
+			
+			for (TipoOcupacao param : paramTipoOcupacao){
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkTipoOcupacao());
+				s.setLabel(param.getDescricao());
+				comboTipoOcupacao.add(s);
+			}
+			return comboTipoOcupacao;
+		} catch (SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPO OCUPAÇÃO, contate o administrador do sistema!", null));
 			return null;
 		}
 	}
@@ -621,5 +650,13 @@ public class ParametrosServlet implements Serializable{
 
 	public void setSituacaoFuncionamentoDados(SituacaoFuncionamento situacaoFuncionamentoDados) {
 		this.situacaoFuncionamentoDados = situacaoFuncionamentoDados;
+	}
+
+	public TipoOcupacao getTipoOcupacaoDados() {
+		return tipoOcupacaoDados;
+	}
+
+	public void setTipoOcupacaoDados(TipoOcupacao tipoOcupacaoDados) {
+		this.tipoOcupacaoDados = tipoOcupacaoDados;
 	}
 }

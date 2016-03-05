@@ -66,14 +66,26 @@
 											<f:selectItems value="#{parametrosServlet.consultaRedeEnsino}" />
 										</h:selectOneMenu>
 									</div>
+									<div class="space-4"></div>
 								</div>
 								<div class="col-sm-5">
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codSituFunc"
-											value="#{parametrosServlet.situacaoFuncionamentoDados.descricao}">
+											value="#{parametrosServlet.situacaoFuncionamentoDados.pkSituacaoFuncionamento}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{parametrosServlet.consultaSituacaoFuncionamento}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="space-4"></div>
+								</div>
+								<div class="col-sm-5">
+									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.tipoOcupacao']}"/>
+									<div>
+										<h:selectOneMenu class="form-control" id="codTipoOcu"
+											value="#{parametrosServlet.tipoOcupacaoDados.pkTipoOcupacao}">
+											<f:selectItem itemValue="" itemLabel="Selecione..." />
+											<f:selectItems value="#{parametrosServlet.consultaTipoOcupacao}" />
 										</h:selectOneMenu>
 									</div>
 								</div>
