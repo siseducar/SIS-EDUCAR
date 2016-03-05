@@ -24,6 +24,7 @@ import modulos.RH.dao.RedeEnsinoDAO;
 import modulos.RH.dao.RegiaoDAO;
 import modulos.RH.dao.ReligiaoDAO;
 import modulos.RH.dao.SituacaoEconomicaDAO;
+import modulos.RH.dao.SituacaoFuncionamentoDAO;
 import modulos.RH.dao.TipoDeficienciaDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
@@ -43,6 +44,7 @@ import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
 import modulos.RH.om.Religiao;
 import modulos.RH.om.SituacaoEconomica;
+import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.TipoDeficiencia;
 import modulos.RH.om.UnidadeEscolar;
 
@@ -68,6 +70,8 @@ public class ParametrosServlet implements Serializable{
 	static SituacaoEconomica situEconomicaDados;
 	static Religiao religiaoDados;
 	static RedeEnsino redeEnsino;
+	static Regiao regiaoDados;
+	static SituacaoFuncionamento situacaoFuncionamentoDados;
 	
 	List<SelectItem> comboPais;
 	List<SelectItem> comboEstado;
@@ -120,6 +124,12 @@ public class ParametrosServlet implements Serializable{
 		if(redeEnsino == null) {
 			redeEnsino = new RedeEnsino();
 		}
+		if(regiaoDados == null) {
+			regiaoDados = new Regiao();
+		}
+		if(situacaoFuncionamentoDados == null) {
+			situacaoFuncionamentoDados = new SituacaoFuncionamento();
+		}
 		
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
@@ -168,6 +178,29 @@ public class ParametrosServlet implements Serializable{
 		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de RAÇA, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar as situações de funcionamento
+	 * */
+	public List<SelectItem> getConsultaSituacaoFuncionamento() {
+		try {
+			SituacaoFuncionamentoDAO situFuncionamentoDAO = new SituacaoFuncionamentoDAO();
+			List<SelectItem> comboSituFuncionamento = new ArrayList<SelectItem>();
+			List<SituacaoFuncionamento> paramSituFunc = situFuncionamentoDAO.consultaSituacaoFuncionamento();
+			
+			for (SituacaoFuncionamento param : paramSituFunc){
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkSituacaoFuncionamento());
+				s.setLabel(param.getDescricao());
+				comboSituFuncionamento.add(s);
+			}
+			return comboSituFuncionamento;
+		} catch (SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de SITUAÇÃO FUNCIONAMENTO, contate o administrador do sistema!", null));
 			return null;
 		}
 	}
@@ -573,5 +606,20 @@ public class ParametrosServlet implements Serializable{
 
 	public static void setRedeEnsino(RedeEnsino redeEnsino) {
 		ParametrosServlet.redeEnsino = redeEnsino;
+	}
+	
+	public Regiao getRegiaoDados() {
+		return regiaoDados;
+	}
+
+	public void setRegiaoDados(Regiao regiaoDados) {
+		this.regiaoDados = regiaoDados;
+	}
+	public SituacaoFuncionamento getSituacaoFuncionamentoDados() {
+		return situacaoFuncionamentoDados;
+	}
+
+	public void setSituacaoFuncionamentoDados(SituacaoFuncionamento situacaoFuncionamentoDados) {
+		this.situacaoFuncionamentoDados = situacaoFuncionamentoDados;
 	}
 }

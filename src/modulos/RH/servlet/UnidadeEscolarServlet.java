@@ -80,6 +80,12 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 				}
 			}
 			
+			/* Região Dados */
+			if(ParametrosServlet.regiaoDados!=null && ParametrosServlet.regiaoDados.getPkRegiao()!=null)
+			{
+				unidadeEscolar.setRegiao(ParametrosServlet.regiaoDados);
+			}
+			
 			/* Salva o endeço */
 			if(ParametrosServlet.enderecoDados!=null)
 			{

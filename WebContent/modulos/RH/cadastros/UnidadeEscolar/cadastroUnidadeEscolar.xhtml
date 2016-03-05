@@ -67,6 +67,16 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
+								<div class="col-sm-5">
+									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
+									<div>
+										<h:selectOneMenu class="form-control" id="codSituFunc"
+											value="#{parametrosServlet.situacaoFuncionamentoDados.descricao}">
+											<f:selectItem itemValue="" itemLabel="Selecione..." />
+											<f:selectItems value="#{parametrosServlet.consultaSituacaoFuncionamento}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
 							</div>
 							
 							<h:panelGroup id="enderePessoa" style="width: 100%"
@@ -168,12 +178,13 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}" />
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
 											<div>
-												<h:selectOneMenu id="codZonaResi"
+												<h:selectOneMenu id="codZonaResi" value="#{parametrosServlet.regiaoDados.pkRegiao}"
 													class="form-control" title="Tipo de Zona Residencial">
-													<f:selectItem itemValue="" itemLabel="Selecione..." />
-													<f:selectItems value="#{parametrosServlet.consultaRegiao}" />
+													<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<f:selectItems value="#{pessoaServlet.consultaRegiao}"
+														var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
