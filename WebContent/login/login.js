@@ -10,6 +10,12 @@ jQuery(function($)
 		$('.widget-box.visible').removeClass('visible');//hide others
 		$(target).addClass('visible');//show target
     });
+	$(document).keydown(function(e) {
+		if ((e.keyCode || e.which) == 13) 
+		{
+	      $('#btLogin').click();
+	    }
+	});
 });
 
 /**
