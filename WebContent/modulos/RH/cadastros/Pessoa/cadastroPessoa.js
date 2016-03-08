@@ -73,3 +73,10 @@ $(function() {
         prevText: 'Anterior',
     });
   });
+
+$(function() { 
+	var esportes = []; 
+	$("#codNaturalidade" ).autocomplete({ 
+		source: esportes 
+	}); 
+});

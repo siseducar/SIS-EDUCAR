@@ -375,7 +375,25 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
-
+	
+	public Boolean getvalidaNomeMae(){
+		if(alunoDados.getCpfMae() != null){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public Boolean validaNomePai(){
+		
+		
+		return false;
+	}
+	
+	public Boolean validaNomeResponsavel(){
+		
+		return false;
+	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
 	/*
@@ -691,6 +709,8 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 
+	
+	
 	/* GETTERS AND SETTERS */
 	public Pessoa getPessoaDados() {
 		return pessoaDados;

@@ -142,4 +142,27 @@ public class CidadeDAO extends SisEducarDAO
 		
 		return listaCidade;
 	}
+	
+	/*
+	 * Metodo que busca todas as cidades
+	 * 
+	 * */
+	public List<Cidade> listaCidade() throws SQLException{		
+		
+		List<Cidade> listaCidade = new ArrayList<Cidade>();
+		String querySQL = "SELECT * FROM CIDADE ORDER BY NOME";
+		
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			Cidade paramCidade = new Cidade();
+			paramCidade.setPkCidade(rs.getInt("PKCIDADE"));
+			paramCidade.setNome(rs.getString("NOME"));
+			
+			listaCidade.add(paramCidade);
+		}
+		
+		return listaCidade;
+	}
 }

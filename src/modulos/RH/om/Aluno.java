@@ -12,10 +12,11 @@ public class Aluno
 	private Cidade cidadeNascimento;
 	private String livroUF;
 	private String nomePai;
-	private String cpfPai;
+	private Long cpfPai;
 	private String nomeMae;
-	private String cpfMae;
+	private Long cpfMae;
 	private String nomeResponsavel;
+	private Long cpfResponsavel;
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
@@ -160,17 +161,23 @@ public class Aluno
 	public void setDeficiencia(String deficiencia) {
 		this.deficiencia = deficiencia;
 	}
-	public String getCpfPai() {
+	public Long getCpfPai() {
 		return cpfPai;
 	}
-	public void setCpfPai(String cpfPai) {
+	public void setCpfPai(Long cpfPai) {
 		this.cpfPai = cpfPai;
 	}
-	public String getCpfMae() {
+	public Long getCpfMae() {
 		return cpfMae;
 	}
-	public void setCpfMae(String cpfMae) {
+	public void setCpfMae(Long cpfMae) {
 		this.cpfMae = cpfMae;
+	}
+	public Long getCpfResponsavel() {
+		return cpfResponsavel;
+	}
+	public void setCpfResponsavel(Long cpfResponsavel) {
+		this.cpfResponsavel = cpfResponsavel;
 	}
 	public byte[] getFotoAluno() {
 		return fotoAluno;

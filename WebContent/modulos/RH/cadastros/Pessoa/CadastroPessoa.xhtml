@@ -29,7 +29,7 @@
 					<h:form id="formCadastroPessoa" class="form-horizontal" role="form" prependId="false">
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
 							class="clearfix form-actions">
-							<h3 class="header smaller lighter blue">Dados Pessoais</h3>
+							<h3 class="header smaller lighter blue" align="center">Dados Pessoais</h3>
 							<h:selectOneRadio id="tipoPessoa" 
 								value="#{pessoaServlet.pessoaDados.tipoPessoa}">
 								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
@@ -43,13 +43,10 @@
 										<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.nome']}" />
 									<div>
-										<span class="block input-icon input-icon-right">
-											<h:inputText type="text" id="nomePessoa"
-												styleClass="col-sm-12"
-												value="#{pessoaServlet.pessoaDados.nome}" title="Nome Completo."
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nome']}"/>
-											<i class="ace-icon fa fa-user"/>
-										</span>
+										<h:inputText type="text" id="nomePessoa"
+											styleClass="col-sm-12"
+											value="#{pessoaServlet.pessoaDados.nome}" title="Nome Completo."
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nome']}"/>
 									</div>
 								</div>
 							</div>
@@ -73,7 +70,8 @@
 									<div>
 										<h:inputText type="text" id="numRg"
 											class="col-sm-12" title="Numero do RG"
-											value="#{pessoaServlet.pessoaDados.rg}"/>
+											value="#{pessoaServlet.pessoaDados.rg}"
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.rg']}"/>
 									</div>
 								</div>
 								<div class="col-sm-2">
@@ -82,7 +80,8 @@
 									<div>
 										<h:inputText type="text" id="dataNasci" 
 											class="col-sm-12 calendario" title="Data de Nascimento"
-											value="#{pessoaServlet.pessoaDados.dataNascimento}">
+											value="#{pessoaServlet.pessoaDados.dataNascimento}"
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
 											<f:converter converterId="converter.DATA"/>
 										</h:inputText>
 									</div>
@@ -104,12 +103,10 @@
 								<div class="col-sm-4">
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
 									<div>
-										<span class="block input-icon input-icon-right">
-											<h:inputText id="codNaturalidade"
-												class="col-sm-12">
-											</h:inputText>
-											<i class="ace-icon fa fa-user"/>
-										</span>
+										<h:inputText id="codNaturalidade"
+											class="col-sm-12"
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.naturalidade']}">
+										</h:inputText>
 									</div>
 								</div>
 							</div>
@@ -204,7 +201,7 @@
 						<h:panelGroup id="enderePessoa" style="width: 100%"
 							class="clearfix form-actions">
 							<div id="conteudoEndereco">
-								<h3 class="header smaller lighter blue">Endereço/Contato</h3>
+								<h3 class="header smaller lighter blue" align="center">Endereço/Contato</h3>
 								<div class="form-group">
 									<div class="col-sm-3">
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
@@ -265,7 +262,8 @@
 										<div>
 											<h:inputText type="text" id="codRua"
 												class="col-sm-12" title="Nome da Rua"
-												value="#{pessoaServlet.enderecoDados.logradouro}"/>
+												value="#{pessoaServlet.enderecoDados.logradouro}"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.rua']}"/>
 										</div>
 									</div>
 									<div class="col-sm-1">
@@ -274,7 +272,8 @@
 										<div>
 											<h:inputText type="text" id="numCasa"
 												class="col-sm-12" title="Numero da Casa"
- 												value="#{pessoaServlet.enderecoDados.numero}"/>
+ 												value="#{pessoaServlet.enderecoDados.numero}"
+ 												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.numero']}"/>
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -283,7 +282,8 @@
 										<div>
 											<h:inputText type="text" id="codBairro"
 												class="col-sm-12" title="Nome do Bairro"
-												value="#{pessoaServlet.enderecoDados.bairro}"/>
+												value="#{pessoaServlet.enderecoDados.bairro}"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.bairro']}"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -300,7 +300,8 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
 										<div>
 											<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
-												class="form-control" title="Tipo de Zona Residencial">
+												class="form-control" title="Tipo de Zona Residencial"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.zonaResidencial']}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.consultaRegiao}"
 													var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
@@ -312,7 +313,8 @@
 										<div>
 											<h:inputText type="text" id="numTelefone"
 											class="col-sm-12" title="Numero do Celular"
-											value="#{pessoaServlet.pessoaDados.telefoneResidencial}"/>
+											value="#{pessoaServlet.pessoaDados.telefoneResidencial}"
+											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.telContato']}"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -338,7 +340,7 @@
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.js"/>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoAluno}" >
-								<h3 class="header smaller lighter blue">Dados
+								<h3 class="header smaller lighter blue" align="center">Dados
 									Complementares do Aluno</h3>
 								<div class="form-group">
 									<div class="col-sm-2">
@@ -382,7 +384,8 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfResponsavel"
-												class="col-sm-12 CPF" title="Numero do CPF"/>
+												class="col-sm-12 CPF" title="Numero do CPF">
+											</h:inputText>
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -405,7 +408,7 @@
 										</div>
 									</div>
 								</div>
-								<h3 class="header smaller lighter blue">Dados Escolares</h3>
+								<h3 class="header smaller lighter blue" align="center">Dados Escolares</h3>
 								<div class="form-group">
 									<div class="col-sm-2">
 										<h:outputLabel value="#{mensagens['label.cadastro.aluno.rm']}"/>
@@ -533,7 +536,7 @@
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoFuncionario}">
-								<h3 class="header smaller lighter blue">Dados
+								<h3 class="header smaller lighter blue" align="center">Dados
 									Complementares do Funcionario</h3>
 								<div class="form-group">
 									<div class="col-sm-3">
@@ -757,6 +760,7 @@
 	</ui:define>
 	<ui:define name="scripPagina">
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.js"/>
+		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.css"/>
 	</ui:define>
 </ui:composition>
 </h:html>
