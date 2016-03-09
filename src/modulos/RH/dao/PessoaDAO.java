@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.RH.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
@@ -207,4 +209,34 @@ public class PessoaDAO extends SisEducarDAO
 		}
 		return null;
 	}
+	
+	/**
+	 * Retorna uma lista de pessoas, ATENÇÂO: Os objetos Pessoa que estão dentro da lista está apenas com informações essenciais, nome e pk
+	 * @author João Paulo
+	 * @return List Pessoa
+	 * @throws SQLException
+	 */
+	public List<Pessoa> obtemTodos() throws SQLException
+	{
+		Pessoa pessoa = null;
+		List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+		String querySQL = "SELECT * FROM pessoa"
+				+ " WHERE status = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next())
+		{
+			pessoa = new Pessoa();
+			pessoa.setPkPessoa(rs.getInt("pkPessoa"));
+			pessoa.setNome(rs.getString("nome"));
+			listaPessoas.add(pessoa);
+		}
+		
+		return listaPessoas;
+	}
+	
 }
