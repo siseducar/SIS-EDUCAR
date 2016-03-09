@@ -348,7 +348,12 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfMae"
-											class="col-sm-12 CPF" title="Numero do CPF"/>
+											class="col-sm-12 CPF" title="Numero do CPF"
+											value="#{pessoaServlet.alunoDados.cpfMae}">
+											<f:validator validatorId="validar.CpfValidator"/>
+											<f:converter converterId="converter.CPF"/>
+											<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
+											</h:inputText>
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -356,7 +361,7 @@
 											value="#{mensagens['label.cadastro.aluno.nome.mae']}"/>
 										<div>
 											<h:inputText type="text" id="nomeMaeAluno" class="col-sm-12"
-												value="#{pessoaServlet.alunoDados.nomeMae}" disabled="true"/>
+												value="#{pessoaServlet.alunoDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}"/>
 										</div>
 									</div>
 								</div>
@@ -366,7 +371,12 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.pai']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfPai"
-												class="col-sm-12 CPF" title="Numero do CPF"/>
+												class="col-sm-12 CPF" title="Numero do CPF"
+												value="#{pessoaServlet.alunoDados.cpfPai}">
+												<f:validator validatorId="validar.CpfValidator"/>
+												<f:converter converterId="converter.CPF"/>
+												<p:ajax event="blur" listener="#{pessoaServlet.validaNomePai}" update="nomePaiAluno"/>
+											</h:inputText>
 										</div>
 									</div>
 									<div class="col-sm-8">
@@ -374,7 +384,7 @@
 											value="#{mensagens['label.cadastro.aluno.nome.pai']}"/>
 										<div>
 											<h:inputText type="text" id="nomePaiAluno" class="col-sm-12"
-												value="#{pessoaServlet.alunoDados.nomePai}" disabled="true"/>
+												value="#{pessoaServlet.alunoDados.nomePai}" disabled="#{pessoaServlet.nomePai}"/>
 										</div>
 									</div>
 								</div>
@@ -385,6 +395,9 @@
 										<div>
 											<h:inputText type="text" id="numCpfResponsavel"
 												class="col-sm-12 CPF" title="Numero do CPF">
+												<f:validator validatorId="validar.CpfValidator"/>
+												<f:converter converterId="converter.CPF"/>
+												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
 											</h:inputText>
 										</div>
 									</div>
@@ -395,7 +408,7 @@
 											<h:inputText type="text" id="nomeResponsavelAluno"
 												class="col-sm-12"
 												value="#{pessoaServlet.alunoDados.nomeResponsavel}"
-												disabled="true"/>
+												disabled="#{pessoaServlet.nomeResponsavel}"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -748,7 +761,7 @@
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 								
-								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastro}" 
+								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}" 
 									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>

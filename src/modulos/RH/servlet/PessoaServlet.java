@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
 
+import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
 import modulos.RH.dao.EnderecoDAO;
@@ -99,6 +100,12 @@ public class PessoaServlet implements Serializable{
 	
 	List<SelectItem> comboCidade;
 	
+	private Boolean nomeMae;
+	
+	private Boolean nomePai;
+	
+	private Boolean nomeResponsavel;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
 		if(this.pessoaDados == null){
@@ -159,104 +166,15 @@ public class PessoaServlet implements Serializable{
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
+		nomeMae = false;
+		nomePai = false;
+		nomeResponsavel = false;
 	}
 	
 	/*
-	 * Metodo para redenrizar os dados complementares
+	 * Metodo para salvar o cadastro de Pessoa
 	 * 
 	 * */
-	public void complementoDados() {
-		if(pessoaDados.getTipoPessoa() == 0) {
-			complementoAluno = false;
-			complementoFuncionario = false;
-		}
-		if(pessoaDados.getTipoPessoa() == 1) {
-			complementoAluno = true;
-			complementoFuncionario = false;
-		}
-		if(pessoaDados.getTipoPessoa() == 2) {
-			complementoFuncionario = true;
-			complementoAluno = false;
-		}
-	}
-	
-	/*
-	 * Metodo para validar funcionario concursado
-	 * 
-	 * */
-	public void validaConcursado(){
-		if(funcionarioDados.getConcursado()){
-			funcConcursado = true;
-		}else{
-			funcConcursado = false;
-		}		
-	}
-	
-	/*
-	 * Metodo para validar aluno deficiente
-	 * 
-	 * */
-	public void validaDeficiente() {
-		if(alunoDados.getAlunoDeficiente()) {
-			alunoDeficiente = true;
-		} else {
-			alunoDeficiente = false;
-		}
-	}
-	
-	/*
-	 * Metodo para validar aposentadoria
-	 * 
-	 * */
-	public void validaAposentadoria(){
-		if(funcionarioDados.getAposentado()){
-			funcAposentado = true;
-		} else {
-			funcAposentado = false;
-		}
-	}
-	
-	/*
-	 *Metodo para salvar os dados da pessoa 
-	 * 
-	 * */
-	public String getCadastroPessoa(){
-		cidadeDados.getNome();
-		cidadeDados.getPkCidade();
-		
-		pessoaDados.getNome();
-		return pessoaDados.getNome();
-	}
-		
-	public void consultaEndereco(){
-		try {
-			EnderecoDAO enderecoDAO = new EnderecoDAO();
-			Endereco dadosEndereco = enderecoDAO.retornEnderecoDados(enderecoDados.getCep());
-			
-			enderecoDados.setLogradouro(dadosEndereco.getLogradouro());
-			enderecoDados.setBairro(dadosEndereco.getBairro());
-			enderecoDados.setNumero(dadosEndereco.getNumero());
-			enderecoDados.setComplemento(dadosEndereco.getComplemento());
-		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"CEP não encontrado", null));
-		}
-	}
-	
-	public void salvarCadastro(){
-		if(pessoaDados.getTipoPessoa() == 0 && pessoaDados != null) {
-			salvarCadastroPessoa();
-		} else {
-			if(pessoaDados.getTipoPessoa() == 1 && pessoaDados != null) {
-				System.out.println("aluno");
-			} else {
-				System.out.println("funcionario");
-			}
-		}
-		
-	}
-	
-	
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
@@ -328,26 +246,10 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
-	public void replaceCampos(){
-		/* RG */
-		pessoaDados.setRg(pessoaDados.getRg().replace(".", ""));
-		pessoaDados.setRg(pessoaDados.getRg().replace("-", ""));
-		pessoaDados.setRg(pessoaDados.getRg().replace(" ", ""));
-		
-		/* TELFONE RESIDENCIAL */
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("(", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(")", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(" ", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("-", ""));
-		
-		/* TELEFONE CELULAR */
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("(", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(")", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("-", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(" ", ""));
-		
-	}
-	
+	/*
+	 * Metodo para limpar o formulario apos cadastro realizado
+	 * 
+	 * */
 	public void limparFormulario(){
 		pessoaDados = new Pessoa();
 		alunoDados = new Aluno();
@@ -371,31 +273,17 @@ public class PessoaServlet implements Serializable{
 		funcConcursado = false;
 		funcAposentado = false;
 		funcDemitido = false;
+		nomeMae = false;
+		nomePai = false;
+		nomeResponsavel = false;
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
 	
-	public Boolean getvalidaNomeMae(){
-		if(alunoDados.getCpfMae() != null){
-			return true;
-		}
-		
-		return false;
-	}
 	
-	public Boolean validaNomePai(){
-		
-		
-		return false;
-	}
-	
-	public Boolean validaNomeResponsavel(){
-		
-		return false;
-	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
-/* ---------------------------------Metodos para carregar os compos da tela------------------------------------------------ */
+/* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
 	 * Metodo para carregar as Naturalidades
 	 * */
@@ -709,7 +597,187 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 
+	/*
+	 * Metodo responsavel por validar o nome da MAE do aluno
+	 * 
+	 * */
+	public void validaNomeMae(){
+		if(alunoDados.getCpfMae() != null){
+			try {
+				Long cpfMae = alunoDados.getCpfMae();
+				AlunoDAO alunoDAO = new AlunoDAO();
+				
+				String nome = alunoDAO.consultaNomeResponsavel(cpfMae); 
+				if(nome != null && !nome.equals("")){	
+					alunoDados.setNomeMae(nome);
+					nomeMae = true;
+				}else{
+					alunoDados.setNomeMae(null);
+					nomeMae = false;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"CPF não encontrado, favor informar o nome.", null));
+				}
+			} catch (SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Erro ao consultar o CPF informado", null));
+			}
+		}
+	}
 	
+	/*
+	 * Metodo responsavel por validar o nome do PAI do aluno
+	 * 
+	 * */
+	public void validaNomePai(){
+		if(alunoDados.getCpfPai() != null){
+			try {
+				Long cpfPai = alunoDados.getCpfPai();
+				AlunoDAO alunoDAO = new AlunoDAO();
+				
+				String nome = alunoDAO.consultaNomeResponsavel(cpfPai); 
+				if(nome != null && !nome.equals("")){
+					alunoDados.setNomePai(nome);
+					nomePai = true;
+				}else{
+					alunoDados.setNomePai(null);
+					nomePai = false;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"CPF não encontrado, favor informar o nome.", null));
+				}
+			} catch (SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Erro ao consultar o CPF informado", null));
+			}
+		}
+	}
+	
+	/*
+	 * Metodo responsavel por validar o nome do RESPONSAVEL pelo aluno
+	 * 
+	 * */
+	public void validaNomeResponsavel(){
+		if(alunoDados.getCpfResponsavel() != null){
+			try {
+				Long cpfResponsavel = alunoDados.getCpfResponsavel();
+				AlunoDAO alunoDAO = new AlunoDAO();
+				
+				String nome = alunoDAO.consultaNomeResponsavel(cpfResponsavel); 
+				if(nome != null && !nome.equals("")){
+					alunoDados.setNomeResponsavel(nome);
+					nomeResponsavel = true;
+				}else{
+					alunoDados.setNomePai(null);
+					nomeResponsavel = false;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"CPF não encontrado, favor informar o nome.", null));
+				}
+			} catch (SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Erro ao consultar o CPF informado", null));
+			}
+		}
+	}
+	
+	/*
+	 * Metodo para redenrizar os dados complementares
+	 * 
+	 * */
+	public void complementoDados() {
+		if(pessoaDados.getTipoPessoa() == 0) {
+			complementoAluno = false;
+			complementoFuncionario = false;
+		}
+		if(pessoaDados.getTipoPessoa() == 1) {
+			complementoAluno = true;
+			complementoFuncionario = false;
+		}
+		if(pessoaDados.getTipoPessoa() == 2) {
+			complementoFuncionario = true;
+			complementoAluno = false;
+		}
+	}
+	
+	/*
+	 * Metodo para validar funcionario concursado
+	 * 
+	 * */
+	public void validaConcursado(){
+		if(funcionarioDados.getConcursado()){
+			funcConcursado = true;
+		}else{
+			funcConcursado = false;
+		}		
+	}
+	
+	/*
+	 * Metodo para validar aluno deficiente
+	 * 
+	 * */
+	public void validaDeficiente() {
+		if(alunoDados.getAlunoDeficiente()) {
+			alunoDeficiente = true;
+		} else {
+			alunoDeficiente = false;
+		}
+	}
+	
+	/*
+	 * Metodo para validar aposentadoria
+	 * 
+	 * */
+	public void validaAposentadoria(){
+		if(funcionarioDados.getAposentado()){
+			funcAposentado = true;
+		} else {
+			funcAposentado = false;
+		}
+	}
+	
+	/*
+	 * Metodo para dar replace em valores de alguns campos
+	 * 
+	 * */
+	public void replaceCampos(){
+		/* RG */
+		pessoaDados.setRg(pessoaDados.getRg().replace(".", ""));
+		pessoaDados.setRg(pessoaDados.getRg().replace("-", ""));
+		pessoaDados.setRg(pessoaDados.getRg().replace(" ", ""));
+		
+		/* TELFONE RESIDENCIAL */
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("(", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(")", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(" ", ""));
+		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("-", ""));
+		
+		/* TELEFONE CELULAR */
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("(", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(")", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("-", ""));
+		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(" ", ""));
+		
+	}
+	
+	/*
+	 * Metodo para validar o tipo de cadastro
+	 * 
+	 * */
+	public void validaCadastro(){
+		if(pessoaDados.getTipoPessoa() == 0 && pessoaDados != null) {
+			salvarCadastroPessoa();
+		} else {
+			if(pessoaDados.getTipoPessoa() == 1 && pessoaDados != null) {
+				System.out.println("aluno");
+			} else {
+				System.out.println("funcionario");
+			}
+		}
+		
+	}
+	
+	public Boolean validaçõesFinais(){
+		
+		return true;
+	}
 	
 	/* GETTERS AND SETTERS */
 	public Pessoa getPessoaDados() {
@@ -894,5 +962,29 @@ public class PessoaServlet implements Serializable{
 
 	public void setRegiaoDados(Regiao regiaoDados) {
 		this.regiaoDados = regiaoDados;
+	}
+
+	public Boolean getNomeMae() {
+		return nomeMae;
+	}
+
+	public void setNomeMae(Boolean nomeMae) {
+		this.nomeMae = nomeMae;
+	}
+
+	public Boolean getNomePai() {
+		return nomePai;
+	}
+
+	public void setNomePai(Boolean nomePai) {
+		this.nomePai = nomePai;
+	}
+
+	public Boolean getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(Boolean nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
 	}
 }
