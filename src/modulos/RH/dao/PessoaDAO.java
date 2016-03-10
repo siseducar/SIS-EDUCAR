@@ -240,4 +240,33 @@ public class PessoaDAO extends SisEducarDAO
 		return listaPessoas;
 	}
 	
+	/**
+	 * Retorna a pessoa com apenas as informações simples da mesma
+	 * @author João Paulo
+	 * @param cpf
+	 * @return Pessoa
+	 * @throws SQLException
+	 */
+	public Pessoa obtemUnicoPessoaSimples(String cpf) throws SQLException
+	{
+		Pessoa pessoa = null;
+		String querySQL = "SELECT * FROM pessoa"
+				+ " WHERE status = ? AND cpf = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setString(2, cpf);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			pessoa = new Pessoa();
+			pessoa.setPkPessoa(rs.getInt("pkPessoa"));
+			pessoa.setNome(rs.getString("nome"));
+			pessoa.setCpf(rs.getLong("cpf"));
+		}
+		
+		return pessoa;
+	}
 }

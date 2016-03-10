@@ -6,6 +6,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import modulos.RH.dao.EnderecoDAO;
+import modulos.RH.dao.PessoaDAO;
 import modulos.RH.dao.TerrenoDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Endereco;
@@ -33,6 +34,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	SituacaoFuncionamento situacaoFuncionamento = null;
 	RedeEnsino redeEnsino = null;
 	Endereco endereco = null;
+	private String nomeDiretor = "";
+	private String cpfDiretor = "";
 	
 	/**
 	 * Construtor
@@ -61,6 +64,14 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			Terreno terrenoAux = null;
 			Endereco enderecoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
+			Pessoa pessoa = null;
+			
+			/* Diretor */
+			if(cpfDiretor!=null)
+			{
+				pessoa = new PessoaDAO().obtemUnicoPessoaSimples(cpfDiretor); 
+				if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ unidadeEscolar.setDiretor(pessoa); }
+			}
 			
 			/* Rede Ensino */
 			if(ParametrosServlet.alunoDados!=null && ParametrosServlet.alunoDados.getRedeEnsino()!=null && ParametrosServlet.alunoDados.getRedeEnsino().length()>0)
@@ -129,6 +140,26 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 		catch (Exception e) 
 		{
 			Logs.addFatal("Erro ao cadastrar!", "cadastrarUnidadeEscolar");
+			return null;
+		}
+	}
+	
+	/**
+	 * Busca o nome do diretor e seta no input o nome do mesmo
+	 * @author João Paulo
+	 * @return String
+	 */
+	public String buscarInformacoesDiretor()
+	{
+		try 
+		{
+			Pessoa pessoa = new PessoaDAO().obtemUnicoPessoaSimples(cpfDiretor); 
+			if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ nomeDiretor = pessoa.getNome(); }
+			return null;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarInformacoesDiretor", "");
 			return null;
 		}
 	}
@@ -211,5 +242,21 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getNomeDiretor() {
+		return nomeDiretor;
+	}
+
+	public void setNomeDiretor(String nomeDiretor) {
+		this.nomeDiretor = nomeDiretor;
+	}
+
+	public String getCpfDiretor() {
+		return cpfDiretor;
+	}
+
+	public void setCpfDiretor(String cpfDiretor) {
+		this.cpfDiretor = cpfDiretor;
 	}
 }
