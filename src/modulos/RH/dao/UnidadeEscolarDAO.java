@@ -42,8 +42,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				Integer numeroArgumentos = 1;
 				String querySQL = "INSERT INTO unidadeescolar "
-						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno) "
-						+ "values(?,?,?,?,?,?,?,?,?,?)";
+						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno, fkDiretor) "
+						+ "values(?,?,?,?,?,?,?,?,?,?,?)";
 				
 				ps = con.prepareStatement(querySQL);
 				
@@ -105,6 +105,15 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				if(unidadeEscolar.getTerreno()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getTerreno().getPkTerreno());
+				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
+				if(unidadeEscolar.getDiretor()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getDiretor().getPkPessoa());
 				}
 				else
 				{
