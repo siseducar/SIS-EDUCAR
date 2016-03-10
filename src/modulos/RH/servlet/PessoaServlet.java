@@ -15,7 +15,6 @@ import javax.servlet.http.Part;
 import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
-import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.EstadoCivilDAO;
 import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
@@ -247,6 +246,17 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	/*
+	 * Metodo responsavel por salvar os dados do aluno
+	 * 
+	 * */
+	public String salvarCadastroAluno(){
+		Aluno alunoDadosFinal = new Aluno();
+		
+		
+		return null;
+	}
+	
+	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
 	 * */
@@ -280,6 +290,7 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
+	
 	
 	
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -450,7 +461,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> getConsultaEstado() {
-		if(paisDados.getPkPais() != null && !comboPais.isEmpty()){
+		if(paisDados.getPkPais() != null && !comboPais.isEmpty()) {
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
@@ -469,8 +480,6 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 		}
-		estadoDados.setPkEstado(null);
-		comboEstado.clear();
 		return null;
 	}
 	
@@ -478,7 +487,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> getConsultaCidade() {
-		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
+		if(estadoDados.getPkEstado() != null){
 			try {
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
@@ -602,7 +611,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeMae(){
-		if(alunoDados.getCpfMae() != null){
+		if(alunoDados.getCpfMae() != null && alunoDados.getCpfMae() != 0){
 			try {
 				Long cpfMae = alunoDados.getCpfMae();
 				AlunoDAO alunoDAO = new AlunoDAO();
@@ -629,7 +638,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomePai(){
-		if(alunoDados.getCpfPai() != null){
+		if(alunoDados.getCpfPai() != null && alunoDados.getCpfPai() != 0 ){
 			try {
 				Long cpfPai = alunoDados.getCpfPai();
 				AlunoDAO alunoDAO = new AlunoDAO();
@@ -656,7 +665,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeResponsavel(){
-		if(alunoDados.getCpfResponsavel() != null){
+		if(alunoDados.getCpfResponsavel() != null && alunoDados.getCpfResponsavel() != null){
 			try {
 				Long cpfResponsavel = alunoDados.getCpfResponsavel();
 				AlunoDAO alunoDAO = new AlunoDAO();

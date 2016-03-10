@@ -130,6 +130,9 @@ public class AlunoDAO extends SisEducarDAO
 		return null;
 	}
 	
+	/*
+	 * Metodo responsavel por validar responsavel existente
+	 * */
 	public String consultaNomeResponsavel(Long cpf){
 		try {
 			
@@ -151,4 +154,29 @@ public class AlunoDAO extends SisEducarDAO
 		
 		return null;
 	}
+	
+	public Aluno cadastroAluno(Aluno dadosAluno){
+		String querySQL = 
+				" INSERT INTO ALUNO( "
+					+ " PKALUNO, "
+					+ " RA, "
+					+ " RA2, "
+					+ " FOLHA, "
+					+ " LIVRO, "
+					+ " REGISTRO, "
+					+ " CIDADENASC, "
+					+ " LIVROUF, "
+					+ " NOMEPAI, "
+					+ " NOMEMAE, "
+					+ " FKPESSOA, "
+					+ " FKCIDADENASCIMENTO, "
+					+ " RM, "
+					+ " 'FOTOALUNO') "
+		+ " VALUES (  "
+		    + " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+	
+		return null;
+	}
+	
+
 }

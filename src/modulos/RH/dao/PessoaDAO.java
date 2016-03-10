@@ -32,11 +32,11 @@ public class PessoaDAO extends SisEducarDAO
 	{
 		Integer numeroArgumentos = 1;
 		String querySQL = "INSERT INTO pessoa "
-				+ " ("
+				+ " ( "
 					+ " nome, nomefantasia, cpf, cnpj, semcpf, rg, datanascimento, datacadastro, sexo, telefonecomercial, "
 					+ " telefoneresidencial, telefonecelular, tipoPessoa, falecido, datafalecimento, status, fkRaca, fkSituacaoEconomica, fkReligiao, "
 					+ " fkTipoDeficiencia, fkRegiao, fkNacionalidade, fkEstadoCivil, fkTurno, fkGrauInstrucao, fkUnidadeEscolar, fkEndereco"
-				+ ") "
+				+ " ) "
 				+ " values(?,?,?,?,?,?,?, now(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		ps = con.prepareStatement(querySQL);
 		
@@ -157,7 +157,9 @@ public class PessoaDAO extends SisEducarDAO
 		return null;
 	}
 	
-
+	/*
+	 * Metodo utilizado para salvar os dados da pessoa
+	 */
 	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException{
 		try {
 			String querySQL = 
@@ -235,7 +237,6 @@ public class PessoaDAO extends SisEducarDAO
 			pessoa.setNome(rs.getString("nome"));
 			listaPessoas.add(pessoa);
 		}
-		
 		return listaPessoas;
 	}
 	
