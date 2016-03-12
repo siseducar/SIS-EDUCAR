@@ -1,48 +1,48 @@
 
 $(function($) {
 	/*	Componente CPF  */
-	$(".CPF").on('focus',function(){
+	$(".cpf").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
 		$(this).attr('placeholder','Ex.: 000.000.000-00');
         $(this).mask("999.999.999-99");
     });
-	$(".CPF").blur(function(){
+	$(".cpf").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
 		$(this).attr('placeholder','');
         $(this).unmask();
     });
 	
 	/* Componente RG */
-	$("#numRg").on('focus',function(){
+	$(".rg").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
 		$(this).attr('placeholder','Ex.: 00.000.000-0');
         $(this).mask("99.999.999-*");
 	});
-	$("#numRg").blur(function(){
+	$(".rg").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000","text-transform":"uppercase"});
         $(this).attr('placeholder','');
         $(this).unmask();
     });
 	
 	/* Componente NUMERO TELEFONE */
-	$("#numTelefone").on('focus',function(){
+	$(".telResidencial").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
 		$(this).attr('placeholder','Ex.: (00) 0000-000')
 		$(this).mask("(99) 9999-9999");
 	});
-	$("#numTelefone").blur(function(){
+	$(".telResidencial").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
         $(this).attr('placeholder','');
         $(this).unmask();
     });
 	
 	/* Componente NUMERO CELULAR */
-	$("#numCelular").on('focus',function(){
+	$(".telCelular").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
 		$(this).attr('placeholder','Ex.: (00) 0 0000-000')
 		$(this).mask("(99) 9 9999-9999");
 	});
-	$("#numCelular").blur(function(){
+	$(".telCelular").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
         $(this).attr('placeholder','');
         $(this).unmask();

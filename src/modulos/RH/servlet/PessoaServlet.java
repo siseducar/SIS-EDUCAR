@@ -1,8 +1,13 @@
 package modulos.RH.servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -10,7 +15,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import modulos.RH.dao.AlunoDAO;
 import modulos.RH.dao.CargoDAO;
@@ -37,7 +47,6 @@ import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.Fornecedor;
 import modulos.RH.om.Funcionario;
 import modulos.RH.om.GrauInstrucao;
-import modulos.RH.om.ImagemBase64;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
@@ -48,6 +57,7 @@ import modulos.RH.om.Religiao;
 import modulos.RH.om.SituacaoEconomica;
 import modulos.RH.om.TipoDeficiencia;
 import modulos.RH.om.UnidadeEscolar;
+import modulos.sisEducar.converter.ImagemBase64;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -71,7 +81,13 @@ public class PessoaServlet implements Serializable{
 	SituacaoEconomica situEconomicaDados;
 	Religiao religiaoDados;
 	Regiao regiaoDados;
-	ImagemBase64 imagem64B;
+	
+	ImagemBase64 base64MB;
+	private Part imagem;
+	
+	private UploadedFile imagemResidencia;
+	private UploadedFile fotoAluno;
+	private UploadedFile imagemCertidaoNascimento;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -91,19 +107,43 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar demissao */
 	private Boolean funcDemitido;
 	
-	private Part imagem;
+	private List<SelectItem> comboGrauParentesco;
 	
-	List<SelectItem> comboPais;
+	private List<SelectItem> comboNacionalidade;
 	
-	List<SelectItem> comboEstado;
+	private List<SelectItem> comboRaca;
 	
-	List<SelectItem> comboCidade;
+	private List<SelectItem> comboEstadoCivil;
+	
+	private List<SelectItem> comboGrauInstrucao;
+	
+	private List<SelectItem> comboSituacaoEconomica;
+	
+	private List<SelectItem> comboReligiao;
+	
+	private List<SelectItem> comboZonaResidencial;
+	
+	private List<SelectItem> comboTipoDeficiencia;
+	
+	private List<SelectItem> comboPais;
+	
+	private List<SelectItem> comboEstado;
+	
+	private List<SelectItem> comboCidade;
+	
+	private List<SelectItem> comboCargo;
+	
+	private List<SelectItem> comboRedeEnsino;
+	
+	private List<SelectItem> comboUnidadeEscolar;
 	
 	private Boolean nomeMae;
 	
 	private Boolean nomePai;
 	
 	private Boolean nomeResponsavel;
+	
+	private Boolean menorIdade;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException{
@@ -149,36 +189,125 @@ public class PessoaServlet implements Serializable{
 		if(this.religiaoDados == null) {
 			this.religiaoDados = new Religiao();
 		}
-		if(this.imagem64B == null) {
-			this.imagem64B = new ImagemBase64();
+		if(base64MB == null) {
+			this.base64MB = new ImagemBase64();
 		}
 		if(this.regiaoDados == null) {
 			this.regiaoDados = new Regiao();
 		}
+		
 		pessoaDados.setTipoPessoa(0);
+		
+		comboCargo = new ArrayList<SelectItem>();
+		comboEstadoCivil = new ArrayList<SelectItem>();
+		comboGrauInstrucao = new ArrayList<SelectItem>();
+		comboNacionalidade = new ArrayList<SelectItem>();
+		comboRaca = new ArrayList<SelectItem>();
+		comboRedeEnsino = new ArrayList<SelectItem>();
+		comboReligiao = new ArrayList<SelectItem>();
+		comboSituacaoEconomica = new ArrayList<SelectItem>();
+		comboUnidadeEscolar = new ArrayList<SelectItem>();
+		comboZonaResidencial = new ArrayList<SelectItem>();
+		comboGrauParentesco = new ArrayList<SelectItem>();
+		comboTipoDeficiencia = new ArrayList<SelectItem>();
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
+		
+		carregaCombos();
+		
 		complementoAluno = false;
+		funcDemitido = false;
 		complementoFuncionario = false;
 		alunoDeficiente = false;
 		funcConcursado = false;
 		funcAposentado = false;
-		funcDemitido = false;
-		comboPais = new ArrayList<SelectItem>();
-		comboEstado = new ArrayList<SelectItem>();
-		comboCidade = new ArrayList<SelectItem>();
 		nomeMae = false;
 		nomePai = false;
 		nomeResponsavel = false;
+		menorIdade = false;
 	}
 	
+	public void salvarImagem(){ 
+		String formato = imagem.getContentType(); 
+		String nome = imagem.getName(); 
+		byte[] imageAsByte = new byte[(int) imagem.getSize()]; 
+		
+		try { 
+			imagem.getInputStream().read(imageAsByte); 
+			ImagemBase64 ib4 = new ImagemBase64(); 
+			String base64AsString = new String(Base64.encodeBase64(imageAsByte)); 
+			ib4.setB64(base64AsString); 
+			ib4.setFormato(formato); 
+			ib4.setNome(nome); 
+			
+			System.out.println(ib4.getB64()); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block 
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void upload(){
+		System.out.println("Upload enviado " + fotoAluno.getFileName());
+	}
+	
+	public void upload(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage(event.getFile().getFileName() + " foi enviado com sucesso.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        // Do what you want with the file        
+        try {
+            byte[] foto = event.getFile().getContents();
+            String nomeArquivo = event.getFile().getFileName();  
+            FacesContext facesContext = FacesContext.getCurrentInstance();  
+            ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();  
+            String arquivo = scontext.getRealPath("/uploads/imagensTopo/" + nomeArquivo);
+//            String arquivo = scontext.getContextPath()+"/uploadis/" + nomeArquivo;
+            File f=new File(arquivo);
+            if(!f.getParentFile().exists())f.getParentFile().mkdirs();
+            if(!f.exists())f.createNewFile();
+            System.out.println(f.getAbsolutePath());
+            FileOutputStream fos=new FileOutputStream(arquivo);
+            fos.write(foto);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+	
+	public void calculaIdade(){
+		GregorianCalendar dataHoje = new GregorianCalendar();
+		GregorianCalendar nascimento = new GregorianCalendar();
+		int idade;
+			nascimento.setTime(pessoaDados.getDataNascimento());
+				
+		int anoAtual = dataHoje.get(Calendar.YEAR);
+		int anoNascimento = nascimento.get(Calendar.YEAR);
+		idade = anoAtual - anoNascimento;
+		
+		if( idade < 18 ){
+			menorIdade = true;
+		}else{
+			menorIdade = false;
+		}
+		
+	}
+		
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
 	 * */
 	public String salvarCadastroPessoa(){
 		try {
+			
 			Pessoa pessoaDadosFinal = new Pessoa();
 			replaceCampos();
 			
+			/* Validação dos dados referentes a PESSOA */
 			if( pessoaDados != null ) {
 				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
 				pessoaDadosFinal.setNome(pessoaDados.getNome());
@@ -192,45 +321,94 @@ public class PessoaServlet implements Serializable{
 				pessoaDadosFinal.setStatus(Integer.valueOf(0));
 				
 			}
-			if( paisDados != null ) {
-				pessoaDadosFinal.setPais(paisDados);
-			}
-			if( estadoDados != null ) {
-				pessoaDadosFinal.setEstado(estadoDados);
-			}
+			
+			/* Validação dos dados referentes ao ENDEREÇO */
 			if( enderecoDados != null ) {
 				enderecoDados.setCidade(cidadeDados);
 				pessoaDadosFinal.setEndereco(enderecoDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						"Informe os dados referentes ao ENDEREÇO.",null));
 			}
+			
+			/* Validação dos dados referentes a NACIONALIDADE */
 			if( nacionalidadeDados != null ) {
 				pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma NACIONALIDADE.",null));
 			}
+			
+			/* Validação dos dados referentes a RAÇA */
 			if( racaDados != null ) {
 				pessoaDadosFinal.setRaca(racaDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma RAÇA.",null));
 			}
+			
+			/* Validação dos dados referentes ao ESTADO CIVIL */
 			if( estaCivilDados != null ) {
 				pessoaDadosFinal.setEstadoCivil(estaCivilDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione um ESTADO CIVIL.",null));
 			}
+			
+			/* Validação dos dados referentes ao GRAU DE INSTRUÇÃO */
 			if( grauInstruDados != null ) {
 				pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
-			}		
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione um GRAU DE INSTRUÇÃO.",null));
+			}
+			
+			/* Validação dos dados referentes a SITUAÇÃO ECONÔMICA */
 			if( situEconomicaDados != null ) {
 				pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma SITUAÇÃO ECONÔMICA.",null));
 			}
+			
+			/* Validação dos dados referentes a RELIGIÃO */
 			if( religiaoDados != null ) {
 				pessoaDadosFinal.setReligiao(religiaoDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma RELIGIÃO.",null));
 			}
+			
+			/* Validação dos dados referentes a REGIÃO */
 			if(regiaoDados != null) {
 				pessoaDadosFinal.setRegiao(regiaoDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma REGIÃO.",null));
 			}
+			
+			/* Validação dos dados referentes ao PAÍS */
 			if(paisDados != null){
 				System.out.println(paisDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione um PAÍS.",null));
 			}
+			
+			/* Validação dos dados referentes ao ESTADO */
 			if(estadoDados != null){
 				System.out.println(estadoDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione um ESTADO.",null));
 			}
+			
+			/* Validação dos dados referentes a CIDADE */
 			if(cidadeDados != null){
 				System.out.println(cidadeDados);
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione uma CIDADE.",null));
 			}
 			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -250,9 +428,6 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public String salvarCadastroAluno(){
-		Aluno alunoDadosFinal = new Aluno();
-		
-		
 		return null;
 	}
 	
@@ -298,10 +473,9 @@ public class PessoaServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Naturalidades
 	 * */
-	public List<SelectItem> getConsultaNacionalidade() {
+	public void consultaNacionalidade() {
 		try {
 			NacionalidadeDAO nacionalidadeDAO = new NacionalidadeDAO();
-			List<SelectItem> comboNacionalidade = new ArrayList<SelectItem>();
 			List<Nacionalidade> paramNacionalidade = nacionalidadeDAO.consultaNacionalidade();
 			
 			for (Nacionalidade param : paramNacionalidade){
@@ -310,21 +484,18 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getDescricao());
 			   comboNacionalidade.add(s);
 			}
-			return comboNacionalidade;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de NACIONALIDADE, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar as Racas
 	 * */
-	public List<SelectItem> getConsultaRaca() {
+	public void consultaRaca() {
 		try {
 			RacaDAO racaDAO = new RacaDAO();
-			List<SelectItem> comboRaca = new ArrayList<SelectItem>();
 			List<Raca> paramRaca = racaDAO.consultaRaca();
 			
 			for (Raca param : paramRaca){
@@ -333,90 +504,78 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getDescricao());
 			   comboRaca.add(s);
 			}
-			return comboRaca;
 		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de RAÇA, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar os Estados Civis
 	 * */
-	public List<SelectItem> getConsultaEstaCivil() {
+	public void consultaEstaCivil() {
 		try {
 			EstadoCivilDAO estaCivilDAO = new EstadoCivilDAO();
-			List<SelectItem> comboEstaCivil = new ArrayList<SelectItem>();
 			List<EstadoCivil> paramEstaCivil = estaCivilDAO.consultaEstaCivil();
 			
 			for (EstadoCivil param : paramEstaCivil){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkEstadoCivil());
 			   s.setLabel(param.getDescricao());
-			   comboEstaCivil.add(s);
+			   comboEstadoCivil.add(s);
 			}
-			return comboEstaCivil;
 		}catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de ESTADOS CIVIS, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar os Graus de Instrucoes
 	 * */
-	public List<SelectItem> getConsultaGrauInstru() {
+	public void consultaGrauInstru() {
 		try {
 			GrauInstrucaoDAO grauInstruDAO = new GrauInstrucaoDAO();
-			List<SelectItem> comboGrauInstru = new ArrayList<SelectItem>();
 			List<GrauInstrucao> paramGrauInstru = grauInstruDAO.consultaGrauInstru();
 			
 			for (GrauInstrucao param : paramGrauInstru){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkGrauInstrucao());
 			   s.setLabel(param.getDescricao());
-			   comboGrauInstru.add(s);
+			   comboGrauInstrucao.add(s);
 			}
-			return comboGrauInstru;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de GRAU DE INSTRUÇÃO, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar as situacoes economicas
 	 * */
-	public List<SelectItem> getConsultaSituEconomica() {
+	public void consultaSituEconomica() {
 		try {
 			SituacaoEconomicaDAO situEconomicaDAO = new SituacaoEconomicaDAO();
-			List<SelectItem> comboSituEconomica = new ArrayList<SelectItem>();
 			List<SituacaoEconomica> paramSituEconomica = situEconomicaDAO.consultaSituEconomica();
 			
 			for (SituacaoEconomica param : paramSituEconomica){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkSituacaoEconomica());
 			   s.setLabel(param.getDescricao());
-			   comboSituEconomica.add(s);
+			   comboSituacaoEconomica.add(s);
 			}
-			return comboSituEconomica;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de SITUAÇÕES ECONÔMICAS, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar as Religioes
 	 * */
-	public List<SelectItem> getConsultaReligiao() {
+	public void consultaReligiao() {
 		try {
 			ReligiaoDAO religiaoDAO = new ReligiaoDAO();
-			List<SelectItem> comboReligiao = new ArrayList<SelectItem>();
 			List<Religiao> paramReligiao = religiaoDAO.consultaReligiao();
 			
 			for (Religiao param : paramReligiao){
@@ -425,18 +584,16 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getDescricao());
 			   comboReligiao.add(s);
 			}
-			return comboReligiao;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de RELIGIÕES, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar os Paises
 	 * */
-	public List<SelectItem> getConsultaPais() {
+	public void consultaPais() {
 		try {
 			PaisDAO paisDAO = new PaisDAO();
 			List<Pais> paramPais = paisDAO.consultaPais();
@@ -447,20 +604,18 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboPais.add(s);
 			}
-			comboEstado.clear();
-			comboCidade.clear();
-			return comboPais;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de PAÍS, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar os Estados
 	 * */
-	public List<SelectItem> getConsultaEstado() {
+	public void consultaEstado() {
+		comboEstado.clear();
+		estadoDados.setPkEstado(null);
 		if(paisDados.getPkPais() != null && !comboPais.isEmpty()) {
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
@@ -472,22 +627,20 @@ public class PessoaServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboEstado.add(s);
 				}
-				comboCidade.clear();
-				return comboEstado;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Erro ao carregar os dados de ESTADO, contate o administrador do sistema!", null));
-				return null;
 			}
 		}
-		return null;
 	}
 	
 	/*
 	 * Metodo para carregar as Cidades
 	 * */
-	public List<SelectItem> getConsultaCidade() {
-		if(estadoDados.getPkEstado() != null){
+	public void consultaCidade() {		
+		comboCidade.clear();
+		cidadeDados.setPkCidade(null);
+		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
 			try {
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
@@ -498,100 +651,100 @@ public class PessoaServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboCidade.add(s);
 				}
-				return comboCidade;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Erro ao carregar os dados de CIDADE, contate o administrador do sistema!", null));
-				return null;
 			}
 		}
-		cidadeDados.setPkCidade(null);
-		comboCidade.clear();
-		return null;
 	}
 
 	/*
 	 * Metodo para carregar as Zonas Residencias
 	 * */
-	public List<SelectItem> getConsultaRegiao() {
+	public void consultaZonaResidencial() {
 		try {
 			RegiaoDAO regiaoDAO = new RegiaoDAO();
-			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
 			List<Regiao> paramRegiao = regiaoDAO.consultaRegiao();
 			
 			for (Regiao param : paramRegiao){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkRegiao());
 			   s.setLabel(param.getDescricao());
-			   comboRegiao.add(s);
+			   comboZonaResidencial.add(s);
 			}
-			return comboRegiao;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de REGIÃO, contate o administrador do sistema!", null));
-			return null;
 		}
 	}
 	
 	/*
 	 * Metodo para carregar os tipos de Deficiencia
 	 * */
-	public List<SelectItem> getConsultaTipoDeficiencia() throws SQLException {
+	public void consultaTipoDeficiencia() {
+		try {
 			TipoDeficienciaDAO tipoDeficienciaDAO = new TipoDeficienciaDAO();
-			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
 			List<TipoDeficiencia> paramTipoDeficiencia = tipoDeficienciaDAO.consultaTipoDeficiencia();
 			
 			for (TipoDeficiencia param : paramTipoDeficiencia){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkTipoDeficiencia());
 			   s.setLabel(param.getDescricao());
-			   comboRegiao.add(s);
+			   comboTipoDeficiencia.add(s);
 			}
-			return comboRegiao;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPOS DE DEFICIENCIA, contate o administrador do sistema!", null));
+		}
 	}
 	
 	/*
 	 * Metodo para carregar os cargos
 	 * */
-	public List<SelectItem> getConsultaCargo() throws SQLException {
-		CargoDAO cargoDAO = new CargoDAO();
-		List<SelectItem> comboCargo = new ArrayList<SelectItem>();
-		List<Cargo> paramCargo = cargoDAO.consultaCargo();
-		
-		for (Cargo param : paramCargo){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkCargo());
-		   s.setLabel(param.getDescricao());
-		   comboCargo.add(s);
+	public void consultaCargo() {
+		try {
+			CargoDAO cargoDAO = new CargoDAO();
+			List<Cargo> paramCargo = cargoDAO.consultaCargo();
+			
+			for (Cargo param : paramCargo){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkCargo());
+			   s.setLabel(param.getDescricao());
+			   comboCargo.add(s);
+			}
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
 		}
-		return comboCargo;
 	}
 	
 	/*
 	 * Metodo para carregar as rede de ensino
 	 * */
-	public List<SelectItem> getConsultaRedeEnsino() throws SQLException {
-		RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
-		List<SelectItem> comboRedeEnsino = new ArrayList<>();
-		List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
-		
-		for (RedeEnsino param : paramRedeEnsino){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkRedeEnsino());
-		   s.setLabel(param.getNome());
-		   comboRedeEnsino.add(s);
+	public void consultaRedeEnsino() {
+		try {
+			comboRedeEnsino.clear();
+			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
+			List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
+			
+			for (RedeEnsino param : paramRedeEnsino){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkRedeEnsino());
+			   s.setLabel(param.getNome());
+			   comboRedeEnsino.add(s);
+			}
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de REDE DE ENSINO, contate o administrador do sistema!", null));
 		}
-		alunoDados.setUnidadeEscolar(null);
-		return comboRedeEnsino;
 	}
 	
 	/*
 	 * Metodo para carregar as Unidades Escolares
 	 * */
-	public List<SelectItem> getConsultaUnidadeEscolar() throws NumberFormatException, SQLException {
-		if(alunoDados.getRedeEnsino() != null) {
-			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
-			List<SelectItem> comboUnidadeEscolar = new ArrayList<>();
+	public void consultaUnidadeEscolar() {
+		try {
+			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();			
 			List<UnidadeEscolar> paramUnidadeEscolar = 
 						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
 			
@@ -601,11 +754,35 @@ public class PessoaServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboUnidadeEscolar.add(s);
 			}
-			return comboUnidadeEscolar;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
 		}
-		return null;
+		
 	}
 
+	/*
+	 * Metodo para carregar os Graus de Parentesco
+	 * */
+	public void consultaGrauParentesco() {
+		try {
+			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();			
+			List<UnidadeEscolar> paramUnidadeEscolar = 
+						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
+			
+			for (UnidadeEscolar param : paramUnidadeEscolar){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkUnidadeEscolar());
+			   s.setLabel(param.getNome());
+			   comboUnidadeEscolar.add(s);
+			}
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
+		}
+		
+	}
+	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -695,14 +872,17 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getTipoPessoa() == 0) {
 			complementoAluno = false;
 			complementoFuncionario = false;
+			menorIdade = false;
 		}
 		if(pessoaDados.getTipoPessoa() == 1) {
 			complementoAluno = true;
+			menorIdade = true;
 			complementoFuncionario = false;
 		}
 		if(pessoaDados.getTipoPessoa() == 2) {
 			complementoFuncionario = true;
 			complementoAluno = false;
+			menorIdade = false;
 		}
 	}
 	
@@ -782,11 +962,24 @@ public class PessoaServlet implements Serializable{
 		}
 		
 	}
-	
-	public Boolean validaçõesFinais(){
-		
-		return true;
+
+	/*
+	 * Metodo responsavel por carregar os combos da tela
+	 * 
+	 * */
+	public void carregaCombos(){
+		consultaCargo();
+		consultaEstaCivil();
+		consultaGrauInstru();
+		consultaNacionalidade();
+		consultaRaca();
+		consultaReligiao();
+		consultaSituEconomica();
+		consultaPais();
+		consultaZonaResidencial();
+		consultaTipoDeficiencia();
 	}
+	
 	
 	/* GETTERS AND SETTERS */
 	public Pessoa getPessoaDados() {
@@ -957,14 +1150,6 @@ public class PessoaServlet implements Serializable{
 		this.imagem = imagem; 
 	}
 
-	public ImagemBase64 getImagem64B() {
-		return imagem64B;
-	}
-
-	public void setImagem64B(ImagemBase64 imagem64b) {
-		imagem64B = imagem64b;
-	}
-
 	public Regiao getRegiaoDados() {
 		return regiaoDados;
 	}
@@ -995,5 +1180,164 @@ public class PessoaServlet implements Serializable{
 
 	public void setNomeResponsavel(Boolean nomeResponsavel) {
 		this.nomeResponsavel = nomeResponsavel;
+	}
+	public ImagemBase64 getBase64MB() {
+		return base64MB;
+	}
+
+	public void setBase64MB(ImagemBase64 base64mb) {
+		base64MB = base64mb;
+	}
+
+	public List<SelectItem> getComboPais() {
+		return comboPais;
+	}
+
+	public void setComboPais(List<SelectItem> comboPais) {
+		this.comboPais = comboPais;
+	}
+
+	public List<SelectItem> getComboEstado() {
+		return comboEstado;
+	}
+
+	public void setComboEstado(List<SelectItem> comboEstado) {
+		this.comboEstado = comboEstado;
+	}
+
+	public List<SelectItem> getComboCidade() {
+		return comboCidade;
+	}
+
+	public void setComboCidade(List<SelectItem> comboCidade) {
+		this.comboCidade = comboCidade;
+	}
+
+	public List<SelectItem> getComboNacionalidade() {
+		return comboNacionalidade;
+	}
+
+	public void setComboNacionalidade(List<SelectItem> comboNacionalidade) {
+		this.comboNacionalidade = comboNacionalidade;
+	}
+
+	public List<SelectItem> getComboRaca() {
+		return comboRaca;
+	}
+
+	public void setComboRaca(List<SelectItem> comboRaca) {
+		this.comboRaca = comboRaca;
+	}
+
+	public List<SelectItem> getComboEstadoCivil() {
+		return comboEstadoCivil;
+	}
+
+	public void setComboEstadoCivil(List<SelectItem> comboEstadoCivil) {
+		this.comboEstadoCivil = comboEstadoCivil;
+	}
+
+	public List<SelectItem> getComboGrauInstrucao() {
+		return comboGrauInstrucao;
+	}
+
+	public void setComboGrauInstrucao(List<SelectItem> comboGrauInstrucao) {
+		this.comboGrauInstrucao = comboGrauInstrucao;
+	}
+
+	public List<SelectItem> getComboSituacaoEconomica() {
+		return comboSituacaoEconomica;
+	}
+
+	public void setComboSituacaoEconomica(List<SelectItem> comboSituacaoEconomica) {
+		this.comboSituacaoEconomica = comboSituacaoEconomica;
+	}
+
+	public List<SelectItem> getComboReligiao() {
+		return comboReligiao;
+	}
+
+	public void setComboReligiao(List<SelectItem> comboReligiao) {
+		this.comboReligiao = comboReligiao;
+	}
+
+	public List<SelectItem> getComboZonaResidencial() {
+		return comboZonaResidencial;
+	}
+
+	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
+		this.comboZonaResidencial = comboZonaResidencial;
+	}
+
+	public List<SelectItem> getComboCargo() {
+		return comboCargo;
+	}
+
+	public void setComboCargo(List<SelectItem> comboCargo) {
+		this.comboCargo = comboCargo;
+	}
+
+	public List<SelectItem> getComboRedeEnsino() {
+		return comboRedeEnsino;
+	}
+
+	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
+		this.comboRedeEnsino = comboRedeEnsino;
+	}
+
+	public List<SelectItem> getComboUnidadeEscolar() {
+		return comboUnidadeEscolar;
+	}
+
+	public void setComboUnidadeEscolar(List<SelectItem> comboUnidadeEscolar) {
+		this.comboUnidadeEscolar = comboUnidadeEscolar;
+	}
+
+	public List<SelectItem> getComboTipoDeficiencia() {
+		return comboTipoDeficiencia;
+	}
+
+	public void setComboTipoDeficiencia(List<SelectItem> comboTipoDeficiencia) {
+		this.comboTipoDeficiencia = comboTipoDeficiencia;
+	}
+
+	public Boolean getMenorIdade() {
+		return menorIdade;
+	}
+
+	public void setMenorIdade(Boolean menorIdade) {
+		this.menorIdade = menorIdade;
+	}
+
+	public UploadedFile getImagemResidencia() {
+		return imagemResidencia;
+	}
+
+	public void setImagemResidencia(UploadedFile imagemResidencia) {
+		this.imagemResidencia = imagemResidencia;
+	}
+
+	public UploadedFile getFotoAluno() {
+		return fotoAluno;
+	}
+
+	public void setFotoAluno(UploadedFile fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
+
+	public UploadedFile getImagemCertidaoNascimento() {
+		return imagemCertidaoNascimento;
+	}
+
+	public void setImagemCertidaoNascimento(UploadedFile imagemCertidaoNascimento) {
+		this.imagemCertidaoNascimento = imagemCertidaoNascimento;
+	}
+
+	public List<SelectItem> getComboGrauParentesco() {
+		return comboGrauParentesco;
+	}
+
+	public void setComboGrauParentesco(List<SelectItem> comboGrauParentesco) {
+		this.comboGrauParentesco = comboGrauParentesco;
 	}
 }
