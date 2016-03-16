@@ -36,7 +36,7 @@
 						<h:form id="formPrincipal">
 							<div class="clearfix form-actions">
 								<h3 class="header smaller lighter blue">Informações Principais</h3>
-								<div class="col-sm-5">
+								<div class="col-xs-12 col-sm-5">
 									<div>
 										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigo']}"/>
 										<span class="block input-icon input-icon-right">
@@ -46,7 +46,7 @@
 										</span>
 									</div>
 								</div>
-								<div class="col-sm-10">
+								<div class="col-xs-12 col-sm-10">
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome']}"/>
 									<div>
 										<span class="block input-icon input-icon-right">
@@ -58,7 +58,7 @@
 									<div class="space-4"></div>
 								</div>
 								<div class="form-group">
-									<div class="col-sm-3">
+									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="CPF do diretor"/>
 										<div>
 											<h:inputText type="text" id="numCpfDiretor" class="col-sm-12 CPF" value="#{unidadeEscolarServlet.cpfDiretor}" styleClass="col-sm-12 cpf">
@@ -66,14 +66,14 @@
 											</h:inputText>
 										</div>
 									</div>
-									<div class="col-sm-7">
+									<div class="col-xs-12 col-sm-7">
 										<h:outputLabel value="Nome do diretor"/>
 										<div>
 											<h:inputText type="text" id="nomeDiretor" class="col-sm-12"	value="#{unidadeEscolarServlet.nomeDiretor}" disabled="true"/>
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-5">
+								<div class="col-xs-12 col-sm-5">
 									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codRedeEnsino"
@@ -84,7 +84,7 @@
 									</div>
 									<div class="space-4"></div>
 								</div>
-								<div class="col-sm-5">
+								<div class="col-xs-12 col-sm-5">
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codSituFunc"
@@ -95,7 +95,7 @@
 									</div>
 									<div class="space-4"></div>
 								</div>
-								<div class="col-sm-5">
+								<div class="col-xs-12 col-sm-5">
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.tipoOcupacao']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codTipoOcu"
@@ -112,7 +112,7 @@
 								<div id="conteudoEndereco">
 									<h3 class="header smaller lighter blue">Endereço/Contato</h3>
 									<div class="form-group">
-										<div class="col-sm-3">
+										<div class="col-xs-12 col-sm-3">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
 											<div>
 												<h:selectOneMenu id="codPais"
@@ -129,7 +129,7 @@
 												</h:selectOneMenu>
 											</div>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-xs-12 col-sm-3">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
 											<div>
 												<h:selectOneMenu id="codEstado"
@@ -143,7 +143,7 @@
 												</h:selectOneMenu>
 											</div>
 										</div>
-										<div class="col-sm-4">
+										<div class="col-xs-12 col-sm-4">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 											<div>
 												<h:selectOneMenu id="codCidade"
@@ -157,7 +157,7 @@
 												</h:selectOneMenu>
 											</div>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 											<div>
 												<h:inputText
@@ -169,7 +169,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-6">
+										<div class="col-xs-12 col-sm-6">
 											<h:outputLabel
 												value="#{mensagens['label.cadastro.pessoa.rua']}" />
 											<div>
@@ -178,7 +178,7 @@
 													value="#{parametrosServlet.enderecoDados.logradouro}" />
 											</div>
 										</div>
-										<div class="col-sm-1">
+										<div class="col-xs-12 col-sm-1">
 											<h:outputLabel
 												value="#{mensagens['label.cadastro.pessoa.numero']}" />
 											<div>
@@ -187,7 +187,7 @@
 	 												value="#{parametrosServlet.enderecoDados.numero}" />
 											</div>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-xs-12 col-sm-3">
 											<h:outputLabel
 												value="#{mensagens['label.cadastro.pessoa.bairro']}" />
 											<div>
@@ -196,7 +196,7 @@
 													value="#{parametrosServlet.enderecoDados.bairro}" />
 											</div>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}" />
 											<div>
 												<h:inputText type="text" id="codComplemento" 
@@ -206,7 +206,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-2">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
 											<div>
 												<h:selectOneMenu id="codZonaResi" value="#{parametrosServlet.regiaoDados.pkRegiao}"
@@ -217,14 +217,14 @@
 												</h:selectOneMenu>
 											</div>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
 											<div>
 												<h:inputText type="text" id="numTelefone" styleClass="telResidencial"
 												class="col-sm-12" title="Numero do Telefone"/>											
 											</div>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
 											<div>
 												<h:inputText type="text" id="numCelular" styleClass="telResidencial"
@@ -232,7 +232,7 @@
 												value="#{parametrosServlet.pessoaDados.telefoneCelular}"/>
 											</div>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-xs-12 col-sm-6">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}" />
 											<div>
 												<h:inputText type="text" id="email"
@@ -248,36 +248,36 @@
 							class="clearfix form-actions">
 								<div id="conteudoEndereco">
 									<h3 class="header smaller lighter blue">Informações Geográficas</h3>
-										<div class="col-sm-4">
-											<h:outputLabel value="Distância até a sede" />
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.distanciaAteSede']}" />
 											<div>
 												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.distanciaAteSede}" />
 											</div>
 										</div>
-										<div class="col-sm-4">
-											<h:outputLabel value="Área Terreno M²" />
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaTerrenoM2']}" />
 											<div>
 												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.areaTerrenoM2}" />
 											</div>
 										</div>
-										<div class="col-sm-4">
-											<h:outputLabel value="Área Construção M²" />
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaConstrucaoM2']}" />
 											<div>
 												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.areaConstrucaoM2}" />
 											</div>
 										</div>
-										<div class="col-sm-4">
-											<h:outputLabel value="Latitude" />
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.latitude']}" />
 											<div>
 												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.latitude}" />
 											</div>
 										</div>
-										<div class="col-sm-4">
-											<h:outputLabel value="Longitude" />
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.longitude']}" />
 											<div>
 												<h:inputText type="text" class="col-sm-8" 
 													value="#{unidadeEscolarServlet.terreno.longitude}" />
