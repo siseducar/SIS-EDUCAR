@@ -61,7 +61,7 @@
 									<div class="col-sm-3">
 										<h:outputLabel value="CPF do diretor"/>
 										<div>
-											<h:inputText type="text" id="numCpfDiretor" class="col-sm-12 CPF" value="#{unidadeEscolarServlet.cpfDiretor}">
+											<h:inputText type="text" id="numCpfDiretor" class="col-sm-12 CPF" value="#{unidadeEscolarServlet.cpfDiretor}" styleClass="col-sm-12 cpf">
 												<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
 											</h:inputText>
 										</div>
@@ -122,7 +122,10 @@
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
 													<f:selectItems value="#{parametrosServlet.consultaPais}"
 														var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
-													<p:ajax event="change" update="codEstado, codCidade"/>
+													<f:ajax event="change" 
+														listener="#{pessoaServlet.consultaEstado}" render="codEstado"/>
+													<f:ajax event="change" 
+														listener="#{pessoaServlet.consultaCidade}" render="codCidade"/>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -141,7 +144,7 @@
 											</div>
 										</div>
 										<div class="col-sm-4">
-												<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
+											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 											<div>
 												<h:selectOneMenu id="codCidade"
 													class="form-control" title="Cidade residente"
@@ -161,8 +164,6 @@
 													class="form-control" id="numCep" title="Numero do CEP"
 													value="#{parametrosServlet.enderecoDados.cep}"
 													required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.cep']}">
-													<p:ajax event="blur" listner="#{parametrosServlet.consultaEndereco}"
-														update="codRua, numCasa, codBairro, codComplemento"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -219,14 +220,14 @@
 										<div class="col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
 											<div>
-												<h:inputText type="text" id="numTelefone"
+												<h:inputText type="text" id="numTelefone" styleClass="telResidencial"
 												class="col-sm-12" title="Numero do Telefone"/>											
 											</div>
 										</div>
 										<div class="col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
 											<div>
-												<h:inputText type="text" id="numCelular"
+												<h:inputText type="text" id="numCelular" styleClass="telResidencial"
 												class="col-sm-12" title="Numero do Celular"
 												value="#{parametrosServlet.pessoaDados.telefoneCelular}"/>
 											</div>
@@ -286,17 +287,17 @@
 							</h:panelGroup>
 								
 							<!-- Botões -->
-							<div class="clearfix">
-								<button type="reset" class="btn btn-sm">
-									<i class="ace-icon fa fa-file"></i>
+							<div class="col-sx-12 col-sm-6" id="default-buttons">
+								<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round">
+									<i class="ace-icon fa fa-file"/>
 									<span class="bigger-110">Novo</span>
 								</button>
 								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-sm btn-success" > 
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
 									<span class="bigger-110">Registrar</span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{unidadeEscolarServlet.cadastrarUnidadeEscolar}" update=":formPrincipal" process=":formPrincipal"/>
-							</h:commandLink>	
+								</h:commandLink>	
 							</div>
 						</h:form>
 					</div>

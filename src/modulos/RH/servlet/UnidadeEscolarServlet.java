@@ -13,7 +13,6 @@ import modulos.RH.om.Endereco;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
-import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.Terreno;
 import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
@@ -29,11 +28,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	UnidadeEscolar unidadeEscolar = null;
 	Terreno terreno = null;
 	Pessoa diretor = null;
-	Regiao regiao = null;
-	TipoOcupacao tipoOcupacao = null;
-	SituacaoFuncionamento situacaoFuncionamento = null;
-	RedeEnsino redeEnsino = null;
-	Endereco endereco = null;
 	private String nomeDiretor = "";
 	private String cpfDiretor = "";
 	
@@ -45,11 +39,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 		unidadeEscolar = new UnidadeEscolar();
 		terreno = new Terreno();
 		diretor = new Pessoa();
-		regiao = new Regiao();
-		tipoOcupacao = new TipoOcupacao();
-		situacaoFuncionamento = new SituacaoFuncionamento();
-		redeEnsino = new RedeEnsino();
-		endereco = new Endereco();
 	}
 	
 	/**
@@ -172,6 +161,10 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	{
 		try
 		{
+			cpfDiretor = "";
+			nomeDiretor = "";
+			diretor = new Pessoa();
+			terreno = new Terreno();
 			unidadeEscolar = new UnidadeEscolar();
 		}
 		catch (Exception e) 
@@ -202,46 +195,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 
 	public void setDiretor(Pessoa diretor) {
 		this.diretor = diretor;
-	}
-
-	public Regiao getRegiao() {
-		return regiao;
-	}
-
-	public void setRegiao(Regiao regiao) {
-		this.regiao = regiao;
-	}
-
-	public TipoOcupacao getTipoOcupacao() {
-		return tipoOcupacao;
-	}
-
-	public void setTipoOcupacao(TipoOcupacao tipoOcupacao) {
-		this.tipoOcupacao = tipoOcupacao;
-	}
-
-	public SituacaoFuncionamento getSituacaoFuncionamento() {
-		return situacaoFuncionamento;
-	}
-
-	public void setSituacaoFuncionamento(SituacaoFuncionamento situacaoFuncionamento) {
-		this.situacaoFuncionamento = situacaoFuncionamento;
-	}
-
-	public RedeEnsino getRedeEnsino() {
-		return redeEnsino;
-	}
-
-	public void setRedeEnsino(RedeEnsino redeEnsino) {
-		this.redeEnsino = redeEnsino;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
 	}
 
 	public String getNomeDiretor() {
