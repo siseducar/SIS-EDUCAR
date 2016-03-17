@@ -77,7 +77,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codRedeEnsino"
-											value="#{parametrosServlet.alunoDados.redeEnsino}">
+											value="#{unidadeEscolarServlet.alunoDados.redeEnsino}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{parametrosServlet.consultaRedeEnsino}" />
 										</h:selectOneMenu>
@@ -305,7 +305,7 @@
 			</div>
 		</ui:define>
 		
-		<ui:define name="scripPagina">
+		<ui:define name="scriptPagina">
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.css"/>
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.js"/>
 		</ui:define>

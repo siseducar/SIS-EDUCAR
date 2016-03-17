@@ -19,29 +19,39 @@
   	<load-on-startup>1</load-on-startup> 
   </servlet> 
 
-  <!-- Main Sis Educar --> 
-  <servlet>
-   	<servlet-name>MainSisEducar</servlet-name>
-   	<servlet-class>modulos.sisEducar.sisEducarServlet.MainSisEducar</servlet-class>
-   	<load-on-startup>2</load-on-startup>
-  </servlet>
+  	<!-- Main Sis Educar --> 
+  	<servlet>
+   		<servlet-name>MainSisEducar</servlet-name>
+   		<servlet-class>modulos.sisEducar.sisEducarServlet.MainSisEducar</servlet-class>
+   		<load-on-startup>2</load-on-startup>
+  	</servlet>
   	
-  <servlet-mapping> 
-  	<servlet-name>Faces Servlet</servlet-name> 
-  	<url-pattern>*.jsf</url-pattern> 
-  	<url-pattern>*.xhtml</url-pattern> 
-  </servlet-mapping>
+  	<servlet-mapping> 
+  		<servlet-name>Faces Servlet</servlet-name> 
+  		<url-pattern>*.jsf</url-pattern> 
+  		<url-pattern>*.xhtml</url-pattern> 
+  	</servlet-mapping>
   
-  <!-- Filter Authentication -->
-  <filter>
-   	<filter-name>AuthenticationFilter</filter-name>
-   	<filter-class>modulos.sisEducar.utils.AuthenticationFilter</filter-class>
-  </filter>
+  	<!-- Filter Authentication -->
+  	<filter>
+   		<filter-name>AuthenticationFilter</filter-name>
+   		<filter-class>modulos.sisEducar.utils.AuthenticationFilter</filter-class>
+  	</filter>
   
-  <filter-mapping>
-   	<filter-name>AuthenticationFilter</filter-name>
-   	<url-pattern>/modulos/*</url-pattern>
-   	<url-pattern>/resources/imagens/</url-pattern>
-   	<url-pattern>/resources/templates/sisEducar/</url-pattern>
-  </filter-mapping>
+  	<filter-mapping>
+   		<filter-name>AuthenticationFilter</filter-name>
+   		<url-pattern>/modulos/*</url-pattern>
+   		<url-pattern>/resources/imagens/</url-pattern>
+   		<url-pattern>/resources/templates/sisEducar/</url-pattern>
+  	</filter-mapping>
+  	
+	<!-- Prime Faces Upload -->
+	 <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
 </web-app>

@@ -61,6 +61,21 @@ $(function($) {
     });
 });
 
+$(".upload").ace_file_input({
+    style: 'well',
+    no_file: 'Click to choose or drag & drop',
+    droppable: true, //html5 browsers only
+    thumbnail: 'small', //html5 browsers only
+
+    maxSize: 1000000, //~100 KB
+    allowExt:  ['jpg', 'jpeg', 'png', 'gif', 'tif', 'tiff', 'bmp'],
+    allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/tif', 'image/tiff', 'image/bmp'] //html5 browsers only
+});
+
+$(".upload").ace_file_input({
+    denyExt:  ['exe', 'php']
+});
+
 $(function() {
     $( ".calendario" ).datepicker({
     	dateFormat: 'dd/mm/yy',

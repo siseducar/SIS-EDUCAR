@@ -26,7 +26,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12">
-					<h:form id="formCadastroPessoa"  enctype="multipart/form-data">
+					<h:form id="formCadastroPessoa" enctype="multipart/form-data" prependId="false">
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
 							class="clearfix form-actions">
 							<h3 class="header smaller lighter blue" align="center">Dados Pessoais</h3>
@@ -301,15 +301,12 @@
 										<div>
 											<h:selectOneMenu id="codPais"
 												class="form-control" title="Pais residente"
-												value="#{pessoaServlet.paisDados.pkPais}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.pais']}">
+												value="#{pessoaServlet.paisDados.pkPais}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboPais}"
 													var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
-												<f:ajax event="change" 
-													listener="#{pessoaServlet.consultaEstado}" render="codEstado"/>
-												<f:ajax event="change" 
-													listener="#{pessoaServlet.consultaCidade}" render="codCidade"/>
+												<f:ajax event="change" render="codEstado"/>
+												<f:ajax event="change" render="codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -318,13 +315,11 @@
 										<div>
 											<h:selectOneMenu id="codEstado"
 												class="form-control" title="Estado residente"
-												value="#{pessoaServlet.estadoDados.pkEstado}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.estado']}">
+												value="#{pessoaServlet.estadoDados.pkEstado}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboEstado}"
 													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-												<f:ajax event="change" 
-													listener="#{pessoaServlet.consultaCidade}" render="codCidade"/>
+												<f:ajax event="change" render="codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -333,8 +328,7 @@
 										<div>
 											<h:selectOneMenu id="codCidade"
 												class="form-control" title="Cidade residente"
-												value="#{pessoaServlet.cidadeDados.pkCidade}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.estado']}">
+												value="#{pessoaServlet.cidadeDados.pkCidade}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboCidade}"
 													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
@@ -464,23 +458,6 @@
 											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoCodInep']}"/>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.foto']}"/>
-										<div>
-											<label class="ace-file-input">
-												<input type="file" id="certNascimento" value="#{pessoaServlet.imagem}"/>
-												<span class="ace-file-container" data-title="Carregar">
-													<span class="ace-file-name" data-title="Escolha um arquivo">
-														<i class=" ace-icon fa fa-upload"/>
-													</span>
-												</span>
-												<a class="remove" href="#">
-													<i class=" ace-icon fa fa-times"/>
-												</a>
-											</label>
-										</div>
-									</div>
 								</div>
 								<div class="row">
 									<div class="col-xs-12 col-sm-2">
@@ -572,6 +549,34 @@
 													</h:selectOneMenu>
 												</h:panelGroup>
 											</h:panelGroup>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+								<div class="col-xs-12 col-sm-4"> 
+								</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Certidão de Nascimento"/>
+										<div>
+											 <input type="file" id="fotoAluno"
+											 	class="upload" value="#{pessoaServlet.imagemAluno}"/>
+											 	
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Certidão de Nascimento"/>
+										<div>
+											 <input type="file" id="certidaoNascimento" 
+											 	class="upload" value="#{pessoaServlet.imagemCertNascimento}"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Comprovante de Residencia"/>
+										<div>
+											 <input type="file" id="certidaoNascimento" 
+											 	class="upload" value="#{pessoaServlet.imagemResidencia}"/>
 										</div>
 									</div>
 								</div>
@@ -800,9 +805,8 @@
 		</div>
 	
 	</ui:define>
-	<ui:define name="scripPagina">
+	<ui:define name="scriptPagina">
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.js"/>
-		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.validate.min.js"/>
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/RH/cadastros/Pessoa/cadastroPessoa.css"/>
 	</ui:define>
 </ui:composition>

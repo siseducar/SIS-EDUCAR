@@ -1,9 +1,12 @@
 package modulos.RH.servlet;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.PessoaDAO;
@@ -30,6 +33,52 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	Pessoa diretor = null;
 	private String nomeDiretor = "";
 	private String cpfDiretor = "";
+	
+	/* Combo com valores de GRAU DE PARENTESCO */
+	private List<SelectItem> comboGrauParentesco;
+	
+	/* Combo com valores de NACIONALIDADE */
+	private List<SelectItem> comboNacionalidade;
+	
+	/* Combo com valores de RAÇA */
+	private List<SelectItem> comboRaca;
+	
+	/* Combo com valores de ESTADO CIVIL */
+	private List<SelectItem> comboEstadoCivil;
+	
+	/* Combo com valores de GRAU DE PARENTESCO */
+	private List<SelectItem> comboGrauInstrucao;
+	
+	/* Combo com valores de SITUAÇÂO ECÔNIMCA */
+	private List<SelectItem> comboSituacaoEconomica;
+	
+	/* Combo com valores de RELIGIÃO */
+	private List<SelectItem> comboReligiao;
+	
+	/* Combo com valores de ZONA RESIDENCIAL */
+	private List<SelectItem> comboZonaResidencial;
+	
+	/* Combo com valores de TIPO DE DEFICENCIA*/
+	private List<SelectItem> comboTipoDeficiencia;
+	
+	/* Combo com valores de PAÍS */
+	private List<SelectItem> comboPais;
+	
+	/* Combo com valores de ESTADO */
+	private List<SelectItem> comboEstado;
+	
+	/* Combo com valores de CIDADE */
+	private List<SelectItem> comboCidade;
+	
+	/* Combo com valores de CARGO */
+	private List<SelectItem> comboCargo;
+	
+	/* Combo com valores de REDE DE ENSINO */
+	private List<SelectItem> comboRedeEnsino;
+	
+	/* Combo com valores de UNIDADE ESCOLAR */
+	private List<SelectItem> comboUnidadeEscolar;
+	
 	
 	/**
 	 * Construtor

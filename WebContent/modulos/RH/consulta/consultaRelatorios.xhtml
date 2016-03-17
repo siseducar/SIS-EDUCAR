@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="scriptPagina">
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
+			<script type="text/javascript">
+	      		google.charts.load('current', {'packages':['corechart']});
+	      		google.charts.setOnLoadCallback(drawChartPizza);
+	      		google.charts.setOnLoadCallback(drawChart3D);
+	      		google.charts.setOnLoadCallback(drawChart3D);
+	      
+	    		  function drawChartPizza() {
+	    				
+				        var data = google.visualization.arrayToDataTable([
+				          ['Task', 'Legenda'],
+				          ['Branca',     128],
+				          ['Negra',      63],
+				          ['Parda',  31],
+				          ['Amarela', 6],
+				          ['Indígena', 2],
+				          ['Não Declarada', 11]
+				        ]);
+				
+				        var options = {
+				          title: 'Quantidade de Pessoas por Raça'
+				        };
+				
+				        var chartRaca = new google.visualization.PieChart(document.getElementById('piechartRaca'));
+				
+				        chartRaca.draw(data, options);
+			      }
+	    		  
+	    		  function drawChart3D() {
+	    				
+				        var data = google.visualization.arrayToDataTable([
+				          ['Task', 'Legenda'],
+				          ['Branca',     128],
+				          ['Negra',      63],
+				          ['Parda',  31],
+				          ['Amarela', 6],
+				          ['Indígena', 2],
+				          ['Não Declarada', 11]
+				        ]);
+				
+				        var options = {
+				          title: 'Quantidade de Pessoas por Raça',
+				          is3D: true,
+				        };
+				
+				        var chartSitu = new google.visualization.PieChart(document.getElementById('piechartSituacaoEconomica'));
+				
+				        chartSitu.draw(data, options);
+			      }
+		    </script>
+		</ui:define>		
+		<ui:define name="scriptConteudo">
+			<div class="page-content">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-xs-12 col-sm-7">
+							<div class="widget-box">
+								<div class="widget-header">
+									<h4 class="widget-title">Raça - Estilo Pizza</h4>
+									<div class="widget-toolbar">
+										<a href="#" data-action="collapse">
+											<i class="ace-icon fa fa-chevron-down"/>
+										</a>
+									</div>
+								</div>
+								<div class="widget-body">
+									<div class="widget-main">
+										<div class="row">
+											<div class="col-sm-10">
+												<div id="piechartRaca" style="width: 900px; height: 500px;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-7">
+							<div class="widget-box">
+								<div class="widget-header">
+									<h4 class="widget-title">Raça - Estilo Pizza 3D</h4>
+									<div class="widget-toolbar">
+										<a href="#" data-action="collapse">
+											<i class="ace-icon fa fa-chevron-down"/>
+										</a>
+									</div>
+								</div>
+								<div class="widget-body">
+									<div class="widget-main">
+										<div class="row">
+											<div class="col-sm-10">
+												<div id="piechartSituacaoEconomica" style="width: 900px; height: 500px;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:html>

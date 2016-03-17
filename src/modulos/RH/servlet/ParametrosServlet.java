@@ -13,7 +13,6 @@ import javax.faces.model.SelectItem;
 
 import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.CidadeDAO;
-import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.EstadoCivilDAO;
 import modulos.RH.dao.EstadoDAO;
 import modulos.RH.dao.GrauInstrucaoDAO;
@@ -31,15 +30,11 @@ import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
 import modulos.RH.om.Cargo;
 import modulos.RH.om.Cidade;
-import modulos.RH.om.Endereco;
 import modulos.RH.om.Estado;
 import modulos.RH.om.EstadoCivil;
-import modulos.RH.om.Fornecedor;
-import modulos.RH.om.Funcionario;
 import modulos.RH.om.GrauInstrucao;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
-import modulos.RH.om.Pessoa;
 import modulos.RH.om.Raca;
 import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
@@ -55,97 +50,11 @@ import modulos.RH.om.UnidadeEscolar;
 public class ParametrosServlet implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
-	/* Atributos */
-	static Pessoa pessoaDados;
-	static Aluno alunoDados;
-	static Fornecedor fornecedorDados;
-	static Funcionario funcionarioDados;
-	static Pais paisDados;
-	static Estado estadoDados;
-	static Cidade cidadeDados;
-	static Endereco enderecoDados;
-	static Nacionalidade nacionalidadeDados;
-	static Raca racaDados;
-	static EstadoCivil estaCivilDados;
-	static GrauInstrucao grauInstruDados;
-	static SituacaoEconomica situEconomicaDados;
-	static Religiao religiaoDados;
-	static RedeEnsino redeEnsino;
-	static Regiao regiaoDados;
-	static SituacaoFuncionamento situacaoFuncionamentoDados;
-	static TipoOcupacao tipoOcupacaoDados;
 	
-	List<SelectItem> comboPais;
-	List<SelectItem> comboEstado;
-	List<SelectItem> comboCidade;
-	
-	/* Metodo Construtor */
-	public ParametrosServlet() throws SQLException{
-		if(pessoaDados == null){
-			pessoaDados = new Pessoa();
-		}
-		if(funcionarioDados == null){
-			funcionarioDados = new Funcionario();
-		}
-		if(alunoDados == null){
-			alunoDados = new Aluno();
-		}
-		if(fornecedorDados == null){
-			fornecedorDados = new Fornecedor();
-		}
-		if(paisDados == null){
-			paisDados = new Pais();
-		}
-		if(estadoDados == null){
-			estadoDados = new Estado();
-		}
-		if(cidadeDados == null){
-			cidadeDados = new Cidade();
-		}
-		if(enderecoDados == null) {
-			enderecoDados = new Endereco();
-		}
-		if(nacionalidadeDados == null) {
-			nacionalidadeDados = new Nacionalidade();
-		}
-		if(racaDados == null) {
-			racaDados = new Raca();
-		}
-		if(estaCivilDados == null) {
-			estaCivilDados = new EstadoCivil();
-		}
-		if(grauInstruDados == null){
-			grauInstruDados = new GrauInstrucao();
-		}
-		if(situEconomicaDados == null) {
-			situEconomicaDados = new SituacaoEconomica();
-		}
-		if(religiaoDados == null) {
-			religiaoDados = new Religiao();
-		}
-		if(redeEnsino == null) {
-			redeEnsino = new RedeEnsino();
-		}
-		if(regiaoDados == null) {
-			regiaoDados = new Regiao();
-		}
-		if(situacaoFuncionamentoDados == null) {
-			situacaoFuncionamentoDados = new SituacaoFuncionamento();
-		}
-		if(tipoOcupacaoDados == null) {
-			tipoOcupacaoDados = new TipoOcupacao();
-		}
-		
-		comboPais = new ArrayList<SelectItem>();
-		comboEstado = new ArrayList<SelectItem>();
-		comboCidade = new ArrayList<SelectItem>();
-	}
-
 	/*
 	 * Metodo para carregar as Naturalidades
 	 * */
-	public List<SelectItem> getConsultaNacionalidade() {
+	public List<SelectItem> consultaNacionalidade() {
 		try {
 			NacionalidadeDAO nacionalidadeDAO = new NacionalidadeDAO();
 			List<SelectItem> comboNacionalidade = new ArrayList<SelectItem>();
@@ -168,7 +77,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Racas
 	 * */
-	public List<SelectItem> getConsultaRaca() {
+	public List<SelectItem> consultaRaca() {
 		try {
 			RacaDAO racaDAO = new RacaDAO();
 			List<SelectItem> comboRaca = new ArrayList<SelectItem>();
@@ -191,7 +100,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as situações de funcionamento
 	 * */
-	public List<SelectItem> getConsultaSituacaoFuncionamento() {
+	public List<SelectItem> consultaSituacaoFuncionamento() {
 		try {
 			SituacaoFuncionamentoDAO situFuncionamentoDAO = new SituacaoFuncionamentoDAO();
 			List<SelectItem> comboSituFuncionamento = new ArrayList<SelectItem>();
@@ -214,7 +123,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os tipos ocupação
 	 * */
-	public List<SelectItem> getConsultaTipoOcupacao() {
+	public List<SelectItem> consultaTipoOcupacao() {
 		try {
 			TipoOcupacaoDAO tipoOcupacaoDAO = new TipoOcupacaoDAO();
 			List<SelectItem> comboTipoOcupacao = new ArrayList<SelectItem>();
@@ -237,7 +146,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os Estados Civis
 	 * */
-	public List<SelectItem> getConsultaEstaCivil() {
+	public List<SelectItem> consultaEstaCivil() {
 		try {
 			EstadoCivilDAO estaCivilDAO = new EstadoCivilDAO();
 			List<SelectItem> comboEstaCivil = new ArrayList<SelectItem>();
@@ -260,7 +169,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os Graus de Instrucoes
 	 * */
-	public List<SelectItem> getConsultaGrauInstru() {
+	public List<SelectItem> consultaGrauInstru() {
 		try {
 			GrauInstrucaoDAO grauInstruDAO = new GrauInstrucaoDAO();
 			List<SelectItem> comboGrauInstru = new ArrayList<SelectItem>();
@@ -283,7 +192,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as situacoes economicas
 	 * */
-	public List<SelectItem> getConsultaSituEconomica() {
+	public List<SelectItem> consultaSituEconomica() {
 		try {
 			SituacaoEconomicaDAO situEconomicaDAO = new SituacaoEconomicaDAO();
 			List<SelectItem> comboSituEconomica = new ArrayList<SelectItem>();
@@ -306,7 +215,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Religioes
 	 * */
-	public List<SelectItem> getConsultaReligiao() {
+	public List<SelectItem> consultaReligiao() {
 		try {
 			ReligiaoDAO religiaoDAO = new ReligiaoDAO();
 			List<SelectItem> comboReligiao = new ArrayList<SelectItem>();
@@ -329,9 +238,10 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os Paises
 	 * */
-	public List<SelectItem> getConsultaPais() {
+	public List<SelectItem> consultaPais() {
 		try {
 			PaisDAO paisDAO = new PaisDAO();
+			List<SelectItem> comboPais = new ArrayList<>();
 			List<Pais> paramPais = paisDAO.consultaPais();
 			
 			for (Pais param : paramPais){
@@ -340,8 +250,6 @@ public class ParametrosServlet implements Serializable{
 			   s.setLabel(param.getNome());
 			   comboPais.add(s);
 			}
-			comboEstado.clear();
-			comboCidade.clear();
 			return comboPais;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -353,10 +261,11 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os Estados
 	 * */
-	public List<SelectItem> getConsultaEstado() {
-		if(paisDados.getPkPais() != null && !comboPais.isEmpty()){
+	public List<SelectItem> consultaEstado(Pais paisDados) {
+		if(paisDados.getPkPais() != null){
 			try {
 				EstadoDAO estadoDAO = new EstadoDAO();
+				List<SelectItem> comboEstado = new ArrayList<>();
 				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
 				
 				for (Estado param : paramEstado){
@@ -365,7 +274,6 @@ public class ParametrosServlet implements Serializable{
 				   s.setLabel(param.getNome());
 				   comboEstado.add(s);
 				}
-				comboCidade.clear();
 				return comboEstado;
 			}catch(SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -373,18 +281,18 @@ public class ParametrosServlet implements Serializable{
 				return null;
 			}
 		}
-		estadoDados.setPkEstado(null);
-		comboEstado.clear();
+		
 		return null;
 	}
 	
 	/*
 	 * Metodo para carregar as Cidades
 	 * */
-	public List<SelectItem> getConsultaCidade() {
-		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
+	public List<SelectItem> consultaCidade(Estado estadoDados) {
+		if(estadoDados.getPkEstado() != null){
 			try {
 				CidadeDAO cidadeDAO = new CidadeDAO();
+				List<SelectItem> comboCidade = new ArrayList<>();
 				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
 				
 				for (Cidade param : paramCidade){
@@ -400,15 +308,14 @@ public class ParametrosServlet implements Serializable{
 				return null;
 			}
 		}
-		cidadeDados.setPkCidade(null);
-		comboCidade.clear();
+		
 		return null;
 	}
 
 	/*
 	 * Metodo para carregar as Zonas Residencias
 	 * */
-	public List<SelectItem> getConsultaRegiao() {
+	public List<SelectItem> consultaRegiao() {
 		try {
 			RegiaoDAO regiaoDAO = new RegiaoDAO();
 			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
@@ -431,7 +338,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os tipos de Deficiencia
 	 * */
-	public List<SelectItem> getConsultaTipoDeficiencia() throws SQLException {
+	public List<SelectItem> consultaTipoDeficiencia() throws SQLException {
 			TipoDeficienciaDAO tipoDeficienciaDAO = new TipoDeficienciaDAO();
 			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
 			List<TipoDeficiencia> paramTipoDeficiencia = tipoDeficienciaDAO.consultaTipoDeficiencia();
@@ -448,7 +355,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os cargos
 	 * */
-	public List<SelectItem> getConsultaCargo() throws SQLException {
+	public List<SelectItem> consultaCargo() throws SQLException {
 		CargoDAO cargoDAO = new CargoDAO();
 		List<SelectItem> comboCargo = new ArrayList<SelectItem>();
 		List<Cargo> paramCargo = cargoDAO.consultaCargo();
@@ -465,7 +372,7 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as rede de ensino
 	 * */
-	public List<SelectItem> getConsultaRedeEnsino() throws SQLException {
+	public List<SelectItem> consultaRedeEnsino() throws SQLException {
 		RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
 		List<SelectItem> comboRedeEnsino = new ArrayList<>();
 		List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
@@ -476,14 +383,13 @@ public class ParametrosServlet implements Serializable{
 		   s.setLabel(param.getNome());
 		   comboRedeEnsino.add(s);
 		}
-		alunoDados.setUnidadeEscolar(null);
 		return comboRedeEnsino;
 	}
 	
 	/*
 	 * Metodo para carregar as Unidades Escolares
 	 * */
-	public List<SelectItem> getConsultaUnidadeEscolar() throws NumberFormatException, SQLException {
+	public List<SelectItem> consultaUnidadeEscolar(Aluno alunoDados) throws NumberFormatException, SQLException {
 		if(alunoDados.getRedeEnsino() != null) {
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			List<SelectItem> comboUnidadeEscolar = new ArrayList<>();
@@ -499,164 +405,5 @@ public class ParametrosServlet implements Serializable{
 			return comboUnidadeEscolar;
 		}
 		return null;
-	}
-	
-	public void consultaEndereco(){
-		try {
-			EnderecoDAO enderecoDAO = new EnderecoDAO();
-			Endereco dadosEndereco = enderecoDAO.retornEnderecoDados(enderecoDados.getCep());
-			
-			enderecoDados.setLogradouro(dadosEndereco.getLogradouro());
-			enderecoDados.setBairro(dadosEndereco.getBairro());
-			enderecoDados.setNumero(dadosEndereco.getNumero());
-			enderecoDados.setComplemento(dadosEndereco.getComplemento());
-		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"CEP não encontrado", null));
-		}
-	}
-
-	/* GETTERS AND SETTERS */
-	public Pessoa getPessoaDados() {
-		return pessoaDados;
-	}
-
-	public void setPessoaDados(Pessoa pessoaDados) {
-		this.pessoaDados = pessoaDados;
-	}
-
-	public Aluno getAlunoDados() {
-		return alunoDados;
-	}
-
-	public void setAlunoDados(Aluno alunoDados) {
-		this.alunoDados = alunoDados;
-	}
-
-	public Fornecedor getFornecedorDados() {
-		return fornecedorDados;
-	}
-
-	public void setFornecedorDados(Fornecedor fornecedorDados) {
-		this.fornecedorDados = fornecedorDados;
-	}
-
-	public Funcionario getFuncionarioDados() {
-		return funcionarioDados;
-	}
-
-	public void setFuncionarioDados(Funcionario funcionarioDados) {
-		this.funcionarioDados = funcionarioDados;
-	}
-
-	public Pais getPaisDados() {
-		return paisDados;
-	}
-
-	public void setPaisDados(Pais paisDados) {
-		this.paisDados = paisDados;
-	}
-
-	public Estado getEstadoDados() {
-		return estadoDados;
-	}
-
-	public void setEstadoDados(Estado estadoDados) {
-		this.estadoDados = estadoDados;
-	}
-
-	public Cidade getCidadeDados() {
-		return cidadeDados;
-	}
-
-	public void setCidadeDados(Cidade cidadeDados) {
-		this.cidadeDados = cidadeDados;
-	}
-
-	public Nacionalidade getNacionalidadeDados() {
-		return nacionalidadeDados;
-	}
-
-	public void setNacionalidadeDados(Nacionalidade nacionalidadeDados) {
-		this.nacionalidadeDados = nacionalidadeDados;
-	}
-
-	public Raca getRacaDados() {
-		return racaDados;
-	}
-
-	public void setRacaDados(Raca racaDados) {
-		this.racaDados = racaDados;
-	}
-
-	public EstadoCivil getEstaCivilDados() {
-		return estaCivilDados;
-	}
-
-	public void setEstaCivilDados(EstadoCivil estaCivilDados) {
-		this.estaCivilDados = estaCivilDados;
-	}
-
-	public GrauInstrucao getGrauInstruDados() {
-		return grauInstruDados;
-	}
-
-	public void setGrauInstruDados(GrauInstrucao grauInstruDados) {
-		this.grauInstruDados = grauInstruDados;
-	}
-
-	public SituacaoEconomica getSituEconomicaDados() {
-		return situEconomicaDados;
-	}
-
-	public void setSituEconomicaDados(SituacaoEconomica situEconomicaDados) {
-		this.situEconomicaDados = situEconomicaDados;
-	}
-
-	public Religiao getReligiaoDados() {
-		return religiaoDados;
-	}
-
-	public void setReligiaoDados(Religiao religiaoDados) {
-		this.religiaoDados = religiaoDados;
-	}
-
-	public Endereco getEnderecoDados() {
-		return enderecoDados;
-	}
-
-	public void setEnderecoDados(Endereco enderecoDados) {
-		this.enderecoDados = enderecoDados;
-	}
-
-	public static RedeEnsino getRedeEnsino() {
-		return redeEnsino;
-	}
-
-	public static void setRedeEnsino(RedeEnsino redeEnsino) {
-		ParametrosServlet.redeEnsino = redeEnsino;
-	}
-	
-	public Regiao getRegiaoDados() {
-		return regiaoDados;
-	}
-
-	public void setRegiaoDados(Regiao regiaoDados) {
-		this.regiaoDados = regiaoDados;
-	}
-	public SituacaoFuncionamento getSituacaoFuncionamentoDados() {
-		return situacaoFuncionamentoDados;
-	}
-
-	public void setSituacaoFuncionamentoDados(SituacaoFuncionamento situacaoFuncionamentoDados) {
-		this.situacaoFuncionamentoDados = situacaoFuncionamentoDados;
-	}
-
-	public TipoOcupacao getTipoOcupacaoDados() {
-		return tipoOcupacaoDados;
-	}
-
-	public void setTipoOcupacaoDados(TipoOcupacao tipoOcupacaoDados) {
-		this.tipoOcupacaoDados = tipoOcupacaoDados;
 	}
 }
