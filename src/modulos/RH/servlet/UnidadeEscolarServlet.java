@@ -1,5 +1,6 @@
 package modulos.RH.servlet;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,10 +13,14 @@ import modulos.RH.dao.EnderecoDAO;
 import modulos.RH.dao.PessoaDAO;
 import modulos.RH.dao.TerrenoDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
+import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
+import modulos.RH.om.Estado;
+import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
+import modulos.RH.om.SituacaoFuncionamento;
 import modulos.RH.om.Terreno;
 import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
@@ -34,32 +39,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	private String nomeDiretor = "";
 	private String cpfDiretor = "";
 	
-	/* Combo com valores de GRAU DE PARENTESCO */
-	private List<SelectItem> comboGrauParentesco;
-	
-	/* Combo com valores de NACIONALIDADE */
-	private List<SelectItem> comboNacionalidade;
-	
-	/* Combo com valores de RAÇA */
-	private List<SelectItem> comboRaca;
-	
-	/* Combo com valores de ESTADO CIVIL */
-	private List<SelectItem> comboEstadoCivil;
-	
-	/* Combo com valores de GRAU DE PARENTESCO */
-	private List<SelectItem> comboGrauInstrucao;
-	
-	/* Combo com valores de SITUAÇÂO ECÔNIMCA */
-	private List<SelectItem> comboSituacaoEconomica;
-	
-	/* Combo com valores de RELIGIÃO */
-	private List<SelectItem> comboReligiao;
-	
 	/* Combo com valores de ZONA RESIDENCIAL */
 	private List<SelectItem> comboZonaResidencial;
-	
-	/* Combo com valores de TIPO DE DEFICENCIA*/
-	private List<SelectItem> comboTipoDeficiencia;
 	
 	/* Combo com valores de PAÍS */
 	private List<SelectItem> comboPais;
@@ -70,15 +51,24 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	/* Combo com valores de CIDADE */
 	private List<SelectItem> comboCidade;
 	
-	/* Combo com valores de CARGO */
-	private List<SelectItem> comboCargo;
-	
 	/* Combo com valores de REDE DE ENSINO */
 	private List<SelectItem> comboRedeEnsino;
 	
-	/* Combo com valores de UNIDADE ESCOLAR */
-	private List<SelectItem> comboUnidadeEscolar;
+	/* Combo com valores de TIPO OCUPAÇÃO */
+	private List<SelectItem> comboTipoOcupacao;
 	
+	/* Combo com valores de SITUAÇÃO FUNCIONAMENTO */
+	private List<SelectItem> comboSituacaoFuncionamento;
+	
+	private Pais paisDado;
+	private Estado estadoDado;
+	private Cidade cidadeDado;
+	private Endereco enderecoDado;
+	private RedeEnsino redeEnsinoDado;
+	private SituacaoFuncionamento situacaoFuncionamentoDado;
+	private TipoOcupacao tipoOcupacaoDado;
+	private Regiao regiaoDado;
+	private Pessoa pessoaDado;
 	
 	/**
 	 * Construtor
@@ -222,6 +212,7 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 		}
 	}
 
+	/* Getters and setters */
 	public UnidadeEscolar getUnidadeEscolar() {
 		return unidadeEscolar;
 	}
@@ -260,5 +251,144 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 
 	public void setCpfDiretor(String cpfDiretor) {
 		this.cpfDiretor = cpfDiretor;
+	}
+	
+	public List<SelectItem> getComboZonaResidencial() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaRegiao();
+	}
+
+	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
+		this.comboZonaResidencial = comboZonaResidencial;
+	}
+
+	public List<SelectItem> getComboPais() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaPais();
+	}
+
+	public void setComboPais(List<SelectItem> comboPais) {
+		this.comboPais = comboPais;
+	}
+
+	public List<SelectItem> getComboEstado() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaEstado(paisDado);
+	}
+
+	public void setComboEstado(List<SelectItem> comboEstado) {
+		this.comboEstado = comboEstado;
+	}
+
+	public List<SelectItem> getComboCidade() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaCidade(estadoDado);
+	}
+
+	public void setComboCidade(List<SelectItem> comboCidade) {
+		this.comboCidade = comboCidade;
+	}
+
+	public List<SelectItem> getComboRedeEnsino() throws SQLException {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaRedeEnsino();
+	}
+
+	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
+		this.comboRedeEnsino = comboRedeEnsino;
+	}
+
+	public List<SelectItem> getComboTipoOcupacao() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaTipoOcupacao();
+	}
+
+	public void setComboTipoOcupacao(List<SelectItem> comboTipoOcupacao) {
+		this.comboTipoOcupacao = comboTipoOcupacao;
+	}
+
+	public List<SelectItem> getComboSituacaoFuncionamento() {
+		ParametrosServlet parametrosServlet = new ParametrosServlet();
+		return parametrosServlet.consultaSituacaoFuncionamento();
+	}
+
+	public void setComboSituacaoFuncionamento(List<SelectItem> comboSituacaoFuncionamento) {
+		this.comboSituacaoFuncionamento = comboSituacaoFuncionamento;
+	}
+	
+	public Pais getPaisDado() {
+		return paisDado;
+	}
+
+	public void setPaisDado(Pais paisDado) {
+		this.paisDado = paisDado;
+	}
+
+	public Estado getEstadoDado() {
+		return estadoDado;
+	}
+
+	public void setEstadoDado(Estado estadoDado) {
+		this.estadoDado = estadoDado;
+	}
+
+	public Cidade getCidadeDado() {
+		return cidadeDado;
+	}
+
+	public void setCidadeDado(Cidade cidadeDado) {
+		this.cidadeDado = cidadeDado;
+	}
+
+	public Endereco getEnderecoDado() {
+		return enderecoDado;
+	}
+
+	public void setEnderecoDado(Endereco enderecoDado) {
+		this.enderecoDado = enderecoDado;
+	}
+
+	public RedeEnsino getRedeEnsinoDado() {
+		return redeEnsinoDado;
+	}
+
+	public void setRedeEnsinoDado(RedeEnsino redeEnsinoDado) {
+		this.redeEnsinoDado = redeEnsinoDado;
+	}
+
+	public SituacaoFuncionamento getSituacaoFuncionamentoDado() {
+		return situacaoFuncionamentoDado;
+	}
+
+	public void setSituacaoFuncionamentoDado(SituacaoFuncionamento situacaoFuncionamentoDado) {
+		this.situacaoFuncionamentoDado = situacaoFuncionamentoDado;
+	}
+
+	public TipoOcupacao getTipoOcupacaoDado() {
+		return tipoOcupacaoDado;
+	}
+
+	public void setTipoOcupacaoDado(TipoOcupacao tipoOcupacaoDado) {
+		this.tipoOcupacaoDado = tipoOcupacaoDado;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Regiao getRegiaoDado() {
+		return regiaoDado;
+	}
+
+	public void setRegiaoDado(Regiao regiaoDado) {
+		this.regiaoDado = regiaoDado;
+	}
+
+	public Pessoa getPessoaDado() {
+		return pessoaDado;
+	}
+
+	public void setPessoaDado(Pessoa pessoaDado) {
+		this.pessoaDado = pessoaDado;
 	}
 }
