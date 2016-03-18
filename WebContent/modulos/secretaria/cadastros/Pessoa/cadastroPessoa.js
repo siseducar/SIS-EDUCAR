@@ -1,4 +1,3 @@
-
 $(function($) {
 	/*	Componente CPF  */
 	$(".cpf").on('focus',function(){
@@ -59,6 +58,20 @@ $(function($) {
         $(this).attr('placeholder','');
         $(this).unmask();
     });
+	
+	/* Componenetes que aceitem somente numeros */
+	$('.numeros').keypress(function(event) {
+		var tecla = (window.event) ? event.keyCode : event.which;
+		if ((tecla > 47 && tecla < 58)) {
+			return true;
+		} else {
+			if (tecla != 8) {				
+				return false;
+			} else {
+				return true;
+			}
+		}
+	});
 });
 
 $(".upload").ace_file_input({

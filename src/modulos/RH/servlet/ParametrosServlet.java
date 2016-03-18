@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -33,6 +31,7 @@ import modulos.RH.om.Cidade;
 import modulos.RH.om.Estado;
 import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.GrauInstrucao;
+import modulos.RH.om.GrauParentesco;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Raca;
@@ -45,8 +44,6 @@ import modulos.RH.om.TipoDeficiencia;
 import modulos.RH.om.TipoOcupacao;
 import modulos.RH.om.UnidadeEscolar;
 
-@ManagedBean(name="parametrosServlet")
-@ViewScoped
 public class ParametrosServlet implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -351,29 +348,6 @@ public class ParametrosServlet implements Serializable{
 	}
 	
 	/*
-	 * Metodo para carregar os cargos
-	 * */
-	public List<SelectItem> consultaCargo() {
-		try {	
-			CargoDAO cargoDAO = new CargoDAO();
-			List<SelectItem> comboCargo = new ArrayList<SelectItem>();
-			List<Cargo> paramCargo = cargoDAO.consultaCargo();
-			
-			for (Cargo param : paramCargo){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkCargo());
-			   s.setLabel(param.getDescricao());
-			   comboCargo.add(s);
-			}
-			return comboCargo;
-		}catch(SQLException e ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
-			return null;
-		}
-	}
-	
-	/*
 	 * Metodo para carregar as rede de ensino
 	 * */
 	public List<SelectItem> consultaRedeEnsino() {
@@ -399,12 +373,12 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar as Unidades Escolares
 	 * */
-	public List<SelectItem> consultaUnidadeEscolar(Aluno alunoDados) throws NumberFormatException, SQLException {
-		if(alunoDados.getRedeEnsino() != null) {
+	public List<SelectItem> consultaUnidadeEscolar(RedeEnsino redeEnsinoDados) {
+		try {
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			List<SelectItem> comboUnidadeEscolar = new ArrayList<>();
 			List<UnidadeEscolar> paramUnidadeEscolar = 
-						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
+						unidadeEscolarDAO.consultaUnidadeEscolar(redeEnsinoDados.getPkRedeEnsino());
 			
 			for (UnidadeEscolar param : paramUnidadeEscolar){
 			   SelectItem  s = new SelectItem();
@@ -413,7 +387,49 @@ public class ParametrosServlet implements Serializable{
 			   comboUnidadeEscolar.add(s);
 			}
 			return comboUnidadeEscolar;
+		}catch(SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
+			return null;
 		}
-		return null;
+	}
+	
+	/*
+	 * Metodo para carregar os Graus de Parentesco
+	 * */
+	public List<SelectItem> consultaGrauParentesco() {
+		try {
+			
+			List<SelectItem> comboParentesco = new ArrayList<>();
+			
+			return comboParentesco;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os cargos
+	 * */
+	public List<SelectItem> consultaCargo() {
+		try {
+			List<SelectItem> comboCargo = new ArrayList<>();
+			CargoDAO cargoDAO = new CargoDAO();
+			List<Cargo> paramCargo = cargoDAO.consultaCargo();
+			
+			for (Cargo param : paramCargo){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkCargo());
+			   s.setLabel(param.getDescricao());
+			   comboCargo.add(s);
+			}
+			return comboCargo;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
+			return null;
+		}
 	}
 }

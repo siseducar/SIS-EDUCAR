@@ -24,13 +24,32 @@
     	<converter-class>modulos.sisEducar.converter.ConverteCPF</converter-class>
 	</converter>
  	<converter>
+    	<converter-id>converter.CNPJ</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteCNPJ</converter-class>
+	</converter>
+ 	<converter>
     	<converter-id>converter.DATA</converter-id>
     	<converter-class>modulos.sisEducar.converter.ConverteData</converter-class>
 	</converter>
- 	
+ 	<converter>
+    	<converter-id>converter.RG</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteRG</converter-class>
+	</converter>
+	<converter>
+    	<converter-id>converter.TELCELULAR</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteTelCelular</converter-class>
+	</converter>
+	<converter>
+    	<converter-id>converter.TELRESIDENCIAL</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteTelResidencial</converter-class>
+	</converter>
  	
  	<validator>
     	<validator-id>validar.CpfValidator</validator-id>
     	<validator-class>modulos.sisEducar.validator.ValidaCPF</validator-class>
+	</validator>
+	<validator>
+    	<validator-id>validar.CnpjValidator</validator-id>
+    	<validator-class>modulos.sisEducar.validator.ValidaCNPJ</validator-class>
 	</validator>
 </faces-config>

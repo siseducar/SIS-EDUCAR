@@ -17,12 +17,8 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import modulos.RH.dao.AlunoDAO;
-import modulos.RH.dao.CargoDAO;
 import modulos.RH.dao.PessoaDAO;
-import modulos.RH.dao.RedeEnsinoDAO;
-import modulos.RH.dao.UnidadeEscolarDAO;
 import modulos.RH.om.Aluno;
-import modulos.RH.om.Cargo;
 import modulos.RH.om.Cidade;
 import modulos.RH.om.Endereco;
 import modulos.RH.om.Estado;
@@ -34,11 +30,9 @@ import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Pessoa;
 import modulos.RH.om.Raca;
-import modulos.RH.om.RedeEnsino;
 import modulos.RH.om.Regiao;
 import modulos.RH.om.Religiao;
 import modulos.RH.om.SituacaoEconomica;
-import modulos.RH.om.UnidadeEscolar;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -260,7 +254,6 @@ public class PessoaServlet implements Serializable{
 		try {
 			
 			Pessoa pessoaDadosFinal = new Pessoa();
-			replaceCampos();
 			
 			/* Validação dos dados referentes a PESSOA */
 			if( pessoaDados != null ) {
@@ -422,90 +415,7 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 
-	/*
-	 * Metodo para carregar os cargos
-	 * */
-	public void consultaCargo() {
-		try {
-			CargoDAO cargoDAO = new CargoDAO();
-			List<Cargo> paramCargo = cargoDAO.consultaCargo();
-			
-			for (Cargo param : paramCargo){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkCargo());
-			   s.setLabel(param.getDescricao());
-			   comboCargo.add(s);
-			}
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
-		}
-	}
 	
-	/*
-	 * Metodo para carregar as rede de ensino
-	 * */
-	public void consultaRedeEnsino() {
-		try {
-			comboRedeEnsino.clear();
-			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
-			List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
-			
-			for (RedeEnsino param : paramRedeEnsino){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkRedeEnsino());
-			   s.setLabel(param.getNome());
-			   comboRedeEnsino.add(s);
-			}
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de REDE DE ENSINO, contate o administrador do sistema!", null));
-		}
-	}
-	
-	/*
-	 * Metodo para carregar as Unidades Escolares
-	 * */
-	public void consultaUnidadeEscolar() {
-		try {
-			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();			
-			List<UnidadeEscolar> paramUnidadeEscolar = 
-						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
-			
-			for (UnidadeEscolar param : paramUnidadeEscolar){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkUnidadeEscolar());
-			   s.setLabel(param.getNome());
-			   comboUnidadeEscolar.add(s);
-			}
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
-		}
-		
-	}
-
-	/*
-	 * Metodo para carregar os Graus de Parentesco
-	 * */
-	public void consultaGrauParentesco() {
-		try {
-			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();			
-			List<UnidadeEscolar> paramUnidadeEscolar = 
-						unidadeEscolarDAO.consultaUnidadeEscolar(Integer.parseInt(alunoDados.getRedeEnsino()));
-			
-			for (UnidadeEscolar param : paramUnidadeEscolar){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkUnidadeEscolar());
-			   s.setLabel(param.getNome());
-			   comboUnidadeEscolar.add(s);
-			}
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
-		}
-		
-	}
 	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
@@ -647,30 +557,6 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	/*
-	 * Metodo para dar replace em valores de alguns campos
-	 * 
-	 * */
-	public void replaceCampos(){
-		/* RG */
-		pessoaDados.setRg(pessoaDados.getRg().replace(".", ""));
-		pessoaDados.setRg(pessoaDados.getRg().replace("-", ""));
-		pessoaDados.setRg(pessoaDados.getRg().replace(" ", ""));
-		
-		/* TELFONE RESIDENCIAL */
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("(", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(")", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace(" ", ""));
-		pessoaDados.setTelefoneResidencial(pessoaDados.getTelefoneResidencial().replace("-", ""));
-		
-		/* TELEFONE CELULAR */
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("(", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(")", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace("-", ""));
-		pessoaDados.setTelefoneCelular(pessoaDados.getTelefoneCelular().replace(" ", ""));
-		
-	}
-	
-	/*
 	 * Metodo para validar o tipo de cadastro
 	 * 
 	 * */
@@ -704,7 +590,7 @@ public class PessoaServlet implements Serializable{
 		comboZonaResidencial.addAll(paramDados.consultaRegiao());
 		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
 		comboPais.addAll(paramDados.consultaPais());
-		consultaCargo();
+		comboCargo.addAll(paramDados.consultaCargo());
 	}
 	
 	

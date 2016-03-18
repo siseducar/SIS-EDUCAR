@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition	template="/resources/templates/sisEducar/principal.xhtml">
+		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
+			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
+		</ui:define>
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon fa fa-file"/>Cadastro
+			</li>
+			<li class="active">
+				<i class="ace-icon fa fa-user"/>Fornecedor
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo" >
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						Cadastro
+						<small> 
+							<i class="ace-icon fa fa-angle-double-right"/> Cadastro de Fornecedor
+						</small>
+					</h1>
+				</div>
+				<div class="row">
+					<div class="col-sx-12 col-sm-12">
+						<h:form id="formCadstroFornecedor" enctype="multipart/form-data">
+							<h:panelGroup id="dadosEmpresa" style="width: 100%" class="clearfix form-actions">
+								<h3 class="header smaller lighter blue" align="center">Dados da Empresasa</h3>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6">
+										<h:outputLabel value="Razão Social"/>
+										<div>
+											<h:inputText type="text" styleClass="col-sm-12" id="razaoSocial"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<h:outputLabel value="Nome Fantasia"/>
+										<div>
+											<h:inputText type="text" styleClass="col-sm-12" id="nomeFantasia"/>
+										</div>
+									</div>
+								</div>
+								<div class="space-4"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="CNPJ"/>
+										<div>
+											<h:inputText type="text" styleClass="col-sm-12 cnpj" id="numCnpj">
+												<f:validator validatorId="validar.CnpjValidator"/>
+												<f:converter converterId="converter.CNPJ"/>
+											</h:inputText>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel
+											value="CPF (Pessoa Física)"/>
+										<div>
+											<h:inputText type="text" id="numCpf"
+												styleClass="col-sm-12 cpf">
+												<f:validator validatorId="validar.CpfValidator"/>
+												<f:converter converterId="converter.CPF"/>
+											</h:inputText>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel
+											value="Inscrição Estadual"/>
+										<div>
+											<h:inputText type="text" id="inscriEstadual"
+												styleClass="col-sm-12 numeros"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel
+											value="Inscrição Municipal"/>
+										<div>
+											<h:inputText type="text" id="inscriMunicipal"
+												styleClass="col-sm-12 numeros"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel
+											value="Inscrição INSS (Pessoa Física)"/>
+										<div>
+											<h:inputText type="text" id="inscriInss"
+												styleClass="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="space-4"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Ramo de Atividade"/>
+										<div>
+											<h:selectOneMenu id="codAtividade" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Segmento"/>
+										<div>
+											<h:selectOneMenu id="codSegmento" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup id="dadosContatoEmpresa" style="width: 100%" class="clearfix form-actions">
+								<h3 class="header smaller lighter blue" align="center">Endereço/Contato</h3>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="País"/>
+										<div>
+											<h:selectOneMenu id="codPais" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<f:ajax event="change" render="codEstado"/>
+												<f:ajax event="change" render="codCidade"/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12  col-sm-3">
+										<h:outputLabel value="Estado"/>
+										<div>
+											<h:selectOneMenu id="codEstado" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<f:ajax event="change" render="codCidade"/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12  col-sm-4">
+											<h:outputLabel value="Cidade"/>
+										<div>
+											<h:selectOneMenu id="codCidade" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
+										<div>
+											<h:inputText
+												styleClass="col-sm-12 numeros" id="numCep" title="Numero do CEP">
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div class="space-4"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Tipo Logradouro"/>
+										<div>
+											<h:selectOneMenu id="tipoLogradouro" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel
+											value="Logradouro"/>
+										<div>
+											<h:inputText type="text" id="nomeLogradouro" styleClass="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-1">
+										<h:outputLabel
+											value="Numero"/>
+										<div>
+											<h:inputText type="text" id="numEndereco" styleClass="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel
+											value="Bairro"/>
+										<div>
+											<h:inputText type="text" id="codBairro" styleClass="col-sm-12"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Complemento"/>
+										<div>
+											<h:inputText type="text" id="codComplemento" styleClass="col-sm-12"/>
+										</div>
+									</div>
+								</div>
+								<div class="space-4"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6">
+										<h:outputLabel value="E-mail da Empresa"/>
+										<div>
+											<h:inputText type="text" class="form-control"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<h:outputLabel value="Site da Empresa"/>
+										<div>
+											<h:inputText type="text" class="form-control"/>
+										</div>
+									</div>
+								</div>
+								<div class="space-4"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Zona Residencial"/>
+										<div>
+											<h:selectOneMenu id="codZonaResi" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Telefone da Empresa"/>
+										<div>
+											<h:inputText type="number" id="numTelefone" styleClass="col-sm-12 telResidencial">
+												<f:converter converterId="converter.TELRESIDENCIAL"/>
+											</h:inputText>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Fax"/>
+										<div>
+											<h:inputText id="numFax" class="form-control"/>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup id="dadosBancariosEmpresa" style="width: 100%" class="clearfix form-actions">
+								<h3 class="header smaller lighter blue" align="center">Dados Bancarios da Empresasa</h3>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Banco"/>
+										<div>
+											<h:selectOneMenu id="codBanco" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-1">
+										<h:outputLabel value="Agência"/>
+										<div>
+											<h:inputText type="text" class="form-control numeros"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Conta Corrente"/>
+										<div>
+											<h:inputText type="text" class="form-control numeros"/>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+							
+							<div class="col-sx-12 col-sm-6" id="default-buttons">
+								<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round">
+									<i class="ace-icon fa fa-file"/>
+									<span class="bigger-110">Novo</span>
+								</button>
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+									<span class="bigger-110">Registrar</span>
+									<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+									<p:ajax event="click"
+										update=":formCadstroFornecedor" process=":formCadstroFornecedor"/>
+								</h:commandLink>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:html>
