@@ -102,44 +102,44 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 			}
 			
 			/* Rede Ensino */
-			if(ParametrosServlet.alunoDados!=null && ParametrosServlet.alunoDados.getRedeEnsino()!=null && ParametrosServlet.alunoDados.getRedeEnsino().length()>0)
+			if(redeEnsinoDado!=null)
 			{
 				unidadeEscolar.setRedeEnsino(new RedeEnsino());
-				unidadeEscolar.getRedeEnsino().setPkRedeEnsino(new Integer(ParametrosServlet.alunoDados.getRedeEnsino()));
+				unidadeEscolar.getRedeEnsino().setPkRedeEnsino(new Integer(redeEnsinoDado.getPkRedeEnsino()));
 			}
 			
 			/*----Endereço----*/
-			if(ParametrosServlet.cidadeDados!=null && ParametrosServlet.cidadeDados.getPkCidade()!=null)
+			if(cidadeDado!=null && cidadeDado.getPkCidade()!=null)
 			{
-				if(ParametrosServlet.enderecoDados!=null)
+				if(enderecoDado!=null)
 				{
-					ParametrosServlet.enderecoDados.setStatus(ConstantesSisEducar.STATUS_ATIVO);
-					ParametrosServlet.enderecoDados.setCidade(ParametrosServlet.cidadeDados);
+					enderecoDado.setStatus(ConstantesSisEducar.STATUS_ATIVO);
+					enderecoDado.setCidade(cidadeDado);
 				}
 			}
 			
 			/* Região Dados */
-			if(ParametrosServlet.regiaoDados!=null && ParametrosServlet.regiaoDados.getPkRegiao()!=null)
+			if(regiaoDado!=null && regiaoDado.getPkRegiao()!=null)
 			{
-				unidadeEscolar.setRegiao(ParametrosServlet.regiaoDados);
+				unidadeEscolar.setRegiao(regiaoDado);
 			}
 			
 			/* Situaçao Funcionamento */
-			if(ParametrosServlet.situacaoFuncionamentoDados!=null && ParametrosServlet.situacaoFuncionamentoDados.getPkSituacaoFuncionamento()!=null)
+			if(situacaoFuncionamentoDado!=null && situacaoFuncionamentoDado.getPkSituacaoFuncionamento()!=null)
 			{
-				unidadeEscolar.setSituacaoFuncionamento(ParametrosServlet.situacaoFuncionamentoDados);
+				unidadeEscolar.setSituacaoFuncionamento(situacaoFuncionamentoDado);
 			}
 			
 			/* Tipo Ocupação */
-			if(ParametrosServlet.tipoOcupacaoDados!=null && ParametrosServlet.tipoOcupacaoDados.getPkTipoOcupacao()!=null)
+			if(tipoOcupacaoDado!=null && tipoOcupacaoDado.getPkTipoOcupacao()!=null)
 			{
-				unidadeEscolar.setTipoOcupacao(ParametrosServlet.tipoOcupacaoDados);
+				unidadeEscolar.setTipoOcupacao(tipoOcupacaoDado);
 			}
 			
 			/* Salva o endeço */
-			if(ParametrosServlet.enderecoDados!=null)
+			if(enderecoDado!=null)
 			{
-				enderecoAux = new EnderecoDAO().inserirEndereco(ParametrosServlet.enderecoDados);
+				enderecoAux = new EnderecoDAO().inserirEndereco(enderecoDado);
 				if(enderecoAux!=null && enderecoAux.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoAux); }
 			}
 			
@@ -273,7 +273,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 
 	public List<SelectItem> getComboEstado() {
 		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaEstado(paisDado);
+		comboEstado = parametrosServlet.consultaEstado(paisDado);
+		return comboEstado;
 	}
 
 	public void setComboEstado(List<SelectItem> comboEstado) {
