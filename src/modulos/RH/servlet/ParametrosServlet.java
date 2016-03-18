@@ -262,54 +262,46 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar os Estados
 	 * */
 	public List<SelectItem> consultaEstado(Pais paisDados) {
-		if(paisDados.getPkPais() != null){
-			try {
-				EstadoDAO estadoDAO = new EstadoDAO();
-				List<SelectItem> comboEstado = new ArrayList<>();
-				List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
-				
-				for (Estado param : paramEstado){
-				   SelectItem  s = new SelectItem();
-				   s.setValue(param.getPkEstado());
-				   s.setLabel(param.getNome());
-				   comboEstado.add(s);
-				}
-				return comboEstado;
-			}catch(SQLException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro ao carregar os dados de ESTADO, contate o administrador do sistema!", null));
-				return null;
+		try {
+			EstadoDAO estadoDAO = new EstadoDAO();
+			List<SelectItem> comboEstado = new ArrayList<>();
+			List<Estado> paramEstado = estadoDAO.consultaEstado(paisDados.getPkPais());
+			
+			for (Estado param : paramEstado){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkEstado());
+			   s.setLabel(param.getNome());
+			   comboEstado.add(s);
 			}
+			return comboEstado;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de ESTADO, contate o administrador do sistema!", null));
+			return null;
 		}
-		
-		return null;
 	}
 	
 	/*
 	 * Metodo para carregar as Cidades
 	 * */
 	public List<SelectItem> consultaCidade(Estado estadoDados) {
-		if(estadoDados.getPkEstado() != null){
-			try {
-				CidadeDAO cidadeDAO = new CidadeDAO();
-				List<SelectItem> comboCidade = new ArrayList<>();
-				List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
-				
-				for (Cidade param : paramCidade){
-				   SelectItem  s = new SelectItem();
-				   s.setValue(param.getPkCidade());
-				   s.setLabel(param.getNome());
-				   comboCidade.add(s);
-				}
-				return comboCidade;
-			}catch(SQLException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro ao carregar os dados de CIDADE, contate o administrador do sistema!", null));
-				return null;
+		try {
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			List<SelectItem> comboCidade = new ArrayList<>();
+			List<Cidade> paramCidade = cidadeDAO.consultaCidade(estadoDados.getPkEstado());
+			
+			for (Cidade param : paramCidade){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkCidade());
+			   s.setLabel(param.getNome());
+			   comboCidade.add(s);
 			}
+			return comboCidade;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de CIDADE, contate o administrador do sistema!", null));
+			return null;
 		}
-		
-		return null;
 	}
 
 	/*
@@ -338,7 +330,8 @@ public class ParametrosServlet implements Serializable{
 	/*
 	 * Metodo para carregar os tipos de Deficiencia
 	 * */
-	public List<SelectItem> consultaTipoDeficiencia() throws SQLException {
+	public List<SelectItem> consultaTipoDeficiencia() {
+		try {
 			TipoDeficienciaDAO tipoDeficienciaDAO = new TipoDeficienciaDAO();
 			List<SelectItem> comboRegiao = new ArrayList<SelectItem>();
 			List<TipoDeficiencia> paramTipoDeficiencia = tipoDeficienciaDAO.consultaTipoDeficiencia();
@@ -350,40 +343,57 @@ public class ParametrosServlet implements Serializable{
 			   comboRegiao.add(s);
 			}
 			return comboRegiao;
+		}catch(SQLException e ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPO DE DEFICIENCIA, contate o administrador do sistema!", null));
+			return null;
+		}
 	}
 	
 	/*
 	 * Metodo para carregar os cargos
 	 * */
-	public List<SelectItem> consultaCargo() throws SQLException {
-		CargoDAO cargoDAO = new CargoDAO();
-		List<SelectItem> comboCargo = new ArrayList<SelectItem>();
-		List<Cargo> paramCargo = cargoDAO.consultaCargo();
-		
-		for (Cargo param : paramCargo){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkCargo());
-		   s.setLabel(param.getDescricao());
-		   comboCargo.add(s);
+	public List<SelectItem> consultaCargo() {
+		try {	
+			CargoDAO cargoDAO = new CargoDAO();
+			List<SelectItem> comboCargo = new ArrayList<SelectItem>();
+			List<Cargo> paramCargo = cargoDAO.consultaCargo();
+			
+			for (Cargo param : paramCargo){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkCargo());
+			   s.setLabel(param.getDescricao());
+			   comboCargo.add(s);
+			}
+			return comboCargo;
+		}catch(SQLException e ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboCargo;
 	}
 	
 	/*
 	 * Metodo para carregar as rede de ensino
 	 * */
-	public List<SelectItem> consultaRedeEnsino() throws SQLException {
-		RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
-		List<SelectItem> comboRedeEnsino = new ArrayList<>();
-		List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
-		
-		for (RedeEnsino param : paramRedeEnsino){
-		   SelectItem  s = new SelectItem();
-		   s.setValue(param.getPkRedeEnsino());
-		   s.setLabel(param.getNome());
-		   comboRedeEnsino.add(s);
+	public List<SelectItem> consultaRedeEnsino() {
+		try {
+			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
+			List<SelectItem> comboRedeEnsino = new ArrayList<>();
+			List<RedeEnsino> paramRedeEnsino = redeEnsinoDAO.consultaRedeEnsino();
+			
+			for (RedeEnsino param : paramRedeEnsino){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkRedeEnsino());
+			   s.setLabel(param.getNome());
+			   comboRedeEnsino.add(s);
+			}
+			return comboRedeEnsino;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de REDE DE ENSINO, contate o administrador do sistema!", null));
+			return null;
 		}
-		return comboRedeEnsino;
 	}
 	
 	/*

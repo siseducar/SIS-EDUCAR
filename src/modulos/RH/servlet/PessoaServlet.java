@@ -273,8 +273,6 @@ public class PessoaServlet implements Serializable{
 				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
 				pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
 				pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
-				pessoaDadosFinal.setStatus(Integer.valueOf(0));
-				
 			}
 			
 			/* Validação dos dados referentes ao ENDEREÇO */
@@ -420,8 +418,6 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
-	
-	
 	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
