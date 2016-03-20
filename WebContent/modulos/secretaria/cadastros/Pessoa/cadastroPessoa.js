@@ -101,3 +101,22 @@ $(function() {
         prevText: 'Anterior',
     });
   });
+
+$("#some-button").on('click', function() {
+	  bootbox.confirm({
+	    message: "Are you sure?",
+	    buttons: {
+	       confirm: {
+	          label: "OK",
+	          className: "btn-primary btn-sm",
+	       },
+	       cancel: {
+	          label: "Cancel",
+	          className: "btn-sm",
+	       }
+	    },
+	    callback: function(result) {
+	       //if(result) do something;
+	    }
+	 });
+});

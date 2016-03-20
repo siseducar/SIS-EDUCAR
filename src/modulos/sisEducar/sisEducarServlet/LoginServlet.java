@@ -11,9 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import modulos.RH.dao.AlunoDAO;
-import modulos.RH.dao.UsuarioDAO;
-import modulos.RH.om.Usuario;
+import modulos.secretaria.dao.AlunoDAO;
+import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.EmailUtils;

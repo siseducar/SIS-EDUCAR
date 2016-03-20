@@ -2,8 +2,8 @@ package modulos.sisEducar.utils.testes;
 
 import java.sql.SQLException;
 
-import modulos.RH.dao.UsuarioDAO;
-import modulos.RH.om.Usuario;
+import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.sisEducarServlet.LoginServlet;
 
 public class UsuarioTeste {

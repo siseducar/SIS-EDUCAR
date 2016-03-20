@@ -5,59 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
-		<ui:define name="scriptPagina">
-			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
-			<script type="text/javascript">
-	      		google.charts.load('current', {'packages':['corechart']});
-	      		google.charts.setOnLoadCallback(drawChartPizza);
-	      		google.charts.setOnLoadCallback(drawChart3D);
-	      		google.charts.setOnLoadCallback(drawChart3D);
-	      
-	    		  function drawChartPizza() {
-	    				
-				        var data = google.visualization.arrayToDataTable([
-				          ['Task', 'Legenda'],
-				          ['Branca',     128],
-				          ['Negra',      63],
-				          ['Parda',  31],
-				          ['Amarela', 6],
-				          ['Indígena', 2],
-				          ['Não Declarada', 11]
-				        ]);
-				
-				        var options = {
-				          title: 'Quantidade de Pessoas por Raça'
-				        };
-				
-				        var chartRaca = new google.visualization.PieChart(document.getElementById('piechartRaca'));
-				
-				        chartRaca.draw(data, options);
-			      }
-	    		  
-	    		  function drawChart3D() {
-	    				
-				        var data = google.visualization.arrayToDataTable([
-				          ['Task', 'Legenda'],
-				          ['Branca',     128],
-				          ['Negra',      63],
-				          ['Parda',  31],
-				          ['Amarela', 6],
-				          ['Indígena', 2],
-				          ['Não Declarada', 11]
-				        ]);
-				
-				        var options = {
-				          title: 'Quantidade de Pessoas por Raça',
-				          is3D: true,
-				        };
-				
-				        var chartSitu = new google.visualization.PieChart(document.getElementById('piechartSituacaoEconomica'));
-				
-				        chartSitu.draw(data, options);
-			      }
-		    </script>
-		</ui:define>		
+	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">		
 		<ui:define name="barraNavegacao">
 			<li>
 				<i class="ace-icon fa fa-file"/>Consulta
@@ -76,7 +24,34 @@
 					</h1>
 				</div>
 				<div class="row">
-					
+					<div id="relatoriosPessoa" class="tab-pane  in active">
+						<div class="col-xs-12 col-sm-12">
+							<div class="tabbable">
+								<ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+									<li class="active">
+										<a data-toggle="tab" href="#relatorioPessoa">Pessoa</a>
+									</li>
+									<li>
+										<a data-toggle="tab" href="#relatorioUnidadeEscolar">Unidade Escolar</a>
+									</li>
+									<li>
+										<a data-toggle="tab" href="#relatorioFornecedor">Fornecedor</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div id="relatorioPessoa" class="tab-pane in active">
+										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+									</div>
+									<div id="relatorioUnidadeEscolar" class="tab-pane">
+										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+									</div>
+									<div id="relatorioFornecedor" class="tab-pane">
+										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+									</div>										
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</ui:define>

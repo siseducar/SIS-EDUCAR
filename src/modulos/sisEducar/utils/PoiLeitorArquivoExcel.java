@@ -15,16 +15,16 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import modulos.RH.dao.AlunoDAO;
-import modulos.RH.dao.CidadeDAO;
-import modulos.RH.dao.EnderecoDAO;
-import modulos.RH.dao.PessoaDAO;
-import modulos.RH.dao.UnidadeEscolarDAO;
-import modulos.RH.om.Aluno;
-import modulos.RH.om.Cidade;
-import modulos.RH.om.Endereco;
-import modulos.RH.om.Pessoa;
-import modulos.RH.om.UnidadeEscolar;
+import modulos.secretaria.dao.AlunoDAO;
+import modulos.secretaria.dao.CidadeDAO;
+import modulos.secretaria.dao.EnderecoDAO;
+import modulos.secretaria.dao.PessoaDAO;
+import modulos.secretaria.dao.UnidadeEscolarDAO;
+import modulos.secretaria.om.Aluno;
+import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Endereco;
+import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.UnidadeEscolar;
 
 public class PoiLeitorArquivoExcel 
 {

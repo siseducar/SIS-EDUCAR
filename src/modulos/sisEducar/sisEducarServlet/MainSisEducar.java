@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import modulos.RH.servlet.ParametrosServlet;
+import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 

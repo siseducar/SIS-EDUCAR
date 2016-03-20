@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import modulos.RH.dao.UsuarioDAO;
-import modulos.RH.om.Usuario;
+import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 import sun.misc.BASE64Encoder;

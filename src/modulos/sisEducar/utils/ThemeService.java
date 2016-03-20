@@ -8,8 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import modulos.RH.dao.PessoaDAO;
-import modulos.RH.om.Pessoa;
+import modulos.secretaria.dao.PessoaDAO;
+import modulos.secretaria.om.Pessoa;
  
 @ManagedBean(name="themeService", eager = true)
 @ApplicationScoped
