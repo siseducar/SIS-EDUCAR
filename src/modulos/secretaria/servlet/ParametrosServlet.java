@@ -75,11 +75,11 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar as Racas
 	 * */
 	public List<SelectItem> consultaRaca() {
-		try {
-			RacaDAO racaDAO = new RacaDAO();
-			List<SelectItem> comboRaca = new ArrayList<SelectItem>();
-			List<Raca> paramRaca = racaDAO.consultaRaca();
-			
+		RacaDAO racaDAO = new RacaDAO();
+		List<SelectItem> comboRaca = new ArrayList<SelectItem>();
+		List<Raca> paramRaca = racaDAO.consultaRaca();
+		
+		if(paramRaca != null && !paramRaca.isEmpty()){
 			for (Raca param : paramRaca){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkRaca());
@@ -87,7 +87,7 @@ public class ParametrosServlet implements Serializable{
 			   comboRaca.add(s);
 			}
 			return comboRaca;
-		} catch (SQLException e){
+		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de RAÇA, contate o administrador do sistema!", null));
 			return null;

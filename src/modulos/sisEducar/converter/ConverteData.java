@@ -17,7 +17,7 @@ public class ConverteData implements Converter{
 		
 		if(digitos == 8) {
 			try{
-				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
 				java.sql.Date data = new java.sql.Date(format.parse(value).getTime());
 				
 				return data;
@@ -35,7 +35,7 @@ public class ConverteData implements Converter{
 		if(value != null) {
 			String dataSt = value.toString();
 			try{
-				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
 				java.sql.Date data = new java.sql.Date(format.parse(dataSt).getTime());
 				
 				return data.toString();

@@ -277,7 +277,7 @@ public class PessoaServlet implements Serializable{
 				enderecoDados.setCidade(cidadeDados);
 				pessoaDadosFinal.setEndereco(enderecoDados);
 			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 						"Informe os dados referentes ao ENDEREÇO.",null));
 			}
 			
@@ -432,7 +432,8 @@ public class PessoaServlet implements Serializable{
 				AlunoDAO alunoDAO = new AlunoDAO();
 				
 				String nome = alunoDAO.consultaNomeResponsavel(cpfMae); 
-				if(nome != null && !nome.equals("")){	
+				
+				if(nome != null && !nome.equals("")){
 					alunoDados.setNomeMae(nome);
 					nomeMae = true;
 				}else{

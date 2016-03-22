@@ -1,4 +1,4 @@
-$(function($) {
+$(function carrgaElementos() {
 	/*	Componente CPF  */
 	$(".cpf").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
@@ -72,22 +72,26 @@ $(function($) {
 			}
 		}
 	});
+
 });
 
-$(".upload").ace_file_input({
-    style: 'well',
-    no_file: 'Click to choose or drag & drop',
-    droppable: true, //html5 browsers only
-    thumbnail: 'small', //html5 browsers only
+$(function(){
+	$(".upload")({
+	    style: 'well',
+	    no_file: 'Click to choose or drag & drop',
+	    droppable: true, //html5 browsers only
+	    thumbnail: 'small', //html5 browsers only
 
-    maxSize: 1000000, //~100 KB
-    allowExt:  ['jpg', 'jpeg', 'png', 'gif', 'tif', 'tiff', 'bmp'],
-    allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/tif', 'image/tiff', 'image/bmp'] //html5 browsers only
-});
+	    maxSize: 1000000, //~100 KB
+	    allowExt:  ['jpg', 'jpeg', 'png', 'gif', 'tif', 'tiff', 'bmp'],
+	    allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/tif', 'image/tiff', 'image/bmp'] //html5 browsers only
+	});
 
-$(".upload").ace_file_input({
-    denyExt:  ['exe', 'php']
-});
+	$(".upload")({
+	    denyExt:  ['exe', 'php']
+	});
+});  
+
 
 $(function() {
     $( ".calendario" ).datepicker({
@@ -101,22 +105,3 @@ $(function() {
         prevText: 'Anterior',
     });
   });
-
-$("#some-button").on('click', function() {
-	  bootbox.confirm({
-	    message: "Are you sure?",
-	    buttons: {
-	       confirm: {
-	          label: "OK",
-	          className: "btn-primary btn-sm",
-	       },
-	       cancel: {
-	          label: "Cancel",
-	          className: "btn-sm",
-	       }
-	    },
-	    callback: function(result) {
-	       //if(result) do something;
-	    }
-	 });
-});

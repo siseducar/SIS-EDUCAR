@@ -155,28 +155,5 @@ public class AlunoDAO extends SisEducarDAO
 		return null;
 	}
 	
-	public Aluno cadastroAluno(Aluno dadosAluno){
-		String querySQL = 
-				" INSERT INTO ALUNO( "
-					+ " PKALUNO, "
-					+ " RA, "
-					+ " RA2, "
-					+ " FOLHA, "
-					+ " LIVRO, "
-					+ " REGISTRO, "
-					+ " CIDADENASC, "
-					+ " LIVROUF, "
-					+ " NOMEPAI, "
-					+ " NOMEMAE, "
-					+ " FKPESSOA, "
-					+ " FKCIDADENASCIMENTO, "
-					+ " RM, "
-					+ " 'FOTOALUNO') "
-		+ " VALUES (  "
-		    + " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
-	
-		return null;
-	}
-	
 
 }
