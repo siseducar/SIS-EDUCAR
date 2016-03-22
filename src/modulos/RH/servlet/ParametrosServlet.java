@@ -25,13 +25,11 @@ import modulos.RH.dao.SituacaoFuncionamentoDAO;
 import modulos.RH.dao.TipoDeficienciaDAO;
 import modulos.RH.dao.TipoOcupacaoDAO;
 import modulos.RH.dao.UnidadeEscolarDAO;
-import modulos.RH.om.Aluno;
 import modulos.RH.om.Cargo;
 import modulos.RH.om.Cidade;
 import modulos.RH.om.Estado;
 import modulos.RH.om.EstadoCivil;
 import modulos.RH.om.GrauInstrucao;
-import modulos.RH.om.GrauParentesco;
 import modulos.RH.om.Nacionalidade;
 import modulos.RH.om.Pais;
 import modulos.RH.om.Raca;
@@ -398,16 +396,9 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar os Graus de Parentesco
 	 * */
 	public List<SelectItem> consultaGrauParentesco() {
-		try {
-			
-			List<SelectItem> comboParentesco = new ArrayList<>();
-			
-			return comboParentesco;
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
-			return null;
-		}
+		List<SelectItem> comboParentesco = new ArrayList<>();
+		
+		return comboParentesco;
 	}
 	
 	/*

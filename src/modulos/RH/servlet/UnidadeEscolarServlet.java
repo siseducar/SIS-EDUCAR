@@ -1,6 +1,7 @@
 package modulos.RH.servlet;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -69,15 +70,26 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	private TipoOcupacao tipoOcupacaoDado;
 	private Regiao regiaoDado;
 	private Pessoa pessoaDado;
+	ParametrosServlet parametrosServlet;
 	
 	/**
 	 * Construtor
 	 */
 	public UnidadeEscolarServlet()
 	{
+		parametrosServlet = new ParametrosServlet();
 		unidadeEscolar = new UnidadeEscolar();
 		terreno = new Terreno();
 		diretor = new Pessoa();
+		enderecoDado = new Endereco();
+		redeEnsinoDado = new RedeEnsino();
+		situacaoFuncionamentoDado = new SituacaoFuncionamento();
+		tipoOcupacaoDado = new TipoOcupacao();
+		regiaoDado = new Regiao();
+		pessoaDado = new Pessoa();
+		paisDado = new Pais();
+		estadoDado = new Estado();
+		cidadeDado = new Cidade();
 	}
 	
 	/**
@@ -254,7 +266,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 	
 	public List<SelectItem> getComboZonaResidencial() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
 		return parametrosServlet.consultaRegiao();
 	}
 
@@ -263,8 +274,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboPais() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaPais();
+		this.comboPais = parametrosServlet.consultaPais();
+		return this.comboPais;
 	}
 
 	public void setComboPais(List<SelectItem> comboPais) {
@@ -272,9 +283,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboEstado() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		comboEstado = parametrosServlet.consultaEstado(paisDado);
-		return comboEstado;
+		if(paisDado!=null && paisDado.getPkPais() !=null) { this.comboEstado = parametrosServlet.consultaEstado(paisDado); }
+		return this.comboEstado;
 	}
 
 	public void setComboEstado(List<SelectItem> comboEstado) {
@@ -282,8 +292,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboCidade() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaCidade(estadoDado);
+		if(estadoDado!=null && estadoDado.getPkEstado()!=null) { this.comboCidade = parametrosServlet.consultaCidade(estadoDado); }
+		return new ArrayList<>();
 	}
 
 	public void setComboCidade(List<SelectItem> comboCidade) {
@@ -291,7 +301,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboRedeEnsino() throws SQLException {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
 		return parametrosServlet.consultaRedeEnsino();
 	}
 
@@ -300,7 +309,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboTipoOcupacao() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
 		return parametrosServlet.consultaTipoOcupacao();
 	}
 
@@ -309,7 +317,6 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboSituacaoFuncionamento() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
 		return parametrosServlet.consultaSituacaoFuncionamento();
 	}
 
