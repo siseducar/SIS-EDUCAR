@@ -302,37 +302,40 @@
 										<div>
 											<h:selectOneMenu id="codPais"
 												class="form-control" title="Pais residente"
-												value="#{pessoaServlet.paisDados.pkPais}">
+												value="#{unidadeEscolarServlet.paisDado.pkPais}"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.pais']}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboPais}"
+												<f:selectItems value="#{parametrosServlet.consultaPais}"
 													var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
 												<f:ajax event="change" render="codEstado"/>
-												<f:ajax event="change" render="codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
-									<div class="col-xs-12  col-sm-3">
+									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
 										<div>
 											<h:selectOneMenu id="codEstado"
 												class="form-control" title="Estado residente"
-												value="#{pessoaServlet.estadoDados.pkEstado}">
+												value="#{unidadeEscolarServlet.estadoDado.pkEstado}"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.estado']}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboEstado}"
+												<f:selectItems value="#{parametrosServlet.consultaEstado}"
 													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-												<f:ajax event="change" render="codCidade"/>
+												<p:ajax event="change" update="codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
-									<div class="col-xs-12  col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 										<div>
 											<h:selectOneMenu id="codCidade"
 												class="form-control" title="Cidade residente"
-												value="#{pessoaServlet.cidadeDados.pkCidade}">
+												value="#{unidadeEscolarServlet.cidadeDado.pkCidade}"
+												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.municipio']}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboCidade}"
+												<f:selectItems value="#{parametrosServlet.consultaCidade}"
 													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
+												<p:ajax event="change"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
