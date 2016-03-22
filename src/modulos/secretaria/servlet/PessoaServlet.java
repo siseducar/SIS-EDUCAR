@@ -41,21 +41,22 @@ public class PessoaServlet implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	/* Atributos */
-	Pessoa pessoaDados;
-	Aluno alunoDados;
-	Fornecedor fornecedorDados;
-	Funcionario funcionarioDados;
-	Pais paisDados;
-	Estado estadoDados;
-	Cidade cidadeDados;
-	Endereco enderecoDados;
-	Nacionalidade nacionalidadeDados;
-	Raca racaDados;
-	EstadoCivil estaCivilDados;
-	GrauInstrucao grauInstruDados;
-	SituacaoEconomica situEconomicaDados;
-	Religiao religiaoDados;
-	Regiao regiaoDados;
+	private Pessoa pessoaDados;
+	private Aluno alunoDados;
+	private Fornecedor fornecedorDados;
+	private Funcionario funcionarioDados;
+	private Pais paisDados;
+	private Estado estadoDados;
+	private Cidade cidadeDados;
+	private Endereco enderecoDados;
+	private Nacionalidade nacionalidadeDados;
+	private Raca racaDados;
+	private EstadoCivil estaCivilDados;
+	private GrauInstrucao grauInstruDados;
+	private SituacaoEconomica situEconomicaDados;
+	private Religiao religiaoDados;
+	private Regiao regiaoDados;
+	private ParametrosServlet paramDados;
 	
 	/* Componente para salvar COMPROVANTE DE RESIDENCIA*/
 	private UploadedFile imagemResidencia;
@@ -145,7 +146,7 @@ public class PessoaServlet implements Serializable{
 	private Boolean menorIdade;
 
 	/* Metodo Construtor */
-	public PessoaServlet() throws SQLException{
+	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
 			this.pessoaDados = new Pessoa();
 		}
@@ -190,6 +191,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.regiaoDados == null) {
 			this.regiaoDados = new Regiao();
+		}
+		if(this.paramDados == null) {
+			this.paramDados = new ParametrosServlet();
 		}
 
 		pessoaDados.setTipoPessoa(0);
@@ -583,9 +587,6 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void carregaCombos() throws SQLException{
-		
-		ParametrosServlet paramDados = new ParametrosServlet();
-		
 		comboEstadoCivil.addAll(paramDados.consultaEstaCivil());
 		comboGrauInstrucao.addAll(paramDados.consultaGrauInstru());
 		comboNacionalidade.addAll(paramDados.consultaNacionalidade());

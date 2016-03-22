@@ -75,11 +75,11 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar as Racas
 	 * */
 	public List<SelectItem> consultaRaca() {
-		RacaDAO racaDAO = new RacaDAO();
-		List<SelectItem> comboRaca = new ArrayList<SelectItem>();
-		List<Raca> paramRaca = racaDAO.consultaRaca();
-		
-		if(paramRaca != null && !paramRaca.isEmpty()){
+		try {
+			RacaDAO racaDAO = new RacaDAO();
+			List<SelectItem> comboRaca = new ArrayList<SelectItem>();
+			List<Raca> paramRaca = racaDAO.consultaRaca();
+			
 			for (Raca param : paramRaca){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkRaca());
@@ -87,7 +87,7 @@ public class ParametrosServlet implements Serializable{
 			   comboRaca.add(s);
 			}
 			return comboRaca;
-		} else {
+		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de RAÇA, contate o administrador do sistema!", null));
 			return null;
@@ -398,16 +398,8 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar os Graus de Parentesco
 	 * */
 	public List<SelectItem> consultaGrauParentesco() {
-		try {
-			
-			List<SelectItem> comboParentesco = new ArrayList<>();
-			
-			return comboParentesco;
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
-			return null;
-		}
+		List<SelectItem> comboParentesco = new ArrayList<>();
+		return comboParentesco;	
 	}
 	
 	/*
@@ -456,4 +448,6 @@ public class ParametrosServlet implements Serializable{
 			return null;
 		}
 	}
+	
+	
 }

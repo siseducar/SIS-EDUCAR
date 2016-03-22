@@ -1,11 +1,13 @@
 package modulos.secretaria.servlet;
 
+import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -24,20 +26,31 @@ import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="unidadeEscolarServlet")
-@SessionScoped
-public class UnidadeEscolarServlet extends SisEducarServlet
+@ViewScoped
+public class UnidadeEscolarServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	UnidadeEscolar unidadeEscolar = null;
-	Terreno terreno = null;
-	Pessoa diretor = null;
-	private String nomeDiretor = "";
-	private String cpfDiretor = "";
+	
+	private UnidadeEscolar unidadeEscolar;
+	private Terreno terreno;
+	private Pessoa diretor;
+	private String nomeDiretor;
+	private String cpfDiretor;
+	private Pais paisDado;
+	private Estado estadoDado;
+	private Cidade cidadeDado;
+	private Endereco enderecoDado;
+	private RedeEnsino redeEnsinoDado;
+	private SituacaoFuncionamento situacaoFuncionamentoDado;
+	private TipoOcupacao tipoOcupacaoDado;
+	private Regiao regiaoDado;
+	private Pessoa pessoaDado;
+	private ParametrosServlet parametrosServlet;
+	
 	
 	/* Combo com valores de ZONA RESIDENCIAL */
 	private List<SelectItem> comboZonaResidencial;
@@ -60,24 +73,61 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	/* Combo com valores de SITUAÇÃO FUNCIONAMENTO */
 	private List<SelectItem> comboSituacaoFuncionamento;
 	
-	private Pais paisDado;
-	private Estado estadoDado;
-	private Cidade cidadeDado;
-	private Endereco enderecoDado;
-	private RedeEnsino redeEnsinoDado;
-	private SituacaoFuncionamento situacaoFuncionamentoDado;
-	private TipoOcupacao tipoOcupacaoDado;
-	private Regiao regiaoDado;
-	private Pessoa pessoaDado;
-	
 	/**
 	 * Construtor
 	 */
 	public UnidadeEscolarServlet()
-	{
-		unidadeEscolar = new UnidadeEscolar();
-		terreno = new Terreno();
-		diretor = new Pessoa();
+	{	
+		if(this.unidadeEscolar == null ){			
+			this.unidadeEscolar = new UnidadeEscolar();
+		}
+		if(this.terreno == null){			
+			this.terreno = new Terreno();
+		}
+		if(this.diretor == null){			
+			this.diretor = new Pessoa();
+		}
+		if(this.enderecoDado == null){
+			this.enderecoDado = new Endereco();
+		}
+		if(this.redeEnsinoDado == null) {			
+			this.redeEnsinoDado = new RedeEnsino();
+		}
+		if(this.situacaoFuncionamentoDado == null) {		
+			this.situacaoFuncionamentoDado = new SituacaoFuncionamento();
+		}
+		if(this.tipoOcupacaoDado == null) {		
+			this.tipoOcupacaoDado = new TipoOcupacao();
+		}	
+		if(this.regiaoDado == null) {			
+			this.regiaoDado = new Regiao();
+		}
+		if(this.pessoaDado == null) {			
+			this.pessoaDado = new Pessoa();
+		}
+		if(this.paisDado == null) {			
+			this.paisDado = new Pais();
+		}
+		if(this.estadoDado == null) {			
+			this.estadoDado = new Estado();
+		}
+		if(this.cidadeDado == null) {			
+			this.cidadeDado = new Cidade();
+		}
+		if(this.parametrosServlet == null) {			
+			this.parametrosServlet = new ParametrosServlet();
+		}
+		
+		nomeDiretor = new String();
+		cpfDiretor = new String();
+		
+		comboZonaResidencial = new ArrayList<SelectItem>();
+		comboPais = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
+		comboCidade = new ArrayList<SelectItem>();
+		comboRedeEnsino = new ArrayList<SelectItem>();
+		comboTipoOcupacao = new ArrayList<SelectItem>();
+		comboSituacaoFuncionamento = new ArrayList<SelectItem>();
 	}
 	
 	/**
@@ -254,8 +304,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 	
 	public List<SelectItem> getComboZonaResidencial() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaRegiao();
+		comboZonaResidencial.addAll(parametrosServlet.consultaRegiao());
+		return comboZonaResidencial;
 	}
 
 	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
@@ -263,8 +313,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboPais() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaPais();
+		comboPais.addAll(parametrosServlet.consultaPais());
+		return comboPais;
 	}
 
 	public void setComboPais(List<SelectItem> comboPais) {
@@ -272,8 +322,10 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboEstado() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		comboEstado = parametrosServlet.consultaEstado(paisDado);
+		comboEstado.clear();
+		if(paisDado != null && paisDado.getPkPais() != null) { 
+			comboEstado = parametrosServlet.consultaEstado(paisDado); 
+		}
 		return comboEstado;
 	}
 
@@ -282,8 +334,11 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboCidade() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaCidade(estadoDado);
+		comboCidade.clear();
+		if(estadoDado != null && estadoDado.getPkEstado()!= null) { 
+			comboCidade = parametrosServlet.consultaCidade(estadoDado); 
+		}
+		return comboCidade;
 	}
 
 	public void setComboCidade(List<SelectItem> comboCidade) {
@@ -291,8 +346,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboRedeEnsino() throws SQLException {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaRedeEnsino();
+		comboRedeEnsino.addAll(parametrosServlet.consultaRedeEnsino());
+		return comboRedeEnsino;
 	}
 
 	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
@@ -300,8 +355,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboTipoOcupacao() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaTipoOcupacao();
+		comboTipoOcupacao.addAll(parametrosServlet.consultaTipoOcupacao());
+		return comboTipoOcupacao;
 	}
 
 	public void setComboTipoOcupacao(List<SelectItem> comboTipoOcupacao) {
@@ -309,8 +364,8 @@ public class UnidadeEscolarServlet extends SisEducarServlet
 	}
 
 	public List<SelectItem> getComboSituacaoFuncionamento() {
-		ParametrosServlet parametrosServlet = new ParametrosServlet();
-		return parametrosServlet.consultaSituacaoFuncionamento();
+		comboSituacaoFuncionamento.addAll(parametrosServlet.consultaSituacaoFuncionamento());
+		return comboSituacaoFuncionamento;
 	}
 
 	public void setComboSituacaoFuncionamento(List<SelectItem> comboSituacaoFuncionamento) {

@@ -21,28 +21,23 @@ public class RacaDAO {
 	ResultSet rs = null;
 	
 	/* Metodo para retornar os tipos de RACAS padrões */
-	public List<Raca> consultaRaca() {
-		try {
-			List<Raca> listaRaca = new ArrayList<Raca>();
+	public List<Raca> consultaRaca() throws SQLException {
+		List<Raca> listaRaca = new ArrayList<Raca>();
+		
+		String querySQL = "SELECT * FROM RACA WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
+		
+		while (rs.next()){
+			Raca paramRaca = new Raca();
+			paramRaca.setPkRaca(rs.getInt("PKRACA"));
+			paramRaca.setCodigo(rs.getString("CODIGO"));
+			paramRaca.setDescricao(rs.getString("DESCRICAO"));
+			paramRaca.setOrdemExibicao(rs.getInt("ORDEMEXIBICAO"));
 			
-			String querySQL = "SELECT * FROM RACA WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(querySQL);
-			
-			while (rs.next()){
-				Raca paramRaca = new Raca();
-				paramRaca.setPkRaca(rs.getInt("PKRACA"));
-				paramRaca.setCodigo(rs.getString("CODIGO"));
-				paramRaca.setDescricao(rs.getString("DESCRICAO"));
-				paramRaca.setOrdemExibicao(rs.getInt("ORDEMEXIBICAO"));
-				
-				listaRaca.add(paramRaca);
-			}
-			return listaRaca;
-		}catch (SQLException e) {
-			e.printStackTrace();
-			return null; 
+			listaRaca.add(paramRaca);
 		}
+		return listaRaca;
 	}
 	
 	public Raca consultaRacaEspecifica(String valor) throws SQLException{
