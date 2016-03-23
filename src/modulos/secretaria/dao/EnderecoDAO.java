@@ -46,11 +46,11 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setInt(1, endereco.getCep());
-			ps.setString(2, endereco.getLogradouro());
-			ps.setString(3, endereco.getBairro());
-			ps.setString(4, endereco.getNumero());
-			ps.setString(5, endereco.getComplemento());
+			ps.setObject(1, endereco.getCep());
+			ps.setObject(2, endereco.getLogradouro());
+			ps.setObject(3, endereco.getBairro());
+			ps.setObject(4, endereco.getNumero());
+			ps.setObject(5, endereco.getComplemento());
 			ps.setInt(6, 0);
 			ps.setInt(7, ConstantesSisEducar.STATUS_ATIVO);
 			
