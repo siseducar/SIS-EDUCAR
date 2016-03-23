@@ -20,6 +20,10 @@
 	</application>
 	
 	<converter>
+    	<converter-id>converter.CEP</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteCEP</converter-class>
+	</converter>
+	<converter>
     	<converter-id>converter.CPF</converter-id>
     	<converter-class>modulos.sisEducar.converter.ConverteCPF</converter-class>
 	</converter>

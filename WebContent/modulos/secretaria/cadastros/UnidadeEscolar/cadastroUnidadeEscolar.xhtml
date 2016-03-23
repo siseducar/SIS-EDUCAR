@@ -63,6 +63,8 @@
 										<div>
 											<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" styleClass="col-sm-12 cpf">
 												<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
+												<f:validator validatorId="validar.CpfValidator"/>
+												<f:converter converterId="converter.CPF"/>
 											</h:inputText>
 										</div>
 									</div>
@@ -153,9 +155,8 @@
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 											<div>
-												<h:inputText
-													styleClass="col-sm-12 numeros" id="numCep" title="Numero do CEP"
-													value="#{unidadeEscolarServlet.enderecoDado.cep}">
+												<h:inputText styleClass="col-sm-12 cep" id="numCep" title="Numero do CEP" value="#{unidadeEscolarServlet.enderecoDado.cep}">
+													<f:converter converterId="converter.CEP"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -211,16 +212,18 @@
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
 											<div>
-												<h:inputText type="text" id="numTelefone" styleClass="telResidencial"
-												class="col-sm-12" title="Numero do Telefone"/>											
+												<h:inputText type="text" id="numTelefone" styleClass="col-sm-12 telResidencial" title="Numero do Telefone">
+													<f:converter converterId="converter.TELRESIDENCIAL"/>
+												</h:inputText>											
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
 											<div>
-												<h:inputText type="text" id="numCelular" styleClass="telResidencial"
-												class="col-sm-12" title="Numero do Celular"
-												value="#{unidadeEscolarServlet.pessoaDado.telefoneCelular}"/>
+												<h:inputText type="text" id="numCelular" styleClass="col-sm-12 telCelular" title="Numero do Celular"
+												value="#{unidadeEscolarServlet.pessoaDado.telefoneCelular}">
+													<f:converter converterId="converter.TELCELULAR"/>
+												</h:inputText>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-6">

@@ -255,6 +255,21 @@ public class UnidadeEscolarServlet implements Serializable
 			diretor = new Pessoa();
 			terreno = new Terreno();
 			unidadeEscolar = new UnidadeEscolar();
+			enderecoDado = new Endereco();
+			redeEnsinoDado = new RedeEnsino();
+			situacaoFuncionamentoDado = new SituacaoFuncionamento();
+			tipoOcupacaoDado = new TipoOcupacao();
+			regiaoDado = new Regiao();
+			pessoaDado = new Pessoa();
+			paisDado = new Pais();
+			
+			comboZonaResidencial = new ArrayList<SelectItem>();
+			comboPais = new ArrayList<SelectItem>();
+			comboEstado = new ArrayList<SelectItem>();
+			comboCidade = new ArrayList<SelectItem>();
+			comboRedeEnsino = new ArrayList<SelectItem>();
+			comboTipoOcupacao = new ArrayList<SelectItem>();
+			comboSituacaoFuncionamento = new ArrayList<SelectItem>();
 		}
 		catch (Exception e) 
 		{
