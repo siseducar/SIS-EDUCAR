@@ -20,33 +20,24 @@ public class RelatorioServlet implements Serializable {
 	/* Tipo de relatorio desejado */
 	private int tipoDados;
 	
-	/* Botão para gerar grafico */
-	private Boolean gerarGrafico;
-	
 	public RelatorioServlet() {
 		painelRaca = false;
 		painelSituEconomica = false;
-		gerarGrafico = false;
 		tipoDados = 0;
 	}
-	
-	
 	
 	public void validaTipoDados(){
 		if(tipoDados == 1){
 			painelRaca = true;
 			painelSituEconomica = false;
-			gerarGrafico = true;
 		}
 		if(tipoDados == 2){
 			painelRaca = false;
 			painelSituEconomica = true;
-			gerarGrafico = true;
 		}
 		if(tipoDados == 0){
 			painelRaca = false;
 			painelSituEconomica = false;
-			gerarGrafico = false;
 		}
 	}
 	
@@ -74,18 +65,5 @@ public class RelatorioServlet implements Serializable {
 
 	public void setTipoDados(int tipoDados) {
 		this.tipoDados = tipoDados;
-	}
-
-
-	public Boolean getGerarGrafico() {
-		return gerarGrafico;
-	}
-
-
-	public void setGerarGrafico(Boolean gerarGrafico) {
-		this.gerarGrafico = gerarGrafico;
-	}
-	
-	
-	
+	}	
 }

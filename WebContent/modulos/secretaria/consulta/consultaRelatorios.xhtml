@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon glyphicon glyphicon-search"/>Consulta
+			</li>
+			<li class="active">
+				<i class="ace-icon glyphicon glyphicon-list-alt"/> Relatorios
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo" >
+			<div class="page-content">
+				<div class="page-header">
+					<h1>Consulta
+						<small> 
+							<i class="ace-icon fa fa-angle-double-right"/> Consulta de Relatorios
+						</small>
+					</h1>
+				</div>
+				<div class="row">
+				</div>
+			</div>	
+		</ui:define>
+		<ui:define name="scriptPagina">
+		</ui:define>
+	</ui:composition>
+</h:html>

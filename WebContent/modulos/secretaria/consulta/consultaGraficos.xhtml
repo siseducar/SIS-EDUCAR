@@ -5,13 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">		
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 		<ui:define name="barraNavegacao">
 			<li>
-				<i class="ace-icon fa fa-file"/>Consulta
+				<i class="ace-icon glyphicon glyphicon-search"/>Consulta
 			</li>
 			<li class="active">
-				<i class="ace-icon fa fa-user"/> Relatorios
+				<i class="ace-icon glyphicon glyphicon-stats"/> Gráficos
 			</li>
 		</ui:define>
 		<ui:define name="scriptConteudo" >
@@ -19,7 +19,7 @@
 				<div class="page-header">
 					<h1>Consulta
 						<small> 
-							<i class="ace-icon fa fa-angle-double-right"/> Consulta de Relatorios
+							<i class="ace-icon fa fa-angle-double-right"/> Consulta de Gráficos
 						</small>
 					</h1>
 				</div>
@@ -42,7 +42,7 @@
 									<div id="relatorioPessoa" class="tab-pane in active">
 										<h:form id="relatorioPessoa" prependId="false">
 											<div class="row">
-												<div class="col-xs-12 col-sm-3">
+												<div class="col-xs-12 col-sm-2">
 													<h4 class="header smaller lighter blue">Selecione Alguns Filtros</h4>
 													<div>
 														<h:outputLabel value="Tipo de Relatorio"/>
@@ -51,41 +51,68 @@
 																<f:selectItem itemLabel="Selecione..." itemValue=""/>
 																<f:selectItem itemLabel="Raça" itemValue="1"/>
 																<f:selectItem itemLabel="Situação Econômica" itemValue="2"/>
-																<p:ajax event="change" listener="#{relatorioServlet.validaTipoDados}"
-																	update="panelTiposFiltros"/>
+																<f:ajax event="change" listener="#{relatorioServlet.validaTipoDados}"
+																	render="panelTiposFiltros"/>
 															</h:selectOneMenu>
 														</div>
 													</div>
 													<h:panelGroup id="panelTiposFiltros">
 														<h:panelGroup id="panelRaca" class="clearfix form-actions" rendered="#{relatorioServlet.painelRaca}">
-														<div class="space-4"/>
-															<div class="checkbox">
-																<label>
-																	<input name="form-field-checkbox" type="checkbox" class="ace"/>
-																	<span class="lbl"> Pessoa </span>
-																</label>
-															</div>
-															<div class="checkbox">
+															<div class="space-4"/>
+																<div class="radio">
 																	<label>
-																		<input name="form-field-checkbox" type="checkbox" class="ace"/>
-																		<span class="lbl"> Bairro </span>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 2 </span>
 																	</label>
 																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 1 </span>
+																	</label>
+																</div>
+															<div class="col-sx-12 col-sm-12" id="default-buttons">
+																<h:commandLink type="submit" id="btRaca" class="btn btn-white btn-success btn-round"> 
+																	<span class="bigger-110"> Gerar Grafíco </span>
+																	<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+																</h:commandLink>
+															</div>
+														</h:panelGroup>
+														<h:panelGroup id="panelSituEconomica" class="clearfix form-actions" rendered="#{relatorioServlet.painelSituEconomica}">
+															<div class="space-4"/>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 1 </span>
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 2 </span>
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 3 </span>
+																	</label>
+																</div>
+															<div class="col-sx-12 col-sm-12" id="default-buttons">
+																<h:commandLink type="submit" id="btSituEconomica" class="btn btn-white btn-success btn-round"> 
+																	<span class="bigger-110"> Gerar Grafíco </span>
+																	<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+																</h:commandLink>
+															</div>
 														</h:panelGroup>
 													</h:panelGroup>
 												</div>
-												<div class="col-xs-12 col-sm-9">
+												<div class="col-xs-12 col-sm-10">
 													<h4 class="header smaller lighter blue" align="center"> Gráficos </h4>
 													<div align="center">
 														<div id="myfirstchart" style="height: 250px;"></div>
 													</div>
 												</div>
-											</div>
-											<div class="col-sx-12 col-sm-6" id="default-buttons">
-												<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
-													<span class="bigger-110"> Gerar Grafícos </span>
-													<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-												</h:commandLink>
 											</div>
 										</h:form>
 									</div>
@@ -103,10 +130,6 @@
 			</div>
 		</ui:define>
 		<ui:define name="scriptPagina">
-			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
-			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"/>
-			<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"/>
-			<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"/>
 		</ui:define>
 	</ui:composition>
 </h:html>

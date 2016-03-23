@@ -5,17 +5,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition	template="/resources/templates/sisEducar/principal.xhtml">
-		<ui:define name="scriptPagina">
-			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
-			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
-		</ui:define>
+	<ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 		<ui:define name="barraNavegacao">
 			<li>
-				<i class="ace-icon fa fa-file"/>Cadastro
+				<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Cadastros
 			</li>
 			<li class="active">
-				<i class="ace-icon fa fa-user"/>Fornecedor
+				<i class="ace-icon glyphicon glyphicon-shopping-cart"/>Fornecedor
 			</li>
 		</ui:define>
 		<ui:define name="scriptConteudo" >
@@ -276,6 +272,10 @@
 					</div>
 				</div>
 			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
+			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
 		</ui:define>
 	</ui:composition>
 </h:html>
