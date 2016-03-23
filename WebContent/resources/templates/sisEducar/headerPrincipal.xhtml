@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:body>
+		<script type="text/javascript">
+			try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+		</script>
+
+		<div class="navbar-container" id="navbar-container">
+			<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+				<span class="icon-bar"/>
+				<span class="icon-bar"/>
+				<span class="icon-bar"/>
+				<span class="icon-bar"/>
+			</button>
+			<div class="navbar-header pull-left">
+				<a href="#" class="navbar-brand">
+					<small>
+						<i class="fa fa-pencil"/>
+						SIS-EDUCAR
+					</small>
+				</a>
+			</div>
+			<div class="navbar-buttons navbar-header pull-right" role="navigation">
+				<ul class="nav ace-nav">
+					<li class="black">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-reorder"/>
+							<span class="">Acessibilidade</span>
+						</a>
+					</li>
+					<li class="white">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon glyphicon glyphicon-eye-open"/>
+							<span class="">Alto Contraste</span>
+						</a>
+					</li>
+					<li class="white">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-font"/>
+							<span class="">Fonte</span>
+						</a>
+					</li>
+					<li class="white">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-bullhorn"/>
+							<span class="">Voz</span>
+						</a>
+					</li>
+					<li class="grey">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-tasks"/>
+							<span class="badge badge-grey">1</span>
+						</a>
+
+						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+							<li class="dropdown-header">
+								<i class="ace-icon fa fa-check"/>
+								Atualizações do Sistema
+							</li>
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"/>
+								</div>
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a>
+												<span class="pull-left clearfix">Versão 1.0</span>
+												<span class="pull-right clearfix">17/03/2016</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="purple">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-bell icon-animated-bell"/>
+							<span class="badge badge-important">0</span>
+						</a>	
+						<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+							<li class="dropdown-header">
+								<i class="ace-icon fa fa-exclamation-triangle"/>
+								0 notificações
+							</li>
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"/>
+								</div>
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										<li>
+											<a>
+												Nenhuma notificação
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="green">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-envelope icon-animated-vertical"/>
+							<span class="badge badge-success">0</span>
+						</a>
+						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+							<li class="dropdown-header">
+								<i class="ace-icon fa fa-envelope-o"/>
+								0 Mensagens
+							</li>
+							<li class="dropdown-content ace-scroll" style="position: relative;">
+								<div class="scroll-track" style="display: none;">
+									<div class="scroll-bar"/>
+								</div>
+								<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a>Nenhuma notificação</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="light-blue">
+						<a data-toggle="dropdown" href="#" class="dropdown-toggle" aria-expanded="false">
+							<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-female-36.png" style="display:#{loginServlet.generoFeminino}"/>
+							<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-male-36.png" style="display:#{loginServlet.generoMasculino}"/>
+							<span class="user-info">
+								<small>Bem Vindo,</small>
+								<small id="smallNomeUsuarioLogado" class="bigger-110">
+									#{loginServlet.nomeUsuarioLogado}									     
+								</small>
+							</span>	
+							<i class="ace-icon fa fa-caret-down"/>
+						</a>
+						<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							<li>
+								<a href="/SIS-EDUCAR/modulos/sisEducar/consultaPerfillUsuario.xhtml">
+									<i class="ace-icon fa fa-user"/>
+									Perfil
+								</a>
+							</li>	
+							<li class="divider"/>
+							<li>
+								<a href="/SIS-EDUCAR/login/login.xhtml">
+									<i class="ace-icon fa fa-power-off"/>
+									Sair
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</h:body>
+</h:html>

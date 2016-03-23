@@ -13,7 +13,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import modulos.secretaria.dao.AlunoDAO;
@@ -230,6 +229,7 @@ public class PessoaServlet implements Serializable{
 	public void calculaIdade(){
 		
 		if(pessoaDados.getDataNascimento() != null && !pessoaDados.getDataNascimento().equals("__/__/____")){
+			
 			GregorianCalendar dataHoje = new GregorianCalendar();
 			GregorianCalendar nascimento = new GregorianCalendar();
 			
@@ -239,20 +239,24 @@ public class PessoaServlet implements Serializable{
 			int anoAtual = dataHoje.get(Calendar.YEAR);
 			int anoNascimento = nascimento.get(Calendar.YEAR);
 			idade = anoAtual - anoNascimento;
-			
-			if( idade < 18 ){
-				menorIdade = true;
-			}else{
-				menorIdade = false;
+			if(idade < 0 || idade > 100) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe uma data valida.",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Informe uma data valida.",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						"Informe uma data valida.",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, 
+						"Informe uma data valida.",null));
+			} else {
+				if( idade < 18 ){
+					menorIdade = true;
+				}else{
+					menorIdade = false;
+				}
 			}
 		}
 	}
-	
-	public void save(FileUploadEvent event) {
-		if(event.getFile() != null ){
-            System.out.println("OK");
-		}
-    }
 	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
@@ -260,7 +264,6 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public String salvarCadastroPessoa(){
 		try {
-			
 			Pessoa pessoaDadosFinal = new Pessoa();
 			
 			/* Validação dos dados referentes a PESSOA */
@@ -485,7 +488,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeResponsavel(){
-		if(alunoDados.getCpfResponsavel() != null && alunoDados.getCpfResponsavel() != null){
+		if(alunoDados.getCpfResponsavel() != null && alunoDados.getCpfResponsavel() != 0){
 			try {
 				Long cpfResponsavel = alunoDados.getCpfResponsavel();
 				AlunoDAO alunoDAO = new AlunoDAO();
@@ -959,14 +962,6 @@ public class PessoaServlet implements Serializable{
 		this.imagemResidencia = imagemResidencia;
 	}
 
-	public UploadedFile getImagemAluno() {
-		return imagemAluno;
-	}
-
-	public void setImagemAluno(UploadedFile imagemAluno) {
-		this.imagemAluno = imagemAluno;
-	}
-
 	public UploadedFile getImagemCertNascimento() {
 		return imagemCertNascimento;
 	}
@@ -981,5 +976,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
 		this.comboTipoLogradouro = comboTipoLogradouro;
+	}
+
+	public UploadedFile getImagemAluno() {
+		return imagemAluno;
+	}
+
+	public void setImagemAluno(UploadedFile imagemAluno) {
+		this.imagemAluno = imagemAluno;
 	}
 }

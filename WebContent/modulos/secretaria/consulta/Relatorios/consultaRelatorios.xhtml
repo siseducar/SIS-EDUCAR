@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">		
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">		
 		<ui:define name="barraNavegacao">
 			<li>
 				<i class="ace-icon fa fa-file"/>Consulta
@@ -26,7 +26,7 @@
 				<div class="row">
 					<div id="relatoriosPessoa" class="tab-pane  in active">
 						<div class="col-xs-12 col-sm-12">
-							<div class="tabbable">
+							<div class="tabbable ">
 								<ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
 									<li class="active">
 										<a data-toggle="tab" href="#relatorioPessoa">Pessoa</a>
@@ -38,9 +38,56 @@
 										<a data-toggle="tab" href="#relatorioFornecedor">Fornecedor</a>
 									</li>
 								</ul>
-								<div class="tab-content">
+								<div class="tab-content col-xs-12 col-sm-12 ">
 									<div id="relatorioPessoa" class="tab-pane in active">
-										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+										<h:form id="relatorioPessoa" prependId="false">
+											<div class="row">
+												<div class="col-xs-12 col-sm-3">
+													<h4 class="header smaller lighter blue">Selecione Alguns Filtros</h4>
+													<div>
+														<h:outputLabel value="Tipo de Relatorio"/>
+														<div>
+															<h:selectOneMenu value="#{relatorioServlet.tipoDados}">
+																<f:selectItem itemLabel="Selecione..." itemValue=""/>
+																<f:selectItem itemLabel="Raça" itemValue="1"/>
+																<f:selectItem itemLabel="Situação Econômica" itemValue="2"/>
+																<p:ajax event="change" listener="#{relatorioServlet.validaTipoDados}"
+																	update="panelTiposFiltros"/>
+															</h:selectOneMenu>
+														</div>
+													</div>
+													<h:panelGroup id="panelTiposFiltros">
+														<h:panelGroup id="panelRaca" class="clearfix form-actions" rendered="#{relatorioServlet.painelRaca}">
+														<div class="space-4"/>
+															<div class="checkbox">
+																<label>
+																	<input name="form-field-checkbox" type="checkbox" class="ace"/>
+																	<span class="lbl"> Pessoa </span>
+																</label>
+															</div>
+															<div class="checkbox">
+																	<label>
+																		<input name="form-field-checkbox" type="checkbox" class="ace"/>
+																		<span class="lbl"> Bairro </span>
+																	</label>
+																</div>
+														</h:panelGroup>
+													</h:panelGroup>
+												</div>
+												<div class="col-xs-12 col-sm-9">
+													<h4 class="header smaller lighter blue" align="center"> Gráficos </h4>
+													<div align="center">
+														<div id="myfirstchart" style="height: 250px;"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sx-12 col-sm-6" id="default-buttons">
+												<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+													<span class="bigger-110"> Gerar Grafícos </span>
+													<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+												</h:commandLink>
+											</div>
+										</h:form>
 									</div>
 									<div id="relatorioUnidadeEscolar" class="tab-pane">
 										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
@@ -54,6 +101,12 @@
 					</div>
 				</div>
 			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"/>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"/>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"/>
 		</ui:define>
 	</ui:composition>
 </h:html>

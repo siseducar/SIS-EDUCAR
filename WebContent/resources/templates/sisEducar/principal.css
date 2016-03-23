@@ -27,18 +27,17 @@
     letter-spacing: -1px;
 }
 
-#growlInfo {
-	background-color: white;
+.ui-growl {
+    top: 1%;
+    right: 1%
 }
 
-#growErro {
-	background-color: #F78181;
-}
-
-#growlWarn {
-	background-color: blue;
-}
-
-#growlFatal {
-	background-color: black;
+.ui-growl-image {
+	width:32px;
+	height:32px;
+	float:left;
+    margin:0;
+    padding:0;
+    display: block;
+    background: src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-female-36.png";
 }

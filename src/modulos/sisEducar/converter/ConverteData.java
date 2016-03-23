@@ -17,7 +17,7 @@ public class ConverteData implements Converter{
 		
 		if(digitos == 8) {
 			try{
-				SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				java.sql.Date data = new java.sql.Date(format.parse(value).getTime());
 				
 				return data;
@@ -33,17 +33,14 @@ public class ConverteData implements Converter{
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		if(value != null) {
-			String dataSt = value.toString();
-			try{
-				SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
-				java.sql.Date data = new java.sql.Date(format.parse(dataSt).getTime());
-				
-				return data.toString();
-			}catch (ConverterException e){
-				e.printStackTrace(); 
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			SimpleDateFormat formatBra;     
+			   formatBra = new SimpleDateFormat("dd/MM/yyyy");  
+			   try {  
+			      java.util.Date newData = formatBra.parse(value.toString());  
+			      return (formatBra.format(newData));
+			   } catch (ParseException Ex) {  
+			      return "Erro na conversão da data";  
+			   } 
 		}
 		return null;
 

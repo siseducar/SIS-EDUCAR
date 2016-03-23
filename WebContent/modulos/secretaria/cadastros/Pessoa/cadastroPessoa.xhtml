@@ -5,7 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition	template="/resources/templates/sisEducar/principal.xhtml">
+<ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 	<ui:define name="barraNavegacao">
 		<li>
 			<i class="ace-icon fa fa-file"/>Cadastros
@@ -26,10 +26,10 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12">
-					<h:form id="formCadastroPessoa" enctype="multipart/form-data">
+					<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
 						<h:panelGroup id="dadosGenericos" style="width: 100%"
 							class="clearfix form-actions">
-							<h3 class="header smaller lighter blue" align="center">Dados Pessoais</h3>
+							<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
 							<h:selectOneRadio id="tipoPessoa" 
 								value="#{pessoaServlet.pessoaDados.tipoPessoa}">
 								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
@@ -86,7 +86,7 @@
 											value="#{pessoaServlet.pessoaDados.dataNascimento}"
 											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
 											<f:converter converterId="converter.DATA"/>
-											<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="formCadastroPessoa"/>
+											<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="dadosResponsavel"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -205,21 +205,19 @@
 						<h:panelGroup id="dadosResponsavel">
 							<h:panelGroup style="width: 100%"
 								class="clearfix form-actions" rendered="#{pessoaServlet.menorIdade}">
-								<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-								<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
-								<h3 class="header smaller lighter blue" align="center">Dados do Responsável</h3>
+								<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
 								<div class="row">
 									<div class="col-xs-12 col-sm-2">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfMae"
-											class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-											value="#{pessoaServlet.alunoDados.cpfMae}">
-											<f:validator validatorId="validar.CpfValidator"/>
-											<f:converter converterId="converter.CPF"/>
-											<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
+												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+												value="#{pessoaServlet.alunoDados.cpfMae}">
+												<f:validator validatorId="validar.CpfValidator"/>
+												<f:converter converterId="converter.CPF"/>
+												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
 											</h:inputText>
 										</div>
 									</div>
@@ -263,7 +261,8 @@
 											value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
 										<div>
 											<h:inputText type="text" id="numCpfResponsavel"
-												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF">
+												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+												value="#{pessoaServlet.alunoDados.cpfResponsavel}">
 												<f:validator validatorId="validar.CpfValidator"/>
 												<f:converter converterId="converter.CPF"/>
 												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
@@ -274,8 +273,7 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.aluno.nome.respon']}"/>
 										<div>
-											<h:inputText type="text" id="nomeResponsavelAluno"
-												class="col-xs-12 col-sm-12"
+											<h:inputText type="text" id="nomeResponsavelAluno" class="col-xs-12 col-sm-12"
 												value="#{pessoaServlet.alunoDados.nomeResponsavel}"
 												disabled="#{pessoaServlet.nomeResponsavel}"/>
 										</div>
@@ -295,7 +293,7 @@
 						<h:panelGroup id="enderePessoa" style="width: 100%"
 							class="clearfix form-actions">
 							<div id="conteudoEndereco">
-								<h3 class="header smaller lighter blue" align="center">Endereço/Contato</h3>
+								<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
 								<div class="row">
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
@@ -383,8 +381,7 @@
 										<div>
 											<h:inputText type="text" id="codBairro"
 												styleClass="col-xs-12 col-sm-12" title="Nome do Bairro"
-												value="#{pessoaServlet.enderecoDados.bairro}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.bairro']}"/>
+												value="#{pessoaServlet.enderecoDados.bairro}"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-2">
@@ -402,8 +399,7 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
 										<div>
 											<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
-												class="form-control" title="Tipo de Zona Residencial"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.zonaResidencial']}">
+												class="form-control" title="Tipo de Zona Residencial">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboZonaResidencial}"
 													var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
@@ -415,8 +411,7 @@
 										<div>
 											<h:inputText type="number" id="numTelefone"
 												styleClass="col-sm-12 telResidencial" title="Numero do Celular"
-												value="#{pessoaServlet.pessoaDados.telefoneResidencial}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.telContato']}">
+												value="#{pessoaServlet.pessoaDados.telefoneResidencial}">
 												<f:converter converterId="converter.TELRESIDENCIAL"/>
 											</h:inputText>
 										</div>
@@ -426,8 +421,7 @@
 										<div>
 											<h:inputText type="number" id="numCelular"
 												styleClass="col-sm-12 telCelular" title="Numero do Celular"
-												value="#{pessoaServlet.pessoaDados.telefoneCelular}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.telCelular']}">
+												value="#{pessoaServlet.pessoaDados.telefoneCelular}">
 												<f:converter converterId="converter.TELCELULAR"/>
 											</h:inputText>
 										</div>
@@ -444,35 +438,30 @@
 							</div>
 						</h:panelGroup>
 						<h:panelGroup id="dadosComplementares" style="width: 100%">
-							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-							<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoAluno}" >								
-								<h3 class="header smaller lighter blue" align="center">Dados Escolares</h3>
+								<h3 class="header smaller lighter blue" align="center"> Dados Escolares </h3>
 								<div class="row">
 									<div class="col-xs-12 col-sm-2">
 										<h:outputLabel value="#{mensagens['label.cadastro.aluno.rm']}"/>
 										<div>
 											<h:inputText styleClass="col-xs-10 col-sm-12" id="codRm"
-												value="#{pessoaServlet.alunoDados.rm}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoRm']}"/>
+												value="#{pessoaServlet.alunoDados.rm}"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-2">
 										<h:outputLabel value="#{mensagens['label.cadastro.aluno.ra']}"/>
 										<div>
 											<h:inputText type="text" styleClass="col-xs-10 col-sm-12" id="codRa"
-												value="#{pessoaServlet.alunoDados.ra}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoRa']}"/>
+												value="#{pessoaServlet.alunoDados.ra}"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-2">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.aluno.codInep']}"/>
 										<div>
-											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoCodInep']}"/>
+											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep"/>
 										</div>
 									</div>
 								</div>
@@ -483,8 +472,7 @@
 											value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codRedeEnsino"
-												value="#{pessoaServlet.alunoDados.redeEnsino}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoRedeEnsino']}">
+												value="#{pessoaServlet.alunoDados.redeEnsino}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"/>
 												<p:ajax event="change" update="codUniEscolar"/>
@@ -496,8 +484,7 @@
 											value="#{mensagens['label.cadastro.aluno.unidade.escolar']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codUniEscolar"
-												value="#{pessoaServlet.alunoDados.unidadeEscolar}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoUnidadeEscolar']}">
+												value="#{pessoaServlet.alunoDados.unidadeEscolar}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems
 													value="#{pessoaServlet.comboUnidadeEscolar}"/>
@@ -509,8 +496,7 @@
 											value="#{mensagens['label.cadastro.aluno.etapa']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codEtapa"
-												value="#{pessoaServlet.alunoDados.etapa}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoEtapa']}">
+												value="#{pessoaServlet.alunoDados.etapa}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											</h:selectOneMenu>
 										</div>
@@ -520,8 +506,7 @@
 											value="#{mensagens['label.cadastro.aluno.curso']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codCurso"
-												value="#{pessoaServlet.alunoDados.curso}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoCuroso']}">
+												value="#{pessoaServlet.alunoDados.curso}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											</h:selectOneMenu>
 										</div>
@@ -531,8 +516,7 @@
 											value="#{mensagens['label.cadastro.aluno.turno']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codTurno"
-												value="#{pessoaServlet.alunoDados.turno}"
-												required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoTurno']}">
+												value="#{pessoaServlet.alunoDados.turno}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											</h:selectOneMenu>
 										</div>
@@ -560,8 +544,7 @@
 													<h:outputLabel
 														value="#{mensagens['label.cadastro.aluno.tipo.deficiencia']}"/>
 													<h:selectOneMenu class="form-control" id="tipoDeficiencia"
-														value="#{pessoaServlet.alunoDados.deficiencia}"
-														required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.alunoTipoDeficiencia']}">
+														value="#{pessoaServlet.alunoDados.deficiencia}">
 														<f:selectItem itemValue="" itemLabel="Selecione..."/>
 														<f:selectItems
 															value="#{pessoaServlet.comboTipoDeficiencia}"/>
@@ -598,11 +581,9 @@
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoFuncionario}">
-								<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-								<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
-								<h3 class="header smaller lighter blue" align="center">Dados
-									Complementares do Funcionario</h3>
+								<h3 class="header smaller lighter blue" align="center"> Dados
+									Complementares do Funcionario </h3>
 								<div class="row">
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel
@@ -735,9 +716,7 @@
 										</div>
 										<div class="col-xs-12 col-sm-12">
 											<h:panelGroup id="panelAposentado">
-												<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-												<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 												<h:panelGroup style="width: 100%" class="clearfix form-actions"
 													rendered="#{pessoaServlet.funcAposentado}">
 													<div class="col-xs-12 col-sm-2">
@@ -772,9 +751,7 @@
 								</div>
 								<div class="space-4"/>
 								<h:panelGroup id="panelConcursado" style="width: 100%">
-									<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 									<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-									<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 									<h:panelGroup style="width: 100%" class="clearfix form-actions"
 										rendered="#{pessoaServlet.funcConcursado}">
 										<div class="row">
@@ -839,7 +816,7 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}"
+								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastroPessoa}"
 									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>
@@ -852,7 +829,6 @@
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 	</ui:define>
 </ui:composition>
 </h:html>
