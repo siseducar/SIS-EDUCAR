@@ -11,7 +11,7 @@ public class ConverteCNPJ implements Converter{
 		String cnpj = value;
 		int digitos = value.replace(".", "").replace("-", "").replace("/", "").length();
         if (digitos == 14) {
-        	cnpj = value.replaceAll(".", "").replaceAll("-", "").replaceAll("/", "");
+        	cnpj = value.replace(".", "").replace("-", "").replace("/", "");
         }
         return cnpj;
     }
