@@ -153,8 +153,7 @@
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 											<div>
-												<h:inputText
-													styleClass="col-sm-12 numeros" id="numCep" title="Numero do CEP"
+												<h:inputText styleClass="col-sm-12 cep" id="numCep" title="Numero do CEP"
 													value="#{unidadeEscolarServlet.enderecoDado.cep}">
 												</h:inputText>
 											</div>
@@ -211,15 +210,13 @@
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
 											<div>
-												<h:inputText type="text" id="numTelefone" styleClass="telResidencial"
-												class="col-sm-12" title="Numero do Telefone"/>											
+												<h:inputText type="text" id="numTelefone" styleClass="col-sm-12 telResidencial" title="Numero do Telefone"/>											
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
 											<div>
-												<h:inputText type="text" id="numCelular" styleClass="telResidencial"
-												class="col-sm-12" title="Numero do Celular"
+												<h:inputText type="text" id="numCelular" styleClass="col-sm-12 telCelular" title="Numero do Celular"
 												value="#{unidadeEscolarServlet.pessoaDado.telefoneCelular}"/>
 											</div>
 										</div>
