@@ -47,17 +47,17 @@
 													<div>
 														<h:outputLabel value="Tipo de Relatorio"/>
 														<div>
-															<h:selectOneMenu value="#{relatorioServlet.tipoDados}">
+															<h:selectOneMenu value="#{graficoServlet.tipoDados}">
 																<f:selectItem itemLabel="Selecione..." itemValue=""/>
 																<f:selectItem itemLabel="Raça" itemValue="1"/>
 																<f:selectItem itemLabel="Situação Econômica" itemValue="2"/>
-																<f:ajax event="change" listener="#{relatorioServlet.validaTipoDados}"
+																<f:ajax event="change" listener="#{graficoServlet.validaTipoDados}"
 																	render="panelTiposFiltros"/>
 															</h:selectOneMenu>
 														</div>
 													</div>
 													<h:panelGroup id="panelTiposFiltros">
-														<h:panelGroup id="panelRaca" class="clearfix form-actions" rendered="#{relatorioServlet.painelRaca}">
+														<h:panelGroup id="panelRaca" class="clearfix form-actions" rendered="#{graficoServlet.painelRaca}">
 															<div class="space-4"/>
 																<div class="radio">
 																	<label>
@@ -78,7 +78,7 @@
 																</h:commandLink>
 															</div>
 														</h:panelGroup>
-														<h:panelGroup id="panelSituEconomica" class="clearfix form-actions" rendered="#{relatorioServlet.painelSituEconomica}">
+														<h:panelGroup id="panelSituEconomica" class="clearfix form-actions" rendered="#{graficoServlet.painelSituEconomica}">
 															<div class="space-4"/>
 																<div class="radio">
 																	<label>

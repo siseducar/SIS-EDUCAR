@@ -5,9 +5,9 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-@ManagedBean(name="relatorioServlet")
+@ManagedBean(name="graficoServlet")
 @ViewScoped
-public class RelatorioServlet implements Serializable {
+public class GraficosServlet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -20,7 +20,7 @@ public class RelatorioServlet implements Serializable {
 	/* Tipo de relatorio desejado */
 	private int tipoDados;
 	
-	public RelatorioServlet() {
+	public GraficosServlet() {
 		painelRaca = false;
 		painelSituEconomica = false;
 		tipoDados = 0;
