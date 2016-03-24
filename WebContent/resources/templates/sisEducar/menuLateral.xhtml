@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:body>
+		<script type="text/javascript">
+			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+		</script>
+		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+				<h4 style="color: #438eb9">
+					Módulos
+				</h4>
+			</div>
+		</div>
+		<ul class="nav nav-list">
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-folder blue"/>
+					<span class="menu-text"> SECRETARIA </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>					
+				<ul class="submenu">
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"/>
+							CADASTROS
+							<b class="arrow fa fa-angle-down"/>
+						</a>
+						<b class="arrow"/>
+						<ul class="submenu">
+							<li class="">
+								<a href="modulos/secretaria/cadastros/Pessoa/cadastroPessoa.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon glyphicon glyphicon-user"/>
+									Pessoa
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon fa fa-flag"/>
+									Unidade Escolar
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon glyphicon glyphicon-shopping-cart"/>
+									Fornecedor
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/secretaria/cadastros/Usuario/cadastroUsuario.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon glyphicon glyphicon-user"/>
+									Usuário
+								</a>
+								<b class="arrow"/>
+							</li>
+						</ul>
+					</li>
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"/>
+							CONSULTAS
+							<b class="arrow fa fa-angle-down"/>
+						</a>
+						<b class="arrow"/>
+						<ul class="submenu">
+							<li class="">
+								<a href="modulos/secretaria/consulta/consultaGraficos.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon glyphicon glyphicon-stats"/>
+									Grafícos
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/secretaria/consulta/consultaRelatorios.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									<i class="ace-icon glyphicon glyphicon-list-alt"/>
+									Relatórios
+								</a>
+								<b class="arrow"/>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-graduation-cap purple"/>
+					<span class="menu-text"> ESCOLA </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Turmas
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Matriculas
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Professores
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Manutenção
+						</a>
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-cutlery green"/>
+					<span class="menu-text"> MERENDA </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Elaboração
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Execução
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Cozinha
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Nutricionista
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-user orange"/>
+					<span class="menu-text"> Docentes </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Habilitação
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Vagas
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Pontuação
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Pregão
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-hand-o-down"/>
+					<span class="menu-text"> PORTAL </span>
+				</a>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-university light blue"/>
+					<span class="menu-text"> PATRIMONIO </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Movimentação
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Consultas
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-archive coral"/>
+					<span class="menu-text"> ALMOXARIFADO </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Movimentação
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Consultas
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-book brown"/>
+					<span class="menu-text"> BIBLIOTECA </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"></i>
+							Movimentos
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Consultas e Retiradas
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Busca
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-car red"/>
+					<span class="menu-text"> TRANSPORTE </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Passes
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Rotas
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Alunos por Rota
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Veiculos
+						</a>
+						<b class="arrow"/>
+					</li>
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+							Motoristas
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-users pink"/>
+					<span class="menu-text"> SOCIAL </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-file-archive-o"/>
+					<span class="menu-text"> PROTOCOLO </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="">
+							<i class="menu-icon fa fa-caret-right"/>
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>					
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-phone brown"/>
+					<span class="menu-text"> OUVIDORIA </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="form-elements.html">
+							<i class="menu-icon fa fa-caret-right"/>
+						</a>
+						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+			<i class="ace-icon fa fa-angle-double-left" 
+				data-icon1="ace-icon fa fa-angle-double-left" 
+				data-icon2="ace-icon fa fa-angle-double-right"/>
+		</div>
+		<script type="text/javascript">
+			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+		</script>
+	</h:body>
+</h:html>

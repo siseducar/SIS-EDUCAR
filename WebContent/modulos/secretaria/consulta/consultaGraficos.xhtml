@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon glyphicon glyphicon-search"/>Consulta
+			</li>
+			<li class="active">
+				<i class="ace-icon glyphicon glyphicon-stats"/> Gráficos
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo" >
+			<div class="page-content">
+				<div class="page-header">
+					<h1>Consulta
+						<small> 
+							<i class="ace-icon fa fa-angle-double-right"/> Consulta de Gráficos
+						</small>
+					</h1>
+				</div>
+				<div class="row">
+					<div id="relatoriosPessoa" class="tab-pane  in active">
+						<div class="col-xs-12 col-sm-12">
+							<div class="tabbable ">
+								<ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+									<li class="active">
+										<a data-toggle="tab" href="#relatorioPessoa">Pessoa</a>
+									</li>
+									<li>
+										<a data-toggle="tab" href="#relatorioUnidadeEscolar">Unidade Escolar</a>
+									</li>
+									<li>
+										<a data-toggle="tab" href="#relatorioFornecedor">Fornecedor</a>
+									</li>
+								</ul>
+								<div class="tab-content col-xs-12 col-sm-12 ">
+									<div id="relatorioPessoa" class="tab-pane in active">
+										<h:form id="relatorioPessoa" prependId="false">
+											<div class="row">
+												<div class="col-xs-12 col-sm-2">
+													<h4 class="header smaller lighter blue">Selecione Alguns Filtros</h4>
+													<div>
+														<h:outputLabel value="Tipo de Relatorio"/>
+														<div>
+															<h:selectOneMenu value="#{graficoServlet.tipoDados}">
+																<f:selectItem itemLabel="Selecione..." itemValue=""/>
+																<f:selectItem itemLabel="Raça" itemValue="1"/>
+																<f:selectItem itemLabel="Situação Econômica" itemValue="2"/>
+																<f:ajax event="change" listener="#{graficoServlet.validaTipoDados}"
+																	render="panelTiposFiltros"/>
+															</h:selectOneMenu>
+														</div>
+													</div>
+													<h:panelGroup id="panelTiposFiltros">
+														<h:panelGroup id="panelRaca" class="clearfix form-actions" rendered="#{graficoServlet.painelRaca}">
+															<div class="space-4"/>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 2 </span>
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 1 </span>
+																	</label>
+																</div>
+															<div class="col-sx-12 col-sm-12" id="default-buttons">
+																<h:commandLink type="submit" id="btRaca" class="btn btn-white btn-success btn-round"> 
+																	<span class="bigger-110"> Gerar Grafíco </span>
+																	<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+																</h:commandLink>
+															</div>
+														</h:panelGroup>
+														<h:panelGroup id="panelSituEconomica" class="clearfix form-actions" rendered="#{graficoServlet.painelSituEconomica}">
+															<div class="space-4"/>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 1 </span>
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 2 </span>
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input name="form-field-checkbox" type="radio" class="ace"/>
+																		<span class="lbl"> TESTE 3 </span>
+																	</label>
+																</div>
+															<div class="col-sx-12 col-sm-12" id="default-buttons">
+																<h:commandLink type="submit" id="btSituEconomica" class="btn btn-white btn-success btn-round"> 
+																	<span class="bigger-110"> Gerar Grafíco </span>
+																	<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+																</h:commandLink>
+															</div>
+														</h:panelGroup>
+													</h:panelGroup>
+												</div>
+												<div class="col-xs-12 col-sm-10">
+													<h4 class="header smaller lighter blue" align="center"> Gráficos </h4>
+													<div align="center">
+														<div id="myfirstchart" style="height: 250px;"></div>
+													</div>
+												</div>
+											</div>
+										</h:form>
+									</div>
+									<div id="relatorioUnidadeEscolar" class="tab-pane">
+										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+									</div>
+									<div id="relatorioFornecedor" class="tab-pane">
+										<h4 class="header smaller lighter blue" align="center">Selecione Alguns Filtros</h4>
+									</div>										
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+		</ui:define>
+	</ui:composition>
+</h:html>
