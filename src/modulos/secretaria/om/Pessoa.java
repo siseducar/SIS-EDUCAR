@@ -33,6 +33,7 @@ public class Pessoa
 	private Endereco endereco;
 	private Pais pais;
 	private Estado estado;
+	private Cidade fkMunicipioCliente;
 	
 	/* GETTERS AND SETTERS */
 	public Integer getPkPessoa() {
@@ -210,6 +211,12 @@ public class Pessoa
 	}
 	public void setCpf(Long cpf) {
 		this.cpf = cpf;
+	}
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 	
 

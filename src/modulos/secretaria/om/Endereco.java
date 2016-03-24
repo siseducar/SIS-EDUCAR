@@ -11,6 +11,7 @@ public class Endereco
 	private String tipo;
 	private Integer status;
 	private Cidade cidade;
+	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkEndereco() {
 		return pkEndereco;
@@ -65,5 +66,11 @@ public class Endereco
 	}
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }

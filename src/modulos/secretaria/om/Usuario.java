@@ -20,6 +20,7 @@ public class Usuario
 	private String genero;
 	private Pessoa pessoa;
 	private Cidade cidadeOrigem;
+	private Cidade fkMunicipioCliente;
 
 	public Usuario() {}
 	
@@ -105,5 +106,13 @@ public class Usuario
 
 	public void setCidadeOrigem(Cidade cidadeOrigem) {
 		this.cidadeOrigem = cidadeOrigem;
+	}
+
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }

@@ -15,6 +15,7 @@ public class UnidadeEscolar
 	private Terreno terreno;
 	private Regiao regiao;
 	private Pessoa diretor;
+	private Cidade fkMunicipioCliente;
 	
 	public Boolean getUnidadeControlada() {
 		return unidadeControlada;
@@ -93,5 +94,11 @@ public class UnidadeEscolar
 	}
 	public void setDiretor(Pessoa diretor) {
 		this.diretor = diretor;
+	}
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }

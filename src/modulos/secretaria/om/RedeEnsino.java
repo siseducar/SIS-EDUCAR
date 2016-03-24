@@ -6,6 +6,7 @@ public class RedeEnsino
 	private String codigo;
 	private String nome;
 	private int status;
+	private Cidade fkMunicipioCliente;
 	
 	public int getPkRedeEnsino() {
 		return pkRedeEnsino;
@@ -30,5 +31,11 @@ public class RedeEnsino
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }
