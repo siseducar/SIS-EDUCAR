@@ -64,6 +64,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	}
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
+	 * e também valida se a chave de acesso do cliente é valida para esse usuário
 	 * @author João Paulo
 	 * @return String
 	 */
@@ -124,6 +125,12 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		}
 	}
 	
+	/**
+	 * Verifica se o usuário tem uma chave de acesso valida para acessar o sistema
+	 * @author João Paulo
+	 * @param usuarioVerificar
+	 * @return TRUE || FALSE || NULL
+	 */
 	public Boolean verificarChaveAcesso(Usuario usuarioVerificar)
 	{
 		try 
