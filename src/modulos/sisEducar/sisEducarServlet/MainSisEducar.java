@@ -19,11 +19,8 @@ public class MainSisEducar implements Servlet
 	{
 		try
 		{
-			//Busca a chave de acesso cadastrada no banco de dados
-			String chaveAcessoSimples = new SisEducarDAO().obtemChaveAcesso();
-
 			//Aqui ele defini qual será a chave de acesso do usuário logado
-			ConstantesSisEducar.USUARIO_LOGADO = new SisEducarServlet().gerarChaveAcessoCriptografada(chaveAcessoSimples);
+			ConstantesSisEducar.USUARIO_LOGADO = "";
 			
 			/*Inicializa a classe de parâmetros para ela já construir e popular as informações que preecheram os combos de todas as telas, assim garantimos melhor perfoamance no sistema
 			pois o mesmo está sendo chamado apenas uma vez*/

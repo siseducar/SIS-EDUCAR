@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -125,6 +126,7 @@ public class UsuarioDAO extends SisEducarDAO
 	 */
 	public Usuario validarUsuario(Usuario usuario) throws SQLException
 	{
+		Cidade municipioCliente = null;
 		String querySQL = "SELECT * FROM usuario "
 				+ " WHERE nome = ?"
 				+ " AND senha = ?"
@@ -138,12 +140,16 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
+			municipioCliente = new Cidade();
+			municipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			
 			usuario.setPkUsuario(rs.getString("pkusuario"));
 			usuario.setNome(rs.getString("nome"));
 			usuario.setSenha(rs.getString("senha"));
 			usuario.setGenero(rs.getString("genero"));
 			usuario.setEmail(rs.getString("email"));
-			usuario.setCpfcnpj(rs.getString("cpfcnpj"));			
+			usuario.setCpfcnpj(rs.getString("cpfcnpj"));
+			usuario.setFkMunicipioCliente(municipioCliente);
 			
 			return usuario;
 		}

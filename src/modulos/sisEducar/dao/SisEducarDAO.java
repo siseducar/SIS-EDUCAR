@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class SisEducarDAO 
@@ -54,20 +57,37 @@ public class SisEducarDAO
 		}
 	}
 	
-	public String obtemChaveAcesso() throws SQLException
+	/**
+	 * Busca a chave de acesso do usuário
+	 * @return
+	 * @throws SQLException
+	 */
+	public ChaveAcesso obtemChaveAcesso(Usuario usuario) throws SQLException
 	{
-		String chaveAcesso = "";
-		String querySQL = "SELECT * FROM ChaveAcesso WHERE status = ?";
+		ChaveAcesso chaveAcesso = null;
+		Cidade municipioCliente = null;
+		String querySQL = "SELECT * FROM ChaveAcesso "
+						+ "WHERE status = ?"
+						+ "AND fkMunicipioCliente = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, usuario.getFkMunicipioCliente().getPkCidade());
 		
 		ResultSet rs = ps.executeQuery();
-		while (rs.next()) 
+		if(rs.next()) 
 		{
-			chaveAcesso = rs.getString("chave");
+			municipioCliente = new Cidade();
+			municipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			
+			chaveAcesso = new ChaveAcesso();
+			chaveAcesso.setPkChaveAcesso(rs.getInt("pkChaveAcesso"));
+			chaveAcesso.setChave(rs.getString("chave"));
+			chaveAcesso.setMunicipioCliente(municipioCliente);
+			
+			return chaveAcesso;
 		}
 		
-		return chaveAcesso;
+		return null;
 	}
 }

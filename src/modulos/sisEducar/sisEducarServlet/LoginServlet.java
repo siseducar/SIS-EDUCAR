@@ -14,6 +14,8 @@ import javax.faces.context.FacesContext;
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.dao.SisEducarDAO;
+import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.EmailUtils;
@@ -71,6 +73,8 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 		{ 
 			Usuario resultadoUsuario = null;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
+			Boolean acessoLiberado = false;
+			
 			//Remove espaços da string
 			usuario.setNome(usuario.getNome().trim());
 			
@@ -92,9 +96,20 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					resultadoUsuario = new UsuarioDAO().validarUsuario(usuario);
 					if(resultadoUsuario!=null)
 					{
-						sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, resultadoUsuario);
-						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/menuPrincipal.xhtml");
-						resetarUsuario();
+						//Verifica a chave de acesso pelo usuário que está tentando logar
+						acessoLiberado = verificarChaveAcesso(usuario);
+						
+						if(acessoLiberado)
+						{
+							sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, resultadoUsuario);
+							FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/menuPrincipal.xhtml");
+							resetarUsuario();
+						}
+						else
+						{
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acesso não liberado, entre em contato com a administração", null));
+							resetarUsuario();
+						}
 					}
 					else
 					{
@@ -102,11 +117,41 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					}
 				}
 			}
-			
 		} 
 		catch (Exception e) 
 		{
 			Logs.addFatal("Validar login", "Erro ao validar o login, contate o administrador.");
+		}
+	}
+	
+	public Boolean verificarChaveAcesso(Usuario usuarioVerificar)
+	{
+		try 
+		{
+			if(usuarioVerificar!=null)
+			{
+				//Busca a chave de acesso cadastrada no banco de dados
+				ChaveAcesso chaveAcesso = new SisEducarDAO().obtemChaveAcesso(usuarioVerificar);
+				
+				if(chaveAcesso!=null && chaveAcesso.getPkChaveAcesso()!=null && chaveAcesso.getPkChaveAcesso() >0)
+				{
+					//Aqui ele defini qual será a chave de acesso do usuário logado
+					ConstantesSisEducar.USUARIO_LOGADO = new SisEducarServlet().gerarChaveAcessoCriptografada(chaveAcesso.getChave());
+					
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("", "");
+			return null;
 		}
 	}
 	
