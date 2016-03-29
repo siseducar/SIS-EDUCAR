@@ -64,7 +64,7 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO usuario "
-					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero) values(?,?,?,?,?,?,?,?)";
+					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente) values(?,?,?,?,?,?,?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -76,6 +76,7 @@ public class UsuarioDAO extends SisEducarDAO
 			ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
 			ps.setString(7, usuario.getCpfcnpj());
 			ps.setString(8, usuario.getGenero());
+			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
 			
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
@@ -259,16 +260,19 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return TRUE || FALSE
 	 * @throws SQLException
 	 */
-	public Boolean verificaExistenciaUsuario(String cpf) throws SQLException
+	public Boolean verificaExistenciaUsuario(Usuario usuario) throws SQLException
 	{
 		String querySQL = "SELECT * FROM Usuario" +
 				" WHERE status <> ?" + 
-				" AND cpfcnpj = ?";
+				" AND cpfcnpj = ?" +
+				" AND fkMunicipioCliente = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(1 , ConstantesSisEducar.STATUS_REMOVIDO);
-		ps.setString(2, cpf);
+		ps.setString(2, usuario.getCpfcnpj());
+		ps.setObject(3, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
+		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
@@ -300,6 +304,9 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
+			Cidade cidade = new Cidade();
+			cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			
 			usuario.setPkUsuario(rs.getString("pkUsuario"));
 			usuario.setNome(rs.getString("nome"));
 			usuario.setSenha(rs.getString("senha"));
@@ -308,7 +315,7 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setCpfcnpj(rs.getString("cpfcnpj"));
 			usuario.setStatus(rs.getInt("status"));
 			usuario.setTipo(rs.getInt("tipo"));
-			
+			usuario.setFkMunicipioCliente(cidade);
 			return usuario;
 		}
 		
