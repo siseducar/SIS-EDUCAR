@@ -181,8 +181,9 @@ public class PessoaDAO extends SisEducarDAO
 					" FKNACIONALIDADE, " +
 					" FKESTADOCIVIL, " +
 					" FKGRAUINSTRUCAO " +
+					" FKMUNICIPIOCLIENTE " +
 				" ) VALUES ( " +
-					" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -203,6 +204,7 @@ public class PessoaDAO extends SisEducarDAO
 			ps.setInt(15, pessoaDados.getNacionalidade().getPkNacionalidade());
 			ps.setInt(16, pessoaDados.getEstadoCivil().getPkEstadoCivil());
 			ps.setInt(17, pessoaDados.getGrauInstrucao().getPkGrauInstrucao());
+			ps.setObject(18, pessoaDados.getFkMunicipioCliente()!=null ? pessoaDados.getFkMunicipioCliente().getPkCidade() : null);
 			
 			fecharConexaoBanco(con, ps, false, true);
 			
