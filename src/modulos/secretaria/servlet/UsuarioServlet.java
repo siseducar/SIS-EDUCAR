@@ -27,6 +27,7 @@ public class UsuarioServlet extends SisEducarServlet
 	
 	//Variaveis
 	Usuario usuario;
+	Usuario usuarioLogado;
 	
 	/**
 	 * Construtor
@@ -34,6 +35,7 @@ public class UsuarioServlet extends SisEducarServlet
 	public UsuarioServlet()
 	{
 		usuario = new Usuario();
+		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
 	
 	/**
@@ -55,9 +57,14 @@ public class UsuarioServlet extends SisEducarServlet
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
 			
+			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
+			{
+				usuario.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			}
+			
 			if(!usuario.getCpfcnpj().isEmpty())
 			{
-				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario.getCpfcnpj());
+				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario);
 			}
 			
 			//Se voltar TRUE � porque o usuário já existe
@@ -148,7 +155,7 @@ public class UsuarioServlet extends SisEducarServlet
 			}
 			else
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email informado", null));	
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email cadastrado", null));	
 			}
 			
 			resetarUsuario();

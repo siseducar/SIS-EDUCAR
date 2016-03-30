@@ -33,6 +33,10 @@ import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
 
+import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.utils.ConstantesSisEducar;
+
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
 public class PessoaServlet implements Serializable{
@@ -56,6 +60,7 @@ public class PessoaServlet implements Serializable{
 	private Religiao religiaoDados;
 	private Regiao regiaoDados;
 	private ParametrosServlet paramDados;
+	private Usuario usuarioLogado;
 	
 	/* Componente para salvar COMPROVANTE DE RESIDENCIA*/
 	private UploadedFile imagemResidencia;
@@ -223,6 +228,8 @@ public class PessoaServlet implements Serializable{
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
+		
+		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
 	
 	public void calculaIdade(){
@@ -265,6 +272,11 @@ public class PessoaServlet implements Serializable{
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
 			
+			
+			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
+			{
+				pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			}
 			
 			/* Validação dos dados referentes a PESSOA */
 			if( pessoaDados != null ) {

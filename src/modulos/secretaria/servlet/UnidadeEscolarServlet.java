@@ -26,6 +26,8 @@ import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -72,6 +74,8 @@ public class UnidadeEscolarServlet implements Serializable
 	
 	/* Combo com valores de SITUAÇÃO FUNCIONAMENTO */
 	private List<SelectItem> comboSituacaoFuncionamento;
+	
+	private Usuario usuarioLogado = null;
 	
 	/**
 	 * Construtor
@@ -128,6 +132,9 @@ public class UnidadeEscolarServlet implements Serializable
 		comboRedeEnsino = new ArrayList<SelectItem>();
 		comboTipoOcupacao = new ArrayList<SelectItem>();
 		comboSituacaoFuncionamento = new ArrayList<SelectItem>();
+		
+		//Busco o usuário logado
+		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
 	
 	/**
@@ -143,6 +150,11 @@ public class UnidadeEscolarServlet implements Serializable
 			Endereco enderecoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			Pessoa pessoa = null;
+			
+			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
+			{
+				unidadeEscolar.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			}
 			
 			/* Diretor */
 			if(cpfDiretor!=null)
@@ -461,5 +473,13 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setPessoaDado(Pessoa pessoaDado) {
 		this.pessoaDado = pessoaDado;
+	}
+
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
 	}
 }
