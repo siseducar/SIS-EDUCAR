@@ -212,7 +212,6 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
-		
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -265,6 +264,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
+			
 			
 			/* Validação dos dados referentes a PESSOA */
 			if( pessoaDados != null ) {
@@ -380,6 +380,14 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
+	
+	public void upload() {  
+        FacesMessage msg = new FacesMessage("Ok", "Fichero " + imagemAluno.getFileName() + " subido correctamente.");
+    	System.out.println(imagemAluno.getFileName());
+    	System.out.println(imagemAluno.getSize());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }  
+	
 	/*
 	 * Metodo responsavel por salvar os dados do aluno
 	 * 
@@ -387,7 +395,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroAluno(){
 		return null;
 	}
-	
+		
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -453,6 +461,9 @@ public class PessoaServlet implements Serializable{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Erro ao consultar o CPF informado", null));
 			}
+		}else{
+			alunoDados.setNomeMae(null);
+			nomeMae = false;
 		}
 	}
 	

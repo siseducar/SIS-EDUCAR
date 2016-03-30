@@ -47,8 +47,7 @@
 										<h:inputText type="text" id="nomePessoa"
 											styleClass="col-xs-12 col-sm-12"
 											value="#{pessoaServlet.pessoaDados.nome}" title="Nome Completo."
-											maxlength="100"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nome']}"/>
+											maxlength="100"/>
 									</div>
 								</div>
 							</div>
@@ -83,8 +82,7 @@
 									<div>
 										<h:inputText type="text" id="dataNasci" 
 											styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento"
-											value="#{pessoaServlet.pessoaDados.dataNascimento}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.datNasci']}">
+											value="#{pessoaServlet.pessoaDados.dataNascimento}">
 											<f:converter converterId="converter.DATA"/>
 											<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="dadosResponsavel"/>
 										</h:inputText>
@@ -96,8 +94,7 @@
 									<div>
 										<h:selectOneMenu id="codSexo"
 											class="form-control" title="Sexo da Pessoa"
-											value="#{pessoaServlet.pessoaDados.sexo}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.sexo']}">
+											value="#{pessoaServlet.pessoaDados.sexo}">
 											<f:selectItem itemLabel="Selecione..." itemValue=""/>
 											<f:selectItem itemLabel="Masculino" itemValue="1"/>
 											<f:selectItem itemLabel="Feminino" itemValue="2"/>
@@ -108,8 +105,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
 									<div>
 										<h:inputText id="codNaturalidade"
-											styleClass="col-xs-12 col-sm-12"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.naturalidade']}">
+											styleClass="col-xs-12 col-sm-12">
 										</h:inputText>
 									</div>
 								</div>
@@ -122,8 +118,7 @@
 									<div>
 										<h:selectOneMenu id="codNacionalidade"
 											class="form-control" title="Nacionadlidade da Pessoa"
-											value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.nacionalidade']}">
+											value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
 												var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
@@ -136,8 +131,7 @@
 									<div>
 										<h:selectOneMenu id="codRaca"
 											class="form-control" title="Raça/Cor da Pessoa" 
-											value="#{pessoaServlet.racaDados.pkRaca}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.raca']}">
+											value="#{pessoaServlet.racaDados.pkRaca}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboRaca}"
 												var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
@@ -150,8 +144,7 @@
 									<div>
 										<h:selectOneMenu id="codEstCivil"
 											class="form-control" title="Estado Civil da Pessoa"
-											value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.estaCivil']}">
+											value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboEstadoCivil}"
 												var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
@@ -164,8 +157,7 @@
 									<div>
 										<h:selectOneMenu id="codGrauInstru"
 											class="form-control" title="Grau de Instrução da Pessoa"
-											value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.grauInstru']}">
+											value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboGrauInstrucao}"
 												var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
@@ -178,8 +170,7 @@
 									<div>
 										<h:selectOneMenu id="codSituEconomica"
 											class="form-control" title="Situação Econômica da Pessoa"
-											value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.situEconomica']}">
+											value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboSituacaoEconomica}"
 												var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
@@ -192,8 +183,7 @@
 									<div>
 										<h:selectOneMenu id="codReligiao"
 											class="form-control" title="Religião da Pessoa"
-											value="#{pessoaServlet.religiaoDados.pkReligiao}"
-											required="true" requiredMessage="#{mensagens['mensagem.requerido.cadastro.religiao']}">
+											value="#{pessoaServlet.religiaoDados.pkReligiao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboReligiao}"
 												var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
