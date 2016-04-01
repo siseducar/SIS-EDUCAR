@@ -32,6 +32,7 @@ import modulos.secretaria.om.Raca;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
+
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -216,7 +217,6 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
-		
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -271,6 +271,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
+			
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -391,6 +392,14 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
+	
+	public void upload() {  
+        FacesMessage msg = new FacesMessage("Ok", "Fichero " + imagemAluno.getFileName() + " subido correctamente.");
+    	System.out.println(imagemAluno.getFileName());
+    	System.out.println(imagemAluno.getSize());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }  
+	
 	/*
 	 * Metodo responsavel por salvar os dados do aluno
 	 * 
@@ -398,7 +407,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroAluno(){
 		return null;
 	}
-	
+		
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -464,6 +473,9 @@ public class PessoaServlet implements Serializable{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Erro ao consultar o CPF informado", null));
 			}
+		}else{
+			alunoDados.setNomeMae(null);
+			nomeMae = false;
 		}
 	}
 	
@@ -995,13 +1007,5 @@ public class PessoaServlet implements Serializable{
 
 	public void setImagemAluno(UploadedFile imagemAluno) {
 		this.imagemAluno = imagemAluno;
-	}
-
-	public Usuario getUsuarioLogado() {
-		return usuarioLogado;
-	}
-
-	public void setUsuarioLogado(Usuario usuarioLogado) {
-		this.usuarioLogado = usuarioLogado;
 	}
 }
