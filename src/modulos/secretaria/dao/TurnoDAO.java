@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Turno;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class TurnoDAO {
 
@@ -25,9 +26,12 @@ public class TurnoDAO {
 			
 			List<Turno> listaTurno = new ArrayList<Turno>();
 			
-			String querySQL = "SELECT * FROM TURNO WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(querySQL);
+			String querySQL = "SELECT * FROM TURNO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+			
+			ps = con.prepareStatement(querySQL);
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			
+			rs = ps.executeQuery();
 			
 			while (rs.next()){
 				Turno paramTurno = new Turno();

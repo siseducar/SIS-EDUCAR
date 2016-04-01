@@ -11,8 +11,10 @@ import javax.faces.model.SelectItem;
 
 import modulos.secretaria.dao.CargoDAO;
 import modulos.secretaria.dao.CidadeDAO;
+import modulos.secretaria.dao.CursoDAO;
 import modulos.secretaria.dao.EstadoCivilDAO;
 import modulos.secretaria.dao.EstadoDAO;
+import modulos.secretaria.dao.EtapaDAO;
 import modulos.secretaria.dao.GrauInstrucaoDAO;
 import modulos.secretaria.dao.NacionalidadeDAO;
 import modulos.secretaria.dao.PaisDAO;
@@ -28,8 +30,10 @@ import modulos.secretaria.dao.TipoOcupacaoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Cargo;
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.EstadoCivil;
+import modulos.secretaria.om.Etapa;
 import modulos.secretaria.om.GrauInstrucao;
 import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
@@ -392,6 +396,61 @@ public class ParametrosServlet implements Serializable{
 					"Erro ao carregar os dados de UNIDADE ESCOLAR, contate o administrador do sistema!", null));
 			return null;
 		}
+	}
+	
+	/*
+	 * Metodo para carregar os Cursos Escolares
+	 * */
+	public List<SelectItem> consultaCursoEscolar(UnidadeEscolar unidadeEscolarDados) {
+		try {
+			CursoDAO cursoDAO = new CursoDAO();
+			List<SelectItem> comboCursoEscolar = new ArrayList<>();
+			List<Curso> paramCurso = cursoDAO.consultaCursoEscolar(unidadeEscolarDados.getPkUnidadeEscolar());
+			
+			for(Curso param : paramCurso) {
+				SelectItem s = new SelectItem();
+				s.setValue(param.getPkCurso());
+				s.setLabel(param.getDescricao());
+				comboCursoEscolar.add(s);
+			}
+			return comboCursoEscolar;
+		}catch(SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de CURSO ESCOLAR, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os Etapas Escolares 
+	 * */
+	public List<SelectItem> consultaEtapaEscolar(Curso cursoDados) {
+		try {
+			EtapaDAO etapaDAO = new EtapaDAO();
+			List<SelectItem> comboEtapaEscolar = new ArrayList<>();
+			List<Etapa> paramEtapaEscolar = etapaDAO.consultaEtapaEscolar(cursoDados.getPkCurso());
+			
+			for(Etapa param : paramEtapaEscolar) {
+				SelectItem s = new SelectItem();
+				s.setValue(param.getPkEtapa());
+				s.setLabel(param.getDescricao());
+				comboEtapaEscolar.add(s);
+			}
+			
+			return comboEtapaEscolar;
+		}catch(SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de ETAPA ESCOLAR, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os Turnos Escolares
+	 * */
+	public List<SelectItem> consultaTurnoEscolar(Etapa etapaDados){
+		
+		return null;
 	}
 	
 	/*

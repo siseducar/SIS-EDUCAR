@@ -2,7 +2,7 @@ package modulos.secretaria.om;
 
 public class UnidadeEscolar 
 {
-	private int pkUnidadeEscolar;
+	private Integer pkUnidadeEscolar;
 	private String codigo;
 	private String nome;
 	private int status;
@@ -17,6 +17,31 @@ public class UnidadeEscolar
 	private Pessoa diretor;
 	private Cidade fkMunicipioCliente;
 	
+	
+	public Integer getPkUnidadeEscolar() {
+		return pkUnidadeEscolar;
+	}
+	public void setPkUnidadeEscolar(Integer pkUnidadeEscolar) {
+		this.pkUnidadeEscolar = pkUnidadeEscolar;
+	}
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public Boolean getUnidadeControlada() {
 		return unidadeControlada;
 	}
@@ -28,6 +53,18 @@ public class UnidadeEscolar
 	}
 	public void setUnidadeInformatizada(Boolean unidadeInformatizada) {
 		this.unidadeInformatizada = unidadeInformatizada;
+	}
+	public RedeEnsino getRedeEnsino() {
+		return redeEnsino;
+	}
+	public void setRedeEnsino(RedeEnsino redeEnsino) {
+		this.redeEnsino = redeEnsino;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	public TipoOcupacao getTipoOcupacao() {
 		return tipoOcupacao;
@@ -53,42 +90,6 @@ public class UnidadeEscolar
 	public void setRegiao(Regiao regiao) {
 		this.regiao = regiao;
 	}
-	public int getPkUnidadeEscolar() {
-		return pkUnidadeEscolar;
-	}
-	public void setPkUnidadeEscolar(int pkUnidadeEscolar) {
-		this.pkUnidadeEscolar = pkUnidadeEscolar;
-	}
-	public String getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public RedeEnsino getRedeEnsino() {
-		return redeEnsino;
-	}
-	public void setRedeEnsino(RedeEnsino redeEnsino) {
-		this.redeEnsino = redeEnsino;
-	}
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
 	public Pessoa getDiretor() {
 		return diretor;
 	}
@@ -101,4 +102,5 @@ public class UnidadeEscolar
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
+	
 }

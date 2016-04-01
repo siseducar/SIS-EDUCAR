@@ -20,14 +20,14 @@ public class Aluno
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
-	private byte[] fotoAluno;
-	private String redeEnsino;
-	private String unidadeEscolar;
-	private String etapa;
-	private String curso;
-	private String turno;
+	private byte[] fotoAluno;	
+	private RedeEnsino redeEnsino;
+	private UnidadeEscolar unidadeEscolar;
+	private Etapa etapa;
+	private Curso curso;
+	private Turno turno;
+	private TipoDeficiencia deficiencia;
 	private Boolean alunoDeficiente;
-	private String deficiencia;
 	
 	public String getRa2() {
 		return ra2;
@@ -119,47 +119,11 @@ public class Aluno
 	public void setRm(String rm) {
 		this.rm = rm;
 	}
-	public String getRedeEnsino() {
-		return redeEnsino;
-	}
-	public void setRedeEnsino(String redeEnsino) {
-		this.redeEnsino = redeEnsino;
-	}
-	public String getUnidadeEscolar() {
-		return unidadeEscolar;
-	}
-	public void setUnidadeEscolar(String unidadeEscolar) {
-		this.unidadeEscolar = unidadeEscolar;
-	}
-	public String getEtapa() {
-		return etapa;
-	}
-	public void setEtapa(String etapa) {
-		this.etapa = etapa;
-	}
-	public String getCurso() {
-		return curso;
-	}
-	public void setCurso(String curso) {
-		this.curso = curso;
-	}
-	public String getTurno() {
-		return turno;
-	}
-	public void setTurno(String turno) {
-		this.turno = turno;
-	}
 	public Boolean getAlunoDeficiente() {
 		return alunoDeficiente;
 	}
 	public void setAlunoDeficiente(Boolean alunoDeficiente) {
 		this.alunoDeficiente = alunoDeficiente;
-	}
-	public String getDeficiencia() {
-		return deficiencia;
-	}
-	public void setDeficiencia(String deficiencia) {
-		this.deficiencia = deficiencia;
 	}
 	public Long getCpfPai() {
 		return cpfPai;
@@ -184,5 +148,41 @@ public class Aluno
 	}
 	public void setFotoAluno(byte[] fotoAluno) {
 		this.fotoAluno = fotoAluno;
+	}
+	public RedeEnsino getRedeEnsino() {
+		return redeEnsino;
+	}
+	public void setRedeEnsino(RedeEnsino redeEnsino) {
+		this.redeEnsino = redeEnsino;
+	}
+	public UnidadeEscolar getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
+	}
+	public Etapa getEtapa() {
+		return etapa;
+	}
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
+	}
+	public Curso getCurso() {
+		return curso;
+	}
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+	public Turno getTurno() {
+		return turno;
+	}
+	public void setTurno(Turno turno) {
+		this.turno = turno;
+	}
+	public TipoDeficiencia getDeficiencia() {
+		return deficiencia;
+	}
+	public void setDeficiencia(TipoDeficiencia deficiencia) {
+		this.deficiencia = deficiencia;
 	}
 }

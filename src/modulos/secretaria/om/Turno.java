@@ -8,10 +8,11 @@ public class Turno
 	private Integer ordemExibicao;
 	private Integer status;
 	
-	public Integer getPkRaca() {
+
+	public Integer getPkTurno() {
 		return pkTurno;
 	}
-	public void setPkRaca(Integer pkTurno) {
+	public void setPkTurno(Integer pkTurno) {
 		this.pkTurno = pkTurno;
 	}
 	public String getCodigo() {

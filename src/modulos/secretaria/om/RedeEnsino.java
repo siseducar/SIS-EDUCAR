@@ -2,16 +2,16 @@ package modulos.secretaria.om;
 
 public class RedeEnsino 
 {
-	private int pkRedeEnsino;
+	private Integer pkRedeEnsino;
 	private String codigo;
 	private String nome;
 	private int status;
 	private Cidade fkMunicipioCliente;
 	
-	public int getPkRedeEnsino() {
+	public Integer getPkRedeEnsino() {
 		return pkRedeEnsino;
 	}
-	public void setPkRedeEnsino(int pkRedeEnsino) {
+	public void setPkRedeEnsino(Integer pkRedeEnsino) {
 		this.pkRedeEnsino = pkRedeEnsino;
 	}
 	public String getCodigo() {
@@ -38,4 +38,6 @@ public class RedeEnsino
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
+	
+
 }

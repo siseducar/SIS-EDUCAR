@@ -195,10 +195,11 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		
 		List<UnidadeEscolar> listaUnidadeEscolar = new ArrayList<UnidadeEscolar>();
 		
-		String querySQL = "SELECT * FROM UNIDADEESCOLAR WHERE FKREDEENSINO = ? ORDER BY NOME";
+		String querySQL = "SELECT * FROM UNIDADEESCOLAR WHERE FKREDEENSINO = ? AND STATUS = ? ORDER BY NOME";
 		
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(1, pkRedeEnsino);
+		ps.setInt(2, ConstantesSisEducar.STATUS_ATIVO);
 		rs = ps.executeQuery();
 		
 		while (rs.next()){

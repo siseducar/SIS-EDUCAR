@@ -84,7 +84,7 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setObject(numeroArgumentos, pessoa.getEstadoCivil()!=null ? pessoa.getEstadoCivil().getPkEstadoCivil() : null);
 		numeroArgumentos++;
-		ps.setObject(numeroArgumentos, pessoa.getTurno()!=null ? pessoa.getTurno().getPkRaca() : null);
+		ps.setObject(numeroArgumentos, pessoa.getTurno()!=null ? pessoa.getTurno().getPkTurno() : null);
 		numeroArgumentos++;
 		ps.setObject(numeroArgumentos, pessoa.getGrauInstrucao()!=null ? pessoa.getGrauInstrucao().getPkGrauInstrucao() : null);
 		numeroArgumentos++;

@@ -1,5 +1,6 @@
 package modulos.sisEducar.converter;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -32,16 +33,17 @@ public class ConverteData implements Converter{
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
-		if(value != null) {
-			SimpleDateFormat formatBra;     
-			   formatBra = new SimpleDateFormat("dd/MM/yyyy");  
-			   try {  
-			      java.util.Date newData = formatBra.parse(value.toString());  
-			      return (formatBra.format(newData));
-			   } catch (ParseException Ex) {  
-			      return "Erro na conversão da data";  
-			   } 
+		if (value == null || value.toString().equals("")){
+			return null;			
 		}
+        try {
+        	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            value = (java.util.Date)formatter.parse(value.toString());
+            
+            return value.toString();
+        } catch (ParseException e) {            
+        	e.printStackTrace();
+        }
 		return null;
 
 	}

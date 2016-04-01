@@ -462,7 +462,7 @@
 											value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codRedeEnsino"
-												value="#{pessoaServlet.alunoDados.redeEnsino}">
+												value="#{pessoaServlet.redeEnsinoDados.pkRedeEnsino}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"/>
 												<p:ajax event="change" update="codUniEscolar"/>
@@ -476,18 +476,8 @@
 											<h:selectOneMenu class="form-control" id="codUniEscolar"
 												value="#{pessoaServlet.alunoDados.unidadeEscolar}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems
-													value="#{pessoaServlet.comboUnidadeEscolar}"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.etapa']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codEtapa"
-												value="#{pessoaServlet.alunoDados.etapa}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"/>
+												<p:ajax event="change" update="codCurso"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -498,6 +488,18 @@
 											<h:selectOneMenu class="form-control" id="codCurso"
 												value="#{pessoaServlet.alunoDados.curso}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<p:ajax event="change" update="codEtapa"/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel
+											value="#{mensagens['label.cadastro.aluno.etapa']}"/>
+										<div>
+											<h:selectOneMenu class="form-control" id="codEtapa"
+												value="#{pessoaServlet.alunoDados.etapa}">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<p:ajax event="change" update="codTurno"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -528,43 +530,43 @@
 										</div>
 										<div class="col-xs-12 col-sm-12">
 											<h:panelGroup id="panelDeficiencia">
-												<h:panelGroup style="width: 100%"
-													class="clearfix form-actions"
-													rendered="#{pessoaServlet.alunoDeficiente}">
+												<h:panelGroup style="width: 100%" class="clearfix form-actions" rendered="#{pessoaServlet.alunoDeficiente}">
 													<h:outputLabel
 														value="#{mensagens['label.cadastro.aluno.tipo.deficiencia']}"/>
-													<h:selectOneMenu class="form-control" id="tipoDeficiencia"
-														value="#{pessoaServlet.alunoDados.deficiencia}">
-														<f:selectItem itemValue="" itemLabel="Selecione..."/>
-														<f:selectItems
-															value="#{pessoaServlet.comboTipoDeficiencia}"/>
-													</h:selectOneMenu>
+													<div>
+														<h:selectOneMenu class="form-control" id="tipoDeficiencia"
+															value="#{pessoaServlet.tipoDeficienciaDados.pkTipoDeficiencia}">
+															<f:selectItem itemValue="" itemLabel="Selecione..."/>
+															<f:selectItems value="#{pessoaServlet.comboTipoDeficiencia}"
+																var="deficiencia" itemLabel="#{deficiencia.descricao}" itemValue="#{deficiencia.pkTipoDeficiencia}"/>
+														</h:selectOneMenu>
+													</div>
 												</h:panelGroup>
 											</h:panelGroup>
 										</div>
 									</div>
 								</div>
 								<div class="space-4"/>
-								<div class="row">
+								<div id="imagens" class="row">
 									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Certidão de Nascimento"/>
+										<h:outputLabel value="Copia Foto do Aluno"/>
 										<div>
-											 <input type="file" id="fotoAluno"
-											 	class="upload" value="#{pessoaServlet.imagemAluno}"/>
+											 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
+											 	value="#{pessoaServlet.imagemAluno}"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="Copia Certidão de Nascimento"/>
 										<div>
-											 <input type="file" id="certidaoNascimento" 
-											 	class="upload" value="#{pessoaServlet.imagemCertNascimento}"/>
+											<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
+											 	value="#{pessoaServlet.imagemCertNascimento}"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="Copia Comprovante de Residencia"/>
 										<div>
-											 <input type="file" id="certidaoNascimento" 
-											 	class="upload" value="#{pessoaServlet.imagemResidencia}"/>
+											<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple"
+											 	value="#{pessoaServlet.imagemResidencia}"/>
 										</div>
 									</div>
 								</div>
@@ -806,7 +808,7 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.salvarCadastroPessoa}"
+								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}"
 									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
 						</div>

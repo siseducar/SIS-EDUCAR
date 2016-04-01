@@ -1,5 +1,6 @@
 package modulos.secretaria.servlet;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,15 +14,18 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.postgresql.util.Base64;
 import org.primefaces.model.UploadedFile;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.EstadoCivil;
+import modulos.secretaria.om.Etapa;
 import modulos.secretaria.om.Fornecedor;
 import modulos.secretaria.om.Funcionario;
 import modulos.secretaria.om.GrauInstrucao;
@@ -29,11 +33,15 @@ import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Raca;
+import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
-
+import modulos.secretaria.om.TipoDeficiencia;
+import modulos.secretaria.om.Turno;
+import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
@@ -42,7 +50,11 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 public class PessoaServlet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
+	public static final int CADASTRO_PESSOA = 0;
+	public static final int CADASTRO_ALUNO = 1;
+	public static final int CADASTRO_FUNCIONARIO = 2;
+	
 	/* Atributos */
 	private Pessoa pessoaDados;
 	private Aluno alunoDados;
@@ -61,7 +73,15 @@ public class PessoaServlet implements Serializable{
 	private Regiao regiaoDados;
 	private ParametrosServlet paramDados;
 	private Usuario usuarioLogado;
+	private RedeEnsino redeEnsinoDados;
+	private UnidadeEscolar unidadeEscolarDados;
+	private Etapa etapaDados;
+	private Curso cursoDados;
+	private Turno turnoDados;
+	private TipoDeficiencia tipoDeficienciaDados;
 	
+	
+
 	/* Componente para salvar COMPROVANTE DE RESIDENCIA*/
 	private UploadedFile imagemResidencia;
 	
@@ -137,6 +157,15 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de UNIDADE ESCOLAR */
 	private List<SelectItem> comboUnidadeEscolar;
 	
+	/* Combo com valores de ETAPA ESCOLAR */
+	private List<SelectItem> comboEtapaEscolar;
+	
+	/* Combo com valores de CURSO ESCOLAR */
+	private List<SelectItem> comboCursoEscolar;
+	
+	/* Combo com valores de TURNO ESCOLAR */
+	private List<SelectItem> comboTurnoEscolar;
+	
 	/* Componente */
 	private Boolean nomeMae;
 	
@@ -199,7 +228,22 @@ public class PessoaServlet implements Serializable{
 		if(this.paramDados == null) {
 			this.paramDados = new ParametrosServlet();
 		}
-
+		if(this.redeEnsinoDados == null) {
+			this.redeEnsinoDados = new RedeEnsino();
+		}
+		if(this.unidadeEscolarDados == null) {
+			this.unidadeEscolarDados = new UnidadeEscolar();
+		}
+		if(this.etapaDados == null) {
+			this.etapaDados = new Etapa();
+		}
+		if(this.cursoDados == null) {
+			this.cursoDados = new Curso();
+		}
+		if(this.turnoDados == null) {
+			this.turnoDados = new Turno();
+		}
+		
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
 		comboEstadoCivil = new ArrayList<SelectItem>();
@@ -271,7 +315,6 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
-			
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -392,20 +435,99 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
-	
-	public void upload() {  
-        FacesMessage msg = new FacesMessage("Ok", "Fichero " + imagemAluno.getFileName() + " subido correctamente.");
-    	System.out.println(imagemAluno.getFileName());
-    	System.out.println(imagemAluno.getSize());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }  
-	
 	/*
-	 * Metodo responsavel por salvar os dados do aluno
+	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
 	public String salvarCadastroAluno(){
+		Aluno alunoDadosFinal = new Aluno();
+		
+		if(alunoDados != null) {
+			alunoDadosFinal.setRm(alunoDados.getRm());
+			alunoDadosFinal.setRa(alunoDados.getRa());
+		}
+		
+		if(redeEnsinoDados.getPkRedeEnsino() != null ) {
+			alunoDadosFinal.setRedeEnsino(redeEnsinoDados);
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Seleciona uma REDE DE ENSINO.",null));
+			return null;
+		}
+		
+		if(unidadeEscolarDados.getPkUnidadeEscolar() != null) {
+			alunoDadosFinal.setUnidadeEscolar(unidadeEscolarDados);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Selecione uma UNIDADE ESCOLAR.",null));
+			return null;
+		}
+		
+		if(cursoDados.getPkCurso() != null) {
+			alunoDadosFinal.setCurso(cursoDados);
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Selecione um CURSO.",null));
+			return null;
+		}
+		
+		if(etapaDados.getPkEtapa() != null) {
+			alunoDadosFinal.setEtapa(etapaDados);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Selecione uma ETAPA.",null));
+			return null;
+		}
+		
+		if(turnoDados.getPkTurno() != null) {
+			alunoDadosFinal.setTurno(turnoDados);
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Selecione um TURNO.",null));
+			return null;
+		}
+		
+		
 		return null;
+	}
+	
+	/*
+	 * Metodo para salvar o cadastro de Funcionario
+	 * 
+	 * */
+	public String salvarCadastroFuncionario(){
+		return null;
+	}
+	
+	public void uploadImagens(){
+		ImagemBase64 imagemAluno64 = new ImagemBase64();
+		ImagemBase64 imagemCertNasci64 = new ImagemBase64();
+		ImagemBase64 imagemResidencia64 = new ImagemBase64();
+		
+		if( imagemAluno.getSize() > 1000000){			
+			converteBase64(imagemAluno, imagemAluno64);
+		}
+		converteBase64(imagemCertNascimento, imagemCertNasci64);
+		converteBase64(imagemResidencia, imagemResidencia64);
+	}
+	
+	public void converteBase64(UploadedFile imagemConverte, ImagemBase64 imagem) {
+    	String formato = imagemConverte.getContentType();
+    	String nome = imagemConverte.getFileName();
+    	byte[] imageAsByte = new byte[(int) imagemConverte.getSize()];
+    	try {
+    		imagemConverte.getInputstream().read(imageAsByte);
+    		String base64AsString = new String(Base64.encodeBytes(imageAsByte));
+    		imagem.setB64(base64AsString);
+    		imagem.setTipo(formato);
+    		imagem.setNome(nome);
+    		
+    		System.out.println(imagem.getB64());
+    		System.out.println(imagem.getNome());
+    		System.out.println(imagem.getTipo());
+    	}catch (IOException e) {
+    		e.printStackTrace(); 
+    	}
 	}
 		
 	/*
@@ -445,9 +567,6 @@ public class PessoaServlet implements Serializable{
 	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
-
-	
-	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -596,16 +715,17 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaCadastro(){
-		if(pessoaDados.getTipoPessoa() == 0 && pessoaDados != null) {
+		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
 			salvarCadastroPessoa();
-		} else {
-			if(pessoaDados.getTipoPessoa() == 1 && pessoaDados != null) {
-				System.out.println("aluno");
-			} else {
-				System.out.println("funcionario");
-			}
 		}
-		
+		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
+			salvarCadastroPessoa();
+			salvarCadastroAluno();
+		}
+		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
+			salvarCadastroPessoa();
+			salvarCadastroFuncionario();
+		}
 	}
 
 	/*
@@ -625,8 +745,7 @@ public class PessoaServlet implements Serializable{
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
 	}
-	
-	
+		
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	public Pessoa getPessoaDados() {
@@ -732,10 +851,7 @@ public class PessoaServlet implements Serializable{
 	public void setReligiaoDados(Religiao religiaoDados) {
 		this.religiaoDados = religiaoDados;
 	}
-	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
-	/* ------------------------------------------------------------------------------------------------------------------------ */
-
-		
+	
 	public Endereco getEnderecoDados() {
 		return enderecoDados;
 	}
@@ -751,31 +867,73 @@ public class PessoaServlet implements Serializable{
 	public void setRegiaoDados(Regiao regiaoDados) {
 		this.regiaoDados = regiaoDados;
 	}
-
-	public Boolean getNomeMae() {
-		return nomeMae;
+	
+	public ParametrosServlet getParamDados() {
+		return paramDados;
 	}
 
-	public void setNomeMae(Boolean nomeMae) {
-		this.nomeMae = nomeMae;
+	public void setParamDados(ParametrosServlet paramDados) {
+		this.paramDados = paramDados;
 	}
 
-	public Boolean getNomePai() {
-		return nomePai;
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
 	}
 
-	public void setNomePai(Boolean nomePai) {
-		this.nomePai = nomePai;
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
 	}
 
-	public Boolean getNomeResponsavel() {
-		return nomeResponsavel;
+	public RedeEnsino getRedeEnsinoDados() {
+		return redeEnsinoDados;
 	}
 
-	public void setNomeResponsavel(Boolean nomeResponsavel) {
-		this.nomeResponsavel = nomeResponsavel;
+	public void setRedeEnsinoDados(RedeEnsino redeEnsinoDados) {
+		this.redeEnsinoDados = redeEnsinoDados;
+	}
+
+	public UnidadeEscolar getUnidadeEscolarDados() {
+		return unidadeEscolarDados;
+	}
+
+	public void setUnidadeEscolarDados(UnidadeEscolar unidadeEscolarDados) {
+		this.unidadeEscolarDados = unidadeEscolarDados;
+	}
+
+	public Etapa getEtapaDados() {
+		return etapaDados;
+	}
+
+	public void setEtapaDados(Etapa etapaDados) {
+		this.etapaDados = etapaDados;
+	}
+
+	public Curso getCursoDados() {
+		return cursoDados;
+	}
+
+	public void setCursoDados(Curso cursoDados) {
+		this.cursoDados = cursoDados;
+	}
+
+	public Turno getTurnoDados() {
+		return turnoDados;
+	}
+
+	public void setTurnoDados(Turno turnoDados) {
+		this.turnoDados = turnoDados;
 	}
 	
+	public TipoDeficiencia getTipoDeficienciaDados() {
+		return tipoDeficienciaDados;
+	}
+
+	public void setTipoDeficienciaDados(TipoDeficiencia tipoDeficienciaDados) {
+		this.tipoDeficienciaDados = tipoDeficienciaDados;
+	}
+	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
+	/* ------------------------------------------------------------------------------------------------------------------------ */
+
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE PAIS ESTADO E CIDADE */
 	
@@ -791,7 +949,7 @@ public class PessoaServlet implements Serializable{
 	/* ESTADO */
 	public List<SelectItem> getComboEstado() {
 		comboEstado.clear();
-		if(paisDados.getPkPais() !=null && !comboPais.isEmpty()) {
+		if(paisDados.getPkPais() != null && !comboPais.isEmpty()) {
 			
 			ParametrosServlet paramDados = new ParametrosServlet();
 			comboEstado.addAll(paramDados.consultaEstado(paisDados));
@@ -878,16 +1036,21 @@ public class PessoaServlet implements Serializable{
 	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
 		this.comboZonaResidencial = comboZonaResidencial;
 	}
-
-	public List<SelectItem> getComboCargo() {
-		return comboCargo;
+	
+	public List<SelectItem> getComboTipoLogradouro() {
+		return comboTipoLogradouro;
 	}
-
-	public void setComboCargo(List<SelectItem> comboCargo) {
-		this.comboCargo = comboCargo;
+	
+	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
+		this.comboTipoLogradouro = comboTipoLogradouro;
 	}
-
+/* ------------------------------------------------------------------------------------------------------------------------ */
+/* Informações referentes ao dados do aluno */	
 	public List<SelectItem> getComboRedeEnsino() {
+		comboRedeEnsino.clear();
+		if(comboRedeEnsino == null || comboRedeEnsino.isEmpty()) {			
+			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
+		}
 		return comboRedeEnsino;
 	}
 
@@ -896,14 +1059,58 @@ public class PessoaServlet implements Serializable{
 	}
 
 	public List<SelectItem> getComboUnidadeEscolar() {
+		comboUnidadeEscolar.clear();
+		if( redeEnsinoDados.getPkRedeEnsino() != null && !comboRedeEnsino.isEmpty() ) {
+			comboUnidadeEscolar.addAll(paramDados.consultaUnidadeEscolar(redeEnsinoDados));
+		}		
 		return comboUnidadeEscolar;
 	}
 
 	public void setComboUnidadeEscolar(List<SelectItem> comboUnidadeEscolar) {
 		this.comboUnidadeEscolar = comboUnidadeEscolar;
 	}
+	
+	public List<SelectItem> getComboCursoEscolar() {
+		comboCursoEscolar.clear();
+		if(unidadeEscolarDados.getPkUnidadeEscolar() != null && !comboUnidadeEscolar.isEmpty()) {
+			comboCursoEscolar.addAll(paramDados.consultaCursoEscolar(unidadeEscolarDados));
+		}
+		return comboCursoEscolar;
+	}
 
+	public void setComboCursoEscolar(List<SelectItem> comboCursoEscolar) {
+		this.comboCursoEscolar = comboCursoEscolar;
+	}
+	
+	public List<SelectItem> getComboEtapaEscolar() {
+		comboEtapaEscolar.clear();
+		if(cursoDados.getPkCurso() != null && !comboCursoEscolar.isEmpty()) {
+			comboEtapaEscolar.addAll(paramDados.consultaEtapaEscolar(cursoDados));
+		}
+		return comboEtapaEscolar;
+	}
+
+	public void setComboEtapaEscolar(List<SelectItem> comboEtapaEscolar) {
+		this.comboEtapaEscolar = comboEtapaEscolar;
+	}
+
+	public List<SelectItem> getComboTurnoEscolar() {
+		comboTurnoEscolar.clear();
+		if(etapaDados.getPkEtapa() != null && !comboEtapaEscolar.isEmpty()) {
+			comboTurnoEscolar.addAll(paramDados.consultaTurnoEscolar(etapaDados));
+		}
+		return comboTurnoEscolar;
+	}
+
+	public void setComboTurnoEscolar(List<SelectItem> comboTurnoEscolar) {
+		this.comboTurnoEscolar = comboTurnoEscolar;
+	}
+	
 	public List<SelectItem> getComboTipoDeficiencia() {
+		comboTipoDeficiencia.clear();
+		if(comboTipoDeficiencia == null || comboTipoDeficiencia.isEmpty()) {
+			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
+		}
 		return comboTipoDeficiencia;
 	}
 
@@ -918,8 +1125,6 @@ public class PessoaServlet implements Serializable{
 	public void setComboGrauParentesco(List<SelectItem> comboGrauParentesco) {
 		this.comboGrauParentesco = comboGrauParentesco;
 	}
-	/* GETTERS AND SETTER DE PARAMETROS DA TELA */
-	/* ------------------------------------------------------------------------------------------------------------------------ */
 	
 	public Boolean getComplementoAluno() {
 		return complementoAluno;
@@ -928,15 +1133,7 @@ public class PessoaServlet implements Serializable{
 	public void setComplementoAluno(Boolean complementoAluno) {
 		this.complementoAluno = complementoAluno;
 	}
-
-	public Boolean getComplementoFuncionario() {
-		return complementoFuncionario;
-	}
-
-	public void setComplementoFuncionario(Boolean complementoFuncionario) {
-		this.complementoFuncionario = complementoFuncionario;
-	}
-
+	
 	public Boolean getAlunoDeficiente() {
 		return alunoDeficiente;
 	}
@@ -944,7 +1141,74 @@ public class PessoaServlet implements Serializable{
 	public void setAlunoDeficiente(Boolean alunoDeficiente) {
 		this.alunoDeficiente = alunoDeficiente;
 	}
+	
+	public Boolean getMenorIdade() {
+		return menorIdade;
+	}
 
+	public void setMenorIdade(Boolean menorIdade) {
+		this.menorIdade = menorIdade;
+	}
+
+	public UploadedFile getImagemResidencia() {
+		return imagemResidencia;
+	}
+
+	public void setImagemResidencia(UploadedFile imagemResidencia) {
+		this.imagemResidencia = imagemResidencia;
+	}
+
+	public UploadedFile getImagemCertNascimento() {
+		return imagemCertNascimento;
+	}
+
+	public void setImagemCertNascimento(UploadedFile imagemCertNascimento) {
+		this.imagemCertNascimento = imagemCertNascimento;
+	}	
+	public UploadedFile getImagemAluno() {
+		return imagemAluno;
+	}
+
+	public void setImagemAluno(UploadedFile imagemAluno) {
+		this.imagemAluno = imagemAluno;
+	}
+	
+	public Boolean getNomeMae() {
+		return nomeMae;
+	}
+
+	public void setNomeMae(Boolean nomeMae) {
+		this.nomeMae = nomeMae;
+	}
+
+	public Boolean getNomePai() {
+		return nomePai;
+	}
+
+	public void setNomePai(Boolean nomePai) {
+		this.nomePai = nomePai;
+	}
+
+	public Boolean getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(Boolean nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+	/* Informações referentes ao dados do aluno */	
+	/* ------------------------------------------------------------------------------------------------------------------------ */
+	
+	/* ------------------------------------------------------------------------------------------------------------------------ */
+	/* Informações referentes ao dados do funcionario */
+	public Boolean getComplementoFuncionario() {
+		return complementoFuncionario;
+	}
+
+	public void setComplementoFuncionario(Boolean complementoFuncionario) {
+		this.complementoFuncionario = complementoFuncionario;
+	}
+	
 	public Boolean getFuncConcursado() {
 		return funcConcursado;
 	}
@@ -968,44 +1232,29 @@ public class PessoaServlet implements Serializable{
 	public void setFuncDemitido(Boolean funcDemitido) {
 		this.funcDemitido = funcDemitido;
 	}
-
-	public Boolean getMenorIdade() {
-		return menorIdade;
+	
+	public List<SelectItem> getComboCargo() {
+		return comboCargo;
 	}
 
-	public void setMenorIdade(Boolean menorIdade) {
-		this.menorIdade = menorIdade;
+	public void setComboCargo(List<SelectItem> comboCargo) {
+		this.comboCargo = comboCargo;
 	}
+	/* Informações referentes ao dados do funcionario */
+	/* ------------------------------------------------------------------------------------------------------------------------ */
+/* GETTERS AND SETTER DE PARAMETROS DA TELA */
+/* ------------------------------------------------------------------------------------------------------------------------ */
+	
+	
 
-	public UploadedFile getImagemResidencia() {
-		return imagemResidencia;
-	}
+	
 
-	public void setImagemResidencia(UploadedFile imagemResidencia) {
-		this.imagemResidencia = imagemResidencia;
-	}
+	
 
-	public UploadedFile getImagemCertNascimento() {
-		return imagemCertNascimento;
-	}
+	
 
-	public void setImagemCertNascimento(UploadedFile imagemCertNascimento) {
-		this.imagemCertNascimento = imagemCertNascimento;
-	}
+	
 
-	public List<SelectItem> getComboTipoLogradouro() {
-		return comboTipoLogradouro;
-	}
-
-	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
-		this.comboTipoLogradouro = comboTipoLogradouro;
-	}
-
-	public UploadedFile getImagemAluno() {
-		return imagemAluno;
-	}
-
-	public void setImagemAluno(UploadedFile imagemAluno) {
-		this.imagemAluno = imagemAluno;
-	}
+	
+	
 }

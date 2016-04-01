@@ -12,7 +12,7 @@ public class ConverteTelResidencial implements Converter{
 		String telResidencial = value;
 		int digitos = value.replace("(", "").replace(")", "").replace("-", "").replace(" ", "").length();
 		if(digitos == 10) {
-			telResidencial = value.replace(".", "").replace("-", "").replace(" ", "");
+			telResidencial = value.replace(".", "").replace("-", "").replace(" ", "").replace("(", "").replace(")", "");
 		}
 		
 		return telResidencial;
