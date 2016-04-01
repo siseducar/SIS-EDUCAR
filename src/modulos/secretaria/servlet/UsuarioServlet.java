@@ -11,7 +11,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
+import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
@@ -28,6 +30,7 @@ public class UsuarioServlet extends SisEducarServlet
 	//Variaveis
 	Usuario usuario;
 	Usuario usuarioLogado;
+	private String nomePessoaVinculada;
 	
 	/**
 	 * Construtor
@@ -36,6 +39,8 @@ public class UsuarioServlet extends SisEducarServlet
 	{
 		usuario = new Usuario();
 		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		
+		nomePessoaVinculada = "";
 	}
 	
 	/**
@@ -54,12 +59,20 @@ public class UsuarioServlet extends SisEducarServlet
 			Boolean resultadoEnvioEmail = false;
 			Boolean resultadoRemocaoUsuario = false;
 			Email email = null;
+			Pessoa pessoa = null;
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
 				usuario.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			}
+			
+			/* Pessoa VInculada */
+			if(usuario.getCpfcnpj()!=null)
+			{
+				pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
+				if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ usuario.setPessoa(pessoa); }
 			}
 			
 			if(!usuario.getCpfcnpj().isEmpty())
@@ -138,7 +151,7 @@ public class UsuarioServlet extends SisEducarServlet
 			urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
 			email = EmailUtils.inicializarPropriedades();
 			email.setSubjectMail("Confirmação de cadastro de usuário");
-			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol� " + usuario.getNome() + ",</p> " + 
+			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
 					" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
 					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
 			
@@ -299,6 +312,26 @@ public class UsuarioServlet extends SisEducarServlet
         new EmailUtils().enviarEmail(email);
 	}
 	
+	/**
+	 * Usado para buscar as informações da pessoa que será vinculada no usuário
+	 * @author João Paulo
+	 * @return
+	 */
+	public String buscarInformacoesPessoaVinculada()
+	{
+		try 
+		{
+			Pessoa pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
+			if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ nomePessoaVinculada = pessoa.getNome(); }
+			return null;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarInformacoesDiretor", "");
+			return null;
+		}
+	}
+	
 	/*Getters and setters*/
 	public Usuario getUsuario() {
 		return usuario;
@@ -306,5 +339,13 @@ public class UsuarioServlet extends SisEducarServlet
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getNomePessoaVinculada() {
+		return nomePessoaVinculada;
+	}
+
+	public void setNomePessoaVinculada(String nomePessoaVinculada) {
+		this.nomePessoaVinculada = nomePessoaVinculada;
 	}
 }
