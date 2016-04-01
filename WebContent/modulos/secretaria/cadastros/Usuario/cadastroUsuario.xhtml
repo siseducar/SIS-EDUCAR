@@ -32,13 +32,33 @@
 						<h:form id="formCadastroUsuario">
 							<div class="clearfix form-actions">
 								<div class="form-group">
-									<div class="col-xs-12 col-sm-7">
+									<div class="col-xs-12 col-sm-4">
 										<div>
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.cpf']}" ></h:inputText>
+												requiredMessage="#{mensagens['mensagem.requerido.cpf']}" >
+													<p:ajax event="change" listener="#{usuarioServlet.buscarInformacoesPessoaVinculada}" update="nomePessoa"/>
+													<f:validator validatorId="validar.CpfValidator"/>
+													<f:converter converterId="converter.CPF"/>
+												</h:inputText>
 												<i class="ace-icon fa fa-credit-card"></i>
+											</span>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-8">
+										<h:outputLabel value="Nome"/>
+										<div>
+											<h:inputText type="text" id="nomePessoa" class="col-sm-12"	value="#{usuarioServlet.nomePessoaVinculada}" disabled="true"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div>
+											<output>Nome de Usuário</output>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
+												<i class="ace-icon fa fa-user"></i>
 											</span>
 										</div>
 									</div>
@@ -52,6 +72,7 @@
 											</span>
 										</div>
 									</div>
+									
 									<div class="col-xs-12 col-sm-6">
 										<div>
 											<output>Confirmação de Email</output>
@@ -59,16 +80,6 @@
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
 												<i class="ace-icon fa fa-envelope"></i>
-											</span>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-7">
-										<div>
-											<output>Nome de Usuário</output>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
-												<i class="ace-icon fa fa-user"></i>
 											</span>
 										</div>
 									</div>

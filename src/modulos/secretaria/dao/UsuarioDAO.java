@@ -64,7 +64,7 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO usuario "
-					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente) values(?,?,?,?,?,?,?,?,?)";
+					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa) values(?,?,?,?,?,?,?,?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -77,6 +77,7 @@ public class UsuarioDAO extends SisEducarDAO
 			ps.setString(7, usuario.getCpfcnpj());
 			ps.setString(8, usuario.getGenero());
 			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
+			ps.setObject(10, usuario.getPessoa()!=null ? usuario.getPessoa().getPkPessoa() : null);
 			
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
