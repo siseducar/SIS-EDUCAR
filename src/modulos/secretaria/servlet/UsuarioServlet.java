@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.Email;
@@ -32,6 +33,9 @@ public class UsuarioServlet extends SisEducarServlet
 	Usuario usuarioLogado;
 	private String nomePessoaVinculada;
 	
+	private List<Permissao> permissoes;
+    private List<Permissao> permissoesSelecionadas;
+
 	/**
 	 * Construtor
 	 */
@@ -41,6 +45,8 @@ public class UsuarioServlet extends SisEducarServlet
 		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
 		nomePessoaVinculada = "";
+		
+		permissoes = buscarPermissoes();
 	}
 	
 	/**
@@ -312,6 +318,20 @@ public class UsuarioServlet extends SisEducarServlet
         new EmailUtils().enviarEmail(email);
 	}
 	
+	public List<Permissao> buscarPermissoes()
+	{
+		try 
+		{
+			List<Permissao> permissoes = new UsuarioDAO().buscarPermissoes();
+			return permissoes;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarPermissoes", "");
+			return null;
+		}
+	}
+	
 	/**
 	 * Usado para buscar as informações da pessoa que será vinculada no usuário
 	 * @author João Paulo
@@ -347,5 +367,21 @@ public class UsuarioServlet extends SisEducarServlet
 
 	public void setNomePessoaVinculada(String nomePessoaVinculada) {
 		this.nomePessoaVinculada = nomePessoaVinculada;
+	}
+
+	public List<Permissao> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<Permissao> permissoes) {
+		this.permissoes = permissoes;
+	}
+
+	public List<Permissao> getPermissoesSelecionadas() {
+		return permissoesSelecionadas;
+	}
+
+	public void setPermissoesSelecionadas(List<Permissao> permissoesSelecionadas) {
+		this.permissoesSelecionadas = permissoesSelecionadas;
 	}
 }

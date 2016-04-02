@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -393,5 +396,35 @@ public class UsuarioDAO extends SisEducarDAO
 		fecharConexaoBanco(con, ps, false, true);
 		
 		return true;
+	}
+	
+	/**
+	 * Busca todas as permissões no sistema
+	 * @author João Paulo
+	 * @return List<Permissao>
+	 * @throws SQLException
+	 */
+	public List<Permissao> buscarPermissoes() throws SQLException
+	{
+		Permissao permissao = null;
+		List<Permissao> permissoes = new ArrayList<Permissao>();
+		String querySQL = "SELECT * FROM Permissao "
+				+ " WHERE status = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			permissao = new Permissao();
+			permissao.setPkPermissao(rs.getInt("pkPermissao"));
+			permissao.setNome(rs.getString("nome"));
+			permissao.setTipo(rs.getInt("tipo"));
+			
+			permissoes.add(permissao);
+		}
+		
+		return permissoes;
 	}
 }
