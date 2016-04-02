@@ -14,6 +14,7 @@ import javax.mail.MessagingException;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Permissao;
+import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.Email;
@@ -68,6 +69,7 @@ public class UsuarioServlet extends SisEducarServlet
 			Pessoa pessoa = null;
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
 			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
+			PermissaoUsuario permissaoUsuario = null;
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -147,6 +149,20 @@ public class UsuarioServlet extends SisEducarServlet
 				//Como o usuário estará em confirmação ele estará com o status imcompleto, então eu seto o status imcompleto nele
 				usuario.setStatus(ConstantesSisEducar.STATUS_INCOMPLETO);
 				usuario = usuarioDAO.buscarUsuario(usuario);
+				
+				/* Adiciona as permissões para o usuário*/
+				if(permissoesSelecionadas!=null && permissoesSelecionadas.size() >0)
+				{
+					
+					for (Permissao permissao : permissoes) 
+					{
+						permissaoUsuario = new PermissaoUsuario();
+						permissaoUsuario.setUsuario(usuario);
+						permissaoUsuario.setPermissao(permissao);
+						permissaoUsuario.setFkMunicipioCliente(usuario.getFkMunicipioCliente());
+						usuarioDAO.inserirPermissaoUsuario(permissaoUsuario);
+					}
+				}
 			}
 			else
 			{

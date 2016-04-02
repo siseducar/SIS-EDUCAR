@@ -11,6 +11,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Permissao;
+import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -426,5 +427,35 @@ public class UsuarioDAO extends SisEducarDAO
 		}
 		
 		return permissoes;
+	}
+	
+	/**
+	 * Método usado para inserir uma permissão para um determinado usuário
+	 * @author João Paulo
+	 * @param permissaoUsuario
+	 * @return
+	 */
+	public Boolean inserirPermissaoUsuario(PermissaoUsuario permissaoUsuario)
+	{
+		try 
+		{
+			String querySQL = "INSERT INTO permissaoUsuario "
+					+ " (fkusuario, fkpermissao, fkmunicipiocliente, status) values(?,?,?,?)";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setObject(1, permissaoUsuario.getUsuario()!=null ? permissaoUsuario.getUsuario().getPkUsuario() : null);
+			ps.setObject(2, permissaoUsuario.getPermissao()!=null? permissaoUsuario.getPermissao().getPkPermissao() : null);
+			ps.setObject(3, permissaoUsuario.getFkMunicipioCliente()!=null ? permissaoUsuario.getFkMunicipioCliente().getPkCidade() : null);
+			ps.setInt(4, ConstantesSisEducar.STATUS_ATIVO);
+			
+			fecharConexaoBanco(con, ps, false, true);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+			return false;
+		}
 	}
 }
