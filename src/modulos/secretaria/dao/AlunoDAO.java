@@ -76,8 +76,6 @@ public class AlunoDAO extends SisEducarDAO
 		ps.setInt(6, aluno.getPessoa().getPkPessoa());
 		ps.setObject(7, aluno.getCidadeNascimento()!=null ? aluno.getCidadeNascimento().getPkCidade() : null);
 		ps.setString(8, aluno.getLivroUF());
-		ps.setString(9, aluno.getNomePai());
-		ps.setString(10, aluno.getNomeMae());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		

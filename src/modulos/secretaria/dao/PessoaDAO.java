@@ -162,30 +162,43 @@ public class PessoaDAO extends SisEducarDAO
 	 */
 	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException{
 		try {
-			String querySQL = 
-				"INSERT INTO PESSOA ( " +
-					" NOME, " + 
-					" CPF, " +
-					" RG, " + 
-					" DATANASCIMENTO, " + 
-				    " DATACADASTRO, " +
-					" SEXO, " +
-					" TELEFONERESIDENCIAL, " +
-					" TELEFONECELULAR, " +
-					" TIPOPESSOA, " +
-					" STATUS, " +
-					" FKRACA, " +
-					" FKSITUACAOECONOMICA, " +
-					" FKRELIGIAO, " +
-					" FKREGIAO, " +
-					" FKNACIONALIDADE, " +
-					" FKESTADOCIVIL, " +
-					" FKGRAUINSTRUCAO " +
-					" FKMUNICIPIOCLIENTE " +
-				" ) VALUES ( " +
-					" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			StringBuilder querySQL = new StringBuilder();
 			
-			ps = con.prepareStatement(querySQL);
+			querySQL.append(" INSERT INTO PESSOA ( ");
+			querySQL.append(" NOME, ");
+			querySQL.append(" CPF, ");
+			querySQL.append(" RG, ");
+			querySQL.append(" DATANASCIMENTO, ");
+			querySQL.append(" SEXO, ");
+			querySQL.append(" TELEFONERESIDENCIAL, ");
+			querySQL.append(" TELEFONECELULAR, ");
+			querySQL.append(" TIPOPESSOA, ");
+			querySQL.append(" STATUS, ");
+			querySQL.append(" FKRACA, ");
+			querySQL.append(" FKSITUACAOECONOMICA, ");
+			querySQL.append(" FKRELIGIAO, ");
+			querySQL.append(" FKREGIAO, ");
+			querySQL.append(" FKNACIONALIDADE, ");
+			querySQL.append(" FKESTADOCIVIL, ");
+			querySQL.append(" FKGRAUINSTRUCAO, ");
+			querySQL.append(" FKMUNICIPIOCLIENTE ");
+			
+			if(pessoaDados.getNome() != null && pessoaDados.getCpfMae() != null) {
+				querySQL.append(" ,NOMEMAE, ");
+				querySQL.append(" CPFMAE, ");
+			}
+			if(pessoaDados.getNomePai() != null && pessoaDados.getCpfPai() != null) {
+				querySQL.append(" NOMEPAI, ");
+				querySQL.append(" CPFPAI, ");
+			}
+			if(pessoaDados.getNomeResponsavel() != null && pessoaDados.getCpfResponsavel() != null) {
+				querySQL.append(" NOMERESPONSAVEL, ");
+				querySQL.append(" CPFRESPONSAVEL ");
+			}
+			
+			querySQL.append(" ) values ( ");
+			
+			ps = con.prepareStatement(querySQL.toString());
 			
 			ps.setString(1, pessoaDados.getNome());
 			ps.setLong(2, pessoaDados.getCpf());

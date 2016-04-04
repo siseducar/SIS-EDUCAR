@@ -167,8 +167,6 @@ public class PoiLeitorArquivoExcel
 					aluno.setRa2(stringAux); //RA2
 				}
 				
-				if(!listaAuxiliar.get(8).equals("NULL")) { aluno.setNomePai((String)listaAuxiliar.get(8)); } //Nome Pai
-				if(!listaAuxiliar.get(9).equals("NULL")) { aluno.setNomeMae((String)listaAuxiliar.get(9)); } //Nome Mãe
 				if(!listaAuxiliar.get(15).equals("NULL")) { aluno.setFolha(cortarCasasDecimais((String)listaAuxiliar.get(15), false, false)); } //Folha
 				if(!listaAuxiliar.get(16).equals("NULL")) { aluno.setLivro(cortarCasasDecimais((String)listaAuxiliar.get(16), false, false)); }
 				if(!listaAuxiliar.get(17).equals("NULL")) { aluno.setRegistro(new Integer(cortarCasasDecimais(new Double((String)listaAuxiliar.get(17)).toString(), false, false))); }

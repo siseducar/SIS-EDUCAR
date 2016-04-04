@@ -20,6 +20,12 @@ public class Pessoa
 	private Date dataFalecimento;
 	private Integer status;
 	private String email;
+	private String nomePai;
+	private Long cpfPai;
+	private String nomeMae;
+	private Long cpfMae;
+	private String nomeResponsavel;
+	private Long cpfResponsavel;
 	private Raca raca;
 	private SituacaoEconomica situacaoEconomica;
 	private Religiao religiao;
@@ -217,6 +223,42 @@ public class Pessoa
 	}
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
+	}
+	public String getNomePai() {
+		return nomePai;
+	}
+	public void setNomePai(String nomePai) {
+		this.nomePai = nomePai;
+	}
+	public Long getCpfPai() {
+		return cpfPai;
+	}
+	public void setCpfPai(Long cpfPai) {
+		this.cpfPai = cpfPai;
+	}
+	public String getNomeMae() {
+		return nomeMae;
+	}
+	public void setNomeMae(String nomeMae) {
+		this.nomeMae = nomeMae;
+	}
+	public Long getCpfMae() {
+		return cpfMae;
+	}
+	public void setCpfMae(Long cpfMae) {
+		this.cpfMae = cpfMae;
+	}
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+	public Long getCpfResponsavel() {
+		return cpfResponsavel;
+	}
+	public void setCpfResponsavel(Long cpfResponsavel) {
+		this.cpfResponsavel = cpfResponsavel;
 	}
 	
 

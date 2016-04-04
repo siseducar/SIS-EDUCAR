@@ -11,12 +11,6 @@ public class Aluno
 	private Pessoa pessoa;
 	private Cidade cidadeNascimento;
 	private String livroUF;
-	private String nomePai;
-	private Long cpfPai;
-	private String nomeMae;
-	private Long cpfMae;
-	private String nomeResponsavel;
-	private Long cpfResponsavel;
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
@@ -65,18 +59,6 @@ public class Aluno
 	public void setLivroUF(String livroUF) {
 		this.livroUF = livroUF;
 	}
-	public String getNomePai() {
-		return nomePai;
-	}
-	public void setNomePai(String nomePai) {
-		this.nomePai = nomePai;
-	}
-	public String getNomeMae() {
-		return nomeMae;
-	}
-	public void setNomeMae(String nomeMae) {
-		this.nomeMae = nomeMae;
-	}
 	public String getRa() {
 		return ra;
 	}
@@ -94,12 +76,6 @@ public class Aluno
 	}
 	public void setPkAluno(int pkAluno) {
 		this.pkAluno = pkAluno;
-	}
-	public String getNomeResponsavel() {
-		return nomeResponsavel;
-	}
-	public void setNomeResponsavel(String nomeResponsavel) {
-		this.nomeResponsavel = nomeResponsavel;
 	}
 	public Byte getCertiNascimento() {
 		return certiNascimento;
@@ -124,24 +100,6 @@ public class Aluno
 	}
 	public void setAlunoDeficiente(Boolean alunoDeficiente) {
 		this.alunoDeficiente = alunoDeficiente;
-	}
-	public Long getCpfPai() {
-		return cpfPai;
-	}
-	public void setCpfPai(Long cpfPai) {
-		this.cpfPai = cpfPai;
-	}
-	public Long getCpfMae() {
-		return cpfMae;
-	}
-	public void setCpfMae(Long cpfMae) {
-		this.cpfMae = cpfMae;
-	}
-	public Long getCpfResponsavel() {
-		return cpfResponsavel;
-	}
-	public void setCpfResponsavel(Long cpfResponsavel) {
-		this.cpfResponsavel = cpfResponsavel;
 	}
 	public byte[] getFotoAluno() {
 		return fotoAluno;
