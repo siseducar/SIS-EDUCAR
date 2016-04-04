@@ -31,6 +31,7 @@
 					<div class="col-sm-12">
 						<h:form id="formCadastroUsuario">
 							<div class="clearfix form-actions">
+								<h3 class="header smaller lighter blue">Informações Principais</h3>
 								<div class="form-group">
 									<div class="col-xs-12 col-sm-4">
 										<div>
@@ -107,7 +108,6 @@
 								
 								<!-- Este campo estará escondido para armazenar o genero selecionado -->
 								<input id="inputGeneroAux" name="inputGeneroAux" class="hidden"/>
-								
 								<div class="col-xs-12 col-sm-6">
 									<div class="control-group">
 										<output>Gênero</output>
@@ -124,6 +124,23 @@
 											</label>
 										</div>
 									</div>
+								</div>
+							</div>
+							
+							<!-- PERMISSÕES -->
+							<div class="clearfix form-actions">
+								<h3 class="header smaller lighter blue">Permissões</h3>
+								
+								<div class="table-responsive">
+									<p:dataTable tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
+							            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
+							            <p:column headerText="Nome">
+							                #{value.nome}
+							            </p:column>
+							            <p:column headerText="Descrição">
+							                #{value.nome}
+							            </p:column>
+							        </p:dataTable>
 								</div>
 							</div>
 								
@@ -145,6 +162,8 @@
 			</div>
 		</ui:define>
 		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.min.js"></script>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.bootstrap.js"></script>
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.css"/>
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
