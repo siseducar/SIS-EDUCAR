@@ -243,7 +243,7 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
-		
+		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
 		comboEstadoCivil = new ArrayList<SelectItem>();
