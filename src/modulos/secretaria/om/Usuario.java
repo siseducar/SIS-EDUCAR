@@ -1,6 +1,7 @@
 package modulos.secretaria.om;
 
 import java.sql.Date;
+import java.util.List;
 
 
 public class Usuario 
@@ -21,6 +22,8 @@ public class Usuario
 	private Pessoa pessoa;
 	private Cidade cidadeOrigem;
 	private Cidade fkMunicipioCliente;
+	
+	private List<Permissao> permissoes;
 
 	public Usuario() {}
 	
@@ -114,5 +117,13 @@ public class Usuario
 
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
+	}
+
+	public List<Permissao> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<Permissao> permissoes) {
+		this.permissoes = permissoes;
 	}
 }
