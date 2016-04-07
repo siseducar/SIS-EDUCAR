@@ -440,7 +440,7 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO permissaoUsuario "
-					+ " (fkusuario, fkpermissao, fkmunicipiocliente, status) values(?,?,?,?)";
+					+ " (fkusuario, fkpermissao, fkmunicipiocliente, status) values(CAST(? as bigint),?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
