@@ -572,18 +572,18 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeMae(){
-		if(alunoDados.getCpfMae() != null && alunoDados.getCpfMae() != 0){
+		if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
 			try {
-				Long cpfMae = alunoDados.getCpfMae();
+				Long cpfMae = pessoaDados.getCpfMae();
 				AlunoDAO alunoDAO = new AlunoDAO();
 				
 				String nome = alunoDAO.consultaNomeResponsavel(cpfMae); 
 				
 				if(nome != null && !nome.equals("")){
-					alunoDados.setNomeMae(nome);
+					pessoaDados.setNomeMae(nome);
 					nomeMae = true;
 				}else{
-					alunoDados.setNomeMae(null);
+					pessoaDados.setNomeMae(null);
 					nomeMae = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 							"CPF não encontrado, favor informar o nome.", null));
@@ -593,7 +593,7 @@ public class PessoaServlet implements Serializable{
 						"Erro ao consultar o CPF informado", null));
 			}
 		}else{
-			alunoDados.setNomeMae(null);
+			pessoaDados.setNomeMae(null);
 			nomeMae = false;
 		}
 	}
@@ -603,17 +603,17 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomePai(){
-		if(alunoDados.getCpfPai() != null && alunoDados.getCpfPai() != 0 ){
+		if(pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ){
 			try {
-				Long cpfPai = alunoDados.getCpfPai();
+				Long cpfPai = pessoaDados.getCpfPai();
 				AlunoDAO alunoDAO = new AlunoDAO();
 				
 				String nome = alunoDAO.consultaNomeResponsavel(cpfPai); 
 				if(nome != null && !nome.equals("")){
-					alunoDados.setNomePai(nome);
+					pessoaDados.setNomePai(nome);
 					nomePai = true;
 				}else{
-					alunoDados.setNomePai(null);
+					pessoaDados.setNomePai(null);
 					nomePai = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 							"CPF não encontrado, favor informar o nome.", null));
@@ -630,17 +630,17 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeResponsavel(){
-		if(alunoDados.getCpfResponsavel() != null && alunoDados.getCpfResponsavel() != 0){
+		if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 			try {
-				Long cpfResponsavel = alunoDados.getCpfResponsavel();
+				Long cpfResponsavel = pessoaDados.getCpfResponsavel();
 				AlunoDAO alunoDAO = new AlunoDAO();
 				
 				String nome = alunoDAO.consultaNomeResponsavel(cpfResponsavel); 
 				if(nome != null && !nome.equals("")){
-					alunoDados.setNomeResponsavel(nome);
+					pessoaDados.setNomeResponsavel(nome);
 					nomeResponsavel = true;
 				}else{
-					alunoDados.setNomePai(null);
+					pessoaDados.setNomePai(null);
 					nomeResponsavel = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 							"CPF não encontrado, favor informar o nome.", null));
