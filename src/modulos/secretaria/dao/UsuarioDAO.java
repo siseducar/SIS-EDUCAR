@@ -132,7 +132,9 @@ public class UsuarioDAO extends SisEducarDAO
 	 */
 	public Usuario validarUsuario(Usuario usuario) throws SQLException
 	{
+		Permissao permissao = null;
 		Cidade municipioCliente = null;
+		
 		String querySQL = "SELECT * FROM usuario "
 				+ " WHERE nome = ?"
 				+ " AND senha = ?"
@@ -157,6 +159,7 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setCpfcnpj(rs.getString("cpfcnpj"));
 			usuario.setFkMunicipioCliente(municipioCliente);
 			
+			usuario.setPermissoes(buscarPermissoesUsuario(usuario));
 			return usuario;
 		}
 		
@@ -415,6 +418,7 @@ public class UsuarioDAO extends SisEducarDAO
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
@@ -422,6 +426,40 @@ public class UsuarioDAO extends SisEducarDAO
 			permissao.setPkPermissao(rs.getInt("pkPermissao"));
 			permissao.setNome(rs.getString("nome"));
 			permissao.setTipo(rs.getInt("tipo"));
+			
+			permissoes.add(permissao);
+		}
+		
+		return permissoes;
+	}
+	
+	/**
+	 * Método usuado para buscar as permissões de um usuário
+	 * @author João Paulo
+	 * @param usuario
+	 * @return List<Permissao>
+	 * @throws SQLException
+	 */
+	public List<Permissao> buscarPermissoesUsuario(Usuario usuario) throws SQLException
+	{
+		Permissao permissao = null;
+		List<Permissao> permissoes = new ArrayList<Permissao>();
+		String querySQL = "SELECT * FROM PermissaoUsuario"
+				+ " WHERE status = ?";
+		
+		if(usuario!=null) { querySQL += " AND fkusuario = CAST(? as bigint)"; }
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(usuario!=null) { ps.setObject(2, usuario.getPkUsuario());}
+		
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			permissao = new Permissao();
+			permissao.setPkPermissao(rs.getInt("fkPermissao"));
 			
 			permissoes.add(permissao);
 		}
@@ -440,7 +478,7 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO permissaoUsuario "
-					+ " (fkusuario, fkpermissao, fkmunicipiocliente, status) values(?,?,?,?)";
+					+ " (fkusuario, fkpermissao, fkmunicipiocliente, status) values(CAST(? as bigint),?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
