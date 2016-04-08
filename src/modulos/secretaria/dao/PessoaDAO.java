@@ -166,8 +166,12 @@ public class PessoaDAO extends SisEducarDAO
 			
 			querySQL.append(" INSERT INTO PESSOA ( ");
 			querySQL.append(" NOME, ");
-			querySQL.append(" CPF, ");
-			querySQL.append(" RG, ");
+			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
+				querySQL.append(" CPF, ");
+			}
+			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
+				querySQL.append(" RG, ");
+			}
 			querySQL.append(" DATANASCIMENTO, ");
 			querySQL.append(" SEXO, ");
 			querySQL.append(" TELEFONERESIDENCIAL, ");

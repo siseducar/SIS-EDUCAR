@@ -22,11 +22,12 @@ public class ConverteTelCelular implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		String telCelular = value.toString();
 		if( telCelular != null && telCelular.length() == 11) {
-			telCelular = 
-					"(" + telCelular.substring(0,1) + ") " + 
-					telCelular.substring(1,2) + " " + 
-					telCelular.substring(2, 6) + "-" + 
-					telCelular.substring(6, 11);
+			telCelular = "(" + telCelular.substring(0,2) + ") " + 
+					telCelular.substring(2,3) + " " + 
+					telCelular.substring(3, 7) + "-" + 
+					telCelular.substring(7, 11);
+		} else {
+			telCelular = null;
 		}
 		
 		return telCelular;

@@ -292,12 +292,6 @@ public class PessoaServlet implements Serializable{
 			if(idade < 0 || idade > 100) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 						"Informe uma data valida.",null));
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Informe uma data valida.",null));
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Informe uma data valida.",null));
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, 
-						"Informe uma data valida.",null));
 			} else {
 				if( idade < 18 ){
 					menorIdade = true;
@@ -315,14 +309,13 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
-			
-			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
-			{
-				pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
-			}
-			
-			/* Validação dos dados referentes a PESSOA */
-			if( pessoaDados != null ) {
+			uploadImagens();
+			if( validaDadosPessoa() == true ) {
+				if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
+				{
+					pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+				}
+				
 				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
 				pessoaDadosFinal.setNome(pessoaDados.getNome());
 				pessoaDadosFinal.setCpf(pessoaDados.getCpf());
@@ -332,100 +325,26 @@ public class PessoaServlet implements Serializable{
 				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
 				pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
 				pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
-			}
-			
-			/* Validação dos dados referentes ao ENDEREÇO */
-			if( enderecoDados != null ) {
+				
 				enderecoDados.setCidade(cidadeDados);
 				pessoaDadosFinal.setEndereco(enderecoDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe os dados referentes ao ENDEREÇO.",null));
-			}
-			
-			/* Validação dos dados referentes a NACIONALIDADE */
-			if( nacionalidadeDados != null ) {
+				
 				pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma NACIONALIDADE.",null));
-			}
-			
-			/* Validação dos dados referentes a RAÇA */
-			if( racaDados != null ) {
 				pessoaDadosFinal.setRaca(racaDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma RAÇA.",null));
-			}
-			
-			/* Validação dos dados referentes ao ESTADO CIVIL */
-			if( estaCivilDados != null ) {
 				pessoaDadosFinal.setEstadoCivil(estaCivilDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione um ESTADO CIVIL.",null));
-			}
-			
-			/* Validação dos dados referentes ao GRAU DE INSTRUÇÃO */
-			if( grauInstruDados != null ) {
 				pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione um GRAU DE INSTRUÇÃO.",null));
-			}
-			
-			/* Validação dos dados referentes a SITUAÇÃO ECONÔMICA */
-			if( situEconomicaDados != null ) {
 				pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma SITUAÇÃO ECONÔMICA.",null));
-			}
-			
-			/* Validação dos dados referentes a RELIGIÃO */
-			if( religiaoDados != null ) {
 				pessoaDadosFinal.setReligiao(religiaoDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma RELIGIÃO.",null));
-			}
-			
-			/* Validação dos dados referentes a REGIÃO */
-			if(regiaoDados != null) {
 				pessoaDadosFinal.setRegiao(regiaoDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma REGIÃO.",null));
+				pessoaDadosFinal.setPais(paisDados);				
+				pessoaDadosFinal.setEstado(estadoDados);				
+				
+				new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
+				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						"Cadastro Realizado com sucesso",null));
+				limparFormulario();
 			}
-			
-			/* Validação dos dados referentes ao PAÍS */
-			if(paisDados != null){
-				System.out.println(paisDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione um PAÍS.",null));
-			}
-			
-			/* Validação dos dados referentes ao ESTADO */
-			if(estadoDados != null){
-				System.out.println(estadoDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione um ESTADO.",null));
-			}
-			
-			/* Validação dos dados referentes a CIDADE */
-			if(cidadeDados != null){
-				System.out.println(cidadeDados);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione uma CIDADE.",null));
-			}
-			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					"Cadastro Realizado com sucesso",null));
-			limparFormulario();
 		} catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao cadastrar",null));
@@ -504,9 +423,7 @@ public class PessoaServlet implements Serializable{
 		ImagemBase64 imagemCertNasci64 = new ImagemBase64();
 		ImagemBase64 imagemResidencia64 = new ImagemBase64();
 		
-		if( imagemAluno.getSize() > 1000000){			
-			converteBase64(imagemAluno, imagemAluno64);
-		}
+		converteBase64(imagemAluno, imagemAluno64);
 		converteBase64(imagemCertNascimento, imagemCertNasci64);
 		converteBase64(imagemResidencia, imagemResidencia64);
 	}
@@ -745,7 +662,145 @@ public class PessoaServlet implements Serializable{
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
 	}
+	
+	public Boolean validaDadosPessoa(){
+		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O NOME deve ser preenchido.",null));
+			pessoaDados.setNome(null);
+			return false;
+		}
+
+		if(pessoaDados.getDataNascimento() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A DATA DE NASCIMENTO deve ser preenchida.",null));
+			pessoaDados.setDataNascimento(null);
+			return false;
+		}	
 		
+		if( menorIdade == false  ) {
+			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O CPF deve ser preenchido.",null));
+				pessoaDados.setCpf(null);
+				return false;
+			}
+		}
+				
+		if( pessoaDados.getSexo() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O SEXO deve ser informado.",null));
+			return false;
+		}
+		
+		if( nacionalidadeDados.getPkNacionalidade() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A NACIONALIDADE deve ser informada.",null));
+			return false;
+		}
+		
+		if( racaDados.getPkRaca() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A RAÇA deve ser informada.",null));
+			return false;
+		}
+		
+		if( estaCivilDados.getPkEstadoCivil() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O ESTADO CIVIL deve ser informado.",null));
+			return false;
+		}
+		
+		if( grauInstruDados.getPkGrauInstrucao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O GRAU DE INSTRUÇÃO deve ser informado.",null));
+			return false;
+		}
+		
+		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A SITUAÇÃO ECONÔMICA deve ser informada.",null));
+			return false;
+		}
+		
+		if( religiaoDados.getPkReligiao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A RELIGIÃO deve ser informada.",null));
+			return false;
+		}
+		
+		if( paisDados.getPkPais() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O PAÍS deve ser informado.",null));
+			return false;
+		}
+		
+		if( estadoDados.getPkEstado() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O ESTADO deve ser informado.",null));
+			return false;
+		}
+		
+		if( cidadeDados.getPkCidade() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O MUNICÍPIO deve ser informado.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getCep() == null || enderecoDados.getCep().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O CEP deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getLogradouro() == null || enderecoDados.getCep().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O LOGRADOURO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O NÚMERO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getBairro() == null || enderecoDados.getBairro().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O BAIRRO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( regiaoDados.getPkRegiao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A ZONA RESIDENCIAL deve ser informada.",null));
+			return false;
+		}
+		
+		if( pessoaDados.getTelefoneResidencial() == null || pessoaDados.getTelefoneResidencial().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O TELEFONE DE CONTATO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( pessoaDados.getTelefoneCelular() == null || pessoaDados.getTelefoneCelular().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O TELEFONE CELULAR deve ser preenchido.",null));
+			return false;
+		}
+		if( menorIdade == true ) {
+			if( pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0 
+					|| pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0	) {
+				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O NOME DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	public Pessoa getPessoaDados() {

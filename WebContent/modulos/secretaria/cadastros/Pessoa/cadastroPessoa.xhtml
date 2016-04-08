@@ -35,8 +35,7 @@
 								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 								<f:selectItem itemLabel="Aluno" itemValue="1"/>
 								<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-								<f:ajax event="change" render="dadosComplementares" listener="#{pessoaServlet.complementoDados}"/>
-								<f:ajax event="change" render="dadosResponsavel"/>
+								<p:ajax event="change" update="dadosComplementares, dadosResponsavel" listener="#{pessoaServlet.complementoDados}"/>
 							</h:selectOneRadio>
 							<div class="space-4"/>
 							<div class="row">
@@ -44,10 +43,8 @@
 										<h:outputLabel 
 										value="#{mensagens['label.cadastro.pessoa.nome']}" />
 									<div>
-										<h:inputText type="text" id="nomePessoa"
-											styleClass="col-xs-12 col-sm-12"
-											value="#{pessoaServlet.pessoaDados.nome}" title="Nome Completo."
-											maxlength="100"/>
+										<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12"
+											value="#{pessoaServlet.pessoaDados.nome}"/>
 									</div>
 								</div>
 							</div>
@@ -80,7 +77,7 @@
 									<h:outputLabel
 										value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
 									<div>
-										<h:inputText type="text" id="dataNasci" 
+										<h:inputText type="date" id="dataNasci" 
 											styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento"
 											value="#{pessoaServlet.pessoaDados.dataNascimento}">
 											<f:converter converterId="converter.DATA"/>
@@ -204,7 +201,7 @@
 										<div>
 											<h:inputText type="text" id="numCpfMae"
 												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.alunoDados.cpfMae}">
+												value="#{pessoaServlet.pessoaDados.cpfMae}">
 												<f:validator validatorId="validar.CpfValidator"/>
 												<f:converter converterId="converter.CPF"/>
 												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
@@ -216,7 +213,7 @@
 											value="#{mensagens['label.cadastro.aluno.nome.mae']}"/>
 										<div>
 											<h:inputText type="text" id="nomeMaeAluno" class="col-sm-12"
-												value="#{pessoaServlet.alunoDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}"/>
+												value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}"/>
 										</div>
 									</div>
 								</div>
@@ -228,7 +225,7 @@
 										<div>
 											<h:inputText type="text" id="numCpfPai"
 												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.alunoDados.cpfPai}">
+												value="#{pessoaServlet.pessoaDados.cpfPai}">
 												<f:validator validatorId="validar.CpfValidator"/>
 												<f:converter converterId="converter.CPF"/>
 												<p:ajax event="blur" listener="#{pessoaServlet.validaNomePai}" update="nomePaiAluno"/>
@@ -240,7 +237,7 @@
 											value="#{mensagens['label.cadastro.aluno.nome.pai']}"/>
 										<div>
 											<h:inputText type="text" id="nomePaiAluno" class="col-xs-12 col-sm-12"
-												value="#{pessoaServlet.alunoDados.nomePai}" disabled="#{pessoaServlet.nomePai}"/>
+												value="#{pessoaServlet.pessoaDados.nomePai}" disabled="#{pessoaServlet.nomePai}"/>
 										</div>
 									</div>
 								</div>
@@ -252,7 +249,7 @@
 										<div>
 											<h:inputText type="text" id="numCpfResponsavel"
 												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.alunoDados.cpfResponsavel}">
+												value="#{pessoaServlet.pessoaDados.cpfResponsavel}">
 												<f:validator validatorId="validar.CpfValidator"/>
 												<f:converter converterId="converter.CPF"/>
 												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
@@ -264,7 +261,7 @@
 											value="#{mensagens['label.cadastro.aluno.nome.respon']}"/>
 										<div>
 											<h:inputText type="text" id="nomeResponsavelAluno" class="col-xs-12 col-sm-12"
-												value="#{pessoaServlet.alunoDados.nomeResponsavel}"
+												value="#{pessoaServlet.pessoaDados.nomeResponsavel}"
 												disabled="#{pessoaServlet.nomeResponsavel}"/>
 										</div>
 									</div>
@@ -294,8 +291,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboPais}"
 													var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
-												<f:ajax event="change" render="codEstado"/>
-												<f:ajax event="change" render="codCidade"/>
+												<p:ajax event="change" update="codEstado, codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -308,7 +304,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboEstado}"
 													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-												<f:ajax event="change" render="codCidade"/>
+												<p:ajax event="change" update="codCidade"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -328,8 +324,9 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 										<div>
 											<h:inputText
-												styleClass="col-xs-10 col-sm-12 numeros" id="numCep" title="Numero do CEP"
+												styleClass="col-xs-10 col-sm-12 cep" id="numCep" title="Numero do CEP"
 												value="#{pessoaServlet.enderecoDados.cep}">
+												<f:converter converterId="converter.CEP"/>
 											</h:inputText>
 										</div>
 									</div>
@@ -524,7 +521,7 @@
 												value="#{pessoaServlet.alunoDados.alunoDeficiente}">
 												<f:selectItem itemLabel="Sim" itemValue="true" />
 												<f:selectItem itemLabel="Não" itemValue="false"/>
-												<f:ajax event="change" render="panelDeficiencia"
+												<p:ajax event="change" update="panelDeficiencia"
 													listener="#{pessoaServlet.validaDeficiente}"/>
 											</h:selectOneRadio>
 										</div>
@@ -568,6 +565,8 @@
 											<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
 										</div>
 									</div>
+									
+									<p:commandButton id="uploadImagens" action="#{pessoaServlet.uploadImagens}" ajax="false"/>
 								</div>
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
@@ -701,7 +700,7 @@
 												value="#{pessoaServlet.funcionarioDados.aposentado}">
 												<f:selectItem itemLabel="Sim" itemValue="true"/>
 												<f:selectItem itemLabel="Não" itemValue="false"/>
-												<f:ajax event="change" render="panelAposentado"
+												<p:ajax event="change" update="panelAposentado"
 													listener="#{pessoaServlet.validaAposentadoria}"/>
 											</h:selectOneRadio>
 										</div>
@@ -735,7 +734,7 @@
 											value="#{pessoaServlet.funcionarioDados.concursado}">
 											<f:selectItem itemLabel="Sim" itemValue="true"/>
 											<f:selectItem itemLabel="Não" itemValue="false"/>
-											<f:ajax event="change" render="panelConcursado"
+											<p:ajax event="change" update="panelConcursado"
 												listener="#{pessoaServlet.validaConcursado}"/>
 										</h:selectOneRadio>
 									</div>
@@ -804,12 +803,25 @@
 								<span class="bigger-110">Novo</span>
 							</button>
 							
-							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" 
+								actionListener="#{pessoaServlet.validaCadastro}" ajax="false"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}"
-									update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 							</h:commandLink>
+							
+							<p:commandButton value="Block this page!" action="#{pessoaServlet.validaCadastro}" update=":formCadastroPessoa"  
+                 				onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>  
+							
+							<p:commandButton id="teste" value="Registrar"
+								styleClass="btn btn-white btn-success btn-round"
+								action="#{pessoaServlet.validaCadastro}" update=":formCadastroPessoa"/>
+								
+								
+                 			<p:blockUI widgetVar="blockUIWidget" trigger="teste" block="formCadastroPessoa">  
+							    <h:panelGrid columns="2">  
+							        <h:outputText value="Salvando Dados..." style="white-space: nowrap;"/>
+							    </h:panelGrid>  
+							</p:blockUI>
 						</div>
 					</h:form>
 				</div>

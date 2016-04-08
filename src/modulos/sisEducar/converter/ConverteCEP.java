@@ -8,19 +8,21 @@ import javax.faces.convert.ConverterException;
 public class ConverteCEP implements Converter{
 
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
-		String cnpj = value;
-		int digitos = value.replace(".", "").replace("-", "").length();
+		String cep = null;
+		int digitos = value.replace("-", "").length();
         if (digitos == 8) {
-        	cnpj = value;
-        	cnpj = value.replace(".", "").replace("-", "");
+        	cep = value.replace("-", "");
         }
-        return cnpj;
+        return cep;
     }
 
     public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
     	String cep = value.toString();
-    	if (cep != null && cep.length() == 10)
-    		cep = cep.substring(0, 2) + "." + cep.substring(2, 5) + "-" + cep.substring(5, cep.length());
+    	if (cep != null && cep.length() == 8) {    		
+    		cep = cep.substring(0, 5) + "-" + cep.substring(5, 8);
+    	} else {
+    		cep = null;
+    	}
     	return cep;
     }
 }

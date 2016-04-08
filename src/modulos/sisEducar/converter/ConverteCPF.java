@@ -14,7 +14,7 @@ public class ConverteCPF implements Converter{
 		String cpf = value;
 		int digitos = value.replace(".", "").replace("-", "").replace(" ", "").length();
 		if(digitos == 11) {
-			cpf = value.replace(".", "").replace("-", "").replace(" ", "");
+			cpf = value.replace(".", "").replace("-", "").replace(" ", "").replace("_", "");
 		}
 		
 		return cpf;
@@ -25,6 +25,8 @@ public class ConverteCPF implements Converter{
 		String cpf = value.toString();
 		if( cpf != null && cpf.length() == 11) {
 			cpf = cpf.substring(0,3) + "." + cpf.substring(3,6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+		} else {
+			cpf = null;
 		}
 		
 		return cpf;

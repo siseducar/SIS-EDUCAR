@@ -22,8 +22,11 @@ public class ConverteRG implements Converter{
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		String rg = value.toString();
 		if( rg != null && rg.length() == 9) {
-			rg = rg.substring(0,2) + "." + rg.substring(2,4) + "." + rg.substring(4, 7) + "-" + rg.substring(9);
+			rg = rg.substring(0,2) + "." + rg.substring(2,5) + "." + rg.substring(5, 8) + "-" + rg.substring(8,9);
+		} else {
+			rg = null;
 		}
+		
 		return rg;
 	}
 }
