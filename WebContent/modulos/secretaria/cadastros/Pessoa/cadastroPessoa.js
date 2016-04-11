@@ -59,6 +59,19 @@ $(function carrgaElementos() {
         $(this).unmask();
     });
 	
+	/* Componente CEP */
+	$(".cep").on('focus',function(){
+		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
+		$(this).attr('placeholder','Ex.: 00000-000')
+		$(this).mask("99999-999");
+	});
+	$(".cep").blur(function(){
+		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
+        $(this).attr('placeholder','');
+        $(this).unmask();
+    });
+	
+	
 	/* Componenetes que aceitem somente numeros */
 	$('.numeros').keypress(function(event) {
 		var tecla = (window.event) ? event.keyCode : event.which;
@@ -72,7 +85,6 @@ $(function carrgaElementos() {
 			}
 		}
 	});
-
 });
 
 $(function() {

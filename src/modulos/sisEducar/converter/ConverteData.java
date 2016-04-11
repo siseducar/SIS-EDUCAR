@@ -3,6 +3,7 @@ package modulos.sisEducar.converter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,17 +36,12 @@ public class ConverteData implements Converter{
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		if (value == null || value.toString().equals("")){
 			return null;			
-		}
-        try {
-        	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            value = (java.util.Date)formatter.parse(value.toString());
-            
-            return value.toString();
-        } catch (ParseException e) {            
-        	e.printStackTrace();
-        }
-		return null;
-
+		} else {
+			DateFormat formata = new SimpleDateFormat("dd/MM/yyyy");
+	    	String dataFormatada = null;  
+	    	dataFormatada = formata.format(((Date) value).getTime());  
+	    	return dataFormatada;  
+		}	
 	}
 
 }

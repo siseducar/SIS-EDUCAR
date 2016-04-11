@@ -22,10 +22,11 @@ public class ConverteTelResidencial implements Converter{
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		String telResidencial = value.toString();
 		if( telResidencial != null && telResidencial.length() == 10) {
-			telResidencial = 
-					"(" + telResidencial.substring(0,1) + ")" +
-					telResidencial.substring(1,5) + "-" + 
-					telResidencial.substring(5, 10);
+			telResidencial = "(" + telResidencial.substring(0,2) + ")" +
+					telResidencial.substring(2,6) + "-" + 
+					telResidencial.substring(6, 10);
+		} else {
+			telResidencial = null;
 		}
 		
 		return telResidencial;
