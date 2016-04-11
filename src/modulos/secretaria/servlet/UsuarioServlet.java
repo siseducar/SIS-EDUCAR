@@ -17,6 +17,7 @@ import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
+import modulos.secretaria.utils.ConstantesRH;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -36,7 +37,24 @@ public class UsuarioServlet extends SisEducarServlet
 	
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
-
+    
+    //Esta variável é o conteúdo que o class dos módulos tem, por padrão eles já irão vir hidden, o módulo só será liberado se o usuário tiver permissão deste módulo
+    private String classAtributeHidden   	= "hidden";
+    private String classAtributeDropDown 	= "dropdown-toggle";
+    
+    //Variaveis ligadas aos módulos
+    private String classModuloSecretaria 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloEscola     	= classAtributeDropDown + " " + classAtributeHidden;
+	private String classModuloMerenda    	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloDocentes   	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloPortal     	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloPatrimonio 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloAlmoxarifado  = classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloBiblioteca 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloTransporte 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloSocial     	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloProtocolo  	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classModuloOuvidoria 	= classAtributeDropDown + " " + classAtributeHidden;
 	/**
 	 * Construtor
 	 */
@@ -45,6 +63,8 @@ public class UsuarioServlet extends SisEducarServlet
 		usuario = new Usuario();
 		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
+		validarPermissoes();
+
 		nomePessoaVinculada = "";
 		
 		permissoes = buscarPermissoes();
@@ -368,6 +388,86 @@ public class UsuarioServlet extends SisEducarServlet
 		}
 	}
 	
+	/**
+	 * Verifica se o usuário tem as permissões para visualizar os módulos
+	 * @author João Paulo
+	 */
+	public void validarPermissoes()
+	{
+		try 
+		{
+			if(usuarioLogado!=null)
+			{
+				for (Permissao permissao : usuarioLogado.getPermissoes()) 
+				{
+					if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_ADMINISTRADOR_SISTEMA))
+					{
+						classModuloSecretaria = classAtributeDropDown;
+						classModuloEscola     = classAtributeDropDown;
+						classModuloMerenda 	  = classAtributeDropDown;
+						classModuloDocentes   = classAtributeDropDown;
+						classModuloPortal     = classAtributeDropDown;
+						classModuloPatrimonio = classAtributeDropDown;
+						classModuloAlmoxarifado = classAtributeDropDown;
+						classModuloBiblioteca = classAtributeDropDown;
+						classModuloTransporte = classAtributeDropDown;
+						classModuloSocial     = classAtributeDropDown;
+						classModuloProtocolo  = classAtributeDropDown;
+						classModuloOuvidoria  = classAtributeDropDown;
+						
+						break;
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_EDUCACAO))
+					{ 
+						classModuloSecretaria = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_COORDENADOR_ESCOLAR))
+					{ 
+						classModuloEscola = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_NUTRICIONISTA))
+					{ 
+						classModuloMerenda = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_PROFESSOR))
+					{ 
+						classModuloDocentes = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_ALUNO))
+					{ 
+						classModuloPortal = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECARIO))
+					{ 
+						classModuloBiblioteca = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE))
+					{ 
+						classModuloTransporte = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO))
+					{ 
+						classModuloProtocolo = classAtributeDropDown; 
+					}
+					else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA))
+					{ 
+						classModuloOuvidoria = classAtributeDropDown; 
+					}
+					//else if(permissao.getPkPermissao() == ConstantesRH.PERMISSAO_TIPO_)       
+					//{ 
+					//}
+					//else if(permissao.getPkPermissao() == ConstantesRH.PERMISSAO_TIPO_)       
+					//{ 
+					//}
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("", "");
+		}
+	}
+	
 	/*Getters and setters*/
 	public Usuario getUsuario() {
 		return usuario;
@@ -399,5 +499,128 @@ public class UsuarioServlet extends SisEducarServlet
 
 	public void setPermissoesSelecionadas(List<Permissao> permissoesSelecionadas) {
 		this.permissoesSelecionadas = permissoesSelecionadas;
+	}
+
+	public String getClassModuloSecretaria() {
+		return classModuloSecretaria;
+	}
+
+	public void setClassModuloSecretaria(String classModuloSecretaria) {
+		this.classModuloSecretaria = classModuloSecretaria;
+	}
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
+
+	public String getClassAtributeHidden() {
+		return classAtributeHidden;
+	}
+
+	public void setClassAtributeHidden(String classAtributeHidden) {
+		this.classAtributeHidden = classAtributeHidden;
+	}
+
+	public String getClassAtributeDropDown() {
+		return classAtributeDropDown;
+	}
+
+	public void setClassAtributeDropDown(String classAtributeDropDown) {
+		this.classAtributeDropDown = classAtributeDropDown;
+	}
+
+	public String getClassModuloEscola() {
+		return classModuloEscola;
+	}
+
+	public void setClassModuloEscola(String classModuloEscola) {
+		this.classModuloEscola = classModuloEscola;
+	}
+
+	public String getClassModuloMerenda() {
+		return classModuloMerenda;
+	}
+
+	public void setClassModuloMerenda(String classModuloMerenda) {
+		this.classModuloMerenda = classModuloMerenda;
+	}
+
+	public String getClassModuloDocentes() {
+		return classModuloDocentes;
+	}
+
+	public void setClassModuloDocentes(String classModuloDocentes) {
+		this.classModuloDocentes = classModuloDocentes;
+	}
+
+	public String getClassModuloPortal() {
+		return classModuloPortal;
+	}
+
+	public void setClassModuloPortal(String classModuloPortal) {
+		this.classModuloPortal = classModuloPortal;
+	}
+
+	public String getClassModuloPatrimonio() {
+		return classModuloPatrimonio;
+	}
+
+	public void setClassModuloPatrimonio(String classModuloPatrimonio) {
+		this.classModuloPatrimonio = classModuloPatrimonio;
+	}
+
+	public String getClassModuloAlmoxarifado() {
+		return classModuloAlmoxarifado;
+	}
+
+	public void setClassModuloAlmoxarifado(String classModuloAlmoxarifado) {
+		this.classModuloAlmoxarifado = classModuloAlmoxarifado;
+	}
+
+	public String getClassModuloBiblioteca() {
+		return classModuloBiblioteca;
+	}
+
+	public void setClassModuloBiblioteca(String classModuloBiblioteca) {
+		this.classModuloBiblioteca = classModuloBiblioteca;
+	}
+
+	public String getClassModuloTransporte() {
+		return classModuloTransporte;
+	}
+
+	public void setClassModuloTransporte(String classModuloTransporte) {
+		this.classModuloTransporte = classModuloTransporte;
+	}
+
+	public String getClassModuloSocial() {
+		return classModuloSocial;
+	}
+
+	public void setClassModuloSocial(String classModuloSocial) {
+		this.classModuloSocial = classModuloSocial;
+	}
+
+	public String getClassModuloProtocolo() {
+		return classModuloProtocolo;
+	}
+
+	public void setClassModuloProtocolo(String classModuloProtocolo) {
+		this.classModuloProtocolo = classModuloProtocolo;
+	}
+
+	public String getClassModuloOuvidoria() {
+		return classModuloOuvidoria;
+	}
+
+	public void setClassModuloOuvidoria(String classModuloOuvidoria) {
+		this.classModuloOuvidoria = classModuloOuvidoria;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

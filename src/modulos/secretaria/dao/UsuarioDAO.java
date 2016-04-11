@@ -444,22 +444,28 @@ public class UsuarioDAO extends SisEducarDAO
 	{
 		Permissao permissao = null;
 		List<Permissao> permissoes = new ArrayList<Permissao>();
-		String querySQL = "SELECT * FROM PermissaoUsuario"
-				+ " WHERE status = ?";
+		String querySQL = "SELECT p.pkPermissao AS pkPermissao, p.tipo AS tipo FROM PermissaoUsuario pu"
+				+ " LEFT OUTER JOIN Permissao p ON(pu.fkPermissao = p.pkPermissao)"
+				+ " LEFT OUTER JOIN Usuario u ON(pu.fkUsuario = u.pkUsuario)"
+				+ " WHERE pu.status = ?"
+				+ " AND p.status = ?";
 		
 		if(usuario!=null) { querySQL += " AND fkusuario = CAST(? as bigint)"; }
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setObject(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setObject(2, ConstantesSisEducar.STATUS_ATIVO);
 		
-		if(usuario!=null) { ps.setObject(2, usuario.getPkUsuario());}
+		if(usuario!=null) { ps.setObject(3, usuario.getPkUsuario());}
+
 		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
 			permissao = new Permissao();
-			permissao.setPkPermissao(rs.getInt("fkPermissao"));
+			permissao.setPkPermissao(rs.getInt("pkPermissao"));
+			permissao.setTipo(rs.getInt("tipo"));
 			
 			permissoes.add(permissao);
 		}
