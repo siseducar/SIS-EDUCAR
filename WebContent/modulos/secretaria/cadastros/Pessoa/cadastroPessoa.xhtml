@@ -544,30 +544,7 @@
 									</div>
 								</div>
 								<div class="space-4"/>
-								<div id="imagens" class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Foto do Aluno"/>
-										<div>
-											 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
-											 	value="#{pessoaServlet.imagemAluno}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Certidão de Nascimento"/>
-										<div>
-											<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
-											 	value="#{pessoaServlet.imagemCertNascimento}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Comprovante de Residencia"/>
-										<div>
-											<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
-										</div>
-									</div>
-									
-									<p:commandButton id="uploadImagens" action="#{pessoaServlet.uploadImagens}" ajax="false"/>
-								</div>
+								
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoFuncionario}">
@@ -797,7 +774,7 @@
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
-						<div class="col-sx-12 col-sm-6" id="default-buttons">
+						<div class="col-xs-12 col-sm-6" id="default-buttons">
 							<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round">
 								<i class="ace-icon fa fa-file"/>
 								<span class="bigger-110">Novo</span>
@@ -808,26 +785,41 @@
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							</h:commandLink>
-							
-							<p:commandButton value="Block this page!" action="#{pessoaServlet.validaCadastro}" update=":formCadastroPessoa"  
-                 				onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>  
-							
-							<p:commandButton id="teste" value="Registrar"
-								styleClass="btn btn-white btn-success btn-round"
-								action="#{pessoaServlet.validaCadastro}" update=":formCadastroPessoa"/>
-								
-								
-                 			<p:blockUI widgetVar="blockUIWidget" trigger="teste" block="formCadastroPessoa">  
-							    <h:panelGrid columns="2">  
-							        <h:outputText value="Salvando Dados..." style="white-space: nowrap;"/>
-							    </h:panelGrid>  
-							</p:blockUI>
 						</div>
 					</h:form>
+					<div id="formUpload" class="col-xs-12 col-sm-12" >
+						<h:form id="formUploadImagens" prependId="false" enctype="multipart/form-data">
+							<h:panelGroup id="dadosUpload" style="width: 100%"
+								class="clearfix form-actions">
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Foto do Aluno"/>
+										<div>
+											 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
+											 	value="#{pessoaServlet.imagemAluno}"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Certidão de Nascimento"/>
+										<div>
+											<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
+											 	value="#{pessoaServlet.imagemCertNascimento}"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel value="Copia Comprovante de Residencia"/>
+										<div>
+											<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
+										</div>
+									</div>
+									<div>
+										
+									</div>
+							</h:panelGroup>
+						</h:form>
+					</div>
 				</div>
 			</div>
 		</div>
-	
 	</ui:define>
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
