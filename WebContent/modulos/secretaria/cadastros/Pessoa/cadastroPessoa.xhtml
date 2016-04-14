@@ -3,7 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:corejsf="http://corejsf.com">
 
 <ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 	<ui:define name="barraNavegacao">
@@ -461,7 +462,8 @@
 											<h:selectOneMenu class="form-control" id="codRedeEnsino"
 												value="#{pessoaServlet.redeEnsinoDados.pkRedeEnsino}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"/>
+												<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"
+													var="redeEnsino" itemLabel="#{redeEnsino.nome}" itemValue="#{redeEnsino.pkRedeEnsino}"/>
 												<p:ajax event="change" update="codUniEscolar"/>
 											</h:selectOneMenu>
 										</div>
@@ -471,9 +473,10 @@
 											value="#{mensagens['label.cadastro.aluno.unidade.escolar']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codUniEscolar"
-												value="#{pessoaServlet.alunoDados.unidadeEscolar}">
+												value="#{pessoaServlet.unidadeEscolarDados.pkUnidadeEscolar}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"/>
+												<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"
+													var="unidadeEscolar" itemLabel="#{unidadeEscolar.nome}" itemValue="#{unidadeEscolar.pkUnidadeEscolar}"/>
 												<p:ajax event="change" update="codCurso"/>
 											</h:selectOneMenu>
 										</div>
@@ -483,8 +486,9 @@
 											value="#{mensagens['label.cadastro.aluno.curso']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="codCurso"
-												value="#{pessoaServlet.alunoDados.curso}">
+												value="#{pessoaServlet.cursoDados.pkCurso}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+													<!--  var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/> -->
 												<p:ajax event="change" update="codEtapa"/>
 											</h:selectOneMenu>
 										</div>
@@ -543,8 +547,15 @@
 										</div>
 									</div>
 								</div>
-								<div class="space-4"/>
-								
+								<div class="space-6"/>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12">
+										<h4 class="pink">
+											<i class="ace-icon fa fa-hand-o-right blue"></i>
+											<a href="#modal-form" role="button" class="blue" data-toggle="modal"> Upload de Imagens </a>
+										</h4>
+									</div>
+								</div>
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoFuncionario}">
@@ -779,43 +790,71 @@
 								<i class="ace-icon fa fa-file"/>
 								<span class="bigger-110">Novo</span>
 							</button>
-							
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" 
-								actionListener="#{pessoaServlet.validaCadastro}" ajax="false"> 
+								actionListener="#{pessoaServlet.validaCadastro}"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							</h:commandLink>
 						</div>
 					</h:form>
-					<div id="formUpload" class="col-xs-12 col-sm-12" >
-						<h:form id="formUploadImagens" prependId="false" enctype="multipart/form-data">
-							<h:panelGroup id="dadosUpload" style="width: 100%"
-								class="clearfix form-actions">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Foto do Aluno"/>
-										<div>
-											 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
-											 	value="#{pessoaServlet.imagemAluno}"/>
+					<div id="modal-form" class="modal in" tabindex="-1" aria-hidden="false" style="display: block; ">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">X</button>
+									<h4 class="blue bigger"> Upload de Imagens</h4>
+								</div>
+								<div class="modal-body clearfix form-actions">
+									<h:form id="formUploadImagem" prependId="false" enctype="multipart/form-data">
+										<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+										<div class="col-xs-12 col-sm-12">
+											<h:panelGroup id="imagensUpload" style="width: 100%">
+												<div class="row">
+													<div class="col-xs-12 col-sm-12">
+														<h:outputLabel value="Foto do Aluno"/>
+														<div>
+															 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
+															 	value="#{pessoaServlet.imagemAluno}"/>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12 col-sm-12">
+														<h:outputLabel value="Certidão de Nascimento"/>
+														<div>
+															<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
+															 	value="#{pessoaServlet.imagemCertNascimento}"/>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12 col-sm-12">
+														<h:outputLabel value="Comprovante de Residencia"/>
+														<div>
+															<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
+														</div>
+													</div>
+												</div>
+												<div class="space-6"/>
+												<div class="col-xs-12 col-sm-6">
+													<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"
+														actionListener="#{pessoaServlet.uploadImagens}"> 
+														<span class="bigger-110"> Upload </span>
+														<i class="ace-icon fa fa-arrow-right icon-on-up"/>
+													</h:commandLink>
+												</div>
+											</h:panelGroup>
 										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Certidão de Nascimento"/>
-										<div>
-											<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
-											 	value="#{pessoaServlet.imagemCertNascimento}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="Copia Comprovante de Residencia"/>
-										<div>
-											<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
-										</div>
-									</div>
-									<div>
-										
-									</div>
-							</h:panelGroup>
-						</h:form>
+									</h:form>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-sm" data-dismiss="modal">
+										<i class="ace-icon fa fa-times"></i>
+										Cancelar
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

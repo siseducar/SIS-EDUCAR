@@ -1,6 +1,7 @@
 package modulos.sisEducar.utils;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.bean.SessionScoped;
 import javax.servlet.Filter;
@@ -18,8 +19,9 @@ import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
  * Classe que verifica se existe um usuario logado antes de permitir o acesso a uma pagina
  */
 @SessionScoped
-public class AuthenticationFilter implements Filter 
-{
+public class AuthenticationFilter implements Serializable, Filter {
+	
+	private static final long serialVersionUID = 1L;
 	/*-*-*-* Variaveis e Objetos Privados *-*-*-*/
 	@SuppressWarnings("unused")
 	private FilterConfig config;

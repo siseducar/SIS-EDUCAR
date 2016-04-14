@@ -1,3 +1,5 @@
+$("#modal-form").hide();
+
 $(function carrgaElementos() {
 	/*	Componente CPF  */
 	$(".cpf").on('focus',function(){
@@ -114,3 +116,5 @@ $(".upload").ace_file_input({
 $(".upload").ace_file_input({
     denyExt:  ['exe', 'php']
 });
+
+
