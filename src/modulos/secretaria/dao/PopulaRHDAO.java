@@ -31,16 +31,16 @@ public class PopulaRHDAO extends SisEducarDAO
 	 * @param tipoPermissao
 	 * @throws SQLException
 	 */
-	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao) throws SQLException 
+	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel) throws SQLException 
 	{
-		String querySQL = "INSERT INTO Permissao (nome, status, tipo) VALUES (?, ?, ?)";
+		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel) VALUES (?, ?, ?, ?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, nomePermissao);
 		ps.setInt(2, status);
 		ps.setInt(3, tipoPermissao);
-		
-		//Depois que terminar o cadastro de pessoa, remover esta linha e adicionar corretamente a pessoa
+		ps.setObject(4, tipoModuloResponsavel!=null ? tipoModuloResponsavel : null);
+		ps.setObject(5, tipoSubMenuResponsavel!=null ? tipoSubMenuResponsavel : null);
 		
 		fecharConexaoBanco(con, ps, false, true);
 	}
