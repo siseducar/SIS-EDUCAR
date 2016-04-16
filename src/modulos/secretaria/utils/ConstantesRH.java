@@ -47,7 +47,6 @@ public class ConstantesRH
 	public static int TIPO_SUB_MENU_RELATORIO = 669;
 	
 	//PERMISSÕES MÓDULOS
-	public static int PERMISSAO_TIPO_ADMINISTRADOR_SISTEMA = 101;
 	public static int PERMISSAO_TIPO_SECRETARIA = 102;
 	public static int PERMISSAO_TIPO_ESCOLA = 103;
 	public static int PERMISSAO_TIPO_MERENDA = 104;

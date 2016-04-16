@@ -21,7 +21,6 @@ public class PopulaRH
 	
 		System.out.println("Populando Permissões...\n");
 		System.out.println("Populando Permissões dos Módulos...");
-		populaRHDAO.inserirPermissoes("Administrador Sistema", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_ADMINISTRADOR_SISTEMA, null, null);
 		populaRHDAO.inserirPermissoes("Secretaria", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, null, null);
 		populaRHDAO.inserirPermissoes("Escola", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_ESCOLA, null, null);
 		populaRHDAO.inserirPermissoes("Merenda", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_MERENDA, null, null);

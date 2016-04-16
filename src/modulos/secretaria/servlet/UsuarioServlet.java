@@ -45,17 +45,19 @@ public class UsuarioServlet extends SisEducarServlet
     
     //VARIAVEIS LIGADAS AOS MÓDULOS
     private String classModuloSecretaria 	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloEscola     	= classAtributeDropDown + " " + classAtributeHidden;
-	private String classModuloMerenda    	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloDocentes   	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloPortal     	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloPatrimonio 	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloAlmoxarifado  = classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloBiblioteca 	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloTransporte 	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloSocial     	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloProtocolo  	= classAtributeDropDown + " " + classAtributeHidden;
-    private String classModuloOuvidoria 	= classAtributeDropDown + " " + classAtributeHidden;
+    
+    /* ATENÇÃO - TODOS ESSES MÓDULOS ABAIXO IRÃO APARECER NO MEU PRINCIPAL APENAS PARA VISUALIZAÇÃO DO CLIENTE*/
+    private String classModuloEscola     	= classAtributeDropDown;
+	private String classModuloMerenda    	= classAtributeDropDown;
+    private String classModuloDocentes   	= classAtributeDropDown;
+    private String classModuloPortal     	= classAtributeDropDown;
+    private String classModuloPatrimonio 	= classAtributeDropDown;
+    private String classModuloAlmoxarifado  = classAtributeDropDown;
+    private String classModuloBiblioteca 	= classAtributeDropDown;
+    private String classModuloTransporte 	= classAtributeDropDown;
+    private String classModuloSocial     	= classAtributeDropDown;
+    private String classModuloProtocolo  	= classAtributeDropDown;
+    private String classModuloOuvidoria 	= classAtributeDropDown;
 
     //VARIAVEIS LIGADAS AOS SUB MÓDULOS
     private String classSecretariaCadastroSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
@@ -442,6 +444,17 @@ public class UsuarioServlet extends SisEducarServlet
 		try 
 		{
 			Boolean moduloSecretariaLiberado = false;
+			Boolean moduloEscolaLiberado = false;
+			Boolean moduloMerendaLiberado = false;
+			Boolean moduloDocentesLiberado = false;
+			Boolean moduloPortalLiberado = false;
+			Boolean moduloPatrimonioLiberado = false;
+			Boolean moduloAlmoxarifadoLiberado = false;
+			Boolean moduloTransporteLiberado = false;
+			Boolean moduloBibliotecaLiberado = false;
+			Boolean moduloSocialLiberado = false;
+			Boolean moduloProtocoloLiberado = false;
+			Boolean moduloOuvidoriaLiberado = false;
 			
 			Boolean subMenuCadastroSecretariaLiberado = false;
 			Boolean subMenuConsultaSecretariaLiberado = false;
@@ -506,19 +519,105 @@ public class UsuarioServlet extends SisEducarServlet
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
 					}
-					
-					/*
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) 	{ classModuloMerenda = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_DOCENTES)) 	{ classModuloDocentes = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PORTAL)) { classModuloPortal = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PATROMONIO)) { classModuloPatrimonio = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO)) { classModuloAlmoxarifado = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA)) { classModuloBiblioteca = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE)) { classModuloTransporte = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) { classModuloSocial = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) { classModuloProtocolo = classAtributeDropDown; }
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) { classModuloOuvidoria = classAtributeDropDown; }
-					*/
+					/* MÓDULO ESCOLA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA)) 	
+					{ 
+						if(!moduloEscolaLiberado)
+						{
+							classModuloEscola = classAtributeDropDown;
+							moduloEscolaLiberado = true;
+						}
+					}
+					/* MÓDULO MERENDA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) 	
+					{ 
+						if(!moduloMerendaLiberado)
+						{
+							classModuloMerenda = classAtributeDropDown;
+							moduloMerendaLiberado = true;
+						}
+					}
+					/* MÓDULO DOCENTES */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_DOCENTES)) 	
+					{ 
+						if(!moduloDocentesLiberado)
+						{
+							classModuloDocentes = classAtributeDropDown; 
+							moduloDocentesLiberado = true;
+						}
+					}
+					/* MÓDULO PORTAL */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PORTAL)) 
+					{ 
+						if(!moduloPortalLiberado)
+						{
+							classModuloPortal = classAtributeDropDown; 
+							moduloPortalLiberado = true;
+						}
+					}
+					/* MÓDULO PATRIMONIO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PATROMONIO)) 
+					{ 
+						if(!moduloPatrimonioLiberado)
+						{
+							classModuloPatrimonio = classAtributeDropDown; 
+							moduloPatrimonioLiberado = true;
+						}
+					}
+					/* MÓDULO ALMOXARIFADO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO)) 
+					{ 
+						if(!moduloAlmoxarifadoLiberado)
+						{
+							classModuloAlmoxarifado = classAtributeDropDown; 
+							moduloAlmoxarifadoLiberado = true;
+						}
+					}
+					/* MÓDULO BIBLIOTECA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA)) 
+					{ 
+						if(!moduloBibliotecaLiberado)
+						{
+							classModuloBiblioteca = classAtributeDropDown; 
+							moduloBibliotecaLiberado = true;
+						}
+					}
+					/* MÓDULO TRANSPORTE */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE)) 
+					{ 
+						if(!moduloTransporteLiberado)
+						{
+							classModuloTransporte = classAtributeDropDown; 
+							moduloTransporteLiberado = true;
+						}
+					}
+					/* MÓDULO SOCIAL */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) 
+					{ 
+						if(!moduloSocialLiberado)
+						{
+							classModuloSocial = classAtributeDropDown; 
+							moduloSocialLiberado = true;
+						}
+					}
+					/* MÓDULO PROTOCOLO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) 
+					{ 
+						if(!moduloProtocoloLiberado)
+						{
+							classModuloProtocolo = classAtributeDropDown; 
+							moduloProtocoloLiberado = true;
+						}
+					}
+					/* MÓDULO OUVIDORIA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) 
+					{ 
+						if(!moduloOuvidoriaLiberado)
+						{
+							classModuloOuvidoria = classAtributeDropDown; 
+							moduloOuvidoriaLiberado = true;
+						}
+					}
 				}
 			}
 		} 
