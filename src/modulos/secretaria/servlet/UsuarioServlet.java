@@ -190,7 +190,6 @@ public class UsuarioServlet extends SisEducarServlet
 				/* Adiciona as permissões para o usuário*/
 				if(permissoesSelecionadas!=null && permissoesSelecionadas.size() >0)
 				{
-					
 					for (Permissao permissao : permissoesSelecionadas) 
 					{
 						permissaoUsuario = new PermissaoUsuario();
@@ -384,6 +383,7 @@ public class UsuarioServlet extends SisEducarServlet
 			List<Permissao> permissoes = new UsuarioDAO().buscarPermissoes();
 			for (Permissao permissao : permissoes) 
 			{
+				/* ADICIONA O NOME DOS MÓDULOS NAS PERMISSÕES */
 				if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA)) { permissao.setNomeModulo("Secretaria"); }
 				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA)) { permissao.setNomeModulo("Escola"); }
 				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) { permissao.setNomeModulo("Merenda"); }
@@ -396,6 +396,12 @@ public class UsuarioServlet extends SisEducarServlet
 				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) { permissao.setNomeModulo("Social"); }
 				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) { permissao.setNomeModulo("Protocolo"); }
 				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) { permissao.setNomeModulo("Ouvidoria"); }
+
+				/* ADICIONA O NOME DOS SUB MENUS NAS PERMISSÕES */
+				if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CADASTRO)) { permissao.setNomeSubMenu("Cadastro"); }
+				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_LANCAMENTO)) { permissao.setNomeSubMenu("Lançamento"); }
+				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CONSULTA)) { permissao.setNomeSubMenu("Consulta"); }
+				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
 			}
 			
 			return permissoes;

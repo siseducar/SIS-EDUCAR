@@ -5,6 +5,7 @@ public class Permissao
 	private Integer pkPermissao;
 	private String nome;
 	private String nomeModulo; //Essa variável só tem na OM
+	private String nomeSubMenu; //Essa variável só tem na OM
 	private Integer tipo;
 	private Integer tipoModuloResponsavel;
 	private Integer tipoSubMenuResponsavel;
@@ -51,5 +52,11 @@ public class Permissao
 	}
 	public void setNomeModulo(String nomeModulo) {
 		this.nomeModulo = nomeModulo;
+	}
+	public String getNomeSubMenu() {
+		return nomeSubMenu;
+	}
+	public void setNomeSubMenu(String nomeSubMenu) {
+		this.nomeSubMenu = nomeSubMenu;
 	}
 }
