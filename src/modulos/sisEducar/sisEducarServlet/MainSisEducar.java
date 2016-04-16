@@ -1,6 +1,7 @@
 package modulos.sisEducar.sisEducarServlet;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -11,8 +12,10 @@ import javax.servlet.ServletResponse;
 import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class MainSisEducar implements Servlet
+public class MainSisEducar implements Servlet, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public void init(ServletConfig arg0) throws ServletException
 	{

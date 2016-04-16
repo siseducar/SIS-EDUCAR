@@ -1102,7 +1102,6 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* Informações referentes ao dados do aluno */	
 	public List<SelectItem> getComboRedeEnsino() {
-		comboRedeEnsino.clear();
 		if(comboRedeEnsino == null || comboRedeEnsino.isEmpty()) {			
 			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
 		}
