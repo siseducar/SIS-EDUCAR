@@ -42,7 +42,7 @@ public class RacaDAO {
 	
 	public Raca consultaRacaEspecifica(String valor) throws SQLException{
 		Raca paramRaca = new Raca();
-		String querySQL = "SELECT * FROM RACA WHERE PKRACA = ?";
+		String querySQL = "SELECT * FROM RACA WHERE PKRACA = ? ORDER BY ORDEMEXIBICAO";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, valor);
