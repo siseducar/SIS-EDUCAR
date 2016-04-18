@@ -134,11 +134,14 @@
 								<div class="table-responsive">
 									<p:dataTable tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
 							            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
-							            <p:column headerText="Nome">
+							            <p:column headerText="Nome da Tela">
 							                #{value.nome}
 							            </p:column>
-							            <p:column headerText="Descrição">
-							                #{value.nome}
+							            <p:column headerText="Tipo da Tela">
+							                #{value.nomeSubMenu}
+							            </p:column>
+							            <p:column headerText="Módulo">
+							                #{value.nomeModulo}
 							            </p:column>
 							        </p:dataTable>
 								</div>

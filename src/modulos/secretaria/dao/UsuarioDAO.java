@@ -413,7 +413,9 @@ public class UsuarioDAO extends SisEducarDAO
 		Permissao permissao = null;
 		List<Permissao> permissoes = new ArrayList<Permissao>();
 		String querySQL = "SELECT * FROM Permissao "
-				+ " WHERE status = ?";
+				+ " WHERE status = ?"
+				+ " AND tipoModuloResponsavel IS NOT NULL"
+				+ " AND tipoSubMenuResponsavel IS NOT NULL";
 		
 		ps = con.prepareStatement(querySQL);
 		
@@ -426,6 +428,8 @@ public class UsuarioDAO extends SisEducarDAO
 			permissao.setPkPermissao(rs.getInt("pkPermissao"));
 			permissao.setNome(rs.getString("nome"));
 			permissao.setTipo(rs.getInt("tipo"));
+			permissao.setTipoModuloResponsavel(rs.getInt("tipoModuloResponsavel"));
+			permissao.setTipoSubMenuResponsavel(rs.getInt("tipoSubMenuResponsavel"));
 			
 			permissoes.add(permissao);
 		}
@@ -444,7 +448,9 @@ public class UsuarioDAO extends SisEducarDAO
 	{
 		Permissao permissao = null;
 		List<Permissao> permissoes = new ArrayList<Permissao>();
-		String querySQL = "SELECT p.pkPermissao AS pkPermissao, p.tipo AS tipo FROM PermissaoUsuario pu"
+		String querySQL = "SELECT p.pkPermissao AS pkPermissao, p.tipo, p.tipoModuloResponsavel AS tipoModuloResponsavel, "
+				+ " p.tipoSubMenuResponsavel as tipoSubMenuResponsavel"
+				+ " FROM PermissaoUsuario pu"
 				+ " LEFT OUTER JOIN Permissao p ON(pu.fkPermissao = p.pkPermissao)"
 				+ " LEFT OUTER JOIN Usuario u ON(pu.fkUsuario = u.pkUsuario)"
 				+ " WHERE pu.status = ?"
@@ -466,6 +472,8 @@ public class UsuarioDAO extends SisEducarDAO
 			permissao = new Permissao();
 			permissao.setPkPermissao(rs.getInt("pkPermissao"));
 			permissao.setTipo(rs.getInt("tipo"));
+			permissao.setTipoModuloResponsavel(rs.getInt("tipoModuloResponsavel"));
+			permissao.setTipoSubMenuResponsavel(rs.getInt("tipoSubMenuResponsavel"));
 			
 			permissoes.add(permissao);
 		}
