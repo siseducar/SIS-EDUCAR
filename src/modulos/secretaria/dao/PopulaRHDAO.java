@@ -53,14 +53,35 @@ public class PopulaRHDAO extends SisEducarDAO
 	 * @param status
 	 * @throws SQLException
 	 */
-	public void inserirParametros(String nomeTabela, String codigo, String descricao, Integer status) throws SQLException 
+	public void inserirParametros(String nomeTabela, String codigo, String descricao, Integer status, Integer ordemExibicao) throws SQLException 
 	{
-		String querySQL = "INSERT INTO " + nomeTabela + " (codigo, descricao, status) VALUES (?, ?, ?)";
+		String querySQL = "INSERT INTO " + nomeTabela 
+				+ " ("
+				+ "      codigo, descricao, status";
+		
+		if(ordemExibicao!=null && ordemExibicao >0)
+		{
+			querySQL += ", ordemExibicao";
+			querySQL += " )";
+			querySQL += " VALUES (?, ?, ?, ?)";
+		}
+		else
+		{ 
+			querySQL += " )"; 
+			querySQL += " VALUES (?, ?, ?)";
+		}
+		
+		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, codigo);
 		ps.setString(2, descricao);
 		ps.setInt(3, status);
+		
+		if(ordemExibicao!=null && ordemExibicao >0)
+		{
+			ps.setInt(4, ordemExibicao);
+		}
 		
 		fecharConexaoBanco(con, ps, false, true);
 	}
