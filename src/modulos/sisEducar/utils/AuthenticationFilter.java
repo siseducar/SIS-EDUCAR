@@ -21,13 +21,13 @@ import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
 @SessionScoped
 public class AuthenticationFilter implements Serializable, Filter {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 	/*-*-*-* Variaveis e Objetos Privados *-*-*-*/
 	@SuppressWarnings("unused")
 	private FilterConfig config;
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException 
-	{
+	{	
 		if(new SisEducarServlet().getSessionObject((HttpServletRequest)req, ConstantesSisEducar.USUARIO_LOGADO) == null) 
 		{
 			((HttpServletResponse)resp).sendRedirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");

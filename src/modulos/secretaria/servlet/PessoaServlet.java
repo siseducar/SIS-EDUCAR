@@ -405,8 +405,6 @@ public class PessoaServlet implements Serializable{
 					"Selecione um TURNO.",null));
 			return null;
 		}
-		
-		
 		return null;
 	}
 	

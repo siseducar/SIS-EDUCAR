@@ -87,6 +87,17 @@ $(function carrgaElementos() {
 			}
 		}
 	});
+	
+	$(".spinner").ace_spinner({
+        min: 0,
+        max: 100,
+	    step: 1,
+	    
+	   icon_up: 'fa fa-caret-up',
+	   icon_down: 'fa fa-caret-down',
+	   on_sides: true
+	});
+	
 });
 
 $(function() {
@@ -104,7 +115,7 @@ $(function() {
 
 $(".upload").ace_file_input({
     style: 'well',
-    no_file: 'Click to choose or drag & drop',
+    no_file: "Escolha uma",
     droppable: true, //html5 browsers only
     thumbnail: 'small', //html5 browsers only
 
@@ -114,7 +125,5 @@ $(".upload").ace_file_input({
 });
 
 $(".upload").ace_file_input({
-    denyExt:  ['exe', 'php']
-});
-
-
+    'allowExt': ['jpg', 'jpeg', 'png']
+})

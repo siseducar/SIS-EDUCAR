@@ -44,7 +44,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 	public LoginServlet()
 	{
 		//Aqui eu pego o nome do usuário logado e seto a variável global
-		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!=null)
+		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!= null )
 		{
 			SisEducarServlet.usuarioLogado = (Usuario)new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 			
