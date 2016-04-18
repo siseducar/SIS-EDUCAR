@@ -559,7 +559,6 @@
 							</h:panelGroup>
 							<h:panelGroup style="width: 100%" class="clearfix form-actions"
 								rendered="#{pessoaServlet.complementoFuncionario}">
-								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 								<h3 class="header smaller lighter blue" align="center"> Dados
 									Complementares do Funcionario </h3>
 								<div class="row">
@@ -644,13 +643,19 @@
 								</div>
 								<div class="space-4"/>
 								<div class="row">
-									<div class="col-xs-12 col-sm-2">
+									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.sem']}"/>
+										<div>
+                							<h:inputText id="cargaSemanal" class="col-xs-12 col-sm-12 spinner"/>
+            							</div>
 									</div>
-									<div class="col-xs-12 col-sm-2">
+									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.men']}"/>
+										<div>
+											<h:inputText id="cargaMensal" class="col-xs-12 col-sm-12 spinner"/>
+										</div>
 									</div>
 								</div>
 								<div class="space-4"/>
@@ -687,7 +692,7 @@
 											<h:selectOneRadio
 												value="#{pessoaServlet.funcionarioDados.aposentado}">
 												<f:selectItem itemLabel="Sim" itemValue="true"/>
-												<f:selectItem itemLabel="Não" itemValue="false"/>
+												<f:selectItem itemLabel="Não" itemValue="false" selected="true"/>
 												<p:ajax event="change" update="panelAposentado"
 													listener="#{pessoaServlet.validaAposentadoria}"/>
 											</h:selectOneRadio>
@@ -783,6 +788,7 @@
 										</div>
 									</h:panelGroup>
 								</h:panelGroup>
+								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 							</h:panelGroup>
 						</h:panelGroup>
 						<div class="col-xs-12 col-sm-6" id="default-buttons">
@@ -804,22 +810,22 @@
 									<button type="button" class="close" data-dismiss="modal">X</button>
 									<h4 class="blue bigger"> Upload de Imagens</h4>
 								</div>
-								<div class="modal-body clearfix form-actions">
+								<div class="modal-footer">
 									<h:form id="formUploadImagem" prependId="false" enctype="multipart/form-data">
 										<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 										<div class="col-xs-12 col-sm-12">
 											<h:panelGroup id="imagensUpload" style="width: 100%">
 												<div class="row">
-													<div class="col-xs-12 col-sm-12">
+													<div class="col-xs-12 col-sm-12" align="left">
 														<h:outputLabel value="Foto do Aluno"/>
 														<div>
-															 <p:fileUpload if="fotoAluno" styleClass="upload	" mode="simple"
+															 <p:fileUpload if="fotoAluno" styleClass="upload" mode="simple"
 															 	value="#{pessoaServlet.imagemAluno}"/>
 														</div>
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-xs-12 col-sm-12">
+													<div class="col-xs-12 col-sm-12" align="left">
 														<h:outputLabel value="Certidão de Nascimento"/>
 														<div>
 															<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
@@ -828,7 +834,7 @@
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-xs-12 col-sm-12">
+													<div class="col-xs-12 col-sm-12" align="left">
 														<h:outputLabel value="Comprovante de Residencia"/>
 														<div>
 															<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
@@ -836,7 +842,11 @@
 													</div>
 												</div>
 												<div class="space-6"/>
-												<div class="col-xs-12 col-sm-6">
+												<div class="col-xs-12 col-sm-12" id="default-buttons">
+													<button class="btn btn-white btn-default btn-round" data-dismiss="modal">
+														<i class="ace-icon fa fa-times"></i>
+														Cancelar
+													</button>
 													<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"
 														actionListener="#{pessoaServlet.uploadImagens}"> 
 														<span class="bigger-110"> Upload </span>
@@ -846,12 +856,6 @@
 											</h:panelGroup>
 										</div>
 									</h:form>
-								</div>
-								<div class="modal-footer">
-									<button class="btn btn-sm" data-dismiss="modal">
-										<i class="ace-icon fa fa-times"></i>
-										Cancelar
-									</button>
 								</div>
 							</div>
 						</div>
@@ -863,6 +867,7 @@
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/fuelux/fuelux.spinner.min.js"/>
 	</ui:define>
 </ui:composition>
 </h:html>
