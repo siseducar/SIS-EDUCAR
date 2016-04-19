@@ -33,7 +33,7 @@ public class PopulaRHDAO extends SisEducarDAO
 	 */
 	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel) throws SQLException 
 	{
-		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel) VALUES (?, ?, ?, ?)";
+		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel,tiposubmenuresponsavel) VALUES (?, ?, ?, ?, ?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, nomePermissao);
