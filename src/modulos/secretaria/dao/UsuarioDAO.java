@@ -12,6 +12,7 @@ import java.util.List;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
+import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -508,6 +509,99 @@ public class UsuarioDAO extends SisEducarDAO
 		{
 			System.out.println(e);
 			return false;
+		}
+	}
+	
+	/**
+	 * Método usado para buscar todos os usuários no banco de dados pelos parâmetros passados
+	 * @author João Paulo
+	 * @param cpf
+	 * @param usuario
+	 * @param email
+	 * @return List<Usuario>
+	 */
+	public List<Usuario> buscar(String cpf, String usuario, String email)
+	{
+		try 
+		{
+			Integer numeroArqumentos = 1;
+			Usuario usuaAux = null;
+			Pessoa pessoa = null;
+			Cidade cidade = null;
+			List<Usuario> usuarioAux = new ArrayList<Usuario>();
+			String querySQL = "SELECT * FROM Usuario"
+					+ " WHERE status = ?";
+			
+			if(cpf!=null && cpf.length()>0)
+			{
+				querySQL += " AND cpfcnpj like ?";
+			}
+			if(usuario!=null && usuario.length() >0)
+			{
+				querySQL+= " AND nome like ?";
+			}
+			if(email!=null && email.length() >0)
+			{
+				querySQL+= " AND email like ?";
+			}
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos ++;
+			if(cpf!=null && cpf.length()>0)
+			{
+				ps.setObject(numeroArqumentos, "%" + cpf + "%");
+				numeroArqumentos ++;
+			}
+			if(usuario!=null && usuario.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + usuario + "%");
+				numeroArqumentos ++;
+			}
+			if(email!=null && email.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + email + "%");
+				numeroArqumentos ++;
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				cidade = new Cidade();
+				pessoa = new Pessoa();
+				usuaAux = new Usuario();
+				usuaAux.setPkUsuario(rs.getString("pkUsuario"));
+				usuaAux.setCpfcnpj(rs.getString("cpfcnpj"));
+				usuaAux.setNome(rs.getString("nome"));
+				usuaAux.setEmail(rs.getString("email"));
+				usuaAux.setDataLancamento(rs.getDate("dataLancamento"));
+				usuaAux.setTipo(rs.getInt("tipo"));
+				usuaAux.setStatus(rs.getInt("status"));
+				usuaAux.setRaAluno(rs.getString("raAluno"));
+				usuaAux.setGenero(rs.getString("genero"));
+				
+				if(rs.getObject("fkPessoa")!=null)
+				{
+					pessoa.setPkPessoa(rs.getInt("fkPessoa"));
+					usuaAux.setPessoa(pessoa);
+				}
+				if(rs.getObject("fkMunicipioCliente")!=null)
+				{
+					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+					usuaAux.setFkMunicipioCliente(cidade);
+				}
+				
+				usuarioAux.add(usuaAux);
+			}
+			
+			return usuarioAux;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println(e);
+			return null;
 		}
 	}
 }
