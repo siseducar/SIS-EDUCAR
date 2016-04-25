@@ -87,4 +87,26 @@ public class EstadoDAO extends SisEducarDAO
 		
 		return listaEstado;
 	}
+	
+	public List<Estado> listaEstados() throws SQLException{		
+		
+		List<Estado> listaEstado = new ArrayList<Estado>();
+		String querySQL = "SELECT * FROM ESTADO WHERE STATUS = ? ORDER BY NOME";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		rs = ps.executeQuery();
+		
+		while (rs.next()){
+			Estado paramEstado = new Estado();
+			paramEstado.setPkEstado(rs.getInt("PKESTADO"));
+			paramEstado.setNome(rs.getString("NOME"));
+			
+			listaEstado.add(paramEstado);
+		}
+		
+		return listaEstado;
+	}
 }

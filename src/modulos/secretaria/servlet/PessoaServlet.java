@@ -20,6 +20,7 @@ import org.primefaces.model.UploadedFile;
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
+import modulos.secretaria.om.Cargo;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Endereco;
@@ -79,9 +80,10 @@ public class PessoaServlet implements Serializable{
 	private Curso cursoDados;
 	private Turno turnoDados;
 	private TipoDeficiencia tipoDeficienciaDados;
+	private Estado estadoNaturalidadeDados;
+	private Cidade cidadeNaturalidadeDados;
+	private Cargo cargoDados;
 	
-	
-
 	/* Componente para salvar COMPROVANTE DE RESIDENCIA*/
 	private UploadedFile imagemResidencia;
 	
@@ -166,6 +168,12 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de TURNO ESCOLAR */
 	private List<SelectItem> comboTurnoEscolar;
 	
+	/* Combo com valores de TURNO ESCOLAR */
+	private List<SelectItem> comboEstadoNaturalidade;
+	
+	/* Combo com valores de TURNO ESCOLAR */
+	private List<SelectItem> comboCidadeNaturalidade;
+	
 	/* Componente */
 	private Boolean nomeMae;
 	
@@ -243,6 +251,16 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
+		if(this.estadoNaturalidadeDados == null) {
+			this.estadoNaturalidadeDados = new Estado();
+		}
+		if(this.cidadeNaturalidadeDados == null) {
+			this.cidadeNaturalidadeDados = new Cidade();
+		}
+		if(this.cargoDados == null) {
+			this.cargoDados = new Cargo();
+		}
+		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
@@ -261,6 +279,8 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
+		comboEstadoNaturalidade = new ArrayList<SelectItem>();
+		comboCidadeNaturalidade = new ArrayList<SelectItem>(); 
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -358,9 +378,10 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
-	public String salvarCadastroAluno(){
+	public String salvarCadastroAluno(Pessoa pessoaDados ){
 		Aluno alunoDadosFinal = new Aluno();
 		
+		uploadImagens();
 		if(alunoDados != null) {
 			alunoDadosFinal.setRm(alunoDados.getRm());
 			alunoDadosFinal.setRa(alunoDados.getRa());
@@ -377,7 +398,7 @@ public class PessoaServlet implements Serializable{
 		if(unidadeEscolarDados.getPkUnidadeEscolar() != null) {
 			alunoDadosFinal.setUnidadeEscolar(unidadeEscolarDados);
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"Selecione uma UNIDADE ESCOLAR.",null));
 			return null;
 		}
@@ -385,7 +406,7 @@ public class PessoaServlet implements Serializable{
 		if(cursoDados.getPkCurso() != null) {
 			alunoDadosFinal.setCurso(cursoDados);
 		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"Selecione um CURSO.",null));
 			return null;
 		}
@@ -393,7 +414,7 @@ public class PessoaServlet implements Serializable{
 		if(etapaDados.getPkEtapa() != null) {
 			alunoDadosFinal.setEtapa(etapaDados);
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"Selecione uma ETAPA.",null));
 			return null;
 		}
@@ -401,7 +422,7 @@ public class PessoaServlet implements Serializable{
 		if(turnoDados.getPkTurno() != null) {
 			alunoDadosFinal.setTurno(turnoDados);
 		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"Selecione um TURNO.",null));
 			return null;
 		}
@@ -412,7 +433,25 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Funcionario
 	 * 
 	 * */
-	public String salvarCadastroFuncionario(){
+	public String salvarCadastroFuncionario(Pessoa pessoaDados){
+		Funcionario funcionarioDadosFinal = new Funcionario();
+		
+		if(funcionarioDados.getMatricula() != null ) {
+			funcionarioDadosFinal.setMatricula(funcionarioDados.getMatricula());
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o codigo da MATRICULA do funcionario.",null));
+			return null;
+		}
+		
+		if(funcionarioDados.getNumeroContrato() != null) {
+			funcionarioDadosFinal.setNumeroContrato(funcionarioDados.getNumeroContrato());
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o número do CONTRATO do funcionario.",null));
+			return null;
+		}
+		
 		return null;
 	}
 	
@@ -480,6 +519,24 @@ public class PessoaServlet implements Serializable{
 		comboCidade = new ArrayList<SelectItem>();
 	}
 	
+	private String message;
+	
+	public List<String> complete(String query){
+		List<String> queries = new ArrayList<String>();
+		for(int i = 0 ; i < 15 ; i++){
+			queries.add(query+i);
+        }
+		return queries;
+	}
+	
+	public String getMessage() {	
+		return message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
@@ -635,11 +692,10 @@ public class PessoaServlet implements Serializable{
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
 			salvarCadastroPessoa();
-			salvarCadastroAluno();
+			salvarCadastroAluno(pessoaDados);
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
-			salvarCadastroPessoa();
-			salvarCadastroFuncionario();
+			salvarCadastroFuncionario(pessoaDados);
 		}
 	}
 
@@ -659,8 +715,12 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
+		comboEstadoNaturalidade.addAll(paramDados.consultaEstadosNaturalidade());
 	}
 	
+	/*
+	 * Metodo para validar os dados da pessoa
+	 * */
 	public Boolean validaDadosPessoa(){
 		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
@@ -796,6 +856,160 @@ public class PessoaServlet implements Serializable{
 			}
 		}
 		
+		return true;
+	}
+	
+	/*
+	 * Metodo para validar dados do aluno
+	 * */
+	public Boolean validaDadosAuuno(){
+		
+		if(alunoDados.getRm()== null || alunoDados.getRm().equals("") ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o código do RM do aluno.",null));
+			return false;
+		}
+		
+		if(alunoDados.getRa() == null || alunoDados.getRa().equals("") ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o código do RA do aluno.",null));
+			return false;
+		}
+		
+		if(redeEnsinoDados.getPkRedeEnsino() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Seleciona uma REDE DE ENSINO.",null));
+			return false;
+		}
+		
+		if(unidadeEscolarDados.getPkUnidadeEscolar() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma UNIDADE ESCOLAR.",null));
+			return false;
+		}
+		
+		if(cursoDados.getPkCurso() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione um CURSO.",null));
+			return false;
+		}
+		
+		if(etapaDados.getPkEtapa() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma ETAPA.",null));
+			return false;
+		}
+		
+		if(turnoDados.getPkTurno() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione um TURNO.",null));
+			return false;
+		}
+		
+		if(alunoDeficiente == true) {
+			if(tipoDeficienciaDados.getPkTipoDeficiencia() == null) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Selecione um TIPO DE DEFICIÊNCIA.",null));
+				return false;
+			}
+		}
+		
+		if(imagemAluno == null || imagemCertNascimento == null || imagemResidencia == null){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione as imagens para upload.",null));
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	/*
+	 * Metodo para validar os dados de Funcionarios
+	 * */
+	public Boolean validaDadosFuncionario(Pessoa pessoaDados){
+		
+		if(cargoDados.getPkCargo() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione um CARGO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getMatricula() == null || funcionarioDados.getMatricula().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o código da MATRICULA do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getNumeroContrato() == null || funcionarioDados.getNumeroContrato().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o número do CONTRATO do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getVinculoEmpregaticio() == null || funcionarioDados.getVinculoEmpregaticio().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o VÍNCULO EMPREGATICIO do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getCodigoAdmissao() == null || funcionarioDados.getCodigoAdmissao().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o código de ADMISSÃO do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getDataAdmissao() == null || funcionarioDados.getDataAdmissao().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe a data de ADMISSÃO do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcionarioDados.getMatricula() == null || funcionarioDados.getMatricula().equals("")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Informe o código da MATRICULA do FUNCIONARIO.",null));
+			return false;
+		}
+		
+		if(funcAposentado == true) {
+			if(funcionarioDados.getDataAposentadoria() == null){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe a data de APOSENTADORIA do FUNCIONARIO.",null));
+				return false;
+			}
+		}
+		
+		if(funcConcursado == true){
+			if(funcionarioDados.getNomeConcurso() == null || funcionarioDados.getNomeConcurso().equals("")){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe o código do CONCURSO do FUNCIONARIO.",null));
+				return false;
+			}
+			
+			if(funcionarioDados.getDataConcurso() == null){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe a data do CONCURSO do FUNCIONARIO.",null));
+				return false;
+			}
+			
+			if(funcionarioDados.getNumeroInscricao() == null || funcionarioDados.getNumeroInscricao().equals("")){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe o número de INSCRIÇÃO DO CONCURSO do FUNCIONARIO.",null));
+				return false;
+			}
+			
+			if(funcionarioDados.getNumContraConcurso() == null || funcionarioDados.getNumContraConcurso().equals("")){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe o número do CONTRATO DO CONCURSO do FUNCIONARIO.",null));
+				return false;
+			}
+			
+			if(funcionarioDados.getPosicao() == null || funcionarioDados.getPosicao().equals("")){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe a posição no CONCURSO do FUNCIONARIO.",null));
+				return false;
+			}
+		}
 		return true;
 	}
 	
@@ -984,6 +1198,23 @@ public class PessoaServlet implements Serializable{
 	public void setTipoDeficienciaDados(TipoDeficiencia tipoDeficienciaDados) {
 		this.tipoDeficienciaDados = tipoDeficienciaDados;
 	}
+	public Estado getEstadoNaturalidadeDados() {
+		return estadoNaturalidadeDados;
+	}
+
+	public void setEstadoNaturalidadeDados(Estado estadoNaturalidadeDados) {
+		this.estadoNaturalidadeDados = estadoNaturalidadeDados;
+	}
+
+	public Cidade getCidadeNaturalidadeDados() {
+		return cidadeNaturalidadeDados;
+	}
+
+	public void setCidadeNaturalidadeDados(Cidade cidadeNaturalidadeDados) {
+		this.cidadeNaturalidadeDados = cidadeNaturalidadeDados;
+	}
+	
+	
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 
@@ -1296,6 +1527,34 @@ public class PessoaServlet implements Serializable{
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
+
+	public List<SelectItem> getComboEstadoNaturalidade() {
+		return comboEstadoNaturalidade;
+	}
+
+	public void setComboEstadoNaturalidade(List<SelectItem> comboEstadoNaturalidade) {
+		this.comboEstadoNaturalidade = comboEstadoNaturalidade;
+	}
+
+	public List<SelectItem> getComboCidadeNaturalidade() {
+		comboCidadeNaturalidade.clear();
+		if(estadoNaturalidadeDados.getPkEstado() != null && !comboEstadoNaturalidade.isEmpty()){
+			comboCidadeNaturalidade.addAll(paramDados.consultaCidade(estadoNaturalidadeDados));
+		}
+		return comboCidadeNaturalidade;
+	}
+
+	public void setComboCidadeNaturalidade(List<SelectItem> comboCidadeNaturalidade) {
+		this.comboCidadeNaturalidade = comboCidadeNaturalidade;
+	}
+
+	public Cargo getCargoDados() {
+		return cargoDados;
+	}
+
+	public void setCargoDados(Cargo cargoDados) {
+		this.cargoDados = cargoDados;
+	}
 	
 	
 
