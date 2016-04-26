@@ -1,4 +1,5 @@
 $("#modal-form").hide();
+$("#modal-table").hide();
 
 $(function carrgaElementos() {
 	/*	Componente CPF  */
