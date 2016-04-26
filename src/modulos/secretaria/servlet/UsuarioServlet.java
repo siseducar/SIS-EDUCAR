@@ -89,6 +89,8 @@ public class UsuarioServlet extends SisEducarServlet
 		usuarioPesquisar = "";
 		emailPesquisar = "";
 		
+		usuarioCadastradoSelecionado = new Usuario();
+		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
 		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);

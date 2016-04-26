@@ -29,7 +29,7 @@
 				
 				<div class="row">
 					<div class="col-sm-12">
-						<h:form id="formPesquisar">
+						<h:form id="formPesquisar" prependId="false">
 							<!-- Modal - Busca -->
 							<div id="myModal" class="modal fade" role="dialog">
 								<div class="modal-dialog">
@@ -44,9 +44,7 @@
 												<div>
 													<output>CPF</output>
 													<span class="block input-icon input-icon-right">
-														<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.cpfPesquisar}" required="true"
-															requiredMessage="#{mensagens['mensagem.requerido.cpf']}" >
-															<f:validator validatorId="validar.CpfValidator"/>
+														<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.cpfPesquisar}">
 															<f:converter converterId="converter.CPF"/>
 														</h:inputText>
 														<i class="ace-icon fa fa-credit-card"></i>
@@ -58,9 +56,7 @@
 														<span class="block input-icon input-icon-right"> 
 														<h:inputText
 															type="text" class="form-control"
-															value="#{usuarioServlet.emailPesquisar}" maxlength="11"
-															required="true"
-															requiredMessage="#{mensagens['mensagem.requerido.usuario']}">
+															value="#{usuarioServlet.emailPesquisar}" maxlength="11">
 														</h:inputText>
 														<i class="ace-icon fa fa-user"></i>
 													</span>
@@ -75,7 +71,12 @@
 													scrollable="true" scrollHeight="100"
 													emptyMessage="Clique no botão pesquisar para buscarmos as informações">
 													<p:column selectionMode="single" style="width:6%"
-														styleClass="ace" />
+														styleClass="ace">
+														<p:commandButton>
+															<f:setPropertyActionListener value="#{value}"
+                               									target="#{usuarioServlet.usuarioCadastradoSelecionado}" />
+                               								</p:commandButton>	
+													</p:column>
 													<p:column headerText="CPF">
 										                #{value.cpfcnpj}
 										            </p:column>
@@ -94,12 +95,13 @@
 											</button>
 											<h:commandLink id="btEditar" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Editar</span>	
-												<p:ajax event="click" listener="#{usuarioServlet.editar}" update=":formCadastroUsuario"/>
+												<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" execute=":formPesquisar"/>
 											</h:commandLink>
-											<h:commandLink id="btPesquisar" class="btn btn-white btn-success btn-round"> 
+											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Pesquisar</span>	
-												<p:ajax event="click" listener="#{usuarioServlet.pesquisar}" update="tablePesquisar" process="formPesquisar"/>
-											</h:commandLink>
+												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+												<f:ajax event="click" listener="#{usuarioServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
+											</h:commandLink>	
 										</div>
 									</div>
 								</div>
