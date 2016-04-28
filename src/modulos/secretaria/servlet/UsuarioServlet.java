@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
@@ -27,7 +27,7 @@ import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
-@SessionScoped
+@ViewScoped
 public class UsuarioServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -90,10 +90,7 @@ public class UsuarioServlet implements Serializable
 		usuarioPesquisar = "";
 		emailPesquisar = "";
 		
-		if(usuarioCadastradoSelecionado==null)
-		{
-			usuarioCadastradoSelecionado = new Usuario();
-		}
+		usuarioCadastradoSelecionado = new Usuario();
 		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
@@ -139,7 +136,7 @@ public class UsuarioServlet implements Serializable
 				if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ usuario.setPessoa(pessoa); }
 			}
 			
-			if(!usuario.getCpfcnpj().isEmpty())
+			if(!usuario.getCpfcnpj().isEmpty() && usuario.getPkUsuario()==null)
 			{
 				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario);
 			}
@@ -197,8 +194,15 @@ public class UsuarioServlet implements Serializable
 			else 														{ usuario.setGenero("masculino"); }
 			usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			
-			//Aqui eu busco novamente o usuário, mas este usuário estará completo
-			resultado = usuarioDAO.inserirUsuario(usuario);
+			//Se o usuário já está cadastrado no banco de dados eu apenas atualizo as informações do mesmo, caso contrário eu salvo um novo usuário
+			if(usuario.getPkUsuario()!=null)
+			{
+				resultado = usuarioDAO.alterarUsuario(usuario);
+			}
+			else
+			{
+				resultado = usuarioDAO.inserirUsuario(usuario);
+			}
 			
 			if(resultado)
 			{
@@ -670,6 +674,7 @@ public class UsuarioServlet implements Serializable
 		{
 			usuario = new Usuario();
 			permissoesSelecionadas = new ArrayList<Permissao>();
+			nomePessoaVinculada = "";
 			
 			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
 			{

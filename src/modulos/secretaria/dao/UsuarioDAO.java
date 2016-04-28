@@ -95,6 +95,45 @@ public class UsuarioDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Método usuado para dar um update no usuário já existente, esse método será usado quando o usuário estiver editando um item
+	 * @author João Paulo
+	 * @param usuario
+	 * @return Boolean
+	 */
+	public Boolean alterarUsuario(Usuario usuario)
+	{
+		try 
+		{
+			String querySQL = "UPDATE Usuario"
+					+ " SET (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa) = "
+					+ " (?,?,?,?,?,?,?,?,?,?)"
+					+ " WHERE pkUsuario = CAST(? as int)";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, usuario.getNome());
+			ps.setString(2, usuario.getSenha());
+			ps.setDate(3, dataAtual);
+			ps.setInt(4, usuario.getTipo());
+			ps.setString(5, usuario.getEmail());
+			ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setString(7, usuario.getCpfcnpj());
+			ps.setString(8, usuario.getGenero());
+			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
+			ps.setObject(10, usuario.getPessoa()!=null ? usuario.getPessoa().getPkPessoa() : null);
+			ps.setObject(11, usuario.getPkUsuario());
+			
+			fecharConexaoBanco(con, ps, false, true);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	/**
 	 * Atualiza o usuário com as novas informações
 	 * @author João Paulo
 	 * @param usuario

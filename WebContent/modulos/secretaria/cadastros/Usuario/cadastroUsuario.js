@@ -31,3 +31,16 @@ function atualizarGenero(val)
 {
 	document.getElementById('inputGeneroAux').value = val;
 }
+
+/**
+ * Usado para esconder a modal pesquisar da tela de cadastro de usuário
+ * @author João Paulo
+ * @param data
+ */
+function esconderModalPesquisar(data)
+{
+	if(data.status=="success")
+	{
+		$('#myModal').modal('hide');
+	}
+}
