@@ -676,7 +676,10 @@ public class UsuarioServlet implements Serializable
 				usuario = usuarioCadastradoSelecionado;
 				usuario.setConfirmarEmail(usuario.getEmail());
 				
-				nomePessoaVinculada = usuario.getPessoa().getNome();
+				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
+				{
+					nomePessoaVinculada = usuario.getPessoa().getNome();
+				}
 				
 				//Seta as permissões que o usuário tem na tabela de permissões
 				if(usuario.getPermissoes()!=null && usuario.getPermissoes().size() >0)
