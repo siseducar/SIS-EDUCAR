@@ -1,4 +1,5 @@
 $("#modal-form").hide();
+$("#modal-table").hide();
 
 $(function carrgaElementos() {
 	/*	Componente CPF  */
@@ -90,7 +91,7 @@ $(function carrgaElementos() {
 	
 	$(".spinner").ace_spinner({
         min: 0,
-        max: 100,
+        max: 280,
 	    step: 1,
 	    
 	   icon_up: 'fa fa-caret-up',
