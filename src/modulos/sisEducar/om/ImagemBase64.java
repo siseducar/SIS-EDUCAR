@@ -1,7 +1,7 @@
 package modulos.sisEducar.om;
 
 public class ImagemBase64 {
-
+	private Integer pkImagemBase64;
 	private String b64;
 	private String nome;
 	private String tipo;
@@ -24,5 +24,11 @@ public class ImagemBase64 {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	public Integer getPkImagemBase64() {
+		return pkImagemBase64;
+	}
+	public void setPkImagemBase64(Integer pkImagemBase64) {
+		this.pkImagemBase64 = pkImagemBase64;
 	}
 }
