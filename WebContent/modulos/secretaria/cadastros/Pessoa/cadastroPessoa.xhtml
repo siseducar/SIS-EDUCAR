@@ -4,8 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:corejsf="http://corejsf.com"
-	xmlns:util="http://java.sun.com/jsf/composite/util">
+	xmlns:corejsf="http://corejsf.com">
 
 <ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 	<ui:define name="barraNavegacao">
@@ -18,23 +17,13 @@
 	</ui:define>
 	<ui:define name="scriptConteudo" >
 		<div class="page-content">
-			<div class="page-header col-xs-12 col-sm-11">
-				<h1 style="color: green">
+			<div class="page-header">
+				<h1>
+					Cadastro teste
 					<small> 
-						Cadastro
-						<i class="ace-icon fa fa-angle-double-right"/> 
+						<i class="ace-icon fa fa-angle-double-right"/> Cadastro de Pessoas
 					</small>
-					Cadastro de Pessoas
 				</h1>
-				
-			</div>
-			<div class="nav-search col-xs-12 col-sm-1">
-				<h5 align="center">
-					<a href="#modal-table" role="button" data-toggle="modal" class="btn btn-app btn-light btn-xs">
-						<i class="ace-icon fa fa-search-plus bigger-160"/>
-						Consulta
-					</a>
-				</h5> 
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12">
@@ -110,27 +99,12 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Estado de Nascimento"/>
+								<div class="col-xs-12 col-sm-4">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
 									<div>
-										<h:selectOneMenu id="estadoNaturalidade" 
-											class="form-control" value="#{pessoaServlet.estadoNaturalidadeDados.pkEstado}">											
-											<f:selectItem itemLabel="Selecione..." itemValue=""/>
-											<f:selectItems value="#{pessoaServlet.comboEstadoNaturalidade}"
-													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-											<p:ajax event="change" update="codCidadeNaturalidade"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Cidade de Nascimento"/>
-									<div>
-										<h:selectOneMenu id="codCidadeNaturalidade"
-											class="form-control" value="#{pessoaServlet.cidadeNaturalidadeDados.pkCidade}">
-											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboCidadeNaturalidade}"
-												var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-										</h:selectOneMenu>
+										<h:inputText id="codNaturalidade"
+											styleClass="col-xs-12 col-sm-12">
+										</h:inputText>
 									</div>
 								</div>
 							</div>
@@ -593,7 +567,7 @@
 											value="#{mensagens['label.cadastro.funcionario.cargo']}"/>
 										<div>
 											<h:selectOneMenu class="form-control" id="tipoCargo"
-												value="#{pessoaServlet.cargoDados.pkCargo}">
+												value="#{pessoaServlet.funcionarioDados.cargo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{pessoaServlet.comboCargo}"/>
 											</h:selectOneMenu>
@@ -643,7 +617,7 @@
 											value="#{mensagens['label.cadastro.funcionario.dat.admissao']}"/>
 										<div>
 											<h:inputText type="text" id="dataAdmissao" 
-												styleClass="col-xs-12 col-sm-12 calendario"
+												styleClass="col-xs-10 col-sm-12 calendario"
 												value="#{pessoaServlet.funcionarioDados.dataAdmissao}">
 												<f:converter converterId="converter.DATA"/>
 											</h:inputText>
@@ -673,16 +647,14 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.sem']}"/>
 										<div>
-                							<h:inputText id="cargaSemanal" class="col-xs-12 col-sm-12 spinner"
-                								value="#{pessoaServlet.funcionarioDados.cargaSemanal}"/>
+                							<h:inputText id="cargaSemanal" class="col-xs-12 col-sm-12 spinner"/>
             							</div>
 									</div>
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.funcionario.carga.hora.men']}"/>
 										<div>
-											<h:inputText id="cargaMensal" class="col-xs-12 col-sm-12 spinner"
-												value="#{pessoaServlet.funcionarioDados.cargaMensal}"/>
+											<h:inputText id="cargaMensal" class="col-xs-12 col-sm-12 spinner"/>
 										</div>
 									</div>
 								</div>
@@ -824,27 +796,23 @@
 								<i class="ace-icon fa fa-file"/>
 								<span class="bigger-110">Novo</span>
 							</button>
-							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" 
+								actionListener="#{pessoaServlet.validaCadastro}"> 
 								<span class="bigger-110">Registrar</span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}" update="formCadastroPessoa" process="formCadastroPessoa"/>
 							</h:commandLink>
 						</div>
 					</h:form>
-					<div id="modal-form" class="modal" tabindex="-1" aria-hidden="false" style="display: block; ">
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+					<div id="modal-form" class="modal in" tabindex="-1" aria-hidden="false" style="display: block; ">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<div class="modal-header no-padding">
-									<div class="table-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-											<span class="white">×</span>
-										</button>
-										Upload de Fotos
-									</div>
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">X</button>
+									<h4 class="blue bigger"> Upload de Imagens</h4>
 								</div>
 								<div class="modal-footer">
 									<h:form id="formUploadImagem" prependId="false" enctype="multipart/form-data">
+										<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 										<div class="col-xs-12 col-sm-12">
 											<h:panelGroup id="imagensUpload" style="width: 100%">
 												<div class="row">
@@ -875,34 +843,19 @@
 												</div>
 												<div class="space-6"/>
 												<div class="col-xs-12 col-sm-12" id="default-buttons">
-													<button class="btn btn-white btn-default btn-round" data-dismiss="modal" >
-														<i class="ace-icon fa fa-times"/>
-														CANCEL
+													<button class="btn btn-white btn-default btn-round" data-dismiss="modal">
+														<i class="ace-icon fa fa-times"></i>
+														Cancelar
 													</button>
 													<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"
-														actionListener="#{pessoaServlet.uploadImagens}" > 
-														<span class="bigger-110"> UPLOAD </span>
-														<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+														actionListener="#{pessoaServlet.uploadImagens}"> 
+														<span class="bigger-110"> Upload </span>
+														<i class="ace-icon fa fa-arrow-right icon-on-up"/>
 													</h:commandLink>
 												</div>
 											</h:panelGroup>
 										</div>
 									</h:form>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div id="modal-table" class="modal" tabindex="-1" aria-hidden="false" style=" display: block;">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header no-padding">
-									<div class="table-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-											<span class="white">×</span>
-										</button>
-										Lista de Pessoas
-									</div>
 								</div>
 							</div>
 						</div>

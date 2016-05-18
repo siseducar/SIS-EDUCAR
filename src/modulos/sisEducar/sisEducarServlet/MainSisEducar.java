@@ -45,7 +45,6 @@ public class MainSisEducar implements Servlet, Serializable
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <h:html xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:ui="http://java.sun.com/jsf/facelets" 
-	xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
@@ -29,11 +29,91 @@
 				
 				<div class="row">
 					<div class="col-sm-12">
+						<h:form id="formPesquisar" prependId="false">
+							<!-- Modal - Busca -->
+							<div id="myModal" class="modal fade" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"></button>
+											<h3 class=" smaller lighter blue">Buscar usuário(s) cadastrado(s)</h3>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<div>
+													<output>CPF</output>
+													<span class="block input-icon input-icon-right">
+														<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.cpfPesquisar}">
+															<f:converter converterId="converter.CPF"/>
+														</h:inputText>
+														<i class="ace-icon fa fa-credit-card"></i>
+													</span>
+												</div>
+												
+												<div class="">
+														<output>Email</output>
+														<span class="block input-icon input-icon-right"> 
+														<h:inputText
+															type="text" class="form-control"
+															value="#{usuarioServlet.emailPesquisar}" maxlength="11">
+														</h:inputText>
+														<i class="ace-icon fa fa-user"></i>
+													</span>
+												</div>
+											</div>
+
+											<div class="table-responsive">
+												<p:dataTable id="tablePesquisar" tableStyleClass="table table-hover"
+													value="#{usuarioServlet.usuariosCadastrados}"
+													selection="#{usuarioServlet.usuarioCadastradoSelecionado}"
+													var="value" rowKey="#{value.pkUsuario}"
+													scrollable="true" scrollHeight="100"
+													emptyMessage="Clique no botão pesquisar para buscarmos as informações">
+													<p:column selectionMode="single" style="width:6%"
+														styleClass="ace">
+													</p:column>
+													<p:column headerText="CPF">
+										                #{value.cpfcnpj}
+										            </p:column>
+													<p:column headerText="Usuário">
+										                #{value.nome}
+										            </p:column>
+													<p:column headerText="Email">
+										                #{value.email}
+										            </p:column>
+												</p:dataTable>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+												Fechar
+											</button>
+											<h:commandLink id="btEditar" class="btn btn-white btn-success btn-round"> 
+												<span class="bigger-110">Editar</span>	
+												<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }"/>
+											</h:commandLink>
+											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+												<span class="bigger-110">Pesquisar</span>	
+												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+												<f:ajax event="click" listener="#{usuarioServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
+											</h:commandLink>	
+										</div>
+									</div>
+								</div>
+							</div><!-- FIM - Modal - Busca -->
+						</h:form>
 						<h:form id="formCadastroUsuario">
 							<div class="clearfix form-actions">
-								<h3 class="header smaller lighter blue">Informações Principais</h3>
+								<h3 class="header smaller lighter blue">Informações Principais
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+										<i class="menu-icon fa fa-search"/>
+									</button>
+								</h3>
 								<div class="form-group">
-									<div class="col-xs-12 col-sm-4">
+								
+
+								<div class="col-xs-12 col-sm-4">
 										<div>
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
