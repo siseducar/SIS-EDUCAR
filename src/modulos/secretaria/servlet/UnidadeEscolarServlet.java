@@ -27,9 +27,9 @@ import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
-import modulos.sisEducar.utils.ConstantesSisEducar;
-import modulos.sisEducar.utils.Logs;
+import sisEdcuar.servlet.SisEducarServlet;
+import sisEdcuar.utils.ConstantesSisEducar;
+import sisEdcuar.utils.Logs;
 
 @ManagedBean(name="unidadeEscolarServlet")
 @ViewScoped

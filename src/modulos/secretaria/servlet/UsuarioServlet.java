@@ -19,11 +19,11 @@ import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesRH;
-import modulos.sisEducar.om.Email;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
-import modulos.sisEducar.utils.ConstantesSisEducar;
-import modulos.sisEducar.utils.EmailUtils;
-import modulos.sisEducar.utils.Logs;
+import sisEdcuar.om.Email;
+import sisEdcuar.servlet.SisEducarServlet;
+import sisEdcuar.utils.ConstantesSisEducar;
+import sisEdcuar.utils.EmailUtils;
+import sisEdcuar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
 @SessionScoped
@@ -38,6 +38,13 @@ public class UsuarioServlet extends SisEducarServlet
 	
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
+    
+    /*Variáveis para pesquisar os usuários cadastrados no banco de dados*/
+    private List<Usuario> usuariosCadastrados;
+    private Usuario usuarioCadastradoSelecionado;
+    private String cpfPesquisar;
+	private String usuarioPesquisar;
+    private String emailPesquisar;
     
     //Esta variável é o conteúdo que o class dos módulos tem, por padrão eles já irão vir hidden, o módulo só será liberado se o usuário tiver permissão deste módulo
     private String classAtributeHidden   	= "hidden";
@@ -78,6 +85,12 @@ public class UsuarioServlet extends SisEducarServlet
 	 */
 	public UsuarioServlet()
 	{
+		cpfPesquisar = "";
+		usuarioPesquisar = "";
+		emailPesquisar = "";
+		
+		usuarioCadastradoSelecionado = new Usuario();
+		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
 		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
@@ -627,6 +640,34 @@ public class UsuarioServlet extends SisEducarServlet
 		}
 	}
 	
+	/**
+	 * Usado para buscar todos os usuários cadastrados pelos filtros digitados na tela pelo usuário
+	 * @author João Paulo
+	 */
+	public void pesquisar()
+	{
+		try 
+		{
+			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar);
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("pesquisar", "");
+		}
+	}
+	
+	public void editar()
+	{
+		try 
+		{
+			System.out.println("teste");
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("editar", "");
+		}
+	}
+	
 	/*Getters and setters*/
 	public Usuario getUsuario() {
 		return usuario;
@@ -862,4 +903,42 @@ public class UsuarioServlet extends SisEducarServlet
 		this.classSecretariaRelatorioSubMenu = classSecretariaRelatorioSubMenu;
 	}
 
+	public List<Usuario> getUsuariosCadastrados() {
+		return usuariosCadastrados;
+	}
+
+	public void setUsuariosCadastrados(List<Usuario> usuariosCadastrados) {
+		this.usuariosCadastrados = usuariosCadastrados;
+	}
+
+	public Usuario getUsuarioCadastradoSelecionado() {
+		return usuarioCadastradoSelecionado;
+	}
+
+	public void setUsuarioCadastradoSelecionado(Usuario usuarioCadastradoSelecionado) {
+		this.usuarioCadastradoSelecionado = usuarioCadastradoSelecionado;
+	}
+	public String getCpfPesquisar() {
+		return cpfPesquisar;
+	}
+
+	public void setCpfPesquisar(String cpfPesquisar) {
+		this.cpfPesquisar = cpfPesquisar;
+	}
+
+	public String getUsuarioPesquisar() {
+		return usuarioPesquisar;
+	}
+
+	public void setUsuarioPesquisar(String usuarioPesquisar) {
+		this.usuarioPesquisar = usuarioPesquisar;
+	}
+
+	public String getEmailPesquisar() {
+		return emailPesquisar;
+	}
+
+	public void setEmailPesquisar(String emailPesquisar) {
+		this.emailPesquisar = emailPesquisar;
+	}
 }

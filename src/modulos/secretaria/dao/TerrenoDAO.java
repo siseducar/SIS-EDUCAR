@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import modulos.secretaria.om.Terreno;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import modulos.sisEducar.dao.SisEducarDAO;
-import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.dao.SisEducarDAO;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class TerrenoDAO extends SisEducarDAO
 {
