@@ -29,7 +29,7 @@
 	</h:head>
 	
 	<h:body class="no-skin">
-		<div id="navbar" class="navbar navbar-default">
+		<div id="navbar" class="navbar navbar-default navbar-fixed-top">
 			<ui:insert name="conteudoHeader">
 				<ui:include src="/resources/templates/sisEducar/headerPrincipal.xhtml"/>
 			</ui:insert>
@@ -39,7 +39,7 @@
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 			</script>
 			
-			<div id="sidebar" class="sidebar responsive">
+			<div id="sidebar" class="sidebar responsive sidebar-fixed">
 				<ui:insert name="conteudoMenuLateral">
 					<ui:include src="/resources/templates/sisEducar/menuLateral.xhtml"/>
 				</ui:insert>
