@@ -656,11 +656,34 @@ public class UsuarioServlet extends SisEducarServlet
 		}
 	}
 	
+	/**
+	 * Método usado para a edição do registro que o usuário escolheu
+	 * @author João Paulo
+	 */
 	public void editar()
 	{
 		try 
 		{
-			System.out.println("teste");
+			usuario = new Usuario();
+			permissoesSelecionadas = new ArrayList<Permissao>();
+			nomePessoaVinculada = "";
+			
+			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
+			{
+				usuario = usuarioCadastradoSelecionado;
+				usuario.setConfirmarEmail(usuario.getEmail());
+				
+				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
+				{
+					nomePessoaVinculada = usuario.getPessoa().getNome();
+				}
+				
+				//Seta as permissões que o usuário tem na tabela de permissões
+				if(usuario.getPermissoes()!=null && usuario.getPermissoes().size() >0)
+				{
+					permissoesSelecionadas = usuario.getPermissoes();
+				}
+			}
 		} 
 		catch (Exception e) 
 		{
