@@ -15,9 +15,9 @@
 			</li>
 		</ui:define>
 
-		<ui:define name="scriptConteudo">			
-			<div class="page-content">
-				<div class="page-header">
+		<ui:define name="scriptConteudo">	
+			<div class="page-content">		
+				<div class="page-header col-xs-12 col-sm-11">
 					<h1>
 						Cadastro
 						<small>
@@ -25,6 +25,13 @@
 							Cadastro de Usuários
 						</small>
 					</h1>
+				</div>
+				<div class="nav-search col-xs-12 col-sm-1">
+					<h5 align="center">
+						<a href="#myModal" role="button" data-toggle="modal" class="btn btn btn-info bigger-100">
+							<i class="ace-icon fa fa-search bigger-150"/>
+						</a>
+					</h5> 
 				</div>
 				
 				<div class="row">
@@ -105,14 +112,7 @@
 						</h:form>
 						<h:form id="formCadastroUsuario">
 							<div class="clearfix form-actions">
-								<h3 class="header smaller lighter blue">Informações Principais
-									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-										<i class="menu-icon fa fa-search"/>
-									</button>
-								</h3>
 								<div class="form-group">
-								
-
 								<div class="col-xs-12 col-sm-4">
 										<div>
 											<output>CPF</output>
