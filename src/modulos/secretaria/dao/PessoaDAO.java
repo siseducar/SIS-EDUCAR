@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.Raca;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -257,6 +258,35 @@ public class PessoaDAO extends SisEducarDAO
 			listaPessoas.add(pessoa);
 		}
 		return listaPessoas;
+	}
+	
+	/**
+	 * Obtem a pessoa pela PK da mesma com apenas algumas informações dessa pessoa
+	 * @author João Paulo
+	 * @return
+	 * @throws SQLException
+	 */
+	public Pessoa obtemPessoaSimples(Integer pkPessoa) throws SQLException
+	{
+		Pessoa pessoa = null;
+		String querySQL = "SELECT * FROM pessoa"
+				+ " WHERE status = ?"
+				+ " AND pkPessoa = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkPessoa);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			pessoa = new Pessoa();
+			pessoa.setPkPessoa(rs.getInt("pkPessoa"));
+			pessoa.setNome(rs.getString("nome"));
+			pessoa.setCpf(rs.getLong("cpf"));
+		}
+		return pessoa;
 	}
 	
 	/**

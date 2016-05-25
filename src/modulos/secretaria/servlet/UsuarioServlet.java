@@ -1,5 +1,6 @@
 package modulos.secretaria.servlet;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
@@ -26,8 +27,8 @@ import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
-@SessionScoped
-public class UsuarioServlet extends SisEducarServlet
+@ViewScoped
+public class UsuarioServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -38,6 +39,13 @@ public class UsuarioServlet extends SisEducarServlet
 	
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
+    
+    /*Variáveis para pesquisar os usuários cadastrados no banco de dados*/
+    private List<Usuario> usuariosCadastrados;
+    private Usuario usuarioCadastradoSelecionado;
+    private String cpfPesquisar;
+	private String usuarioPesquisar;
+    private String emailPesquisar;
     
     //Esta variável é o conteúdo que o class dos módulos tem, por padrão eles já irão vir hidden, o módulo só será liberado se o usuário tiver permissão deste módulo
     private String classAtributeHidden   	= "hidden";
@@ -78,9 +86,15 @@ public class UsuarioServlet extends SisEducarServlet
 	 */
 	public UsuarioServlet()
 	{
+		cpfPesquisar = "";
+		usuarioPesquisar = "";
+		emailPesquisar = "";
+		
+		usuarioCadastradoSelecionado = new Usuario();
+		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
-		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
@@ -122,7 +136,7 @@ public class UsuarioServlet extends SisEducarServlet
 				if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ usuario.setPessoa(pessoa); }
 			}
 			
-			if(!usuario.getCpfcnpj().isEmpty())
+			if(!usuario.getCpfcnpj().isEmpty() && usuario.getPkUsuario()==null)
 			{
 				resultadoExistenciaUsuario = usuarioDAO.verificaExistenciaUsuario(usuario);
 			}
@@ -178,10 +192,17 @@ public class UsuarioServlet extends SisEducarServlet
 			//Se o genero selecionado tiver null é porque o usuário deixou a opção masculino marcada, se for <> null é porque ele clicou em algum rádio do tipo gênero
 			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
 			else 														{ usuario.setGenero("masculino"); }
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			
-			//Aqui eu busco novamente o usuário, mas este usuário estará completo
-			resultado = usuarioDAO.inserirUsuario(usuario);
+			//Se o usuário já está cadastrado no banco de dados eu apenas atualizo as informações do mesmo, caso contrário eu salvo um novo usuário
+			if(usuario.getPkUsuario()!=null)
+			{
+				resultado = usuarioDAO.alterarUsuario(usuario);
+			}
+			else
+			{
+				resultado = usuarioDAO.inserirUsuario(usuario);
+			}
 			
 			if(resultado)
 			{
@@ -289,7 +310,7 @@ public class UsuarioServlet extends SisEducarServlet
 				return null;
 			}
 			
-			usuarioLogado.setSenha(criptografarSenha(usuarioLogado.getSenha()));
+			usuarioLogado.setSenha(SisEducarServlet.criptografarSenha(usuarioLogado.getSenha()));
 			
 			//Aqui eu busco novamente o usuário, mas este usuário estará completo
 			resultado = usuarioDAO.atualizarUsuario(usuarioLogado);
@@ -627,6 +648,57 @@ public class UsuarioServlet extends SisEducarServlet
 		}
 	}
 	
+	/**
+	 * Usado para buscar todos os usuários cadastrados pelos filtros digitados na tela pelo usuário
+	 * @author João Paulo
+	 */
+	public void pesquisar()
+	{
+		try 
+		{
+			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar);
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("pesquisar", "");
+		}
+	}
+	
+	/**
+	 * Método usado para a edição do registro que o usuário escolheu
+	 * @author João Paulo
+	 */
+	public void editar()
+	{
+		try 
+		{
+			usuario = new Usuario();
+			permissoesSelecionadas = new ArrayList<Permissao>();
+			nomePessoaVinculada = "";
+			
+			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
+			{
+				usuario = usuarioCadastradoSelecionado;
+				usuario.setConfirmarEmail(usuario.getEmail());
+				
+				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
+				{
+					nomePessoaVinculada = usuario.getPessoa().getNome();
+				}
+				
+				//Seta as permissões que o usuário tem na tabela de permissões
+				if(usuario.getPermissoes()!=null && usuario.getPermissoes().size() >0)
+				{
+					permissoesSelecionadas = usuario.getPermissoes();
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("editar", "");
+		}
+	}
+	
 	/*Getters and setters*/
 	public Usuario getUsuario() {
 		return usuario;
@@ -862,4 +934,42 @@ public class UsuarioServlet extends SisEducarServlet
 		this.classSecretariaRelatorioSubMenu = classSecretariaRelatorioSubMenu;
 	}
 
+	public List<Usuario> getUsuariosCadastrados() {
+		return usuariosCadastrados;
+	}
+
+	public void setUsuariosCadastrados(List<Usuario> usuariosCadastrados) {
+		this.usuariosCadastrados = usuariosCadastrados;
+	}
+
+	public Usuario getUsuarioCadastradoSelecionado() {
+		return usuarioCadastradoSelecionado;
+	}
+
+	public void setUsuarioCadastradoSelecionado(Usuario usuarioCadastradoSelecionado) {
+		this.usuarioCadastradoSelecionado = usuarioCadastradoSelecionado;
+	}
+	public String getCpfPesquisar() {
+		return cpfPesquisar;
+	}
+
+	public void setCpfPesquisar(String cpfPesquisar) {
+		this.cpfPesquisar = cpfPesquisar;
+	}
+
+	public String getUsuarioPesquisar() {
+		return usuarioPesquisar;
+	}
+
+	public void setUsuarioPesquisar(String usuarioPesquisar) {
+		this.usuarioPesquisar = usuarioPesquisar;
+	}
+
+	public String getEmailPesquisar() {
+		return emailPesquisar;
+	}
+
+	public void setEmailPesquisar(String emailPesquisar) {
+		this.emailPesquisar = emailPesquisar;
+	}
 }
