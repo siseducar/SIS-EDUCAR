@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 import org.postgresql.util.Base64;
 import org.primefaces.model.UploadedFile;
@@ -1267,4 +1268,48 @@ public class PessoaServlet implements Serializable{
 	public void setLatitude(List<String> latitude) {
 		this.latitude = latitude;
 	}
+	
+	
+	
+	private Part fotoAluno;
+	
+	
+	public Part getFotoAluno() {
+		return fotoAluno;
+	}
+
+	public void setFotoAluno(Part fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
+
+	
+	
+	
+	
+	public String upload(){
+		
+		return "sucess";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
