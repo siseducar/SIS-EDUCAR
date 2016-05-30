@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.SituacaoEconomica;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import sisEdcuar.conexaoBanco.ConectaBanco;
 
 public class SituacaoEconomicaDAO {
 

@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import modulos.sisEducar.dao.SisEducarDAO;
+import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.dao.SisEducarDAO;
 
 public class ConsultaUtilsDAO extends SisEducarDAO {
 	// Realizando conexão com o banco

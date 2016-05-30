@@ -508,27 +508,5 @@ public class ParametrosServlet implements Serializable{
 		}
 	}
 	
-	/*
-	 * Metodo para carregar todos os estados 
-	 * */
-	public List<SelectItem> consultaEstadosNaturalidade() {
-		try {
-			List<SelectItem> comboEstadoNaturalidade = new ArrayList<>();
-			EstadoDAO estadoDAO = new EstadoDAO();
-			List<Estado> paramEstado = estadoDAO.listaEstados();
-			
-			for (Estado param : paramEstado){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkEstado());
-			   s.setLabel(param.getNome());
-			   comboEstadoNaturalidade.add(s);
-			}
-			return comboEstadoNaturalidade;
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
-			return null;
-		}
-	}
 	
 }

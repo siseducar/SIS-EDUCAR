@@ -1,5 +1,4 @@
 $("#modal-form").hide();
-$("#modal-table").hide();
 
 $(function carrgaElementos() {
 	/*	Componente CPF  */
@@ -74,7 +73,6 @@ $(function carrgaElementos() {
         $(this).unmask();
     });
 	
-	
 	/* Componenetes que aceitem somente numeros */
 	$('.numeros').keypress(function(event) {
 		var tecla = (window.event) ? event.keyCode : event.which;
@@ -91,7 +89,7 @@ $(function carrgaElementos() {
 	
 	$(".spinner").ace_spinner({
         min: 0,
-        max: 280,
+        max: 100,
 	    step: 1,
 	    
 	   icon_up: 'fa fa-caret-up',
@@ -127,4 +125,4 @@ $(".upload").ace_file_input({
 
 $(".upload").ace_file_input({
     'allowExt': ['jpg', 'jpeg', 'png']
-})
+});

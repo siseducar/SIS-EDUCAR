@@ -20,11 +20,11 @@ import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesRH;
-import modulos.sisEducar.om.Email;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
-import modulos.sisEducar.utils.ConstantesSisEducar;
-import modulos.sisEducar.utils.EmailUtils;
-import modulos.sisEducar.utils.Logs;
+import sisEdcuar.om.Email;
+import sisEdcuar.servlet.SisEducarServlet;
+import sisEdcuar.utils.ConstantesSisEducar;
+import sisEdcuar.utils.EmailUtils;
+import sisEdcuar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
 @ViewScoped
@@ -33,6 +33,7 @@ public class UsuarioServlet implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	//Variaveis
+	SisEducarServlet sisEducarServlet = null;
 	Usuario usuario;
 	Usuario usuarioLogado;
 	private String nomePessoaVinculada;
@@ -86,6 +87,8 @@ public class UsuarioServlet implements Serializable
 	 */
 	public UsuarioServlet()
 	{
+		sisEducarServlet = new SisEducarServlet();
+		
 		cpfPesquisar = "";
 		usuarioPesquisar = "";
 		emailPesquisar = "";
@@ -94,7 +97,7 @@ public class UsuarioServlet implements Serializable
 		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
-		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario) sisEducarServlet.getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();

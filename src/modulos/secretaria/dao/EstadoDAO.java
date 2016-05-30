@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Estado;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import modulos.sisEducar.dao.SisEducarDAO;
-import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.dao.SisEducarDAO;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class EstadoDAO extends SisEducarDAO 
 {
@@ -74,28 +74,6 @@ public class EstadoDAO extends SisEducarDAO
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(1, pkPais);
-		
-		rs = ps.executeQuery();
-		
-		while (rs.next()){
-			Estado paramEstado = new Estado();
-			paramEstado.setPkEstado(rs.getInt("PKESTADO"));
-			paramEstado.setNome(rs.getString("NOME"));
-			
-			listaEstado.add(paramEstado);
-		}
-		
-		return listaEstado;
-	}
-	
-	public List<Estado> listaEstados() throws SQLException{		
-		
-		List<Estado> listaEstado = new ArrayList<Estado>();
-		String querySQL = "SELECT * FROM ESTADO WHERE STATUS = ? ORDER BY NOME";
-		
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
 		
 		rs = ps.executeQuery();
 		

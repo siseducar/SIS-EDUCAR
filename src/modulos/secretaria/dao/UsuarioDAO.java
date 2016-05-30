@@ -14,9 +14,9 @@ import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import modulos.sisEducar.dao.SisEducarDAO;
-import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.dao.SisEducarDAO;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class UsuarioDAO extends SisEducarDAO
 {

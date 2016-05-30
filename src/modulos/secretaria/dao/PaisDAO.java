@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Pais;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import modulos.sisEducar.dao.SisEducarDAO;
-import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.dao.SisEducarDAO;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class PaisDAO extends SisEducarDAO
 {
