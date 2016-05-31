@@ -1,5 +1,6 @@
 package modulos.secretaria.servlet;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
@@ -26,12 +27,13 @@ import sisEdcuar.utils.EmailUtils;
 import sisEdcuar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
-@SessionScoped
-public class UsuarioServlet extends SisEducarServlet
+@ViewScoped
+public class UsuarioServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
 	//Variaveis
+	SisEducarServlet sisEducarServlet = null;
 	Usuario usuario;
 	Usuario usuarioLogado;
 	private String nomePessoaVinculada;
@@ -85,6 +87,8 @@ public class UsuarioServlet extends SisEducarServlet
 	 */
 	public UsuarioServlet()
 	{
+		sisEducarServlet = new SisEducarServlet();
+		
 		cpfPesquisar = "";
 		usuarioPesquisar = "";
 		emailPesquisar = "";
@@ -93,7 +97,7 @@ public class UsuarioServlet extends SisEducarServlet
 		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
-		usuarioLogado = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario) sisEducarServlet.getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
@@ -191,7 +195,7 @@ public class UsuarioServlet extends SisEducarServlet
 			//Se o genero selecionado tiver null é porque o usuário deixou a opção masculino marcada, se for <> null é porque ele clicou em algum rádio do tipo gênero
 			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
 			else 														{ usuario.setGenero("masculino"); }
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			
 			//Aqui eu busco novamente o usuário, mas este usuário estará completo
 			resultado = usuarioDAO.inserirUsuario(usuario);
@@ -302,7 +306,7 @@ public class UsuarioServlet extends SisEducarServlet
 				return null;
 			}
 			
-			usuarioLogado.setSenha(criptografarSenha(usuarioLogado.getSenha()));
+			usuarioLogado.setSenha(SisEducarServlet.criptografarSenha(usuarioLogado.getSenha()));
 			
 			//Aqui eu busco novamente o usuário, mas este usuário estará completo
 			resultado = usuarioDAO.atualizarUsuario(usuarioLogado);
@@ -656,11 +660,34 @@ public class UsuarioServlet extends SisEducarServlet
 		}
 	}
 	
+	/**
+	 * Método usado para a edição do registro que o usuário escolheu
+	 * @author João Paulo
+	 */
 	public void editar()
 	{
 		try 
 		{
-			System.out.println("teste");
+			usuario = new Usuario();
+			permissoesSelecionadas = new ArrayList<Permissao>();
+			nomePessoaVinculada = "";
+			
+			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
+			{
+				usuario = usuarioCadastradoSelecionado;
+				usuario.setConfirmarEmail(usuario.getEmail());
+				
+				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
+				{
+					nomePessoaVinculada = usuario.getPessoa().getNome();
+				}
+				
+				//Seta as permissões que o usuário tem na tabela de permissões
+				if(usuario.getPermissoes()!=null && usuario.getPermissoes().size() >0)
+				{
+					permissoesSelecionadas = usuario.getPermissoes();
+				}
+			}
 		} 
 		catch (Exception e) 
 		{

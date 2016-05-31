@@ -586,13 +586,14 @@ public class UsuarioDAO extends SisEducarDAO
 				{
 					pessoa.setPkPessoa(rs.getInt("fkPessoa"));
 					usuaAux.setPessoa(pessoa);
+					usuaAux.setPessoa(new PessoaDAO().obtemPessoaSimples(usuaAux.getPessoa().getPkPessoa()));
 				}
 				if(rs.getObject("fkMunicipioCliente")!=null)
 				{
 					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
 					usuaAux.setFkMunicipioCliente(cidade);
 				}
-				
+				usuaAux.setPermissoes(buscarPermissoesUsuario(usuaAux));
 				usuarioAux.add(usuaAux);
 			}
 			
