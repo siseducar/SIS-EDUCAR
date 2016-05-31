@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Curso;
-import sisEdcuar.conexaoBanco.ConectaBanco;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class CursoDAO {
 	// Realizando conexão com o banco

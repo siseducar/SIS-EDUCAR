@@ -98,7 +98,7 @@
 											</button>
 											<h:commandLink id="btEditar" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Editar</span>	
-												<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }"/>
+												<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }" resetValues="true"/>
 											</h:commandLink>
 											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Pesquisar</span>	

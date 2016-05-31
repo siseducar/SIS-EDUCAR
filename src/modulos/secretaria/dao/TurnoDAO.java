@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Turno;
-import sisEdcuar.conexaoBanco.ConectaBanco;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class TurnoDAO {
 

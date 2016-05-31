@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import sisEdcuar.conexaoBanco.ConectaBanco;
-import sisEdcuar.dao.SisEducarDAO;
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 
 public class PopulaRHDAO extends SisEducarDAO
 {

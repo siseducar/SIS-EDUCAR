@@ -20,11 +20,11 @@ import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesRH;
-import sisEdcuar.om.Email;
-import sisEdcuar.servlet.SisEducarServlet;
-import sisEdcuar.utils.ConstantesSisEducar;
-import sisEdcuar.utils.EmailUtils;
-import sisEdcuar.utils.Logs;
+import modulos.sisEducar.om.Email;
+import modulos.sisEducar.servlet.SisEducarServlet;
+import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.EmailUtils;
+import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="usuarioServlet")
 @ViewScoped
@@ -450,6 +450,7 @@ public class UsuarioServlet implements Serializable
 		{
 			Pessoa pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
 			if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ nomePessoaVinculada = pessoa.getNome(); }
+			else 											{ nomePessoaVinculada = ""; }
 			return null;
 		} 
 		catch (Exception e) 

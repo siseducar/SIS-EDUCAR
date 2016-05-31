@@ -20,39 +20,39 @@
 	
 	<converter>
     	<converter-id>converter.CEP</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteCEP</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteCEP</converter-class>
 	</converter>
 	<converter>
     	<converter-id>converter.CPF</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteCPF</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteCPF</converter-class>
 	</converter>
  	<converter>
     	<converter-id>converter.CNPJ</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteCNPJ</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteCNPJ</converter-class>
 	</converter>
  	<converter>
     	<converter-id>converter.DATA</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteData</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteData</converter-class>
 	</converter>
  	<converter>
     	<converter-id>converter.RG</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteRG</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteRG</converter-class>
 	</converter>
 	<converter>
     	<converter-id>converter.TELCELULAR</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteTelCelular</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteTelCelular</converter-class>
 	</converter>
 	<converter>
     	<converter-id>converter.TELRESIDENCIAL</converter-id>
-    	<converter-class>sisEdcuar.converter.ConverteTelResidencial</converter-class>
+    	<converter-class>modulos.sisEducar.converter.ConverteTelResidencial</converter-class>
 	</converter>
  	
  	<validator>
     	<validator-id>validar.CpfValidator</validator-id>
-    	<validator-class>sisEdcuar.validador.ValidaCPF</validator-class>
+    	<validator-class>modulos.sisEducar.validador.ValidaCPF</validator-class>
 	</validator>
 	<validator>
     	<validator-id>validar.CnpjValidator</validator-id>
-    	<validator-class>sisEdcuar.validador.ValidaCNPJ</validator-class>
+    	<validator-class>modulos.sisEducar.validador.ValidaCNPJ</validator-class>
 	</validator>
 </faces-config>

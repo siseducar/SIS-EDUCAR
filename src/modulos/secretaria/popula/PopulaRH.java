@@ -3,8 +3,7 @@ package modulos.secretaria.popula;
 import java.sql.SQLException;
 
 import modulos.secretaria.dao.PopulaRHDAO;
-import modulos.secretaria.utils.ConstantesRH;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class PopulaRH 
 {
