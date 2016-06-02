@@ -50,7 +50,9 @@
 	text-align: center
 }
 /* =============== Estilos do AutoComplete =============== */
-
+#cidadeAutoComplete {
+	size: 100%;
+}
 
 /* =============== Estilos do Data Table =============== */
 .order-table{   

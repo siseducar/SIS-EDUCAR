@@ -911,6 +911,20 @@
 								    			<h:column>
 								    				<f:facet name="header"> Sexo </f:facet>
 								    			</h:column>
+								    			<f:facet name="footer">
+										            <h:panelGroup>
+										                <h:commandButton value="first" action="#{myBean.pageFirst}"
+										                    disabled="#{myBean.dataTable.first == 0}" />
+										                <h:commandButton value="prev" action="#{myBean.pagePrevious}"
+										                    disabled="#{myBean.dataTable.first == 0}" />
+										                <h:commandButton value="next" action="#{myBean.pageNext}"
+										                    disabled="#{myBean.dataTable.first + myBean.dataTable.rows
+										                        >= myBean.dataTable.rowCount}" />
+										                <h:commandButton value="last" action="#{myBean.pageLast}"
+										                    disabled="#{myBean.dataTable.first + myBean.dataTable.rows
+										                        >= myBean.dataTable.rowCount}" />
+										            </h:panelGroup>
+										        </f:facet>
 								    		</h:dataTable>
 					    				</h:panelGroup>
 					    			</div>
