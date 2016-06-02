@@ -110,9 +110,8 @@
 							<div class="col-xs-12 col-sm-4">
 								<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
 								<div>
-									<h:inputText id="codNaturalidade"
-										styleClass="col-xs-12 col-sm-12">
-									</h:inputText>
+									<p:autoComplete id="cidadeAutoComplete" required="true"
+						                completeMethod="#{pessoaServlet.sugerirCidades}"  forceSelection="true"/>
 								</div>
 							</div>
 						</div>
@@ -441,17 +440,16 @@
 								<div class="col-xs-12 col-sm-12">
 									<h4 class="header smaller lighter blue" align="center"> Localização no Mapa </h4>
 									<div class="row">									
-		                        		<div class="col-xs-12 col-sm-8">
+		                        		<div class="col-xs-12 col-sm-6">
 		                        			<h:outputLabel value="Endereço"/>
 		                        			<div>
-			                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-6"/>
+			                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-12" disabled="true"/>
 		                        			</div>
 		                        		</div>
 									</div>
 			                    	<div class="space-4"/>
 									<div class="row">
-										<fieldset>
-						                    				                    	
+										<fieldset>   	
 						                    <div id="mapa"/>
 						                </fieldset>
 									</div>
@@ -592,36 +590,17 @@
 											<h:outputLabel value="Foto do Aluno"/>
 											<div>
 												<h:inputFile id="fotoALuno" styleClass="upload" 
-													value="#{pessoaServlet.fotoAluno}"/>
+													value="#{pessoaServlet.alunoDados.fotoAluno}"/>
 											</div>
-											<h:commandButton value="Upload" action="#{pessoaServlet.upload}"/>
+											<h:commandButton value="Upload" action="#{pessoaServlet.upload}">
+												<f:ajax execute="fotoALuno" render="fotoALuno"/>
+											</h:commandButton>
 											<div id="progress" class="progress">
 											    <div class="progress-bar progress-bar-success"/>
 											</div>
-											<div id="files" class="files"/>
-										</div>
-										<div class="col-xs-12 col-sm-3" align="left">
-											<h:outputLabel value="Comprovante de Residência"/>
-											<div>
-												<h:inputFile id="fotoComproResidencia" styleClass="upload"/>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-3" align="left">
-											<h:outputLabel value="Copia Certidão de Nascimento "/>
-											<div>
-												<h:inputFile id="fotoCertiNascimento" styleClass="upload"/>
-											</div>
 										</div>
 									</div>
-									<div class="space-6"/>
-									<div class="col-xs-12 col-sm-12" id="default-buttons">
-										<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"> 
-											<span class="bigger-110"> Upload </span>
-											<i class="ace-icon fa fa-arrow-right icon-on-up"/>
-											<f:ajax event="click" listener="#{pessoaServlet.importar}" resetValues="true"/>
-										</h:commandLink>
-									</div>
-									
+									<div class="space-6"/>									
 								</h:panelGroup>
 							</div>
 						</h:panelGroup>

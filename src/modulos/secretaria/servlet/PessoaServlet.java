@@ -15,10 +15,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
 import org.postgresql.util.Base64;
 import org.primefaces.model.UploadedFile;
 
 import modulos.secretaria.dao.AlunoDAO;
+import modulos.secretaria.dao.CidadeDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
@@ -169,6 +171,8 @@ public class PessoaServlet implements Serializable{
 	
 	/* Componente para validar idade da pessoa */
 	private Boolean menorIdade;
+	
+	private List<String> cidadesAutoComplete;
 
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -235,6 +239,7 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
+		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
@@ -253,6 +258,7 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
+		cidadesAutoComplete = new ArrayList<String>();
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -466,9 +472,25 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
-	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
+	
+	/*
+	 * Metodo autoCompleteCidades
+	 * */
+	public List<String> sugerirCidades(String consulta) {
+	    List<String> cidadesSugeridas = new ArrayList<String>();
+	    
+	    
+	    for (String indiceCidades : cidadesAutoComplete) {
+	        if (indiceCidades.toLowerCase().startsWith(consulta.toLowerCase())) {
+	            cidadesSugeridas.add(indiceCidades);
+	        }
+	    }
+
+	    return cidadesSugeridas;
+	}
+	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -646,6 +668,7 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
+		cidadesAutoComplete =  paramDados.carregaCidades();
 	}
 	
 	public Boolean validaDadosPessoa(){
@@ -785,6 +808,7 @@ public class PessoaServlet implements Serializable{
 		
 		return true;
 	}
+	
 	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
@@ -1268,48 +1292,4 @@ public class PessoaServlet implements Serializable{
 	public void setLatitude(List<String> latitude) {
 		this.latitude = latitude;
 	}
-	
-	
-	
-	private Part fotoAluno;
-	
-	
-	public Part getFotoAluno() {
-		return fotoAluno;
-	}
-
-	public void setFotoAluno(Part fotoAluno) {
-		this.fotoAluno = fotoAluno;
-	}
-
-	
-	
-	
-	
-	public String upload(){
-		
-		return "sucess";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
