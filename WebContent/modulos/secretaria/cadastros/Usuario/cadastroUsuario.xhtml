@@ -70,6 +70,34 @@
 											</div>
 
 											<div class="table-responsive">
+												<h:dataTable id="tablePesquisar" value="#{usuarioServlet.usuariosCadastrados}" var="value"
+									    			styleClass="order-table"
+									    			headerClass="order-table-header"
+									    			rowClasses="order-table-odd-row,order-table-even-row"
+									    		>
+									    			<h:column>
+														<h:selectOneRadio id="tablePesquisar"  value="#{usuarioServlet.usuarioCadastradoSelecionado}"  >
+			                                                <f:selectItem  itemValue="#{value.pkUsuario}" itemLabel="#{value.nome}" />
+			                                            </h:selectOneRadio>
+									    			</h:column>
+									    			
+									    			<h:column>
+									    				<f:facet name="header">CPF</f:facet>
+									    				#{value.cpfcnpj}
+									    			</h:column>
+									    			
+									    			<h:column>
+									    				<f:facet name="header">Usuário</f:facet>
+									    				#{value.nome}
+									    			</h:column>
+									    			
+									    			<h:column>
+									    				<f:facet name="header">Email</f:facet>
+									    				#{value.email}
+									    			</h:column>
+									    		
+									    		</h:dataTable>
+												<!-- 
 												<p:dataTable id="tablePesquisar" tableStyleClass="table table-hover"
 													value="#{usuarioServlet.usuariosCadastrados}"
 													selection="#{usuarioServlet.usuarioCadastradoSelecionado}"
@@ -88,7 +116,7 @@
 													<p:column headerText="Email">
 										                #{value.email}
 										            </p:column>
-												</p:dataTable>
+												</p:dataTable> -->
 											</div>
 										</div>
 										<div class="modal-footer">
