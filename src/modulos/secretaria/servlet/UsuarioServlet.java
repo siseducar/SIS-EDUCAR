@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
@@ -668,6 +669,20 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	
+	private HtmlDataTable dataTable;
+	   
+    public HtmlDataTable getDataTable() {
+          return dataTable;
+    }
+
+    public void setDataTable(HtmlDataTable dataTable) {
+          this.dataTable = dataTable;
+    }            
+
+	
+	
+	
 	/**
 	 * Método usado para a edição do registro que o usuário escolheu
 	 * @author João Paulo
@@ -676,13 +691,19 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
+			
+			Usuario usuarioSelecionada = (Usuario) dataTable.getRowData();
+			System.out.println("Nome Usuario Selecionado  = " + usuarioSelecionada.getNome());
+			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
+			
+			
 			usuario = new Usuario();
 			permissoesSelecionadas = new ArrayList<Permissao>();
 			nomePessoaVinculada = "";
 			
-			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
+			if(usuarioSelecionada != null && usuarioSelecionada.getPkUsuario() != null)
 			{
-				usuario = usuarioCadastradoSelecionado;
+				usuario = usuarioSelecionada;
 				usuario.setConfirmarEmail(usuario.getEmail());
 				
 				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
