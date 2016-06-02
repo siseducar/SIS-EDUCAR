@@ -70,9 +70,10 @@
 											</div>
 
 											<div class="table-responsive">
+												<h:panelGroup id="panelDataTable">
 												<h:dataTable styleClass="order-table col-xs-12 col-sm-12" binding="#{usuarioServlet.dataTable}"
 								    			headerClass="order-table-header" id="tablePesquisar" value="#{usuarioServlet.usuariosCadastrados}" var="value"
-								    			rowClasses="order-table-odd-row,order-table-even-row">
+								    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 									    			<h:column>
 									    				<center>
 								    						<f:facet name="header">CPF</f:facet>
@@ -90,11 +91,34 @@
 									    			<h:column>
 									    				<center>
 															<h:commandLink value="Editar" styleClass="btn btn-white btn-inverse btn-sm">
-																<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }" resetValues="true"/>
+																<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" 
+																	execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }" resetValues="true"/>
 															</h:commandLink>
 									    				</center>
-													</h:column>
+					 								</h:column>
+					 								
+													<f:facet name="footer">
+											            <h:panelGroup>
+											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm"
+											                	disabled="#{usuarioServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm"
+											                	disabled="#{usuarioServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
+											                </h:commandButton>
+											                <h:commandButton value="Proxima" styleClass="btn btn-white btn-inverse btn-sm"
+											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											                <h:commandButton value="Ultima" styleClass="btn btn-white btn-inverse btn-sm"
+											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
 									    		</h:dataTable>
+												</h:panelGroup>
 											</div>
 										</div>
 										<div class="modal-footer">
