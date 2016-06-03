@@ -15,14 +15,24 @@
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
-		<div class="page-header">
+		<div class="page-header col-xs-12 col-sm-12">
 			<h1>
 				Cadastro
 				<small>
-					<i class="ace-icon fa fa-angle-double-right"/> Cadastro de Pessoas
+					<i class="ace-icon fa fa-angle-double-right"></i>
+					Cadastro de Pessoas
 				</small>
 			</h1>
-		</div>	
+		</div>
+		<div class="nav-search">
+			<h5 align="center">
+				<button id="botaoModal" type="button" class="btn btn-white btn-info btn-round " 
+					data-toggle="modal" data-target=".bs-example-modal-lg">
+					<i class="ace-icon fa fa-search bigger-150"/>
+					<span class="bigger-110">Consultar</span>	
+				</button>
+			</h5> 
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
 				<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
@@ -31,12 +41,6 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-10">
 								<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
-							</div>
-							<div class="col-xs-12 col-sm-2" align="center">
-								<button id="botaoModal" type="button" class="btn btn-default navbar-btn" 
-									data-toggle="modal" data-target=".bs-example-modal-lg">Consultar
-									<span class=" glyphicon glyphicon-search"/>	
-								</button>
 							</div>
 						</div>
 						<h:selectOneRadio id="tipoPessoa" 

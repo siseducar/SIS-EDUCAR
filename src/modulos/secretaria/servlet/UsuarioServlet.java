@@ -723,9 +723,8 @@ public class UsuarioServlet implements Serializable
 		{
 			
 			Usuario usuarioSelecionada = (Usuario) dataTable.getRowData();
-			System.out.println("Nome Usuario Selecionado  = " + usuarioSelecionada.getNome());
-			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
-			
+//			System.out.println("Nome Usuario Selecionado  = " + usuarioSelecionada.getNome());
+//			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
 			
 			usuario = new Usuario();
 			permissoesSelecionadas = new ArrayList<Permissao>();

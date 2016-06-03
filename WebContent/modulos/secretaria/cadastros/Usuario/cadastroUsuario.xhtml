@@ -16,7 +16,7 @@
 
 		<ui:define name="scriptConteudo">	
 			<div class="page-content">		
-				<div class="page-header col-xs-12 col-sm-11">
+				<div class="page-header col-xs-12 col-sm-12">
 					<h1>
 						Cadastro
 						<small>
@@ -25,10 +25,11 @@
 						</small>
 					</h1>
 				</div>
-				<div class="nav-search col-xs-12 col-sm-1">
+				<div class="nav-search">
 					<h5 align="center">
-						<a href="#myModal" role="button" data-toggle="modal" class="btn btn btn-info bigger-100 col-xs-12">
+						<a href="#myModal" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
 							<i class="ace-icon fa fa-search bigger-150"/>
+							<span class="bigger-110">Consultar</span>
 						</a>
 					</h5> 
 				</div>
@@ -71,7 +72,7 @@
 
 											<div class="table-responsive">
 												<h:panelGroup id="panelDataTable">
-												<h:dataTable styleClass="order-table col-xs-12 col-sm-12" binding="#{usuarioServlet.dataTable}"
+												<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{usuarioServlet.dataTable}"
 								    			headerClass="order-table-header" id="tablePesquisar" value="#{usuarioServlet.usuariosCadastrados}" var="value"
 								    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 									    			<h:column>
@@ -89,8 +90,12 @@
 														<h:outputLabel value="#{value.email}"/>
 									    			</h:column>
 									    			<h:column>
+								    					<f:facet name="header">Editar</f:facet>
 									    				<center>
-															<h:commandLink value="Editar" styleClass="btn btn-white btn-inverse btn-sm">
+															<h:commandLink styleClass="tooltip-success">
+									    						<span class="green">
+																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span>
 																<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" 
 																	execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }" resetValues="true"/>
 															</h:commandLink>
@@ -98,20 +103,20 @@
 					 								</h:column>
 					 								
 													<f:facet name="footer">
-											            <h:panelGroup>
-											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm"
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first == 0}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
-											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm"
+											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first == 0}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
 											                </h:commandButton>
-											                <h:commandButton value="Proxima" styleClass="btn btn-white btn-inverse btn-sm"
+											                <h:commandButton value="Próxima" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
-											                <h:commandButton value="Ultima" styleClass="btn btn-white btn-inverse btn-sm"
+											                <h:commandButton value="Última" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
