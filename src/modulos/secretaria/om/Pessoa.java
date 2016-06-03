@@ -35,6 +35,7 @@ public class Pessoa
 	private EstadoCivil estadoCivil;
 	private Turno turno;
 	private GrauInstrucao grauInstrucao;
+	private GrauParentesco grauParentesco;
 	private UnidadeEscolar unidadeEscolar;
 	private Endereco endereco;
 	private Pais pais;
@@ -259,6 +260,12 @@ public class Pessoa
 	}
 	public void setCpfResponsavel(Long cpfResponsavel) {
 		this.cpfResponsavel = cpfResponsavel;
+	}
+	public GrauParentesco getGrauParentesco() {
+		return grauParentesco;
+	}
+	public void setGrauParentesco(GrauParentesco grauParentesco) {
+		this.grauParentesco = grauParentesco;
 	}
 	
 

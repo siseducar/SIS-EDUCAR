@@ -5,6 +5,7 @@ import javax.servlet.http.Part;
 public class Aluno 
 {
 	private int pkAluno;
+	private String codigoInep;
 	private String ra;
 	private String ra2;
 	private String folha;
@@ -144,5 +145,11 @@ public class Aluno
 	}
 	public void setDeficiencia(TipoDeficiencia deficiencia) {
 		this.deficiencia = deficiencia;
+	}
+	public String getCodigoInep() {
+		return codigoInep;
+	}
+	public void setCodigoInep(String codigoInep) {
+		this.codigoInep = codigoInep;
 	}
 }
