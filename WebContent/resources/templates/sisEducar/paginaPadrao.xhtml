@@ -3,10 +3,172 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Nome do Sub Menu(Cadastros, Lançamentos, Consultas, Relatórios, Gráficos)
+			</li>
+			<li class="active">
+				<i class="ace-icon glyphicon glyphicon-user"/>Nome da Tela 
+			</li>
+		</ui:define>
 
-	<ui:composition template="/resources/templates/sisEducar/principal.xhtml">
-		<ui:define name="scriptConteudo">
-			
+		<ui:define name="scriptConteudo">	
+			<div class="page-content">		
+				<div class="page-header col-xs-12 col-sm-12">
+					<h1>
+						Nome do Sub Menu(Cadastros, Lançamentos, Consultas, Relatórios, Gráficos)
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							Nome da Tela
+						</small>
+					</h1>
+				</div>
+				<div class="nav-search">
+					<h5 align="center">
+						<a href="#myModal" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+							<i class="ace-icon fa fa-search bigger-150"/>
+							<span class="bigger-110">Consultar</span>
+						</a>
+					</h5> 
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+						<h:form id="formPesquisar" prependId="false">
+							<!-- Modal - Busca -->
+							<div id="myModal" class="modal fade" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"></button>
+											<h3 class=" smaller lighter blue">Buscar (Indicador de tela)(s) cadastrado(s)</h3>
+										</div>
+										
+										<div class="modal-body">
+											<!-- 
+											<div class="form-group">
+												<div>
+													<output>CPF</output>
+													<span class="block input-icon input-icon-right">
+														<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.cpfPesquisar}">
+															<f:converter converterId="converter.CPF"/>
+														</h:inputText>
+														<i class="ace-icon fa fa-credit-card"></i>
+													</span>
+												</div>
+												
+												<div class="">
+														<output>Email</output>
+														<span class="block input-icon input-icon-right"> 
+														<h:inputText
+															type="text" class="form-control"
+															value="#{usuarioServlet.emailPesquisar}" maxlength="11">
+														</h:inputText>
+														<i class="ace-icon fa fa-user"></i>
+													</span>
+												</div>
+											</div>
+ 											-->
+											<div class="table-responsive">
+												<h:panelGroup id="panelDataTable">
+												<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{usuarioServlet.dataTable}"
+								    			headerClass="order-table-header" id="tablePesquisar" value="#{usuarioServlet.usuariosCadastrados}" var="value"
+								    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+									    			<h:column>
+									    				<center>
+								    						<f:facet name="header">CPF</f:facet>
+									    				</center>
+								    					<h:outputLabel value="#{value.cpfcnpj}"/>
+									    			</h:column>
+									    			<h:column>
+								    					<f:facet name="header">Usuário</f:facet>
+									    				<h:outputLabel value="#{value.nome}"/>
+									    			</h:column>
+									    			<h:column>
+								    					<f:facet name="header">Email</f:facet>
+														<h:outputLabel value="#{value.email}"/>
+									    			</h:column>
+									    			<h:column>
+								    					<f:facet name="header">Editar</f:facet>
+									    				<center>
+															<h:commandLink styleClass="tooltip-success">
+									    						<span class="green">
+																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span>
+																<f:ajax event="click" listener="#{usuarioServlet.editar}" render=":formCadastroUsuario" 
+																	execute=":formPesquisar" onevent="function(data) { esconderModalPesquisar(data) }" resetValues="true"/>
+															</h:commandLink>
+									    				</center>
+					 								</h:column>
+					 								
+													<f:facet name="footer">
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{usuarioServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{usuarioServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
+											                </h:commandButton>
+											                <h:commandButton value="Próxima" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											                <h:commandButton value="Última" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
+											                </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
+									    		</h:dataTable>
+												</h:panelGroup>
+											</div>
+										</div>
+										
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+												Fechar
+											</button>
+											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+												<span class="bigger-110">Pesquisar</span>	
+												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+												<f:ajax event="click" listener="#{usuarioServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
+											</h:commandLink>
+										</div>
+									</div>
+								</div>
+							</div><!-- FIM - Modal - Busca -->
+							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.css" />
+						</h:form>
+						<h:form id="formCadastroUsuario">
+								
+							<div class="col-xs-12 col-sm-6" id="default-buttons">
+								<button type="reset" class="btn btn-white btn-info btn-round">
+									<i class="ace-icon fa fa-file"/>
+									<span class="bigger-110">Novo</span>
+								</button>
+								
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+									<span class="bigger-110">Registrar</span>	
+									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario"/>
+								</h:commandLink>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.css"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.min.js"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.bootstrap.js"/>
+			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.js"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 		</ui:define>
 	</ui:composition>
 </h:html>
