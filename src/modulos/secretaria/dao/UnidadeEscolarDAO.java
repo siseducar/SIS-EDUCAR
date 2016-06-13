@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -211,5 +214,104 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		}
 		
 		return listaUnidadeEscolar;
+	}
+	
+	/**
+	 * Busca todas as unidades escolares do banco de dados pelos filtros que o usuário selecionar na tela
+	 * @author João Paulo
+	 * @param codigo
+	 * @param nome
+	 * @param cpfDiretor
+	 * @return
+	 */
+	public List<UnidadeEscolar> buscar(String codigo, String nome, String cpfDiretor)
+	{
+		try 
+		{
+			Integer numeroArqumentos = 1;
+			UnidadeEscolar unidadeEscolar = null;
+			Pessoa diretor = null;
+			Cidade cidade = null;
+			RedeEnsino redeEnsino = null;
+			List<UnidadeEscolar> unidadesAux = new ArrayList<UnidadeEscolar>();
+			String querySQL = "SELECT u.* FROM UnidadeEscolar u"
+					+ " LEFT OUTER JOIN Pessoa p ON(u.fkDiretor = p.pkPessoa)"
+					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
+					+ " WHERE u.status = ?";
+			
+			if(codigo!=null && codigo.length()>0)
+			{
+				querySQL += " AND u.codigo like ?";
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				querySQL+= " AND u.nome like ?";
+			}
+			if(cpfDiretor!=null && cpfDiretor.length() >0)
+			{
+				querySQL+= " AND p.cpf like ?";
+			}
+			
+			querySQL+= " ORDER BY codigo";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos ++;
+			if(codigo!=null && codigo.length()>0)
+			{
+				ps.setObject(numeroArqumentos, "%" + codigo + "%");
+				numeroArqumentos ++;
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + nome + "%");
+				numeroArqumentos ++;
+			}
+			if(cpfDiretor!=null && cpfDiretor.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + cpfDiretor + "%");
+				numeroArqumentos ++;
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				cidade = new Cidade();
+				diretor = new Pessoa();
+				redeEnsino = new RedeEnsino();
+				unidadeEscolar = new UnidadeEscolar();
+				unidadeEscolar.setPkUnidadeEscolar(rs.getInt("pkUnidadeEscolar"));
+				unidadeEscolar.setNome(rs.getString("nome"));
+				unidadeEscolar.setCodigo(rs.getString("codigo"));
+				unidadeEscolar.setUnidadeControlada(rs.getBoolean("unidadeControlada"));
+				unidadeEscolar.setUnidadeInformatizada(rs.getBoolean("unidadeInformatizada"));
+				unidadeEscolar.setStatus(rs.getInt("status"));
+				unidadeEscolar.setRedeEnsino(redeEnsino);
+//				unidadeEscolar.setDataLancamento(rs.getDate("dataLancamento"));
+//				unidadeEscolar.setRaAluno(rs.getString("raAluno"));
+//				unidadeEscolar.setGenero(rs.getString("genero"));
+				
+				if(rs.getObject("fkDiretor")!=null)
+				{
+					diretor.setPkPessoa(rs.getInt("fkDiretor"));
+					unidadeEscolar.setDiretor(diretor);
+					unidadeEscolar.setDiretor(new PessoaDAO().obtemPessoaSimples(unidadeEscolar.getDiretor().getPkPessoa()));
+				}
+				if(rs.getObject("fkMunicipioCliente")!=null)
+				{
+					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+					unidadeEscolar.setFkMunicipioCliente(cidade);
+				}
+				unidadesAux.add(unidadeEscolar);
+			}
+			
+			return unidadesAux;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println(e);
+			return null;
+		}
 	}
 }
