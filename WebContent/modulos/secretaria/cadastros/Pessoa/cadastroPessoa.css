@@ -77,3 +77,11 @@
 	background:none repeat scroll 0 0 #F9F9F9;
 	border-top:1px solid #BBBBBB;
 }
+
+.calendario {
+	z-index: 10;
+}
+
+#grow {
+	z-index: 999;
+}
