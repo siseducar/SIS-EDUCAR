@@ -306,13 +306,34 @@ public class UnidadeEscolarServlet implements Serializable
 	{
 		try 
 		{
-			
 			UnidadeEscolar unidadeEscolarSelecionada = (UnidadeEscolar) dataTable.getRowData();
 			
 			if(unidadeEscolarSelecionada != null && unidadeEscolarSelecionada.getPkUnidadeEscolar() != null)
 			{
+				unidadeEscolar = unidadeEscolarSelecionada;
+				if(unidadeEscolarSelecionada.getRedeEnsino()!=null)
+				{
+					redeEnsinoDado = unidadeEscolarSelecionada.getRedeEnsino();
+				}
+				if(unidadeEscolarSelecionada.getRegiao()!=null)
+				{
+					regiaoDado = unidadeEscolarSelecionada.getRegiao();
+				}
+				if(unidadeEscolarSelecionada.getSituacaoFuncionamento()!=null)
+				{
+					situacaoFuncionamentoDado = unidadeEscolarSelecionada.getSituacaoFuncionamento();
+				}
+				if(unidadeEscolarSelecionada.getTipoOcupacao()!=null)
+				{
+					tipoOcupacaoDado = unidadeEscolarSelecionada.getTipoOcupacao();
+				}
+				if(unidadeEscolarSelecionada.getTerreno()!=null)
+				{
+					terreno = unidadeEscolarSelecionada.getTerreno();
+				}
 				if(unidadeEscolarSelecionada.getDiretor()!=null && unidadeEscolarSelecionada.getDiretor().getNome()!=null)
 				{
+					cpfDiretor = unidadeEscolarSelecionada.getDiretor().getCpf().toString();
 					nomeDiretor = unidadeEscolarSelecionada.getDiretor().getNome();
 				}
 			}

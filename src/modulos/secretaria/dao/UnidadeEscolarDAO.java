@@ -11,6 +11,10 @@ import java.util.List;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.RedeEnsino;
+import modulos.secretaria.om.Regiao;
+import modulos.secretaria.om.SituacaoFuncionamento;
+import modulos.secretaria.om.Terreno;
+import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -231,12 +235,17 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			Integer numeroArqumentos = 1;
 			UnidadeEscolar unidadeEscolar = null;
 			Pessoa diretor = null;
+			Regiao regiao = null;
 			Cidade cidade = null;
+			Terreno terreno = null;
+			SituacaoFuncionamento situacaoFuncionamento = null;
 			RedeEnsino redeEnsino = null;
+			TipoOcupacao tipoOcupacao = null;
 			List<UnidadeEscolar> unidadesAux = new ArrayList<UnidadeEscolar>();
-			String querySQL = "SELECT u.* FROM UnidadeEscolar u"
+			String querySQL = "SELECT u.*, t.* FROM UnidadeEscolar u"
 					+ " LEFT OUTER JOIN Pessoa p ON(u.fkDiretor = p.pkPessoa)"
 					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
+					+ " LEFT OUTER JOIN Terreno t ON(u.fkTerreno = t.pkTerreno)"
 					+ " WHERE u.status = ?";
 			
 			if(codigo!=null && codigo.length()>0)
@@ -279,19 +288,49 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				cidade = new Cidade();
 				diretor = new Pessoa();
+				terreno = new Terreno();
+				regiao = new Regiao();
+				tipoOcupacao = new TipoOcupacao();
 				redeEnsino = new RedeEnsino();
+				situacaoFuncionamento = new SituacaoFuncionamento();
 				unidadeEscolar = new UnidadeEscolar();
 				unidadeEscolar.setPkUnidadeEscolar(rs.getInt("pkUnidadeEscolar"));
-				unidadeEscolar.setNome(rs.getString("nome"));
 				unidadeEscolar.setCodigo(rs.getString("codigo"));
+				unidadeEscolar.setNome(rs.getString("nome"));
 				unidadeEscolar.setUnidadeControlada(rs.getBoolean("unidadeControlada"));
 				unidadeEscolar.setUnidadeInformatizada(rs.getBoolean("unidadeInformatizada"));
 				unidadeEscolar.setStatus(rs.getInt("status"));
-				unidadeEscolar.setRedeEnsino(redeEnsino);
-//				unidadeEscolar.setDataLancamento(rs.getDate("dataLancamento"));
-//				unidadeEscolar.setRaAluno(rs.getString("raAluno"));
-//				unidadeEscolar.setGenero(rs.getString("genero"));
 				
+				if(rs.getObject("fkRedeEnsino")!=null)
+				{
+					redeEnsino.setPkRedeEnsino(rs.getInt("fkRedeEnsino"));
+					unidadeEscolar.setRedeEnsino(redeEnsino);
+				}
+				if(rs.getObject("fkRegiao")!=null)
+				{
+					regiao.setPkRegiao(rs.getInt("fkRegiao"));
+					unidadeEscolar.setRegiao(regiao);
+				}
+				if(rs.getObject("fkSituacaoFuncionamento")!=null)
+				{
+					situacaoFuncionamento.setPkSituacaoFuncionamento(rs.getInt("fkSituacaoFuncionamento"));
+					unidadeEscolar.setSituacaoFuncionamento(situacaoFuncionamento);
+				}
+				if(rs.getObject("fkTipoOcupacao")!=null)
+				{
+					tipoOcupacao.setPkTipoOcupacao(rs.getInt("fkTipoOcupacao"));
+					unidadeEscolar.setTipoOcupacao(tipoOcupacao);
+				}
+				if(rs.getObject("fkTerreno")!=null)
+				{
+					terreno.setPkTerreno(rs.getInt("fkTerreno"));
+					terreno.setDistanciaAteSede(rs.getDouble("distanciaAteSede"));
+					terreno.setAreaTerrenoM2(rs.getDouble("areaTerrenoM2"));
+					terreno.setAreaConstrucaoM2(rs.getDouble("areaConstrucaoM2"));
+					terreno.setLatitude(rs.getDouble("latitude"));
+					terreno.setLongitude(rs.getDouble("longitude"));
+					unidadeEscolar.setTerreno(terreno);
+				}
 				if(rs.getObject("fkDiretor")!=null)
 				{
 					diretor.setPkPessoa(rs.getInt("fkDiretor"));
