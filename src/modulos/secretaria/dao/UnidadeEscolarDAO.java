@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Cidade;
-import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.SituacaoFuncionamento;
@@ -234,19 +234,29 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		{
 			Integer numeroArqumentos = 1;
 			UnidadeEscolar unidadeEscolar = null;
-			Pessoa diretor = null;
 			Regiao regiao = null;
 			Cidade cidade = null;
 			Terreno terreno = null;
 			SituacaoFuncionamento situacaoFuncionamento = null;
 			RedeEnsino redeEnsino = null;
+			Endereco endereco = null;
 			TipoOcupacao tipoOcupacao = null;
+			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
+			SituacaoFuncionamentoDAO situacaoFuncionamentoDAO = new SituacaoFuncionamentoDAO();
+			RegiaoDAO regiaoDAO = new RegiaoDAO();
+			TerrenoDAO terrenoDAO = new TerrenoDAO();
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			TipoOcupacaoDAO tipoOcupacaoDAO = new TipoOcupacaoDAO();
 			List<UnidadeEscolar> unidadesAux = new ArrayList<UnidadeEscolar>();
-			String querySQL = "SELECT u.*, t.* FROM UnidadeEscolar u"
+			String querySQL = "SELECT u.* FROM UnidadeEscolar u"
 					+ " LEFT OUTER JOIN Pessoa p ON(u.fkDiretor = p.pkPessoa)"
 					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
 					+ " LEFT OUTER JOIN Terreno t ON(u.fkTerreno = t.pkTerreno)"
-					+ " WHERE u.status = ?";
+					+ " LEFT OUTER JOIN Endereco e ON(u.fkEndereco = e.pkEndereco)"
+					+ " WHERE u.status = ?"
+					+ " AND t.status = ?"
+					+ " AND re.status = ?"
+					+ " AND e.status = ?";
 			
 			if(codigo!=null && codigo.length()>0)
 			{
@@ -264,6 +274,12 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			querySQL+= " ORDER BY codigo";
 			ps = con.prepareStatement(querySQL);
 			
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
 			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArqumentos ++;
 			if(codigo!=null && codigo.length()>0)
@@ -286,8 +302,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			
 			while(rs.next())
 			{
+				endereco = new Endereco();
 				cidade = new Cidade();
-				diretor = new Pessoa();
 				terreno = new Terreno();
 				regiao = new Regiao();
 				tipoOcupacao = new TipoOcupacao();
@@ -303,39 +319,37 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				
 				if(rs.getObject("fkRedeEnsino")!=null)
 				{
-					redeEnsino.setPkRedeEnsino(rs.getInt("fkRedeEnsino"));
+					redeEnsino = redeEnsinoDAO.buscarRedeEnsino(rs.getInt("fkRedeEnsino"));
 					unidadeEscolar.setRedeEnsino(redeEnsino);
 				}
 				if(rs.getObject("fkRegiao")!=null)
 				{
-					regiao.setPkRegiao(rs.getInt("fkRegiao"));
+					regiao = regiaoDAO.buscarRegiao(rs.getInt("fkRegiao"));
 					unidadeEscolar.setRegiao(regiao);
 				}
 				if(rs.getObject("fkSituacaoFuncionamento")!=null)
 				{
-					situacaoFuncionamento.setPkSituacaoFuncionamento(rs.getInt("fkSituacaoFuncionamento"));
+					situacaoFuncionamento = situacaoFuncionamentoDAO.buscarSituacaoFuncionamento(rs.getInt("fkSituacaoFuncionamento"));
 					unidadeEscolar.setSituacaoFuncionamento(situacaoFuncionamento);
 				}
 				if(rs.getObject("fkTipoOcupacao")!=null)
 				{
-					tipoOcupacao.setPkTipoOcupacao(rs.getInt("fkTipoOcupacao"));
+					tipoOcupacao = tipoOcupacaoDAO.buscarTipoOcupacao(rs.getInt("fkTipoOcupacao"));
 					unidadeEscolar.setTipoOcupacao(tipoOcupacao);
 				}
 				if(rs.getObject("fkTerreno")!=null)
 				{
-					terreno.setPkTerreno(rs.getInt("fkTerreno"));
-					terreno.setDistanciaAteSede(rs.getDouble("distanciaAteSede"));
-					terreno.setAreaTerrenoM2(rs.getDouble("areaTerrenoM2"));
-					terreno.setAreaConstrucaoM2(rs.getDouble("areaConstrucaoM2"));
-					terreno.setLatitude(rs.getDouble("latitude"));
-					terreno.setLongitude(rs.getDouble("longitude"));
+					terreno = terrenoDAO.buscarTerreno(rs.getInt("fkTerreno"));
 					unidadeEscolar.setTerreno(terreno);
 				}
 				if(rs.getObject("fkDiretor")!=null)
 				{
-					diretor.setPkPessoa(rs.getInt("fkDiretor"));
-					unidadeEscolar.setDiretor(diretor);
-					unidadeEscolar.setDiretor(new PessoaDAO().obtemPessoaSimples(unidadeEscolar.getDiretor().getPkPessoa()));
+					unidadeEscolar.setDiretor(new PessoaDAO().obtemPessoaSimples(rs.getInt("fkDiretor")));
+				}
+				if(rs.getObject("fkEndereco")!=null)
+				{
+					endereco = enderecoDAO.buscarEndereco(rs.getInt("fkEndereco"));
+					unidadeEscolar.setEndereco(endereco);
 				}
 				if(rs.getObject("fkMunicipioCliente")!=null)
 				{

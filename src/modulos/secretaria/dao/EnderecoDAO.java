@@ -207,4 +207,50 @@ public class EnderecoDAO extends SisEducarDAO
 			return null;
 		}
 	}
+	
+	/**
+	 * Busca um endereço pelos parâmetros passados
+	 * @author João Paulo
+	 * @param pkEndereco
+	 * @return Endereco
+	 * @throws SQLException
+	 */
+	public Endereco buscarEndereco(Integer pkEndereco) throws SQLException
+	{
+		Cidade cidadeEndereco = null;
+		Cidade cidadeEnderecoMunicipioCliente = null;
+		Endereco endereco = null;
+		String querySQL = "SELECT * FROM Endereco "
+				+ " WHERE status = ?"
+				+ " AND pkEndereco = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkEndereco);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			cidadeEndereco = new Cidade();
+			cidadeEnderecoMunicipioCliente = new Cidade();
+			endereco = new Endereco();
+			endereco.setPkEndereco(rs.getInt("pkEndereco"));
+			endereco.setCep(rs.getInt("cep"));
+			endereco.setLogradouro(rs.getString("logradouro"));
+			endereco.setBairro(rs.getString("bairro"));
+			endereco.setNumero(rs.getString("numero"));
+			endereco.setComplemento(rs.getString("complemento"));
+			endereco.setTipo(rs.getString("tipo"));
+			
+			cidadeEndereco.setPkCidade(rs.getInt("fkCidade"));
+			endereco.setCidade(cidadeEndereco);
+			
+			cidadeEnderecoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			endereco.setFkMunicipioCliente(cidadeEnderecoMunicipioCliente);
+			
+			return endereco;
+		}
+		
+		return null;
+	}
 }

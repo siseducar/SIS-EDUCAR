@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class TipoOcupacaoDAO {
 
@@ -40,5 +41,39 @@ public class TipoOcupacaoDAO {
 		}
 		
 		return listaTipoOcupacao;
+	}
+	
+	/**
+	 * Busca um tipo ocupação pelos parâmetros passados
+	 * @author João Paulo
+	 * @param pkTipoOcupacao
+	 * @return TipoOcupacao
+	 * @throws SQLException
+	 */
+	public TipoOcupacao buscarTipoOcupacao(Integer pkTipoOcupacao) throws SQLException
+	{
+		TipoOcupacao tipoOcupacao = null;
+		String querySQL = "SELECT * FROM TipoOcupacao "
+				+ " WHERE status = ?"
+				+ " AND pkTipoOcupacao = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkTipoOcupacao);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			tipoOcupacao = new TipoOcupacao();
+			tipoOcupacao.setPkTipoOcupacao(rs.getInt("pkTipoOcupacao"));
+			tipoOcupacao.setCodigo(rs.getString("codigo"));
+			tipoOcupacao.setDescricao(rs.getString("descricao"));
+			tipoOcupacao.setStatus(rs.getInt("status"));
+			tipoOcupacao.setOrdemExibicao(rs.getInt("ordemExibicao"));
+			
+			return tipoOcupacao;
+		}
+		
+		return null;
 	}
 }

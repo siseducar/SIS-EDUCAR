@@ -331,6 +331,10 @@ public class UnidadeEscolarServlet implements Serializable
 				{
 					terreno = unidadeEscolarSelecionada.getTerreno();
 				}
+				if(unidadeEscolarSelecionada.getEndereco()!=null)
+				{
+					enderecoDado = unidadeEscolarSelecionada.getEndereco();
+				}
 				if(unidadeEscolarSelecionada.getDiretor()!=null && unidadeEscolarSelecionada.getDiretor().getNome()!=null)
 				{
 					cpfDiretor = unidadeEscolarSelecionada.getDiretor().getCpf().toString();

@@ -6,6 +6,7 @@ public class RedeEnsino
 	private String codigo;
 	private String nome;
 	private int status;
+	private int ordemExibicao;
 	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkRedeEnsino() {
@@ -37,6 +38,12 @@ public class RedeEnsino
 	}
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
+	}
+	public int getOrdemExibicao() {
+		return ordemExibicao;
+	}
+	public void setOrdemExibicao(int ordemExibicao) {
+		this.ordemExibicao = ordemExibicao;
 	}
 	
 
