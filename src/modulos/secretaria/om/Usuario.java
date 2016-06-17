@@ -1,11 +1,14 @@
 package modulos.secretaria.om;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
 
-public class Usuario 
+public class Usuario implements Serializable
 {
+    private static final long serialVersionUID = 1094801825228386363L;
+    
 	/* Variaveis*/
 	private String raAluno;
 	private String cpfcnpj;
@@ -23,8 +26,6 @@ public class Usuario
 	private Cidade fkMunicipioCliente;
 	
 	private List<Permissao> permissoes;
-
-	public Usuario() {}
 	
 	/* Getters and Setters */
 	public String getNome() 				{ return nome; }

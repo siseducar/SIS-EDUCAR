@@ -1,9 +1,13 @@
 package modulos.sisEducar.om;
 
+import java.io.Serializable;
+
 import modulos.secretaria.om.Cidade;
 
-public class ChaveAcesso 
-{
+public class ChaveAcesso implements Serializable {
+	
+    private static final long serialVersionUID = 1L;
+    
 	private Integer pkChaveAcesso;
 	private String chave;
 	private Integer status;

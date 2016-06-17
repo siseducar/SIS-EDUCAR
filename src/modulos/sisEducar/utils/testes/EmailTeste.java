@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import modulos.sisEducar.om.Email;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.EmailUtils;
  
 public class EmailTeste extends SisEducarServlet

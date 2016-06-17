@@ -1,4 +1,4 @@
-package modulos.sisEducar.sisEducarServlet;
+package modulos.sisEducar.servlet;
 
 import java.io.Serializable;
 import java.security.MessageDigest;

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.sisEducarServlet.LoginServlet;
+import modulos.sisEducar.servlet.LoginServlet;
 
 public class UsuarioTeste {
 

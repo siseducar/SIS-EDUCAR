@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <h:html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:corejsf="http://corejsf.com"
-	xmlns:util="http://java.sun.com/jsf/composite/util">
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 	<ui:define name="barraNavegacao">
@@ -17,46 +15,218 @@
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
-		<div class="page-content">
-			<div class="page-header col-xs-12 col-sm-11">
-				<h1 style="color: green">
-					<small> 
-						Cadastro
-						<i class="ace-icon fa fa-angle-double-right"/> 
-					</small>
+		<div class="page-header col-xs-12 col-sm-12">
+			<h1>
+				Cadastro
+				<small>
+					<i class="ace-icon fa fa-angle-double-right"></i>
 					Cadastro de Pessoas
-				</h1>
-				
-			</div>
-			<div class="nav-search col-xs-12 col-sm-1">
-				<h5 align="center">
-					<a href="#modal-table" role="button" data-toggle="modal" class="btn btn-app btn-light btn-xs">
-						<i class="ace-icon fa fa-search-plus bigger-160"/>
-						Consulta
-					</a>
-				</h5> 
-			</div>
-			<div class="row">
-				<div class="col-xs-12 col-sm-12">
-					<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
-						<h:panelGroup id="dadosGenericos" style="width: 100%"
-							class="clearfix form-actions">
-							<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
-							<h:selectOneRadio id="tipoPessoa" 
-								value="#{pessoaServlet.pessoaDados.tipoPessoa}">
-								<f:selectItem itemLabel="Pessoa" itemValue="0"/>
-								<f:selectItem itemLabel="Aluno" itemValue="1"/>
-								<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-								<p:ajax event="change" update="dadosComplementares, dadosResponsavel" listener="#{pessoaServlet.complementoDados}"/>
-							</h:selectOneRadio>
-							<div class="space-4"/>
+				</small>
+			</h1>
+		</div>
+		<div class="nav-search">
+			<h5 align="center">
+				<button id="botaoModal" type="button" class="btn btn-white btn-info btn-round " 
+					data-toggle="modal" data-target=".bs-example-modal-lg">
+					<i class="ace-icon fa fa-search bigger-150"/>
+					<span class="bigger-110">Consultar</span>	
+				</button>
+			</h5> 
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
+					<h:panelGroup id="dadosGenericos" style="width: 100%"
+						class="clearfix form-actions">
+						<div class="row">
+							<div class="col-xs-12 col-sm-10">
+								<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
+							</div>
+						</div>
+						<h:selectOneRadio id="tipoPessoa" 
+							value="#{pessoaServlet.pessoaDados.tipoPessoa}">
+							<f:selectItem itemLabel="Pessoa" itemValue="0"/>
+							<f:selectItem itemLabel="Aluno" itemValue="1"/>
+							<f:selectItem itemLabel="Funcionario" itemValue="2"/>
+							<p:ajax event="change" update="dadosComplementares, dadosResponsavel" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
+						</h:selectOneRadio>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12">
+									<h:outputLabel 
+									value="#{mensagens['label.cadastro.pessoa.nome']}" />
+								<div>
+									<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12"
+										value="#{pessoaServlet.pessoaDados.nome}"/>
+								</div>
+							</div>
+						</div>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.cpf']}" for="numCpf"/>
+								<div>
+									<h:inputText type="text" id="numCpf"
+										styleClass="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+										value="#{pessoaServlet.pessoaDados.cpf}">
+										<f:validator validatorId="validar.CpfValidator"/>
+										<f:converter converterId="converter.CPF"/>
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel 
+									value="#{mensagens['label.cadastro.pessoa.rg']}" for="numRg"/>
+								<div>
+									<h:inputText type="text" id="numRg"
+										styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG"
+										value="#{pessoaServlet.pessoaDados.rg}">
+										<f:converter converterId="converter.RG"/>
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
+								<div>
+									<h:inputText type="date" id="dataNasci" 
+										styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento"
+										value="#{pessoaServlet.pessoaDados.dataNascimento}">
+										<f:converter converterId="converter.DATA"/>
+										<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="dadosResponsavel"/>
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.sexo']}"/>
+								<div>
+									<h:selectOneMenu id="codSexo"
+										class="form-control" title="Sexo da Pessoa"
+										value="#{pessoaServlet.pessoaDados.sexo}">
+										<f:selectItem itemLabel="Selecione..." itemValue=""/>
+										<f:selectItem itemLabel="Masculino" itemValue="1"/>
+										<f:selectItem itemLabel="Feminino" itemValue="2"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-4">
+								<h:outputLabel value="#{mensagens['label.cadastro.pessoa.naturalidade']}"/>
+								<div>
+									<h:inputText id="codNaturalidade"
+										styleClass="col-xs-12 col-sm-12">
+									</h:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.nacionalidade']}"/>
+								<div>
+									<h:selectOneMenu id="codNacionalidade"
+										class="form-control" title="Nacionadlidade da Pessoa"
+										value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
+											var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.raca']}"/>
+								<div>
+									<h:selectOneMenu id="codRaca"
+										class="form-control" title="Raça/Cor da Pessoa" 
+										value="#{pessoaServlet.racaDados.pkRaca}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboRaca}"
+											var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.esta.civil']}"/>
+								<div>
+									<h:selectOneMenu id="codEstCivil"
+										class="form-control" title="Estado Civil da Pessoa"
+										value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboEstadoCivil}"
+											var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.grau.instru']}"/>
+								<div>
+									<h:selectOneMenu id="codGrauInstru"
+										class="form-control" title="Grau de Instrução da Pessoa"
+										value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboGrauInstrucao}"
+											var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.situ.econo']}"/>
+								<div>
+									<h:selectOneMenu id="codSituEconomica"
+										class="form-control" title="Situação Econômica da Pessoa"
+										value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboSituacaoEconomica}"
+											var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel
+									value="#{mensagens['label.cadastro.pessoa.religiao']}"/>
+								<div>
+									<h:selectOneMenu id="codReligiao"
+										class="form-control" title="Religião da Pessoa"
+										value="#{pessoaServlet.religiaoDados.pkReligiao}">
+										<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										<f:selectItems value="#{pessoaServlet.comboReligiao}"
+											var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup id="dadosResponsavel">
+						<h:panelGroup style="width: 100%"
+							class="clearfix form-actions" rendered="#{pessoaServlet.menorIdade}">
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+							<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
 							<div class="row">
-								<div class="col-xs-12 col-sm-12">
-										<h:outputLabel 
-										value="#{mensagens['label.cadastro.pessoa.nome']}" />
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
 									<div>
-										<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12"
-											value="#{pessoaServlet.pessoaDados.nome}"/>
+										<h:inputText type="text" id="numCpfMae"
+											class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+											value="#{pessoaServlet.pessoaDados.cpfMae}">
+											<f:validator validatorId="validar.CpfValidator"/>
+											<f:converter converterId="converter.CPF"/>
+											<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-8">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.nome.mae']}"/>
+									<div>
+										<h:inputText type="text" id="nomeMaeAluno" class="col-sm-12"
+											value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}"/>
 									</div>
 								</div>
 							</div>
@@ -64,849 +234,731 @@
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.cpf']}" for="numCpf"/>
+										value="#{mensagens['label.cadastro.pessoa.cpf.pai']}"/>
 									<div>
-										<h:inputText type="text" id="numCpf"
-											styleClass="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-											value="#{pessoaServlet.pessoaDados.cpf}">
+										<h:inputText type="text" id="numCpfPai"
+											class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+											value="#{pessoaServlet.pessoaDados.cpfPai}">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
+											<p:ajax event="blur" listener="#{pessoaServlet.validaNomePai}" update="nomePaiAluno"/>
 										</h:inputText>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel 
-										value="#{mensagens['label.cadastro.pessoa.rg']}" for="numRg"/>
+								<div class="col-xs-12 col-sm-8">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.nome.pai']}"/>
 									<div>
-										<h:inputText type="text" id="numRg"
-											styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG"
-											value="#{pessoaServlet.pessoaDados.rg}">
-											<f:converter converterId="converter.RG"/>
+										<h:inputText type="text" id="nomePaiAluno" class="col-xs-12 col-sm-12"
+											value="#{pessoaServlet.pessoaDados.nomePai}" disabled="#{pessoaServlet.nomePai}"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
+									<div>
+										<h:inputText type="text" id="numCpfResponsavel"
+											class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
+											value="#{pessoaServlet.pessoaDados.cpfResponsavel}">
+											<f:validator validatorId="validar.CpfValidator"/>
+											<f:converter converterId="converter.CPF"/>
+											<p:ajax event="blur" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
 										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-8">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.nome.respon']}"/>
+									<div>
+										<h:inputText type="text" id="nomeResponsavelAluno" class="col-xs-12 col-sm-12"
+											value="#{pessoaServlet.pessoaDados.nomeResponsavel}"
+											disabled="#{pessoaServlet.nomeResponsavel}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
+										value="#{mensagens['label.cadastro.aluno.tipo.responsavel']}"/>
 									<div>
-										<h:inputText type="date" id="dataNasci" 
-											styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento"
-											value="#{pessoaServlet.pessoaDados.dataNascimento}">
-											<f:converter converterId="converter.DATA"/>
-											<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="dadosResponsavel"/>
-										</h:inputText>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.sexo']}"/>
-									<div>
-										<h:selectOneMenu id="codSexo"
-											class="form-control" title="Sexo da Pessoa"
-											value="#{pessoaServlet.pessoaDados.sexo}">
-											<f:selectItem itemLabel="Selecione..." itemValue=""/>
-											<f:selectItem itemLabel="Masculino" itemValue="1"/>
-											<f:selectItem itemLabel="Feminino" itemValue="2"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Estado de Nascimento"/>
-									<div>
-										<h:selectOneMenu id="estadoNaturalidade" 
-											class="form-control" value="#{pessoaServlet.estadoNaturalidadeDados.pkEstado}">											
-											<f:selectItem itemLabel="Selecione..." itemValue=""/>
-											<f:selectItems value="#{pessoaServlet.comboEstadoNaturalidade}"
-													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-											<p:ajax event="change" update="codCidadeNaturalidade"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Cidade de Nascimento"/>
-									<div>
-										<h:selectOneMenu id="codCidadeNaturalidade"
-											class="form-control" value="#{pessoaServlet.cidadeNaturalidadeDados.pkCidade}">
+										<h:selectOneMenu class="form-control" id="codTipoResponsavel">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboCidadeNaturalidade}"
+										</h:selectOneMenu>
+									</div>
+								</div>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+					<h:panelGroup id="enderePessoa" style="width: 100%"
+						class="clearfix form-actions">
+						<div id="conteudoEndereco">
+							<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
+									<div>
+										<h:selectOneMenu id="codPais"
+											class="form-control" title="Pais residente"
+											value="#{pessoaServlet.paisDados.pkPais}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboPais}"
+												var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
+											<p:ajax event="change" update="codEstado, codCidade"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12  col-sm-3">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
+									<div>
+										<h:selectOneMenu id="codEstado"
+											class="form-control" title="Estado residente"
+											value="#{pessoaServlet.estadoDados.pkEstado}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboEstado}"
+												var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
+											<p:ajax event="change" update="codCidade"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12  col-sm-4">
+										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
+									<div>
+										<h:selectOneMenu id="codCidade" name="codCidade"
+											class="form-control" title="Cidade residente"
+											value="#{pessoaServlet.cidadeDados.pkCidade}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboCidade}"
 												var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
+									<div>
+										<h:inputText
+											styleClass="col-xs-10 col-sm-12 cep" id="numCep" title="Numero do CEP"
+											value="#{pessoaServlet.enderecoDados.cep}">
+											<f:converter converterId="converter.CEP"/>
+										</h:inputText>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<h:outputLabel
+										value="Logradouro"/>
+									<div>
+										<h:inputText type="text" id="nomeLogradouro" name="nomeLogradouro"
+											styleClass="col-xs-12 col-sm-12"
+											value="#{pessoaServlet.enderecoDados.logradouro}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-1">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.pessoa.numero']}"/>
+									<div>
+										<h:inputText type="text" id="numCasa" name="numCasa"
+											styleClass="col-xs-3 col-sm-12" title="Numero da Casa"
+												value="#{pessoaServlet.enderecoDados.numero}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.pessoa.bairro']}"/>
+									<div>
+										<h:inputText type="text" id="codBairro" name="codBairro"
+											styleClass="col-xs-12 col-sm-12" title="Nome do Bairro"
+											value="#{pessoaServlet.enderecoDados.bairro}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}"/>
+									<div>
+										<h:inputText type="text" id="codComplemento"
+											styleClass="col-xs-10 col-sm-12" title="Complemento da Casa"
+											value="#{pessoaServlet.enderecoDados.complemento}"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-4">
+			                    	<h:outputLabel value="Latitude" />
+			                    	<div>
+			                    		<h:inputText id="txtLatitude" name="txtLatitude"
+			                    			value="#{pessoaServlet.latitude}" styleClass="col-xs-10 col-sm-12"/>
+			                    	</div>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<h:outputLabel value="Longitude"/>
+									<div>
+										<h:inputText id="txtLongitude" name="txtLongitude" styleClass="col-xs-10 col-sm-12"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
+									<div>
+										<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
+											class="form-control" title="Tipo de Zona Residencial">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboZonaResidencial}"
+												var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}"/>
+									<div>
+										<h:inputText type="number" id="numTelefone"
+											styleClass="col-sm-12 telResidencial" title="Numero do Celular"
+											value="#{pessoaServlet.pessoaDados.telefoneResidencial}">
+											<f:converter converterId="converter.TELRESIDENCIAL"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}"/>
+									<div>
+										<h:inputText type="number" id="numCelular"
+											styleClass="col-sm-12 telCelular" title="Numero do Celular"
+											value="#{pessoaServlet.pessoaDados.telefoneCelular}">
+											<f:converter converterId="converter.TELCELULAR"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12  col-sm-6">
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}"/>
+									<div>
+										<h:inputText type="text" id="email"
+											styleClass="col-xs-12 col-sm-12" title="E-mail da Pessoa"
+											value="#{pessoaServlet.pessoaDados.email}"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-6"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<h4 class="header smaller lighter blue" align="center"> Localização no Mapa </h4>
+									<div class="row">									
+		                        		<div class="col-xs-12 col-sm-8">
+		                        			<h:outputLabel value="Endereço"/>
+		                        			<div>
+			                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-6"/>
+		                        			</div>
+		                        		</div>
+									</div>
+			                    	<div class="space-4"/>
+									<div class="row">
+										<fieldset>
+						                    				                    	
+						                    <div id="mapa"/>
+						                </fieldset>
+									</div>
+								</div>
+								<!-- Maps API Javascript -->
+	        					<script src="http://maps.googleapis.com/maps/api/js"/>
+	        					<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
+							</div>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup id="dadosComplementares" style="width: 100%">
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+						<h:panelGroup style="width: 100%" class="clearfix form-actions"
+							rendered="#{pessoaServlet.complementoAluno}" >								
+							<h3 class="header smaller lighter blue" align="center"> Dados Escolares </h3>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rm']}"/>
+									<div>
+										<h:inputText styleClass="col-xs-10 col-sm-12" id="codRm"
+											value="#{pessoaServlet.alunoDados.rm}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="#{mensagens['label.cadastro.aluno.ra']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-10 col-sm-12" id="codRa"
+											value="#{pessoaServlet.alunoDados.ra}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.codInep']}"/>
+									<div>
+										<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep"/>
+									</div>
+								</div>
 							</div>
 							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.nacionalidade']}"/>
+										value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 									<div>
-										<h:selectOneMenu id="codNacionalidade"
-											class="form-control" title="Nacionadlidade da Pessoa"
-											value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
+										<h:selectOneMenu class="form-control" id="codRedeEnsino"
+											value="#{pessoaServlet.redeEnsinoDados.pkRedeEnsino}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
-												var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
+											<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"
+												var="redeEnsino" itemLabel="#{redeEnsino.nome}" itemValue="#{redeEnsino.pkRedeEnsino}"/>
+											<p:ajax event="change" update="codUniEscolar"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.unidade.escolar']}"/>
+									<div>
+										<h:selectOneMenu class="form-control" id="codUniEscolar"
+											value="#{pessoaServlet.unidadeEscolarDados.pkUnidadeEscolar}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"
+												var="unidadeEscolar" itemLabel="#{unidadeEscolar.nome}" itemValue="#{unidadeEscolar.pkUnidadeEscolar}"/>
+											<p:ajax event="change" update="codCurso"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.aluno.curso']}"/>
+									<div>
+										<h:selectOneMenu class="form-control" id="codCurso"
+											value="#{pessoaServlet.cursoDados.pkCurso}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<!--  var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/> -->
+											<p:ajax event="change" update="codEtapa"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.raca']}"/>
+										value="#{mensagens['label.cadastro.aluno.etapa']}"/>
 									<div>
-										<h:selectOneMenu id="codRaca"
-											class="form-control" title="Raça/Cor da Pessoa" 
-											value="#{pessoaServlet.racaDados.pkRaca}">
+										<h:selectOneMenu class="form-control" id="codEtapa"
+											value="#{pessoaServlet.alunoDados.etapa}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboRaca}"
-												var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
+											<p:ajax event="change" update="codTurno"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.esta.civil']}"/>
+										value="#{mensagens['label.cadastro.aluno.turno']}"/>
 									<div>
-										<h:selectOneMenu id="codEstCivil"
-											class="form-control" title="Estado Civil da Pessoa"
-											value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
+										<h:selectOneMenu class="form-control" id="codTurno"
+											value="#{pessoaServlet.alunoDados.turno}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboEstadoCivil}"
-												var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.grau.instru']}"/>
-									<div>
-										<h:selectOneMenu id="codGrauInstru"
-											class="form-control" title="Grau de Instrução da Pessoa"
-											value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
-											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboGrauInstrucao}"
-												var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.situ.econo']}"/>
-									<div>
-										<h:selectOneMenu id="codSituEconomica"
-											class="form-control" title="Situação Econômica da Pessoa"
-											value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
-											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboSituacaoEconomica}"
-												var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.religiao']}"/>
-									<div>
-										<h:selectOneMenu id="codReligiao"
-											class="form-control" title="Religião da Pessoa"
-											value="#{pessoaServlet.religiaoDados.pkReligiao}">
-											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboReligiao}"
-												var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
 							</div>
-						</h:panelGroup>
-						<h:panelGroup id="dadosResponsavel">
-							<h:panelGroup style="width: 100%"
-								class="clearfix form-actions" rendered="#{pessoaServlet.menorIdade}">
-								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-								<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<div class="control-group">
 										<h:outputLabel
-											value="#{mensagens['label.cadastro.pessoa.cpf.mae']}"/>
-										<div>
-											<h:inputText type="text" id="numCpfMae"
-												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.pessoaDados.cpfMae}">
-												<f:validator validatorId="validar.CpfValidator"/>
-												<f:converter converterId="converter.CPF"/>
-												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
-											</h:inputText>
-										</div>
+											value="#{mensagens['label.cadastro.aluno.deficiencia']}"/>
+										<h:selectOneRadio
+											value="#{pessoaServlet.alunoDados.alunoDeficiente}">
+											<f:selectItem itemLabel="Sim" itemValue="true" />
+											<f:selectItem itemLabel="Não" itemValue="false"/>
+											<p:ajax event="change" update="panelDeficiencia"
+												listener="#{pessoaServlet.validaDeficiente}"/>
+										</h:selectOneRadio>
 									</div>
-									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.nome.mae']}"/>
-										<div>
-											<h:inputText type="text" id="nomeMaeAluno" class="col-sm-12"
-												value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}"/>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.pessoa.cpf.pai']}"/>
-										<div>
-											<h:inputText type="text" id="numCpfPai"
-												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.pessoaDados.cpfPai}">
-												<f:validator validatorId="validar.CpfValidator"/>
-												<f:converter converterId="converter.CPF"/>
-												<p:ajax event="blur" listener="#{pessoaServlet.validaNomePai}" update="nomePaiAluno"/>
-											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.nome.pai']}"/>
-										<div>
-											<h:inputText type="text" id="nomePaiAluno" class="col-xs-12 col-sm-12"
-												value="#{pessoaServlet.pessoaDados.nomePai}" disabled="#{pessoaServlet.nomePai}"/>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.pessoa.cpf.responsavel']}"/>
-										<div>
-											<h:inputText type="text" id="numCpfResponsavel"
-												class="col-xs-10 col-sm-12 cpf" title="Numero do CPF"
-												value="#{pessoaServlet.pessoaDados.cpfResponsavel}">
-												<f:validator validatorId="validar.CpfValidator"/>
-												<f:converter converterId="converter.CPF"/>
-												<p:ajax event="blur" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
-											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.nome.respon']}"/>
-										<div>
-											<h:inputText type="text" id="nomeResponsavelAluno" class="col-xs-12 col-sm-12"
-												value="#{pessoaServlet.pessoaDados.nomeResponsavel}"
-												disabled="#{pessoaServlet.nomeResponsavel}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.tipo.responsavel']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codTipoResponsavel">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-								</div>
-							</h:panelGroup>
-						</h:panelGroup>
-						<h:panelGroup id="enderePessoa" style="width: 100%"
-							class="clearfix form-actions">
-							<div id="conteudoEndereco">
-								<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
-										<div>
-											<h:selectOneMenu id="codPais"
-												class="form-control" title="Pais residente"
-												value="#{pessoaServlet.paisDados.pkPais}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboPais}"
-													var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
-												<p:ajax event="change" update="codEstado, codCidade"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12  col-sm-3">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
-										<div>
-											<h:selectOneMenu id="codEstado"
-												class="form-control" title="Estado residente"
-												value="#{pessoaServlet.estadoDados.pkEstado}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboEstado}"
-													var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-												<p:ajax event="change" update="codCidade"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12  col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
-										<div>
-											<h:selectOneMenu id="codCidade"
-												class="form-control" title="Cidade residente"
-												value="#{pessoaServlet.cidadeDados.pkCidade}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboCidade}"
-													var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
-										<div>
-											<h:inputText
-												styleClass="col-xs-10 col-sm-12 cep" id="numCep" title="Numero do CEP"
-												value="#{pessoaServlet.enderecoDados.cep}">
-												<f:converter converterId="converter.CEP"/>
-											</h:inputText>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="Tipo Logradouro"/>
-										<div>
-											<h:selectOneMenu id="tipoLogradouro" class="form-control">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboTipoLogradouro}"
-													var="tipoLogradouro" itemLabel="#{tipoLogradouro.descricao}" 
-													itemValue="#{tipoLogradouro.pkTipoLogradouro}"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel
-											value="Logradouro"/>
-										<div>
-											<h:inputText type="text" id="nomeLogradouro"
-												styleClass="col-xs-12 col-sm-12"
-												value="#{pessoaServlet.enderecoDados.logradouro}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-1">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.pessoa.numero']}"/>
-										<div>
-											<h:inputText type="text" id="numCasa"
-												styleClass="col-xs-3 col-sm-12" title="Numero da Casa"
- 												value="#{pessoaServlet.enderecoDados.numero}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.pessoa.bairro']}"/>
-										<div>
-											<h:inputText type="text" id="codBairro"
-												styleClass="col-xs-12 col-sm-12" title="Nome do Bairro"
-												value="#{pessoaServlet.enderecoDados.bairro}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}"/>
-										<div>
-											<h:inputText type="text" id="codComplemento"
-												styleClass="col-xs-10 col-sm-12" title="Complemento da Casa"
-												value="#{pessoaServlet.enderecoDados.complemento}"/>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
-										<div>
-											<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
-												class="form-control" title="Tipo de Zona Residencial">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboZonaResidencial}"
-													var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}"/>
-										<div>
-											<h:inputText type="number" id="numTelefone"
-												styleClass="col-sm-12 telResidencial" title="Numero do Celular"
-												value="#{pessoaServlet.pessoaDados.telefoneResidencial}">
-												<f:converter converterId="converter.TELRESIDENCIAL"/>
-											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}"/>
-										<div>
-											<h:inputText type="number" id="numCelular"
-												styleClass="col-sm-12 telCelular" title="Numero do Celular"
-												value="#{pessoaServlet.pessoaDados.telefoneCelular}">
-												<f:converter converterId="converter.TELCELULAR"/>
-											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12  col-sm-6">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}"/>
-										<div>
-											<h:inputText type="text" id="email"
-												styleClass="col-xs-12 col-sm-12" title="E-mail da Pessoa"
-												value="#{pessoaServlet.pessoaDados.email}"/>
-										</div>
-									</div>
-								</div>  
-							</div>
-						</h:panelGroup>
-						<h:panelGroup id="dadosComplementares" style="width: 100%">
-							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-							<h:panelGroup style="width: 100%" class="clearfix form-actions"
-								rendered="#{pessoaServlet.complementoAluno}" >								
-								<h3 class="header smaller lighter blue" align="center"> Dados Escolares </h3>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.aluno.rm']}"/>
-										<div>
-											<h:inputText styleClass="col-xs-10 col-sm-12" id="codRm"
-												value="#{pessoaServlet.alunoDados.rm}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="#{mensagens['label.cadastro.aluno.ra']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-10 col-sm-12" id="codRa"
-												value="#{pessoaServlet.alunoDados.ra}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.codInep']}"/>
-										<div>
-											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep"/>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codRedeEnsino"
-												value="#{pessoaServlet.redeEnsinoDados.pkRedeEnsino}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"
-													var="redeEnsino" itemLabel="#{redeEnsino.nome}" itemValue="#{redeEnsino.pkRedeEnsino}"/>
-												<p:ajax event="change" update="codUniEscolar"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.unidade.escolar']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codUniEscolar"
-												value="#{pessoaServlet.unidadeEscolarDados.pkUnidadeEscolar}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"
-													var="unidadeEscolar" itemLabel="#{unidadeEscolar.nome}" itemValue="#{unidadeEscolar.pkUnidadeEscolar}"/>
-												<p:ajax event="change" update="codCurso"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.curso']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codCurso"
-												value="#{pessoaServlet.cursoDados.pkCurso}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<!--  var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/> -->
-												<p:ajax event="change" update="codEtapa"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.etapa']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codEtapa"
-												value="#{pessoaServlet.alunoDados.etapa}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<p:ajax event="change" update="codTurno"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.aluno.turno']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="codTurno"
-												value="#{pessoaServlet.alunoDados.turno}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<div class="control-group">
-											<h:outputLabel
-												value="#{mensagens['label.cadastro.aluno.deficiencia']}"/>
-											<h:selectOneRadio
-												value="#{pessoaServlet.alunoDados.alunoDeficiente}">
-												<f:selectItem itemLabel="Sim" itemValue="true" />
-												<f:selectItem itemLabel="Não" itemValue="false"/>
-												<p:ajax event="change" update="panelDeficiencia"
-													listener="#{pessoaServlet.validaDeficiente}"/>
-											</h:selectOneRadio>
-										</div>
-										<div class="col-xs-12 col-sm-12">
-											<h:panelGroup id="panelDeficiencia">
-												<h:panelGroup style="width: 100%" class="clearfix form-actions" rendered="#{pessoaServlet.alunoDeficiente}">
-													<h:outputLabel
-														value="#{mensagens['label.cadastro.aluno.tipo.deficiencia']}"/>
-													<div>
-														<h:selectOneMenu class="form-control" id="tipoDeficiencia"
-															value="#{pessoaServlet.tipoDeficienciaDados.pkTipoDeficiencia}">
-															<f:selectItem itemValue="" itemLabel="Selecione..."/>
-															<f:selectItems value="#{pessoaServlet.comboTipoDeficiencia}"
-																var="deficiencia" itemLabel="#{deficiencia.descricao}" itemValue="#{deficiencia.pkTipoDeficiencia}"/>
-														</h:selectOneMenu>
-													</div>
-												</h:panelGroup>
-											</h:panelGroup>
-										</div>
-									</div>
-								</div>
-								<div class="space-6"/>
-								<div class="row">
 									<div class="col-xs-12 col-sm-12">
-										<h4 class="pink">
-											<i class="ace-icon fa fa-hand-o-right blue"></i>
-											<a href="#modal-form" role="button" class="blue" data-toggle="modal"> Upload de Imagens </a>
-										</h4>
+										<h:panelGroup id="panelDeficiencia">
+											<h:panelGroup style="width: 100%" class="clearfix form-actions" rendered="#{pessoaServlet.alunoDeficiente}">
+												<h:outputLabel
+													value="#{mensagens['label.cadastro.aluno.tipo.deficiencia']}"/>
+												<div>
+													<h:selectOneMenu class="form-control" id="tipoDeficiencia"
+														value="#{pessoaServlet.tipoDeficienciaDados.pkTipoDeficiencia}">
+														<f:selectItem itemValue="" itemLabel="Selecione..."/>
+														<f:selectItems value="#{pessoaServlet.comboTipoDeficiencia}"
+															var="deficiencia" itemLabel="#{deficiencia.descricao}" itemValue="#{deficiencia.pkTipoDeficiencia}"/>
+													</h:selectOneMenu>
+												</div>
+											</h:panelGroup>
+										</h:panelGroup>
 									</div>
 								</div>
-							</h:panelGroup>
-							<h:panelGroup style="width: 100%" class="clearfix form-actions"
-								rendered="#{pessoaServlet.complementoFuncionario}">
-								<h3 class="header smaller lighter blue" align="center"> Dados
-									Complementares do Funcionario </h3>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.cargo']}"/>
-										<div>
-											<h:selectOneMenu class="form-control" id="tipoCargo"
-												value="#{pessoaServlet.cargoDados.pkCargo}">
-												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{pessoaServlet.comboCargo}"/>
-											</h:selectOneMenu>
+							</div>
+							<div class="space-6"/>
+							<div class="col-xs-12 col-sm-12">
+								<h:panelGroup id="imagensUpload" style="width: 100%">
+									<div class="row">
+										<div class="col-xs-12 col-sm-3" align="left">
+											<h:outputLabel value="Foto do Aluno"/>
+											<div>
+												<h:inputFile id="fotoALuno" styleClass="upload" 
+													value="#{pessoaServlet.fotoAluno}"/>
+											</div>
+											<h:commandButton value="Upload" action="#{pessoaServlet.upload}"/>
+											<div id="progress" class="progress">
+											    <div class="progress-bar progress-bar-success"/>
+											</div>
+											<div id="files" class="files"/>
+										</div>
+										<div class="col-xs-12 col-sm-3" align="left">
+											<h:outputLabel value="Comprovante de Residência"/>
+											<div>
+												<h:inputFile id="fotoComproResidencia" styleClass="upload"/>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-3" align="left">
+											<h:outputLabel value="Copia Certidão de Nascimento "/>
+											<div>
+												<h:inputFile id="fotoCertiNascimento" styleClass="upload"/>
+											</div>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.matricula']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-												id="matriculaFunci"
-												value="#{pessoaServlet.funcionarioDados.matricula}"/>
-										</div>
+									<div class="space-6"/>
+									<div class="col-xs-12 col-sm-12" id="default-buttons">
+										<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"> 
+											<span class="bigger-110"> Upload </span>
+											<i class="ace-icon fa fa-arrow-right icon-on-up"/>
+											<f:ajax event="click" listener="#{pessoaServlet.importar}" resetValues="true"/>
+										</h:commandLink>
 									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.contrato']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-												id="numContrato"
-												value="#{pessoaServlet.funcionarioDados.numeroContrato}"/>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-5">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.vinc.empregaticio']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-12 col-sm-12"
-												id="vincuEmpregaticio"
-												value="#{pessoaServlet.funcionarioDados.vinculoEmpregaticio}"/>
-										</div>
+									
+								</h:panelGroup>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup style="width: 100%" class="clearfix form-actions"
+							rendered="#{pessoaServlet.complementoFuncionario}">
+							<h3 class="header smaller lighter blue" align="center"> Dados
+								Complementares do Funcionario </h3>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.cargo']}"/>
+									<div>
+										<h:selectOneMenu class="form-control" id="tipoCargo"
+											value="#{pessoaServlet.funcionarioDados.cargo}">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboCargo}"/>
+										</h:selectOneMenu>
 									</div>
 								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.cod.admissao']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-												id="codAdmissao"
-												value="#{pessoaServlet.funcionarioDados.codigoAdmissao}"/>
-										</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.matricula']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+											id="matriculaFunci"
+											value="#{pessoaServlet.funcionarioDados.matricula}"/>
 									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.contrato']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+											id="numContrato"
+											value="#{pessoaServlet.funcionarioDados.numeroContrato}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-5">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.vinc.empregaticio']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-12 col-sm-12"
+											id="vincuEmpregaticio"
+											value="#{pessoaServlet.funcionarioDados.vinculoEmpregaticio}"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.cod.admissao']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+											id="codAdmissao"
+											value="#{pessoaServlet.funcionarioDados.codigoAdmissao}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.dat.admissao']}"/>
+									<div>
+										<h:inputText type="text" id="dataAdmissao" 
+											styleClass="col-xs-10 col-sm-12 calendario"
+											value="#{pessoaServlet.funcionarioDados.dataAdmissao}">
+											<f:converter converterId="converter.DATA"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.situ.ocupacao']}"/>
+									<div>
+										<h:inputText type="text" class="form-control"
+											id="sitOcupacao" styleClass="col-xs-10 col-sm-12"
+											value="#{pessoaServlet.funcionarioDados.sitOcuAtual}"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.sede.atual']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-xs-10 col-sm-12" id="codSede"
+											value="#{pessoaServlet.funcionarioDados.sedeAtual}"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.carga.hora.sem']}"/>
+									<div>
+               							<h:inputText id="cargaSemanal" class="col-xs-12 col-sm-12 spinner"/>
+           							</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.carga.hora.men']}"/>
+									<div>
+										<h:inputText id="cargaMensal" class="col-xs-12 col-sm-12 spinner"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<h:panelGroup rendered="#{pessoaServlet.funcDemitido}">
 									<div class="col-xs-12 col-sm-2">
 										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.dat.admissao']}"/>
+											value="#{mensagens['label.cadastro.funcionario.dat.recisao']}"/>
 										<div>
-											<h:inputText type="text" id="dataAdmissao" 
-												styleClass="col-xs-12 col-sm-12 calendario"
-												value="#{pessoaServlet.funcionarioDados.dataAdmissao}">
+											<h:inputText type="text" id="dataRecisao" 
+												styleClass="col-xs-10 col-sm-12 calendario"
+												value="#{pessoaServlet.funcionarioDados.dataRecisao}">
 												<f:converter converterId="converter.DATA"/>
 											</h:inputText>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.situ.ocupacao']}"/>
+											value="#{mensagens['label.cadastro.funcionario.cod.recisao']}"/>
 										<div>
-											<h:inputText type="text" class="form-control"
-												id="sitOcupacao" styleClass="col-xs-10 col-sm-12"
-												value="#{pessoaServlet.funcionarioDados.sitOcuAtual}"/>
+											<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+												id="codRecisao"
+												value="#{pessoaServlet.funcionarioDados.codigoRecisao}"/>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-3">
+								</h:panelGroup>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<div class="control-group">
 										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.sede.atual']}"/>
-										<div>
-											<h:inputText type="text" styleClass="col-xs-10 col-sm-12" id="codSede"
-												value="#{pessoaServlet.funcionarioDados.sedeAtual}"/>
-										</div>
+											value="#{mensagens['label.cadastro.funcionario.aposentado']}"/>
+										<h:selectOneRadio
+											value="#{pessoaServlet.funcionarioDados.aposentado}">
+											<f:selectItem itemLabel="Sim" itemValue="true"/>
+											<f:selectItem itemLabel="Não" itemValue="false" selected="true"/>
+											<p:ajax event="change" update="panelAposentado"
+												listener="#{pessoaServlet.validaAposentadoria}"/>
+										</h:selectOneRadio>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<h:panelGroup id="panelAposentado">
+											<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+											<h:panelGroup style="width: 100%" class="clearfix form-actions"
+												rendered="#{pessoaServlet.funcAposentado}">
+												<div class="col-xs-12 col-sm-2">
+													<h:outputLabel
+														value="#{mensagens['label.cadastro.funcionario.dat.aposentadoria']}"/>
+													<div>
+														<h:inputText type="text" id="dataAposentadoria"	
+															styleClass="col-xs-10 col-sm-12 calendario"
+															value="#{pessoaServlet.funcionarioDados.dataAposentadoria}">
+															<f:converter converterId="converter.DATA"/>
+														</h:inputText>
+													</div>
+												</div>
+											</h:panelGroup>
+										</h:panelGroup>
 									</div>
 								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.carga.hora.sem']}"/>
-										<div>
-                							<h:inputText id="cargaSemanal" class="col-xs-12 col-sm-12 spinner"
-                								value="#{pessoaServlet.funcionarioDados.cargaSemanal}"/>
-            							</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.carga.hora.men']}"/>
-										<div>
-											<h:inputText id="cargaMensal" class="col-xs-12 col-sm-12 spinner"
-												value="#{pessoaServlet.funcionarioDados.cargaMensal}"/>
-										</div>
-									</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel
+										value="#{mensagens['label.cadastro.funcionario.concursando']}"/>
+									<h:selectOneRadio
+										value="#{pessoaServlet.funcionarioDados.concursado}">
+										<f:selectItem itemLabel="Sim" itemValue="true"/>
+										<f:selectItem itemLabel="Não" itemValue="false"/>
+										<p:ajax event="change" update="panelConcursado"
+											listener="#{pessoaServlet.validaConcursado}" resetValues="true"/>
+									</h:selectOneRadio>
 								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<h:panelGroup rendered="#{pessoaServlet.funcDemitido}">
+							</div>
+							<div class="space-4"/>
+							<h:panelGroup id="panelConcursado" style="width: 100%">
+								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+								<h:panelGroup style="width: 100%" class="clearfix form-actions"
+									rendered="#{pessoaServlet.funcConcursado}">
+									<div class="row">
+										<div class="col-xs-12 col-sm-3">
+											<h:outputLabel
+												value="#{mensagens['label.cadastro.funcionario.concurso']}"/>
+											<div>
+												<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+													id="nomeConcurso"
+													value="#{pessoaServlet.funcionarioDados.nomeConcurso}"/>
+											</div>
+										</div>
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.funcionario.dat.recisao']}"/>
+												value="#{mensagens['label.cadastro.funcionario.dat.concurso']}"/>
 											<div>
-												<h:inputText type="text" id="dataRecisao" 
+												<h:inputText type="text" id="dataConcurso" 
 													styleClass="col-xs-10 col-sm-12 calendario"
-													value="#{pessoaServlet.funcionarioDados.dataRecisao}">
+													value="#{pessoaServlet.funcionarioDados.dataConcurso}">
 													<f:converter converterId="converter.DATA"/>
 												</h:inputText>
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-3">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.funcionario.cod.recisao']}"/>
+												value="#{mensagens['label.cadastro.funcionario.num.inscri']}"/>
 											<div>
 												<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-													id="codRecisao"
-													value="#{pessoaServlet.funcionarioDados.codigoRecisao}"/>
+													id="numInscricao"
+													value="#{pessoaServlet.funcionarioDados.numeroInscricao}"/>
 											</div>
 										</div>
-									</h:panelGroup>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-12">
-										<div class="control-group">
+										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.funcionario.aposentado']}"/>
-											<h:selectOneRadio
-												value="#{pessoaServlet.funcionarioDados.aposentado}">
-												<f:selectItem itemLabel="Sim" itemValue="true"/>
-												<f:selectItem itemLabel="Não" itemValue="false" selected="true"/>
-												<p:ajax event="change" update="panelAposentado"
-													listener="#{pessoaServlet.validaAposentadoria}"/>
-											</h:selectOneRadio>
+												value="#{mensagens['label.cadastro.funcionario.num.contrato']}"/>
+											<div>
+												<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+													id="numContraConcur"
+													value="#{pessoaServlet.funcionarioDados.numContraConcurso}"/>
+											</div>
 										</div>
-										<div class="col-xs-12 col-sm-12">
-											<h:panelGroup id="panelAposentado">
-												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-												<h:panelGroup style="width: 100%" class="clearfix form-actions"
-													rendered="#{pessoaServlet.funcAposentado}">
-													<div class="col-xs-12 col-sm-2">
-														<h:outputLabel
-															value="#{mensagens['label.cadastro.funcionario.dat.aposentadoria']}"/>
-														<div>
-															<h:inputText type="text" id="dataAposentadoria" 
-																styleClass="col-xs-10 col-sm-12 calendario"
-																value="#{pessoaServlet.funcionarioDados.dataAposentadoria}">
-																<f:converter converterId="converter.DATA"/>
-															</h:inputText>
-														</div>
-													</div>
-												</h:panelGroup>
-											</h:panelGroup>
+										<div class="col-xs-12 col-sm-1">
+											<h:outputLabel
+												value="#{mensagens['label.cadastro.funcionario.posicao']}"/>
+											<div>
+												<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
+													id="numPosicao"
+													value="#{pessoaServlet.funcionarioDados.posicao}"/>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="space-4"/>
-								<div class="row">
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel
-											value="#{mensagens['label.cadastro.funcionario.concursando']}"/>
-										<h:selectOneRadio
-											value="#{pessoaServlet.funcionarioDados.concursado}">
-											<f:selectItem itemLabel="Sim" itemValue="true"/>
-											<f:selectItem itemLabel="Não" itemValue="false"/>
-											<p:ajax event="change" update="panelConcursado"
-												listener="#{pessoaServlet.validaConcursado}"/>
-										</h:selectOneRadio>
-									</div>
-								</div>
-								<div class="space-4"/>
-								<h:panelGroup id="panelConcursado" style="width: 100%">
-									<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-									<h:panelGroup style="width: 100%" class="clearfix form-actions"
-										rendered="#{pessoaServlet.funcConcursado}">
-										<div class="row">
-											<div class="col-xs-12 col-sm-3">
-												<h:outputLabel
-													value="#{mensagens['label.cadastro.funcionario.concurso']}"/>
-												<div>
-													<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-														id="nomeConcurso"
-														value="#{pessoaServlet.funcionarioDados.nomeConcurso}"/>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-2">
-												<h:outputLabel
-													value="#{mensagens['label.cadastro.funcionario.dat.concurso']}"/>
-												<div>
-													<h:inputText type="text" id="dataConcurso" 
-														styleClass="col-xs-10 col-sm-12 calendario"
-														value="#{pessoaServlet.funcionarioDados.dataConcurso}">
-														<f:converter converterId="converter.DATA"/>
-													</h:inputText>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-2">
-												<h:outputLabel
-													value="#{mensagens['label.cadastro.funcionario.num.inscri']}"/>
-												<div>
-													<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-														id="numInscricao"
-														value="#{pessoaServlet.funcionarioDados.numeroInscricao}"/>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-2">
-												<h:outputLabel
-													value="#{mensagens['label.cadastro.funcionario.num.contrato']}"/>
-												<div>
-													<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-														id="numContraConcur"
-														value="#{pessoaServlet.funcionarioDados.numContraConcurso}"/>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-1">
-												<h:outputLabel
-													value="#{mensagens['label.cadastro.funcionario.posicao']}"/>
-												<div>
-													<h:inputText type="text" styleClass="col-xs-10 col-sm-12"
-														id="numPosicao"
-														value="#{pessoaServlet.funcionarioDados.posicao}"/>
-												</div>
-											</div>
-										</div>
-									</h:panelGroup>
 								</h:panelGroup>
-								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 							</h:panelGroup>
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						</h:panelGroup>
-						<div class="col-xs-12 col-sm-6" id="default-buttons">
-							<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round">
-								<i class="ace-icon fa fa-file"/>
-								<span class="bigger-110">Novo</span>
-							</button>
-							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
-								<span class="bigger-110">Registrar</span>
-								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-								<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}" update="formCadastroPessoa" process="formCadastroPessoa"/>
-							</h:commandLink>
+					</h:panelGroup>
+					<div class="col-xs-12 col-sm-6" id="default-buttons">
+						<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round">
+							<i class="ace-icon fa fa-file"/>
+							<span class="bigger-110">Novo</span>
+						</button>
+						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+							<span class="bigger-110">Registrar</span>
+							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+							<p:ajax event="click" listener="#{pessoaServlet.validaCadastro}" 
+								update=":formCadastroPessoa" process=":formCadastroPessoa" resetValues="true"/>
+						</h:commandLink>
+					</div>
+				</h:form>
+				<div class="row">
+		    		<h:form id="formConsultaPessoa" prependId="false">
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
+						  <div class="modal-dialog modal-lg">
+						    <div class="modal-content">
+						    	<div class="modal-header">
+						    		<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+						    		<h3 class="smaller lighter blue">
+										<span class="col-sm-8">
+											<i class="ace-icon fa fa-list-alt" aria-hidden="true"/>
+											Consulta de Cadastro
+										</span>
+									</h3>
+						    	</div>
+						    	<div class="modal-body">
+					    			<div class="row">
+					    				<div class="col-xs-12 col-sm-3">
+					    					<h:outputLabel value="Tipo de Cadastro"/>
+					    					<div>
+					    						<h:selectOneMenu class="form-control">
+					    							<f:selectItem itemLabel="Selecione..." itemValue=""/>
+					    						</h:selectOneMenu>
+					    					</div>
+					    				</div>
+					    				<div class="col-xs-12 col-sm-3">
+					    					<h:outputLabel value="CPF"/>
+					    					<div>
+						    					<h:inputText type="text" id="numCpfConsulta"
+													styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF">
+													<f:validator validatorId="validar.CpfValidator"/>
+													<f:converter converterId="converter.CPF"/>
+												</h:inputText>
+					    					</div>
+					    				</div>
+					    				<div class="col-xs-12 col-sm-6">
+					    					<h:outputLabel value="Numero do Contrato"/>
+					    					<div>
+					    						<h:inputText styleClass="col-xs-12 col-sm-12"/>
+				    						</div>
+					    				</div>
+					    			</div>
+					    			<div class="space-6"/>
+					    			<div class="row">
+					    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
+						    				<h:dataTable styleClass="order-table"
+								    			headerClass="order-table-header"
+								    			rowClasses="order-table-odd-row,order-table-even-row">
+								    			<h:column>
+								    				<!-- column header -->
+								    				<f:facet name="header"> Tipo de Cadastro </f:facet>
+								    			</h:column>
+								    			<h:column>
+								    				<f:facet name="header">  Nome </f:facet>
+								    			</h:column>
+								    			<h:column>
+								    				<f:facet name="header"> Data de Nascimento </f:facet>
+								    			</h:column>
+								    			<h:column>
+								    				<f:facet name="header"> Sexo </f:facet>
+								    			</h:column>
+								    		</h:dataTable>
+					    				</h:panelGroup>
+					    			</div>
+						    	</div>
+						    	<div class="modal-footer">
+						    		<button class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
+										<i class="ace-icon fa fa-times red2"/>
+										Cancelar
+									</button>
+									<button class="btn btn-white btn-default btn-round">
+										<i class="ace-icon fa fa-pencil align-top bigger-125"/>
+										Editar
+									</button>
+									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round" > 
+										<span class="bigger-110"> Consultar </span>
+										<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+										<p:ajax event="click" listener="#{pessoaServlet.carregaLista}" update=":formCadastroPessoa" process=":formConsultaPessoa" resetValues="true"/>
+									</h:commandLink>
+						    	</div>
+						    </div>
+						  </div>
 						</div>
 					</h:form>
-					<div id="modal-form" class="modal" tabindex="-1" aria-hidden="false" style="display: block; ">
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header no-padding">
-									<div class="table-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-											<span class="white">×</span>
-										</button>
-										Upload de Fotos
-									</div>
-								</div>
-								<div class="modal-footer">
-									<h:form id="formUploadImagem" prependId="false" enctype="multipart/form-data">
-										<div class="col-xs-12 col-sm-12">
-											<h:panelGroup id="imagensUpload" style="width: 100%">
-												<div class="row">
-													<div class="col-xs-12 col-sm-12" align="left">
-														<h:outputLabel value="Foto do Aluno"/>
-														<div>
-															 <p:fileUpload if="fotoAluno" styleClass="upload" mode="simple"
-															 	value="#{pessoaServlet.imagemAluno}"/>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-12 col-sm-12" align="left">
-														<h:outputLabel value="Certidão de Nascimento"/>
-														<div>
-															<p:fileUpload if="certidaoNascimento" styleClass="upload" mode="simple"
-															 	value="#{pessoaServlet.imagemCertNascimento}"/>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-12 col-sm-12" align="left">
-														<h:outputLabel value="Comprovante de Residencia"/>
-														<div>
-															<p:fileUpload if="comprovanteResidencia" styleClass="upload" mode="simple" value="#{pessoaServlet.imagemResidencia}"/>
-														</div>
-													</div>
-												</div>
-												<div class="space-6"/>
-												<div class="col-xs-12 col-sm-12" id="default-buttons">
-													<button class="btn btn-white btn-default btn-round" data-dismiss="modal" >
-														<i class="ace-icon fa fa-times"/>
-														CANCEL
-													</button>
-													<h:commandLink type="submit" id="btUpload" class="btn btn-white btn-success btn-round"
-														actionListener="#{pessoaServlet.uploadImagens}" > 
-														<span class="bigger-110"> UPLOAD </span>
-														<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-													</h:commandLink>
-												</div>
-											</h:panelGroup>
-										</div>
-									</h:form>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div id="modal-table" class="modal" tabindex="-1" aria-hidden="false" style=" display: block;">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header no-padding">
-									<div class="table-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-											<span class="white">×</span>
-										</button>
-										Lista de Pessoas
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

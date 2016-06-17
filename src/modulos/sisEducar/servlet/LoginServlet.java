@@ -1,4 +1,4 @@
-package modulos.sisEducar.sisEducarServlet;
+package modulos.sisEducar.servlet;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -142,8 +142,9 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 				
 				if(chaveAcesso!=null && chaveAcesso.getPkChaveAcesso()!=null && chaveAcesso.getPkChaveAcesso() >0)
 				{
+					new SisEducarServlet();
 					//Aqui ele defini qual será a chave de acesso do usuário logado
-					ConstantesSisEducar.USUARIO_LOGADO = new SisEducarServlet().gerarChaveAcessoCriptografada(chaveAcesso.getChave());
+					ConstantesSisEducar.USUARIO_LOGADO = SisEducarServlet.gerarChaveAcessoCriptografada(chaveAcesso.getChave());
 					
 					return true;
 				}
@@ -277,7 +278,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			
 			email = EmailUtils.inicializarPropriedades();
 			email.setSubjectMail("Confirmação de cadastro de usuário");
-			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol� " + usuario.getNome() + ",</p> " + 
+			email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
 					" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
 					" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
 			
@@ -320,7 +321,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					urlBotaoLink += criptografarURL(true, emailRedefinicaoSenha);
 					email = EmailUtils.inicializarPropriedades();
 					email.setSubjectMail("SIS-EDUCAR - Redefinição de Senha");
-					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Ol� " + usuario.getNome() + ",</p> " + 
+					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
 							" <p style=\"text-align:left; font-size:17px; \">Recebemos uma solicitação de refinição de senha para este usuário, se não foi você que efetuou esta solicitação por favor desconsidere o email.</p> " + 
 							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para continuar o processo de redefinição de senha clique no botão abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Redefinir Senha"));
 					
@@ -328,6 +329,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					email.setToMailsUsers(destinatarios);
 					
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Será enviado uma notificação para o email informado", null));
+					emailRedefinicaoSenha = "";
 					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
 					
 					if(!resultadoEnvioEmail)

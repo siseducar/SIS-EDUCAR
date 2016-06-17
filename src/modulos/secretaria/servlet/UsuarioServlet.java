@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
@@ -21,7 +22,7 @@ import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesRH;
 import modulos.sisEducar.om.Email;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
@@ -33,6 +34,7 @@ public class UsuarioServlet implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	//Variaveis
+	SisEducarServlet sisEducarServlet = null;
 	Usuario usuario;
 	Usuario usuarioLogado;
 	private String nomePessoaVinculada;
@@ -86,6 +88,8 @@ public class UsuarioServlet implements Serializable
 	 */
 	public UsuarioServlet()
 	{
+		sisEducarServlet = new SisEducarServlet();
+		
 		cpfPesquisar = "";
 		usuarioPesquisar = "";
 		emailPesquisar = "";
@@ -94,7 +98,7 @@ public class UsuarioServlet implements Serializable
 		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
-		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario) sisEducarServlet.getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
@@ -447,6 +451,7 @@ public class UsuarioServlet implements Serializable
 		{
 			Pessoa pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
 			if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ nomePessoaVinculada = pessoa.getNome(); }
+			else 											{ nomePessoaVinculada = ""; }
 			return null;
 		} 
 		catch (Exception e) 
@@ -664,6 +669,50 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	
+	private HtmlDataTable dataTable;
+	   
+    public HtmlDataTable getDataTable() {
+          return dataTable;
+    }
+
+    public void setDataTable(HtmlDataTable dataTable) {
+          this.dataTable = dataTable;
+    }            
+
+    
+    public void pageFirst() {
+        dataTable.setFirst(0);
+    }
+
+    public void pagePrevious() {
+        dataTable.setFirst(dataTable.getFirst() - dataTable.getRows());
+    }
+
+    public void pageNext() {
+        dataTable.setFirst(dataTable.getFirst() + dataTable.getRows());
+    }
+
+    public void pageLast() {
+        int count = dataTable.getRowCount();
+        int rows = dataTable.getRows();
+        dataTable.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
+	
+    public int getCurrentPage() {
+        int rows = dataTable.getRows();
+        int first = dataTable.getFirst();
+        int count = dataTable.getRowCount();
+        return (count / rows) - ((count - first) / rows) + 1;
+    }
+
+    public int getTotalPages() {
+        int rows = dataTable.getRows();
+        int count = dataTable.getRowCount();
+        return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
+	
+	
 	/**
 	 * Método usado para a edição do registro que o usuário escolheu
 	 * @author João Paulo
@@ -672,13 +721,18 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
+			
+			Usuario usuarioSelecionada = (Usuario) dataTable.getRowData();
+//			System.out.println("Nome Usuario Selecionado  = " + usuarioSelecionada.getNome());
+//			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
+			
 			usuario = new Usuario();
 			permissoesSelecionadas = new ArrayList<Permissao>();
 			nomePessoaVinculada = "";
 			
-			if(usuarioCadastradoSelecionado!=null && usuarioCadastradoSelecionado.getPkUsuario()!=null)
+			if(usuarioSelecionada != null && usuarioSelecionada.getPkUsuario() != null)
 			{
-				usuario = usuarioCadastradoSelecionado;
+				usuario = usuarioSelecionada;
 				usuario.setConfirmarEmail(usuario.getEmail());
 				
 				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)

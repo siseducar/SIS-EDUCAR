@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.RedeEnsino;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -41,5 +42,43 @@ public class RedeEnsinoDAO {
 		}
 		
 		return listaRedeEnsino;
+	}
+	
+	/**
+	 * Busca uma rede de ensino pelos filtros passados como parâmetro
+	 * @author João Paulo
+	 * @param pkRedeEnsino
+	 * @return RedeEnsino
+	 * @throws SQLException
+	 */
+	public RedeEnsino buscarRedeEnsino(Integer pkRedeEnsino) throws SQLException
+	{
+		RedeEnsino redeEnsino = null;
+		Cidade cidade = null;
+		String querySQL = "SELECT * FROM RedeEnsino "
+				+ " WHERE status = ?"
+				+ " AND pkRedeEnsino = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkRedeEnsino);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			cidade = new Cidade();
+			redeEnsino = new RedeEnsino();
+			redeEnsino.setPkRedeEnsino(rs.getInt("pkRedeEnsino"));
+			redeEnsino.setCodigo(rs.getString("codigo"));
+			redeEnsino.setNome(rs.getString("nome"));
+			redeEnsino.setStatus(rs.getInt("status"));
+			redeEnsino.setOrdemExibicao(rs.getInt("ordemExibicao"));
+			cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			redeEnsino.setFkMunicipioCliente(cidade);
+			
+			return redeEnsino;
+		}
+		
+		return null;
 	}
 }

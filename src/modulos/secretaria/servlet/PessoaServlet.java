@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 import org.postgresql.util.Base64;
 import org.primefaces.model.UploadedFile;
@@ -20,7 +21,6 @@ import org.primefaces.model.UploadedFile;
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
-import modulos.secretaria.om.Cargo;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Endereco;
@@ -43,7 +43,7 @@ import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.ImagemBase64;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 @ManagedBean(name="pessoaServlet")
@@ -80,18 +80,8 @@ public class PessoaServlet implements Serializable{
 	private Curso cursoDados;
 	private Turno turnoDados;
 	private TipoDeficiencia tipoDeficienciaDados;
-	private Estado estadoNaturalidadeDados;
-	private Cidade cidadeNaturalidadeDados;
-	private Cargo cargoDados;
 	
-	/* Componente para salvar COMPROVANTE DE RESIDENCIA*/
-	private UploadedFile imagemResidencia;
-	
-	/* Componente para salvar FOTO DO ALUNO */
-	private UploadedFile imagemAluno;
-	
-	/* Componente para salvar CERTIDÃO DE NASCIMENTO */
-	private UploadedFile imagemCertNascimento;
+	private List<String> latitude;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -117,7 +107,7 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de NACIONALIDADE */
 	private List<SelectItem> comboNacionalidade;
 	
-	/* Combo com valores de RAÇA */
+	/* Combo com valores de RAÃ‡A */
 	private List<SelectItem> comboRaca;
 	
 	/* Combo com valores de ESTADO CIVIL */
@@ -126,10 +116,10 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de GRAU DE PARENTESCO */
 	private List<SelectItem> comboGrauInstrucao;
 	
-	/* Combo com valores de SITUAÇÂO ECÔNIMCA */
+	/* Combo com valores de SITUAÃ‡Ã‚O ECÃ”NIMCA */
 	private List<SelectItem> comboSituacaoEconomica;
 	
-	/* Combo com valores de RELIGIÃO */
+	/* Combo com valores de RELIGIÃƒO */
 	private List<SelectItem> comboReligiao;
 	
 	/* Combo com valores de ZONA RESIDENCIAL */
@@ -141,7 +131,7 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de Tipos de Logradouros*/
 	private List<SelectItem> comboTipoLogradouro;
 	
-	/* Combo com valores de PAÍS */
+	/* Combo com valores de PAÃ�S */
 	private List<SelectItem> comboPais;
 	
 	/* Combo com valores de ESTADO */
@@ -167,12 +157,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* Combo com valores de TURNO ESCOLAR */
 	private List<SelectItem> comboTurnoEscolar;
-	
-	/* Combo com valores de TURNO ESCOLAR */
-	private List<SelectItem> comboEstadoNaturalidade;
-	
-	/* Combo com valores de TURNO ESCOLAR */
-	private List<SelectItem> comboCidadeNaturalidade;
 	
 	/* Componente */
 	private Boolean nomeMae;
@@ -251,16 +235,6 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
-		if(this.estadoNaturalidadeDados == null) {
-			this.estadoNaturalidadeDados = new Estado();
-		}
-		if(this.cidadeNaturalidadeDados == null) {
-			this.cidadeNaturalidadeDados = new Cidade();
-		}
-		if(this.cargoDados == null) {
-			this.cargoDados = new Cargo();
-		}
-		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
@@ -279,8 +253,6 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
-		comboEstadoNaturalidade = new ArrayList<SelectItem>();
-		comboCidadeNaturalidade = new ArrayList<SelectItem>(); 
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -329,7 +301,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa(){
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
-			uploadImagens();
+	
 			if( validaDadosPessoa() == true ) {
 				if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 				{
@@ -378,10 +350,9 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
-	public String salvarCadastroAluno(Pessoa pessoaDados ){
+	public String salvarCadastroAluno(){
 		Aluno alunoDadosFinal = new Aluno();
 		
-		uploadImagens();
 		if(alunoDados != null) {
 			alunoDadosFinal.setRm(alunoDados.getRm());
 			alunoDadosFinal.setRa(alunoDados.getRa());
@@ -398,7 +369,7 @@ public class PessoaServlet implements Serializable{
 		if(unidadeEscolarDados.getPkUnidadeEscolar() != null) {
 			alunoDadosFinal.setUnidadeEscolar(unidadeEscolarDados);
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Selecione uma UNIDADE ESCOLAR.",null));
 			return null;
 		}
@@ -406,7 +377,7 @@ public class PessoaServlet implements Serializable{
 		if(cursoDados.getPkCurso() != null) {
 			alunoDadosFinal.setCurso(cursoDados);
 		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Selecione um CURSO.",null));
 			return null;
 		}
@@ -414,7 +385,7 @@ public class PessoaServlet implements Serializable{
 		if(etapaDados.getPkEtapa() != null) {
 			alunoDadosFinal.setEtapa(etapaDados);
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Selecione uma ETAPA.",null));
 			return null;
 		}
@@ -422,7 +393,7 @@ public class PessoaServlet implements Serializable{
 		if(turnoDados.getPkTurno() != null) {
 			alunoDadosFinal.setTurno(turnoDados);
 		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Selecione um TURNO.",null));
 			return null;
 		}
@@ -433,36 +404,12 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Funcionario
 	 * 
 	 * */
-	public String salvarCadastroFuncionario(Pessoa pessoaDados){
-		Funcionario funcionarioDadosFinal = new Funcionario();
-		
-		if(funcionarioDados.getMatricula() != null ) {
-			funcionarioDadosFinal.setMatricula(funcionarioDados.getMatricula());
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o codigo da MATRICULA do funcionario.",null));
-			return null;
-		}
-		
-		if(funcionarioDados.getNumeroContrato() != null) {
-			funcionarioDadosFinal.setNumeroContrato(funcionarioDados.getNumeroContrato());
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o número do CONTRATO do funcionario.",null));
-			return null;
-		}
-		
+	public String salvarCadastroFuncionario(){
 		return null;
 	}
 	
-	public void uploadImagens(){
-		ImagemBase64 imagemAluno64 = new ImagemBase64();
-		ImagemBase64 imagemCertNasci64 = new ImagemBase64();
-		ImagemBase64 imagemResidencia64 = new ImagemBase64();
-		
-		converteBase64(imagemAluno, imagemAluno64);
-		converteBase64(imagemCertNascimento, imagemCertNasci64);
-		converteBase64(imagemResidencia, imagemResidencia64);
+	public void importar() {
+		System.out.println(alunoDados.getFotoAluno());
 	}
 	
 	public void converteBase64(UploadedFile imagemConverte, ImagemBase64 imagem) {
@@ -483,7 +430,8 @@ public class PessoaServlet implements Serializable{
     		e.printStackTrace(); 
     	}
 	}
-		
+	
+	
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -519,24 +467,6 @@ public class PessoaServlet implements Serializable{
 		comboCidade = new ArrayList<SelectItem>();
 	}
 	
-	private String message;
-	
-	public List<String> complete(String query){
-		List<String> queries = new ArrayList<String>();
-		for(int i = 0 ; i < 15 ; i++){
-			queries.add(query+i);
-        }
-		return queries;
-	}
-	
-	public String getMessage() {	
-		return message;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
@@ -558,7 +488,7 @@ public class PessoaServlet implements Serializable{
 					pessoaDados.setNomeMae(null);
 					nomeMae = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF não encontrado, favor informar o nome.", null));
+							"CPF nÃ£o encontrado, favor informar o nome.", null));
 				}
 			} catch (SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -588,7 +518,7 @@ public class PessoaServlet implements Serializable{
 					pessoaDados.setNomePai(null);
 					nomePai = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF não encontrado, favor informar o nome.", null));
+							"CPF nÃ£o encontrado, favor informar o nome.", null));
 				}
 			} catch (SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -615,7 +545,7 @@ public class PessoaServlet implements Serializable{
 					pessoaDados.setNomePai(null);
 					nomeResponsavel = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF não encontrado, favor informar o nome.", null));
+							"CPF nÃ£o encontrado, favor informar o nome.", null));
 				}
 			} catch (SQLException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -692,10 +622,11 @@ public class PessoaServlet implements Serializable{
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
 			salvarCadastroPessoa();
-			salvarCadastroAluno(pessoaDados);
+			salvarCadastroAluno();
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
-			salvarCadastroFuncionario(pessoaDados);
+			salvarCadastroPessoa();
+			salvarCadastroFuncionario();
 		}
 	}
 
@@ -715,12 +646,8 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
-		comboEstadoNaturalidade.addAll(paramDados.consultaEstadosNaturalidade());
 	}
 	
-	/*
-	 * Metodo para validar os dados da pessoa
-	 * */
 	public Boolean validaDadosPessoa(){
 		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
@@ -759,7 +686,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( racaDados.getPkRaca() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RAÇA deve ser informada.",null));
+					"A RAÃ‡A deve ser informada.",null));
 			return false;
 		}
 		
@@ -771,25 +698,25 @@ public class PessoaServlet implements Serializable{
 		
 		if( grauInstruDados.getPkGrauInstrucao() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O GRAU DE INSTRUÇÃO deve ser informado.",null));
+					"O GRAU DE INSTRUÃ‡ÃƒO deve ser informado.",null));
 			return false;
 		}
 		
 		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A SITUAÇÃO ECONÔMICA deve ser informada.",null));
+					"A SITUAÃ‡ÃƒO ECONÃ”MICA deve ser informada.",null));
 			return false;
 		}
 		
 		if( religiaoDados.getPkReligiao() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RELIGIÃO deve ser informada.",null));
+					"A RELIGIÃƒO deve ser informada.",null));
 			return false;
 		}
 		
 		if( paisDados.getPkPais() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O PAÍS deve ser informado.",null));
+					"O PAÃ�S deve ser informado.",null));
 			return false;
 		}
 		
@@ -801,7 +728,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( cidadeDados.getPkCidade() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O MUNICÍPIO deve ser informado.",null));
+					"O MUNICÃ�PIO deve ser informado.",null));
 			return false;
 		}
 		
@@ -819,7 +746,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NÚMERO deve ser preenchido.",null));
+					"O NÃšMERO deve ser preenchido.",null));
 			return false;
 		}
 		
@@ -851,165 +778,11 @@ public class PessoaServlet implements Serializable{
 					|| pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0	) {
 				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O NOME DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
+						"O NOME DA MÃƒE ou de algum RESPONSAVEL deve ser informado.",null));
 				return false;
 			}
 		}
 		
-		return true;
-	}
-	
-	/*
-	 * Metodo para validar dados do aluno
-	 * */
-	public Boolean validaDadosAuuno(){
-		
-		if(alunoDados.getRm()== null || alunoDados.getRm().equals("") ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o código do RM do aluno.",null));
-			return false;
-		}
-		
-		if(alunoDados.getRa() == null || alunoDados.getRa().equals("") ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o código do RA do aluno.",null));
-			return false;
-		}
-		
-		if(redeEnsinoDados.getPkRedeEnsino() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Seleciona uma REDE DE ENSINO.",null));
-			return false;
-		}
-		
-		if(unidadeEscolarDados.getPkUnidadeEscolar() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione uma UNIDADE ESCOLAR.",null));
-			return false;
-		}
-		
-		if(cursoDados.getPkCurso() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione um CURSO.",null));
-			return false;
-		}
-		
-		if(etapaDados.getPkEtapa() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione uma ETAPA.",null));
-			return false;
-		}
-		
-		if(turnoDados.getPkTurno() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione um TURNO.",null));
-			return false;
-		}
-		
-		if(alunoDeficiente == true) {
-			if(tipoDeficienciaDados.getPkTipoDeficiencia() == null) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Selecione um TIPO DE DEFICIÊNCIA.",null));
-				return false;
-			}
-		}
-		
-		if(imagemAluno == null || imagemCertNascimento == null || imagemResidencia == null){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione as imagens para upload.",null));
-			return false;
-		}
-		
-		return true;
-		
-	}
-	
-	/*
-	 * Metodo para validar os dados de Funcionarios
-	 * */
-	public Boolean validaDadosFuncionario(Pessoa pessoaDados){
-		
-		if(cargoDados.getPkCargo() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione um CARGO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getMatricula() == null || funcionarioDados.getMatricula().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o código da MATRICULA do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getNumeroContrato() == null || funcionarioDados.getNumeroContrato().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o número do CONTRATO do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getVinculoEmpregaticio() == null || funcionarioDados.getVinculoEmpregaticio().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o VÍNCULO EMPREGATICIO do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getCodigoAdmissao() == null || funcionarioDados.getCodigoAdmissao().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o código de ADMISSÃO do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getDataAdmissao() == null || funcionarioDados.getDataAdmissao().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe a data de ADMISSÃO do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcionarioDados.getMatricula() == null || funcionarioDados.getMatricula().equals("")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Informe o código da MATRICULA do FUNCIONARIO.",null));
-			return false;
-		}
-		
-		if(funcAposentado == true) {
-			if(funcionarioDados.getDataAposentadoria() == null){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe a data de APOSENTADORIA do FUNCIONARIO.",null));
-				return false;
-			}
-		}
-		
-		if(funcConcursado == true){
-			if(funcionarioDados.getNomeConcurso() == null || funcionarioDados.getNomeConcurso().equals("")){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe o código do CONCURSO do FUNCIONARIO.",null));
-				return false;
-			}
-			
-			if(funcionarioDados.getDataConcurso() == null){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe a data do CONCURSO do FUNCIONARIO.",null));
-				return false;
-			}
-			
-			if(funcionarioDados.getNumeroInscricao() == null || funcionarioDados.getNumeroInscricao().equals("")){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe o número de INSCRIÇÃO DO CONCURSO do FUNCIONARIO.",null));
-				return false;
-			}
-			
-			if(funcionarioDados.getNumContraConcurso() == null || funcionarioDados.getNumContraConcurso().equals("")){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe o número do CONTRATO DO CONCURSO do FUNCIONARIO.",null));
-				return false;
-			}
-			
-			if(funcionarioDados.getPosicao() == null || funcionarioDados.getPosicao().equals("")){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe a posição no CONCURSO do FUNCIONARIO.",null));
-				return false;
-			}
-		}
 		return true;
 	}
 	
@@ -1198,23 +971,6 @@ public class PessoaServlet implements Serializable{
 	public void setTipoDeficienciaDados(TipoDeficiencia tipoDeficienciaDados) {
 		this.tipoDeficienciaDados = tipoDeficienciaDados;
 	}
-	public Estado getEstadoNaturalidadeDados() {
-		return estadoNaturalidadeDados;
-	}
-
-	public void setEstadoNaturalidadeDados(Estado estadoNaturalidadeDados) {
-		this.estadoNaturalidadeDados = estadoNaturalidadeDados;
-	}
-
-	public Cidade getCidadeNaturalidadeDados() {
-		return cidadeNaturalidadeDados;
-	}
-
-	public void setCidadeNaturalidadeDados(Cidade cidadeNaturalidadeDados) {
-		this.cidadeNaturalidadeDados = cidadeNaturalidadeDados;
-	}
-	
-	
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 
@@ -1329,7 +1085,7 @@ public class PessoaServlet implements Serializable{
 		this.comboTipoLogradouro = comboTipoLogradouro;
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
-/* Informações referentes ao dados do aluno */	
+/* InformaÃ§Ãµes referentes ao dados do aluno */	
 	public List<SelectItem> getComboRedeEnsino() {
 		if(comboRedeEnsino == null || comboRedeEnsino.isEmpty()) {			
 			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
@@ -1433,29 +1189,6 @@ public class PessoaServlet implements Serializable{
 		this.menorIdade = menorIdade;
 	}
 
-	public UploadedFile getImagemResidencia() {
-		return imagemResidencia;
-	}
-
-	public void setImagemResidencia(UploadedFile imagemResidencia) {
-		this.imagemResidencia = imagemResidencia;
-	}
-
-	public UploadedFile getImagemCertNascimento() {
-		return imagemCertNascimento;
-	}
-
-	public void setImagemCertNascimento(UploadedFile imagemCertNascimento) {
-		this.imagemCertNascimento = imagemCertNascimento;
-	}	
-	public UploadedFile getImagemAluno() {
-		return imagemAluno;
-	}
-
-	public void setImagemAluno(UploadedFile imagemAluno) {
-		this.imagemAluno = imagemAluno;
-	}
-	
 	public Boolean getNomeMae() {
 		return nomeMae;
 	}
@@ -1479,11 +1212,11 @@ public class PessoaServlet implements Serializable{
 	public void setNomeResponsavel(Boolean nomeResponsavel) {
 		this.nomeResponsavel = nomeResponsavel;
 	}
-	/* Informações referentes ao dados do aluno */	
+	/* InformaÃ§Ãµes referentes ao dados do aluno */	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
-	/* Informações referentes ao dados do funcionario */
+	/* InformaÃ§Ãµes referentes ao dados do funcionario */
 	public Boolean getComplementoFuncionario() {
 		return complementoFuncionario;
 	}
@@ -1523,49 +1256,60 @@ public class PessoaServlet implements Serializable{
 	public void setComboCargo(List<SelectItem> comboCargo) {
 		this.comboCargo = comboCargo;
 	}
-	/* Informações referentes ao dados do funcionario */
+	/* InformaÃ§Ãµes referentes ao dados do funcionario */
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
 
-	public List<SelectItem> getComboEstadoNaturalidade() {
-		return comboEstadoNaturalidade;
+	public List<String> getLatitude() {
+		return latitude;
 	}
 
-	public void setComboEstadoNaturalidade(List<SelectItem> comboEstadoNaturalidade) {
-		this.comboEstadoNaturalidade = comboEstadoNaturalidade;
-	}
-
-	public List<SelectItem> getComboCidadeNaturalidade() {
-		comboCidadeNaturalidade.clear();
-		if(estadoNaturalidadeDados.getPkEstado() != null && !comboEstadoNaturalidade.isEmpty()){
-			comboCidadeNaturalidade.addAll(paramDados.consultaCidade(estadoNaturalidadeDados));
-		}
-		return comboCidadeNaturalidade;
-	}
-
-	public void setComboCidadeNaturalidade(List<SelectItem> comboCidadeNaturalidade) {
-		this.comboCidadeNaturalidade = comboCidadeNaturalidade;
-	}
-
-	public Cargo getCargoDados() {
-		return cargoDados;
-	}
-
-	public void setCargoDados(Cargo cargoDados) {
-		this.cargoDados = cargoDados;
+	public void setLatitude(List<String> latitude) {
+		this.latitude = latitude;
 	}
 	
 	
+	
+	private Part fotoAluno;
+	
+	
+	public Part getFotoAluno() {
+		return fotoAluno;
+	}
+
+	public void setFotoAluno(Part fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
 
 	
-
 	
-
 	
-
 	
-
+	public String upload(){
+		
+		return "sucess";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

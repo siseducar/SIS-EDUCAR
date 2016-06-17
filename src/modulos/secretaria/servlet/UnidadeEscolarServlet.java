@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -27,7 +28,7 @@ import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -52,6 +53,14 @@ public class UnidadeEscolarServlet implements Serializable
 	private Regiao regiaoDado;
 	private Pessoa pessoaDado;
 	private ParametrosServlet parametrosServlet;
+	
+	/* VARIAVEIS DO CONSULTAR */
+	private List<UnidadeEscolar> unidadesEscolaresCadastrados;
+    private Usuario usuarioCadastradoSelecionado;
+    
+    private String cpfDiretorPesquisar;
+	private String codigoPesquisar;
+    private String nomePesquisar;
 	
 	
 	/* Combo com valores de ZONA RESIDENCIAL */
@@ -288,7 +297,115 @@ public class UnidadeEscolarServlet implements Serializable
 			Logs.addFatal("Resetar", "Falha ao resetar a unidade escolar");
 		}
 	}
+	
+	/**
+	 * Método usado para a edição do registro que o usuário escolheu
+	 * @author João Paulo
+	 */
+	public void editar()
+	{
+		try 
+		{
+			UnidadeEscolar unidadeEscolarSelecionada = (UnidadeEscolar) dataTable.getRowData();
+			
+			if(unidadeEscolarSelecionada != null && unidadeEscolarSelecionada.getPkUnidadeEscolar() != null)
+			{
+				unidadeEscolar = unidadeEscolarSelecionada;
+				if(unidadeEscolarSelecionada.getRedeEnsino()!=null)
+				{
+					redeEnsinoDado = unidadeEscolarSelecionada.getRedeEnsino();
+				}
+				if(unidadeEscolarSelecionada.getRegiao()!=null)
+				{
+					regiaoDado = unidadeEscolarSelecionada.getRegiao();
+				}
+				if(unidadeEscolarSelecionada.getSituacaoFuncionamento()!=null)
+				{
+					situacaoFuncionamentoDado = unidadeEscolarSelecionada.getSituacaoFuncionamento();
+				}
+				if(unidadeEscolarSelecionada.getTipoOcupacao()!=null)
+				{
+					tipoOcupacaoDado = unidadeEscolarSelecionada.getTipoOcupacao();
+				}
+				if(unidadeEscolarSelecionada.getTerreno()!=null)
+				{
+					terreno = unidadeEscolarSelecionada.getTerreno();
+				}
+				if(unidadeEscolarSelecionada.getEndereco()!=null)
+				{
+					enderecoDado = unidadeEscolarSelecionada.getEndereco();
+				}
+				if(unidadeEscolarSelecionada.getDiretor()!=null && unidadeEscolarSelecionada.getDiretor().getNome()!=null)
+				{
+					cpfDiretor = unidadeEscolarSelecionada.getDiretor().getCpf().toString();
+					nomeDiretor = unidadeEscolarSelecionada.getDiretor().getNome();
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("editar", "");
+		}
+	}
+	
+	/**
+	 * Usado para buscar todos os usuários cadastrados pelos filtros digitados na tela pelo usuário
+	 * @author João Paulo
+	 */
+	public void pesquisar()
+	{
+		try 
+		{
+			unidadesEscolaresCadastrados = new UnidadeEscolarDAO().buscar(codigoPesquisar, nomePesquisar, cpfDiretorPesquisar);
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("pesquisar", "");
+		}
+	}
 
+	private HtmlDataTable dataTable;
+	   
+    public HtmlDataTable getDataTable() {
+          return dataTable;
+    }
+
+    public void setDataTable(HtmlDataTable dataTable) {
+          this.dataTable = dataTable;
+    }            
+
+    
+    public void pageFirst() {
+        dataTable.setFirst(0);
+    }
+
+    public void pagePrevious() {
+        dataTable.setFirst(dataTable.getFirst() - dataTable.getRows());
+    }
+
+    public void pageNext() {
+        dataTable.setFirst(dataTable.getFirst() + dataTable.getRows());
+    }
+
+    public void pageLast() {
+        int count = dataTable.getRowCount();
+        int rows = dataTable.getRows();
+        dataTable.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
+	
+    public int getCurrentPage() {
+        int rows = dataTable.getRows();
+        int first = dataTable.getFirst();
+        int count = dataTable.getRowCount();
+        return (count / rows) - ((count - first) / rows) + 1;
+    }
+
+    public int getTotalPages() {
+        int rows = dataTable.getRows();
+        int count = dataTable.getRowCount();
+        return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
+    
 	/* Getters and setters */
 	public UnidadeEscolar getUnidadeEscolar() {
 		return unidadeEscolar;
@@ -481,5 +598,37 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setUsuarioLogado(Usuario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
+	}
+
+	public List<UnidadeEscolar> getUnidadesEscolaresCadastrados() {
+		return unidadesEscolaresCadastrados;
+	}
+
+	public void setUnidadesEscolaresCadastrados(List<UnidadeEscolar> unidadesEscolaresCadastrados) {
+		this.unidadesEscolaresCadastrados = unidadesEscolaresCadastrados;
+	}
+
+	public String getCpfDiretorPesquisar() {
+		return cpfDiretorPesquisar;
+	}
+
+	public void setCpfDiretorPesquisar(String cpfDiretorPesquisar) {
+		this.cpfDiretorPesquisar = cpfDiretorPesquisar;
+	}
+
+	public String getCodigoPesquisar() {
+		return codigoPesquisar;
+	}
+
+	public void setCodigoPesquisar(String codigoPesquisar) {
+		this.codigoPesquisar = codigoPesquisar;
+	}
+
+	public String getNomePesquisar() {
+		return nomePesquisar;
+	}
+
+	public void setNomePesquisar(String nomePesquisar) {
+		this.nomePesquisar = nomePesquisar;
 	}
 }

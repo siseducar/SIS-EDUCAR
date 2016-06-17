@@ -11,6 +11,9 @@ public class Endereco
 	private String tipo;
 	private Integer status;
 	private Cidade cidade;
+	private String latitude;
+	private String longitude;
+	private String enderecoCompleto;
 	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkEndereco() {
@@ -72,5 +75,23 @@ public class Endereco
 	}
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getEnderecoCompleto() {
+		return enderecoCompleto;
+	}
+	public void setEnderecoCompleto(String enderecoCompleto) {
+		this.enderecoCompleto = enderecoCompleto;
 	}
 }

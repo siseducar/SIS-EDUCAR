@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modulos.sisEducar.sisEducarServlet.SisEducarServlet;
+import modulos.sisEducar.servlet.*;
 
 /**
  * Classe que verifica se existe um usuario logado antes de permitir o acesso a uma pagina

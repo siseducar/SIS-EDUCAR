@@ -4,35 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConectaBanco 
-{
-	/**
-	 * Método de conexão com o banco de dados PostgreSQL
-	 * @return
-	 */
-	public Connection getConection() 
-	{
-		// pegando os parametros do banco
+public class ConectaBanco {
+	
+	public Connection getConection() {
 		ParametrosBD conf = new ParametrosBD();
 		Connection con = null;
 
-		try 
-		{
+		try {
 			Class.forName(conf.getDRIVER());
-			try 
-			{
+			try {
 				con = DriverManager.getConnection(conf.getURL(), conf.getUsuario(), conf.getSenha());
-			} 
-			catch (SQLException e) 
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
-		} catch (ClassNotFoundException e)
-		{
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		return con;
 	}
 }
+

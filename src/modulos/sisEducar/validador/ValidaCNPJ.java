@@ -1,4 +1,4 @@
-package modulos.sisEducar.validator;
+package modulos.sisEducar.validador;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Terreno;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -114,6 +115,46 @@ public class TerrenoDAO extends SisEducarDAO
 		if(rs.next())
 		{
 			return rs.getInt("pkTerreno");
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Busca um terreno pelos parâmetros passados
+	 * @author João Paulo
+	 * @param pkTerreno
+	 * @return Terreno
+	 * @throws SQLException
+	 */
+	public Terreno buscarTerreno(Integer pkTerreno) throws SQLException
+	{
+		Cidade cidadeTerrenoMunicipioCliente = null;
+		Terreno terreno = null;
+		String querySQL = "SELECT * FROM Terreno "
+				+ " WHERE status = ?"
+				+ " AND pkTerreno = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkTerreno);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			cidadeTerrenoMunicipioCliente = new Cidade();
+			terreno = new Terreno();
+			terreno.setPkTerreno(rs.getInt("pkTerreno"));
+			terreno.setDistanciaAteSede(rs.getDouble("distanciaAteSede"));
+			terreno.setAreaTerrenoM2(rs.getDouble("areaTerrenoM2"));
+			terreno.setAreaConstrucaoM2(rs.getDouble("areaConstrucaoM2"));
+			terreno.setLatitude(rs.getDouble("latitude"));
+			terreno.setLongitude(rs.getDouble("longitude"));
+			
+			cidadeTerrenoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
+			terreno.setFkMunicipioCliente(cidadeTerrenoMunicipioCliente);
+			
+			return terreno;
 		}
 		
 		return null;

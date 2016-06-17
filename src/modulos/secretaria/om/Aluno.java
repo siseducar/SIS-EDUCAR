@@ -1,8 +1,11 @@
 package modulos.secretaria.om;
 
+import javax.servlet.http.Part;
+
 public class Aluno 
 {
 	private int pkAluno;
+	private String codigoInep;
 	private String ra;
 	private String ra2;
 	private String folha;
@@ -14,7 +17,7 @@ public class Aluno
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
-	private byte[] fotoAluno;	
+	private Part fotoAluno;	
 	private RedeEnsino redeEnsino;
 	private UnidadeEscolar unidadeEscolar;
 	private Etapa etapa;
@@ -101,10 +104,10 @@ public class Aluno
 	public void setAlunoDeficiente(Boolean alunoDeficiente) {
 		this.alunoDeficiente = alunoDeficiente;
 	}
-	public byte[] getFotoAluno() {
+	public Part getFotoAluno() {
 		return fotoAluno;
 	}
-	public void setFotoAluno(byte[] fotoAluno) {
+	public void setFotoAluno(Part fotoAluno) {
 		this.fotoAluno = fotoAluno;
 	}
 	public RedeEnsino getRedeEnsino() {
@@ -142,5 +145,11 @@ public class Aluno
 	}
 	public void setDeficiencia(TipoDeficiencia deficiencia) {
 		this.deficiencia = deficiencia;
+	}
+	public String getCodigoInep() {
+		return codigoInep;
+	}
+	public void setCodigoInep(String codigoInep) {
+		this.codigoInep = codigoInep;
 	}
 }

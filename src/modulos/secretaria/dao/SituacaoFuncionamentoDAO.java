@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class SituacaoFuncionamentoDAO {
 
@@ -40,5 +41,39 @@ public class SituacaoFuncionamentoDAO {
 		}
 		
 		return listaSituFuncionamento;
+	}
+	
+	/**
+	 * Busca uma situação de funcionamento pelos parâmetros passados
+	 * @author João Paulo
+	 * @param pkSituacaoFuncionamento
+	 * @return SituacaoFuncionamento
+	 * @throws SQLException
+	 */
+	public SituacaoFuncionamento buscarSituacaoFuncionamento(Integer pkSituacaoFuncionamento) throws SQLException
+	{
+		SituacaoFuncionamento situacaoFuncionamento = null;
+		String querySQL = "SELECT * FROM SituacaoFuncionamento "
+				+ " WHERE status = ?"
+				+ " AND pkSituacaoFuncionamento = ?";
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkSituacaoFuncionamento);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			situacaoFuncionamento = new SituacaoFuncionamento();
+			situacaoFuncionamento.setPkSituacaoFuncionamento(rs.getInt("pkSituacaoFuncionamento"));
+			situacaoFuncionamento.setCodigo(rs.getString("codigo"));
+			situacaoFuncionamento.setDescricao(rs.getString("descricao"));
+			situacaoFuncionamento.setStatus(rs.getInt("status"));
+			situacaoFuncionamento.setOrdemExibicao(rs.getInt("ordemExibicao"));
+			
+			return situacaoFuncionamento;
+		}
+		
+		return null;
 	}
 }

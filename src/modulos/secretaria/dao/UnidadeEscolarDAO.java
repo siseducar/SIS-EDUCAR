@@ -8,6 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Endereco;
+import modulos.secretaria.om.RedeEnsino;
+import modulos.secretaria.om.Regiao;
+import modulos.secretaria.om.SituacaoFuncionamento;
+import modulos.secretaria.om.Terreno;
+import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -211,5 +218,153 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		}
 		
 		return listaUnidadeEscolar;
+	}
+	
+	/**
+	 * Busca todas as unidades escolares do banco de dados pelos filtros que o usuário selecionar na tela
+	 * @author João Paulo
+	 * @param codigo
+	 * @param nome
+	 * @param cpfDiretor
+	 * @return
+	 */
+	public List<UnidadeEscolar> buscar(String codigo, String nome, String cpfDiretor)
+	{
+		try 
+		{
+			Integer numeroArqumentos = 1;
+			UnidadeEscolar unidadeEscolar = null;
+			Regiao regiao = null;
+			Cidade cidade = null;
+			Terreno terreno = null;
+			SituacaoFuncionamento situacaoFuncionamento = null;
+			RedeEnsino redeEnsino = null;
+			Endereco endereco = null;
+			TipoOcupacao tipoOcupacao = null;
+			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
+			SituacaoFuncionamentoDAO situacaoFuncionamentoDAO = new SituacaoFuncionamentoDAO();
+			RegiaoDAO regiaoDAO = new RegiaoDAO();
+			TerrenoDAO terrenoDAO = new TerrenoDAO();
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			TipoOcupacaoDAO tipoOcupacaoDAO = new TipoOcupacaoDAO();
+			List<UnidadeEscolar> unidadesAux = new ArrayList<UnidadeEscolar>();
+			String querySQL = "SELECT u.* FROM UnidadeEscolar u"
+					+ " LEFT OUTER JOIN Pessoa p ON(u.fkDiretor = p.pkPessoa)"
+					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
+					+ " LEFT OUTER JOIN Terreno t ON(u.fkTerreno = t.pkTerreno)"
+					+ " LEFT OUTER JOIN Endereco e ON(u.fkEndereco = e.pkEndereco)"
+					+ " WHERE u.status = ?"
+					+ " AND t.status = ?"
+					+ " AND re.status = ?"
+					+ " AND e.status = ?";
+			
+			if(codigo!=null && codigo.length()>0)
+			{
+				querySQL += " AND u.codigo like ?";
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				querySQL+= " AND u.nome like ?";
+			}
+			if(cpfDiretor!=null && cpfDiretor.length() >0)
+			{
+				querySQL+= " AND p.cpf like ?";
+			}
+			
+			querySQL+= " ORDER BY codigo";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos ++;
+			if(codigo!=null && codigo.length()>0)
+			{
+				ps.setObject(numeroArqumentos, "%" + codigo + "%");
+				numeroArqumentos ++;
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + nome + "%");
+				numeroArqumentos ++;
+			}
+			if(cpfDiretor!=null && cpfDiretor.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + cpfDiretor + "%");
+				numeroArqumentos ++;
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				endereco = new Endereco();
+				cidade = new Cidade();
+				terreno = new Terreno();
+				regiao = new Regiao();
+				tipoOcupacao = new TipoOcupacao();
+				redeEnsino = new RedeEnsino();
+				situacaoFuncionamento = new SituacaoFuncionamento();
+				unidadeEscolar = new UnidadeEscolar();
+				unidadeEscolar.setPkUnidadeEscolar(rs.getInt("pkUnidadeEscolar"));
+				unidadeEscolar.setCodigo(rs.getString("codigo"));
+				unidadeEscolar.setNome(rs.getString("nome"));
+				unidadeEscolar.setUnidadeControlada(rs.getBoolean("unidadeControlada"));
+				unidadeEscolar.setUnidadeInformatizada(rs.getBoolean("unidadeInformatizada"));
+				unidadeEscolar.setStatus(rs.getInt("status"));
+				
+				if(rs.getObject("fkRedeEnsino")!=null)
+				{
+					redeEnsino = redeEnsinoDAO.buscarRedeEnsino(rs.getInt("fkRedeEnsino"));
+					unidadeEscolar.setRedeEnsino(redeEnsino);
+				}
+				if(rs.getObject("fkRegiao")!=null)
+				{
+					regiao = regiaoDAO.buscarRegiao(rs.getInt("fkRegiao"));
+					unidadeEscolar.setRegiao(regiao);
+				}
+				if(rs.getObject("fkSituacaoFuncionamento")!=null)
+				{
+					situacaoFuncionamento = situacaoFuncionamentoDAO.buscarSituacaoFuncionamento(rs.getInt("fkSituacaoFuncionamento"));
+					unidadeEscolar.setSituacaoFuncionamento(situacaoFuncionamento);
+				}
+				if(rs.getObject("fkTipoOcupacao")!=null)
+				{
+					tipoOcupacao = tipoOcupacaoDAO.buscarTipoOcupacao(rs.getInt("fkTipoOcupacao"));
+					unidadeEscolar.setTipoOcupacao(tipoOcupacao);
+				}
+				if(rs.getObject("fkTerreno")!=null)
+				{
+					terreno = terrenoDAO.buscarTerreno(rs.getInt("fkTerreno"));
+					unidadeEscolar.setTerreno(terreno);
+				}
+				if(rs.getObject("fkDiretor")!=null)
+				{
+					unidadeEscolar.setDiretor(new PessoaDAO().obtemPessoaSimples(rs.getInt("fkDiretor")));
+				}
+				if(rs.getObject("fkEndereco")!=null)
+				{
+					endereco = enderecoDAO.buscarEndereco(rs.getInt("fkEndereco"));
+					unidadeEscolar.setEndereco(endereco);
+				}
+				if(rs.getObject("fkMunicipioCliente")!=null)
+				{
+					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+					unidadeEscolar.setFkMunicipioCliente(cidade);
+				}
+				unidadesAux.add(unidadeEscolar);
+			}
+			
+			return unidadesAux;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println(e);
+			return null;
+		}
 	}
 }

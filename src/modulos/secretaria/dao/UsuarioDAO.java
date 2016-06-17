@@ -583,6 +583,7 @@ public class UsuarioDAO extends SisEducarDAO
 			{
 				querySQL+= " AND email like ?";
 			}
+			querySQL+= " ORDER BY nome";
 			
 			ps = con.prepareStatement(querySQL);
 			
