@@ -508,5 +508,26 @@ public class ParametrosServlet implements Serializable{
 		}
 	}
 	
-	
+	/*
+	 * Metodo para carregar as cidades do autocomplete
+	 * */
+	public List<String> carregaCidades() {        
+        try {
+        	List<String> cidades = new ArrayList<String>();
+        	List<Cidade> cidadesTotal = new ArrayList<Cidade>();
+        	CidadeDAO cidadeDao = new CidadeDAO();
+
+        	cidadesTotal = cidadeDao.listaCidade();
+        	
+        	for(int i=0; i < cidadesTotal.size(); i++ ) {        		
+        		cidades.add(cidadesTotal.get(i).getNome());
+        	}
+        	
+        	return cidades; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        
+        return null;
+    }
 }

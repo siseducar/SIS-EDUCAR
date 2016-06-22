@@ -49,25 +49,39 @@
 #legendaMapa {
 	text-align: center
 }
-/* =============== Estilos do autocomplete =============== */
-.ui-autocomplete { 
-	background: #fff; 
-	border-top: 1px solid #ccc;
-	cursor: pointer; 
-	font: 15px 'Open Sans',Arial;
-	margin-left: 3px;
-	width: 493px !important;
-	position: fixed;
+/* =============== Estilos do AutoComplete =============== */
+#cidadeAutoComplete {
+	size: 100%;
 }
 
-.ui-autocomplete .ui-menu-item { 
-	list-style: none outside none;
-	padding: 7px 0 9px 10px;
+/* =============== Estilos do Data Table =============== */
+.order-table{   
+	border-collapse:collapse;
 }
 
-.ui-autocomplete .ui-menu-item:hover { background: #eee }
+.order-table-header{
+	text-align:center;
+	background:none repeat scroll 0 0 #E5E5E5;
+	border-bottom:1px solid #BBBBBB;
+	padding:16px;
+}
 
-.ui-autocomplete .ui-corner-all { 
-	color: #666 !important;
-	display: block;
+.order-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFFF;
+	border-top:1px solid #BBBBBB;
+}
+
+.order-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #F9F9F9;
+	border-top:1px solid #BBBBBB;
+}
+
+.calendario {
+	z-index: 10;
+}
+
+#grow {
+	z-index: 999;
 }

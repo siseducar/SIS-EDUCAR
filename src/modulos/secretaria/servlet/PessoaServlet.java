@@ -1,6 +1,5 @@
 package modulos.secretaria.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,9 +13,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
-
-import org.postgresql.util.Base64;
-import org.primefaces.model.UploadedFile;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.PessoaDAO;
@@ -42,7 +38,6 @@ import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
@@ -169,7 +164,15 @@ public class PessoaServlet implements Serializable{
 	
 	/* Componente para validar idade da pessoa */
 	private Boolean menorIdade;
-
+	
+	private List<String> cidadesAutoComplete;
+	
+	private Part imagemAluno;
+	
+	private Part imagemCertidaoNascimento;
+	
+	private Part imagemComproResidencia;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -235,6 +238,7 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
+		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		comboCargo = new ArrayList<SelectItem>();
@@ -253,6 +257,7 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 		comboTipoLogradouro = new ArrayList<SelectItem>();
+		cidadesAutoComplete = new ArrayList<String>();
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -298,50 +303,50 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
 	 * */
-	public String salvarCadastroPessoa(){
+	public String salvarCadastroPessoa() {
+			
 		try {
-			Pessoa pessoaDadosFinal = new Pessoa();
-	
-			if( validaDadosPessoa() == true ) {
-				if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
-				{
-					pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
-				}
-				
-				pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
-				pessoaDadosFinal.setNome(pessoaDados.getNome());
-				pessoaDadosFinal.setCpf(pessoaDados.getCpf());
-				pessoaDadosFinal.setRg(pessoaDados.getRg());
-				pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
-				pessoaDadosFinal.setSexo(pessoaDados.getSexo());
-				pessoaDadosFinal.setEmail(pessoaDados.getEmail());
-				pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
-				pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
-				
-				enderecoDados.setCidade(cidadeDados);
-				pessoaDadosFinal.setEndereco(enderecoDados);
-				
-				pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
-				pessoaDadosFinal.setRaca(racaDados);
-				pessoaDadosFinal.setEstadoCivil(estaCivilDados);
-				pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
-				pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
-				pessoaDadosFinal.setReligiao(religiaoDados);
-				pessoaDadosFinal.setRegiao(regiaoDados);
-				pessoaDadosFinal.setPais(paisDados);				
-				pessoaDadosFinal.setEstado(estadoDados);				
-				
-				new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Cadastro Realizado com sucesso",null));
-				limparFormulario();
+			Pessoa pessoaDadosFinal = new Pessoa();		
+			
+			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
+			{
+				pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 			}
+			
+			pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
+			pessoaDadosFinal.setNome(pessoaDados.getNome());
+			pessoaDadosFinal.setCpf(pessoaDados.getCpf());
+			pessoaDadosFinal.setRg(pessoaDados.getRg());
+			pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
+			pessoaDadosFinal.setSexo(pessoaDados.getSexo());
+			pessoaDadosFinal.setEmail(pessoaDados.getEmail());
+			pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
+			pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
+			
+			enderecoDados.setCidade(cidadeDados);
+			pessoaDadosFinal.setEndereco(enderecoDados);
+			
+			pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
+			pessoaDadosFinal.setRaca(racaDados);
+			pessoaDadosFinal.setEstadoCivil(estaCivilDados);
+			pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
+			pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
+			pessoaDadosFinal.setReligiao(religiaoDados);
+			pessoaDadosFinal.setRegiao(regiaoDados);
+			pessoaDadosFinal.setPais(paisDados);				
+			pessoaDadosFinal.setEstado(estadoDados);				
+		
+			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Cadastro Realizado com sucesso",null));
+			limparFormulario();
 		} catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao cadastrar",null));
-			return null;
+					"Erro ao realizar cadastro contate o administrador!",null));
 		}
+		
+		
 		
 		return null;
 	}
@@ -408,29 +413,29 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
-	public void importar() {
-		System.out.println(alunoDados.getFotoAluno());
-	}
-	
-	public void converteBase64(UploadedFile imagemConverte, ImagemBase64 imagem) {
-    	String formato = imagemConverte.getContentType();
-    	String nome = imagemConverte.getFileName();
-    	byte[] imageAsByte = new byte[(int) imagemConverte.getSize()];
-    	try {
-    		imagemConverte.getInputstream().read(imageAsByte);
-    		String base64AsString = new String(Base64.encodeBytes(imageAsByte));
-    		imagem.setB64(base64AsString);
-    		imagem.setTipo(formato);
-    		imagem.setNome(nome);
-    		
-    		System.out.println(imagem.getB64());
-    		System.out.println(imagem.getNome());
-    		System.out.println(imagem.getTipo());
-    	}catch (IOException e) {
-    		e.printStackTrace(); 
+	public void converteImagemAluno() {
+    	if(imagemAluno != null && imagemAluno.getSize() > 0) {
+			String formato = imagemAluno.getContentType();
+	    	String nome = imagemAluno.getName();
+	    	byte[] imageAsByte = new byte[(int) imagemAluno.getSize()];
     	}
 	}
 	
+	public void converteCertidaoNascimento() {
+    	if(imagemCertidaoNascimento != null && imagemCertidaoNascimento.getSize() > 0) {
+			String formato = imagemCertidaoNascimento.getContentType();
+	    	String nome = imagemCertidaoNascimento.getName();
+	    	byte[] imageAsByte = new byte[(int) imagemCertidaoNascimento.getSize()];
+    	}
+	}
+	
+	public void converteComproResidencia() {
+    	if(imagemComproResidencia != null && imagemComproResidencia.getSize() > 0) {
+			String formato = imagemComproResidencia.getContentType();
+	    	String nome = imagemComproResidencia.getName();
+	    	byte[] imageAsByte = new byte[(int) imagemComproResidencia.getSize()];
+    	}
+	}
 	
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
@@ -466,9 +471,25 @@ public class PessoaServlet implements Serializable{
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
 	}
-	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
+	
+	/*
+	 * Metodo autoCompleteCidades
+	 * */
+	public List<String> sugerirCidades(String consulta) {
+	    List<String> cidadesSugeridas = new ArrayList<String>();
+	    
+	    
+	    for (String indiceCidades : cidadesAutoComplete) {
+	        if (indiceCidades.toLowerCase().startsWith(consulta.toLowerCase())) {
+	            cidadesSugeridas.add(indiceCidades);
+	        }
+	    }
+
+	    return cidadesSugeridas;
+	}
+	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -618,7 +639,12 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public void validaCadastro(){
 		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
-			salvarCadastroPessoa();
+			if( validaDadosPessoa() == true ) {	
+				salvarCadastroPessoa();
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao cadastrar",null));
+			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
 			salvarCadastroPessoa();
@@ -646,6 +672,7 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
+		cidadesAutoComplete =  paramDados.carregaCidades();
 	}
 	
 	public Boolean validaDadosPessoa(){
@@ -785,6 +812,7 @@ public class PessoaServlet implements Serializable{
 		
 		return true;
 	}
+	
 	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
@@ -1268,48 +1296,36 @@ public class PessoaServlet implements Serializable{
 	public void setLatitude(List<String> latitude) {
 		this.latitude = latitude;
 	}
-	
-	
-	
-	private Part fotoAluno;
-	
-	
-	public Part getFotoAluno() {
-		return fotoAluno;
+
+	public List<String> getCidadesAutoComplete() {
+		return cidadesAutoComplete;
 	}
 
-	public void setFotoAluno(Part fotoAluno) {
-		this.fotoAluno = fotoAluno;
+	public void setCidadesAutoComplete(List<String> cidadesAutoComplete) {
+		this.cidadesAutoComplete = cidadesAutoComplete;
 	}
 
-	
-	
-	
-	
-	public String upload(){
-		
-		return "sucess";
+	public Part getImagemAluno() {
+		return imagemAluno;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void setImagemAluno(Part imagemAluno) {
+		this.imagemAluno = imagemAluno;
+	}
+
+	public Part getImagemCertidaoNascimento() {
+		return imagemCertidaoNascimento;
+	}
+
+	public void setImagemCertidaoNascimento(Part imagemCertidaoNascimento) {
+		this.imagemCertidaoNascimento = imagemCertidaoNascimento;
+	}
+
+	public Part getImagemComproResidencia() {
+		return imagemComproResidencia;
+	}
+
+	public void setImagemComproResidencia(Part imagemComproResidencia) {
+		this.imagemComproResidencia = imagemComproResidencia;
+	}
 }
