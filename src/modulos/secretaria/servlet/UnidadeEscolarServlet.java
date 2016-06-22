@@ -12,6 +12,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.ContatoDAO;
 import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.TerrenoDAO;
@@ -212,6 +213,8 @@ public class UnidadeEscolarServlet implements Serializable
 			{
 				enderecoAux = new EnderecoDAO().inserirEndereco(enderecoDado);
 				if(enderecoAux!=null && enderecoAux.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoAux); }
+				
+				enderecoAux.setContato(new ContatoDAO().inserirContato(enderecoAux.getContato()));
 			}
 			
 			/* Salva o Terreno */

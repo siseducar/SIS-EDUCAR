@@ -329,7 +329,8 @@
 										<div class="col-xs-12 col-sm-2">
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
 											<div>
-												<h:inputText type="text" id="numTelefone" styleClass="col-sm-12 telResidencial" title="Numero do Telefone">
+												<h:inputText type="text" id="numTelefone" styleClass="col-sm-12 telResidencial" title="Numero do Telefone" 
+													value="#{unidadeEscolarServlet.enderecoDado.contato.telResidencial}">
 													<f:converter converterId="converter.TELRESIDENCIAL"/>
 												</h:inputText>											
 											</div>
@@ -338,7 +339,7 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
 											<div>
 												<h:inputText type="text" id="numCelular" styleClass="col-sm-12 telCelular" title="Numero do Celular"
-												value="#{unidadeEscolarServlet.pessoaDado.telefoneCelular}">
+												value="#{unidadeEscolarServlet.enderecoDado.contato.telCelular}">
 													<f:converter converterId="converter.TELCELULAR"/>
 												</h:inputText>
 											</div>
@@ -348,7 +349,7 @@
 											<div>
 												<h:inputText type="text" id="email"
 													class="col-sm-12" title="E-mail da Pessoa"
-													value="#{unidadeEscolarServlet.pessoaDado.email}" />
+													value="#{unidadeEscolarServlet.enderecoDado.contato.email}" />
 											</div>
 										</div>
 									</div>

@@ -6,6 +6,7 @@ public class Contato
 	private String telComercial;
 	private String telResidencial;
 	private String telCelular;
+	private String email;
 	private int status;
 	private Boolean enviarNotificacao;
 	
@@ -44,5 +45,11 @@ public class Contato
 	}
 	public void setEnviarNotificacao(Boolean enviarNotificacao) {
 		this.enviarNotificacao = enviarNotificacao;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
