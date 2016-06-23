@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import modulos.secretaria.om.Aluno;
 import sisEdcuar.conexaoBanco.ConectaBanco;
 import sisEdcuar.dao.SisEducarDAO;
 import sisEdcuar.utils.ConstantesSisEducar;
@@ -20,8 +19,7 @@ public class AlunoDAO extends SisEducarDAO
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 
-	public AlunoDAO() throws SQLException
-	{
+	public AlunoDAO() throws SQLException {
 		desabilitarAutoCommit(con);
 	}
 	
@@ -49,83 +47,6 @@ public class AlunoDAO extends SisEducarDAO
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Inseri um aluno
-	 * @author João Paulo
-	 * @param aluno
-	 * @return Aluno
-	 * @throws SQLException
-	 */
-	public Aluno inserirAluno(Aluno aluno) throws SQLException 
-	{
-		String querySQL = "INSERT INTO aluno "
-				+ " ("
-					+ " ra, ra2, folha, livro, registro, fkPessoa,"
-					+ " fkcidadenascimento, livrouf, nomepai, nomemae"
-				+ ") "
-				+ " values(?,?,?,?,?,?,?,?,?,?)";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setString(1, aluno.getRa());
-		ps.setString(2, aluno.getRa2());
-		ps.setString(3, aluno.getFolha());
-		ps.setString(4, aluno.getLivro());
-		ps.setInt(5, aluno.getRegistro()!=null ? aluno.getRegistro() : -1);
-		ps.setInt(6, aluno.getPessoa().getPkPessoa());
-		ps.setObject(7, aluno.getCidadeNascimento()!=null ? aluno.getCidadeNascimento().getPkCidade() : null);
-		ps.setString(8, aluno.getLivroUF());
-		
-		fecharConexaoBanco(con, ps, false, true);
-		
-		aluno.setPkAluno(obtemPKAluno(aluno.getRa(), aluno.getRa2(), aluno.getRegistro()));
-		
-		return aluno;
-	}
-	
-	/**
-	 * Obtem a pk do aluno salvo pelos parâmeros passados
-	 * @author João Paulo
-	 * @param ra
-	 * @param ra2
-	 * @param registro
-	 * @return PkAluno
-	 * @throws SQLException
-	 */
-	public Integer obtemPKAluno(String ra, String ra2, Integer registro) throws SQLException
-	{
-		Integer numeroArgumentos = 1;
-		
-		String querySQL = "SELECT * FROM aluno"
-				+ " WHERE ra = ?";
-		
-		if(ra2!=null && ra2.length() >0)		 	{ querySQL += " AND ra2 = ?"; }
-		if(registro!=null && registro >0)	{ querySQL += " AND registro = ?"; }
-		
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setString(numeroArgumentos, ra);
-		
-		if(ra2!=null && ra2.length()>0)	
-		{ 
-			numeroArgumentos ++; 
-			ps.setString(numeroArgumentos, ra2);
-		}
-		
-		if(registro!=null && registro>0)	
-		{ 
-			numeroArgumentos ++; 
-			ps.setInt(numeroArgumentos, registro);
-		}
-				
-		ResultSet rs = ps.executeQuery();
-		if(rs.next())
-		{
-			return rs.getInt("pkAluno");
-		}
-		
-		return null;
 	}
 	
 	/*

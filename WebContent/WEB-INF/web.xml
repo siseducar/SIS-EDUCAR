@@ -40,7 +40,5 @@
 	<filter-mapping>
 		<filter-name>AuthenticationFilter</filter-name>
 		<url-pattern>/modulos/*</url-pattern>
-		<url-pattern>/resources/imagens/</url-pattern>
-		<url-pattern>/resources/templates/sisEducar/</url-pattern>
 	</filter-mapping>
 </web-app>

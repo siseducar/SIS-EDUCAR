@@ -1,6 +1,5 @@
 package modulos.secretaria.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
-
-import org.postgresql.util.Base64;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.PessoaDAO;
@@ -43,7 +40,6 @@ import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
 import sisEdcuar.servlet.SisEducarServlet;
 import sisEdcuar.utils.ConstantesSisEducar;
-import sisEdcuar.utils.ImagemBase64;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -126,9 +122,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* Combo com valores de TIPO DE DEFICENCIA*/
 	private List<SelectItem> comboTipoDeficiencia;
-	
-	/* Combo com valores de Tipos de Logradouros*/
-	private List<SelectItem> comboTipoLogradouro;
 	
 	/* Combo com valores de PAÃ�S */
 	private List<SelectItem> comboPais;
@@ -260,7 +253,6 @@ public class PessoaServlet implements Serializable{
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
-		comboTipoLogradouro = new ArrayList<SelectItem>();
 		cidadesAutoComplete = new ArrayList<String>();
 		carregaCombos();
 		complementoAluno = false;
@@ -277,31 +269,7 @@ public class PessoaServlet implements Serializable{
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
 	
-	public void calculaIdade(){
-		
-		if(pessoaDados.getDataNascimento() != null && !pessoaDados.getDataNascimento().equals("__/__/____")){
-			
-			GregorianCalendar dataHoje = new GregorianCalendar();
-			GregorianCalendar nascimento = new GregorianCalendar();
-			
-			int idade;
-			nascimento.setTime(pessoaDados.getDataNascimento());
-					
-			int anoAtual = dataHoje.get(Calendar.YEAR);
-			int anoNascimento = nascimento.get(Calendar.YEAR);
-			idade = anoAtual - anoNascimento;
-			if(idade < 0 || idade > 100) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe uma data valida.",null));
-			} else {
-				if( idade < 18 ){
-					menorIdade = true;
-				}else{
-					menorIdade = false;
-				}
-			}
-		}
-	}
+	
 	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
@@ -337,8 +305,10 @@ public class PessoaServlet implements Serializable{
 			pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
 			pessoaDadosFinal.setReligiao(religiaoDados);
 			pessoaDadosFinal.setRegiao(regiaoDados);
-			pessoaDadosFinal.setPais(paisDados);				
-			pessoaDadosFinal.setEstado(estadoDados);				
+			pessoaDadosFinal.setPais(paisDados);
+			pessoaDadosFinal.setEstado(estadoDados);
+			
+			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 		
 			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
 			
@@ -417,28 +387,172 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
-	public void converteImagemAluno() {
-    	if(imagemAluno != null && imagemAluno.getSize() > 0) {
-			String formato = imagemAluno.getContentType();
-	    	String nome = imagemAluno.getName();
-	    	byte[] imageAsByte = new byte[(int) imagemAluno.getSize()];
-    	}
+	public Boolean validaDadosPessoa(){
+		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O NOME deve ser preenchido.",null));
+			pessoaDados.setNome(null);
+			return false;
+		}
+
+		if(pessoaDados.getDataNascimento() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A DATA DE NASCIMENTO deve ser preenchida.",null));
+			pessoaDados.setDataNascimento(null);
+			return false;
+		}	
+		
+		if( menorIdade == false  ) {
+			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O CPF deve ser preenchido.",null));
+				pessoaDados.setCpf(null);
+				return false;
+			}
+		} 
+				
+		if( pessoaDados.getSexo() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O SEXO deve ser informado.",null));
+			return false;
+		}
+		
+		if( nacionalidadeDados.getPkNacionalidade() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A NACIONALIDADE deve ser informada.",null));
+			return false;
+		}
+		
+		if( racaDados.getPkRaca() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A RAÃ‡A deve ser informada.",null));
+			return false;
+		}
+		
+		if( estaCivilDados.getPkEstadoCivil() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O ESTADO CIVIL deve ser informado.",null));
+			return false;
+		}
+		
+		if( grauInstruDados.getPkGrauInstrucao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O GRAU DE INSTRUÃ‡ÃƒO deve ser informado.",null));
+			return false;
+		}
+		
+		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A SITUAÃ‡ÃƒO ECONÃ”MICA deve ser informada.",null));
+			return false;
+		}
+		
+		if( religiaoDados.getPkReligiao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A RELIGIÃƒO deve ser informada.",null));
+			return false;
+		}
+		
+		if( paisDados.getPkPais() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O PAÃ�S deve ser informado.",null));
+			return false;
+		}
+		
+		if( estadoDados.getPkEstado() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O ESTADO deve ser informado.",null));
+			return false;
+		}
+		
+		if( cidadeDados.getPkCidade() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O MUNICÃ�PIO deve ser informado.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getCep() == null || enderecoDados.getCep().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O CEP deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getLogradouro() == null || enderecoDados.getCep().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O LOGRADOURO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O NÃšMERO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( enderecoDados.getBairro() == null || enderecoDados.getBairro().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O BAIRRO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( regiaoDados.getPkRegiao() == null ) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A ZONA RESIDENCIAL deve ser informada.",null));
+			return false;
+		}
+		
+		if( pessoaDados.getTelefoneResidencial() == null || pessoaDados.getTelefoneResidencial().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O TELEFONE DE CONTATO deve ser preenchido.",null));
+			return false;
+		}
+		
+		if( pessoaDados.getTelefoneCelular() == null || pessoaDados.getTelefoneCelular().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O TELEFONE CELULAR deve ser preenchido.",null));
+			return false;
+		}
+		if( menorIdade == true ) {
+			if( (pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0) && 
+					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
+				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O NOME DA MÃƒE ou de algum RESPONSAVEL deve ser informado.",null));
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
-	public void converteCertidaoNascimento() {
-    	if(imagemCertidaoNascimento != null && imagemCertidaoNascimento.getSize() > 0) {
-			String formato = imagemCertidaoNascimento.getContentType();
-	    	String nome = imagemCertidaoNascimento.getName();
-	    	byte[] imageAsByte = new byte[(int) imagemCertidaoNascimento.getSize()];
-    	}
-	}
-	
-	public void converteComproResidencia() {
-    	if(imagemComproResidencia != null && imagemComproResidencia.getSize() > 0) {
-			String formato = imagemComproResidencia.getContentType();
-	    	String nome = imagemComproResidencia.getName();
-	    	byte[] imageAsByte = new byte[(int) imagemComproResidencia.getSize()];
-    	}
+	/*
+	 * Metodo para validar idade da pessoa cadastrada
+	 * */
+	public void calculaIdade(){	
+		if(pessoaDados.getDataNascimento() != null && !pessoaDados.getDataNascimento().equals("__/__/____")){
+			
+			GregorianCalendar dataHoje = new GregorianCalendar();
+			GregorianCalendar nascimento = new GregorianCalendar();
+			
+			int idade;
+			nascimento.setTime(pessoaDados.getDataNascimento());
+					
+			int anoAtual = dataHoje.get(Calendar.YEAR);
+			int anoNascimento = nascimento.get(Calendar.YEAR);
+			idade = anoAtual - anoNascimento;
+			if(idade < 0 || idade > 100) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"Informe uma data valida.",null));
+			} else {
+				if( idade < 18 ){
+					menorIdade = true;
+				}else{
+					menorIdade = false;
+				}
+			}
+		} else {
+			menorIdade = false;
+		}
 	}
 	
 	/*
@@ -471,9 +585,6 @@ public class PessoaServlet implements Serializable{
 		nomeMae = false;
 		nomePai = false;
 		nomeResponsavel = false;
-		comboPais = new ArrayList<SelectItem>();
-		comboEstado = new ArrayList<SelectItem>();
-		comboCidade = new ArrayList<SelectItem>();
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
@@ -645,9 +756,6 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
 			if( validaDadosPessoa() == true ) {	
 				salvarCadastroPessoa();
-			} else {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao cadastrar",null));
 			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
@@ -675,147 +783,10 @@ public class PessoaServlet implements Serializable{
 		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
-		comboTipoLogradouro.addAll(paramDados.consultaTipoLogradouro());
 		cidadesAutoComplete =  paramDados.carregaCidades();
 	}
 	
-	public Boolean validaDadosPessoa(){
-		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NOME deve ser preenchido.",null));
-			pessoaDados.setNome(null);
-			return false;
-		}
-
-		if(pessoaDados.getDataNascimento() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A DATA DE NASCIMENTO deve ser preenchida.",null));
-			pessoaDados.setDataNascimento(null);
-			return false;
-		}	
-		
-		if( menorIdade == false  ) {
-			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O CPF deve ser preenchido.",null));
-				pessoaDados.setCpf(null);
-				return false;
-			}
-		}
-				
-		if( pessoaDados.getSexo() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O SEXO deve ser informado.",null));
-			return false;
-		}
-		
-		if( nacionalidadeDados.getPkNacionalidade() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A NACIONALIDADE deve ser informada.",null));
-			return false;
-		}
-		
-		if( racaDados.getPkRaca() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RAÃ‡A deve ser informada.",null));
-			return false;
-		}
-		
-		if( estaCivilDados.getPkEstadoCivil() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O ESTADO CIVIL deve ser informado.",null));
-			return false;
-		}
-		
-		if( grauInstruDados.getPkGrauInstrucao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O GRAU DE INSTRUÃ‡ÃƒO deve ser informado.",null));
-			return false;
-		}
-		
-		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A SITUAÃ‡ÃƒO ECONÃ”MICA deve ser informada.",null));
-			return false;
-		}
-		
-		if( religiaoDados.getPkReligiao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RELIGIÃƒO deve ser informada.",null));
-			return false;
-		}
-		
-		if( paisDados.getPkPais() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O PAÃ�S deve ser informado.",null));
-			return false;
-		}
-		
-		if( estadoDados.getPkEstado() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O ESTADO deve ser informado.",null));
-			return false;
-		}
-		
-		if( cidadeDados.getPkCidade() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O MUNICÃ�PIO deve ser informado.",null));
-			return false;
-		}
-		
-		if( enderecoDados.getCep() == null || enderecoDados.getCep().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O CEP deve ser preenchido.",null));
-			return false;
-		}
-		
-		if( enderecoDados.getLogradouro() == null || enderecoDados.getCep().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O LOGRADOURO deve ser preenchido.",null));
-			return false;
-		}
-		
-		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NÃšMERO deve ser preenchido.",null));
-			return false;
-		}
-		
-		if( enderecoDados.getBairro() == null || enderecoDados.getBairro().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O BAIRRO deve ser preenchido.",null));
-			return false;
-		}
-		
-		if( regiaoDados.getPkRegiao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A ZONA RESIDENCIAL deve ser informada.",null));
-			return false;
-		}
-		
-		if( pessoaDados.getTelefoneResidencial() == null || pessoaDados.getTelefoneResidencial().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O TELEFONE DE CONTATO deve ser preenchido.",null));
-			return false;
-		}
-		
-		if( pessoaDados.getTelefoneCelular() == null || pessoaDados.getTelefoneCelular().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O TELEFONE CELULAR deve ser preenchido.",null));
-			return false;
-		}
-		if( menorIdade == true ) {
-			if( pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0 
-					|| pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0	) {
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O NOME DA MÃƒE ou de algum RESPONSAVEL deve ser informado.",null));
-				return false;
-			}
-		}
-		
-		return true;
-	}
+	
 	
 	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
@@ -1107,14 +1078,6 @@ public class PessoaServlet implements Serializable{
 
 	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
 		this.comboZonaResidencial = comboZonaResidencial;
-	}
-	
-	public List<SelectItem> getComboTipoLogradouro() {
-		return comboTipoLogradouro;
-	}
-	
-	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
-		this.comboTipoLogradouro = comboTipoLogradouro;
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* InformaÃ§Ãµes referentes ao dados do aluno */	
