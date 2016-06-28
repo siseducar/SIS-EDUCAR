@@ -74,11 +74,11 @@ public class ContatoDAO extends SisEducarDAO
 			
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setObject(1, contato.getTelComercial());
-			ps.setObject(2, contato.getTelResidencial());
-			ps.setObject(3, contato.getTelCelular());
-			ps.setObject(4, contato.getEmail());
-			ps.setObject(5, contato.getEnviarNotificacao());
+			ps.setObject(1, contato.getTelComercial()!=null ? contato.getTelComercial() : "");
+			ps.setObject(2, contato.getTelResidencial() !=null ? contato.getTelResidencial() : "");
+			ps.setObject(3, contato.getTelCelular() !=null ? contato.getTelCelular() : "");
+			ps.setObject(4, contato.getEmail() !=null ? contato.getEmail() : "");
+			ps.setObject(5, contato.getEnviarNotificacao() !=null ? contato.getEnviarNotificacao() : true);
 			ps.setInt(6, ConstantesSisEducar.STATUS_ATIVO);
 			
 			fecharConexaoBanco(con, ps, false, true);

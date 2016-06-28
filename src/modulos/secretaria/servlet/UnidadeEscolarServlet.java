@@ -18,6 +18,7 @@ import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.TerrenoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.Pais;
@@ -48,6 +49,7 @@ public class UnidadeEscolarServlet implements Serializable
 	private Estado estadoDado;
 	private Cidade cidadeDado;
 	private Endereco enderecoDado;
+	private Contato contatoDado;
 	private RedeEnsino redeEnsinoDado;
 	private SituacaoFuncionamento situacaoFuncionamentoDado;
 	private TipoOcupacao tipoOcupacaoDado;
@@ -101,8 +103,11 @@ public class UnidadeEscolarServlet implements Serializable
 		if(this.diretor == null){			
 			this.diretor = new Pessoa();
 		}
-		if(this.enderecoDado == null){
-			this.enderecoDado = new Endereco();
+		if(this.enderecoDado == null) { 
+			this.enderecoDado = new Endereco(); 
+		}
+		if(this.contatoDado == null) { 
+			this.contatoDado = new Contato(); 
 		}
 		if(this.redeEnsinoDado == null) {			
 			this.redeEnsinoDado = new RedeEnsino();
@@ -157,7 +162,6 @@ public class UnidadeEscolarServlet implements Serializable
 		try 
 		{
 			Terreno terrenoAux = null;
-			Endereco enderecoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
 			Pessoa pessoa = null;
 			
@@ -211,10 +215,14 @@ public class UnidadeEscolarServlet implements Serializable
 			/* Salva o endeço */
 			if(enderecoDado!=null)
 			{
-				enderecoAux = new EnderecoDAO().inserirEndereco(enderecoDado);
-				if(enderecoAux!=null && enderecoAux.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoAux); }
+				//salva primeiro o contato
+				if(contatoDado!=null && (contatoDado.getTelCelular()!=null || contatoDado.getTelComercial()!=null || contatoDado.getTelResidencial()!=null || contatoDado.getEmail()!=null)) 
+				{ enderecoDado.setContato(new ContatoDAO().inserirContato(contatoDado)); }
 				
-				enderecoAux.setContato(new ContatoDAO().inserirContato(enderecoAux.getContato()));
+				//depois salva o endereço
+				enderecoDado = new EnderecoDAO().inserirEndereco(enderecoDado);
+				
+				if(enderecoDado!=null && enderecoDado.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoDado); }
 			}
 			
 			/* Salva o Terreno */
@@ -633,5 +641,13 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setNomePesquisar(String nomePesquisar) {
 		this.nomePesquisar = nomePesquisar;
+	}
+
+	public Contato getContatoDado() {
+		return contatoDado;
+	}
+
+	public void setContatoDado(Contato contatoDado) {
+		this.contatoDado = contatoDado;
 	}
 }
