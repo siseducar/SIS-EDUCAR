@@ -17,7 +17,6 @@ public class Aluno
 	private Byte certiNascimento;
 	private Byte comproResidencia;
 	private String rm;
-	private Part fotoAluno;	
 	private RedeEnsino redeEnsino;
 	private UnidadeEscolar unidadeEscolar;
 	private Etapa etapa;
@@ -25,6 +24,9 @@ public class Aluno
 	private Turno turno;
 	private TipoDeficiencia deficiencia;
 	private Boolean alunoDeficiente;
+	private String fotoAluno;
+	private String copiaCertidaoNascimento;
+	private String copiaComprovanteResidencia;
 	
 	public String getRa2() {
 		return ra2;
@@ -104,12 +106,6 @@ public class Aluno
 	public void setAlunoDeficiente(Boolean alunoDeficiente) {
 		this.alunoDeficiente = alunoDeficiente;
 	}
-	public Part getFotoAluno() {
-		return fotoAluno;
-	}
-	public void setFotoAluno(Part fotoAluno) {
-		this.fotoAluno = fotoAluno;
-	}
 	public RedeEnsino getRedeEnsino() {
 		return redeEnsino;
 	}
@@ -151,5 +147,23 @@ public class Aluno
 	}
 	public void setCodigoInep(String codigoInep) {
 		this.codigoInep = codigoInep;
+	}
+	public String getFotoAluno() {
+		return fotoAluno;
+	}
+	public void setFotoAluno(String fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
+	public String getCopiaCertidaoNascimento() {
+		return copiaCertidaoNascimento;
+	}
+	public void setCopiaCertidaoNascimento(String copiaCertidaoNascimento) {
+		this.copiaCertidaoNascimento = copiaCertidaoNascimento;
+	}
+	public String getCopiaComprovanteResidencia() {
+		return copiaComprovanteResidencia;
+	}
+	public void setCopiaComprovanteResidencia(String copiaComprovanteResidencia) {
+		this.copiaComprovanteResidencia = copiaComprovanteResidencia;
 	}
 }
