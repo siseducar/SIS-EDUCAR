@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
@@ -49,8 +50,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				Integer numeroArgumentos = 1;
 				String querySQL = "INSERT INTO unidadeescolar "
-						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno, fkDiretor, fkMunicipioCliente) "
-						+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno, fkDiretor, fkMunicipioCliente, fkEndereco) "
+						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				ps = con.prepareStatement(querySQL);
 				
@@ -130,6 +131,15 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				if(unidadeEscolar.getFkMunicipioCliente()!=null)
 				{
 					ps.setInt(numeroArgumentos, unidadeEscolar.getFkMunicipioCliente().getPkCidade());
+				}
+				else
+				{
+					ps.setObject(numeroArgumentos, null);
+				}
+				numeroArgumentos++;
+				if(unidadeEscolar.getEndereco()!=null)
+				{
+					ps.setInt(numeroArgumentos, unidadeEscolar.getEndereco().getPkEndereco());
 				}
 				else
 				{
@@ -240,6 +250,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			SituacaoFuncionamento situacaoFuncionamento = null;
 			RedeEnsino redeEnsino = null;
 			Endereco endereco = null;
+			Contato contato = null;
 			TipoOcupacao tipoOcupacao = null;
 			RedeEnsinoDAO redeEnsinoDAO = new RedeEnsinoDAO();
 			SituacaoFuncionamentoDAO situacaoFuncionamentoDAO = new SituacaoFuncionamentoDAO();
@@ -253,6 +264,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
 					+ " LEFT OUTER JOIN Terreno t ON(u.fkTerreno = t.pkTerreno)"
 					+ " LEFT OUTER JOIN Endereco e ON(u.fkEndereco = e.pkEndereco)"
+					+ " LEFT OUTER JOIN Contato c ON(e.fkContato = c.pkContato)"
 					+ " WHERE u.status = ?"
 					+ " AND t.status = ?"
 					+ " AND re.status = ?"
@@ -303,6 +315,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			while(rs.next())
 			{
 				endereco = new Endereco();
+				contato = new Contato();
 				cidade = new Cidade();
 				terreno = new Terreno();
 				regiao = new Regiao();
@@ -350,6 +363,11 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				{
 					endereco = enderecoDAO.buscarEndereco(rs.getInt("fkEndereco"));
 					unidadeEscolar.setEndereco(endereco);
+					
+					if(endereco.getContato()!=null)
+					{
+						endereco.setContato(new ContatoDAO().buscarContato(endereco.getContato().getPkContato()));
+					}
 				}
 				if(rs.getObject("fkMunicipioCliente")!=null)
 				{

@@ -15,6 +15,7 @@ public class Endereco
 	private String longitude;
 	private String enderecoCompleto;
 	private Cidade fkMunicipioCliente;
+	private Contato contato;
 	
 	public Integer getPkEndereco() {
 		return pkEndereco;
@@ -93,5 +94,11 @@ public class Endereco
 	}
 	public void setEnderecoCompleto(String enderecoCompleto) {
 		this.enderecoCompleto = enderecoCompleto;
+	}
+	public Contato getContato() {
+		return contato;
+	}
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 }

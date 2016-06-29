@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -42,7 +43,7 @@ public class EnderecoDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO endereco "
-					+ " (cep, logradouro, bairro, numero, complemento, tipo, status, fkcidade) values(?,?,?,?,?,?,?,?)";
+					+ " (cep, logradouro, bairro, numero, complemento, tipo, status, fkcidade, fkMunicipioCliente, fkContato) values(?,?,?,?,?,?,?,?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -56,6 +57,12 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			if(endereco!=null && endereco.getCidade()!=null && endereco.getCidade().getPkCidade()>0) { ps.setInt(8, endereco.getCidade().getPkCidade()); }
 			else { ps.setObject(8, null); }
+			
+			if(endereco!=null && endereco.getFkMunicipioCliente()!=null && endereco.getFkMunicipioCliente().getPkCidade()>0) { ps.setInt(9, endereco.getFkMunicipioCliente().getPkCidade()); }
+			else { ps.setObject(9, null);}
+			
+			if(endereco!=null && endereco.getContato()!=null && endereco.getContato().getPkContato()>0) { ps.setInt(10, endereco.getContato().getPkContato()); }
+			else { ps.setObject(10, null);}
 			
 			fecharConexaoBanco(con, ps, false, true);
 
@@ -218,6 +225,7 @@ public class EnderecoDAO extends SisEducarDAO
 	public Endereco buscarEndereco(Integer pkEndereco) throws SQLException
 	{
 		Cidade cidadeEndereco = null;
+		Contato contato = null;
 		Cidade cidadeEnderecoMunicipioCliente = null;
 		Endereco endereco = null;
 		String querySQL = "SELECT * FROM Endereco "
@@ -232,6 +240,7 @@ public class EnderecoDAO extends SisEducarDAO
 		if(rs.next())
 		{
 			cidadeEndereco = new Cidade();
+			contato = new Contato();
 			cidadeEnderecoMunicipioCliente = new Cidade();
 			endereco = new Endereco();
 			endereco.setPkEndereco(rs.getInt("pkEndereco"));
@@ -247,6 +256,9 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			cidadeEnderecoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
 			endereco.setFkMunicipioCliente(cidadeEnderecoMunicipioCliente);
+			
+			contato.setPkContato(rs.getInt("fkContato"));
+			endereco.setContato(contato);
 			
 			return endereco;
 		}
