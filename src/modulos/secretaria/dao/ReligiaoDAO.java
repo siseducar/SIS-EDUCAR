@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Religiao;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class ReligiaoDAO {
 
@@ -25,9 +26,11 @@ public class ReligiaoDAO {
 				
 				List<Religiao> listaReligiao = new ArrayList<>();
 				
-				String querySQL = "SELECT * FROM RELIGIAO WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO ";
-				Statement stm = con.createStatement();
-				ResultSet rs = stm.executeQuery(querySQL);
+				String querySQL = "SELECT * FROM RELIGIAO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO ";
+
+				ps = con.prepareStatement(querySQL);
+				ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+				rs = ps.executeQuery();
 				
 				while(rs.next()) {
 					Religiao paramReligiao = new Religiao();

@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.TipoDeficiencia;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class TipoDeficienciaDAO {
 
@@ -25,9 +26,11 @@ public class TipoDeficienciaDAO {
 			
 			List<TipoDeficiencia> listaTipoDeficiencia = new ArrayList<>();
 			
-			String querySQL = "SELECT * FROM TIPODEFICIENCIA WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(querySQL);
+			String querySQL = "SELECT * FROM TIPODEFICIENCIA WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+
+			ps = con.prepareStatement(querySQL);
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				TipoDeficiencia paramTipoDeficiencia = new TipoDeficiencia();

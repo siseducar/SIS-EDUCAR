@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Raca;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class RacaDAO {
 
@@ -24,9 +25,11 @@ public class RacaDAO {
 	public List<Raca> consultaRaca() throws SQLException {
 		List<Raca> listaRaca = new ArrayList<Raca>();
 		
-		String querySQL = "SELECT * FROM RACA WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM RACA WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			Raca paramRaca = new Raca();

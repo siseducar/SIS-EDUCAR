@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.GrauInstrucao;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class GrauInstrucaoDAO {
 
@@ -25,9 +26,11 @@ public class GrauInstrucaoDAO {
 		
 		List<GrauInstrucao> listaGrauInstru = new ArrayList<>();
 		
-		String querySQL = "SELECT * FROM GRAUINSTRUCAO WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM GRAUINSTRUCAO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+		
+		ps = con.prepareStatement(querySQL.toString());
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
 			GrauInstrucao paramGrauInstru = new GrauInstrucao();

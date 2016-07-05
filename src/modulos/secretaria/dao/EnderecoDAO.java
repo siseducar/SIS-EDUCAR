@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Endereco;
+import modulos.secretaria.om.Pessoa;
 import sisEdcuar.conexaoBanco.ConectaBanco;
 import sisEdcuar.dao.SisEducarDAO;
 import sisEdcuar.utils.ConstantesSisEducar;
@@ -205,6 +206,70 @@ public class EnderecoDAO extends SisEducarDAO
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao consultar o CEP, contate o administrador do sistema!", null));
 			return null;
+		}
+	}
+	
+	/**
+	 * Metodo para salvar o endereco da pessoa cadastrada
+	 * 
+	 * */
+	public Boolean salvarEnderecoPessoa(Pessoa dadosPessoa) {
+		try {
+			String querySQL;
+			
+			Integer numeroArgumentos = 1;
+			
+			querySQL = " INSERT INTO ENDERECO ( ";
+			querySQL += " CEP, LOGRADOURO, BAIRRO, NUMERO, ";
+			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {
+				querySQL += " COMPLEMENTO, ";
+			}
+			querySQL += " STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE,  ";
+			querySQL += " ENDERECOCOMPLETO ) values ( ";
+			
+			querySQL += " ?, ?, ?, ?, ";
+			
+			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {
+				querySQL += " ?,";
+			}
+			
+			querySQL += " ?, ?, ?, ?, ?, ?)";
+			
+			ps = con.prepareStatement(querySQL.toString());
+			
+			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getCep());
+			numeroArgumentos++;
+
+			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getLogradouro());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getBairro());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getNumero());
+			numeroArgumentos++;
+			
+			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {				
+				ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getComplemento());
+				numeroArgumentos++;
+			}
+			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getCidade().getPkCidade());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getFkMunicipioCliente().getPkCidade());
+			numeroArgumentos++;
+			
+			fecharConexaoBanco(con, ps, false, true);
+			
+			return true;
+		} catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					e.toString(),null));
+			return false;
 		}
 	}
 }

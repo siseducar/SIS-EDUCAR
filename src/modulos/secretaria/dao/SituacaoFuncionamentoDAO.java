@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.SituacaoFuncionamento;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class SituacaoFuncionamentoDAO {
 
@@ -25,9 +26,11 @@ public class SituacaoFuncionamentoDAO {
 		
 		List<SituacaoFuncionamento> listaSituFuncionamento = new ArrayList<SituacaoFuncionamento>();
 		
-		String querySQL = "SELECT * FROM SITUACAOFUNCIONAMENTO ORDER BY ORDEMEXIBICAO";
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM SITUACAOFUNCIONAMENTO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			SituacaoFuncionamento paramSituFuncionamento = new SituacaoFuncionamento();

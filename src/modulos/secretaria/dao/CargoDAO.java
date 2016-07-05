@@ -10,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Cargo;
 import sisEdcuar.conexaoBanco.ConectaBanco;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class CargoDAO {
 
@@ -25,9 +26,11 @@ public class CargoDAO {
 		
 		List<Cargo> listaCargo = new ArrayList<>();
 		
-		String querySQL = "SELECT * FROM CARGO WHERE STATUS = 0 ORDER BY ORDEMEXIBICAO";
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM CARGO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+
+		ps = con.prepareStatement(querySQL.toString());
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
 			Cargo paramCargo = new Cargo();

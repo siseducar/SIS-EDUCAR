@@ -20,7 +20,7 @@ public class CursoDAO {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			
-			/* Metodo para retornar os tipos de RACAS padrões */
+			/* Metodo para retornar os tipos de CURSOS padrões */
 			public List<Curso> consultaCursoEscolar(Integer pkUnidadeEscolar) throws SQLException {
 				
 				List<Curso> listaCursoEscolar = new ArrayList<Curso>();

@@ -75,6 +75,7 @@ public class PessoaServlet implements Serializable{
 	private Curso cursoDados;
 	private Turno turnoDados;
 	private TipoDeficiencia tipoDeficienciaDados;
+	private PessoaDAO pessoaDAO;
 	
 	private List<String> latitude;
 		
@@ -235,6 +236,9 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
+		if(this.pessoaDAO == null) {
+			this.pessoaDAO = new PessoaDAO();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
@@ -278,7 +282,7 @@ public class PessoaServlet implements Serializable{
 	public String salvarCadastroPessoa() {
 			
 		try {
-			Pessoa pessoaDadosFinal = new Pessoa();		
+			Pessoa pessoaDadosFinal = new Pessoa();
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -294,10 +298,9 @@ public class PessoaServlet implements Serializable{
 			pessoaDadosFinal.setEmail(pessoaDados.getEmail());
 			pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
 			pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
-			
+			pessoaDadosFinal.setEmail(pessoaDados.getEmail());
 			enderecoDados.setCidade(cidadeDados);
 			pessoaDadosFinal.setEndereco(enderecoDados);
-			
 			pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
 			pessoaDadosFinal.setRaca(racaDados);
 			pessoaDadosFinal.setEstadoCivil(estaCivilDados);
@@ -308,12 +311,35 @@ public class PessoaServlet implements Serializable{
 			pessoaDadosFinal.setPais(paisDados);
 			pessoaDadosFinal.setEstado(estadoDados);
 			
+			
+			if( menorIdade ) {
+				if( pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0 ) {
+					pessoaDadosFinal.setCpfMae( pessoaDados.getCpfMae());
+					pessoaDadosFinal.setNomeMae( pessoaDados.getNomeMae());
+				}
+				if( pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ) {
+					pessoaDadosFinal.setCpfPai( pessoaDados.getCpfPai());
+					pessoaDadosFinal.setNomePai( pessoaDados.getNomePai());
+				}
+				if( pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0 ) {
+					pessoaDadosFinal.setCpfResponsavel( pessoaDados.getCpfResponsavel());
+					pessoaDadosFinal.setNomeResponsavel( pessoaDados.getNomeResponsavel());
+				}
+				
+			}
+			
 			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
-		
-			new PessoaDAO().salvarCadastroPessoa(pessoaDadosFinal);
+			
+			
+			if( pessoaDAO.salvarCadastroPessoa(pessoaDadosFinal) ) {
+				pessoaDadosFinal.setPkPessoa(new PessoaDAO().consultaCadastro(pessoaDadosFinal));
+				
+				
+			} 
+			
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					"Cadastro Realizado com sucesso",null));
+					pessoaDadosFinal.getPkPessoa().toString(),null));
 			limparFormulario();
 		} catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -425,7 +451,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( racaDados.getPkRaca() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RAÃ‡A deve ser informada.",null));
+					"A RAÇA deve ser informada.",null));
 			return false;
 		}
 		
@@ -437,25 +463,25 @@ public class PessoaServlet implements Serializable{
 		
 		if( grauInstruDados.getPkGrauInstrucao() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O GRAU DE INSTRUÃ‡ÃƒO deve ser informado.",null));
+					"O GRAU DE INSTRUÇÃO deve ser informado.",null));
 			return false;
 		}
 		
 		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A SITUAÃ‡ÃƒO ECONÃ”MICA deve ser informada.",null));
+					"A SITUAÇÃO ECONÔMICA deve ser informada.",null));
 			return false;
 		}
 		
 		if( religiaoDados.getPkReligiao() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RELIGIÃƒO deve ser informada.",null));
+					"A RELIGIÃO deve ser informada.",null));
 			return false;
 		}
 		
 		if( paisDados.getPkPais() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O PAÃ�S deve ser informado.",null));
+					"O PAÍS deve ser informado.",null));
 			return false;
 		}
 		
@@ -467,7 +493,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( cidadeDados.getPkCidade() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O MUNICÃ�PIO deve ser informado.",null));
+					"O MUNICÍ�PIO deve ser informado.",null));
 			return false;
 		}
 		
@@ -485,7 +511,7 @@ public class PessoaServlet implements Serializable{
 		
 		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NÃšMERO deve ser preenchido.",null));
+					"O NÚMERO deve ser preenchido.",null));
 			return false;
 		}
 		
@@ -517,12 +543,35 @@ public class PessoaServlet implements Serializable{
 					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
 				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O NOME DA MÃƒE ou de algum RESPONSAVEL deve ser informado.",null));
+						"O CPF DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
+				return false;
+			}
+			if( (pessoaDados.getNomeMae() == null || pessoaDados.getNomeMae().equals("")) && 
+					 (pessoaDados.getNomeResponsavel() == null || pessoaDados.getNomeResponsavel().equals(""))) {
+				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O NOME DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
 				return false;
 			}
 		}
 		
 		return true;
+	}
+	
+	/*
+	 * Metodo para validar se ja existe o CPF cadastrado
+	 * */
+	public void verificaCadastro() {
+		try {
+			if ( pessoaDAO.obtemUnicoPessoaSimples(pessoaDados.getCpf().toString()).getCpf() != null ){
+				pessoaDados.setCpf(null);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"CPF já cadastrado.",null));
+			}
+		} catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					e.toString(),null));
+		}
 	}
 	
 	/*
@@ -585,6 +634,9 @@ public class PessoaServlet implements Serializable{
 		nomeMae = false;
 		nomePai = false;
 		nomeResponsavel = false;
+		menorIdade = false;
+		complementoAluno = false;
+		complementoFuncionario = false;
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
@@ -783,6 +835,7 @@ public class PessoaServlet implements Serializable{
 		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
+		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
 		cidadesAutoComplete =  paramDados.carregaCidades();
 	}
 	
@@ -982,6 +1035,7 @@ public class PessoaServlet implements Serializable{
 	
 	/* PAIS */
 	public List<SelectItem> getComboPais() {
+		estadoDados.setPkEstado(null);
 		return comboPais;
 	}
 
@@ -997,8 +1051,10 @@ public class PessoaServlet implements Serializable{
 			ParametrosServlet paramDados = new ParametrosServlet();
 			comboEstado.addAll(paramDados.consultaEstado(paisDados));
 			
+			cidadeDados.setPkCidade(null);
 			return comboEstado;
 		}
+		cidadeDados.setPkCidade(null);
 		return comboEstado;
 	}
 
@@ -1013,6 +1069,7 @@ public class PessoaServlet implements Serializable{
 			ParametrosServlet paramDados = new ParametrosServlet();
 			comboCidade.addAll(paramDados.consultaCidade(estadoDados));
 		}
+		
 		return comboCidade;
 	}
 
@@ -1141,7 +1198,6 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	public List<SelectItem> getComboTipoDeficiencia() {
-		comboTipoDeficiencia.clear();
 		if(comboTipoDeficiencia == null || comboTipoDeficiencia.isEmpty()) {
 			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
 		}
