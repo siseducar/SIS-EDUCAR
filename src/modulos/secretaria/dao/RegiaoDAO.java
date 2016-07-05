@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Regiao;
-import sisEdcuar.conexaoBanco.ConectaBanco;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class RegiaoDAO {
 
@@ -43,5 +43,39 @@ public class RegiaoDAO {
 			}
 			
 			return listaRegiao;
+		}
+		
+		/**
+		 * Busca uma regiao pelos parâmetros passados
+		 * @author João Paulo
+		 * @param pkRegiao
+		 * @return Regiao
+		 * @throws SQLException
+		 */
+		public Regiao buscarRegiao(Integer pkRegiao) throws SQLException
+		{
+			Regiao regiao = null;
+			String querySQL = "SELECT * FROM Regiao "
+					+ " WHERE status = ?"
+					+ " AND pkRegiao = ?";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkRegiao);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				regiao = new Regiao();
+				regiao.setPkRegiao(rs.getInt("pkRegiao"));
+				regiao.setCodigo(rs.getString("codigo"));
+				regiao.setDescricao(rs.getString("descricao"));
+				regiao.setStatus(rs.getInt("status"));
+				regiao.setOrdemExibicao(rs.getInt("ordemExibicao"));
+				
+				return regiao;
+			}
+			
+			return null;
 		}
 }

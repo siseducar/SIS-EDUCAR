@@ -10,7 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Cargo;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class CargoDAO {
 

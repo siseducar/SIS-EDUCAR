@@ -1,7 +1,5 @@
 package modulos.secretaria.om;
 
-import javax.servlet.http.Part;
-
 public class Aluno 
 {
 	private int pkAluno;
@@ -14,6 +12,7 @@ public class Aluno
 	private Pessoa pessoa;
 	private String livroUF;
 	private Byte certiNascimento;
+	private Cidade cidadeNascimento;
 	private Byte comproResidencia;
 	private String rm;
 	private RedeEnsino redeEnsino;
@@ -158,5 +157,11 @@ public class Aluno
 	}
 	public void setCopiaComprovanteResidencia(String copiaComprovanteResidencia) {
 		this.copiaComprovanteResidencia = copiaComprovanteResidencia;
+	}
+	public Cidade getCidadeNascimento() {
+		return cidadeNascimento;
+	}
+	public void setCidadeNascimento(Cidade cidadeNascimento) {
+		this.cidadeNascimento = cidadeNascimento;
 	}
 }

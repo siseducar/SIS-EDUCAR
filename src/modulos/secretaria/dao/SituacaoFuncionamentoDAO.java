@@ -11,7 +11,6 @@ import java.util.List;
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.utils.ConstantesSisEducar;
-import sisEdcuar.utils.ConstantesSisEducar;
 
 public class SituacaoFuncionamentoDAO {
 

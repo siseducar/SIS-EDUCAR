@@ -10,7 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.TipoDeficiencia;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
-import sisEdcuar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class TipoDeficienciaDAO {
 
