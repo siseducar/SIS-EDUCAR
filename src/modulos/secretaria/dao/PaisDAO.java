@@ -67,10 +67,11 @@ public class PaisDAO extends SisEducarDAO
 	
 	public List<Pais> consultaPais() throws SQLException{		
 		List<Pais> listaPais = new ArrayList<Pais>();
-		String querySQL = "SELECT * FROM PAIS ORDER BY NOME";
-		Statement stm;
-		stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM PAIS WHERE STATUS = ? ORDER BY NOME";
+
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			Pais paramPais = new Pais();

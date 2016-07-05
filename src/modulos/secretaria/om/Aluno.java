@@ -12,7 +12,6 @@ public class Aluno
 	private String livro;
 	private Integer registro;
 	private Pessoa pessoa;
-	private Cidade cidadeNascimento;
 	private String livroUF;
 	private Byte certiNascimento;
 	private Byte comproResidencia;
@@ -51,12 +50,6 @@ public class Aluno
 	}
 	public void setRegistro(Integer registro) {
 		this.registro = registro;
-	}
-	public Cidade getCidadeNascimento() {
-		return cidadeNascimento;
-	}
-	public void setCidadeNascimento(Cidade cidadeNascimento) {
-		this.cidadeNascimento = cidadeNascimento;
 	}
 	public String getLivroUF() {
 		return livroUF;

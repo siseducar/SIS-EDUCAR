@@ -11,6 +11,7 @@ import java.util.List;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.utils.ConstantesSisEducar;
 
 public class TipoOcupacaoDAO {
 
@@ -26,9 +27,11 @@ public class TipoOcupacaoDAO {
 		
 		List<TipoOcupacao> listaTipoOcupacao = new ArrayList<TipoOcupacao>();
 		
-		String querySQL = "SELECT * FROM TIPOOCUPACAO ORDER BY ORDEMEXIBICAO";
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
+		String querySQL = "SELECT * FROM TIPOOCUPACAO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		rs = ps.executeQuery();
 		
 		while (rs.next()){
 			TipoOcupacao paramTipoOcupacao = new TipoOcupacao();

@@ -29,8 +29,7 @@ public class TurnoDAO {
 			String querySQL = "SELECT * FROM TURNO WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
 			
 			ps = con.prepareStatement(querySQL);
-			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);			
 			rs = ps.executeQuery();
 			
 			while (rs.next()){

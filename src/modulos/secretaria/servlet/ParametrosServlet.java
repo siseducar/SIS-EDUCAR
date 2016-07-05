@@ -16,6 +16,7 @@ import modulos.secretaria.dao.EstadoCivilDAO;
 import modulos.secretaria.dao.EstadoDAO;
 import modulos.secretaria.dao.EtapaDAO;
 import modulos.secretaria.dao.GrauInstrucaoDAO;
+import modulos.secretaria.dao.GrauParentescoDAO;
 import modulos.secretaria.dao.NacionalidadeDAO;
 import modulos.secretaria.dao.PaisDAO;
 import modulos.secretaria.dao.RacaDAO;
@@ -35,6 +36,7 @@ import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.EstadoCivil;
 import modulos.secretaria.om.Etapa;
 import modulos.secretaria.om.GrauInstrucao;
+import modulos.secretaria.om.GrauParentesco;
 import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
 import modulos.secretaria.om.Raca;
@@ -457,8 +459,24 @@ public class ParametrosServlet implements Serializable{
 	 * Metodo para carregar os Graus de Parentesco
 	 * */
 	public List<SelectItem> consultaGrauParentesco() {
-		List<SelectItem> comboParentesco = new ArrayList<>();
-		return comboParentesco;	
+		try {
+			GrauParentescoDAO grauParentescoDAO = new GrauParentescoDAO();
+			List<SelectItem> comboParentesco = new ArrayList<>();
+			List<GrauParentesco> paramGrauParentesco = grauParentescoDAO.consultaGrau();
+			
+			for (GrauParentesco param : paramGrauParentesco){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkGrauParentesco());
+			   s.setLabel(param.getDescricao());
+			   comboParentesco.add(s);
+			}
+			return comboParentesco;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de GRAU DE PARENTESCO, contate o administrador do sistema!", null));
+			return null;
+		}
+		
 	}
 	
 	/*
