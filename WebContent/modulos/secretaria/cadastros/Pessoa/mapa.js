@@ -6,7 +6,7 @@ var marker;
 /* Funcão para inicilizar o mapa */
 function initialize() {
 	/* Ponto inicial do mapa */
-	var latlng = new google.maps.LatLng(-22.6434427, -47.054928099999984);
+	var latlng = new google.maps.LatLng(0, 0);
 	
 	/* Verifica a atual posicao */
 	if(navigator.geolocation) {
@@ -149,9 +149,7 @@ function carregarEndereco(latitude,longitude) {
 			}
 			
 			var adress = data.results[i].formatted_address;
-			document.getElementById('txtLatitude').disabled = true;
 			document.getElementById('txtLatitude').value = latitude;
-			document.getElementById('txtLongitude').disabled = true;
 			document.getElementById('txtLongitude').value = longitude;			
 			document.getElementById('txtEndereco').value = adress; 
 			

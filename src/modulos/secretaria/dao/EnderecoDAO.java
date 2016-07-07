@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -14,7 +12,6 @@ import javax.faces.context.FacesContext;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
-import modulos.secretaria.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -193,29 +190,6 @@ public class EnderecoDAO extends SisEducarDAO
 		}
 	}
 	
-	public List<String> consultaCEP(String numeroCep){
-		
-		List<String> listaEndereco = new ArrayList<String>();
-		Integer CEP = null;
-		try {
-		String querySQL = "SELECT DISTINCT(CEP) FROM ENDERECO WHERE CAST(CEP AS TEXT) LIKE '"+ numeroCep +"%'";
-		
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(querySQL);
-		
-		while (rs.next()){
-			CEP = rs.getInt("CEP");
-			listaEndereco.add(CEP.toString());
-		}
-		return listaEndereco;
-		
-		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao consultar o CEP, contate o administrador do sistema!", null));
-			return null;
-		}
-	}
-	
 	/**
 	 * Busca um endereço pelos parâmetros passados
 	 * @author João Paulo
@@ -271,7 +245,7 @@ public class EnderecoDAO extends SisEducarDAO
 	 * Metodo para salvar o endereco da pessoa cadastrada
 	 * 
 	 * */
-	public Boolean salvarEnderecoPessoa(Pessoa dadosPessoa) {
+	public Boolean salvarEnderecoPessoa(Endereco dadosEndereco) {
 		try {
 			String querySQL;
 			
@@ -279,47 +253,58 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			querySQL = " INSERT INTO ENDERECO ( ";
 			querySQL += " CEP, LOGRADOURO, BAIRRO, NUMERO, ";
-			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
 				querySQL += " COMPLEMENTO, ";
 			}
-			querySQL += " STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE,  ";
+			querySQL += " TIPO, STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE,  ";
 			querySQL += " ENDERECOCOMPLETO ) values ( ";
 			
 			querySQL += " ?, ?, ?, ?, ";
 			
-			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
 				querySQL += " ?,";
 			}
 			
-			querySQL += " ?, ?, ?, ?, ?, ?)";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?)";
 			
 			ps = con.prepareStatement(querySQL.toString());
 			
-			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getCep());
+			ps.setInt(numeroArgumentos, dadosEndereco.getCep());
 			numeroArgumentos++;
 
-			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getLogradouro());
+			ps.setString(numeroArgumentos, dadosEndereco.getLogradouro());
 			numeroArgumentos++;
 			
-			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getBairro());
+			ps.setString(numeroArgumentos, dadosEndereco.getBairro());
 			numeroArgumentos++;
 			
-			ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getNumero());
+			ps.setString(numeroArgumentos, dadosEndereco.getNumero());
 			numeroArgumentos++;
 			
-			if(dadosPessoa.getEndereco().getComplemento() != null && !dadosPessoa.getEndereco().getComplemento().equals("")) {				
-				ps.setString(numeroArgumentos, dadosPessoa.getEndereco().getComplemento());
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {				
+				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
 				numeroArgumentos++;
 			}
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getRegiao().getPkRegiao());
+			numeroArgumentos++;
 			
 			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArgumentos++;
 			
-			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getCidade().getPkCidade());
+			ps.setInt(numeroArgumentos, dadosEndereco.getCidade().getPkCidade());
 			numeroArgumentos++;
 			
-			ps.setInt(numeroArgumentos, dadosPessoa.getEndereco().getFkMunicipioCliente().getPkCidade());
+			ps.setInt(numeroArgumentos, dadosEndereco.getFkMunicipioCliente().getPkCidade());
 			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getLatitude());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getLongitude());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getEnderecoCompleto());
 			
 			fecharConexaoBanco(con, ps, false, true);
 			

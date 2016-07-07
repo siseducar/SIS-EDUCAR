@@ -14,6 +14,7 @@ public class Endereco
 	private String latitude;
 	private String longitude;
 	private String enderecoCompleto;
+	private Regiao regiao;
 	private Cidade fkMunicipioCliente;
 	private Contato contato;
 	
@@ -100,5 +101,11 @@ public class Endereco
 	}
 	public void setContato(Contato contato) {
 		this.contato = contato;
+	}
+	public Regiao getRegiao() {
+		return regiao;
+	}
+	public void setRegiao(Regiao regiao) {
+		this.regiao = regiao;
 	}
 }

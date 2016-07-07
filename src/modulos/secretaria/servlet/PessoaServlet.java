@@ -12,12 +12,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.Part;
 
 import modulos.secretaria.dao.AlunoDAO;
+import modulos.secretaria.dao.ContatoDAO;
+import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
@@ -26,6 +28,7 @@ import modulos.secretaria.om.Etapa;
 import modulos.secretaria.om.Fornecedor;
 import modulos.secretaria.om.Funcionario;
 import modulos.secretaria.om.GrauInstrucao;
+import modulos.secretaria.om.GrauParentesco;
 import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
 import modulos.secretaria.om.Pessoa;
@@ -56,6 +59,7 @@ public class PessoaServlet implements Serializable{
 	private Aluno alunoDados;
 	private Fornecedor fornecedorDados;
 	private Funcionario funcionarioDados;
+	private Contato contatoDados;
 	private Pais paisDados;
 	private Estado estadoDados;
 	private Cidade cidadeDados;
@@ -75,7 +79,10 @@ public class PessoaServlet implements Serializable{
 	private Curso cursoDados;
 	private Turno turnoDados;
 	private TipoDeficiencia tipoDeficienciaDados;
+	private GrauParentesco grauParentescoDados;
 	private PessoaDAO pessoaDAO;
+	private EnderecoDAO enderecoDAO;
+	private ContatoDAO contatoDAO;
 	
 	private List<String> latitude;
 		
@@ -165,12 +172,6 @@ public class PessoaServlet implements Serializable{
 	
 	private List<String> cidadesAutoComplete;
 	
-	private Part imagemAluno;
-	
-	private Part imagemCertidaoNascimento;
-	
-	private Part imagemComproResidencia;
-	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -184,6 +185,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.fornecedorDados == null){
 			this.fornecedorDados = new Fornecedor();
+		}
+		if(this.contatoDados == null) {
+			this.contatoDados = new Contato();
 		}
 		if(this.paisDados == null){
 			this.paisDados = new Pais();
@@ -236,8 +240,17 @@ public class PessoaServlet implements Serializable{
 		if(this.turnoDados == null) {
 			this.turnoDados = new Turno();
 		}
+		if(this.grauParentescoDados == null) {
+			this.grauParentescoDados = new GrauParentesco();
+		}
 		if(this.pessoaDAO == null) {
 			this.pessoaDAO = new PessoaDAO();
+		}
+		if(this.enderecoDAO == null) {
+			this.enderecoDAO = new EnderecoDAO();
+		}
+		if(this.contatoDAO == null) {
+			this.contatoDAO = new ContatoDAO();
 		}
 		
 		 /* testando cmite parcial */
@@ -283,6 +296,43 @@ public class PessoaServlet implements Serializable{
 			
 		try {
 			Pessoa pessoaDadosFinal = new Pessoa();
+			Contato contatoDadosFinal = new Contato();
+			Endereco enderecoDadosFinal = new Endereco();
+			
+			/* Objeto com os atributos de endereco da pessoa */
+			enderecoDadosFinal.setCidade(cidadeDados);
+			enderecoDadosFinal.setCep(enderecoDados.getCep());
+			enderecoDadosFinal.setLogradouro(enderecoDados.getLogradouro());
+			enderecoDadosFinal.setNumero(enderecoDados.getNumero());
+			enderecoDadosFinal.setBairro(enderecoDados.getBairro());
+			if(enderecoDados.getComplemento() != null && !enderecoDados.getComplemento().equals("")) {
+				enderecoDadosFinal.setComplemento(enderecoDados.getComplemento());
+			}
+			enderecoDadosFinal.setLatitude(enderecoDados.getLatitude());
+			enderecoDadosFinal.setLongitude(enderecoDados.getLongitude());
+			enderecoDadosFinal.setRegiao(regiaoDados);
+			enderecoDadosFinal.setEnderecoCompleto(enderecoDados.getEnderecoCompleto());
+			enderecoDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			
+			
+			if( enderecoDAO.salvarEnderecoPessoa(enderecoDadosFinal) ){
+				enderecoDadosFinal.setPkEndereco( enderecoDAO.obtemPKEndereco(
+						enderecoDadosFinal.getCep(), 
+						enderecoDadosFinal.getLogradouro(), 
+						enderecoDadosFinal.getBairro(), 
+						enderecoDadosFinal.getNumero(), 
+						enderecoDadosFinal.getComplemento(),
+						enderecoDadosFinal.getRegiao().getPkRegiao().toString(), 
+						enderecoDadosFinal.getCidade()) );
+			};
+			
+			
+			/* Objeto com os atributos de contato da pessoa */
+			contatoDadosFinal.setTelResidencial(contatoDados.getTelResidencial());
+			contatoDadosFinal.setTelCelular(contatoDados.getTelCelular());
+			contatoDadosFinal.setEmail(contatoDados.getEmail());
+			
+			/* Objeto com os atributos de da pessoa */
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -295,38 +345,21 @@ public class PessoaServlet implements Serializable{
 			pessoaDadosFinal.setRg(pessoaDados.getRg());
 			pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
 			pessoaDadosFinal.setSexo(pessoaDados.getSexo());
-			pessoaDadosFinal.setEmail(pessoaDados.getEmail());
-			pessoaDadosFinal.setTelefoneResidencial(pessoaDados.getTelefoneResidencial());
-			pessoaDadosFinal.setTelefoneCelular(pessoaDados.getTelefoneCelular());
-			pessoaDadosFinal.setEmail(pessoaDados.getEmail());
-			enderecoDados.setCidade(cidadeDados);
-			pessoaDadosFinal.setEndereco(enderecoDados);
 			pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
 			pessoaDadosFinal.setRaca(racaDados);
 			pessoaDadosFinal.setEstadoCivil(estaCivilDados);
 			pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
 			pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
 			pessoaDadosFinal.setReligiao(religiaoDados);
-			pessoaDadosFinal.setRegiao(regiaoDados);
-			pessoaDadosFinal.setPais(paisDados);
-			pessoaDadosFinal.setEstado(estadoDados);
+			pessoaDadosFinal.setCpfMae( pessoaDados.getCpfMae());
+			pessoaDadosFinal.setNomeMae( pessoaDados.getNomeMae());		
+			pessoaDadosFinal.setCpfPai( pessoaDados.getCpfPai());
+			pessoaDadosFinal.setNomePai( pessoaDados.getNomePai());
+			pessoaDadosFinal.setCpfResponsavel( pessoaDados.getCpfResponsavel());
+			pessoaDadosFinal.setNomeResponsavel( pessoaDados.getNomeResponsavel());
+			pessoaDadosFinal.setGrauParentesco(grauParentescoDados);
+			pessoaDadosFinal.setEndereco(enderecoDadosFinal);
 			
-			
-			if( menorIdade ) {
-				if( pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0 ) {
-					pessoaDadosFinal.setCpfMae( pessoaDados.getCpfMae());
-					pessoaDadosFinal.setNomeMae( pessoaDados.getNomeMae());
-				}
-				if( pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ) {
-					pessoaDadosFinal.setCpfPai( pessoaDados.getCpfPai());
-					pessoaDadosFinal.setNomePai( pessoaDados.getNomePai());
-				}
-				if( pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0 ) {
-					pessoaDadosFinal.setCpfResponsavel( pessoaDados.getCpfResponsavel());
-					pessoaDadosFinal.setNomeResponsavel( pessoaDados.getNomeResponsavel());
-				}
-				
-			}
 			
 			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 			
@@ -527,13 +560,13 @@ public class PessoaServlet implements Serializable{
 			return false;
 		}
 		
-		if( pessoaDados.getTelefoneResidencial() == null || pessoaDados.getTelefoneResidencial().equals("")) {
+		if( contatoDados.getTelResidencial() == null || contatoDados.getTelResidencial().equals("")) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"O TELEFONE DE CONTATO deve ser preenchido.",null));
 			return false;
 		}
 		
-		if( pessoaDados.getTelefoneCelular() == null || pessoaDados.getTelefoneCelular().equals("")) {
+		if( contatoDados.getTelCelular() == null || contatoDados.getTelCelular().equals("")) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
 					"O TELEFONE CELULAR deve ser preenchido.",null));
 			return false;
@@ -811,7 +844,9 @@ public class PessoaServlet implements Serializable{
 			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
-			salvarCadastroPessoa();
+			if( validaDadosPessoa() == true ) {	
+				salvarCadastroPessoa();
+			}
 			salvarCadastroAluno();
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
@@ -875,6 +910,30 @@ public class PessoaServlet implements Serializable{
 	public void setFuncionarioDados(Funcionario funcionarioDados) {
 		this.funcionarioDados = funcionarioDados;
 	}
+
+	public Contato getContatoDados() {
+		return contatoDados;
+	}
+
+
+
+	public void setContatoDados(Contato contatoDados) {
+		this.contatoDados = contatoDados;
+	}
+
+
+
+	public PessoaDAO getPessoaDAO() {
+		return pessoaDAO;
+	}
+
+
+
+	public void setPessoaDAO(PessoaDAO pessoaDAO) {
+		this.pessoaDAO = pessoaDAO;
+	}
+
+
 
 	public Pais getPaisDados() {
 		return paisDados;
@@ -1035,7 +1094,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* PAIS */
 	public List<SelectItem> getComboPais() {
-		estadoDados.setPkEstado(null);
 		return comboPais;
 	}
 
@@ -1054,7 +1112,6 @@ public class PessoaServlet implements Serializable{
 			cidadeDados.setPkCidade(null);
 			return comboEstado;
 		}
-		cidadeDados.setPkCidade(null);
 		return comboEstado;
 	}
 
@@ -1327,28 +1384,12 @@ public class PessoaServlet implements Serializable{
 	public void setCidadesAutoComplete(List<String> cidadesAutoComplete) {
 		this.cidadesAutoComplete = cidadesAutoComplete;
 	}
-
-	public Part getImagemAluno() {
-		return imagemAluno;
+	
+	public GrauParentesco getGrauParentescoDados() {
+		return grauParentescoDados;
 	}
-
-	public void setImagemAluno(Part imagemAluno) {
-		this.imagemAluno = imagemAluno;
-	}
-
-	public Part getImagemCertidaoNascimento() {
-		return imagemCertidaoNascimento;
-	}
-
-	public void setImagemCertidaoNascimento(Part imagemCertidaoNascimento) {
-		this.imagemCertidaoNascimento = imagemCertidaoNascimento;
-	}
-
-	public Part getImagemComproResidencia() {
-		return imagemComproResidencia;
-	}
-
-	public void setImagemComproResidencia(Part imagemComproResidencia) {
-		this.imagemComproResidencia = imagemComproResidencia;
+	
+	public void setGrauParentescoDados(GrauParentesco grauParentescoDados) {
+		this.grauParentescoDados = grauParentescoDados;
 	}
 }

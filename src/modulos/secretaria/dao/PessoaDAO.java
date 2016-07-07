@@ -95,14 +95,6 @@ public class PessoaDAO extends SisEducarDAO
 			ps.setString(numeroArgumentos, pessoaDados.getSexo());
 			numeroArgumentos++;
 			
-			// TEL RESIDENCIAL para contato
-			ps.setLong(numeroArgumentos, Long.parseLong(pessoaDados.getTelefoneResidencial()));
-			numeroArgumentos++;
-			
-			// TEL CELULAR para contato
-			ps.setLong(numeroArgumentos, Long.parseLong(pessoaDados.getTelefoneCelular()));
-			numeroArgumentos++;
-			
 			// TIPO de pessoa a ser cadastrada
 			ps.setInt(numeroArgumentos, pessoaDados.getTipoPessoa());
 			numeroArgumentos++;
@@ -141,9 +133,6 @@ public class PessoaDAO extends SisEducarDAO
 			
 			// CODIGO DO MUNICIPIO do cliente
 			ps.setInt(numeroArgumentos, pessoaDados.getFkMunicipioCliente().getPkCidade());
-			numeroArgumentos++;
-			
-			ps.setString(numeroArgumentos, pessoaDados.getEmail());
 			
 			fecharConexaoBanco(con, ps, false, true);
 			
@@ -348,12 +337,6 @@ public class PessoaDAO extends SisEducarDAO
 		ps.setDate(numeroArgumentos, pessoa.getDataNascimento());
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
-		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneComercial()));
-		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneResidencial()));
-		numeroArgumentos++;
-		ps.setInt(numeroArgumentos, Integer.valueOf(pessoa.getTelefoneCelular()));
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, pessoa.getTipoPessoa());
 		numeroArgumentos++;

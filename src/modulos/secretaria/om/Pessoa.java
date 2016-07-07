@@ -12,14 +12,10 @@ public class Pessoa
 	private Date dataNascimento;
 	private Date dataCadastro;
 	private String sexo;
-	private String telefoneComercial;
-	private String telefoneResidencial;
-	private String telefoneCelular;
 	private Integer tipoPessoa;
 	private Boolean falecido;
 	private Date dataFalecimento;
 	private Integer status;
-	private String email;
 	private String nomePai;
 	private Long cpfPai;
 	private String nomeMae;
@@ -38,8 +34,6 @@ public class Pessoa
 	private GrauParentesco grauParentesco;
 	private UnidadeEscolar unidadeEscolar;
 	private Endereco endereco;
-	private Pais pais;
-	private Estado estado;
 	private Cidade fkMunicipioCliente;
 	
 	/* GETTERS AND SETTERS */
@@ -86,25 +80,6 @@ public class Pessoa
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	
-	public String getTelefoneComercial() {
-		return telefoneComercial;
-	}
-	public void setTelefoneComercial(String telefoneComercial) {
-		this.telefoneComercial = telefoneComercial;
-	}
-	public String getTelefoneResidencial() {
-		return telefoneResidencial;
-	}
-	public void setTelefoneResidencial(String telefoneResidencial) {
-		this.telefoneResidencial = telefoneResidencial;
-	}
-	public String getTelefoneCelular() {
-		return telefoneCelular;
-	}
-	public void setTelefoneCelular(String telefoneCelular) {
-		this.telefoneCelular = telefoneCelular;
-	}
 	public Integer getTipoPessoa() {
 		return tipoPessoa;
 	}
@@ -128,12 +103,6 @@ public class Pessoa
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public Raca getRaca() {
 		return raca;
@@ -200,18 +169,6 @@ public class Pessoa
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-	public Pais getPais() {
-		return pais;
-	}
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
-	public Estado getEstado() {
-		return estado;
-	}
-	public void setEstado(Estado estado) {
-		this.estado = estado;
 	}
 	public Long getCpf() {
 		return cpf;
