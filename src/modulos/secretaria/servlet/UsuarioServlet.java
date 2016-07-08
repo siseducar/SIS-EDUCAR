@@ -450,8 +450,12 @@ public class UsuarioServlet implements Serializable
 		try 
 		{
 			Pessoa pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
-			if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ nomePessoaVinculada = pessoa.getNome(); }
-			else 											{ nomePessoaVinculada = ""; }
+			if(pessoa!=null && pessoa.getPkPessoa()!=null) { 
+				nomePessoaVinculada = pessoa.getNome(); 
+			} else {
+				usuario.setCpfcnpj(null);
+				nomePessoaVinculada = ""; 
+			}
 			return null;
 		} 
 		catch (Exception e) 

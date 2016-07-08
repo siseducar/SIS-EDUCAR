@@ -140,16 +140,19 @@
 								</div>
 							</div><!-- FIM - Modal - Busca -->
 						</h:form>
-						<h:form id="formCadastroUsuario">
+						<h:form id="formCadastroUsuario" prependId="false">
 							<div class="clearfix form-actions">
 								<div class="form-group">
+								<h:panelGroup id="componentes">
+								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Usuario/cadastroUsuario.js"/>
+								
 								<div class="col-xs-12 col-sm-4">
 										<div>
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.cpf']}" >
-													<p:ajax event="change" listener="#{usuarioServlet.buscarInformacoesPessoaVinculada}" update="nomePessoa"/>
+												requiredMessage="#{mensagens['mensagem.requerido.cpf']}">
+													<p:ajax event="change" listener="#{usuarioServlet.buscarInformacoesPessoaVinculada}" update="componentes" />
 													<f:validator validatorId="validar.CpfValidator"/>
 													<f:converter converterId="converter.CPF"/>
 												</h:inputText>
@@ -214,6 +217,7 @@
 											</span>
 										</div>
 									</div>
+								</h:panelGroup>
 								</div>
 								
 								<!-- Este campo estará escondido para armazenar o genero selecionado -->
