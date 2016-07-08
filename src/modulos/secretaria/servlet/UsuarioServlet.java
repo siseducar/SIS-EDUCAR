@@ -138,6 +138,11 @@ public class UsuarioServlet implements Serializable
 			{
 				pessoa = new PessoaDAO().obtemUnicoPessoaSimples(usuario.getCpfcnpj()); 
 				if(pessoa!=null && pessoa.getPkPessoa()!=null) 	{ usuario.setPessoa(pessoa); }
+				else 
+				{ 
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Não tem cadastrado no sistema nenhuma pessoa com o CPF informado", null));
+					return null;
+				}
 			}
 			
 			if(!usuario.getCpfcnpj().isEmpty() && usuario.getPkUsuario()==null)
