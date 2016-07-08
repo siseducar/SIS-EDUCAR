@@ -623,8 +623,8 @@ public class UsuarioDAO extends SisEducarDAO
 				usuaAux.setGenero(rs.getString("genero"));
 				
 				if(rs.getObject("fkPessoa")!=null)
-				{
-					pessoa.setPkPessoa(rs.getInt("fkPessoa"));
+				{ 
+					pessoa = new PessoaDAO().obtemPessoaSimples(rs.getInt("fkPessoa"));
 					usuaAux.setPessoa(pessoa);
 				}
 				if(rs.getObject("fkMunicipioCliente")!=null)
