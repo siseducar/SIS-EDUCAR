@@ -161,6 +161,38 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Método usado para atualizar uma unidade escolar por PK
+	 * @author João Paulo
+	 * @param unidadeEscolar
+	 * @return UnidadeEscolar
+	 * @throws SQLException
+	 */
+	public UnidadeEscolar atualizarUnidadeEscolar(UnidadeEscolar unidadeEscolar) throws SQLException
+	{
+		String querySQL = "UPDATE unidadeescolar "
+				+ " SET (codigo, nome, unidadeControlada, unidadeInformatizada, fkRedeEnsino, fkRegiao, fkSituacaoFuncionamento,"
+				+ " fkTipoOcupacao, fkDiretor) = (?,?,?,?,?,?,?,?,?)"
+				+ " WHERE pkUnidadeEscolar = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, unidadeEscolar.getCodigo());
+		ps.setString(2, unidadeEscolar.getNome());
+		ps.setBoolean(3, unidadeEscolar.getUnidadeControlada());
+		ps.setBoolean(4, unidadeEscolar.getUnidadeInformatizada());
+		ps.setObject(5, unidadeEscolar.getRedeEnsino()!=null ? unidadeEscolar.getRedeEnsino().getPkRedeEnsino() : null);
+		ps.setObject(6, unidadeEscolar.getRegiao()!=null ? unidadeEscolar.getRegiao().getPkRegiao() : null);
+		ps.setObject(7, unidadeEscolar.getSituacaoFuncionamento()!=null ? unidadeEscolar.getSituacaoFuncionamento().getPkSituacaoFuncionamento() : null);
+		ps.setObject(8, unidadeEscolar.getTipoOcupacao()!=null ? unidadeEscolar.getTipoOcupacao().getPkTipoOcupacao() : null);
+		ps.setObject(9, unidadeEscolar.getDiretor()!=null ? unidadeEscolar.getDiretor().getPkPessoa() : null);
+		ps.setInt(10, unidadeEscolar.getPkUnidadeEscolar());
+		
+		fecharConexaoBanco(con, ps, false, true);
+		
+		return unidadeEscolar;
+	}
+	
+	/**
 	 * Busca apenas a pk do endereço a partir dos parâmetros recebidos
 	 * @author João Paulo
 	 * @param cep

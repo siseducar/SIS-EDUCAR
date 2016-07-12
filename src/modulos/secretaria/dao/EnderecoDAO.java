@@ -76,6 +76,36 @@ public class EnderecoDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Atualiza as informações do endereço a partir de sua PK
+	 * @author João Paulo
+	 * @param endereco
+	 * @return Endereco
+	 * @throws SQLException
+	 */
+	public Endereco atualizarEndereco(Endereco endereco) throws SQLException
+	{
+		String querySQL = "UPDATE endereco "
+				+ " SET (cep, logradouro, bairro, numero, complemento, tipo, fkcidade) = "
+				+ " (?,?,?,?,?,?,?)"
+				+ " WHERE pkEndereco = ?";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setObject(1, endereco.getCep());
+		ps.setObject(2, endereco.getLogradouro());
+		ps.setObject(3, endereco.getBairro());
+		ps.setObject(4, endereco.getNumero());
+		ps.setObject(5, endereco.getComplemento());
+		ps.setObject(6, endereco.getTipo());
+		ps.setObject(7, endereco.getCidade()!=null ? endereco.getCidade().getPkCidade() : null);
+		ps.setObject(8, endereco.getPkEndereco());
+		
+		fecharConexaoBanco(con, ps, false, true);
+		
+		return endereco;
+	}
+	
+	/**
 	 * Busca apenas a pk do endereço a partir dos parâmetros recebidos
 	 * @author João Paulo
 	 * @param cep

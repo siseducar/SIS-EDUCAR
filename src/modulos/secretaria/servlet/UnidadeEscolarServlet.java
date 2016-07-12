@@ -163,6 +163,9 @@ public class UnidadeEscolarServlet implements Serializable
 		{
 			Terreno terrenoAux = null;
 			UnidadeEscolarDAO unidadeEscolarDAO = new UnidadeEscolarDAO();
+			ContatoDAO contatoDAO = new ContatoDAO();
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			TerrenoDAO terrenoDAO = new TerrenoDAO();
 			Pessoa pessoa = null;
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
@@ -212,15 +215,25 @@ public class UnidadeEscolarServlet implements Serializable
 				unidadeEscolar.setTipoOcupacao(tipoOcupacaoDado);
 			}
 			
-			/* Salva o endeço */
+			/* SALVA O ENDEÇO */
 			if(enderecoDado!=null)
 			{
-				//salva primeiro o contato
-				if(contatoDado!=null && (contatoDado.getTelCelular()!=null || contatoDado.getTelComercial()!=null || contatoDado.getTelResidencial()!=null || contatoDado.getEmail()!=null)) 
-				{ enderecoDado.setContato(new ContatoDAO().inserirContato(contatoDado)); }
+				//CONTATO
+				if(enderecoDado.getContato()!=null && enderecoDado.getContato().getPkContato()!=0)
+				{
+					contatoDAO.atualizarContato(enderecoDado.getContato());
+				}
+				else
+				{
+					if(contatoDado!=null && (contatoDado.getTelCelular()!=null || contatoDado.getTelComercial()!=null || contatoDado.getTelResidencial()!=null || contatoDado.getEmail()!=null)) 
+					{ 
+						enderecoDado.setContato(contatoDAO.inserirContato(contatoDado));
+					}
+				}
 				
-				//depois salva o endereço
-				enderecoDado = new EnderecoDAO().inserirEndereco(enderecoDado);
+				//ENDEREÇO
+				if(enderecoDado.getPkEndereco()!=null) { enderecoDado = enderecoDAO.atualizarEndereco(enderecoDado); }
+				else                                   { enderecoDado = new EnderecoDAO().inserirEndereco(enderecoDado); }
 				
 				if(enderecoDado!=null && enderecoDado.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoDado); }
 			}
@@ -228,12 +241,21 @@ public class UnidadeEscolarServlet implements Serializable
 			/* Salva o Terreno */
 			if(terreno!=null)
 			{
-				terrenoAux = new TerrenoDAO().inserirTerreno(terreno);
-				if(terrenoAux!=null && terrenoAux.getPkTerreno()!=null) 	{ unidadeEscolar.setTerreno(terreno); }
+				if(terreno.getPkTerreno()!=null) { terrenoAux = terrenoDAO.atualizarTerreno(terreno); }
+				else
+				{
+					terrenoAux = terrenoDAO.inserirTerreno(terreno);
+					if(terrenoAux!=null && terrenoAux.getPkTerreno()!=null) 	{ unidadeEscolar.setTerreno(terreno); }
+				}
+				
 			}
 			
-			/* Salva a unidade escolar */
-			unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
+			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null) { unidadeEscolarDAO.atualizarUnidadeEscolar(unidadeEscolar); }
+			else
+			{
+				/* Salva a unidade escolar */
+				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
+			}
 			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
 			{
@@ -345,6 +367,10 @@ public class UnidadeEscolarServlet implements Serializable
 				if(unidadeEscolarSelecionada.getEndereco()!=null)
 				{
 					enderecoDado = unidadeEscolarSelecionada.getEndereco();
+					if(unidadeEscolarSelecionada.getEndereco().getContato()!=null)
+					{
+						contatoDado = unidadeEscolarSelecionada.getEndereco().getContato();
+					}
 				}
 				if(unidadeEscolarSelecionada.getDiretor()!=null && unidadeEscolarSelecionada.getDiretor().getNome()!=null)
 				{
