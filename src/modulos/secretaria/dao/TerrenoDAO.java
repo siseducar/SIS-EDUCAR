@@ -59,6 +59,32 @@ public class TerrenoDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Método usado para atualizar as informações do terreno a partir de sua PK
+	 * @author João Paulo
+	 * @param terreno
+	 * @return Terreno
+	 * @throws SQLException
+	 */
+	public Terreno atualizarTerreno(Terreno terreno) throws SQLException 
+	{
+		String querySQL = "UPDATE terreno "
+				+ " SET (distanciaAteSede, areaTerrenoM2, areaConstrucaoM2, latitude, longitude) ="
+				+ " (?,?,?,?,?)"
+				+ " WHERE pkTerreno = ?";
+		ps = con.prepareStatement(querySQL);
+		ps.setDouble(1, terreno.getDistanciaAteSede()!=null ? terreno.getDistanciaAteSede() : 0);
+		ps.setDouble(2, terreno.getAreaTerrenoM2() !=null ? terreno.getAreaTerrenoM2() : 0);
+		ps.setDouble(3, terreno.getAreaConstrucaoM2()!=null ? terreno.getAreaConstrucaoM2() : 0);
+		ps.setDouble(4, terreno.getLatitude()!=null ? terreno.getLatitude() : 0);
+		ps.setDouble(5, terreno.getLongitude()!=null ? terreno.getLongitude() : 0);
+		ps.setInt(6, terreno.getPkTerreno());
+		
+		fecharConexaoBanco(con, ps, false, true);
+		
+		return terreno;
+	}
+	
+	/**
 	 * Obtem a pk do terreno salvo pelos parâmeros passados
 	 * @author João Paulo
 	 * @param distanciaAteSede

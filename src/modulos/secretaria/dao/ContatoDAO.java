@@ -78,7 +78,41 @@ public class ContatoDAO extends SisEducarDAO
 			
 			fecharConexaoBanco(con, ps, false, true);
 
-			contato.setPkContato(obtemPKEndereco(contato.getTelCelular(), contato.getTelComercial(), contato.getTelResidencial(), contato.getEmail()));
+			contato.setPkContato(obtemPKContato(contato.getTelCelular(), contato.getTelComercial(), contato.getTelResidencial(), contato.getEmail()));
+			
+			return contato;
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+	}
+	
+	/**
+	 * Atualiza o contato a partir da pk do contato
+	 * @author João Paulo
+	 * @param contato
+	 * @return Contato
+	 */
+	public Contato atualizarContato(Contato contato)
+	{
+		try 
+		{
+			String querySQL = "UPDATE contato "
+					+ " SET (telComercial, telResidencial, telCelular, email, enviarNotificacao) = "
+					+ " (?,?,?,?,?) "
+					+ " WHERE pkContato = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setObject(1, contato.getTelComercial()!=null ? contato.getTelComercial() : "");
+			ps.setObject(2, contato.getTelResidencial() !=null ? contato.getTelResidencial() : "");
+			ps.setObject(3, contato.getTelCelular() !=null ? contato.getTelCelular() : "");
+			ps.setObject(4, contato.getEmail() !=null ? contato.getEmail() : "");
+			ps.setObject(5, contato.getEnviarNotificacao() !=null ? contato.getEnviarNotificacao() : true);
+			ps.setInt(6, contato.getPkContato());
+			
+			fecharConexaoBanco(con, ps, false, true);
 			
 			return contato;
 		} 
@@ -98,7 +132,7 @@ public class ContatoDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException
 	 */
-	public Integer obtemPKEndereco(String telCelular, String telComercial, String telResidencial, String email) throws SQLException
+	public Integer obtemPKContato(String telCelular, String telComercial, String telResidencial, String email) throws SQLException
 	{
 		Integer numeroArgumentos = 1;
 		
