@@ -1,5 +1,7 @@
 package modulos.secretaria.om;
 
+import javax.servlet.http.Part;
+
 public class Aluno 
 {
 	private int pkAluno;
@@ -25,7 +27,14 @@ public class Aluno
 	private String fotoAluno;
 	private String copiaCertidaoNascimento;
 	private String copiaComprovanteResidencia;
+	private Part imagemALuno;
 	
+	public Part getImagemALuno() {
+		return imagemALuno;
+	}
+	public void setImagemALuno(Part imagemALuno) {
+		this.imagemALuno = imagemALuno;
+	}
 	public String getRa2() {
 		return ra2;
 	}

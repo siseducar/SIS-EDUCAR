@@ -8,9 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import modulos.secretaria.om.Pessoa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -33,7 +30,7 @@ public class PessoaDAO extends SisEducarDAO
 	 * Metodo para salvar os dados referente ao cadastro de uma pessoa
 	 * 
 	 * */
-	public Boolean salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException{
+	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) {
 		try {
 			String querySQL;
 			
@@ -63,9 +60,9 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
 				querySQL += " ?, ";
 			}
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE )";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
 			
-			ps = con.prepareStatement(querySQL.toString());
+			ps = con.prepareStatement(querySQL);
 			
 			// NOME da Pessoa
 			ps.setString(numeroArgumentos, pessoaDados.getNome());
@@ -134,14 +131,15 @@ public class PessoaDAO extends SisEducarDAO
 			// CODIGO DO MUNICIPIO do cliente
 			ps.setInt(numeroArgumentos, pessoaDados.getFkMunicipioCliente().getPkCidade());
 			
-			fecharConexaoBanco(con, ps, false, true);
+			rs = ps.executeQuery();
 			
-			return true;
-		} catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					e.toString(),null));
-			con.rollback();
-			return false;
+			if(rs.next()) {
+				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
+			}
+			
+			return pessoaDados;
+		} catch(Exception e) {
+			return null;
 		}
 	}
 	

@@ -25,11 +25,6 @@ public class EnderecoDAO extends SisEducarDAO
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public EnderecoDAO() throws SQLException
-	{
-		desabilitarAutoCommit(con);
-	}
-	
 	/**
 	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
 	 * @author João Paulo
@@ -276,7 +271,7 @@ public class EnderecoDAO extends SisEducarDAO
 	 * @throws SQLException 
 	 * 
 	 * */
-	public Endereco salvarEnderecoPessoa(Endereco dadosEndereco) throws SQLException {
+	public Endereco salvarEnderecoPessoa(Endereco dadosEndereco) {
 		try {
 			String querySQL;
 			
@@ -344,11 +339,35 @@ public class EnderecoDAO extends SisEducarDAO
 			}
 			
 			return dadosEndereco;
-		} catch(SQLException e) {
+		} catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
-			con.rollback();
 			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para deletar os dados de endereco
+	 * */
+	public void deletarEndereco(Integer pkEndereco) {
+		try {
+			String querySQL = "DELETE FROM ENDERECO "
+					+ "WHERE STATUS = ? "
+					+ "AND PKENDERECO = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkEndereco);
+			
+			ps.executeQuery();
+			
+			fecharConexaoBanco(con, ps, true, false);
+			
+		}
+		catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					e.toString(),null));
 		}
 	}
 }

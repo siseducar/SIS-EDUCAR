@@ -26,7 +26,6 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
 				<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
-				<h:panelGroup id="dadosGeral" style="width: 100%">
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
 						class="clearfix form-actions">
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
@@ -47,9 +46,14 @@
 							<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 							<f:selectItem itemLabel="Aluno" itemValue="1"/>
 							<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-							<p:ajax event="change" update="dadosGeral" listener="#{pessoaServlet.complementoDados}"/>
+							<p:ajax event="change" update="dadosGenericos,dadosResponsavel,dadosComplementares" listener="#{pessoaServlet.complementoDados}"/>
 						</h:selectOneRadio>
 						<div class="space-4"/>
+						<div class="row">
+							<h:inputFile value="#{pessoaServlet.alunoDados.imagemALuno}">
+								<f:ajax event="change" listener="#{pessoaServlet.converteImagem1}"/>
+							</h:inputFile>
+						</div>
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 									<h:outputLabel 
@@ -590,9 +594,7 @@
 									</div>
 								</div>
 								<div class="space-6"/>
-								<div class="row">
-									<h:inputFile id="fotoAluno"/>
-								</div>
+								
 							</div>
 						</h:panelGroup>
 						<h:panelGroup style="width: 100%" class="clearfix form-actions"
@@ -844,11 +846,9 @@
 								update=":formCadastroPessoa" process=":formCadastroPessoa"/>
 						</h:commandLink>
 					</div>
-					
-      			</h:panelGroup>
 				</h:form>
 				<div class="row">
-		    		<h:form id="formConsultaPessoa" prependId="false">
+		    		<h:form id="formConsultaPessoa" prependId="false" enctype="multipart/form-data">
 						<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
 						  <div class="modal-dialog modal-lg">
 						    <div class="modal-content">

@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import modulos.secretaria.om.Contato;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -180,7 +183,10 @@ public class ContatoDAO extends SisEducarDAO
 		return null;
 	}
 	
-	public Contato salvarContatoPessoa(Contato dadosContato) throws SQLException {
+	/*
+	 * Metodo para salvar os dados de contato no cadastro da pessoa
+	 * */
+	public Contato salvarContatoPessoa(Contato dadosContato) {
 		try {
 			String querySQL = "INSERT INTO CONTATO ( "
 					+ "TELRESIDENCIAL, "
@@ -197,15 +203,36 @@ public class ContatoDAO extends SisEducarDAO
 			ps.setInt(4, ConstantesSisEducar.STATUS_ATIVO);
 						
 			rs = ps.executeQuery();
-			
 			if(rs.next()) {
 				dadosContato.setPkContato(rs.getInt("PKCONTATO"));
 			}
 						
 			return dadosContato;
-		} 
-		catch (SQLException e) {
+		} catch (Exception e) {
 			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para deletar os dados de contato
+	 * */
+	public void deletarContato(Integer pkContato) {
+		try {
+			String querySQL = "DELETE FROM CONTATO "
+					+ "WHERE STATUS = ? "
+					+ "AND PKCONTATO = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkContato);
+			
+			ps.executeQuery();
+			fecharConexaoBanco(con, ps, true, false);
+		}
+		catch (SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					e.toString(),null));
 		}
 	}
 }

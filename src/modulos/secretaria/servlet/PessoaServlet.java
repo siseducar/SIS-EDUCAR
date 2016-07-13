@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
@@ -181,6 +182,12 @@ public class PessoaServlet implements Serializable{
 	/* Componente de rendereizacao longitude */
 	private Boolean inputLongitude;
 	
+	private Part imagem1;
+	
+	private Part imagem2;
+	
+	private Part imagem3;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -300,9 +307,6 @@ public class PessoaServlet implements Serializable{
 		inputLatitude = true;
 		inputLongitude = true;
 		
-		paisDados.setPkPais(31);
-		estadoDados.setPkEstado(1);
-		cidadeDados.setPkCidade(1);
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
@@ -315,10 +319,10 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public String salvarCadastroPessoa() {
 			
+		Pessoa pessoaDadosFinal = new Pessoa();
+		Contato contatoDadosFinal = new Contato();
+		Endereco enderecoDadosFinal = new Endereco();
 		try {
-			Pessoa pessoaDadosFinal = new Pessoa();
-			Contato contatoDadosFinal = new Contato();
-			Endereco enderecoDadosFinal = new Endereco();
 			
 			/* Objeto com os atributos de contato da pessoa */
 			contatoDadosFinal.setTelResidencial(contatoDados.getTelResidencial());
@@ -356,14 +360,7 @@ public class PessoaServlet implements Serializable{
 				return null;
 			}
 			
-			
-			/* Objeto com os atributos de contato da pessoa */
-			contatoDadosFinal.setTelResidencial(contatoDados.getTelResidencial());
-			contatoDadosFinal.setTelCelular(contatoDados.getTelCelular());
-			contatoDadosFinal.setEmail(contatoDados.getEmail());
-			
 			/* Objeto com os atributos de da pessoa */
-			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
 				pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
@@ -393,20 +390,39 @@ public class PessoaServlet implements Serializable{
 			
 			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 			
-			
-			if( pessoaDAO.salvarCadastroPessoa(pessoaDadosFinal) ) {
-				pessoaDadosFinal.setPkPessoa(new PessoaDAO().consultaCadastro(pessoaDadosFinal));
-				
-				
-			} 
+			pessoaDadosFinal = pessoaDAO.salvarCadastroPessoa(pessoaDadosFinal);
+			if( pessoaDadosFinal.getPkPessoa() != null ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"Cadastro Realizado com sucesso",null));
+			} else {
+				if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
+					contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
+				}
+				if(enderecoDadosFinal.getPkEndereco() != null || enderecoDadosFinal != null){				
+					enderecoDAO.deletarEndereco(enderecoDadosFinal.getPkEndereco());
+				}
+				if(pessoaDadosFinal.getPkPessoa() != null || pessoaDadosFinal != null ) {
+					pessoaDadosFinal.getPkPessoa();
+				}
+			}
 			
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					pessoaDadosFinal.getPkPessoa().toString(),null));
 			limparFormulario();
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
+				contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
+			}
+			if(enderecoDadosFinal.getPkEndereco() != null || enderecoDadosFinal != null){				
+				enderecoDAO.deletarEndereco(enderecoDadosFinal.getPkEndereco());
+			}
+			if(pessoaDadosFinal.getPkPessoa() != null || pessoaDadosFinal != null ) {
+				pessoaDadosFinal.getPkPessoa();
+			}
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao realizar cadastro contate o administrador!",null));
+			return null;
 		}
 		
 		
@@ -667,6 +683,10 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
+	public void converteImagem1() {
+		System.out.println(alunoDados.getImagemALuno().getName());
+		System.out.println(alunoDados.getImagemALuno().getSize());
+	}
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -1445,5 +1465,41 @@ public class PessoaServlet implements Serializable{
 
 	public void setInputLongitude(Boolean inputLongitude) {
 		this.inputLongitude = inputLongitude;
+	}
+
+
+
+	public Part getImagem1() {
+		return imagem1;
+	}
+
+
+
+	public void setImagem1(Part imagem1) {
+		this.imagem1 = imagem1;
+	}
+
+
+
+	public Part getImagem2() {
+		return imagem2;
+	}
+
+
+
+	public void setImagem2(Part imagem2) {
+		this.imagem2 = imagem2;
+	}
+
+
+
+	public Part getImagem3() {
+		return imagem3;
+	}
+
+
+
+	public void setImagem3(Part imagem3) {
+		this.imagem3 = imagem3;
 	}
 }
