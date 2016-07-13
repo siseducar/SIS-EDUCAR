@@ -243,9 +243,10 @@ public class EnderecoDAO extends SisEducarDAO
 	
 	/**
 	 * Metodo para salvar o endereco da pessoa cadastrada
+	 * @throws SQLException 
 	 * 
 	 * */
-	public Boolean salvarEnderecoPessoa(Endereco dadosEndereco) {
+	public Endereco salvarEnderecoPessoa(Endereco dadosEndereco) throws SQLException {
 		try {
 			String querySQL;
 			
@@ -265,7 +266,7 @@ public class EnderecoDAO extends SisEducarDAO
 				querySQL += " ?,";
 			}
 			
-			querySQL += " ?, ?, ?, ?, ?, ?, ?)";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?) RETURNING PKENDERECO";
 			
 			ps = con.prepareStatement(querySQL.toString());
 			
@@ -306,13 +307,18 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			ps.setString(numeroArgumentos, dadosEndereco.getEnderecoCompleto());
 			
-			fecharConexaoBanco(con, ps, false, true);
+			rs = ps.executeQuery();
 			
-			return true;
+			if(rs.next()) {
+				dadosEndereco.setPkEndereco(rs.getInt("PKENDERECO"));
+			}
+			
+			return dadosEndereco;
 		} catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
-			return false;
+			con.rollback();
+			return null;
 		}
 	}
 }

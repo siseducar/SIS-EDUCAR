@@ -2,18 +2,18 @@ package modulos.secretaria.om;
 
 public class Contato 
 {
-	private int pkContato;
+	private Integer pkContato;
 	private String telComercial;
 	private String telResidencial;
 	private String telCelular;
 	private String email;
-	private int status;
+	private Integer status;
 	private Boolean enviarNotificacao;
 	
-	public int getPkContato() {
+	public Integer getPkContato() {
 		return pkContato;
 	}
-	public void setPkContato(int pkContato) {
+	public void setPkContato(Integer pkContato) {
 		this.pkContato = pkContato;
 	}
 	public String getTelComercial() {
@@ -34,12 +34,7 @@ public class Contato
 	public void setTelCelular(String telCelular) {
 		this.telCelular = telCelular;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
+	
 	public Boolean getEnviarNotificacao() {
 		return enviarNotificacao;
 	}
@@ -51,5 +46,11 @@ public class Contato
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

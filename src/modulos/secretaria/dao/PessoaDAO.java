@@ -140,6 +140,7 @@ public class PessoaDAO extends SisEducarDAO
 		} catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
+			con.rollback();
 			return false;
 		}
 	}

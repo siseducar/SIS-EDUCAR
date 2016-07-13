@@ -19,12 +19,7 @@ public class ContatoDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	
-	public ContatoDAO() throws SQLException
-	{
-		desabilitarAutoCommit(con);
-	}
-	
+		
 	/**
 	 * Busca um contato pela pk dele
 	 * @author João Paulo
@@ -150,5 +145,33 @@ public class ContatoDAO extends SisEducarDAO
 		
 		return null;
 	}
-
+	
+	public Contato salvarContatoPessoa(Contato dadosContato) throws SQLException {
+		try {
+			String querySQL = "INSERT INTO CONTATO ( "
+					+ "TELRESIDENCIAL, "
+					+ "TELCELULAR, "
+					+ "EMAIL, "
+					+ "STATUS ) values( "
+					+ " ?, ?, ?, ?) RETURNING PKCONTATO";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, dadosContato.getTelResidencial());
+			ps.setString(2, dadosContato.getTelCelular());
+			ps.setString(3, dadosContato.getEmail());
+			ps.setInt(4, ConstantesSisEducar.STATUS_ATIVO);
+						
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				dadosContato.setPkContato(rs.getInt("PKCONTATO"));
+			}
+						
+			return dadosContato;
+		} 
+		catch (SQLException e) {
+			return null;
+		}
+	}
 }

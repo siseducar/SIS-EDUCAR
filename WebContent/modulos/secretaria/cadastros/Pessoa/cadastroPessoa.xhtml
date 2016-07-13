@@ -387,7 +387,7 @@
 			                    	<div>
 			                    		<h:inputText id="txtLatitude" name="txtLatitude"
 			                    			value="#{pessoaServlet.enderecoDados.latitude}" styleClass="col-xs-10 col-sm-12" 
-			                    			autocomplete="off"/>
+			                    			autocomplete="off" disabled="#{pessoaServlet.inputLatitude}"/>
 			                    	</div>
 								</div>
 								<div class="col-xs-12 col-sm-4">
@@ -395,7 +395,7 @@
 									<div>
 										<h:inputText id="txtLongitude" name="txtLongitude" 
 											value="#{pessoaServlet.enderecoDados.longitude}" styleClass="col-xs-10 col-sm-12" 
-											autocomplete="off"/>
+											autocomplete="off" disabled="#{pessoaServlet.inputLongitude}"/>
 									</div>
 								</div>
 							</div>
@@ -588,6 +588,10 @@
 											</h:panelGroup>
 										</h:panelGroup>
 									</div>
+								</div>
+								<div class="space-6"/>
+								<div class="row">
+									<h:inputFile id="fotoAluno"/>
 								</div>
 							</div>
 						</h:panelGroup>

@@ -16,6 +16,7 @@ import javax.faces.model.SelectItem;
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
 import modulos.secretaria.dao.EnderecoDAO;
+import modulos.secretaria.dao.FuncionarioDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
@@ -81,6 +82,8 @@ public class PessoaServlet implements Serializable{
 	private TipoDeficiencia tipoDeficienciaDados;
 	private GrauParentesco grauParentescoDados;
 	private PessoaDAO pessoaDAO;
+	private AlunoDAO alunoDAO;
+	private FuncionarioDAO funcionarioDAO;
 	private EnderecoDAO enderecoDAO;
 	private ContatoDAO contatoDAO;
 	
@@ -172,6 +175,12 @@ public class PessoaServlet implements Serializable{
 	
 	private List<String> cidadesAutoComplete;
 	
+	/* Componente de rendereizacao latitude */
+	private Boolean inputLatitude;
+	
+	/* Componente de rendereizacao longitude */
+	private Boolean inputLongitude;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -246,6 +255,12 @@ public class PessoaServlet implements Serializable{
 		if(this.pessoaDAO == null) {
 			this.pessoaDAO = new PessoaDAO();
 		}
+		if(this.alunoDAO == null) {
+			this.alunoDAO = new AlunoDAO();
+		}
+		if(this.funcionarioDAO == null) {
+			this.funcionarioDAO = new FuncionarioDAO();
+		}
 		if(this.enderecoDAO == null) {
 			this.enderecoDAO = new EnderecoDAO();
 		}
@@ -282,6 +297,12 @@ public class PessoaServlet implements Serializable{
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
+		inputLatitude = true;
+		inputLongitude = true;
+		
+		paisDados.setPkPais(31);
+		estadoDados.setPkEstado(1);
+		cidadeDados.setPkCidade(1);
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
@@ -299,6 +320,19 @@ public class PessoaServlet implements Serializable{
 			Contato contatoDadosFinal = new Contato();
 			Endereco enderecoDadosFinal = new Endereco();
 			
+			/* Objeto com os atributos de contato da pessoa */
+			contatoDadosFinal.setTelResidencial(contatoDados.getTelResidencial());
+			contatoDadosFinal.setTelCelular(contatoDados.getTelCelular());
+			contatoDadosFinal.setEmail(contatoDados.getEmail());
+			
+			contatoDadosFinal = contatoDAO.salvarContatoPessoa(contatoDadosFinal);
+			
+			if(contatoDadosFinal.getPkContato() == null ){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						"Erro",null));
+				return null;
+			}
+			 
 			/* Objeto com os atributos de endereco da pessoa */
 			enderecoDadosFinal.setCidade(cidadeDados);
 			enderecoDadosFinal.setCep(enderecoDados.getCep());
@@ -315,16 +349,12 @@ public class PessoaServlet implements Serializable{
 			enderecoDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 			
 			
-			if( enderecoDAO.salvarEnderecoPessoa(enderecoDadosFinal) ){
-				enderecoDadosFinal.setPkEndereco( enderecoDAO.obtemPKEndereco(
-						enderecoDadosFinal.getCep(), 
-						enderecoDadosFinal.getLogradouro(), 
-						enderecoDadosFinal.getBairro(), 
-						enderecoDadosFinal.getNumero(), 
-						enderecoDadosFinal.getComplemento(),
-						enderecoDadosFinal.getRegiao().getPkRegiao().toString(), 
-						enderecoDadosFinal.getCidade()) );
-			};
+			enderecoDadosFinal = enderecoDAO.salvarEnderecoPessoa(enderecoDadosFinal);
+			if(enderecoDadosFinal.getPkEndereco() == null) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						"Erro",null));
+				return null;
+			}
 			
 			
 			/* Objeto com os atributos de contato da pessoa */
@@ -1391,5 +1421,29 @@ public class PessoaServlet implements Serializable{
 	
 	public void setGrauParentescoDados(GrauParentesco grauParentescoDados) {
 		this.grauParentescoDados = grauParentescoDados;
+	}
+
+
+
+	public Boolean getInputLatitude() {
+		return inputLatitude;
+	}
+
+
+
+	public void setInputLatitude(Boolean inputLatitude) {
+		this.inputLatitude = inputLatitude;
+	}
+
+
+
+	public Boolean getInputLongitude() {
+		return inputLongitude;
+	}
+
+
+
+	public void setInputLongitude(Boolean inputLongitude) {
+		this.inputLongitude = inputLongitude;
 	}
 }
