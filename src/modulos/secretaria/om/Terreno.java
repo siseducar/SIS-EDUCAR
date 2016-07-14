@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Terreno 
-{
+import java.io.Serializable;
+
+public class Terreno implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkTerreno;
 	private Double distanciaAteSede;
 	private Double areaTerrenoM2;

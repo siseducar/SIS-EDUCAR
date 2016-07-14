@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class RedeEnsino 
-{
+import java.io.Serializable;
+
+public class RedeEnsino implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkRedeEnsino;
 	private String codigo;
 	private String nome;

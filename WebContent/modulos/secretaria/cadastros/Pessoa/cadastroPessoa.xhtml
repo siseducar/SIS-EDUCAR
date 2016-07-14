@@ -15,13 +15,21 @@
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
-		<div class="page-header">
+		<div class="page-header col-xs-12 col-sm-12">
 			<h1>
 				Cadastro
 				<small>
 					<i class="ace-icon fa fa-angle-double-right"/> Cadastro de Pessoas
 				</small>
 			</h1>
+		</div>
+		<div class="nav-search">
+			<h5 align="center">
+				<a href="#modalConsultaPessoa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+					<i class="ace-icon fa fa-search bigger-150"/>
+					<span class="bigger-110">Consultar</span>
+				</a>
+			</h5> 
 		</div>	
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
@@ -31,14 +39,8 @@
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						<div class="row">
-							<div class="col-xs-12 col-sm-10">
+							<div class="col-xs-12 col-sm-12">
 								<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
-							</div>
-							<div class="col-xs-12 col-sm-2" align="center">
-								<button id="botaoModal" type="button" class="btn btn-default navbar-btn" 
-									data-toggle="modal" data-target=".bs-example-modal-lg">Consultar
-									<span class=" glyphicon glyphicon-search"/>
-								</button>
 							</div>
 						</div>
 						<h:selectOneRadio id="tipoPessoa" 
@@ -49,11 +51,6 @@
 							<p:ajax event="change" update="dadosGenericos,dadosResponsavel,dadosComplementares" listener="#{pessoaServlet.complementoDados}"/>
 						</h:selectOneRadio>
 						<div class="space-4"/>
-						<div class="row">
-							<h:inputFile value="#{pessoaServlet.alunoDados.imagemALuno}">
-								<f:ajax event="change" listener="#{pessoaServlet.converteImagem1}"/>
-							</h:inputFile>
-						</div>
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 									<h:outputLabel 
@@ -296,6 +293,15 @@
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						<div id="conteudoEndereco">
 							<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
+							<div class="row">									
+                        		<div class="col-xs-12 col-sm-6">
+                        			<h:outputLabel value="Endereço"/>
+                        			<div>
+	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-12"
+                        			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
+                        			</div>
+                        		</div>
+							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-3">
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
@@ -389,17 +395,21 @@
 								<div class="col-xs-12 col-sm-4">
 			                    	<h:outputLabel value="Latitude" />
 			                    	<div>
-			                    		<h:inputText id="txtLatitude" name="txtLatitude"
+			                    		<h:inputHidden id="valorLatitude" valor="valorLatitude" 
+			                    			value="#{pessoaServlet.enderecoDados.latitude}"/>
+			                    		<h:inputText id="txtLatitude" name="txtLatitude" readonly="true"
 			                    			value="#{pessoaServlet.enderecoDados.latitude}" styleClass="col-xs-10 col-sm-12" 
-			                    			autocomplete="off" disabled="#{pessoaServlet.inputLatitude}"/>
+			                    			autocomplete="off"/>
 			                    	</div>
 								</div>
 								<div class="col-xs-12 col-sm-4">
 									<h:outputLabel value="Longitude"/>
 									<div>
-										<h:inputText id="txtLongitude" name="txtLongitude" 
+										<h:inputHidden id="valorLongitude" name="valorLongitude" 
+											value="#{pessoaServlet.enderecoDados.longitude}"/>
+										<h:inputText id="txtLongitude" name="txtLongitude" readonly="true" 
 											value="#{pessoaServlet.enderecoDados.longitude}" styleClass="col-xs-10 col-sm-12" 
-											autocomplete="off" disabled="#{pessoaServlet.inputLongitude}"/>
+											autocomplete="off" />
 									</div>
 								</div>
 							</div>
@@ -450,15 +460,6 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 								<h4 class="header smaller lighter blue" align="center"> Localização no Mapa </h4>
-								<div class="row">									
-	                        		<div class="col-xs-12 col-sm-6">
-	                        			<h:outputLabel value="Endereço"/>
-	                        			<div>
-		                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-12"
-	                        			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
-	                        			</div>
-	                        		</div>
-								</div>
 		                    	<div class="space-4"/>
 								<div class="row">
 									<fieldset>   	
@@ -467,7 +468,7 @@
 								</div>
 							</div>
 							<!-- Maps API Javascript -->
-							<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpJBWA4px9bQ2pPWkEbogldf6xaS2x3vs"/>
+							<script src="http://maps.googleapis.com/maps/api/js"/>
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 						</div>
 					</h:panelGroup>
@@ -891,9 +892,8 @@
 					    			<div class="space-6"/>
 					    			<div class="row">
 					    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
-						    				<h:dataTable styleClass="order-table col-xs-12 col-sm-12"
-								    			headerClass="order-table-header"
-								    			rowClasses="order-table-odd-row,order-table-even-row">
+						    				<h:dataTable id="tabelaPessoa" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
+								    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 								    			<h:column>
 								    				<!-- column header -->
 								    				<f:facet name="header"> Tipo de Cadastro </f:facet>
@@ -907,18 +907,36 @@
 								    			<h:column>
 								    				<f:facet name="header"> Sexo </f:facet>
 								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Editar</f:facet>
+								    				<center>
+														<h:commandLink styleClass="tooltip-success">
+								    						<span class="green">
+																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+															</span>
+														</h:commandLink>
+								    				</center>
+				 								</h:column>
 								    			<f:facet name="footer">
-										            <h:panelGroup>
-										                <h:commandButton value="first" action="#{myBean.pageFirst}"
-										                    disabled="#{myBean.dataTable.first == 0}" />
-										                <h:commandButton value="prev" action="#{myBean.pagePrevious}"
-										                    disabled="#{myBean.dataTable.first == 0}" />
-										                <h:commandButton value="next" action="#{myBean.pageNext}"
+										            <h:panelGroup styleClass="pagination pull-right no-margin">
+										                <h:commandButton value="Primeira" action="#{myBean.pageFirst}"
+										                    disabled="#{myBean.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                		<f:ajax event="click" listener="#{pessoaServlet.primeiraPagina}" render="tabelaPessoa" />
+									                	</h:commandButton>
+										                <h:commandButton value="Anterior" action="#{myBean.pagePrevious}"
+										                    disabled="#{myBean.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										               		<f:ajax event="click" listener="#{pessoaServlet.paginaAnterior}" render="tabelaPessoa" />
+										               	</h:commandButton>
+										                <h:commandButton value="Próxima" action="#{myBean.pageNext}"
 										                    disabled="#{myBean.dataTable.first + myBean.dataTable.rows
-										                        >= myBean.dataTable.rowCount}" />
-										                <h:commandButton value="last" action="#{myBean.pageLast}"
+										                        >= myBean.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                        <f:ajax event="click" listener="#{pessoaServlet.proximaPagina}" render="tabelaPessoa" />
+								                        </h:commandButton>
+										                <h:commandButton value="Última" action="#{myBean.pageLast}"
 										                    disabled="#{myBean.dataTable.first + myBean.dataTable.rows
-										                        >= myBean.dataTable.rowCount}" />
+										                        >= myBean.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                    	<f:ajax event="click" listener="#{pessoaServlet.ultimaPagina}" render="tabelaPessoa" />
+									                    </h:commandButton>
 										            </h:panelGroup>
 										        </f:facet>
 								    		</h:dataTable>

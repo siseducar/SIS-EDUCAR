@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Responsavel 
-{
+import java.io.Serializable;
+
+public class Responsavel implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private int pkResponsavel;
 	private Aluno aluno;
 	private Pessoa pessoa;

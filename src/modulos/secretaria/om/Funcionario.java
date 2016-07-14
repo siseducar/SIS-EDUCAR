@@ -1,9 +1,11 @@
 package modulos.secretaria.om;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Funcionario 
-{
+public class Funcionario implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkFuncionario;
 	private String matricula;
 	private String numeroContrato;

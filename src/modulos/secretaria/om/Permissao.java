@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Permissao
-{
+import java.io.Serializable;
+
+public class Permissao implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkPermissao;
 	private String nome;
 	private String nomeModulo; //Essa variável só tem na OM

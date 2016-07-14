@@ -6,14 +6,13 @@ var marker;
 /* Funcão para inicilizar o mapa */
 function initialize() {
 	/* Ponto inicial do mapa */
-	var latlng = new google.maps.LatLng(0, 0);
+	var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
 	
 	/* Verifica a atual posicao */
 	if(navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){ 
 			var latitudeAtual = position.coords.latitude;
 			var longitudeAtual = position.coords.longitude;
-			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
 			carregarEndereco(latitudeAtual, longitudeAtual);
 			latlng = new google.maps.LatLng(latitudeAtual, longitudeAtual);
 		}, 
@@ -42,24 +41,6 @@ function initialize() {
 	marker.setPosition(latlng);
 };
 
-/* Verifica a atual posicao */
-if(navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(function(position){ 
-		var latitudeAtual = position.coords.latitude;
-		var longitudeAtual = position.coords.longitude;
-		marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-		carregarEndereco(latitudeAtual, longitudeAtual);
-		
-	}, 
-	function(error){ // callback de erro
-		alert('Erro ao obter localização!');
-		console.log('Erro ao obter localização.', error);
-	});
-} else {
-	console.log('Navegador não suporta Geolocalização!');
-}
-
-
 $(document).ready(function () {
 	initialize();
 	function carregarNoMapa(endereco) {
@@ -72,6 +53,8 @@ $(document).ready(function () {
 					$('#txtEndereco').val(results[0].formatted_address);
 					$('#txtLatitude').val(latitude);
                    	$('#txtLongitude').val(longitude);
+                   	$('#valorLatitude').val(longitude);
+                   	$('#valorLongitude').val(longitude);
 		
 					var location = new google.maps.LatLng(latitude, longitude);
 					marker.setPosition(location);
@@ -93,6 +76,8 @@ $(document).ready(function () {
 					$('#txtEndereco').val(results[0].formatted_address);
 					$('#txtLatitude').val(marker.getPosition().lat());
 					$('#txtLongitude').val(marker.getPosition().lng());
+					$('#valorLatitude').val(marker.getPosition().lat());
+					$('#valorLongitude').val(marker.getPosition().lng());
 					carregarEndereco(marker.getPosition().lat(),marker.getPosition().lng());
 				}
 			}
@@ -115,6 +100,8 @@ $(document).ready(function () {
 		select: function (event, ui) {
 			$("#txtLatitude").val(ui.item.latitude);
     		$("#txtLongitude").val(ui.item.longitude);
+    		$("#valorLatitude").val(ui.item.latitude);
+    		$("#valorLongitude").val(ui.item.longitude);
 			var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
 			marker.setPosition(location);
 			map.setCenter(location);
@@ -150,7 +137,9 @@ function carregarEndereco(latitude,longitude) {
 			
 			var adress = data.results[i].formatted_address;
 			document.getElementById('txtLatitude').value = latitude;
-			document.getElementById('txtLongitude').value = longitude;			
+			document.getElementById('txtLongitude').value = longitude;
+			document.getElementById('valorLatitude').value = latitude;
+			document.getElementById('valorLongitude').value = longitude;	
 			document.getElementById('txtEndereco').value = adress; 
 			
 		}

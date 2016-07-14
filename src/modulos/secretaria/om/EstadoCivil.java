@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class EstadoCivil
-{
+import java.io.Serializable;
+
+public class EstadoCivil implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkEstadoCivil;
 	private String codigo;
 	private String descricao;

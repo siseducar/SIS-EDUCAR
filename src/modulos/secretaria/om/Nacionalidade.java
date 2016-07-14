@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Nacionalidade 
-{
+import java.io.Serializable;
+
+public class Nacionalidade implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkNacionalidade;
 	private String codigo;
 	private String descricao;

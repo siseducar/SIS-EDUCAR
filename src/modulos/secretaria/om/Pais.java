@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Pais 
-{
+import java.io.Serializable;
+
+public class Pais implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkPais;
 	private String nome;
 	private Integer codigobacem;

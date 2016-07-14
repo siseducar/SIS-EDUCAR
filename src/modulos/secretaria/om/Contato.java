@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Contato 
-{
+import java.io.Serializable;
+
+public class Contato implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkContato;
 	private String telComercial;
 	private String telResidencial;

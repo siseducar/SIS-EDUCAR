@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class SituacaoEconomica 
-{
+import java.io.Serializable;
+
+public class SituacaoEconomica implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkSituacaoEconomica;
 	private String codigo;
 	private String descricao;

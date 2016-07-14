@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class GrauParentesco {
+import java.io.Serializable;
+
+public class GrauParentesco implements Serializable {	
 	
+	private static final long serialVersionUID = 1L;
 	private Integer pkGrauParentesco;
 	private String codigo;
 	private String descricao;

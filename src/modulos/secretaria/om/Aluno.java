@@ -1,9 +1,12 @@
 package modulos.secretaria.om;
 
+import java.io.Serializable;
+
 import javax.servlet.http.Part;
 
-public class Aluno 
-{
+public class Aluno implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private int pkAluno;
 	private String codigoInep;
 	private String ra;

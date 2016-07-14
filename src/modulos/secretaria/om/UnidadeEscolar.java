@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class UnidadeEscolar 
-{
+import java.io.Serializable;
+
+public class UnidadeEscolar implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkUnidadeEscolar;
 	private String codigo;
 	private String nome;

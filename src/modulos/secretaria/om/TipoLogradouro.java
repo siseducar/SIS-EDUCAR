@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class TipoLogradouro {
+import java.io.Serializable;
 
+public class TipoLogradouro implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkTipoLogradouro;
 	private String codigo;
 	private String descricao;

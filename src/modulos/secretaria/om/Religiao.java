@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Religiao
-{
+import java.io.Serializable;
+
+public class Religiao implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkReligiao;
 	private String codigo;
 	private String descricao;

@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Regiao 
-{
+import java.io.Serializable;
+
+public class Regiao implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkRegiao;
 	private String codigo;
 	private String descricao;

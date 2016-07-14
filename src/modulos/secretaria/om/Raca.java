@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Raca
-{
+import java.io.Serializable;
+
+public class Raca implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkRaca;
 	private String codigo;
 	private String descricao;

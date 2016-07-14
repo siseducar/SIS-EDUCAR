@@ -1,5 +1,7 @@
 package modulos.secretaria.om;
 
-public class VinculoEmpregaticio {
+import java.io.Serializable;
 
+public class VinculoEmpregaticio implements Serializable {	
+	private static final long serialVersionUID = 1L;
 }

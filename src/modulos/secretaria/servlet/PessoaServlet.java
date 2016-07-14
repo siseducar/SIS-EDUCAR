@@ -10,9 +10,9 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.Part;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
@@ -114,7 +114,7 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de NACIONALIDADE */
 	private List<SelectItem> comboNacionalidade;
 	
-	/* Combo com valores de RAÃ‡A */
+	/* Combo com valores de RAÇA */
 	private List<SelectItem> comboRaca;
 	
 	/* Combo com valores de ESTADO CIVIL */
@@ -123,10 +123,10 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de GRAU DE PARENTESCO */
 	private List<SelectItem> comboGrauInstrucao;
 	
-	/* Combo com valores de SITUAÃ‡Ã‚O ECÃ”NIMCA */
+	/* Combo com valores de SITUAÇÃO ECÔNIMCA */
 	private List<SelectItem> comboSituacaoEconomica;
 	
-	/* Combo com valores de RELIGIÃƒO */
+	/* Combo com valores de RELIGIÃO */
 	private List<SelectItem> comboReligiao;
 	
 	/* Combo com valores de ZONA RESIDENCIAL */
@@ -174,19 +174,8 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar idade da pessoa */
 	private Boolean menorIdade;
 	
-	private List<String> cidadesAutoComplete;
-	
-	/* Componente de rendereizacao latitude */
-	private Boolean inputLatitude;
-	
-	/* Componente de rendereizacao longitude */
-	private Boolean inputLongitude;
-	
-	private Part imagem1;
-	
-	private Part imagem2;
-	
-	private Part imagem3;
+	/* Componenete Tabela de consutal */
+	private HtmlDataTable dataTable;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -292,7 +281,6 @@ public class PessoaServlet implements Serializable{
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
-		cidadesAutoComplete = new ArrayList<String>();
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -304,8 +292,6 @@ public class PessoaServlet implements Serializable{
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
-		inputLatitude = true;
-		inputLongitude = true;
 		
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
@@ -348,9 +334,10 @@ public class PessoaServlet implements Serializable{
 			}
 			enderecoDadosFinal.setLatitude(enderecoDados.getLatitude());
 			enderecoDadosFinal.setLongitude(enderecoDados.getLongitude());
-			enderecoDadosFinal.setRegiao(regiaoDados);
+			enderecoDadosFinal.setTipo("Residencial");
 			enderecoDadosFinal.setEnderecoCompleto(enderecoDados.getEnderecoCompleto());
 			enderecoDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			enderecoDadosFinal.setRegiao(regiaoDados);
 			
 			
 			enderecoDadosFinal = enderecoDAO.salvarEnderecoPessoa(enderecoDadosFinal);
@@ -386,14 +373,19 @@ public class PessoaServlet implements Serializable{
 			pessoaDadosFinal.setNomeResponsavel( pessoaDados.getNomeResponsavel());
 			pessoaDadosFinal.setGrauParentesco(grauParentescoDados);
 			pessoaDadosFinal.setEndereco(enderecoDadosFinal);
-			
+			pessoaDadosFinal.setContato(contatoDadosFinal);
+			pessoaDadosFinal.setEndereco(enderecoDadosFinal);
 			
 			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 			
 			pessoaDadosFinal = pessoaDAO.salvarCadastroPessoa(pessoaDadosFinal);
+			
 			if( pessoaDadosFinal.getPkPessoa() != null ) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Cadastro Realizado com sucesso",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+						pessoaDadosFinal.getPkPessoa().toString(),null));
+				limparFormulario();
 			} else {
 				if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
 					contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
@@ -405,11 +397,6 @@ public class PessoaServlet implements Serializable{
 					pessoaDadosFinal.getPkPessoa();
 				}
 			}
-			
-			
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					pessoaDadosFinal.getPkPessoa().toString(),null));
-			limparFormulario();
 		} catch (Exception e) {
 			if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
 				contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
@@ -683,10 +670,6 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
-	public void converteImagem1() {
-		System.out.println(alunoDados.getImagemALuno().getName());
-		System.out.println(alunoDados.getImagemALuno().getSize());
-	}
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -723,23 +706,6 @@ public class PessoaServlet implements Serializable{
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
-	
-	/*
-	 * Metodo autoCompleteCidades
-	 * */
-	public List<String> sugerirCidades(String consulta) {
-	    List<String> cidadesSugeridas = new ArrayList<String>();
-	    
-	    
-	    for (String indiceCidades : cidadesAutoComplete) {
-	        if (indiceCidades.toLowerCase().startsWith(consulta.toLowerCase())) {
-	            cidadesSugeridas.add(indiceCidades);
-	        }
-	    }
-
-	    return cidadesSugeridas;
-	}
-	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -921,10 +887,38 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
-		cidadesAutoComplete =  paramDados.carregaCidades();
 	}
 	
+	public void primeiraPagina() {
+        dataTable.setFirst(0);
+    }
+
+    public void paginaAnterior() {
+        dataTable.setFirst(dataTable.getFirst() - dataTable.getRows());
+    }
+
+    public void proximaPagina() {
+        dataTable.setFirst(dataTable.getFirst() + dataTable.getRows());
+    }
+
+    public void ultimaPagina() {
+        int count = dataTable.getRowCount();
+        int rows = dataTable.getRows();
+        dataTable.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
 	
+    public int getCurrentPage() {
+        int rows = dataTable.getRows();
+        int first = dataTable.getFirst();
+        int count = dataTable.getRowCount();
+        return (count / rows) - ((count - first) / rows) + 1;
+    }
+
+    public int getTotalPages() {
+        int rows = dataTable.getRows();
+        int count = dataTable.getRowCount();
+        return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
 	
 	
 	/* ------------------------------------------------------------------------------------------------------------------------ */
@@ -964,26 +958,18 @@ public class PessoaServlet implements Serializable{
 	public Contato getContatoDados() {
 		return contatoDados;
 	}
-
-
-
+	
 	public void setContatoDados(Contato contatoDados) {
 		this.contatoDados = contatoDados;
 	}
-
-
 
 	public PessoaDAO getPessoaDAO() {
 		return pessoaDAO;
 	}
 
-
-
 	public void setPessoaDAO(PessoaDAO pessoaDAO) {
 		this.pessoaDAO = pessoaDAO;
 	}
-
-
 
 	public Pais getPaisDados() {
 		return paisDados;
@@ -1426,14 +1412,6 @@ public class PessoaServlet implements Serializable{
 	public void setLatitude(List<String> latitude) {
 		this.latitude = latitude;
 	}
-
-	public List<String> getCidadesAutoComplete() {
-		return cidadesAutoComplete;
-	}
-
-	public void setCidadesAutoComplete(List<String> cidadesAutoComplete) {
-		this.cidadesAutoComplete = cidadesAutoComplete;
-	}
 	
 	public GrauParentesco getGrauParentescoDados() {
 		return grauParentescoDados;
@@ -1442,64 +1420,12 @@ public class PessoaServlet implements Serializable{
 	public void setGrauParentescoDados(GrauParentesco grauParentescoDados) {
 		this.grauParentescoDados = grauParentescoDados;
 	}
-
-
-
-	public Boolean getInputLatitude() {
-		return inputLatitude;
+	
+	public HtmlDataTable getDataTable() {
+        return dataTable;
 	}
 
-
-
-	public void setInputLatitude(Boolean inputLatitude) {
-		this.inputLatitude = inputLatitude;
-	}
-
-
-
-	public Boolean getInputLongitude() {
-		return inputLongitude;
-	}
-
-
-
-	public void setInputLongitude(Boolean inputLongitude) {
-		this.inputLongitude = inputLongitude;
-	}
-
-
-
-	public Part getImagem1() {
-		return imagem1;
-	}
-
-
-
-	public void setImagem1(Part imagem1) {
-		this.imagem1 = imagem1;
-	}
-
-
-
-	public Part getImagem2() {
-		return imagem2;
-	}
-
-
-
-	public void setImagem2(Part imagem2) {
-		this.imagem2 = imagem2;
-	}
-
-
-
-	public Part getImagem3() {
-		return imagem3;
-	}
-
-
-
-	public void setImagem3(Part imagem3) {
-		this.imagem3 = imagem3;
-	}
+	public void setDataTable(HtmlDataTable dataTable) {
+		this.dataTable = dataTable;
+	}     
 }

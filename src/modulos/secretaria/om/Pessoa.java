@@ -1,9 +1,11 @@
 package modulos.secretaria.om;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Pessoa
-{	
+public class Pessoa implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkPessoa;
 	private Integer codigo;
 	private String nome;
@@ -26,7 +28,6 @@ public class Pessoa
 	private SituacaoEconomica situacaoEconomica;
 	private Religiao religiao;
 	private TipoDeficiencia tipoDeficiencia;
-	private Regiao regiao;
 	private Nacionalidade nacionalidade;
 	private EstadoCivil estadoCivil;
 	private Turno turno;
@@ -35,6 +36,7 @@ public class Pessoa
 	private UnidadeEscolar unidadeEscolar;
 	private Endereco endereco;
 	private Cidade fkMunicipioCliente;
+	private Contato contato;
 	
 	/* GETTERS AND SETTERS */
 	public Integer getPkPessoa() {
@@ -128,12 +130,6 @@ public class Pessoa
 	public void setTipoDeficiencia(TipoDeficiencia tipoDeficiencia) {
 		this.tipoDeficiencia = tipoDeficiencia;
 	}
-	public Regiao getRegiao() {
-		return regiao;
-	}
-	public void setRegiao(Regiao regiao) {
-		this.regiao = regiao;
-	}
 	public Nacionalidade getNacionalidade() {
 		return nacionalidade;
 	}
@@ -223,6 +219,12 @@ public class Pessoa
 	}
 	public void setGrauParentesco(GrauParentesco grauParentesco) {
 		this.grauParentesco = grauParentesco;
+	}
+	public Contato getContato() {
+		return contato;
+	}
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 	
 

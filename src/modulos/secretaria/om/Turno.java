@@ -1,7 +1,10 @@
 package modulos.secretaria.om;
 
-public class Turno
-{
+import java.io.Serializable;
+
+public class Turno implements Serializable {	
+	
+	private static final long serialVersionUID = 1L;
 	private Integer pkTurno;
 	private String codigo;
 	private String descricao;
