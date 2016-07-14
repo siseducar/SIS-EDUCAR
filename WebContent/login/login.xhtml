@@ -137,7 +137,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<h:inputText class="form-control" value="#{loginServlet.emailRedefinicaoSenha}"></h:inputText>
+															<h:inputText class="form-control" value="#{loginServlet.emailRedefinicaoSenha}" autocomplete="off"></h:inputText>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
@@ -179,7 +179,7 @@
 													<label class="block clearfix">
 														<output>R.A. Aluno</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}" maxlength="15" required="true"
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.raAluno}" autocomplete="off" maxlength="15" required="true"
 																requiredMessage="#{mensagens['mensagem.requerido.raSimples']}"/>
 															<i class="ace-icon fa fa-bookmark"></i>
 														</span>
@@ -187,7 +187,7 @@
 													<label class="block clearfix">
 														<output>CPF Responsável</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" maxlength="11" required="true"
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.cpfcnpj}" autocomplete="off" maxlength="11" required="true"
 																requiredMessage="#{mensagens['mensagem.requerido.cpfSimples']}"/>
 															<i class="ace-icon fa fa-credit-card"></i>
 														</span>
@@ -195,7 +195,7 @@
 													<label class="block clearfix">
 														<output>Email</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}" maxlength="30" required="true"
+															<h:inputText type="email" class="form-control" value="#{loginServlet.usuario.email}" autocomplete="off" maxlength="30" required="true"
 																requiredMessage="#{mensagens['mensagem.requerido.emailSimples']}"/>
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
@@ -204,7 +204,7 @@
 													<label class="block clearfix">
 														<output>Nome de Usuário</output>
 														<span class="block input-icon input-icon-right">
-															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" maxlength="15" required="true"
+															<h:inputText type="text" class="form-control" value="#{loginServlet.usuario.nome}" autocomplete="off" maxlength="15" required="true"
 																requiredMessage="#{mensagens['mensagem.requerido.usuarioSimples']}"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>

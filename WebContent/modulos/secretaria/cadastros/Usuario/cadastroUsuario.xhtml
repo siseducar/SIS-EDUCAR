@@ -51,7 +51,7 @@
 												<div>
 													<output>CPF</output>
 													<span class="block input-icon input-icon-right">
-														<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.cpfPesquisar}">
+														<h:inputText type="text" styleClass="form-control cpf" autocomplete="off" value="#{usuarioServlet.cpfPesquisar}">
 															<f:converter converterId="converter.CPF"/>
 														</h:inputText>
 														<i class="ace-icon fa fa-credit-card"></i>
@@ -61,7 +61,7 @@
 												<div class="">
 														<output>Email</output>
 														<span class="block input-icon input-icon-right"> 
-														<h:inputText
+														<h:inputText autocomplete="off"
 															type="text" class="form-control"
 															value="#{usuarioServlet.emailPesquisar}" maxlength="30">
 														</h:inputText>
@@ -150,7 +150,7 @@
 										<div>
 											<output>CPF</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true"
+												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true" autocomplete="off"
 												requiredMessage="#{mensagens['mensagem.requerido.cpf']}">
 													<p:ajax event="change" listener="#{usuarioServlet.buscarInformacoesPessoaVinculada}" update="componentes" />
 													<f:validator validatorId="validar.CpfValidator"/>
@@ -163,14 +163,14 @@
 									<div class="col-xs-12 col-sm-8">
 										<h:outputLabel value="Nome"/>
 										<div>
-											<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12"	value="#{usuarioServlet.nomePessoaVinculada}" disabled="true"/>
+											<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12" autocomplete="off" value="#{usuarioServlet.nomePessoaVinculada}" disabled="true"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-12">
 										<div>
 											<output>Nome de Usuário</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true"
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true" autocomplete="off"
 												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
 												<i class="ace-icon fa fa-user"></i>
 											</span>
@@ -180,7 +180,7 @@
 										<div>
 											<output>Email</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" maxlength="50" required="true"
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" autocomplete="off" maxlength="50" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.email']}"></h:inputText>
 												<i class="ace-icon fa fa-envelope"></i>
 											</span>
@@ -191,7 +191,7 @@
 										<div>
 											<output>Confirmação de Email</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" maxlength="50" required="true"
+												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" autocomplete="off" maxlength="50" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
 												<i class="ace-icon fa fa-envelope"></i>
 											</span>
