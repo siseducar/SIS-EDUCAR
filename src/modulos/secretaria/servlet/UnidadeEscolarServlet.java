@@ -494,6 +494,7 @@ public class UnidadeEscolarServlet implements Serializable
 	}
 
 	public List<SelectItem> getComboPais() {
+		comboPais.clear();
 		comboPais.addAll(parametrosServlet.consultaPais());
 		return comboPais;
 	}
@@ -527,6 +528,7 @@ public class UnidadeEscolarServlet implements Serializable
 	}
 
 	public List<SelectItem> getComboRedeEnsino() throws SQLException {
+		comboRedeEnsino.clear();
 		comboRedeEnsino.addAll(parametrosServlet.consultaRedeEnsino());
 		return comboRedeEnsino;
 	}
@@ -536,7 +538,9 @@ public class UnidadeEscolarServlet implements Serializable
 	}
 
 	public List<SelectItem> getComboTipoOcupacao() {
+		comboTipoOcupacao.clear();
 		comboTipoOcupacao.addAll(parametrosServlet.consultaTipoOcupacao());
+		
 		return comboTipoOcupacao;
 	}
 
@@ -545,7 +549,9 @@ public class UnidadeEscolarServlet implements Serializable
 	}
 
 	public List<SelectItem> getComboSituacaoFuncionamento() {
+		comboSituacaoFuncionamento.clear();
 		comboSituacaoFuncionamento.addAll(parametrosServlet.consultaSituacaoFuncionamento());
+		
 		return comboSituacaoFuncionamento;
 	}
 
