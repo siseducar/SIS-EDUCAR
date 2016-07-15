@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
+import modulos.secretaria.om.Estado;
+import modulos.secretaria.om.Pais;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -225,6 +227,8 @@ public class EnderecoDAO extends SisEducarDAO
 	public Endereco buscarEndereco(Integer pkEndereco) throws SQLException
 	{
 		Cidade cidadeEndereco = null;
+		Estado estadoEndereco = null;
+		Pais paisEndereco = null;
 		Contato contato = null;
 		Cidade cidadeEnderecoMunicipioCliente = null;
 		Endereco endereco = null;
@@ -240,6 +244,8 @@ public class EnderecoDAO extends SisEducarDAO
 		if(rs.next())
 		{
 			cidadeEndereco = new Cidade();
+			estadoEndereco = new Estado();
+			paisEndereco = new Pais();
 			contato = new Contato();
 			cidadeEnderecoMunicipioCliente = new Cidade();
 			endereco = new Endereco();
@@ -251,7 +257,8 @@ public class EnderecoDAO extends SisEducarDAO
 			endereco.setComplemento(rs.getString("complemento"));
 			endereco.setTipo(rs.getString("tipo"));
 			
-			cidadeEndereco.setPkCidade(rs.getInt("fkCidade"));
+			//A cidade está completa, com todas as suas informações incluindo estado e pais
+			cidadeEndereco = new CidadeDAO().obtemCidade(null, null, rs.getInt("fkCidade"));
 			endereco.setCidade(cidadeEndereco);
 			
 			cidadeEnderecoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));

@@ -33,6 +33,7 @@ public class PaisDAO extends SisEducarDAO
 	public Pais obtemPais(Integer pkPais, String sigla, String nome) throws SQLException
 	{
 		Pais pais = null;
+		Integer numeroArgumentos = 1;
 		String querySQL = "SELECT * FROM pais"
 				+ " WHERE status = ?";
 		
@@ -42,10 +43,25 @@ public class PaisDAO extends SisEducarDAO
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setInt(2, pkPais);
-		ps.setString(3, sigla);
-		ps.setString(4, nome);
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(pkPais!=null && pkPais >0)
+		{
+			numeroArgumentos++;
+			ps.setInt(numeroArgumentos, pkPais);
+		}
+		
+		if(sigla!=null && sigla.length()>0)
+		{
+			numeroArgumentos++;
+			ps.setString(numeroArgumentos, sigla);
+		}
+		
+		if(nome!=null && nome.length()>0)
+		{
+			numeroArgumentos++;
+			ps.setString(4, nome);
+		}
 		
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())

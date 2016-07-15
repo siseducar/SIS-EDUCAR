@@ -367,6 +367,51 @@ public class UnidadeEscolarServlet implements Serializable
 				if(unidadeEscolarSelecionada.getEndereco()!=null)
 				{
 					enderecoDado = unidadeEscolarSelecionada.getEndereco();
+					if(enderecoDado.getCidade()!=null)
+					{
+						if(enderecoDado.getCidade().getEstado()!=null && enderecoDado.getCidade().getEstado().getPais()!=null)
+						{
+							for (SelectItem selectItem : comboPais)
+							{
+								if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPais().getPkPais()))
+								{
+									paisDado = new Pais();
+									paisDado.setPkPais(enderecoDado.getCidade().getEstado().getPais().getPkPais());
+									break;
+								}
+							}
+							
+							if(paisDado!=null && paisDado.getPkPais()>0)
+							{
+								if(comboEstado == null || (comboEstado!=null && comboEstado.size()==0)) { comboEstado = parametrosServlet.consultaEstado(paisDado); }
+								
+								for (SelectItem selectItem : comboEstado) 
+								{	
+									if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPkEstado()))
+									{
+										estadoDado = new Estado();
+										estadoDado.setPkEstado(enderecoDado.getCidade().getEstado().getPkEstado());
+										break;
+									}
+								}
+							}
+							
+							if(estadoDado!=null && estadoDado.getPkEstado()>0)
+							{
+								if(comboCidade == null || (comboCidade!=null && comboCidade.size()==0)) { comboCidade = parametrosServlet.consultaCidade(estadoDado); }
+								
+								for (SelectItem selectItem : comboCidade) 
+								{
+									if(selectItem.getValue().equals(enderecoDado.getCidade().getPkCidade()))
+									{
+										cidadeDado = new Cidade();
+										cidadeDado.setPkCidade(enderecoDado.getCidade().getPkCidade());
+										break;
+									}
+								}
+							}
+						}
+					}
 					if(unidadeEscolarSelecionada.getEndereco().getContato()!=null)
 					{
 						contatoDado = unidadeEscolarSelecionada.getEndereco().getContato();
