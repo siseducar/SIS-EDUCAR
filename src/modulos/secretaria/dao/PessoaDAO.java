@@ -350,26 +350,24 @@ public class PessoaDAO extends SisEducarDAO
 		return pessoa;
 	}
 	
-	public Pessoa consultaCadastroPessoa(Integer pkPessoa) {
+	public List<Pessoa> consultaCadastroPessoa() {
 		
 		try {
 			List<Pessoa> listaPessoa = new ArrayList<Pessoa>(); 
 			
 			String querySQL = "SELECT * FROM PESSOA "
-					+ " WHERE STATUS = ? "
-					+ " AND PKPESSOA = ? ";
+					+ " WHERE STATUS = ? ";
 			
 			ps = con.prepareStatement(querySQL);
 		
 			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-			ps.setInt(2, pkPessoa);
 			
 			rs = ps.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				Pessoa pessoaDados = new Pessoa();
 				Contato contatoDados = new Contato();
-				Cidade cidadeDados = new Cidade();
+				Cidade municipioClienteDados = new Cidade();
 				Endereco enderecoDados = new Endereco();
 				Nacionalidade nacionalidadeDados = new Nacionalidade();
 				Raca racaDados = new Raca();
@@ -387,10 +385,9 @@ public class PessoaDAO extends SisEducarDAO
 				estaCivilDados.setPkEstadoCivil(rs.getInt("FKESTADOCIVIL"));
 				grauInstruDados.setPkGrauInstrucao(rs.getInt("FKGRAUINSTRUCAO"));
 				enderecoDados.setPkEndereco(rs.getInt("FKENDERECO"));
-				cidadeDados.setPkCidade(rs.getInt("FKMUNICIPIOCLIENTE"));
+				municipioClienteDados.setPkCidade(rs.getInt("FKMUNICIPIOCLIENTE"));
 				grauParentescoDados.setPkGrauParentesco(rs.getInt("FKGRAUPARENTESCO"));
 				contatoDados.setPkContato(rs.getInt("FKCONTATO"));
-				
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 				pessoaDados.setNome(rs.getString("NOME"));
 				pessoaDados.setCpf(rs.getLong("CPF"));
@@ -404,12 +401,21 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setCpfPai(rs.getLong("CPFPAI"));
 				pessoaDados.setNomeResponsavel(rs.getString("NOMERESPONSAVEL"));
 				pessoaDados.setCpfResponsavel(rs.getLong("CPFRESPONSAVEL"));
+				
 				pessoaDados.setRaca(racaDados);
 				pessoaDados.setSituacaoEconomica(situEconomicaDados);
 				pessoaDados.setReligiao(religiaoDados);
+				pessoaDados.setNacionalidade(nacionalidadeDados);
+				pessoaDados.setEstadoCivil(estaCivilDados);
+				pessoaDados.setGrauInstrucao(grauInstruDados);
+				pessoaDados.setEndereco(enderecoDados);
+				pessoaDados.setFkMunicipioCliente(municipioClienteDados);
+				pessoaDados.setGrauParentesco(grauParentescoDados);
+				pessoaDados.setContato(contatoDados);
 				
 				listaPessoa.add(pessoaDados);
 			}
+			return listaPessoa;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

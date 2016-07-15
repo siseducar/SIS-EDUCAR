@@ -893,19 +893,37 @@
 					    			<div class="row">
 					    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
 						    				<h:dataTable id="tabelaPessoa" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
-								    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+								    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10"
+								    			binding="#{usuarioServlet.dataTable}" value="#{pessoaServlet.listaConsultaPessoa}" var="pessoa">
 								    			<h:column>
-								    				<!-- column header -->
-								    				<f:facet name="header"> Tipo de Cadastro </f:facet>
+								    				<center>
+									    				<f:facet name="header"> NOME </f:facet>
+								    				</center>
+								    				<h:outputLabel value="#{pessoa.nome}"/>
 								    			</h:column>
 								    			<h:column>
-								    				<f:facet name="header">  Nome </f:facet>
+								    				<center>
+									    				<f:facet name="header">  CPF </f:facet>
+								    				</center>
+								    				<h:outputLabel value="#{pessoa.cpf}">
+								    					<f:converter converterId="converter.CPF"/>
+								    				</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
-								    				<f:facet name="header"> Data de Nascimento </f:facet>
+								    				<center>
+									    				<f:facet name="header"> RG </f:facet>
+								    				</center>
+								    				<h:outputLabel value="#{pessoa.rg}">
+								    					<f:converter converterId="converter.RG"/>
+							    					</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
-								    				<f:facet name="header"> Sexo </f:facet>
+								    				<center>
+								    					<f:facet name="header"> DATA DE NASC.</f:facet>
+								    				</center>
+								    				<h:outputLabel value="#{pessoa.dataNascimento}">
+								    					<f:converter converterId="converter.DATA"/>
+								    				</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
 							    					<f:facet name="header">Editar</f:facet>
@@ -955,6 +973,7 @@
 									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round" > 
 										<span class="bigger-110"> Consultar </span>
 										<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+										<f:ajax event="click" listener="#{pessoaServlet.consultaCadastro}" render="tabelaPessoa"/>
 									</h:commandLink>
 						    	</div>
 						    </div>

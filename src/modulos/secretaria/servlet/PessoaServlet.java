@@ -177,6 +177,9 @@ public class PessoaServlet implements Serializable{
 	/* Componenete Tabela de consutal */
 	private HtmlDataTable dataTable;
 	
+	/* Lista de pessoas cadastradas */
+	private List<Pessoa> listaConsultaPessoa;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -704,6 +707,14 @@ public class PessoaServlet implements Serializable{
 		complementoAluno = false;
 		complementoFuncionario = false;
 	}
+	
+	public void consultaCadastro() {
+		listaConsultaPessoa = new ArrayList<Pessoa>();
+		
+		listaConsultaPessoa = pessoaDAO.consultaCadastroPessoa();
+	}
+	
+	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
@@ -1427,5 +1438,17 @@ public class PessoaServlet implements Serializable{
 
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
+	}
+
+
+
+	public List<Pessoa> getListaConsultaPessoa() {
+		return listaConsultaPessoa;
+	}
+
+
+
+	public void setListaConsultaPessoa(List<Pessoa> listaConsultaPessoa) {
+		this.listaConsultaPessoa = listaConsultaPessoa;
 	}     
 }
