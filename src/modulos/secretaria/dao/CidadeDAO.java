@@ -30,7 +30,7 @@ public class CidadeDAO extends SisEducarDAO
 	 * @return Cidade
 	 * @throws SQLException
 	 */
-	public Cidade obtemCidade(String sigla, String nome) throws SQLException
+	public Cidade obtemCidade(String sigla, String nome, Integer pkCidade) throws SQLException
 	{
 		Cidade cidade = null;
 		Integer numeroArgumentos = 1;
@@ -40,6 +40,7 @@ public class CidadeDAO extends SisEducarDAO
 		
 		if(sigla!=null && sigla.length() >0) { querySQL += " AND sigla = ?"; }
 		if(nome!=null && nome.length() >0)	 { querySQL += " AND nome = ?"; }
+		if(pkCidade!=null && pkCidade>0)     { querySQL += " AND pkCidade = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
 		
@@ -57,6 +58,12 @@ public class CidadeDAO extends SisEducarDAO
 			ps.setString(numeroArgumentos, nome);
 		}
 		
+		if(pkCidade!=null && pkCidade>0)	
+		{ 
+			numeroArgumentos ++; 
+			ps.setInt(numeroArgumentos, pkCidade);
+		}
+		
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
@@ -66,7 +73,7 @@ public class CidadeDAO extends SisEducarDAO
 			cidade.setSigla(rs.getString("sigla"));
 			cidade.setCodigoibge(rs.getInt("codigoibge"));
 			cidade.setStatus(rs.getInt("status"));
-			cidade.setEstado(new EstadoDAO().obtemEstado(rs.getInt("fkstado"), null, null));
+			cidade.setEstado(new EstadoDAO().obtemEstado(rs.getInt("fkEstado"), null, null));
 			
 			return cidade;
 		}
