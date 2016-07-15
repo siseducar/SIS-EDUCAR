@@ -34,6 +34,7 @@ public class EstadoDAO extends SisEducarDAO
 	public Estado obtemEstado(Integer pkEstado, String sigla, String nome) throws SQLException
 	{
 		Estado estado = null;
+		Integer numeroArgumentos = 1;
 		String querySQL = "SELECT * FROM estado"
 				+ " WHERE status = ?";
 		
@@ -43,10 +44,25 @@ public class EstadoDAO extends SisEducarDAO
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setInt(2, pkEstado);
-		ps.setString(3, sigla);
-		ps.setString(4, nome);
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(pkEstado!=null && pkEstado>0)
+		{
+			numeroArgumentos++;
+			ps.setInt(numeroArgumentos, pkEstado);
+		}
+		
+		if(sigla!=null && sigla.length()>0)
+		{
+			numeroArgumentos++;
+			ps.setString(numeroArgumentos, sigla);
+		}
+		
+		if(nome!=null && nome.length()>0)
+		{
+			numeroArgumentos++;
+			ps.setString(numeroArgumentos, nome);
+		}
 		
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
@@ -58,7 +74,7 @@ public class EstadoDAO extends SisEducarDAO
 			estado.setSigla(rs.getString("sigla"));
 			estado.setCodigoibge(rs.getInt("codigoibge"));
 			estado.setStatus(rs.getInt("status"));
-			estado.setPais(new PaisDAO().obtemPais(rs.getInt("fkpais"), null, null));
+			estado.setPais(new PaisDAO().obtemPais(rs.getInt("fkPais"), null, null));
 			return estado;
 		}
 		
