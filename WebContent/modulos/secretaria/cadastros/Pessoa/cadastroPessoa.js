@@ -111,3 +111,11 @@ $(function() {
         prevText: 'Anterior',
     });
   });
+
+function mostrarModalCadastro(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalCadastroSucesso').modal('show');
+	}
+}

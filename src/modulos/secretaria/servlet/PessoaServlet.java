@@ -180,6 +180,8 @@ public class PessoaServlet implements Serializable{
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
 	
+	private Boolean cadastroSucesso;
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -266,6 +268,9 @@ public class PessoaServlet implements Serializable{
 		if(this.contatoDAO == null) {
 			this.contatoDAO = new ContatoDAO();
 		}
+		if(this.dataTable == null) {
+			this.dataTable = new HtmlDataTable();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
@@ -295,7 +300,7 @@ public class PessoaServlet implements Serializable{
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
-		
+		cadastroSucesso = false;
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
@@ -307,44 +312,22 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public String salvarCadastroPessoa() {
-			
-		Pessoa pessoaDadosFinal = new Pessoa();
-		Contato contatoDadosFinal = new Contato();
-		Endereco enderecoDadosFinal = new Endereco();
-		try {
-			
+		try {	
 			/* Objeto com os atributos de contato da pessoa */
-			contatoDadosFinal.setTelResidencial(contatoDados.getTelResidencial());
-			contatoDadosFinal.setTelCelular(contatoDados.getTelCelular());
-			contatoDadosFinal.setEmail(contatoDados.getEmail());
-			
-			contatoDadosFinal = contatoDAO.salvarContatoPessoa(contatoDadosFinal);
-			
-			if(contatoDadosFinal.getPkContato() == null ){
+			contatoDados = contatoDAO.salvarContatoPessoa(contatoDados);
+			if(contatoDados.getPkContato() == null ){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Erro",null));
 				return null;
 			}
 			 
 			/* Objeto com os atributos de endereco da pessoa */
-			enderecoDadosFinal.setCidade(cidadeDados);
-			enderecoDadosFinal.setCep(enderecoDados.getCep());
-			enderecoDadosFinal.setLogradouro(enderecoDados.getLogradouro());
-			enderecoDadosFinal.setNumero(enderecoDados.getNumero());
-			enderecoDadosFinal.setBairro(enderecoDados.getBairro());
-			if(enderecoDados.getComplemento() != null && !enderecoDados.getComplemento().equals("")) {
-				enderecoDadosFinal.setComplemento(enderecoDados.getComplemento());
-			}
-			enderecoDadosFinal.setLatitude(enderecoDados.getLatitude());
-			enderecoDadosFinal.setLongitude(enderecoDados.getLongitude());
-			enderecoDadosFinal.setTipo("Residencial");
-			enderecoDadosFinal.setEnderecoCompleto(enderecoDados.getEnderecoCompleto());
-			enderecoDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
-			enderecoDadosFinal.setRegiao(regiaoDados);
-			
-			
-			enderecoDadosFinal = enderecoDAO.salvarEnderecoPessoa(enderecoDadosFinal);
-			if(enderecoDadosFinal.getPkEndereco() == null) {
+			enderecoDados.setCidade(cidadeDados);
+			enderecoDados.setTipo("Residencial");
+			enderecoDados.setRegiao(regiaoDados);
+			enderecoDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+			enderecoDados = enderecoDAO.salvarEnderecoPessoa(enderecoDados);
+			if(enderecoDados.getPkEndereco() == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Erro",null));
 				return null;
@@ -353,70 +336,49 @@ public class PessoaServlet implements Serializable{
 			/* Objeto com os atributos de da pessoa */
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
-				pessoaDadosFinal.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+				pessoaDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 			}
+			pessoaDados.setNacionalidade(nacionalidadeDados);
+			pessoaDados.setRaca(racaDados);
+			pessoaDados.setEstadoCivil(estaCivilDados);
+			pessoaDados.setGrauInstrucao(grauInstruDados);
+			pessoaDados.setSituacaoEconomica(situEconomicaDados);
+			pessoaDados.setReligiao(religiaoDados);
+			pessoaDados.setGrauParentesco(grauParentescoDados);
+			pessoaDados.setEndereco(enderecoDados);
+			pessoaDados.setContato(contatoDados);
+			pessoaDados.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 			
-			pessoaDadosFinal.setTipoPessoa(pessoaDados.getTipoPessoa());
-			pessoaDadosFinal.setNome(pessoaDados.getNome());
-			pessoaDadosFinal.setCpf(pessoaDados.getCpf());
-			pessoaDadosFinal.setRg(pessoaDados.getRg());
-			pessoaDadosFinal.setDataNascimento(pessoaDados.getDataNascimento());
-			pessoaDadosFinal.setSexo(pessoaDados.getSexo());
-			pessoaDadosFinal.setNacionalidade(nacionalidadeDados);
-			pessoaDadosFinal.setRaca(racaDados);
-			pessoaDadosFinal.setEstadoCivil(estaCivilDados);
-			pessoaDadosFinal.setGrauInstrucao(grauInstruDados);
-			pessoaDadosFinal.setSituacaoEconomica(situEconomicaDados);
-			pessoaDadosFinal.setReligiao(religiaoDados);
-			pessoaDadosFinal.setCpfMae( pessoaDados.getCpfMae());
-			pessoaDadosFinal.setNomeMae( pessoaDados.getNomeMae());		
-			pessoaDadosFinal.setCpfPai( pessoaDados.getCpfPai());
-			pessoaDadosFinal.setNomePai( pessoaDados.getNomePai());
-			pessoaDadosFinal.setCpfResponsavel( pessoaDados.getCpfResponsavel());
-			pessoaDadosFinal.setNomeResponsavel( pessoaDados.getNomeResponsavel());
-			pessoaDadosFinal.setGrauParentesco(grauParentescoDados);
-			pessoaDadosFinal.setEndereco(enderecoDadosFinal);
-			pessoaDadosFinal.setContato(contatoDadosFinal);
-			pessoaDadosFinal.setEndereco(enderecoDadosFinal);
+			pessoaDados = pessoaDAO.salvarCadastroPessoa(pessoaDados);
 			
-			pessoaDadosFinal.setStatus(ConstantesSisEducar.STATUS_ATIVO);
-			
-			pessoaDadosFinal = pessoaDAO.salvarCadastroPessoa(pessoaDadosFinal);
-			
-			if( pessoaDadosFinal.getPkPessoa() != null ) {
+			if( pessoaDados.getPkPessoa() != null ) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Cadastro Realizado com sucesso",null));
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						pessoaDadosFinal.getPkPessoa().toString(),null));
-				limparFormulario();
 			} else {
-				if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
-					contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
+				if(contatoDados.getPkContato() != null || contatoDados != null) {
+					contatoDAO.deletarContato(contatoDados.getPkContato());
 				}
-				if(enderecoDadosFinal.getPkEndereco() != null || enderecoDadosFinal != null){				
-					enderecoDAO.deletarEndereco(enderecoDadosFinal.getPkEndereco());
+				if(enderecoDados.getPkEndereco() != null || enderecoDados != null){
+					enderecoDAO.deletarEndereco(enderecoDados.getPkEndereco());
 				}
-				if(pessoaDadosFinal.getPkPessoa() != null || pessoaDadosFinal != null ) {
-					pessoaDadosFinal.getPkPessoa();
+				if(pessoaDados.getPkPessoa() != null || pessoaDados != null ) {
+					pessoaDados.getPkPessoa();
 				}
 			}
 		} catch (Exception e) {
-			if(contatoDadosFinal.getPkContato() != null || contatoDadosFinal != null) {				
-				contatoDAO.deletarContato(contatoDadosFinal.getPkContato());
+			if(contatoDados.getPkContato() != null || contatoDados != null) {
+				contatoDAO.deletarContato(contatoDados.getPkContato());
 			}
-			if(enderecoDadosFinal.getPkEndereco() != null || enderecoDadosFinal != null){				
-				enderecoDAO.deletarEndereco(enderecoDadosFinal.getPkEndereco());
+			if(enderecoDados.getPkEndereco() != null || enderecoDados != null){
+				enderecoDAO.deletarEndereco(enderecoDados.getPkEndereco());
 			}
-			if(pessoaDadosFinal.getPkPessoa() != null || pessoaDadosFinal != null ) {
-				pessoaDadosFinal.getPkPessoa();
+			if(pessoaDados.getPkPessoa() != null || pessoaDados != null ) {
+				pessoaDados.getPkPessoa();
 			}
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao realizar cadastro contate o administrador!",null));
 			return null;
 		}
-		
-		
-		
 		return null;
 	}
 	
@@ -424,53 +386,7 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
-	public String salvarCadastroAluno(){
-		Aluno alunoDadosFinal = new Aluno();
-		
-		if(alunoDados != null) {
-			alunoDadosFinal.setRm(alunoDados.getRm());
-			alunoDadosFinal.setRa(alunoDados.getRa());
-		}
-		
-		if(redeEnsinoDados.getPkRedeEnsino() != null ) {
-			alunoDadosFinal.setRedeEnsino(redeEnsinoDados);
-		}else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Seleciona uma REDE DE ENSINO.",null));
-			return null;
-		}
-		
-		if(unidadeEscolarDados.getPkUnidadeEscolar() != null) {
-			alunoDadosFinal.setUnidadeEscolar(unidadeEscolarDados);
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Selecione uma UNIDADE ESCOLAR.",null));
-			return null;
-		}
-		
-		if(cursoDados.getPkCurso() != null) {
-			alunoDadosFinal.setCurso(cursoDados);
-		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Selecione um CURSO.",null));
-			return null;
-		}
-		
-		if(etapaDados.getPkEtapa() != null) {
-			alunoDadosFinal.setEtapa(etapaDados);
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Selecione uma ETAPA.",null));
-			return null;
-		}
-		
-		if(turnoDados.getPkTurno() != null) {
-			alunoDadosFinal.setTurno(turnoDados);
-		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Selecione um TURNO.",null));
-			return null;
-		}
+	public String salvarCadastroAluno(Integer pkPessoa){	
 		return null;
 	}
 	
@@ -627,6 +543,57 @@ public class PessoaServlet implements Serializable{
 		return true;
 	}
 	
+	public Boolean validaDadosAluno(){
+		if( alunoDados.getRm() == null && alunoDados.getRm().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O RM do aluno deve ser informado.",null));
+			return false;
+		}
+		if( alunoDados.getRa() == null && alunoDados.getRa().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O RA do aluno deve ser informado.",null));
+			return false;
+		}
+		if( alunoDados.getCodigoInep() == null && alunoDados.getCodigoInep().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O CÓDIGO DO INEP do aluno deve ser informado.",null));
+			return false;
+		}
+		if( redeEnsinoDados.getPkRedeEnsino() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A REDE DE ENSINO deve ser informada.",null));
+			return false;
+		}
+		if( unidadeEscolarDados.getPkUnidadeEscolar() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A UNIDADE ESCOLAR deve ser informada.",null));
+			return false;
+		}
+		if( cursoDados.getPkCurso() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O CURSO deve ser informado.",null));
+			return false;
+		}
+		if( etapaDados.getPkEtapa() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"A ETAPA deve ser informado.",null));
+			return false;
+		}
+		if( turnoDados.getPkTurno() == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"O TURNO deve ser informado.",null));
+			return false;
+		}
+		if(alunoDeficiente) {
+			if(tipoDeficienciaDados.getPkTipoDeficiencia() == null ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O TIPO DE DEFICIENCIA deve ser informado.",null));
+				return false;
+			}
+		}
+		return false;
+	}
+	
 	/*
 	 * Metodo para validar se ja existe o CPF cadastrado
 	 * */
@@ -678,34 +645,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void limparFormulario(){
-		pessoaDados = new Pessoa();
-		alunoDados = new Aluno();
-		fornecedorDados = new Fornecedor();
-		funcionarioDados = new Funcionario();
-		paisDados = new Pais();
-		estadoDados = new Estado();
-		cidadeDados = new Cidade();
-		enderecoDados = new Endereco();
-		nacionalidadeDados = new Nacionalidade();
-		racaDados = new Raca();
-		estaCivilDados = new EstadoCivil();
-		grauInstruDados = new GrauInstrucao();
-		situEconomicaDados = new SituacaoEconomica();
-		religiaoDados = new Religiao();
-		regiaoDados = new Regiao();
-		pessoaDados.setTipoPessoa(0);
-		complementoAluno = false;
-		complementoFuncionario = false;
-		alunoDeficiente = false;
-		funcConcursado = false;
-		funcAposentado = false;
-		funcDemitido = false;
-		nomeMae = false;
-		nomePai = false;
-		nomeResponsavel = false;
-		menorIdade = false;
-		complementoAluno = false;
-		complementoFuncionario = false;
+		
 	}
 	
 	public void consultaCadastro() {
@@ -868,17 +808,20 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
 			if( validaDadosPessoa() == true ) {	
 				salvarCadastroPessoa();
+				limparFormulario();
 			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
-			if( validaDadosPessoa() == true ) {	
+			if( (validaDadosPessoa() == true) && (validaDadosAluno() == true) ) {	
 				salvarCadastroPessoa();
+				salvarCadastroAluno(0);
+				limparFormulario();
 			}
-			salvarCadastroAluno();
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
 			salvarCadastroPessoa();
 			salvarCadastroFuncionario();
+			limparFormulario();
 		}
 	}
 
@@ -900,19 +843,19 @@ public class PessoaServlet implements Serializable{
 		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
 	}
 	
-	public void primeiraPagina() {
+	public void pageFirst() {
         dataTable.setFirst(0);
     }
 
-    public void paginaAnterior() {
+    public void pagePrevious() {
         dataTable.setFirst(dataTable.getFirst() - dataTable.getRows());
     }
 
-    public void proximaPagina() {
+    public void pageNext() {
         dataTable.setFirst(dataTable.getFirst() + dataTable.getRows());
     }
 
-    public void ultimaPagina() {
+    public void pageLast() {
         int count = dataTable.getRowCount();
         int rows = dataTable.getRows();
         dataTable.setFirst(count - ((count % rows != 0) ? count % rows : rows));
@@ -1450,5 +1393,17 @@ public class PessoaServlet implements Serializable{
 
 	public void setListaConsultaPessoa(List<Pessoa> listaConsultaPessoa) {
 		this.listaConsultaPessoa = listaConsultaPessoa;
+	}
+
+
+
+	public Boolean getCadastroSucesso() {
+		return cadastroSucesso;
+	}
+
+
+
+	public void setCadastroSucesso(Boolean cadastroSucesso) {
+		this.cadastroSucesso = cadastroSucesso;
 	}     
 }
