@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
@@ -45,6 +46,7 @@ import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import sisEdcuar.utils.ImagemBase64;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -87,6 +89,7 @@ public class PessoaServlet implements Serializable{
 	private FuncionarioDAO funcionarioDAO;
 	private EnderecoDAO enderecoDAO;
 	private ContatoDAO contatoDAO;
+	private ImagemBase64 imagem64;
 	
 	private List<String> latitude;
 		
@@ -180,7 +183,11 @@ public class PessoaServlet implements Serializable{
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
 	
-	private Boolean cadastroSucesso;
+	private Part fotoAluno;
+	
+	private Part copiaCertidao;
+	
+	private Part copiaEndereco;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -300,13 +307,10 @@ public class PessoaServlet implements Serializable{
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
-		cadastroSucesso = false;
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
-	
-	
-	
+
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
@@ -657,6 +661,13 @@ public class PessoaServlet implements Serializable{
 	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
+	
+	public void converteFotoAluno() {
+		imagem64 = new ImagemBase64();
+		
+		
+	}
+	
 	/*
 	 * Metodo responsavel por validar o nome da MAE do aluno
 	 * 
@@ -1383,27 +1394,35 @@ public class PessoaServlet implements Serializable{
 		this.dataTable = dataTable;
 	}
 
-
-
 	public List<Pessoa> getListaConsultaPessoa() {
 		return listaConsultaPessoa;
 	}
-
-
-
+	
 	public void setListaConsultaPessoa(List<Pessoa> listaConsultaPessoa) {
 		this.listaConsultaPessoa = listaConsultaPessoa;
 	}
 
-
-
-	public Boolean getCadastroSucesso() {
-		return cadastroSucesso;
+	public Part getFotoAluno() {
+		return fotoAluno;
 	}
 
+	public void setFotoAluno(Part fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
 
+	public Part getCopiaCertidao() {
+		return copiaCertidao;
+	}
 
-	public void setCadastroSucesso(Boolean cadastroSucesso) {
-		this.cadastroSucesso = cadastroSucesso;
+	public void setCopiaCertidao(Part copiaCertidao) {
+		this.copiaCertidao = copiaCertidao;
+	}
+
+	public Part getCopiaEndereco() {
+		return copiaEndereco;
+	}
+
+	public void setCopiaEndereco(Part copiaEndereco) {
+		this.copiaEndereco = copiaEndereco;
 	}     
 }

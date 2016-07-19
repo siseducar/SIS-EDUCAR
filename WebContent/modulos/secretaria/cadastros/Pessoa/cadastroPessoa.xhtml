@@ -32,6 +32,9 @@
 			</h5> 
 		</div>	
 		<div class="row">
+			
+		</div>
+		<div class="row">
 			<div class="col-xs-12 col-sm-12">
 				<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
@@ -593,9 +596,30 @@
 											</h:panelGroup>
 										</h:panelGroup>
 									</div>
+								</div>								
+							</div>
+							<div class="space-6"/>
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="col-xs-4">
+										<label class="ace-file-input ace-file-multiple">
+											<h:inputFile value="#{pessoaServlet.fotoAluno}" class="foto">
+											</h:inputFile>
+										</label>
+									</div>
+									<div class="col-xs-4">
+										<label class="ace-file-input ace-file-multiple">
+											<h:inputFile value="#{pessoaServlet.copiaCertidao}" class="foto">
+											</h:inputFile>
+										</label>
+									</div>
+									<div class="col-xs-4">
+										<label class="ace-file-input ace-file-multiple">
+											<h:inputFile value="#{pessoaServlet.copiaEndereco}" class="foto">
+											</h:inputFile>
+										</label>
+									</div>
 								</div>
-								<div class="space-6"/>
-								
 							</div>
 						</h:panelGroup>
 						<h:panelGroup style="width: 100%" class="clearfix form-actions"
@@ -840,12 +864,12 @@
 							<i class="ace-icon fa fa-file"/>
 							<span class="bigger-110">Novo</span>
 						</button>
-						<h:commandButton type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round">
+						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round">
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							<f:ajax event="click" listener="#{pessoaServlet.validaCadastro}" 
 								render=":formCadastroPessoa" execute=":formCadastroPessoa"/>
-						</h:commandButton>
+						</h:commandLink>
 						
 					</div>
 				</h:form>
