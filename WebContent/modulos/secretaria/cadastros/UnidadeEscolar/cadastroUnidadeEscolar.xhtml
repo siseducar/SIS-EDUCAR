@@ -178,7 +178,8 @@
 									<div class="col-xs-12 col-sm-4">
 										<h:outputLabel value="CPF do diretor"/>
 										<div>
-											<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" autocomplete="off" styleClass="col-sm-12 cpf">
+											<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" autocomplete="off" styleClass="col-sm-12 cpf" required="true"
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cpfDiretor']}">
 												<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
 												<f:validator validatorId="validar.CpfValidator"/>
 												<f:converter converterId="converter.CPF"/>
@@ -195,7 +196,8 @@
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
 									<div>
-										<h:selectOneMenu class="form-control" id="codRedeEnsino"
+										<h:selectOneMenu class="form-control" id="codRedeEnsino" required="true"
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.redeEnsino']}"
 											value="#{unidadeEscolarServlet.redeEnsinoDado.pkRedeEnsino}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{unidadeEscolarServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.nome}"/>
@@ -207,6 +209,8 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codSituFunc"
+											required="true"
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.situacaoFuncionamento']}"
 											value="#{unidadeEscolarServlet.situacaoFuncionamentoDado.pkSituacaoFuncionamento}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{unidadeEscolarServlet.comboSituacaoFuncionamento}" var="situacaoFuncionamento" itemValue="#{situacaoFuncionamento.pkSituacaoFuncionamento}" itemLabel="#{situacaoFuncionamento.nome}"/>
@@ -218,6 +222,8 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.tipoOcupacao']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codTipoOcu"
+											required="true"
+											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoOcupacao']}"
 											value="#{unidadeEscolarServlet.tipoOcupacaoDado.pkTipoOcupacao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
 											<f:selectItems value="#{unidadeEscolarServlet.comboTipoOcupacao}" var="tipoOcupacao" itemValue="#{tipoOcupacao.pkTipoOcupacao}" itemLabel="#{tipoOcupacao.nome}"/>
@@ -234,6 +240,8 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
 											<div>
 												<h:selectOneMenu id="codPais"
+													required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.pais']}"
 													class="form-control" title="Pais residente"
 													value="#{unidadeEscolarServlet.paisDado.pkPais}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
@@ -247,6 +255,8 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
 											<div>
 												<h:selectOneMenu id="codEstado"
+													required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.estado']}"
 													class="form-control" title="Estado residente"
 													value="#{unidadeEscolarServlet.estadoDado.pkEstado}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
@@ -260,6 +270,8 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
 											<div>
 												<h:selectOneMenu id="codCidade"
+													required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cidade']}"
 													class="form-control" title="Cidade residente"
 													value="#{unidadeEscolarServlet.cidadeDado.pkCidade}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
@@ -283,6 +295,8 @@
 												value="#{mensagens['label.cadastro.pessoa.rua']}" />
 											<div>
 												<h:inputText type="text" id="codRua" autocomplete="off"
+													required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouro']}"
 													class="col-sm-12" title="Nome da Rua"
 													value="#{unidadeEscolarServlet.enderecoDado.logradouro}" />
 											</div>
@@ -292,6 +306,8 @@
 												value="#{mensagens['label.cadastro.pessoa.numero']}" />
 											<div>
 												<h:inputText type="text" id="numCasa" autocomplete="off"
+													required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouroNumero']}"
 													class="col-sm-12" title="Numero da Casa"
 	 												value="#{unidadeEscolarServlet.enderecoDado.numero}" />
 											</div>
@@ -348,6 +364,8 @@
 											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}" />
 											<div>
 												<h:inputText type="text" id="email" autocomplete="off"
+													required="true"	
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.email']}"
 													class="col-sm-12" title="E-mail da Pessoa"
 													value="#{unidadeEscolarServlet.contatoDado.email}" />
 											</div>
