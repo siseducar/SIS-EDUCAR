@@ -52,7 +52,7 @@
 													<output>CPF</output>
 													<span class="block input-icon input-icon-right">
 														<h:inputText type="text" styleClass="form-control cpf" autocomplete="off" value="#{usuarioServlet.cpfPesquisar}">
-															<f:converter converterId="converter.CPF"/>
+															<f:validator validatorId="validar.CpfValidator"/>
 														</h:inputText>
 														<i class="ace-icon fa fa-credit-card"></i>
 													</span>
@@ -79,7 +79,10 @@
 									    				<center>
 								    						<f:facet name="header">CPF</f:facet>
 									    				</center>
-								    					<h:outputLabel value="#{value.cpfcnpj}"/>
+									    				
+								    					<h:outputLabel value="#{value.cpfcnpj}">
+								    						<f:converter converterId="converter.CPF"/>
+								    					</h:outputLabel>
 									    			</h:column>
 									    			<h:column>
 								    					<f:facet name="header">Usuário</f:facet>
