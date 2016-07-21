@@ -1,5 +1,6 @@
 package modulos.secretaria.servlet;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
+
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
@@ -44,9 +47,9 @@ import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
-import sisEdcuar.utils.ImagemBase64;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -356,7 +359,7 @@ public class PessoaServlet implements Serializable{
 			pessoaDados = pessoaDAO.salvarCadastroPessoa(pessoaDados);
 			
 			if( pessoaDados.getPkPessoa() != null ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Cadastro Realizado com sucesso",null));
 			} else {
 				if(contatoDados.getPkContato() != null || contatoDados != null) {
@@ -390,7 +393,23 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
-	public String salvarCadastroAluno(Integer pkPessoa){	
+	public String salvarCadastroAluno(){
+		if(pessoaDados.getPkPessoa() != null ){
+			alunoDados.setRedeEnsino(redeEnsinoDados);
+			alunoDados.setUnidadeEscolar(unidadeEscolarDados);
+			alunoDados.setEtapa(etapaDados);
+			alunoDados.setCurso(cursoDados);
+			alunoDados.setTurno(turnoDados);
+			alunoDados.setPessoa(pessoaDados);
+			
+			alunoDAO.salvarCadastroAluno(alunoDados);
+			
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao realizar o cadastro.",null));
+		}
+		
 		return null;
 	}
 	
@@ -595,6 +614,21 @@ public class PessoaServlet implements Serializable{
 				return false;
 			}
 		}
+		if(fotoAluno == null){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione a FOTO do aluno.",null));
+			return false;
+		}
+		if(copiaCertidao == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma copia da CERTIDÃO DE NASCIMENTO.",null));
+			return false;
+		}
+		if(copiaEndereco == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma copia do COMPROVANTE DE RESIDÊNCIA.",null));
+			return false;
+		}
 		return false;
 	}
 	
@@ -662,10 +696,76 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	
+	/*
+	 * Metodo para converter a foto do aluno para BASE64
+	 * */
 	public void converteFotoAluno() {
-		imagem64 = new ImagemBase64();
-		
-		
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = fotoAluno.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemFotoAluno = new byte[(int) fotoAluno.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemFotoAluno);
+			String fotoBase64 = new String(Base64.encode(imagemFotoAluno));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setFotoAluno(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Metodo para converter a copia da certidao para BASE64
+	 * */
+	public void convertecopiaCertidao() {
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = copiaCertidao.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemCopiaCertidao = new byte[(int) copiaCertidao.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemCopiaCertidao);
+			String fotoBase64 = new String(Base64.encode(imagemCopiaCertidao));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setCopiaCertidao(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Metodo para converter a copia de endereco para BASE64
+	 * */
+	public void convertecopiaEndereco() {
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = copiaEndereco.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemCopiaEndereco = new byte[(int) copiaEndereco.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemCopiaEndereco);
+			String fotoBase64 = new String(Base64.encode(imagemCopiaEndereco));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setCopiaEndereco(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/*
@@ -825,7 +925,7 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
 			if( (validaDadosPessoa() == true) && (validaDadosAluno() == true) ) {	
 				salvarCadastroPessoa();
-				salvarCadastroAluno(0);
+				salvarCadastroAluno();
 				limparFormulario();
 			}
 		}
