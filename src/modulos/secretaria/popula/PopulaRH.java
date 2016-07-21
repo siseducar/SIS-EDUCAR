@@ -173,5 +173,14 @@ public class PopulaRH
 		populaRHDAO.inserirParametros("TipoLogradouro", "VIA", "Via", ConstantesSisEducar.STATUS_ATIVO, 29);
 		populaRHDAO.inserirParametros("TipoLogradouro", "VIL", "Vila", ConstantesSisEducar.STATUS_ATIVO, 30);
 		System.out.println("Popula Tipo Logradouro Finalizado \n");
+		
+		System.out.println("Populando Grau Parentesco...");
+		populaRHDAO.inserirParametros("GrauParentesco", "P", "Pai", ConstantesSisEducar.STATUS_ATIVO, 1);
+		populaRHDAO.inserirParametros("GrauParentesco", "M", "Mãe", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("GrauParentesco", "TM", "Tio", ConstantesSisEducar.STATUS_ATIVO, 3);
+		populaRHDAO.inserirParametros("GrauParentesco", "TF", "Tia", ConstantesSisEducar.STATUS_ATIVO, 4);
+		populaRHDAO.inserirParametros("GrauParentesco", "AM", "Avô", ConstantesSisEducar.STATUS_ATIVO, 5);
+		populaRHDAO.inserirParametros("GrauParentesco", "AF", "Avó", ConstantesSisEducar.STATUS_ATIVO, 6);
+		System.out.println("Popula Grau Parentesco Finalizado \n");
 	}
 }
