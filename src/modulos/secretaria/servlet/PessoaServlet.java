@@ -93,8 +93,8 @@ public class PessoaServlet implements Serializable{
 	private EnderecoDAO enderecoDAO;
 	private ContatoDAO contatoDAO;
 	private ImagemBase64 imagem64;
-	
-	private List<String> latitude;
+	private Estado estadoNascimentoDados;
+	private Cidade cidadeNascimentoDados;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -167,6 +167,10 @@ public class PessoaServlet implements Serializable{
 	
 	/* Combo com valores de TURNO ESCOLAR */
 	private List<SelectItem> comboTurnoEscolar;
+	
+	private List<SelectItem> comboEstadoNascimento;
+	
+	private List<SelectItem> comboCidadeNascimento;
 	
 	/* Componente */
 	private Boolean nomeMae;
@@ -281,6 +285,12 @@ public class PessoaServlet implements Serializable{
 		if(this.dataTable == null) {
 			this.dataTable = new HtmlDataTable();
 		}
+		if(this.estadoNascimentoDados == null) {
+			this.estadoNascimentoDados = new Estado();
+		}
+		if(this.cidadeNascimentoDados == null) {
+			this.cidadeNascimentoDados = new Cidade();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
@@ -289,16 +299,22 @@ public class PessoaServlet implements Serializable{
 		comboGrauInstrucao = new ArrayList<SelectItem>();
 		comboNacionalidade = new ArrayList<SelectItem>();
 		comboRaca = new ArrayList<SelectItem>();
-		comboRedeEnsino = new ArrayList<SelectItem>();
 		comboReligiao = new ArrayList<SelectItem>();
 		comboSituacaoEconomica = new ArrayList<SelectItem>();
-		comboUnidadeEscolar = new ArrayList<SelectItem>();
 		comboZonaResidencial = new ArrayList<SelectItem>();
 		comboGrauParentesco = new ArrayList<SelectItem>();
 		comboTipoDeficiencia = new ArrayList<SelectItem>();
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
+		comboRedeEnsino = new ArrayList<SelectItem>();
+		comboUnidadeEscolar = new ArrayList<SelectItem>();
+		comboCursoEscolar = new ArrayList<SelectItem>();
+		comboEtapaEscolar = new ArrayList<SelectItem>();
+		comboTurnoEscolar = new ArrayList<SelectItem>();
+		comboEstadoNascimento = new ArrayList<SelectItem>();
+		comboCidadeNascimento = new ArrayList<SelectItem>();
+		
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -404,7 +420,6 @@ public class PessoaServlet implements Serializable{
 			
 			alunoDAO.salvarCadastroAluno(alunoDados);
 			
-			
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao realizar o cadastro.",null));
@@ -443,7 +458,13 @@ public class PessoaServlet implements Serializable{
 				pessoaDados.setCpf(null);
 				return false;
 			}
-		} 
+			if(pessoaDados.getRg() == null  || pessoaDados.getRg().equals("") ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O RG deve ser preenchido.",null));
+				pessoaDados.setCpf(null);
+				return false;
+			}
+		}
 				
 		if( pessoaDados.getSexo() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
@@ -952,6 +973,9 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
+		comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
+		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
+		comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());
 	}
 	
 	public void pageFirst() {
@@ -1297,9 +1321,6 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* InformaÃ§Ãµes referentes ao dados do aluno */	
 	public List<SelectItem> getComboRedeEnsino() {
-		if(comboRedeEnsino == null || comboRedeEnsino.isEmpty()) {			
-			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
-		}
 		return comboRedeEnsino;
 	}
 
@@ -1356,9 +1377,6 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	public List<SelectItem> getComboTipoDeficiencia() {
-		if(comboTipoDeficiencia == null || comboTipoDeficiencia.isEmpty()) {
-			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
-		}
 		return comboTipoDeficiencia;
 	}
 
@@ -1469,14 +1487,6 @@ public class PessoaServlet implements Serializable{
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
-
-	public List<String> getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(List<String> latitude) {
-		this.latitude = latitude;
-	}
 	
 	public GrauParentesco getGrauParentescoDados() {
 		return grauParentescoDados;
@@ -1524,5 +1534,42 @@ public class PessoaServlet implements Serializable{
 
 	public void setCopiaEndereco(Part copiaEndereco) {
 		this.copiaEndereco = copiaEndereco;
+	}
+
+	public List<SelectItem> getComboEstadoNascimento() {
+		return comboEstadoNascimento;
+	}
+
+	public void setComboEstadoNascimento(List<SelectItem> comboEstadoNascimento) {
+		this.comboEstadoNascimento = comboEstadoNascimento;
+	}
+
+	public List<SelectItem> getComboCidadeNascimento() {
+		comboCidadeNascimento.clear();
+		if(estadoNascimentoDados.getPkEstado() != null && !comboEstadoNascimento.isEmpty()){
+			ParametrosServlet paramDados = new ParametrosServlet();
+			comboCidadeNascimento.addAll(paramDados.consultaCidade(estadoNascimentoDados));
+		}
+		return comboCidadeNascimento;
+	}
+
+	public void setComboCidadeNascimento(List<SelectItem> comboCidadeNascimento) {
+		this.comboCidadeNascimento = comboCidadeNascimento;
+	}
+
+	public Estado getEstadoNascimentoDados() {
+		return estadoNascimentoDados;
+	}
+
+	public void setEstadoNascimentoDados(Estado estadoNascimentoDados) {
+		this.estadoNascimentoDados = estadoNascimentoDados;
+	}
+
+	public Cidade getCidadeNascimentoDados() {
+		return cidadeNascimentoDados;
+	}
+
+	public void setCidadeNascimentoDados(Cidade cidadeNascimentoDados) {
+		this.cidadeNascimentoDados = cidadeNascimentoDados;
 	}     
 }

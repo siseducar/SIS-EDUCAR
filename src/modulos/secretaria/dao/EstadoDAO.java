@@ -81,7 +81,10 @@ public class EstadoDAO extends SisEducarDAO
 		return null;
 	}
 	
-	
+	/*
+	 * Metodo que busca todas os estados filtrando pelo pais
+	 * 
+	 * */
 	public List<Estado> consultaEstado(Integer pkPais) throws SQLException{		
 		
 		List<Estado> listaEstado = new ArrayList<Estado>();
@@ -92,6 +95,29 @@ public class EstadoDAO extends SisEducarDAO
 		ps.setInt(1, pkPais);
 		
 		rs = ps.executeQuery();
+		
+		while (rs.next()){
+			Estado paramEstado = new Estado();
+			paramEstado.setPkEstado(rs.getInt("PKESTADO"));
+			paramEstado.setNome(rs.getString("NOME"));
+			
+			listaEstado.add(paramEstado);
+		}
+		
+		return listaEstado;
+	}
+	
+	/*
+	 * Metodo que busca todas os estados
+	 * 
+	 * */
+	public List<Estado> listaEstado() throws SQLException{		
+		
+		List<Estado> listaEstado = new ArrayList<Estado>();
+		String querySQL = "SELECT * FROM ESTADO ORDER BY NOME";
+		
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(querySQL);
 		
 		while (rs.next()){
 			Estado paramEstado = new Estado();

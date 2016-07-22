@@ -527,25 +527,25 @@ public class ParametrosServlet implements Serializable{
 	}
 	
 	/*
-	 * Metodo para carregar as cidades do autocomplete
+	 * Metodo para carregar todos os estados
 	 * */
-	public List<String> carregaCidades() {        
+	public List<SelectItem> consultaEstadoNascimento() {       
         try {
-        	List<String> cidades = new ArrayList<String>();
-        	List<Cidade> cidadesTotal = new ArrayList<Cidade>();
-        	CidadeDAO cidadeDao = new CidadeDAO();
-
-        	cidadesTotal = cidadeDao.listaCidade();
-        	
-        	for(int i=0; i < cidadesTotal.size(); i++ ) {        		
-        		cidades.add(cidadesTotal.get(i).getNome());
-        	}
-        	
-        	return cidades; 
-		} catch (SQLException e) {
-			e.printStackTrace();
+        	List<SelectItem> comboEstadoNascimento = new ArrayList<>();
+			EstadoDAO estadoDAO = new EstadoDAO();
+			List<Estado> paramEstado = estadoDAO.listaEstado();
+			
+			for (Estado param : paramEstado){
+			   SelectItem  s = new SelectItem();
+			   s.setValue(param.getPkEstado());
+			   s.setLabel(param.getNome());
+			   comboEstadoNascimento.add(s);
+			}
+			return comboEstadoNascimento;
+		}catch(SQLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de ESTADO DE NASCIMENTO, contate o administrador do sistema!", null));
+			return null;
 		}
-        
-        return null;
     }
 }
