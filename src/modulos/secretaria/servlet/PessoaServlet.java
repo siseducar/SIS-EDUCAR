@@ -736,7 +736,6 @@ public class PessoaServlet implements Serializable{
 			alunoDados.setFotoAluno(imagem64);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -760,7 +759,6 @@ public class PessoaServlet implements Serializable{
 			alunoDados.setCopiaCertidao(imagem64);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -784,7 +782,6 @@ public class PessoaServlet implements Serializable{
 			alunoDados.setCopiaEndereco(imagem64);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
