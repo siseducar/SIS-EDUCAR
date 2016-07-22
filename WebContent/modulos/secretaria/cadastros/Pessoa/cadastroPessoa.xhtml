@@ -115,6 +115,29 @@
 									</h:selectOneMenu>
 								</div>
 							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel value="Estado de Nascimento"/>
+								<div>
+									<h:selectOneMenu id="codEstNasci"
+										class="form-control" value="#{pessoaServlet.estadoNascimentoDados.pkEstado}">
+										<f:selectItem itemLabel="Selecione..." itemValue=""/>
+										<f:selectItems value="#{pessoaServlet.comboEstadoNascimento}"
+											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
+										<f:ajax event="change" render="codCidNasci"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel value="Cidade de Nascimento"/>
+								<div>
+									<h:selectOneMenu id="codCidNasci"
+										class="form-control" value="#{pessoaServlet.cidadeNascimentoDados.pkCidade}">
+										<f:selectItem itemLabel="Selecione..." itemValue=""/>
+										<f:selectItems value="#{pessoaServlet.comboCidadeNascimento}"
+											var="cidNascimento" itemLabel="#{cidNascimento.nome}" itemValue="#{cidNascimento.pkCidade}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
 						</div>
 						<div class="space-4"/>
 						<div class="row">
@@ -539,7 +562,8 @@
 										<h:selectOneMenu class="form-control" id="codCurso"
 											value="#{pessoaServlet.cursoDados.pkCurso}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<!--  var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/> -->
+											<f:selectItems value="#{pessoaServlet.comboCursoEscolar}"
+												var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/>
 											<p:ajax event="change" update="codEtapa"/>
 										</h:selectOneMenu>
 									</div>
@@ -551,6 +575,8 @@
 										<h:selectOneMenu class="form-control" id="codEtapa"
 											value="#{pessoaServlet.alunoDados.etapa}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{pessoaServlet.comboEtapaEscolar}"
+												var="etapa" itemLabel="#{etapa.descricao}" itemValue="#{etapa.pkEtapa}"/>
 											<p:ajax event="change" update="codTurno"/>
 										</h:selectOneMenu>
 									</div>
@@ -602,22 +628,34 @@
 							<div class="row">
 								<div class="col-xs-12">
 									<div class="col-xs-4">
-										<label class="ace-file-input ace-file-multiple">
-											<h:inputFile value="#{pessoaServlet.fotoAluno}" class="foto">
-											</h:inputFile>
-										</label>
+										<h:outputLabel value="Foto do Aluno"/>
+										<div>
+											<label class="ace-file-input ace-file-multiple">
+												<h:inputFile value="#{pessoaServlet.fotoAluno}" class="foto">
+													<f:ajax event="change" listener="#{pessoaServlet.converteFotoAluno}"/>
+												</h:inputFile>
+											</label>
+										</div>
 									</div>
 									<div class="col-xs-4">
-										<label class="ace-file-input ace-file-multiple">
-											<h:inputFile value="#{pessoaServlet.copiaCertidao}" class="foto">
-											</h:inputFile>
-										</label>
+										<h:outputLabel value="Certidão de Nascimento"/>
+										<div>
+											<label class="ace-file-input ace-file-multiple">
+												<h:inputFile value="#{pessoaServlet.copiaCertidao}" class="foto">
+													<f:ajax event="change" listener="#{pessoaServlet.convertecopiaCertidao}"/>
+												</h:inputFile>
+											</label>
+										</div>
 									</div>
 									<div class="col-xs-4">
-										<label class="ace-file-input ace-file-multiple">
-											<h:inputFile value="#{pessoaServlet.copiaEndereco}" class="foto">
-											</h:inputFile>
-										</label>
+										<h:outputLabel value="Comprovante Residência"/>
+										<div>
+											<label class="ace-file-input ace-file-multiple">
+												<h:inputFile value="#{pessoaServlet.copiaEndereco}" class="foto">
+													<f:ajax event="change" listener="#{pessoaServlet.convertecopiaEndereco}"/>
+												</h:inputFile>
+											</label>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -868,7 +906,7 @@
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							<f:ajax event="click" listener="#{pessoaServlet.validaCadastro}" 
-								render=":formCadastroPessoa" execute=":formCadastroPessoa"/>
+								render=":formCadastroPessoa" execute=":formCadastroPessoa" resetValues="true"/>
 						</h:commandLink>
 						
 					</div>

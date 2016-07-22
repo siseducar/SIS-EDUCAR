@@ -2,7 +2,7 @@ package modulos.secretaria.om;
 
 import java.io.Serializable;
 
-import javax.servlet.http.Part;
+import modulos.sisEducar.om.ImagemBase64;
 
 public class Aluno implements Serializable {	
 	
@@ -27,17 +27,12 @@ public class Aluno implements Serializable {
 	private Turno turno;
 	private TipoDeficiencia deficiencia;
 	private Boolean alunoDeficiente;
-	private String fotoAluno;
 	private String copiaCertidaoNascimento;
 	private String copiaComprovanteResidencia;
-	private Part imagemALuno;
+	private ImagemBase64 fotoAluno;
+	private ImagemBase64 copiaCertidao;
+	private ImagemBase64 copiaEndereco;
 	
-	public Part getImagemALuno() {
-		return imagemALuno;
-	}
-	public void setImagemALuno(Part imagemALuno) {
-		this.imagemALuno = imagemALuno;
-	}
 	public String getRa2() {
 		return ra2;
 	}
@@ -152,12 +147,6 @@ public class Aluno implements Serializable {
 	public void setCodigoInep(String codigoInep) {
 		this.codigoInep = codigoInep;
 	}
-	public String getFotoAluno() {
-		return fotoAluno;
-	}
-	public void setFotoAluno(String fotoAluno) {
-		this.fotoAluno = fotoAluno;
-	}
 	public String getCopiaCertidaoNascimento() {
 		return copiaCertidaoNascimento;
 	}
@@ -175,5 +164,23 @@ public class Aluno implements Serializable {
 	}
 	public void setCidadeNascimento(Cidade cidadeNascimento) {
 		this.cidadeNascimento = cidadeNascimento;
+	}
+	public ImagemBase64 getFotoAluno() {
+		return fotoAluno;
+	}
+	public void setFotoAluno(ImagemBase64 fotoAluno) {
+		this.fotoAluno = fotoAluno;
+	}
+	public ImagemBase64 getCopiaCertidao() {
+		return copiaCertidao;
+	}
+	public void setCopiaCertidao(ImagemBase64 copiaCertidao) {
+		this.copiaCertidao = copiaCertidao;
+	}
+	public ImagemBase64 getCopiaEndereco() {
+		return copiaEndereco;
+	}
+	public void setCopiaEndereco(ImagemBase64 copiaEndereco) {
+		this.copiaEndereco = copiaEndereco;
 	}
 }

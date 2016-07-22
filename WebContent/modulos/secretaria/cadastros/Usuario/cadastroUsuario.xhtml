@@ -53,6 +53,7 @@
 													<span class="block input-icon input-icon-right">
 														<h:inputText type="text" styleClass="form-control cpf" autocomplete="off" value="#{usuarioServlet.cpfPesquisar}">
 															<f:validator validatorId="validar.CpfValidator"/>
+															<f:converter converterId="converter.CPF"/>
 														</h:inputText>
 														<i class="ace-icon fa fa-credit-card"></i>
 													</span>

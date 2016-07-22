@@ -1,5 +1,6 @@
 package modulos.secretaria.servlet;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
+
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import modulos.secretaria.dao.AlunoDAO;
 import modulos.secretaria.dao.ContatoDAO;
@@ -44,9 +47,9 @@ import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
+import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
-import sisEdcuar.utils.ImagemBase64;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -90,8 +93,8 @@ public class PessoaServlet implements Serializable{
 	private EnderecoDAO enderecoDAO;
 	private ContatoDAO contatoDAO;
 	private ImagemBase64 imagem64;
-	
-	private List<String> latitude;
+	private Estado estadoNascimentoDados;
+	private Cidade cidadeNascimentoDados;
 		
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
@@ -164,6 +167,10 @@ public class PessoaServlet implements Serializable{
 	
 	/* Combo com valores de TURNO ESCOLAR */
 	private List<SelectItem> comboTurnoEscolar;
+	
+	private List<SelectItem> comboEstadoNascimento;
+	
+	private List<SelectItem> comboCidadeNascimento;
 	
 	/* Componente */
 	private Boolean nomeMae;
@@ -278,6 +285,12 @@ public class PessoaServlet implements Serializable{
 		if(this.dataTable == null) {
 			this.dataTable = new HtmlDataTable();
 		}
+		if(this.estadoNascimentoDados == null) {
+			this.estadoNascimentoDados = new Estado();
+		}
+		if(this.cidadeNascimentoDados == null) {
+			this.cidadeNascimentoDados = new Cidade();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
@@ -286,16 +299,22 @@ public class PessoaServlet implements Serializable{
 		comboGrauInstrucao = new ArrayList<SelectItem>();
 		comboNacionalidade = new ArrayList<SelectItem>();
 		comboRaca = new ArrayList<SelectItem>();
-		comboRedeEnsino = new ArrayList<SelectItem>();
 		comboReligiao = new ArrayList<SelectItem>();
 		comboSituacaoEconomica = new ArrayList<SelectItem>();
-		comboUnidadeEscolar = new ArrayList<SelectItem>();
 		comboZonaResidencial = new ArrayList<SelectItem>();
 		comboGrauParentesco = new ArrayList<SelectItem>();
 		comboTipoDeficiencia = new ArrayList<SelectItem>();
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
+		comboRedeEnsino = new ArrayList<SelectItem>();
+		comboUnidadeEscolar = new ArrayList<SelectItem>();
+		comboCursoEscolar = new ArrayList<SelectItem>();
+		comboEtapaEscolar = new ArrayList<SelectItem>();
+		comboTurnoEscolar = new ArrayList<SelectItem>();
+		comboEstadoNascimento = new ArrayList<SelectItem>();
+		comboCidadeNascimento = new ArrayList<SelectItem>();
+		
 		carregaCombos();
 		complementoAluno = false;
 		funcDemitido = false;
@@ -356,7 +375,7 @@ public class PessoaServlet implements Serializable{
 			pessoaDados = pessoaDAO.salvarCadastroPessoa(pessoaDados);
 			
 			if( pessoaDados.getPkPessoa() != null ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Cadastro Realizado com sucesso",null));
 			} else {
 				if(contatoDados.getPkContato() != null || contatoDados != null) {
@@ -390,7 +409,22 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
-	public String salvarCadastroAluno(Integer pkPessoa){	
+	public String salvarCadastroAluno(){
+		if(pessoaDados.getPkPessoa() != null ){
+			alunoDados.setRedeEnsino(redeEnsinoDados);
+			alunoDados.setUnidadeEscolar(unidadeEscolarDados);
+			alunoDados.setEtapa(etapaDados);
+			alunoDados.setCurso(cursoDados);
+			alunoDados.setTurno(turnoDados);
+			alunoDados.setPessoa(pessoaDados);
+			
+			alunoDAO.salvarCadastroAluno(alunoDados);
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao realizar o cadastro.",null));
+		}
+		
 		return null;
 	}
 	
@@ -424,7 +458,13 @@ public class PessoaServlet implements Serializable{
 				pessoaDados.setCpf(null);
 				return false;
 			}
-		} 
+			if(pessoaDados.getRg() == null  || pessoaDados.getRg().equals("") ) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+						"O RG deve ser preenchido.",null));
+				pessoaDados.setCpf(null);
+				return false;
+			}
+		}
 				
 		if( pessoaDados.getSexo() == null ) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
@@ -595,6 +635,21 @@ public class PessoaServlet implements Serializable{
 				return false;
 			}
 		}
+		if(fotoAluno == null){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione a FOTO do aluno.",null));
+			return false;
+		}
+		if(copiaCertidao == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma copia da CERTIDÃO DE NASCIMENTO.",null));
+			return false;
+		}
+		if(copiaEndereco == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+					"Selecione uma copia do COMPROVANTE DE RESIDÊNCIA.",null));
+			return false;
+		}
 		return false;
 	}
 	
@@ -662,10 +717,76 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	
+	/*
+	 * Metodo para converter a foto do aluno para BASE64
+	 * */
 	public void converteFotoAluno() {
-		imagem64 = new ImagemBase64();
-		
-		
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = fotoAluno.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemFotoAluno = new byte[(int) fotoAluno.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemFotoAluno);
+			String fotoBase64 = new String(Base64.encode(imagemFotoAluno));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setFotoAluno(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Metodo para converter a copia da certidao para BASE64
+	 * */
+	public void convertecopiaCertidao() {
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = copiaCertidao.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemCopiaCertidao = new byte[(int) copiaCertidao.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemCopiaCertidao);
+			String fotoBase64 = new String(Base64.encode(imagemCopiaCertidao));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setCopiaCertidao(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Metodo para converter a copia de endereco para BASE64
+	 * */
+	public void convertecopiaEndereco() {
+		try {
+			imagem64 = new ImagemBase64();
+			String formato = copiaEndereco.getContentType();
+			String nome = fotoAluno.getSubmittedFileName();
+			byte[] imagemCopiaEndereco = new byte[(int) copiaEndereco.getSize()]; 
+			
+			fotoAluno.getInputStream().read(imagemCopiaEndereco);
+			String fotoBase64 = new String(Base64.encode(imagemCopiaEndereco));
+			imagem64.setB64(fotoBase64);
+			imagem64.setNome(nome);
+			imagem64.setTipo(formato);
+			
+			alunoDados.setCopiaEndereco(imagem64);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/*
@@ -825,7 +946,7 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
 			if( (validaDadosPessoa() == true) && (validaDadosAluno() == true) ) {	
 				salvarCadastroPessoa();
-				salvarCadastroAluno(0);
+				salvarCadastroAluno();
 				limparFormulario();
 			}
 		}
@@ -852,6 +973,9 @@ public class PessoaServlet implements Serializable{
 		comboPais.addAll(paramDados.consultaPais());
 		comboCargo.addAll(paramDados.consultaCargo());
 		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
+		comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
+		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
+		comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());
 	}
 	
 	public void pageFirst() {
@@ -1197,9 +1321,6 @@ public class PessoaServlet implements Serializable{
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* InformaÃ§Ãµes referentes ao dados do aluno */	
 	public List<SelectItem> getComboRedeEnsino() {
-		if(comboRedeEnsino == null || comboRedeEnsino.isEmpty()) {			
-			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
-		}
 		return comboRedeEnsino;
 	}
 
@@ -1256,9 +1377,6 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	public List<SelectItem> getComboTipoDeficiencia() {
-		if(comboTipoDeficiencia == null || comboTipoDeficiencia.isEmpty()) {
-			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
-		}
 		return comboTipoDeficiencia;
 	}
 
@@ -1369,14 +1487,6 @@ public class PessoaServlet implements Serializable{
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
-
-	public List<String> getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(List<String> latitude) {
-		this.latitude = latitude;
-	}
 	
 	public GrauParentesco getGrauParentescoDados() {
 		return grauParentescoDados;
@@ -1424,5 +1534,42 @@ public class PessoaServlet implements Serializable{
 
 	public void setCopiaEndereco(Part copiaEndereco) {
 		this.copiaEndereco = copiaEndereco;
+	}
+
+	public List<SelectItem> getComboEstadoNascimento() {
+		return comboEstadoNascimento;
+	}
+
+	public void setComboEstadoNascimento(List<SelectItem> comboEstadoNascimento) {
+		this.comboEstadoNascimento = comboEstadoNascimento;
+	}
+
+	public List<SelectItem> getComboCidadeNascimento() {
+		comboCidadeNascimento.clear();
+		if(estadoNascimentoDados.getPkEstado() != null && !comboEstadoNascimento.isEmpty()){
+			ParametrosServlet paramDados = new ParametrosServlet();
+			comboCidadeNascimento.addAll(paramDados.consultaCidade(estadoNascimentoDados));
+		}
+		return comboCidadeNascimento;
+	}
+
+	public void setComboCidadeNascimento(List<SelectItem> comboCidadeNascimento) {
+		this.comboCidadeNascimento = comboCidadeNascimento;
+	}
+
+	public Estado getEstadoNascimentoDados() {
+		return estadoNascimentoDados;
+	}
+
+	public void setEstadoNascimentoDados(Estado estadoNascimentoDados) {
+		this.estadoNascimentoDados = estadoNascimentoDados;
+	}
+
+	public Cidade getCidadeNascimentoDados() {
+		return cidadeNascimentoDados;
+	}
+
+	public void setCidadeNascimentoDados(Cidade cidadeNascimentoDados) {
+		this.cidadeNascimentoDados = cidadeNascimentoDados;
 	}     
 }

@@ -50,31 +50,6 @@ public class AlunoDAO extends SisEducarDAO
 		return false;
 	}
 	
-	/*
-	 * Metodo responsavel por validar responsavel existente
-	 * */
-	public String consultaNomeResponsavel(Long cpf){
-		try {
-			
-			String nomePessoa = null;
-			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ?";
-			
-			ps = con.prepareStatement(querySQL);
-			ps.setString(1, cpf.toString());
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()){
-				nomePessoa = rs.getString("NOME");
-			}
-			
-			return nomePessoa;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
 	/**
 	 * Inseri um aluno
 	 * @author João Paulo
@@ -150,5 +125,96 @@ public class AlunoDAO extends SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	/*
+	 * Metodo responsavel por validar responsavel existente
+	 * */
+	public String consultaNomeResponsavel(Long cpf){
+		try {
+			
+			String nomePessoa = null;
+			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			ps.setString(1, cpf.toString());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				nomePessoa = rs.getString("NOME");
+			}
+			
+			return nomePessoa;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Metodo para salvar os dados referente ao cadastro de uma pessoa
+	 * 
+	 * */
+	public Aluno salvarCadastroAluno(Aluno alunoDados) {
+		try {
+			String querySQL;
+			
+			Integer numeroArgumentos = 1;
+			
+			querySQL = " INSERT INTO ALUNO ( ";
+			querySQL += " RA, RM, CODIGOINEP, FKREDEENSINO, FKUNIDADEESCOLAR, ";
+			querySQL += " FKCURSO, FKETAPA, FKTURNO, ";
+			if( alunoDados.getAlunoDeficiente() ) {
+				querySQL += " FKTIPODEFICIENCIA, ";
+			}
+			
+			querySQL += " FKPESSOA ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ";
+			if( alunoDados.getAlunoDeficiente() ) {
+				querySQL += " ,? ";
+			}
+			querySQL += " ? ) RETURNING PKALUNO ";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(numeroArgumentos, alunoDados.getRa());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, alunoDados.getRm());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, alunoDados.getCodigoInep());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, alunoDados.getRedeEnsino().getPkRedeEnsino());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, alunoDados.getUnidadeEscolar().getPkUnidadeEscolar());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, alunoDados.getCurso().getPkCurso());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, alunoDados.getEtapa().getPkEtapa());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, alunoDados.getTurno().getPkTurno());
+			numeroArgumentos++;
+			
+			if( alunoDados.getAlunoDeficiente() ) {
+				ps.setInt(numeroArgumentos, alunoDados.getDeficiencia().getPkTipoDeficiencia());
+				numeroArgumentos++;
+			}
+			
+			if(rs.next()) {
+				alunoDados.setPkAluno(rs.getInt("PKALUNO"));
+			}
+			
+			fecharConexaoBanco(con, ps, true, false);
+			
+			return alunoDados;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
