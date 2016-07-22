@@ -1,8 +1,8 @@
 .ui-growl {
     position: fixed;
-    top: 10%;
+    top: 2%;
     right: 1%;
-    z-index: 9999;	
+    z-index: 9999 !important;	
 }
 
 .ui-growl-title {
