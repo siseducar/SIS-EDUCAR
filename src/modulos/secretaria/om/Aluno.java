@@ -2,7 +2,7 @@ package modulos.secretaria.om;
 
 import java.io.Serializable;
 
-import modulos.sisEducar.om.ImagemBase64;
+import modulos.sisEducar.om.Anexo;
 
 public class Aluno implements Serializable {	
 	
@@ -27,11 +27,9 @@ public class Aluno implements Serializable {
 	private Turno turno;
 	private TipoDeficiencia deficiencia;
 	private Boolean alunoDeficiente;
-	private String copiaCertidaoNascimento;
-	private String copiaComprovanteResidencia;
-	private ImagemBase64 fotoAluno;
-	private ImagemBase64 copiaCertidao;
-	private ImagemBase64 copiaEndereco;
+	private Anexo fkFotoAluno;
+	private Anexo fkCopiaCertidaoNascimento;
+	private Anexo fkCopiaComprovanteResidencia;
 	
 	public String getRa2() {
 		return ra2;
@@ -147,40 +145,28 @@ public class Aluno implements Serializable {
 	public void setCodigoInep(String codigoInep) {
 		this.codigoInep = codigoInep;
 	}
-	public String getCopiaCertidaoNascimento() {
-		return copiaCertidaoNascimento;
-	}
-	public void setCopiaCertidaoNascimento(String copiaCertidaoNascimento) {
-		this.copiaCertidaoNascimento = copiaCertidaoNascimento;
-	}
-	public String getCopiaComprovanteResidencia() {
-		return copiaComprovanteResidencia;
-	}
-	public void setCopiaComprovanteResidencia(String copiaComprovanteResidencia) {
-		this.copiaComprovanteResidencia = copiaComprovanteResidencia;
-	}
 	public Cidade getCidadeNascimento() {
 		return cidadeNascimento;
 	}
 	public void setCidadeNascimento(Cidade cidadeNascimento) {
 		this.cidadeNascimento = cidadeNascimento;
 	}
-	public ImagemBase64 getFotoAluno() {
-		return fotoAluno;
+	public Anexo getFkFotoAluno() {
+		return fkFotoAluno;
 	}
-	public void setFotoAluno(ImagemBase64 fotoAluno) {
-		this.fotoAluno = fotoAluno;
+	public void setFkFotoAluno(Anexo fkFotoAluno) {
+		this.fkFotoAluno = fkFotoAluno;
 	}
-	public ImagemBase64 getCopiaCertidao() {
-		return copiaCertidao;
+	public Anexo getFkCopiaCertidaoNascimento() {
+		return fkCopiaCertidaoNascimento;
 	}
-	public void setCopiaCertidao(ImagemBase64 copiaCertidao) {
-		this.copiaCertidao = copiaCertidao;
+	public void setFkCopiaCertidaoNascimento(Anexo fkCopiaCertidaoNascimento) {
+		this.fkCopiaCertidaoNascimento = fkCopiaCertidaoNascimento;
 	}
-	public ImagemBase64 getCopiaEndereco() {
-		return copiaEndereco;
+	public Anexo getFkCopiaComprovanteResidencia() {
+		return fkCopiaComprovanteResidencia;
 	}
-	public void setCopiaEndereco(ImagemBase64 copiaEndereco) {
-		this.copiaEndereco = copiaEndereco;
+	public void setFkCopiaComprovanteResidencia(Anexo fkCopiaComprovanteResidencia) {
+		this.fkCopiaComprovanteResidencia = fkCopiaComprovanteResidencia;
 	}
 }
