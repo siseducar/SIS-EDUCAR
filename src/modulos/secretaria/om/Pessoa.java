@@ -36,6 +36,7 @@ public class Pessoa implements Serializable {
 	private UnidadeEscolar unidadeEscolar;
 	private Endereco endereco;
 	private Cidade fkMunicipioCliente;
+	private Cidade fkCidadeNascimento;
 	private Contato contato;
 	
 	/* GETTERS AND SETTERS */
@@ -225,6 +226,12 @@ public class Pessoa implements Serializable {
 	}
 	public void setContato(Contato contato) {
 		this.contato = contato;
+	}
+	public Cidade getFkCidadeNascimento() {
+		return fkCidadeNascimento;
+	}
+	public void setFkCidadeNascimento(Cidade fkCidadeNascimento) {
+		this.fkCidadeNascimento = fkCidadeNascimento;
 	}
 	
 
