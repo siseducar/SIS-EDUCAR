@@ -386,7 +386,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 					
 					if(respostaUpdate)
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha foi atualizada", null));
+						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");
 					}
 					else
 					{
@@ -397,7 +397,7 @@ public class LoginServlet extends SisEducarServlet implements Serializable
 			}
 			else
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas s�o obrigat�rias", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas são obrigatórias", null));
 				return null;
 			}
 			
