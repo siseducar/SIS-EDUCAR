@@ -363,6 +363,7 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setCpfcnpj(rs.getString("cpfcnpj"));
 			usuario.setStatus(rs.getInt("status"));
 			usuario.setTipo(rs.getInt("tipo"));
+			usuario.setGenero(rs.getString("genero"));
 			usuario.setFkMunicipioCliente(cidade);
 			return usuario;
 		}
