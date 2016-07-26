@@ -50,6 +50,7 @@ import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="pessoaServlet")
 @ViewScoped
@@ -438,148 +439,122 @@ public class PessoaServlet implements Serializable{
 	
 	public Boolean validaDadosPessoa(){
 		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NOME deve ser preenchido.",null));
-			pessoaDados.setNome(null);
+			Logs.addWarning("O NOME deve ser preenchido.", null);
 			return false;
 		}
 
 		if(pessoaDados.getDataNascimento() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A DATA DE NASCIMENTO deve ser preenchida.",null));
+			Logs.addWarning("A DATA DE NASCIMENTO deve ser preenchida.", null);
 			pessoaDados.setDataNascimento(null);
 			return false;
 		}	
 		
 		if( menorIdade == false  ) {
 			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O CPF deve ser preenchido.",null));
+				Logs.addWarning("O CPF deve ser preenchido.", null);
 				pessoaDados.setCpf(null);
 				return false;
 			}
 			if(pessoaDados.getRg() == null  || pessoaDados.getRg().equals("") ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O RG deve ser preenchido.",null));
+				Logs.addWarning("O RG deve ser preenchido.", null);
 				pessoaDados.setCpf(null);
 				return false;
 			}
 		}
 				
 		if( pessoaDados.getSexo() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O SEXO deve ser informado.",null));
+			Logs.addWarning("O SEXO deve ser informado.", null);
 			return false;
 		}
 		
 		if( nacionalidadeDados.getPkNacionalidade() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A NACIONALIDADE deve ser informada.",null));
+			Logs.addWarning("A NACIONALIDADE deve ser informada.", null);
 			return false;
 		}
 		
 		if( racaDados.getPkRaca() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RAÇA deve ser informada.",null));
+			Logs.addWarning("A RAÇA deve ser informada.", null);
 			return false;
 		}
 		
 		if( estaCivilDados.getPkEstadoCivil() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O ESTADO CIVIL deve ser informado.",null));
+			Logs.addWarning("O ESTADO CIVIL deve ser informado.", null);
 			return false;
 		}
 		
 		if( grauInstruDados.getPkGrauInstrucao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O GRAU DE INSTRUÇÃO deve ser informado.",null));
+			Logs.addWarning("O GRAU DE INSTRUÇÃO deve ser informado.", null);
 			return false;
 		}
 		
 		if( situEconomicaDados.getPkSituacaoEconomica() == null ){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A SITUAÇÃO ECONÔMICA deve ser informada.",null));
+			Logs.addWarning("A SITUAÇÃO ECONÔMICA deve ser informada.", null);
 			return false;
 		}
 		
 		if( religiaoDados.getPkReligiao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A RELIGIÃO deve ser informada.",null));
+			Logs.addWarning("A RELIGIÃO deve ser informada.", null);
 			return false;
 		}
 		
 		if( paisDados.getPkPais() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O PAÍS deve ser informado.",null));
+			Logs.addWarning("O PAÍS deve ser informado.", null);
 			return false;
 		}
 		
 		if( estadoDados.getPkEstado() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O ESTADO deve ser informado.",null));
+			Logs.addWarning("O ESTADO deve ser informado.", null);
 			return false;
 		}
 		
 		if( cidadeDados.getPkCidade() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O MUNICÍ�PIO deve ser informado.",null));
+			Logs.addWarning("O MUNICÍ�PIO deve ser informado.", null);
 			return false;
 		}
 		
 		if( enderecoDados.getCep() == null || enderecoDados.getCep().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O CEP deve ser preenchido.",null));
+			Logs.addWarning("O CEP deve ser preenchido.", null);
 			return false;
 		}
 		
 		if( enderecoDados.getLogradouro() == null || enderecoDados.getCep().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O LOGRADOURO deve ser preenchido.",null));
+			Logs.addWarning("O LOGRADOURO deve ser preenchido.", null);
 			return false;
 		}
 		
 		if( enderecoDados.getNumero() == null || enderecoDados.getNumero().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O NÚMERO deve ser preenchido.",null));
+			Logs.addWarning("O NÚMERO deve ser preenchido.", null);
 			return false;
 		}
 		
 		if( enderecoDados.getBairro() == null || enderecoDados.getBairro().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O BAIRRO deve ser preenchido.",null));
+			Logs.addWarning("O BAIRRO deve ser preenchido.", null);
 			return false;
 		}
 		
 		if( regiaoDados.getPkRegiao() == null ) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A ZONA RESIDENCIAL deve ser informada.",null));
+			Logs.addWarning("A ZONA RESIDENCIAL deve ser informada.", null);
 			return false;
 		}
 		
 		if( contatoDados.getTelResidencial() == null || contatoDados.getTelResidencial().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O TELEFONE DE CONTATO deve ser preenchido.",null));
+			Logs.addWarning("O TELEFONE DE CONTATO deve ser preenchido.", null);
 			return false;
 		}
 		
 		if( contatoDados.getTelCelular() == null || contatoDados.getTelCelular().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O TELEFONE CELULAR deve ser preenchido.",null));
+			Logs.addWarning("O TELEFONE CELULAR deve ser preenchido.", null);
 			return false;
 		}
 		if( menorIdade == true ) {
 			if( (pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0) && 
 					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O CPF DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
+				Logs.addWarning("O CPF DA MÃE ou de algum RESPONSAVEL deve ser informado.", null);
 				return false;
 			}
 			if( (pessoaDados.getNomeMae() == null || pessoaDados.getNomeMae().equals("")) && 
 					 (pessoaDados.getNomeResponsavel() == null || pessoaDados.getNomeResponsavel().equals(""))) {
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O NOME DA MÃE ou de algum RESPONSAVEL deve ser informado.",null));
+				Logs.addWarning("O NOME DA MÃE ou de algum RESPONSAVEL deve ser informado.", null);
 				return false;
 			}
 		}
@@ -589,65 +564,53 @@ public class PessoaServlet implements Serializable{
 	
 	public Boolean validaDadosAluno(){
 		if( alunoDados.getRm() == null && alunoDados.getRm().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O RM do aluno deve ser informado.",null));
+			Logs.addWarning("O RM do aluno deve ser informado.", null);
 			return false;
 		}
 		if( alunoDados.getRa() == null && alunoDados.getRa().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O RA do aluno deve ser informado.",null));
+			Logs.addWarning("O RA do aluno deve ser informado.",null);
 			return false;
 		}
 		if( alunoDados.getCodigoInep() == null && alunoDados.getCodigoInep().equals("")) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O CÓDIGO DO INEP do aluno deve ser informado.",null));
+			Logs.addWarning("O CÓDIGO DO INEP do aluno deve ser informado.",null);
 			return false;
 		}
 		if( redeEnsinoDados.getPkRedeEnsino() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A REDE DE ENSINO deve ser informada.",null));
+			Logs.addWarning("A REDE DE ENSINO deve ser informada.",null);
 			return false;
 		}
 		if( unidadeEscolarDados.getPkUnidadeEscolar() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A UNIDADE ESCOLAR deve ser informada.",null));
+			Logs.addWarning("A UNIDADE ESCOLAR deve ser informada.",null);
 			return false;
 		}
 		if( cursoDados.getPkCurso() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O CURSO deve ser informado.",null));
+			Logs.addWarning("O CURSO deve ser informado.",null);
 			return false;
 		}
 		if( etapaDados.getPkEtapa() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"A ETAPA deve ser informado.",null));
+			Logs.addWarning("A ETAPA deve ser informado.",null);
 			return false;
 		}
 		if( turnoDados.getPkTurno() == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"O TURNO deve ser informado.",null));
+			Logs.addWarning("O TURNO deve ser informado.",null);
 			return false;
 		}
 		if(alunoDeficiente) {
 			if(tipoDeficienciaDados.getPkTipoDeficiencia() == null ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"O TIPO DE DEFICIENCIA deve ser informado.",null));
+				Logs.addWarning("O TIPO DE DEFICIENCIA deve ser informado.",null);
 				return false;
 			}
 		}
 		if(fotoAluno == null){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione a FOTO do aluno.",null));
+			Logs.addWarning("Selecione a FOTO do aluno.",null);
 			return false;
 		}
 		if(copiaCertidao == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione uma copia da CERTIDÃO DE NASCIMENTO.",null));
+			Logs.addWarning("Selecione uma copia da CERTIDÃO DE NASCIMENTO.",null);
 			return false;
 		}
 		if(copiaEndereco == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-					"Selecione uma copia do COMPROVANTE DE RESIDÊNCIA.",null));
+			Logs.addWarning("Selecione uma copia do COMPROVANTE DE RESIDÊNCIA.",null);
 			return false;
 		}
 		return false;
@@ -660,12 +623,10 @@ public class PessoaServlet implements Serializable{
 		try {
 			if ( pessoaDAO.obtemUnicoPessoaSimples(pessoaDados.getCpf().toString()).getCpf() != null ){
 				pessoaDados.setCpf(null);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"CPF já cadastrado.",null));
+				Logs.addWarning("CPF já cadastrado.",null);
 			}
 		} catch (SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					e.toString(),null));
+			Logs.addError(e.toString(),null);
 		}
 	}
 	
@@ -685,8 +646,7 @@ public class PessoaServlet implements Serializable{
 			int anoNascimento = nascimento.get(Calendar.YEAR);
 			idade = anoAtual - anoNascimento;
 			if(idade < 0 || idade > 100) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-						"Informe uma data valida.",null));
+				Logs.addWarning("Informe uma data valida.",null);
 			} else {
 				if( idade < 18 ){
 					menorIdade = true;
@@ -733,7 +693,6 @@ public class PessoaServlet implements Serializable{
 			imagem64.setNome(nome);
 			imagem64.setTipo(formato);
 			
-			alunoDados.setFotoAluno(imagem64);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -756,7 +715,6 @@ public class PessoaServlet implements Serializable{
 			imagem64.setNome(nome);
 			imagem64.setTipo(formato);
 			
-			alunoDados.setCopiaCertidao(imagem64);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -779,7 +737,6 @@ public class PessoaServlet implements Serializable{
 			imagem64.setNome(nome);
 			imagem64.setTipo(formato);
 			
-			alunoDados.setCopiaEndereco(imagem64);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -804,12 +761,10 @@ public class PessoaServlet implements Serializable{
 				}else{
 					pessoaDados.setNomeMae(null);
 					nomeMae = false;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF nÃ£o encontrado, favor informar o nome.", null));
+					Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 				}
 			} catch (SQLException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro ao consultar o CPF informado", null));
+				Logs.addError("Erro ao consultar o CPF informado", null);
 			}
 		}else{
 			pessoaDados.setNomeMae(null);
@@ -835,11 +790,10 @@ public class PessoaServlet implements Serializable{
 					pessoaDados.setNomePai(null);
 					nomePai = false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF nÃ£o encontrado, favor informar o nome.", null));
+							"CPF não encontrado, favor informar o nome.", null));
 				}
 			} catch (SQLException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro ao consultar o CPF informado", null));
+				Logs.addError("Erro ao consultar o CPF informado", null);
 			}
 		}
 	}
@@ -861,12 +815,10 @@ public class PessoaServlet implements Serializable{
 				}else{
 					pessoaDados.setNomePai(null);
 					nomeResponsavel = false;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF nÃ£o encontrado, favor informar o nome.", null));
+					Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 				}
 			} catch (SQLException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro ao consultar o CPF informado", null));
+				Logs.addError("Erro ao consultar o CPF informado", null);
 			}
 		}
 	}

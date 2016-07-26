@@ -42,24 +42,6 @@ function initialize() {
 	marker.setPosition(latlng);
 };
 
-/* Verifica a atual posicao */
-if(navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(function(position){ 
-		var latitudeAtual = position.coords.latitude;
-		var longitudeAtual = position.coords.longitude;
-		marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-		carregarEndereco(latitudeAtual, longitudeAtual);
-		latlng = new google.maps.LatLng(latitudeAtual, longitudeAtual);
-		
-	}, 
-	function(error){ // callback de erro
-		alert('Erro ao obter localização!');
-		console.log('Erro ao obter localização.', error);
-	});
-} else {
-	console.log('Navegador não suporta Geolocalização!');
-}
-
 $(document).ready(function () {
 	initialize();
 	function carregarNoMapa(endereco) {

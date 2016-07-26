@@ -51,7 +51,8 @@
 							<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 							<f:selectItem itemLabel="Aluno" itemValue="1"/>
 							<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-							<p:ajax event="change" update="dadosGenericos,dadosResponsavel,dadosComplementares" listener="#{pessoaServlet.complementoDados}"/>
+							<f:ajax event="change" render="dadosComplementares" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
+							<f:ajax event="change" render="dadosResponsavel" resetValues="true"/>
 						</h:selectOneRadio>
 						<div class="space-4"/>
 						<div class="row">
@@ -75,7 +76,8 @@
 										value="#{pessoaServlet.pessoaDados.cpf}" autocomplete="off">
 										<f:validator validatorId="validar.CpfValidator"/>
 										<f:converter converterId="converter.CPF"/>
-										<p:ajax event="change" listener="#{pessoaServlet.verificaCadastro}" update="dadosGenericos" resetValues="true"/>
+										<f:ajax event="change" listener="#{pessoaServlet.verificaCadastro}" 
+											render="dadosGenericos" resetValues="true"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -98,7 +100,8 @@
 										styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento"
 										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off">
 										<f:converter converterId="converter.DATA"/>
-										<p:ajax event="change" listener="#{pessoaServlet.calculaIdade}" update="dadosResponsavel"/>
+										<f:ajax event="change" listener="#{pessoaServlet.calculaIdade}" 
+											rener="dadosResponsavel" resetValues="true"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -123,7 +126,7 @@
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{pessoaServlet.comboEstadoNascimento}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
-										<f:ajax event="change" render="codCidNasci"/>
+										<f:ajax event="change" render="codCidNasci" resetValues="true"/>
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -237,7 +240,8 @@
 											value="#{pessoaServlet.pessoaDados.cpfMae}" autocomplete="off">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<p:ajax event="change" listener="#{pessoaServlet.validaNomeMae}" update="nomeMaeAluno"/>
+											<f:ajax event="change" listener="#{pessoaServlet.validaNomeMae}" 
+												render="nomeMaeAluno" resetValues="true"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -261,7 +265,8 @@
 											value="#{pessoaServlet.pessoaDados.cpfPai}" autocomplete="off">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<p:ajax event="change" listener="#{pessoaServlet.validaNomePai}" update="nomePaiAluno"/>
+											<f:ajax event="change" listener="#{pessoaServlet.validaNomePai}" 
+												render="nomePaiAluno" resetValues="true"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -285,7 +290,8 @@
 											value="#{pessoaServlet.pessoaDados.cpfResponsavel}" autocomplete="off">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<p:ajax event="change" listener="#{pessoaServlet.validaNomeResponsavel}" update="nomeResponsavelAluno"/>
+											<f:ajax event="change" listener="#{pessoaServlet.validaNomeResponsavel}" 
+												render="nomeResponsavelAluno" resetValues="true"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -338,7 +344,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboPais}" var="pais" 
 												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}" itemLabelEscaped="#{pais.pkPais}"/>
-											<p:ajax event="change" update="codEstado, codCidade"/>
+											<f:ajax event="change" render="codEstado" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -351,7 +357,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboEstado}"
 												var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-											<p:ajax event="change" update="codCidade"/>
+											<f:ajax event="change" render="codCidade" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -538,7 +544,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboRedeEnsino}"
 												var="redeEnsino" itemLabel="#{redeEnsino.nome}" itemValue="#{redeEnsino.pkRedeEnsino}"/>
-											<p:ajax event="change" update="codUniEscolar"/>
+											<f:ajax event="change" render="codUniEscolar" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -551,7 +557,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboUnidadeEscolar}"
 												var="unidadeEscolar" itemLabel="#{unidadeEscolar.nome}" itemValue="#{unidadeEscolar.pkUnidadeEscolar}"/>
-											<p:ajax event="change" update="codCurso"/>
+											<f:ajax event="change" render="codCurso" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -564,7 +570,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboCursoEscolar}"
 												var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.pkCurso}"/>
-											<p:ajax event="change" update="codEtapa"/>
+											<f:ajax event="change" render="codEtapa" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -577,7 +583,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboEtapaEscolar}"
 												var="etapa" itemLabel="#{etapa.descricao}" itemValue="#{etapa.pkEtapa}"/>
-											<p:ajax event="change" update="codTurno"/>
+											<f:ajax event="change" render="codTurno" resetValues="true"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -602,7 +608,7 @@
 											value="#{pessoaServlet.alunoDados.alunoDeficiente}">
 											<f:selectItem itemLabel="Sim" itemValue="true" />
 											<f:selectItem itemLabel="Não" itemValue="false"/>
-											<p:ajax event="change" update="panelDeficiencia"
+											<f:ajax event="change" render="panelDeficiencia" resetValues="true"
 												listener="#{pessoaServlet.validaDeficiente}"/>
 										</h:selectOneRadio>
 									</div>
@@ -630,31 +636,25 @@
 									<div class="col-xs-4">
 										<h:outputLabel value="Foto do Aluno"/>
 										<div>
-											<label class="ace-file-input ace-file-multiple">
-												<h:inputFile value="#{pessoaServlet.fotoAluno}" class="foto">
-													<f:ajax event="change" listener="#{pessoaServlet.converteFotoAluno}"/>
-												</h:inputFile>
-											</label>
+											<h:inputFile value="#{pessoaServlet.fotoAluno}">
+												<f:ajax event="change" listener="#{pessoaServlet.converteFotoAluno}" resetValues="true"/>
+											</h:inputFile>
 										</div>
 									</div>
 									<div class="col-xs-4">
 										<h:outputLabel value="Certidão de Nascimento"/>
 										<div>
-											<label class="ace-file-input ace-file-multiple">
-												<h:inputFile value="#{pessoaServlet.copiaCertidao}" class="foto">
-													<f:ajax event="change" listener="#{pessoaServlet.convertecopiaCertidao}"/>
-												</h:inputFile>
-											</label>
+											<h:inputFile value="#{pessoaServlet.copiaCertidao}">
+												<f:ajax event="change" listener="#{pessoaServlet.convertecopiaCertidao}" resetValues="true"/>
+											</h:inputFile>
 										</div>
 									</div>
 									<div class="col-xs-4">
 										<h:outputLabel value="Comprovante Residência"/>
 										<div>
-											<label class="ace-file-input ace-file-multiple">
-												<h:inputFile value="#{pessoaServlet.copiaEndereco}" class="foto">
-													<f:ajax event="change" listener="#{pessoaServlet.convertecopiaEndereco}"/>
-												</h:inputFile>
-											</label>
+											<h:inputFile value="#{pessoaServlet.copiaEndereco}">
+												<f:ajax event="change" listener="#{pessoaServlet.convertecopiaEndereco}" resetValues="true"/>
+											</h:inputFile>
 										</div>
 									</div>
 								</div>
@@ -800,7 +800,7 @@
 											value="#{pessoaServlet.funcionarioDados.aposentado}">
 											<f:selectItem itemLabel="Sim" itemValue="true"/>
 											<f:selectItem itemLabel="Não" itemValue="false" selected="true"/>
-											<p:ajax event="change" update="panelAposentado"
+											<f:ajax event="change" render="panelAposentado" resetValues="true"
 												listener="#{pessoaServlet.validaAposentadoria}"/>
 										</h:selectOneRadio>
 									</div>
@@ -833,7 +833,7 @@
 										value="#{pessoaServlet.funcionarioDados.concursado}">
 										<f:selectItem itemLabel="Sim" itemValue="true"/>
 										<f:selectItem itemLabel="Não" itemValue="false"/>
-										<p:ajax event="change" update="panelConcursado"
+										<f:ajax event="change" render="panelConcursado"
 											listener="#{pessoaServlet.validaConcursado}" resetValues="true"/>
 									</h:selectOneRadio>
 								</div>
