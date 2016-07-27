@@ -61,6 +61,8 @@ public class PessoaServlet implements Serializable{
 	public static final int CADASTRO_PESSOA = 0;
 	public static final int CADASTRO_ALUNO = 1;
 	public static final int CADASTRO_FUNCIONARIO = 2;
+	public static Boolean cadastrar = true;
+	public static Boolean atualizar = false;
 	
 	/* Atributos */
 	private Pessoa pessoaDados;
@@ -96,7 +98,8 @@ public class PessoaServlet implements Serializable{
 	private ImagemBase64 imagem64;
 	private Estado estadoNascimentoDados;
 	private Cidade cidadeNascimentoDados;
-		
+	private Pessoa pessoaSelecionada;
+			
 	/* Componente de dados complementares do aluno */
 	private Boolean complementoAluno;
 	
@@ -291,6 +294,9 @@ public class PessoaServlet implements Serializable{
 		}
 		if(this.cidadeNascimentoDados == null) {
 			this.cidadeNascimentoDados = new Cidade();
+		}
+		if(this.pessoaSelecionada == null) {
+			this.pessoaSelecionada = new Pessoa();
 		}
 		
 		 /* testando cmite parcial */
@@ -621,9 +627,11 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public void verificaCadastro() {
 		try {
-			if ( pessoaDAO.obtemUnicoPessoaSimples(pessoaDados.getCpf().toString()).getCpf() != null ){
-				pessoaDados.setCpf(null);
-				Logs.addWarning("CPF já cadastrado.",null);
+			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0) {
+				if ( pessoaDAO.obtemUnicoPessoaSimples(pessoaDados.getCpf().toString()).getCpf() != null ){
+					pessoaDados.setCpf(null);
+					Logs.addWarning("CPF já cadastrado.",null);
+				}
 			}
 		} catch (SQLException e) {
 			Logs.addError(e.toString(),null);
@@ -670,10 +678,38 @@ public class PessoaServlet implements Serializable{
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
-		listaConsultaPessoa = pessoaDAO.consultaCadastroPessoa();
+		listaConsultaPessoa = pessoaDAO.obtemTodos();
 	}
 	
-	
+	public void editarCadastro() {
+		cadastrar = false;
+		atualizar = true;
+		
+		pessoaDados = new Pessoa();
+		enderecoDados = new Endereco();
+		contatoDados = new Contato();
+		pessoaSelecionada = (Pessoa) dataTable.getRowData();
+		
+		if(pessoaSelecionada != null && pessoaSelecionada.getPkPessoa() != null) {
+			pessoaDados = pessoaSelecionada;
+			
+			pessoaDados = pessoaDAO.consultaCadastroPessoa(pessoaDados.getPkPessoa());
+			enderecoDados = enderecoDAO.consultaEnderecoPessoa(pessoaDados.getEndereco().getPkEndereco());
+			contatoDados = contatoDAO.buscarContato(pessoaDados.getContato().getPkContato());
+			
+			nacionalidadeDados = pessoaDados.getNacionalidade();
+			racaDados = pessoaDados.getRaca();
+			estaCivilDados = pessoaDados.getEstadoCivil();
+			grauInstruDados = pessoaDados.getGrauInstrucao();
+			situEconomicaDados = pessoaDados.getSituacaoEconomica();
+			religiaoDados = pessoaDados.getReligiao();
+			
+			paisDados.setPkPais(enderecoDados.getCidade().getEstado().getPais().getPkPais());
+			estadoDados.setPkEstado(enderecoDados.getCidade().getEstado().getPkEstado());
+			cidadeDados.setPkCidade(enderecoDados.getCidade().getPkCidade());
+			
+		}
+	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	
@@ -888,7 +924,13 @@ public class PessoaServlet implements Serializable{
 	public void validaCadastro(){
 		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
 			if( validaDadosPessoa() == true ) {	
-				salvarCadastroPessoa();
+				
+				if(cadastrar) {					
+					salvarCadastroPessoa();
+				}
+				if(atualizar){
+					
+				}
 				limparFormulario();
 			}
 		}
@@ -957,8 +999,7 @@ public class PessoaServlet implements Serializable{
         int count = dataTable.getRowCount();
         return (count / rows) + ((count % rows != 0) ? 1 : 0);
     }
-	
-	
+		
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	public Pessoa getPessoaDados() {

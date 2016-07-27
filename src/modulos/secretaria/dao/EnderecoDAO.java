@@ -14,6 +14,7 @@ import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.Pais;
+import modulos.secretaria.om.Regiao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -224,52 +225,55 @@ public class EnderecoDAO extends SisEducarDAO
 	 * @return Endereco
 	 * @throws SQLException
 	 */
-	public Endereco buscarEndereco(Integer pkEndereco) throws SQLException
+	public Endereco buscarEndereco(Integer pkEndereco)
 	{
-		Cidade cidadeEndereco = null;
-		Estado estadoEndereco = null;
-		Pais paisEndereco = null;
-		Contato contato = null;
-		Cidade cidadeEnderecoMunicipioCliente = null;
-		Endereco endereco = null;
-		String querySQL = "SELECT * FROM Endereco "
-				+ " WHERE status = ?"
-				+ " AND pkEndereco = ?";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setInt(2, pkEndereco);
-		
-		ResultSet rs = ps.executeQuery();
-		if(rs.next())
-		{
-			cidadeEndereco = new Cidade();
-			estadoEndereco = new Estado();
-			paisEndereco = new Pais();
-			contato = new Contato();
-			cidadeEnderecoMunicipioCliente = new Cidade();
-			endereco = new Endereco();
-			endereco.setPkEndereco(rs.getInt("pkEndereco"));
-			endereco.setCep(rs.getInt("cep"));
-			endereco.setLogradouro(rs.getString("logradouro"));
-			endereco.setBairro(rs.getString("bairro"));
-			endereco.setNumero(rs.getString("numero"));
-			endereco.setComplemento(rs.getString("complemento"));
-			endereco.setTipo(rs.getString("tipo"));
+		try{
+			Cidade cidadeEndereco = null;
+			Estado estadoEndereco = null;
+			Pais paisEndereco = null;
+			Contato contato = null;
+			Cidade cidadeEnderecoMunicipioCliente = null;
+			Endereco endereco = null;
+			String querySQL = "SELECT * FROM Endereco "
+					+ " WHERE status = ?"
+					+ " AND pkEndereco = ?";
+			ps = con.prepareStatement(querySQL);
 			
-			//A cidade está completa, com todas as suas informações incluindo estado e pais
-			cidadeEndereco = new CidadeDAO().obtemCidade(null, null, rs.getInt("fkCidade"));
-			endereco.setCidade(cidadeEndereco);
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkEndereco);
 			
-			cidadeEnderecoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
-			endereco.setFkMunicipioCliente(cidadeEnderecoMunicipioCliente);
-			
-			contato.setPkContato(rs.getInt("fkContato"));
-			endereco.setContato(contato);
-			
-			return endereco;
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				cidadeEndereco = new Cidade();
+				estadoEndereco = new Estado();
+				paisEndereco = new Pais();
+				contato = new Contato();
+				cidadeEnderecoMunicipioCliente = new Cidade();
+				endereco = new Endereco();
+				endereco.setPkEndereco(rs.getInt("pkEndereco"));
+				endereco.setCep(rs.getInt("cep"));
+				endereco.setLogradouro(rs.getString("logradouro"));
+				endereco.setBairro(rs.getString("bairro"));
+				endereco.setNumero(rs.getString("numero"));
+				endereco.setComplemento(rs.getString("complemento"));
+				endereco.setTipo(rs.getString("tipo"));
+				
+				//A cidade está completa, com todas as suas informações incluindo estado e pais
+				cidadeEndereco = new CidadeDAO().obtemCidade(null, null, rs.getInt("fkCidade"));
+				endereco.setCidade(cidadeEndereco);
+				
+				cidadeEnderecoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
+				endereco.setFkMunicipioCliente(cidadeEnderecoMunicipioCliente);
+				
+				contato.setPkContato(rs.getInt("fkContato"));
+				endereco.setContato(contato);
+				
+				return endereco;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
 		}
-		
 		return null;
 	}
 	
@@ -380,6 +384,78 @@ public class EnderecoDAO extends SisEducarDAO
 		catch (SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
+		}
+	}
+	
+	public Endereco consultaEnderecoPessoa(Integer pkEndereco) {
+		try {			
+			Endereco enderecoDados = new Endereco();
+			Cidade cidadeDados = new Cidade();
+			Estado estadoDados = new Estado();
+			Pais paisDados = new Pais();
+			Regiao regiaoDados = new Regiao();
+			
+			String querySQL = " SELECT "
+					+ " ED.PKENDERECO, "
+					+ " ED.CEP, "
+					+ " ED.LOGRADOURO, "
+					+ " ED.BAIRRO, "
+					+ " ED.NUMERO, "
+					+ " ED.COMPLEMENTO, "
+					+ " ED.ENDERECOCOMPLETO, "
+					+ " ED.LATITUDE, "
+					+ " ED.LONGITUDE, "
+					+ " RG.PKREGIAO, "
+					+ " CD.PKCIDADE, "
+					+ " ET.PKESTADO, "
+					+ " PS.PKPAIS "
+				+ " FROM ENDERECO ED "
+				+ " INNER JOIN CIDADE CD "
+		    	+ " ON ED.FKCIDADE = CD.PKCIDADE "
+		    	+ " INNER JOIN ESTADO ET "
+		    	+ " ON CD.FKESTADO = ET.PKESTADO "
+		    	+ " INNER JOIN PAIS PS "
+		    	+ " ON ET.FKPAIS = PS.PKPAIS "
+		    	+ " INNER JOIN REGIAO RG "
+		    	+ " ON ED.FKREGIAO = RG.PKREGIAO "
+		    	+ " WHERE ED.STATUS = ? "
+		    	+ " AND ED.PKENDERECO = ?";  
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkEndereco);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				enderecoDados.setPkEndereco(rs.getInt("PKENDERECO"));
+				enderecoDados.setCep(rs.getInt("CEP"));
+				enderecoDados.setLogradouro(rs.getString("LOGRADOURO"));
+				enderecoDados.setBairro(rs.getString("BAIRRO"));
+				enderecoDados.setNumero(rs.getString("NUMERO"));
+				enderecoDados.setComplemento(rs.getString("COMPLEMENTO"));
+				enderecoDados.setEnderecoCompleto(rs.getString("ENDERECOCOMPLETO"));
+				enderecoDados.setLatitude(rs.getString("LATITUDE"));
+				enderecoDados.setLongitude(rs.getString("LONGITUDE"));
+				
+				regiaoDados.setPkRegiao(rs.getInt("PKREGIAO"));
+				
+				paisDados.setPkPais(rs.getInt("PKPAIS"));				
+				estadoDados.setPkEstado(rs.getInt("PKESTADO"));
+				estadoDados.setPais(paisDados);
+				
+				cidadeDados.setPkCidade(rs.getInt("PKCIDADE"));
+				cidadeDados.setEstado(estadoDados);
+				
+				enderecoDados.setCidade(cidadeDados);
+				enderecoDados.setRegiao(regiaoDados);
+			}
+			
+			return enderecoDados;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

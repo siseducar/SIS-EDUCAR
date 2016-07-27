@@ -13,6 +13,7 @@ public class ConverteRG implements Converter{
 		int digitos = value.replace(".", "").replace("-", "").replace(" ", "").length();
 		if(digitos == 9) {
 			rg = value.replace(".", "").replace("-", "").replace(" ", "");
+			rg.toUpperCase();
 		}
 		
 		return rg;
@@ -27,6 +28,6 @@ public class ConverteRG implements Converter{
 			rg = null;
 		}
 		
-		return rg;
+		return rg.toUpperCase();
 	}
 }

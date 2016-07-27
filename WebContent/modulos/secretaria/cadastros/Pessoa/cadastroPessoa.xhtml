@@ -488,21 +488,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="space-6"/>
-						<div class="row">
-							<div class="col-xs-12 col-sm-12">
-								<h4 class="header smaller lighter blue" align="center"> Localização no Mapa </h4>
-		                    	<div class="space-4"/>
-								<div class="row">
-									<fieldset>   	
-					                    <div id="mapa"/>
-					                </fieldset>
-								</div>
-							</div>
-							<!-- Maps API Javascript -->
-							<script src="http://maps.googleapis.com/maps/api/js"/>
-							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
-						</div>
+						
 					</h:panelGroup>
 					<h:panelGroup id="dadosComplementares" style="width: 100%">
 						<h:panelGroup style="width: 100%" class="clearfix form-actions"
@@ -636,7 +622,7 @@
 									<div class="col-xs-4">
 										<h:outputLabel value="Foto do Aluno"/>
 										<div>
-											<h:inputFile value="#{pessoaServlet.fotoAluno}">
+											<h:inputFile value="#{pessoaServlet.fotoAluno}" styleClass="upload">
 												<f:ajax event="change" listener="#{pessoaServlet.converteFotoAluno}" resetValues="true"/>
 											</h:inputFile>
 										</div>
@@ -644,7 +630,7 @@
 									<div class="col-xs-4">
 										<h:outputLabel value="Certidão de Nascimento"/>
 										<div>
-											<h:inputFile value="#{pessoaServlet.copiaCertidao}">
+											<h:inputFile value="#{pessoaServlet.copiaCertidao}" styleClass="upload">
 												<f:ajax event="change" listener="#{pessoaServlet.convertecopiaCertidao}" resetValues="true"/>
 											</h:inputFile>
 										</div>
@@ -652,7 +638,7 @@
 									<div class="col-xs-4">
 										<h:outputLabel value="Comprovante Residência"/>
 										<div>
-											<h:inputFile value="#{pessoaServlet.copiaEndereco}">
+											<h:inputFile value="#{pessoaServlet.copiaEndereco}" styleClass="upload">
 												<f:ajax event="change" listener="#{pessoaServlet.convertecopiaEndereco}" resetValues="true"/>
 											</h:inputFile>
 										</div>
@@ -958,28 +944,12 @@
 					    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
 						    				<h:dataTable id="tabelaPessoa" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
 								    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10"
-								    			binding="#{usuarioServlet.dataTable}" value="#{pessoaServlet.listaConsultaPessoa}" var="pessoa">
+								    			binding="#{pessoaServlet.dataTable}" value="#{pessoaServlet.listaConsultaPessoa}" var="pessoa">
 								    			<h:column>
 								    				<center>
 									    				<f:facet name="header"> NOME </f:facet>
 								    				</center>
 								    				<h:outputLabel value="#{pessoa.nome}"/>
-								    			</h:column>
-								    			<h:column>
-								    				<center>
-									    				<f:facet name="header">  CPF </f:facet>
-								    				</center>
-								    				<h:outputLabel value="#{pessoa.cpf}">
-								    					<f:converter converterId="converter.CPF"/>
-								    				</h:outputLabel>
-								    			</h:column>
-								    			<h:column>
-								    				<center>
-									    				<f:facet name="header"> RG </f:facet>
-								    				</center>
-								    				<h:outputLabel value="#{pessoa.rg}">
-								    					<f:converter converterId="converter.RG"/>
-							    					</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
 								    				<center>
@@ -996,9 +966,12 @@
 								    						<span class="green">
 																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span>
+															<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa"
+																onevent="function(data) { esconderModal(data) }" resetValues="true"/>
 														</h:commandLink>
-								    				</center>
+								    				</center>	
 				 								</h:column>
+				 								
 								    			<f:facet name="footer">
 										            <h:panelGroup styleClass="pagination pull-right no-margin">
 										                <h:commandButton value="Primeira"
@@ -1028,7 +1001,7 @@
 						    	<div class="modal-footer">
 						    		<button id="btFechar" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
 										<i class="ace-icon fa fa-times red2"/>
-										Cancelar
+										Fechar
 									</button>
 									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
 										<span class="bigger-110"> Consultar </span>

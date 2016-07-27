@@ -212,9 +212,9 @@ public class PessoaDAO extends SisEducarDAO
 	public Pessoa obtemPessoaSimples(Integer pkPessoa) throws SQLException
 	{
 		Pessoa pessoa = null;
-		String querySQL = "SELECT * FROM pessoa"
-				+ " WHERE status = ?"
-				+ " AND pkPessoa = ?";
+		String querySQL = "SELECT * FROM PESSOA"
+				+ " WHERE STATUS = ?"
+				+ " AND PKPESSOA = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		
@@ -267,26 +267,32 @@ public class PessoaDAO extends SisEducarDAO
 	 * @return List Pessoa
 	 * @throws SQLException
 	 */
-	public List<Pessoa> obtemTodos() throws SQLException
+	public List<Pessoa> obtemTodos()
 	{
-		Pessoa pessoa = null;
-		List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
-		String querySQL = "SELECT * FROM pessoa"
-				+ " WHERE status = ?";
-		
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		
-		ResultSet rs = ps.executeQuery();
-		while(rs.next())
-		{
-			pessoa = new Pessoa();
-			pessoa.setPkPessoa(rs.getInt("pkPessoa"));
-			pessoa.setNome(rs.getString("nome"));
-			listaPessoas.add(pessoa);
+		try {
+			Pessoa pessoa = null;
+			List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+			String querySQL = "SELECT * FROM pessoa"
+					+ " WHERE status = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				pessoa = new Pessoa();
+				pessoa.setPkPessoa(rs.getInt("PKPESSOA"));
+				pessoa.setNome(rs.getString("NOME"));
+				pessoa.setDataNascimento(rs.getDate("DATANASCIMENTO"));
+				listaPessoas.add(pessoa);
+			}
+			return listaPessoas;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return listaPessoas;
+		return null;
 	}
 	
 	public Pessoa inserirPessoa(Pessoa pessoa) throws SQLException 
@@ -350,21 +356,21 @@ public class PessoaDAO extends SisEducarDAO
 		return pessoa;
 	}
 	
-	public List<Pessoa> consultaCadastroPessoa() {
+	public Pessoa consultaCadastroPessoa(Integer pkPessoa) {
 		
-		try {
-			List<Pessoa> listaPessoa = new ArrayList<Pessoa>(); 
+		try { 
 			
 			String querySQL = "SELECT * FROM PESSOA "
-					+ " WHERE STATUS = ? ";
+					+ " WHERE STATUS = ? AND PKPESSOA = ? ";
 			
 			ps = con.prepareStatement(querySQL);
 		
 			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkPessoa);
 			
 			rs = ps.executeQuery();
 			
-			while(rs.next()) {
+			if(rs.next()) {
 				Pessoa pessoaDados = new Pessoa();
 				Contato contatoDados = new Contato();
 				Cidade municipioClienteDados = new Cidade();
@@ -412,16 +418,13 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setFkMunicipioCliente(municipioClienteDados);
 				pessoaDados.setGrauParentesco(grauParentescoDados);
 				pessoaDados.setContato(contatoDados);
-				
-				listaPessoa.add(pessoaDados);
+
+				return pessoaDados;
 			}
-			return listaPessoa;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		 return null;
 	}
 }

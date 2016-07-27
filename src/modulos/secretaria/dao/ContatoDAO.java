@@ -30,28 +30,31 @@ public class ContatoDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException
 	 */
-	public Contato buscarContato(Integer pkContato) throws SQLException
+	public Contato buscarContato(Integer pkContato)
 	{
-		Contato contato = null;
-		String querySQL = "SELECT * FROM Contato "
-				+ " WHERE status = ?"
-				+ " AND pkContato = ?";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-		ps.setInt(2, pkContato);
-		
-		ResultSet rs = ps.executeQuery();
-		if(rs.next())
-		{
-			contato = new Contato();
-			contato.setPkContato(rs.getInt("pkContato"));
-			contato.setTelCelular(rs.getString("telCelular"));
-			contato.setTelComercial(rs.getString("telComercial"));
-			contato.setTelResidencial(rs.getString("telResidencial"));
-			contato.setEmail(rs.getString("email"));
-			contato.setStatus(rs.getInt("status"));
-			return contato;
+		try {
+			Contato contato = null;
+			String querySQL = "SELECT * FROM CONTATO "
+					+ " WHERE STATUS = ?"
+					+ " AND PKCONTATO = ?";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkContato);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				contato = new Contato();
+				contato.setPkContato(rs.getInt("PKCONTATO"));
+				contato.setTelCelular(rs.getString("TELCELULAR"));
+				contato.setTelComercial(rs.getString("TELCOMERCIAL"));
+				contato.setTelResidencial(rs.getString("TELRESIDENCIAL"));
+				contato.setEmail(rs.getString("EMAIL"));
+				contato.setStatus(rs.getInt("STATUS"));
+				return contato;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return null;

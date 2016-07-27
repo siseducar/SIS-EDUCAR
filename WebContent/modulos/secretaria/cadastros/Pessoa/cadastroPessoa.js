@@ -111,3 +111,24 @@ $(function() {
         prevText: 'Anterior',
     });
   });
+
+$(function() {
+	$(".upload").ace_file_input({
+		style: 'well',
+		no_file: "Escolha uma",
+		droppable: true, //html5 browsers only
+		thumbnail: 'small', //html5 browsers only
+		maxSize: 1000000, //~100 KB
+		allowExt:  ['jpg', 'jpeg', 'png', 'bmp'],
+		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/tif', 'image/tiff', 'image/bmp'] //html5 browsers only
+	});
+	$(".upload").ace_file_input({
+		'allowExt': ['jpg', 'jpeg', 'png']
+	});
+});
+
+function esconderModal(data) {
+	if(data.status=="success") {
+		$('#modalConsultaPessoa').modal('hide');
+	}
+}
