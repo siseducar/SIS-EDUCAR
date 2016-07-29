@@ -24,8 +24,6 @@ public class ConverteRG implements Converter{
 		String rg = value.toString();
 		if( rg != null && rg.length() == 9) {
 			rg = rg.substring(0,2) + "." + rg.substring(2,5) + "." + rg.substring(5, 8) + "-" + rg.substring(8,9);
-		} else {
-			rg = null;
 		}
 		
 		return rg.toUpperCase();

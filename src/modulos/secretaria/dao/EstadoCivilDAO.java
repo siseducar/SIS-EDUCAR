@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.EstadoCivil;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class EstadoCivilDAO {
+public class EstadoCivilDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -41,6 +42,8 @@ public class EstadoCivilDAO {
 			
 			listaEstaCivil.add(paramEstCivil);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
 		
 		return listaEstaCivil;
 	}

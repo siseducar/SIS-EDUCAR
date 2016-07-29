@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.Raca;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class RacaDAO {
+public class RacaDAO  extends SisEducarDAO{
 
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -40,25 +41,9 @@ public class RacaDAO {
 			
 			listaRaca.add(paramRaca);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
+		
 		return listaRaca;
-	}
-	
-	public Raca consultaRacaEspecifica(String valor) throws SQLException{
-		Raca paramRaca = new Raca();
-		String querySQL = "SELECT * FROM RACA WHERE PKRACA = ? ORDER BY ORDEMEXIBICAO";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setString(1, valor);
-
-		ResultSet rs = ps.executeQuery(querySQL);
-		
-		while (rs.next()){
-			paramRaca.setPkRaca(rs.getInt("PKRACA"));
-			paramRaca.setCodigo(rs.getString("CODIGO"));
-			paramRaca.setDescricao(rs.getString("DESCRICAO"));
-			paramRaca.setOrdemExibicao(rs.getInt("ORDEMEXIBICAO"));
-			
-		}		
-		return paramRaca;
 	}
 }

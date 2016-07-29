@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Cidade;
-import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.EstadoCivil;
 import modulos.secretaria.om.GrauInstrucao;
@@ -64,7 +63,7 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			querySQL += " DATANASCIMENTO, SEXO,  TIPOPESSOA, STATUS, FKRACA, ";
 			querySQL += " FKSITUACAOECONOMICA, FKRELIGIAO, FKNACIONALIDADE, FKESTADOCIVIL, FKGRAUINSTRUCAO, ";
-			querySQL += " FKENDERECO, FKCONTATO, FKMUNICIPIOCLIENTE, DATACADASTRO ) values ( ";
+			querySQL += " FKENDERECO, FKMUNICIPIOCLIENTE, DATACADASTRO ) values ( ";
 			
 			querySQL += " ?, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {
@@ -84,7 +83,7 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 				querySQL += " ?, ?, ?, ";
 			}
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -180,10 +179,6 @@ public class PessoaDAO extends SisEducarDAO
 
 			// ENDERECO da pessoa
 			ps.setInt(numeroArgumentos, pessoaDados.getEndereco().getPkEndereco());
-			numeroArgumentos++;
-			
-			// CONTATO da pessoa
-			ps.setInt(numeroArgumentos, pessoaDados.getContato().getPkContato());
 			numeroArgumentos++;
 			
 			// CODIGO DO MUNICIPIO do cliente
@@ -372,7 +367,6 @@ public class PessoaDAO extends SisEducarDAO
 			
 			if(rs.next()) {
 				Pessoa pessoaDados = new Pessoa();
-				Contato contatoDados = new Contato();
 				Cidade municipioClienteDados = new Cidade();
 				Endereco enderecoDados = new Endereco();
 				Nacionalidade nacionalidadeDados = new Nacionalidade();
@@ -393,7 +387,6 @@ public class PessoaDAO extends SisEducarDAO
 				enderecoDados.setPkEndereco(rs.getInt("FKENDERECO"));
 				municipioClienteDados.setPkCidade(rs.getInt("FKMUNICIPIOCLIENTE"));
 				grauParentescoDados.setPkGrauParentesco(rs.getInt("FKGRAUPARENTESCO"));
-				contatoDados.setPkContato(rs.getInt("FKCONTATO"));
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 				pessoaDados.setNome(rs.getString("NOME"));
 				pessoaDados.setCpf(rs.getLong("CPF"));
@@ -417,7 +410,6 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setEndereco(enderecoDados);
 				pessoaDados.setFkMunicipioCliente(municipioClienteDados);
 				pessoaDados.setGrauParentesco(grauParentescoDados);
-				pessoaDados.setContato(contatoDados);
 
 				return pessoaDados;
 			}

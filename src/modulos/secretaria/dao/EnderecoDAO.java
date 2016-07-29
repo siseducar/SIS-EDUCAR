@@ -294,7 +294,7 @@ public class EnderecoDAO extends SisEducarDAO
 				querySQL += " COMPLEMENTO, ";
 			}
 			querySQL += " TIPO, STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE,  ";
-			querySQL += " ENDERECOCOMPLETO, FKREGIAO ) values ( ";
+			querySQL += " ENDERECOCOMPLETO, FKREGIAO, FKCONTATO ) values ( ";
 			
 			querySQL += " ?, ?, ?, ?, ";
 			
@@ -302,7 +302,7 @@ public class EnderecoDAO extends SisEducarDAO
 				querySQL += " ?,";
 			}
 			
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?) RETURNING PKENDERECO";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING PKENDERECO";
 			
 			ps = con.prepareStatement(querySQL.toString());
 			
@@ -345,6 +345,9 @@ public class EnderecoDAO extends SisEducarDAO
 			numeroArgumentos++;
 			
 			ps.setInt(numeroArgumentos, dadosEndereco.getRegiao().getPkRegiao());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getContato().getPkContato());
 			
 			rs = ps.executeQuery();
 			
@@ -394,6 +397,7 @@ public class EnderecoDAO extends SisEducarDAO
 			Estado estadoDados = new Estado();
 			Pais paisDados = new Pais();
 			Regiao regiaoDados = new Regiao();
+			Contato contatoDados = new Contato();
 			
 			String querySQL = " SELECT "
 					+ " ED.PKENDERECO, "
@@ -405,11 +409,14 @@ public class EnderecoDAO extends SisEducarDAO
 					+ " ED.ENDERECOCOMPLETO, "
 					+ " ED.LATITUDE, "
 					+ " ED.LONGITUDE, "
+					+ " CT.PKCONTATO, "
 					+ " RG.PKREGIAO, "
 					+ " CD.PKCIDADE, "
 					+ " ET.PKESTADO, "
 					+ " PS.PKPAIS "
 				+ " FROM ENDERECO ED "
+				+ " INNER JOIN CONTATO CT "
+				+ " ON ED.FKCONTATO = CT.PKCONTATO"
 				+ " INNER JOIN CIDADE CD "
 		    	+ " ON ED.FKCIDADE = CD.PKCIDADE "
 		    	+ " INNER JOIN ESTADO ET "
@@ -439,9 +446,11 @@ public class EnderecoDAO extends SisEducarDAO
 				enderecoDados.setLatitude(rs.getString("LATITUDE"));
 				enderecoDados.setLongitude(rs.getString("LONGITUDE"));
 				
+				contatoDados.setPkContato(rs.getInt("PKCONTATO"));
 				regiaoDados.setPkRegiao(rs.getInt("PKREGIAO"));
 				
-				paisDados.setPkPais(rs.getInt("PKPAIS"));				
+				paisDados.setPkPais(rs.getInt("PKPAIS"));		
+				
 				estadoDados.setPkEstado(rs.getInt("PKESTADO"));
 				estadoDados.setPais(paisDados);
 				
@@ -450,6 +459,7 @@ public class EnderecoDAO extends SisEducarDAO
 				
 				enderecoDados.setCidade(cidadeDados);
 				enderecoDados.setRegiao(regiaoDados);
+				enderecoDados.setContato(contatoDados);
 			}
 			
 			return enderecoDados;

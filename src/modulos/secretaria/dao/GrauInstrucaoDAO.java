@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.GrauInstrucao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class GrauInstrucaoDAO {
+public class GrauInstrucaoDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -41,6 +42,8 @@ public class GrauInstrucaoDAO {
 			
 			listaGrauInstru.add(paramGrauInstru);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
 		
 		return listaGrauInstru;
 	}

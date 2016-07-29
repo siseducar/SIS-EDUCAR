@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class TipoOcupacaoDAO {
+public class TipoOcupacaoDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -41,6 +42,8 @@ public class TipoOcupacaoDAO {
 			
 			listaTipoOcupacao.add(paramTipoOcupacao);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
 		
 		return listaTipoOcupacao;
 	}

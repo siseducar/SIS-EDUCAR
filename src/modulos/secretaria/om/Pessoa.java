@@ -39,7 +39,6 @@ public class Pessoa implements Serializable {
 	private Endereco endereco;
 	private Cidade fkMunicipioCliente;
 	private Cidade fkCidadeNascimento;
-	private Contato contato;
 	private Anexo fkFotoPerfil;
 	
 	/* GETTERS AND SETTERS */
@@ -223,12 +222,6 @@ public class Pessoa implements Serializable {
 	}
 	public void setGrauParentesco(GrauParentesco grauParentesco) {
 		this.grauParentesco = grauParentesco;
-	}
-	public Contato getContato() {
-		return contato;
-	}
-	public void setContato(Contato contato) {
-		this.contato = contato;
 	}
 	public Cidade getFkCidadeNascimento() {
 		return fkCidadeNascimento;

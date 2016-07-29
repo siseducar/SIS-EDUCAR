@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class SituacaoFuncionamentoDAO {
+public class SituacaoFuncionamentoDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -41,6 +42,8 @@ public class SituacaoFuncionamentoDAO {
 			
 			listaSituFuncionamento.add(paramSituFuncionamento);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
 		
 		return listaSituFuncionamento;
 	}
@@ -72,6 +75,8 @@ public class SituacaoFuncionamentoDAO {
 			situacaoFuncionamento.setDescricao(rs.getString("descricao"));
 			situacaoFuncionamento.setStatus(rs.getInt("status"));
 			situacaoFuncionamento.setOrdemExibicao(rs.getInt("ordemExibicao"));
+			
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return situacaoFuncionamento;
 		}

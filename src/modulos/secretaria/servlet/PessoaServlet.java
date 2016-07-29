@@ -61,8 +61,6 @@ public class PessoaServlet implements Serializable{
 	public static final int CADASTRO_PESSOA = 0;
 	public static final int CADASTRO_ALUNO = 1;
 	public static final int CADASTRO_FUNCIONARIO = 2;
-	public static Boolean cadastrar = true;
-	public static Boolean atualizar = false;
 	
 	/* Atributos */
 	private Pessoa pessoaDados;
@@ -355,8 +353,10 @@ public class PessoaServlet implements Serializable{
 			enderecoDados.setCidade(cidadeDados);
 			enderecoDados.setTipo("Residencial");
 			enderecoDados.setRegiao(regiaoDados);
+			enderecoDados.setContato(contatoDados);
 			enderecoDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 			enderecoDados = enderecoDAO.salvarEnderecoPessoa(enderecoDados);
+			
 			if(enderecoDados.getPkEndereco() == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Erro",null));
@@ -376,7 +376,6 @@ public class PessoaServlet implements Serializable{
 			pessoaDados.setReligiao(religiaoDados);
 			pessoaDados.setGrauParentesco(grauParentescoDados);
 			pessoaDados.setEndereco(enderecoDados);
-			pessoaDados.setContato(contatoDados);
 			pessoaDados.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 			
 			pessoaDados = pessoaDAO.salvarCadastroPessoa(pessoaDados);
@@ -628,7 +627,7 @@ public class PessoaServlet implements Serializable{
 	public void verificaCadastro() {
 		try {
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0) {
-				if ( pessoaDAO.obtemUnicoPessoaSimples(pessoaDados.getCpf().toString()).getCpf() != null ){
+				if ( pessoaDAO.obtemUnicoPessoaSimples( pessoaDados.getCpf().toString()) != null ){
 					pessoaDados.setCpf(null);
 					Logs.addWarning("CPF já cadastrado.",null);
 				}
@@ -672,7 +671,12 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void limparFormulario(){
-		
+		try {
+			new PessoaServlet();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void consultaCadastro() {
@@ -682,8 +686,6 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	public void editarCadastro() {
-		cadastrar = false;
-		atualizar = true;
 		
 		pessoaDados = new Pessoa();
 		enderecoDados = new Endereco();
@@ -695,7 +697,7 @@ public class PessoaServlet implements Serializable{
 			
 			pessoaDados = pessoaDAO.consultaCadastroPessoa(pessoaDados.getPkPessoa());
 			enderecoDados = enderecoDAO.consultaEnderecoPessoa(pessoaDados.getEndereco().getPkEndereco());
-			contatoDados = contatoDAO.buscarContato(pessoaDados.getContato().getPkContato());
+			contatoDados = contatoDAO.buscarContato(enderecoDados.getContato().getPkContato());
 			
 			nacionalidadeDados = pessoaDados.getNacionalidade();
 			racaDados = pessoaDados.getRaca();
@@ -704,10 +706,41 @@ public class PessoaServlet implements Serializable{
 			situEconomicaDados = pessoaDados.getSituacaoEconomica();
 			religiaoDados = pessoaDados.getReligiao();
 			
-			paisDados.setPkPais(enderecoDados.getCidade().getEstado().getPais().getPkPais());
-			estadoDados.setPkEstado(enderecoDados.getCidade().getEstado().getPkEstado());
-			cidadeDados.setPkCidade(enderecoDados.getCidade().getPkCidade());
-			
+			if(enderecoDados.getCidade() != null) {
+				if(enderecoDados.getCidade().getEstado().getPais().getPkPais() != null) {
+					for(SelectItem selectItem : comboPais) {
+						if(selectItem.getValue().equals(enderecoDados.getCidade().getEstado().getPais().getPkPais())) {
+							paisDados = new Pais();
+							paisDados.setPkPais(enderecoDados.getCidade().getEstado().getPais().getPkPais());
+							break;
+						}
+					}
+				}
+				if(paisDados != null && paisDados.getPkPais() != null) {
+					if( comboEstado == null || comboEstado.isEmpty()) {
+						comboEstado = paramDados.consultaEstado(paisDados);
+					}
+					for(SelectItem selectItem : comboEstado) {
+						if(selectItem.getValue().equals(enderecoDados.getCidade().getEstado().getPkEstado())) {
+							estadoDados = new Estado();
+							estadoDados.setPkEstado(enderecoDados.getCidade().getEstado().getPkEstado());
+							break;
+						}
+					}
+				}
+				if(estadoDados != null && estadoDados.getPkEstado() != null){
+					if( comboCidade == null || comboCidade.isEmpty()) { 
+						comboCidade = paramDados.consultaCidade(estadoDados); 
+					}
+					for(SelectItem selectItem : comboCidade) {
+						if(selectItem.getValue().equals(enderecoDados.getCidade().getPkCidade())) {
+							cidadeDados = new Cidade();
+							cidadeDados.setPkCidade(enderecoDados.getCidade().getPkCidade());
+							break;
+						}
+					}
+				}
+			}			
 		}
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -924,14 +957,10 @@ public class PessoaServlet implements Serializable{
 	public void validaCadastro(){
 		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
 			if( validaDadosPessoa() == true ) {	
-				
-				if(cadastrar) {					
+				if(pessoaDados.getPkPessoa() == null ) {					
 					salvarCadastroPessoa();
+					limparFormulario();
 				}
-				if(atualizar){
-					
-				}
-				limparFormulario();
 			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {

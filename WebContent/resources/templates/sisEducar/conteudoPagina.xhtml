@@ -21,7 +21,14 @@
 			</div>
 			<div class="page-content">
 				<div class="page-content-area">
-					<p:growl id="grow"  showDetail="false" autoUpdate="true" life="500000"/>
+					<div class="loaderDiv hidden">
+						<p:ajaxStatus onstart="PF('statusDialog').show()" 
+							onsuccess="PF('statusDialog').hide()" />
+						<p:dialog widgetVar="statusDialog" modal="true" 
+							draggable="false" closable="false" resizable="false" showHeader="false">									
+						</p:dialog>
+					</div>
+					<p:growl id="grow"  showDetail="false" autoUpdate="true" life="5000"/>
 					<ui:insert name="scriptConteudo"/>
 				</div>
 			</div>

@@ -51,8 +51,7 @@
 							<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 							<f:selectItem itemLabel="Aluno" itemValue="1"/>
 							<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-							<f:ajax event="change" render="dadosComplementares" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
-							<f:ajax event="change" render="dadosResponsavel" resetValues="true"/>
+							<p:ajax event="change" update="dadosComplementares,dadosResponsavel" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
 						</h:selectOneRadio>
 						<div class="space-4"/>
 						<div class="row">
@@ -101,7 +100,7 @@
 										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off">
 										<f:converter converterId="converter.DATA"/>
 										<f:ajax event="change" listener="#{pessoaServlet.calculaIdade}" 
-											rener="dadosResponsavel" resetValues="true"/>
+											render="dadosResponsavel" resetValues="true"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -323,15 +322,19 @@
 						class="clearfix form-actions">
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 						<div id="conteudoEndereco">
 							<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
 							<div class="row">									
                         		<div class="col-xs-12 col-sm-6">
                         			<h:outputLabel value="Endereço"/>
                         			<div>
-	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-12"
+	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-9 col-sm-9"
                         			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
                         			</div>
+	                        		<a href="" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round " id="openBtn">
+										<span class="bigger-110"> Mostra no Mapa </span>
+									</a>
                         		</div>
 							</div>
 							<div class="row">
@@ -488,6 +491,7 @@
 								</div>
 							</div>
 						</div>
+						<div class="space-6"/>
 						
 					</h:panelGroup>
 					<h:panelGroup id="dadosComplementares" style="width: 100%">
@@ -891,7 +895,7 @@
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round">
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-							<f:ajax event="click" listener="#{pessoaServlet.validaCadastro}" 
+							<f:ajax event="click" listener="#{pessoaServlet.validaCadastro}"
 								render=":formCadastroPessoa" execute=":formCadastroPessoa" resetValues="true"/>
 						</h:commandLink>
 						
@@ -1032,13 +1036,43 @@
 					    </div>
 				    </div>
 				</div>
+				<div class="row">
+					<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+							role="dialog" aria-labelledby="myLargeModalLabel" id="modalMapa">
+						  <div class="modal-dialog modal-lg">
+						    <div class="modal-content">
+						    	<div class="modal-header">
+						    		<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">X</button>
+						    		<h3 class="smaller lighter blue">
+										<span class="col-sm-8">
+											Localização no Mapa
+										</span>
+									</h3>
+						    	</div>
+						    	<div class="modal-body">
+						    		<div class="row">
+										<div class="col-xs-12 col-sm-12">
+											<fieldset>   	
+							                    <div id="mapa"/>
+												<!-- Maps API Javascript -->
+												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>		
+												<script src="http://maps.googleapis.com/maps/api/js"/>
+							                </fieldset>
+										</div>
+									</div>
+						    	</div>
+						    </div>
+					    </div>
+				    </div>
+				</div>
 			</div>
 		</div>
 	</ui:define>
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/fuelux/fuelux.spinner.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/fuelux/fuelux.spinner.min.js"/>		
+		
 	</ui:define>
 </ui:composition>
 </h:html>

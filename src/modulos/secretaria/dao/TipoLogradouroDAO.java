@@ -10,8 +10,9 @@ import java.util.List;
 
 import modulos.secretaria.om.TipoLogradouro;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 
-public class TipoLogradouroDAO {
+public class TipoLogradouroDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
@@ -38,6 +39,8 @@ public class TipoLogradouroDAO {
 				
 				listaTipoLogradouro.add(paramTipoLogradouro);
 			}
+			
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return listaTipoLogradouro;
 		}

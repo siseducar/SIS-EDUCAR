@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.Turno;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class TurnoDAO {
+public class TurnoDAO extends SisEducarDAO {
 
 	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
@@ -40,6 +41,8 @@ public class TurnoDAO {
 				
 				listaTurno.add(paramTurno);
 			}
+			
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return listaTurno;
 		}

@@ -131,4 +131,20 @@ function esconderModal(data) {
 	if(data.status=="success") {
 		$('#modalConsultaPessoa').modal('hide');
 	}
-}
+};
+
+function modalSucesso(data) {
+	if(data.status=="success") {
+		$('#modalCadastroSucesso').modal('show');
+	}
+};
+
+$(function () {
+    $("#mapmodals").on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, 'resize');
+    });
+
+    $("#openBtn").click(function () {
+        $('#modalMapa').modal('show');
+    });
+});

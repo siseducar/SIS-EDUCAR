@@ -104,6 +104,8 @@ public class EstadoDAO extends SisEducarDAO
 			listaEstado.add(paramEstado);
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
+		
 		return listaEstado;
 	}
 	
@@ -126,6 +128,8 @@ public class EstadoDAO extends SisEducarDAO
 			
 			listaEstado.add(paramEstado);
 		}
+		
+		fecharConexaoBanco(con, ps, true, false);
 		
 		return listaEstado;
 	}

@@ -98,6 +98,8 @@ public class PaisDAO extends SisEducarDAO
 			listaPais.add(paramPais);
 		}
 		
+		fecharConexaoBanco(con, ps, true, false);
+		
 		return listaPais;
 	}
 }

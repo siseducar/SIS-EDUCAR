@@ -2,12 +2,10 @@
 var geocoder;
 var map;
 var marker;
+var latlng;
 
 /* Funcão para inicilizar o mapa */
 function initialize() {
-	/* Ponto inicial do mapa */
-	var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
-	
 	/* Verifica a atual posicao */
 	if(navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){ 
@@ -27,7 +25,7 @@ function initialize() {
 	
 	/* Opções relacionadas ao mapa */
 	var options = {
-		zoom: 13,
+		zoom: 20,
 		center: latlng,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 		
@@ -41,6 +39,25 @@ function initialize() {
 	
 	marker.setPosition(latlng);
 };
+
+$(function() {
+	/* Verifica a atual posicao */
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position){ 
+			var latitudeAtual = position.coords.latitude;
+			var longitudeAtual = position.coords.longitude;
+			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
+			carregarEndereco(latitudeAtual, longitudeAtual);
+			
+		}, 
+		function(error){ // callback de erro
+			alert('Erro ao obter localização!');
+			console.log('Erro ao obter localização.', error);
+		});
+	} else {
+		console.log('Navegador não suporta Geolocalização!');
+	}
+});
 
 $(document).ready(function () {
 	initialize();

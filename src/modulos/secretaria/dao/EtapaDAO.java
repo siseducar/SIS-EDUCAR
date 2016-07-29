@@ -10,9 +10,10 @@ import java.util.List;
 
 import modulos.secretaria.om.Etapa;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
-public class EtapaDAO {
+public class EtapaDAO extends SisEducarDAO {
 	// Realizando conexão com o banco
 		ConectaBanco conexao = new ConectaBanco();
 		Connection con = conexao.getConection();
@@ -40,6 +41,8 @@ public class EtapaDAO {
 				
 				listaEtapaEscolar.add(paramEtapa);
 			}
+			
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return listaEtapaEscolar;
 		}

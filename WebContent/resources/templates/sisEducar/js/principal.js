@@ -8,4 +8,4 @@ function validarEmail(email, validacao) {
         valid.innerHTML = "Endereço de e-mail válido";
     }
     return result;
-}
+};
