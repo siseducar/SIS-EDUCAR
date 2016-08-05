@@ -15,12 +15,12 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import modulos.secretaria.dao.AlunoDAO;
+import modulos.educacao.dao.AlunoDAO;
+import modulos.educacao.om.Aluno;
 import modulos.secretaria.dao.CidadeDAO;
 import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
-import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Pessoa;

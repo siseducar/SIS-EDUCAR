@@ -36,7 +36,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
-				<h:form id="formCadastroPessoa" prependId="false" enctype="multipart/form-data">
+				<h:form id="formCadastroPessoa" enctype="multipart/form-data">
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
 						class="clearfix form-actions">
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
@@ -51,7 +51,7 @@
 							<f:selectItem itemLabel="Pessoa" itemValue="0"/>
 							<f:selectItem itemLabel="Aluno" itemValue="1"/>
 							<f:selectItem itemLabel="Funcionario" itemValue="2"/>
-							<p:ajax event="change" update="dadosComplementares,dadosResponsavel" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
+							<f:ajax event="change" render="dadosComplementares dadosResponsavel" listener="#{pessoaServlet.complementoDados}" resetValues="true"/>
 						</h:selectOneRadio>
 						<div class="space-4"/>
 						<div class="row">
@@ -325,14 +325,14 @@
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 						<div id="conteudoEndereco">
 							<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
-							<div class="row">									
+							<div class="row">
                         		<div class="col-xs-12 col-sm-6">
                         			<h:outputLabel value="Endereço"/>
                         			<div>
 	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-9 col-sm-9"
                         			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
                         			</div>
-	                        		<a href="" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round " id="openBtn">
+	                        		<a href="#modalMapa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round " id="openBtn">
 										<span class="bigger-110"> Mostra no Mapa </span>
 									</a>
                         		</div>
@@ -347,7 +347,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboPais}" var="pais" 
 												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}" itemLabelEscaped="#{pais.pkPais}"/>
-											<f:ajax event="change" render="codEstado" resetValues="true"/>
+											<f:ajax event="change" render="codEstado codCidade"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -360,7 +360,7 @@
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboEstado}"
 												var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-											<f:ajax event="change" render="codCidade" resetValues="true"/>
+											<f:ajax event="change" render="codCidade"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -505,7 +505,9 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rm']}"/>
 									<div>
 										<h:inputText styleClass="col-xs-10 col-sm-12" id="codRm"
-											value="#{pessoaServlet.alunoDados.rm}" autocomplete="off"/>
+											value="#{pessoaServlet.alunoDados.rm}" autocomplete="off">
+											<f:ajax event="change" listener="#{pessoaServlet.verificarAluno}" render="codRm"/>
+										</h:inputText>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
@@ -895,14 +897,14 @@
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round">
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-							<f:ajax event="click" listener="#{pessoaServlet.validaCadastro}"
-								render=":formCadastroPessoa" execute=":formCadastroPessoa" resetValues="true"/>
+							<f:ajax event="click" render=":formCadastroSucesso" execute=":formCadastroPessoa" resetValues="true"
+								listener="#{pessoaServlet.validaCadastro}"/>
 						</h:commandLink>
 						
 					</div>
 				</h:form>
 				<div class="row">
-		    		<h:form id="formConsultaPessoa" prependId="false" enctype="multipart/form-data">
+		    		<h:form id="formConsultaPessoa">
 						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
 							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
 						  <div class="modal-dialog modal-lg">
@@ -1019,22 +1021,56 @@
 					</h:form>
 				</div>
 				<div class="row">
-					<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
-							role="dialog" aria-labelledby="myLargeModalLabel" id="modalCadastroSucesso">
-						  <div class="modal-dialog modal-lg">
-						    <div class="modal-content">
-						    	<div class="modal-header">
-						    		<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
-						    		<h3 class="smaller lighter blue">
-										<span class="col-sm-8">
-											<i class="ace-icon fa fa-list-alt" aria-hidden="true"/>
-											Cadastro com sucesso!
-										</span>
-									</h3>
-						    	</div>
+					<h:form id="formCadastroSucesso">
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+								role="dialog" aria-labelledby="myLargeModalLabel" id="modalCadastroSucesso">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							    	<div class="modal-header">
+							    		<h3 class="smaller lighter blue">
+											<span class="col-sm-8">
+												Cadastro com sucesso!
+											</span>
+										</h3>
+							    	</div>
+							    	<div class="modal-body">
+							    		<h:panelGroup id="panelCadastroSucesso" styleClass="clearfix form-actions" style=" width: 100%">
+						    				<div class="row">
+						    					<div class="col-xs-12 col-sm-12">
+									    			<h5> Código do Cadastro </h5>
+									    			<div>
+									    				<h:outputLabel value="HOL0001"/>
+									    			</div>
+						    					</div>
+							    			</div>
+							    			<div class="row">
+							    				<div class="col-xs-6 col-sm-6">
+							    					<h5> Nome </h5>
+								    				<div>
+									    				<h:outputLabel value="Michael Willian Serafim"/>
+									    			</div>
+							    				</div>
+							    				<div class="col-xs-6 col-sm-6">
+							    					<h5> Data de Nascimento </h5>
+								    				<div>
+									    				<h:outputLabel value="14/02/1994"/>
+									    			</div>
+							    				</div>
+							    			</div>
+							    		</h:panelGroup>
+						    		</div>
+						    		<div class="modal-footer">
+						    			<h:commandLink type="submit" id="btLimpar" class="btn btn-white btn-success btn-round"> 
+											<span class="bigger-110"> OK </span>
+											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+											<f:ajax event="click" listener="#{pessoaServlet.limparFormulario}" 
+												render=":formCadastroPessoa" onevent="function(data) { esconderModalSucesso(data) }"/>
+										</h:commandLink>
+						    		</div>
+							    </div>
 						    </div>
 					    </div>
-				    </div>
+				    </h:form>
 				</div>
 				<div class="row">
 					<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
@@ -1056,7 +1092,7 @@
 							                    <div id="mapa"/>
 												<!-- Maps API Javascript -->
 												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>		
-												<script src="http://maps.googleapis.com/maps/api/js"/>
+												<script src="http://maps.googleapis.com/maps/api/js?key=ColoqueASuaKeyAqui&amp;sensor=false"/>
 							                </fieldset>
 										</div>
 									</div>

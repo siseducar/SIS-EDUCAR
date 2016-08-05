@@ -133,18 +133,14 @@ function esconderModal(data) {
 	}
 };
 
-function modalSucesso(data) {
+function mostrarModalSucesso(data) {
 	if(data.status=="success") {
 		$('#modalCadastroSucesso').modal('show');
 	}
 };
 
-$(function () {
-    $("#mapmodals").on('shown.bs.modal', function () {
-        google.maps.event.trigger(map, 'resize');
-    });
-
-    $("#openBtn").click(function () {
-        $('#modalMapa').modal('show');
-    });
-});
+function esconderModalSucesso(data) {
+	if(data.status=="success") {
+		$('#modalCadastroSucesso').modal('hide');
+	}
+};

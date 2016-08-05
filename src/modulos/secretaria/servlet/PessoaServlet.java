@@ -18,12 +18,12 @@ import javax.servlet.http.Part;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
-import modulos.secretaria.dao.AlunoDAO;
+import modulos.educacao.dao.AlunoDAO;
+import modulos.educacao.om.Aluno;
 import modulos.secretaria.dao.ContatoDAO;
 import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.FuncionarioDAO;
 import modulos.secretaria.dao.PessoaDAO;
-import modulos.secretaria.om.Aluno;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Curso;
@@ -380,10 +380,7 @@ public class PessoaServlet implements Serializable{
 			
 			pessoaDados = pessoaDAO.salvarCadastroPessoa(pessoaDados);
 			
-			if( pessoaDados.getPkPessoa() != null ) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Cadastro Realizado com sucesso",null));
-			} else {
+			if( pessoaDados.getPkPessoa() == null ) {
 				if(contatoDados.getPkContato() != null || contatoDados != null) {
 					contatoDAO.deletarContato(contatoDados.getPkContato());
 				}
@@ -638,6 +635,18 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	/*
+	 * Metodo para validar se ja existe o RM cadastrado
+	 * */
+	public void verificarAluno() throws SQLException {
+		if(alunoDados.getRm() != null && !alunoDados.getRm().equals("")) {
+			if(alunoDAO.consultaAluno(alunoDados.getRm())) {
+				alunoDados.setRm(null);
+				Logs.addWarning("RM já cadastrado.",null);
+			}
+		}
+	}
+	
+	/*
 	 * Metodo para validar idade da pessoa cadastrada
 	 * */
 	public void calculaIdade(){	
@@ -670,15 +679,54 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
 	 * */
-	public void limparFormulario(){
-		try {
-			new PessoaServlet();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void limparFormulario() throws SQLException{
+		
+		pessoaDados = new Pessoa();
+		funcionarioDados = new Funcionario();
+		alunoDados = new Aluno();
+		fornecedorDados = new Fornecedor();
+		contatoDados = new Contato();
+		paisDados = new Pais();
+		estadoDados = new Estado();
+		cidadeDados = new Cidade();
+		enderecoDados = new Endereco();
+		nacionalidadeDados = new Nacionalidade();
+		racaDados = new Raca();
+		estaCivilDados = new EstadoCivil();
+		grauInstruDados = new GrauInstrucao();
+		situEconomicaDados = new SituacaoEconomica();
+		religiaoDados = new Religiao();
+		regiaoDados = new Regiao();
+		paramDados = new ParametrosServlet();
+		redeEnsinoDados = new RedeEnsino();
+		unidadeEscolarDados = new UnidadeEscolar();
+		etapaDados = new Etapa();
+		cursoDados = new Curso();
+		turnoDados = new Turno();
+		grauParentescoDados = new GrauParentesco();
+		pessoaDAO = new PessoaDAO();
+		alunoDAO = new AlunoDAO();
+		funcionarioDAO = new FuncionarioDAO();
+		enderecoDAO = new EnderecoDAO();
+		contatoDAO = new ContatoDAO();
+		dataTable = new HtmlDataTable();
+		estadoNascimentoDados = new Estado();
+		cidadeNascimentoDados = new Cidade();
+		pessoaSelecionada = new Pessoa();
+		
+		pessoaDados.setTipoPessoa(0);
+		complementoAluno = false;
+		funcDemitido = false;
+		complementoFuncionario = false;
+		alunoDeficiente = false;
+		funcConcursado = false;
+		funcAposentado = false;
+		nomeMae = false;
+		nomePai = false;
+		nomeResponsavel = false;
+		menorIdade = false;
 	}
-	
+
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
@@ -959,7 +1007,6 @@ public class PessoaServlet implements Serializable{
 			if( validaDadosPessoa() == true ) {	
 				if(pessoaDados.getPkPessoa() == null ) {					
 					salvarCadastroPessoa();
-					limparFormulario();
 				}
 			}
 		}
@@ -967,13 +1014,11 @@ public class PessoaServlet implements Serializable{
 			if( (validaDadosPessoa() == true) && (validaDadosAluno() == true) ) {	
 				salvarCadastroPessoa();
 				salvarCadastroAluno();
-				limparFormulario();
 			}
 		}
 		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
 			salvarCadastroPessoa();
 			salvarCadastroFuncionario();
-			limparFormulario();
 		}
 	}
 
@@ -982,20 +1027,48 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void carregaCombos() throws SQLException{
-		comboEstadoCivil.addAll(paramDados.consultaEstaCivil());
-		comboGrauInstrucao.addAll(paramDados.consultaGrauInstru());
-		comboNacionalidade.addAll(paramDados.consultaNacionalidade());
-		comboRaca.addAll(paramDados.consultaRaca());
-		comboReligiao.addAll(paramDados.consultaReligiao());
-		comboSituacaoEconomica.addAll(paramDados.consultaSituEconomica());
-		comboZonaResidencial.addAll(paramDados.consultaRegiao());
-		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
-		comboPais.addAll(paramDados.consultaPais());
-		comboCargo.addAll(paramDados.consultaCargo());
-		comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());
-		comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());
-		comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());
-		comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());
+		if( comboEstadoCivil.isEmpty()) {			
+			comboEstadoCivil.addAll(paramDados.consultaEstaCivil());
+		}
+		if(comboGrauInstrucao.isEmpty()) {
+			comboGrauInstrucao.addAll(paramDados.consultaGrauInstru());	
+		}
+		if(comboNacionalidade.isEmpty()) {
+			comboNacionalidade.addAll(paramDados.consultaNacionalidade());	
+		}
+		if(comboRaca.isEmpty()) {
+			comboRaca.addAll(paramDados.consultaRaca());	
+		}
+		if(comboReligiao.isEmpty()) {
+			comboReligiao.addAll(paramDados.consultaReligiao());	
+		}
+		if(comboSituacaoEconomica.isEmpty()) {
+			comboSituacaoEconomica.addAll(paramDados.consultaSituEconomica());	
+		}
+		if(comboZonaResidencial.isEmpty()) {
+			comboZonaResidencial.addAll(paramDados.consultaRegiao());	
+		}
+		if(comboTipoDeficiencia.isEmpty()) {
+			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());	
+		}
+		if(comboPais.isEmpty()) {
+			comboPais.addAll(paramDados.consultaPais());	
+		}
+		if(comboCargo.isEmpty()) {
+			comboCargo.addAll(paramDados.consultaCargo());	
+		}
+		if(comboGrauParentesco.isEmpty()) {
+			comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());	
+		}
+		if(comboRedeEnsino.isEmpty()) {
+			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());	
+		}
+		if(comboTipoDeficiencia.isEmpty()) {
+			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());	
+		}
+		if(comboEstadoNascimento.isEmpty()) {
+			comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());	
+		}
 	}
 	
 	public void pageFirst() {
@@ -1247,15 +1320,15 @@ public class PessoaServlet implements Serializable{
 	
 	/* ESTADO */
 	public List<SelectItem> getComboEstado() {
-		comboEstado.clear();
 		if(paisDados.getPkPais() != null && !comboPais.isEmpty()) {
 			
 			ParametrosServlet paramDados = new ParametrosServlet();
 			comboEstado.addAll(paramDados.consultaEstado(paisDados));
 			
-			cidadeDados.setPkCidade(null);
 			return comboEstado;
 		}
+		estadoDados.setPkEstado(null);
+		comboEstado.clear();
 		return comboEstado;
 	}
 
@@ -1265,12 +1338,14 @@ public class PessoaServlet implements Serializable{
 	
 	/* CIDADE */
 	public List<SelectItem> getComboCidade() {
-		comboCidade.clear();
 		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
 			ParametrosServlet paramDados = new ParametrosServlet();
 			comboCidade.addAll(paramDados.consultaCidade(estadoDados));
+			
+			return comboCidade;
 		}
-		
+		cidadeDados.setPkCidade(null);
+		comboCidade.clear();
 		return comboCidade;
 	}
 

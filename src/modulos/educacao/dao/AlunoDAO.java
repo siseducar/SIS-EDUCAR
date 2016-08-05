@@ -1,4 +1,4 @@
-package modulos.secretaria.dao;
+package modulos.educacao.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import modulos.secretaria.om.Aluno;
+import modulos.educacao.om.Aluno;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -215,6 +215,33 @@ public class AlunoDAO extends SisEducarDAO
 			return alunoDados;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+	
+	/*
+	 * Verifica cadastro aluno
+	 * */
+	public Boolean consultaAluno(String codigoRM) {
+		try {
+			String querySQL;
+			
+			querySQL = "SELECT * FROM ALUNO "
+					+ " WHERE RM = ? ";
+			
+			ps = con.prepareStatement(querySQL);
+
+			ps.setString(1, codigoRM);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				return true;
+			}
+			
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

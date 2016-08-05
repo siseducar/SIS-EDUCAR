@@ -2,6 +2,8 @@ package modulos.secretaria.om;
 
 import java.io.Serializable;
 
+import modulos.educacao.om.Aluno;
+
 public class Responsavel implements Serializable {	
 	
 	private static final long serialVersionUID = 1L;

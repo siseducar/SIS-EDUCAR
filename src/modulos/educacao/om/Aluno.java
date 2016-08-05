@@ -1,7 +1,15 @@
-package modulos.secretaria.om;
+package modulos.educacao.om;
 
 import java.io.Serializable;
 
+import modulos.secretaria.om.Cidade;
+import modulos.secretaria.om.Curso;
+import modulos.secretaria.om.Etapa;
+import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.RedeEnsino;
+import modulos.secretaria.om.TipoDeficiencia;
+import modulos.secretaria.om.Turno;
+import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.om.Anexo;
 
 public class Aluno implements Serializable {	

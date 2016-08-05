@@ -30,7 +30,7 @@ public class SisEducarServlet implements Serializable
 	private static String parametroUsuarioURLRedefinicaoSenha = null;
 	private static String parametroUsuarioURLDescriptografadoRedefinicaoSenha = null;
 	
-	public static Usuario usuarioLogado = null;
+	public static Usuario usuarioLogado;
 	
 	/**
 	 * Gera uma chave de acesso criptografada

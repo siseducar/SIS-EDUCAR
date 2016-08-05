@@ -12,29 +12,36 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.servlet.*;
 
 /**
  * Classe que verifica se existe um usuario logado antes de permitir o acesso a uma pagina
  */
 @SessionScoped
-public class AuthenticationFilter implements Serializable, Filter {
+public class AuthenticationFilter implements Filter {
 	
-	private static final long serialVersionUID = 1L;	
-	/*-*-*-* Variaveis e Objetos Privados *-*-*-*/
 	@SuppressWarnings("unused")
 	private FilterConfig config;
 
-	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException 
-	{	
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+			throws IOException, ServletException {
+		
+		HttpServletRequest req = (HttpServletRequest)request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = (HttpSession)req.getSession();
+		
+		Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
+		
 		if(new SisEducarServlet().getSessionObject((HttpServletRequest)req, ConstantesSisEducar.USUARIO_LOGADO) == null) 
 		{
-			((HttpServletResponse)resp).sendRedirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");
+			res.sendRedirect(req.getContextPath() + "/login/login.xhtml");
 		} 
 		else 
 		{
-			chain.doFilter(req, resp);
+			chain.doFilter(request, response);
 		}
 	}
 

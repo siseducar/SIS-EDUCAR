@@ -1,6 +1,5 @@
 package modulos.sisEducar.servlet;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import modulos.secretaria.dao.AlunoDAO;
+import modulos.educacao.dao.AlunoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -24,12 +23,12 @@ import sun.misc.BASE64Encoder;
 
 @SessionScoped
 @ManagedBean(name= "loginServlet")
-public class LoginServlet extends SisEducarServlet implements Serializable
+public class LoginServlet extends SisEducarServlet
 {
+	/***/
 	private static final long serialVersionUID = 1L;
-
 	//Objetos e variaveis
-	private String nomeUsuarioLogado = "";
+	private String nomeUsuarioLogado;
 	private String emailRedefinicaoSenha = null;
 	
 	Usuario usuario = new Usuario();  
