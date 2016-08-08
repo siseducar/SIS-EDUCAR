@@ -1,6 +1,5 @@
 package modulos.secretaria.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,40 +13,25 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.Part;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
-import modulos.educacao.dao.AlunoDAO;
-import modulos.educacao.om.Aluno;
 import modulos.secretaria.dao.ContatoDAO;
 import modulos.secretaria.dao.EnderecoDAO;
-import modulos.secretaria.dao.FuncionarioDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
-import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.EstadoCivil;
-import modulos.secretaria.om.Etapa;
-import modulos.secretaria.om.Fornecedor;
-import modulos.secretaria.om.Funcionario;
 import modulos.secretaria.om.GrauInstrucao;
 import modulos.secretaria.om.GrauParentesco;
 import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Raca;
-import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
-import modulos.secretaria.om.TipoDeficiencia;
-import modulos.secretaria.om.Turno;
-import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.om.ImagemBase64;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
@@ -57,16 +41,9 @@ import modulos.sisEducar.utils.Logs;
 public class PessoaServlet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
-	public static final int CADASTRO_PESSOA = 0;
-	public static final int CADASTRO_ALUNO = 1;
-	public static final int CADASTRO_FUNCIONARIO = 2;
-	
+
 	/* Atributos */
 	private Pessoa pessoaDados;
-	private Aluno alunoDados;
-	private Fornecedor fornecedorDados;
-	private Funcionario funcionarioDados;
 	private Contato contatoDados;
 	private Pais paisDados;
 	private Estado estadoDados;
@@ -81,41 +58,15 @@ public class PessoaServlet implements Serializable{
 	private Regiao regiaoDados;
 	private ParametrosServlet paramDados;
 	private Usuario usuarioLogado;
-	private RedeEnsino redeEnsinoDados;
-	private UnidadeEscolar unidadeEscolarDados;
-	private Etapa etapaDados;
-	private Curso cursoDados;
-	private Turno turnoDados;
-	private TipoDeficiencia tipoDeficienciaDados;
 	private GrauParentesco grauParentescoDados;
 	private PessoaDAO pessoaDAO;
-	private AlunoDAO alunoDAO;
-	private FuncionarioDAO funcionarioDAO;
 	private EnderecoDAO enderecoDAO;
 	private ContatoDAO contatoDAO;
-	private ImagemBase64 imagem64;
 	private Estado estadoNascimentoDados;
 	private Cidade cidadeNascimentoDados;
 	private Pessoa pessoaSelecionada;
-			
-	/* Componente de dados complementares do aluno */
-	private Boolean complementoAluno;
-	
-	/* Componente de dados complementares do funcionario */
-	private Boolean complementoFuncionario;
-	
-	/* Componente do tipo de deficiencia */
-	private Boolean alunoDeficiente;
-	
-	/* Componente para validacao de concursado */
-	private Boolean funcConcursado;
-	
-	/* Componente para validacao de aposentadoria */
-	private Boolean funcAposentado;
-	
-	/* Componente para validar demissao */
-	private Boolean funcDemitido;
-	
+	private Pessoa pessoaDadosConsulta;
+		
 	/* Combo com valores de GRAU DE PARENTESCO */
 	private List<SelectItem> comboGrauParentesco;
 	
@@ -140,9 +91,6 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de ZONA RESIDENCIAL */
 	private List<SelectItem> comboZonaResidencial;
 	
-	/* Combo com valores de TIPO DE DEFICENCIA*/
-	private List<SelectItem> comboTipoDeficiencia;
-	
 	/* Combo com valores de PAÃ�S */
 	private List<SelectItem> comboPais;
 	
@@ -154,21 +102,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* Combo com valores de CARGO */
 	private List<SelectItem> comboCargo;
-	
-	/* Combo com valores de REDE DE ENSINO */
-	private List<SelectItem> comboRedeEnsino;
-	
-	/* Combo com valores de UNIDADE ESCOLAR */
-	private List<SelectItem> comboUnidadeEscolar;
-	
-	/* Combo com valores de ETAPA ESCOLAR */
-	private List<SelectItem> comboEtapaEscolar;
-	
-	/* Combo com valores de CURSO ESCOLAR */
-	private List<SelectItem> comboCursoEscolar;
-	
-	/* Combo com valores de TURNO ESCOLAR */
-	private List<SelectItem> comboTurnoEscolar;
 	
 	private List<SelectItem> comboEstadoNascimento;
 	
@@ -192,25 +125,12 @@ public class PessoaServlet implements Serializable{
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
 	
-	private Part fotoAluno;
-	
-	private Part copiaCertidao;
-	
-	private Part copiaEndereco;
+	private Boolean deletarCadastro;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
 			this.pessoaDados = new Pessoa();
-		}
-		if(this.funcionarioDados == null){
-			this.funcionarioDados = new Funcionario();
-		}
-		if(this.alunoDados == null){
-			this.alunoDados = new Aluno();
-		}
-		if(this.fornecedorDados == null){
-			this.fornecedorDados = new Fornecedor();
 		}
 		if(this.contatoDados == null) {
 			this.contatoDados = new Contato();
@@ -251,32 +171,11 @@ public class PessoaServlet implements Serializable{
 		if(this.paramDados == null) {
 			this.paramDados = new ParametrosServlet();
 		}
-		if(this.redeEnsinoDados == null) {
-			this.redeEnsinoDados = new RedeEnsino();
-		}
-		if(this.unidadeEscolarDados == null) {
-			this.unidadeEscolarDados = new UnidadeEscolar();
-		}
-		if(this.etapaDados == null) {
-			this.etapaDados = new Etapa();
-		}
-		if(this.cursoDados == null) {
-			this.cursoDados = new Curso();
-		}
-		if(this.turnoDados == null) {
-			this.turnoDados = new Turno();
-		}
 		if(this.grauParentescoDados == null) {
 			this.grauParentescoDados = new GrauParentesco();
 		}
 		if(this.pessoaDAO == null) {
 			this.pessoaDAO = new PessoaDAO();
-		}
-		if(this.alunoDAO == null) {
-			this.alunoDAO = new AlunoDAO();
-		}
-		if(this.funcionarioDAO == null) {
-			this.funcionarioDAO = new FuncionarioDAO();
 		}
 		if(this.enderecoDAO == null) {
 			this.enderecoDAO = new EnderecoDAO();
@@ -296,6 +195,9 @@ public class PessoaServlet implements Serializable{
 		if(this.pessoaSelecionada == null) {
 			this.pessoaSelecionada = new Pessoa();
 		}
+		if(this.pessoaDadosConsulta == null) {
+			this.pessoaDadosConsulta = new Pessoa();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
@@ -308,29 +210,18 @@ public class PessoaServlet implements Serializable{
 		comboSituacaoEconomica = new ArrayList<SelectItem>();
 		comboZonaResidencial = new ArrayList<SelectItem>();
 		comboGrauParentesco = new ArrayList<SelectItem>();
-		comboTipoDeficiencia = new ArrayList<SelectItem>();
 		comboPais = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		comboCidade = new ArrayList<SelectItem>();
-		comboRedeEnsino = new ArrayList<SelectItem>();
-		comboUnidadeEscolar = new ArrayList<SelectItem>();
-		comboCursoEscolar = new ArrayList<SelectItem>();
-		comboEtapaEscolar = new ArrayList<SelectItem>();
-		comboTurnoEscolar = new ArrayList<SelectItem>();
 		comboEstadoNascimento = new ArrayList<SelectItem>();
 		comboCidadeNascimento = new ArrayList<SelectItem>();
 		
 		carregaCombos();
-		complementoAluno = false;
-		funcDemitido = false;
-		complementoFuncionario = false;
-		alunoDeficiente = false;
-		funcConcursado = false;
-		funcAposentado = false;
 		nomeMae = false;
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
+		deletarCadastro = false;
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
@@ -405,37 +296,6 @@ public class PessoaServlet implements Serializable{
 					"Erro ao realizar cadastro contate o administrador!",null));
 			return null;
 		}
-		return null;
-	}
-	
-	/*
-	 * Metodo para salvar o cadastro de Aluno
-	 * 
-	 * */
-	public String salvarCadastroAluno(){
-		if(pessoaDados.getPkPessoa() != null ){
-			alunoDados.setRedeEnsino(redeEnsinoDados);
-			alunoDados.setUnidadeEscolar(unidadeEscolarDados);
-			alunoDados.setEtapa(etapaDados);
-			alunoDados.setCurso(cursoDados);
-			alunoDados.setTurno(turnoDados);
-			alunoDados.setPessoa(pessoaDados);
-			
-			alunoDAO.salvarCadastroAluno(alunoDados);
-			
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao realizar o cadastro.",null));
-		}
-		
-		return null;
-	}
-	
-	/*
-	 * Metodo para salvar o cadastro de Funcionario
-	 * 
-	 * */
-	public String salvarCadastroFuncionario(){
 		return null;
 	}
 	
@@ -564,59 +424,7 @@ public class PessoaServlet implements Serializable{
 		return true;
 	}
 	
-	public Boolean validaDadosAluno(){
-		if( alunoDados.getRm() == null && alunoDados.getRm().equals("")) {
-			Logs.addWarning("O RM do aluno deve ser informado.", null);
-			return false;
-		}
-		if( alunoDados.getRa() == null && alunoDados.getRa().equals("")) {
-			Logs.addWarning("O RA do aluno deve ser informado.",null);
-			return false;
-		}
-		if( alunoDados.getCodigoInep() == null && alunoDados.getCodigoInep().equals("")) {
-			Logs.addWarning("O CÓDIGO DO INEP do aluno deve ser informado.",null);
-			return false;
-		}
-		if( redeEnsinoDados.getPkRedeEnsino() == null) {
-			Logs.addWarning("A REDE DE ENSINO deve ser informada.",null);
-			return false;
-		}
-		if( unidadeEscolarDados.getPkUnidadeEscolar() == null) {
-			Logs.addWarning("A UNIDADE ESCOLAR deve ser informada.",null);
-			return false;
-		}
-		if( cursoDados.getPkCurso() == null) {
-			Logs.addWarning("O CURSO deve ser informado.",null);
-			return false;
-		}
-		if( etapaDados.getPkEtapa() == null) {
-			Logs.addWarning("A ETAPA deve ser informado.",null);
-			return false;
-		}
-		if( turnoDados.getPkTurno() == null) {
-			Logs.addWarning("O TURNO deve ser informado.",null);
-			return false;
-		}
-		if(alunoDeficiente) {
-			if(tipoDeficienciaDados.getPkTipoDeficiencia() == null ) {
-				Logs.addWarning("O TIPO DE DEFICIENCIA deve ser informado.",null);
-				return false;
-			}
-		}
-		if(fotoAluno == null){
-			Logs.addWarning("Selecione a FOTO do aluno.",null);
-			return false;
-		}
-		if(copiaCertidao == null) {
-			Logs.addWarning("Selecione uma copia da CERTIDÃO DE NASCIMENTO.",null);
-			return false;
-		}
-		if(copiaEndereco == null) {
-			Logs.addWarning("Selecione uma copia do COMPROVANTE DE RESIDÊNCIA.",null);
-			return false;
-		}
-		return false;
-	}
+	
 	
 	/*
 	 * Metodo para validar se ja existe o CPF cadastrado
@@ -631,18 +439,6 @@ public class PessoaServlet implements Serializable{
 			}
 		} catch (SQLException e) {
 			Logs.addError(e.toString(),null);
-		}
-	}
-	
-	/*
-	 * Metodo para validar se ja existe o RM cadastrado
-	 * */
-	public void verificarAluno() throws SQLException {
-		if(alunoDados.getRm() != null && !alunoDados.getRm().equals("")) {
-			if(alunoDAO.consultaAluno(alunoDados.getRm())) {
-				alunoDados.setRm(null);
-				Logs.addWarning("RM já cadastrado.",null);
-			}
 		}
 	}
 	
@@ -682,9 +478,6 @@ public class PessoaServlet implements Serializable{
 	public void limparFormulario() throws SQLException{
 		
 		pessoaDados = new Pessoa();
-		funcionarioDados = new Funcionario();
-		alunoDados = new Aluno();
-		fornecedorDados = new Fornecedor();
 		contatoDados = new Contato();
 		paisDados = new Pais();
 		estadoDados = new Estado();
@@ -698,15 +491,8 @@ public class PessoaServlet implements Serializable{
 		religiaoDados = new Religiao();
 		regiaoDados = new Regiao();
 		paramDados = new ParametrosServlet();
-		redeEnsinoDados = new RedeEnsino();
-		unidadeEscolarDados = new UnidadeEscolar();
-		etapaDados = new Etapa();
-		cursoDados = new Curso();
-		turnoDados = new Turno();
 		grauParentescoDados = new GrauParentesco();
 		pessoaDAO = new PessoaDAO();
-		alunoDAO = new AlunoDAO();
-		funcionarioDAO = new FuncionarioDAO();
 		enderecoDAO = new EnderecoDAO();
 		contatoDAO = new ContatoDAO();
 		dataTable = new HtmlDataTable();
@@ -714,23 +500,21 @@ public class PessoaServlet implements Serializable{
 		cidadeNascimentoDados = new Cidade();
 		pessoaSelecionada = new Pessoa();
 		
-		pessoaDados.setTipoPessoa(0);
-		complementoAluno = false;
-		funcDemitido = false;
-		complementoFuncionario = false;
-		alunoDeficiente = false;
-		funcConcursado = false;
-		funcAposentado = false;
 		nomeMae = false;
 		nomePai = false;
 		nomeResponsavel = false;
 		menorIdade = false;
+		deletarCadastro = false;
 	}
 
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
-		listaConsultaPessoa = pessoaDAO.obtemTodos();
+		listaConsultaPessoa = 
+				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
+						pessoaDadosConsulta.getCpf(), 
+						pessoaDadosConsulta.getRg(), 
+						pessoaDadosConsulta.getDataNascimento());
 	}
 	
 	public void editarCadastro() {
@@ -788,100 +572,29 @@ public class PessoaServlet implements Serializable{
 						}
 					}
 				}
-			}			
+			}
+			deletarCadastro = true;
 		}
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
-	
 	/*
-	 * Metodo para converter a foto do aluno para BASE64
-	 * */
-	public void converteFotoAluno() {
-		try {
-			imagem64 = new ImagemBase64();
-			String formato = fotoAluno.getContentType();
-			String nome = fotoAluno.getSubmittedFileName();
-			byte[] imagemFotoAluno = new byte[(int) fotoAluno.getSize()]; 
-			
-			fotoAluno.getInputStream().read(imagemFotoAluno);
-			String fotoBase64 = new String(Base64.encode(imagemFotoAluno));
-			imagem64.setB64(fotoBase64);
-			imagem64.setNome(nome);
-			imagem64.setTipo(formato);
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/*
-	 * Metodo para converter a copia da certidao para BASE64
-	 * */
-	public void convertecopiaCertidao() {
-		try {
-			imagem64 = new ImagemBase64();
-			String formato = copiaCertidao.getContentType();
-			String nome = fotoAluno.getSubmittedFileName();
-			byte[] imagemCopiaCertidao = new byte[(int) copiaCertidao.getSize()]; 
-			
-			fotoAluno.getInputStream().read(imagemCopiaCertidao);
-			String fotoBase64 = new String(Base64.encode(imagemCopiaCertidao));
-			imagem64.setB64(fotoBase64);
-			imagem64.setNome(nome);
-			imagem64.setTipo(formato);
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/*
-	 * Metodo para converter a copia de endereco para BASE64
-	 * */
-	public void convertecopiaEndereco() {
-		try {
-			imagem64 = new ImagemBase64();
-			String formato = copiaEndereco.getContentType();
-			String nome = fotoAluno.getSubmittedFileName();
-			byte[] imagemCopiaEndereco = new byte[(int) copiaEndereco.getSize()]; 
-			
-			fotoAluno.getInputStream().read(imagemCopiaEndereco);
-			String fotoBase64 = new String(Base64.encode(imagemCopiaEndereco));
-			imagem64.setB64(fotoBase64);
-			imagem64.setNome(nome);
-			imagem64.setTipo(formato);
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/*
-	 * Metodo responsavel por validar o nome da MAE do aluno
+	 * Metodo responsavel por validar o nome da MAE caso de menor
 	 * 
 	 * */
 	public void validaNomeMae(){
 		if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
-			try {
-				Long cpfMae = pessoaDados.getCpfMae();
-				AlunoDAO alunoDAO = new AlunoDAO();
-				
-				String nome = alunoDAO.consultaNomeResponsavel(cpfMae); 
-				
-				if(nome != null && !nome.equals("")){
-					pessoaDados.setNomeMae(nome);
-					nomeMae = true;
-				}else{
-					pessoaDados.setNomeMae(null);
-					nomeMae = false;
-					Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
-				}
-			} catch (SQLException e) {
-				Logs.addError("Erro ao consultar o CPF informado", null);
+			Long cpfMae = pessoaDados.getCpfMae();
+			
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfMae); 
+			
+			if(nome != null && !nome.equals("")){
+				pessoaDados.setNomeMae(nome);
+				nomeMae = true;
+			}else{
+				pessoaDados.setNomeMae(null);
+				nomeMae = false;
+				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 			}
 		}else{
 			pessoaDados.setNomeMae(null);
@@ -890,135 +603,55 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	/*
-	 * Metodo responsavel por validar o nome do PAI do aluno
+	 * Metodo responsavel por validar o nome do PAI caso de menor
 	 * 
 	 * */
 	public void validaNomePai(){
 		if(pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ){
-			try {
-				Long cpfPai = pessoaDados.getCpfPai();
-				AlunoDAO alunoDAO = new AlunoDAO();
-				
-				String nome = alunoDAO.consultaNomeResponsavel(cpfPai); 
-				if(nome != null && !nome.equals("")){
-					pessoaDados.setNomePai(nome);
-					nomePai = true;
-				}else{
-					pessoaDados.setNomePai(null);
-					nomePai = false;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"CPF não encontrado, favor informar o nome.", null));
-				}
-			} catch (SQLException e) {
-				Logs.addError("Erro ao consultar o CPF informado", null);
+			Long cpfPai = pessoaDados.getCpfPai();
+			
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfPai); 
+			if(nome != null && !nome.equals("")){
+				pessoaDados.setNomePai(nome);
+				nomePai = true;
+			}else{
+				pessoaDados.setNomePai(null);
+				nomePai = false;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"CPF não encontrado, favor informar o nome.", null));
 			}
 		}
 	}
 	
 	/*
-	 * Metodo responsavel por validar o nome do RESPONSAVEL pelo aluno
+	 * Metodo responsavel por validar o nome do RESPONSAVEL caso de menor
 	 * 
 	 * */
 	public void validaNomeResponsavel(){
 		if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
-			try {
-				Long cpfResponsavel = pessoaDados.getCpfResponsavel();
-				AlunoDAO alunoDAO = new AlunoDAO();
-				
-				String nome = alunoDAO.consultaNomeResponsavel(cpfResponsavel); 
-				if(nome != null && !nome.equals("")){
-					pessoaDados.setNomeResponsavel(nome);
-					nomeResponsavel = true;
-				}else{
-					pessoaDados.setNomePai(null);
-					nomeResponsavel = false;
-					Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
-				}
-			} catch (SQLException e) {
-				Logs.addError("Erro ao consultar o CPF informado", null);
+			Long cpfResponsavel = pessoaDados.getCpfResponsavel();
+			
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfResponsavel); 
+			if(nome != null && !nome.equals("")){
+				pessoaDados.setNomeResponsavel(nome);
+				nomeResponsavel = true;
+			}else{
+				pessoaDados.setNomePai(null);
+				nomeResponsavel = false;
+				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 			}
 		}
 	}
-	
-	/*
-	 * Metodo para redenrizar os dados complementares
-	 * 
-	 * */
-	public void complementoDados() {
-		if(pessoaDados.getTipoPessoa() == 0) {
-			complementoAluno = false;
-			complementoFuncionario = false;
-			menorIdade = false;
-		}
-		if(pessoaDados.getTipoPessoa() == 1) {
-			complementoAluno = true;
-			menorIdade = true;
-			complementoFuncionario = false;
-		}
-		if(pessoaDados.getTipoPessoa() == 2) {
-			complementoFuncionario = true;
-			complementoAluno = false;
-			menorIdade = false;
-		}
-	}
-	
-	/*
-	 * Metodo para validar funcionario concursado
-	 * 
-	 * */
-	public void validaConcursado(){
-		if(funcionarioDados.getConcursado()){
-			funcConcursado = true;
-		}else{
-			funcConcursado = false;
-		}		
-	}
-	
-	/*
-	 * Metodo para validar aluno deficiente
-	 * 
-	 * */
-	public void validaDeficiente() {
-		if(alunoDados.getAlunoDeficiente()) {
-			alunoDeficiente = true;
-		} else {
-			alunoDeficiente = false;
-		}
-	}
-	
-	/*
-	 * Metodo para validar aposentadoria
-	 * 
-	 * */
-	public void validaAposentadoria(){
-		if(funcionarioDados.getAposentado()){
-			funcAposentado = true;
-		} else {
-			funcAposentado = false;
-		}
-	}
-	
+		
 	/*
 	 * Metodo para validar o tipo de cadastro
 	 * 
 	 * */
 	public void validaCadastro(){
-		if(pessoaDados.getTipoPessoa() == CADASTRO_PESSOA && pessoaDados != null) {
-			if( validaDadosPessoa() == true ) {	
-				if(pessoaDados.getPkPessoa() == null ) {					
-					salvarCadastroPessoa();
-				}
-			}
-		}
-		if(pessoaDados.getTipoPessoa() == CADASTRO_ALUNO && pessoaDados != null) {
-			if( (validaDadosPessoa() == true) && (validaDadosAluno() == true) ) {	
+		if( validaDadosPessoa() == true ) {	
+			if(pessoaDados.getPkPessoa() == null ) {					
 				salvarCadastroPessoa();
-				salvarCadastroAluno();
 			}
-		}
-		if(pessoaDados.getTipoPessoa() == CADASTRO_FUNCIONARIO && pessoaDados != null) {
-			salvarCadastroPessoa();
-			salvarCadastroFuncionario();
 		}
 	}
 
@@ -1048,9 +681,6 @@ public class PessoaServlet implements Serializable{
 		if(comboZonaResidencial.isEmpty()) {
 			comboZonaResidencial.addAll(paramDados.consultaRegiao());	
 		}
-		if(comboTipoDeficiencia.isEmpty()) {
-			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());	
-		}
 		if(comboPais.isEmpty()) {
 			comboPais.addAll(paramDados.consultaPais());	
 		}
@@ -1059,12 +689,6 @@ public class PessoaServlet implements Serializable{
 		}
 		if(comboGrauParentesco.isEmpty()) {
 			comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());	
-		}
-		if(comboRedeEnsino.isEmpty()) {
-			comboRedeEnsino.addAll(paramDados.consultaRedeEnsino());	
-		}
-		if(comboTipoDeficiencia.isEmpty()) {
-			comboTipoDeficiencia.addAll(paramDados.consultaTipoDeficiencia());	
 		}
 		if(comboEstadoNascimento.isEmpty()) {
 			comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());	
@@ -1111,31 +735,7 @@ public class PessoaServlet implements Serializable{
 	public void setPessoaDados(Pessoa pessoaDados) {
 		this.pessoaDados = pessoaDados;
 	}
-
-	public Aluno getAlunoDados() {
-		return alunoDados;
-	}
-
-	public void setAlunoDados(Aluno alunoDados) {
-		this.alunoDados = alunoDados;
-	}
-
-	public Fornecedor getFornecedorDados() {
-		return fornecedorDados;
-	}
-
-	public void setFornecedorDados(Fornecedor fornecedorDados) {
-		this.fornecedorDados = fornecedorDados;
-	}
-
-	public Funcionario getFuncionarioDados() {
-		return funcionarioDados;
-	}
-
-	public void setFuncionarioDados(Funcionario funcionarioDados) {
-		this.funcionarioDados = funcionarioDados;
-	}
-
+	
 	public Contato getContatoDados() {
 		return contatoDados;
 	}
@@ -1256,53 +856,7 @@ public class PessoaServlet implements Serializable{
 		this.usuarioLogado = usuarioLogado;
 	}
 
-	public RedeEnsino getRedeEnsinoDados() {
-		return redeEnsinoDados;
-	}
-
-	public void setRedeEnsinoDados(RedeEnsino redeEnsinoDados) {
-		this.redeEnsinoDados = redeEnsinoDados;
-	}
-
-	public UnidadeEscolar getUnidadeEscolarDados() {
-		return unidadeEscolarDados;
-	}
-
-	public void setUnidadeEscolarDados(UnidadeEscolar unidadeEscolarDados) {
-		this.unidadeEscolarDados = unidadeEscolarDados;
-	}
-
-	public Etapa getEtapaDados() {
-		return etapaDados;
-	}
-
-	public void setEtapaDados(Etapa etapaDados) {
-		this.etapaDados = etapaDados;
-	}
-
-	public Curso getCursoDados() {
-		return cursoDados;
-	}
-
-	public void setCursoDados(Curso cursoDados) {
-		this.cursoDados = cursoDados;
-	}
-
-	public Turno getTurnoDados() {
-		return turnoDados;
-	}
-
-	public void setTurnoDados(Turno turnoDados) {
-		this.turnoDados = turnoDados;
-	}
 	
-	public TipoDeficiencia getTipoDeficienciaDados() {
-		return tipoDeficienciaDados;
-	}
-
-	public void setTipoDeficienciaDados(TipoDeficiencia tipoDeficienciaDados) {
-		this.tipoDeficienciaDados = tipoDeficienciaDados;
-	}
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 
@@ -1413,93 +967,12 @@ public class PessoaServlet implements Serializable{
 		this.comboZonaResidencial = comboZonaResidencial;
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
-/* InformaÃ§Ãµes referentes ao dados do aluno */	
-	public List<SelectItem> getComboRedeEnsino() {
-		return comboRedeEnsino;
-	}
-
-	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
-		this.comboRedeEnsino = comboRedeEnsino;
-	}
-
-	public List<SelectItem> getComboUnidadeEscolar() {
-		comboUnidadeEscolar.clear();
-		if( redeEnsinoDados.getPkRedeEnsino() != null && !comboRedeEnsino.isEmpty() ) {
-			comboUnidadeEscolar.addAll(paramDados.consultaUnidadeEscolar(redeEnsinoDados));
-		}		
-		return comboUnidadeEscolar;
-	}
-
-	public void setComboUnidadeEscolar(List<SelectItem> comboUnidadeEscolar) {
-		this.comboUnidadeEscolar = comboUnidadeEscolar;
-	}
-	
-	public List<SelectItem> getComboCursoEscolar() {
-		comboCursoEscolar.clear();
-		if(unidadeEscolarDados.getPkUnidadeEscolar() != null && !comboUnidadeEscolar.isEmpty()) {
-			comboCursoEscolar.addAll(paramDados.consultaCursoEscolar(unidadeEscolarDados));
-		}
-		return comboCursoEscolar;
-	}
-
-	public void setComboCursoEscolar(List<SelectItem> comboCursoEscolar) {
-		this.comboCursoEscolar = comboCursoEscolar;
-	}
-	
-	public List<SelectItem> getComboEtapaEscolar() {
-		comboEtapaEscolar.clear();
-		if(cursoDados.getPkCurso() != null && !comboCursoEscolar.isEmpty()) {
-			comboEtapaEscolar.addAll(paramDados.consultaEtapaEscolar(cursoDados));
-		}
-		return comboEtapaEscolar;
-	}
-
-	public void setComboEtapaEscolar(List<SelectItem> comboEtapaEscolar) {
-		this.comboEtapaEscolar = comboEtapaEscolar;
-	}
-
-	public List<SelectItem> getComboTurnoEscolar() {
-		comboTurnoEscolar.clear();
-		if(etapaDados.getPkEtapa() != null && !comboEtapaEscolar.isEmpty()) {
-			comboTurnoEscolar.addAll(paramDados.consultaTurnoEscolar(etapaDados));
-		}
-		return comboTurnoEscolar;
-	}
-
-	public void setComboTurnoEscolar(List<SelectItem> comboTurnoEscolar) {
-		this.comboTurnoEscolar = comboTurnoEscolar;
-	}
-	
-	public List<SelectItem> getComboTipoDeficiencia() {
-		return comboTipoDeficiencia;
-	}
-
-	public void setComboTipoDeficiencia(List<SelectItem> comboTipoDeficiencia) {
-		this.comboTipoDeficiencia = comboTipoDeficiencia;
-	}
-	
 	public List<SelectItem> getComboGrauParentesco() {
 		return comboGrauParentesco;
 	}
 
 	public void setComboGrauParentesco(List<SelectItem> comboGrauParentesco) {
 		this.comboGrauParentesco = comboGrauParentesco;
-	}
-	
-	public Boolean getComplementoAluno() {
-		return complementoAluno;
-	}
-
-	public void setComplementoAluno(Boolean complementoAluno) {
-		this.complementoAluno = complementoAluno;
-	}
-	
-	public Boolean getAlunoDeficiente() {
-		return alunoDeficiente;
-	}
-
-	public void setAlunoDeficiente(Boolean alunoDeficiente) {
-		this.alunoDeficiente = alunoDeficiente;
 	}
 	
 	public Boolean getMenorIdade() {
@@ -1533,52 +1006,7 @@ public class PessoaServlet implements Serializable{
 	public void setNomeResponsavel(Boolean nomeResponsavel) {
 		this.nomeResponsavel = nomeResponsavel;
 	}
-	/* InformaÃ§Ãµes referentes ao dados do aluno */	
-	/* ------------------------------------------------------------------------------------------------------------------------ */
-	
-	/* ------------------------------------------------------------------------------------------------------------------------ */
-	/* InformaÃ§Ãµes referentes ao dados do funcionario */
-	public Boolean getComplementoFuncionario() {
-		return complementoFuncionario;
-	}
-
-	public void setComplementoFuncionario(Boolean complementoFuncionario) {
-		this.complementoFuncionario = complementoFuncionario;
-	}
-	
-	public Boolean getFuncConcursado() {
-		return funcConcursado;
-	}
-
-	public void setFuncConcursado(Boolean funcConcursado) {
-		this.funcConcursado = funcConcursado;
-	}
-
-	public Boolean getFuncAposentado() {
-		return funcAposentado;
-	}
-
-	public void setFuncAposentado(Boolean funcAposentado) {
-		this.funcAposentado = funcAposentado;
-	}
-
-	public Boolean getFuncDemitido() {
-		return funcDemitido;
-	}
-
-	public void setFuncDemitido(Boolean funcDemitido) {
-		this.funcDemitido = funcDemitido;
-	}
-	
-	public List<SelectItem> getComboCargo() {
-		return comboCargo;
-	}
-
-	public void setComboCargo(List<SelectItem> comboCargo) {
-		this.comboCargo = comboCargo;
-	}
-	/* InformaÃ§Ãµes referentes ao dados do funcionario */
-	/* ------------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
 	
@@ -1604,30 +1032,6 @@ public class PessoaServlet implements Serializable{
 	
 	public void setListaConsultaPessoa(List<Pessoa> listaConsultaPessoa) {
 		this.listaConsultaPessoa = listaConsultaPessoa;
-	}
-
-	public Part getFotoAluno() {
-		return fotoAluno;
-	}
-
-	public void setFotoAluno(Part fotoAluno) {
-		this.fotoAluno = fotoAluno;
-	}
-
-	public Part getCopiaCertidao() {
-		return copiaCertidao;
-	}
-
-	public void setCopiaCertidao(Part copiaCertidao) {
-		this.copiaCertidao = copiaCertidao;
-	}
-
-	public Part getCopiaEndereco() {
-		return copiaEndereco;
-	}
-
-	public void setCopiaEndereco(Part copiaEndereco) {
-		this.copiaEndereco = copiaEndereco;
 	}
 
 	public List<SelectItem> getComboEstadoNascimento() {
@@ -1665,5 +1069,21 @@ public class PessoaServlet implements Serializable{
 
 	public void setCidadeNascimentoDados(Cidade cidadeNascimentoDados) {
 		this.cidadeNascimentoDados = cidadeNascimentoDados;
+	}
+
+	public Pessoa getPessoaDadosConsulta() {
+		return pessoaDadosConsulta;
+	}
+
+	public void setPessoaDadosConsulta(Pessoa pessoaDadosConsulta) {
+		this.pessoaDadosConsulta = pessoaDadosConsulta;
+	}
+
+	public Boolean getDeletarCadastro() {
+		return deletarCadastro;
+	}
+
+	public void setDeletarCadastro(Boolean deletarCadastro) {
+		this.deletarCadastro = deletarCadastro;
 	}     
 }

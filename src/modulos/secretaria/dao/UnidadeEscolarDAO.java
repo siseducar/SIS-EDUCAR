@@ -417,4 +417,32 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			return null;
 		}
 	}
+	
+	/**
+	 * Conta a quantidade de alunos dentro da Unidade Escolar
+	 * 
+	 */
+	public Integer calculaQuantidadeAlunos(Integer pkUnidadeEscolar) {
+		Integer quantidadeAluno = 0;
+		
+		try {
+			
+			String querySQL = "SELECT COUNT(PKALUNO) AS QUANTALUNO FROM ALUNO WHERE FKREDEENSINO = ? ";
+			
+			ps = con.prepareStatement(querySQL);
+			ps.setInt(1, pkUnidadeEscolar);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				quantidadeAluno = rs.getInt("QUANTALUNO");
+			}
+			
+			return quantidadeAluno;
+		} catch (Exception e){
+			System.out.println(e);
+			return quantidadeAluno;
+		}
+		
+	}
 }

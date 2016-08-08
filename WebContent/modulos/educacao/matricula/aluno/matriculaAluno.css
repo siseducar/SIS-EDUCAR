@@ -23,7 +23,12 @@
 	font-size:16px;
 }
 
-.botoes {
+#btRegistrar {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+#btResetar {
 	margin-right: 5px;
 	margin-left: 5px;
 }

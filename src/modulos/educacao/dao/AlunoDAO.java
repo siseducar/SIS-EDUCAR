@@ -127,31 +127,6 @@ public class AlunoDAO extends SisEducarDAO
 		return null;
 	}
 	
-	/*
-	 * Metodo responsavel por validar responsavel existente
-	 * */
-	public String consultaNomeResponsavel(Long cpf){
-		try {
-			
-			String nomePessoa = null;
-			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ?";
-			
-			ps = con.prepareStatement(querySQL);
-			ps.setString(1, cpf.toString());
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()){
-				nomePessoa = rs.getString("NOME");
-			}
-			
-			return nomePessoa;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
 	/**
 	 * Metodo para salvar os dados referente ao cadastro de uma pessoa
 	 * 

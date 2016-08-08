@@ -1,6 +1,7 @@
 package modulos.secretaria.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -418,5 +419,95 @@ public class PessoaDAO extends SisEducarDAO
 			e.printStackTrace();
 		}
 		 return null;
+	}
+	
+	/*
+	 * Metodo responsavel por validar responsavel existente
+	 * */
+	public String consultaNomeResponsavel(Long cpf){
+		try {
+			
+			String nomePessoa = null;
+			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			ps.setString(1, cpf.toString());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				nomePessoa = rs.getString("NOME");
+			}
+			
+			return nomePessoa;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/*
+	 * Metodo responsavel por validar responsavel existente
+	 * */
+	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci) {
+		try {
+			Integer numeroArgumentos = 1;
+			String formataNome = "%"+ nome + "%";
+			
+			List<Pessoa> listaPessoa = new ArrayList<Pessoa>();
+			
+			String querySQL = " SELECT * FROM PESSOA "
+					+ " WHERE STATUS = ? ";
+				
+				if( nome != null && !nome.equals("")) {
+					querySQL+= " AND NOME ILIKE ?";
+				}
+				if( cpf != null && cpf != 0) {
+					querySQL+= " AND CPF = ? ";
+				}
+				if( rg != null && !rg.equals("")) {
+					querySQL+= " AND RG = ? ";
+				}
+				if(dataNasci != null) {
+					querySQL+= " AND DATANASCIMENTO = ? "; 
+				}
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			if( nome != null && !nome.equals("")) {
+				ps.setString(numeroArgumentos, formataNome);
+				numeroArgumentos++;
+			}
+			if( cpf != null && cpf != 0) {
+				ps.setString(numeroArgumentos, cpf.toString());
+				numeroArgumentos++;
+			}
+			if( rg != null && !rg.equals("")) {
+				ps.setString(numeroArgumentos, rg);
+				numeroArgumentos++;
+			}
+			if(dataNasci != null) {
+				ps.setDate(numeroArgumentos, dataNasci);
+			}
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Pessoa dadosPessoa = new Pessoa();
+				
+				dadosPessoa.setPkPessoa(rs.getInt("PKPESSOA"));
+				dadosPessoa.setNome(rs.getString("NOME"));
+				dadosPessoa.setCpf(rs.getLong("CPF"));
+				dadosPessoa.setDataNascimento(rs.getDate("DATANASCIMENTO"));
+				
+				listaPessoa.add(dadosPessoa);
+			}
+			
+			return listaPessoa;
+		} catch (Exception e)  {			
+			return null;
+		}
 	}
 }
