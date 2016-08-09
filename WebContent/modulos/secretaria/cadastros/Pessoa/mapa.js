@@ -1,3 +1,9 @@
+$(function () {
+    $("#modalMapa").on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, 'resize');
+    });
+});
+
 /* Variveis utilizadas para o uso do Mapa */
 var geocoder;
 var map;

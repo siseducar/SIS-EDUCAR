@@ -44,6 +44,7 @@ public class MatriculaAlunoServlet implements Serializable {
 	private TipoDeficiencia tipoDeficienciaDados;
 	private ParametrosServlet paramDados;
 	private Pessoa pessoaSelecionada;
+	private Pessoa pessoaDadosConsulta;
 	
 	private AlunoDAO alunoDAO;
 	private PessoaDAO pessoaDAO;
@@ -82,12 +83,18 @@ public class MatriculaAlunoServlet implements Serializable {
 	/* Componente para validar de Menor */
 	private Boolean menorIdade;
 	
+	/* Nome da MÃE ou RESPONSAVEL pelo aluno */
 	private String nomeResponsavel;
 	
+	/* Quantidade de alunos matriculados na UNIDADE ESCOLAR */
 	private Integer quantidadeAlunosUnidade;
 	
+	/* Quantidade de alunos matriculados na TURMA */
 	private Integer quantidadeAlunosTurma;
 	
+	/* Renderiza o painel com dados de aluno */
+	private Boolean dadosMatriAluno;
+		
 	public MatriculaAlunoServlet() throws SQLException {
 		if(this.pessoaDados == null){
 			this.pessoaDados = new Pessoa();
@@ -134,6 +141,9 @@ public class MatriculaAlunoServlet implements Serializable {
 		if(this.tipoDeficienciaDados == null) {
 			this.tipoDeficienciaDados = new TipoDeficiencia();
 		}
+		if(this.pessoaDadosConsulta == null) {
+			this.pessoaDadosConsulta = new Pessoa();
+		}
 		
 		comboTipoDeficiencia = new ArrayList<SelectItem>();
 		comboRedeEnsino = new ArrayList<SelectItem>();
@@ -148,32 +158,32 @@ public class MatriculaAlunoServlet implements Serializable {
 		menorIdade = false;
 		quantidadeAlunosUnidade = 0;
 		quantidadeAlunosTurma = 0;
+		dadosMatriAluno = false;
 	}
-
 
 	/*
 	 * Metodo para salvar o cadastro de Aluno
 	 * 
 	 * */
 	public String salvarCadastroAluno(){
-		if(pessoaDados.getPkPessoa() != null ){
-			alunoDados.setRedeEnsino(redeEnsinoDados);
-			alunoDados.setUnidadeEscolar(unidadeEscolarDados);
-			alunoDados.setEtapa(etapaDados);
-			alunoDados.setCurso(cursoDados);
-			alunoDados.setTurno(turnoDados);
-			alunoDados.setPessoa(pessoaDados);
-			
-			alunoDAO.salvarCadastroAluno(alunoDados);
-			
-		} else {
-			Logs.addError("Erro ao realizar o cadastro.",null);
+		if(validaDadosAluno()) {
+			if(pessoaDados.getPkPessoa() != null ){
+				alunoDados.setRedeEnsino(redeEnsinoDados);
+				alunoDados.setUnidadeEscolar(unidadeEscolarDados);
+				alunoDados.setEtapa(etapaDados);
+				alunoDados.setCurso(cursoDados);
+				alunoDados.setTurno(turnoDados);
+				alunoDados.setPessoa(pessoaDados);
+				
+				alunoDAO.salvarCadastroAluno(alunoDados);
+				
+			} else {
+				Logs.addError("Erro ao realizar o cadastro.",null);
+			}
 		}
-		
 		return null;
 	}
-	
-	
+		
 	/*
 	 * Metodo responsavel por carregar os combos da tela
 	 * 
@@ -218,15 +228,15 @@ public class MatriculaAlunoServlet implements Serializable {
 	 * Metodo para validar os dados do Aluno
 	 * */
 	public Boolean validaDadosAluno(){
-		if( alunoDados.getRm() == null && alunoDados.getRm().equals("")) {
+		if( alunoDados.getRm() == null || alunoDados.getRm().equals("")) {
 			Logs.addWarning("O RM do aluno deve ser informado.", null);
 			return false;
 		}
-		if( alunoDados.getRa() == null && alunoDados.getRa().equals("")) {
+		if( alunoDados.getRa() == null || alunoDados.getRa().equals("")) {
 			Logs.addWarning("O RA do aluno deve ser informado.",null);
 			return false;
 		}
-		if( alunoDados.getCodigoInep() == null && alunoDados.getCodigoInep().equals("")) {
+		if( alunoDados.getCodigoInep() == null || alunoDados.getCodigoInep().equals("")) {
 			Logs.addWarning("O CÓDIGO DO INEP do aluno deve ser informado.",null);
 			return false;
 		}
@@ -238,12 +248,12 @@ public class MatriculaAlunoServlet implements Serializable {
 			Logs.addWarning("A UNIDADE ESCOLAR deve ser informada.",null);
 			return false;
 		}
-		if( cursoDados.getPkCurso() == null) {
-			Logs.addWarning("O CURSO deve ser informado.",null);
-			return false;
-		}
 		if( etapaDados.getPkEtapa() == null) {
 			Logs.addWarning("A ETAPA deve ser informado.",null);
+			return false;
+		}
+		if( cursoDados.getPkCurso() == null) {
+			Logs.addWarning("A TURMA deve ser informado.",null);
 			return false;
 		}
 		if( turnoDados.getPkTurno() == null) {
@@ -265,9 +275,16 @@ public class MatriculaAlunoServlet implements Serializable {
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
-		listaConsultaPessoa = pessoaDAO.obtemTodos();
+		listaConsultaPessoa = 
+				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
+						pessoaDadosConsulta.getCpf(), 
+						pessoaDadosConsulta.getRg(), 
+						pessoaDadosConsulta.getDataNascimento());
 	}
 	
+	/*
+	 * Metodo para editar cadastro selecionado
+	 * **/
 	public void editarCadastro() {
 		pessoaSelecionada = (Pessoa) dataTable.getRowData();
 		
@@ -290,18 +307,26 @@ public class MatriculaAlunoServlet implements Serializable {
 				menorIdade = false;
 				nomeResponsavel = null;
 			}
+			dadosMatriAluno = true;
 		}
 	}
-
-	public void calculaAlunos() throws SQLException {
+	
+	/*
+	 * Metodo para calcular a quantidade de alunos na escola
+	 * **/
+	public void calculaAlunosUnidade() throws SQLException {
 		if(unidadeEscolarDados.getPkUnidadeEscolar() != null && !comboUnidadeEscolar.isEmpty()) {			
 			UnidadeEscolarDAO unidadeDAO = new UnidadeEscolarDAO();
 			
 			quantidadeAlunosUnidade = unidadeDAO.calculaQuantidadeAlunos(unidadeEscolarDados.getPkUnidadeEscolar());
+		} else {
+			quantidadeAlunosUnidade = 0;
 		}
 	}
 	
-	
+	/*
+	 * Metodo para limpar os dados do formulario
+	 * **/
 	public void limparCadastro() throws SQLException {
 		pessoaDados = new Pessoa();
 		alunoDados = new Aluno();
@@ -324,6 +349,7 @@ public class MatriculaAlunoServlet implements Serializable {
 		menorIdade = false;
 		quantidadeAlunosUnidade = 0;
 		quantidadeAlunosTurma = 0;
+		dadosMatriAluno = false;
 	}
 
 	public void pageFirst() {
@@ -376,11 +402,15 @@ public class MatriculaAlunoServlet implements Serializable {
 	}
 
 	public List<SelectItem> getComboUnidadeEscolar() {
-		comboUnidadeEscolar.clear();
 		if( redeEnsinoDados.getPkRedeEnsino() != null && !comboRedeEnsino.isEmpty() ) {
 			comboUnidadeEscolar.addAll(paramDados.consultaUnidadeEscolar(redeEnsinoDados));
-		}		
-		return comboUnidadeEscolar;
+			return comboUnidadeEscolar;
+		} else {
+			comboUnidadeEscolar.clear();
+			unidadeEscolarDados.setPkUnidadeEscolar(null);
+			quantidadeAlunosUnidade = 0;
+			return comboUnidadeEscolar;
+		}
 	}
 
 	public void setComboUnidadeEscolar(List<SelectItem> comboUnidadeEscolar) {
@@ -388,11 +418,15 @@ public class MatriculaAlunoServlet implements Serializable {
 	}
 	
 	public List<SelectItem> getComboCursoEscolar() {
-		if(etapaDados != null && !comboEtapaEscolar.isEmpty()) {
+		if(unidadeEscolarDados.getPkUnidadeEscolar() != null && !comboUnidadeEscolar.isEmpty()) {
 			comboCursoEscolar.addAll(paramDados.consultaCursoEscolar(unidadeEscolarDados));
+			
+			return comboCursoEscolar;
+		} else {			
+			comboCursoEscolar.clear();
+			cursoDados.setPkCurso(null);
+			return comboCursoEscolar;
 		}
-		comboCursoEscolar.clear();
-		return comboCursoEscolar;
 	}
 
 	public void setComboCursoEscolar(List<SelectItem> comboCursoEscolar) {
@@ -400,11 +434,16 @@ public class MatriculaAlunoServlet implements Serializable {
 	}
 	
 	public List<SelectItem> getComboEtapaEscolar() {
-		if(unidadeEscolarDados.getPkUnidadeEscolar() != null && !comboUnidadeEscolar.isEmpty()) {
+		if(etapaDados != null && !comboEtapaEscolar.isEmpty()) {
 			comboEtapaEscolar.addAll(paramDados.consultaEtapaEscolar(cursoDados));
+
+			return comboEtapaEscolar;
+		} else {
+			comboEtapaEscolar.clear();
+			etapaDados.setPkEtapa(null);
+			quantidadeAlunosTurma = 0;
+			return comboEtapaEscolar;
 		}
-		comboEtapaEscolar.clear();
-		return comboEtapaEscolar;
 	}
 
 	public void setComboEtapaEscolar(List<SelectItem> comboEtapaEscolar) {
@@ -414,9 +453,13 @@ public class MatriculaAlunoServlet implements Serializable {
 	public List<SelectItem> getComboTurnoEscolar() {
 		if(cursoDados.getPkCurso() != null && !comboCursoEscolar.isEmpty()) {
 			comboTurnoEscolar.addAll(paramDados.consultaTurnoEscolar(etapaDados));
+			
+			return comboTurnoEscolar;
+		} else {
+			comboTurnoEscolar.clear();
+			turnoDados.setPkTurno(null);
+			return comboTurnoEscolar;
 		}
-		comboTurnoEscolar.clear();
-		return comboTurnoEscolar;
 	}
 
 	public void setComboTurnoEscolar(List<SelectItem> comboTurnoEscolar) {
@@ -519,53 +562,61 @@ public class MatriculaAlunoServlet implements Serializable {
 		this.dataTable = dataTable;
 	}
 
-
 	public Endereco getEnderecoDados() {
 		return enderecoDados;
 	}
-
 
 	public void setEnderecoDados(Endereco enderecoDados) {
 		this.enderecoDados = enderecoDados;
 	}
 
-
 	public Boolean getMenorIdade() {
 		return menorIdade;
 	}
-
 
 	public void setMenorIdade(Boolean menorIdade) {
 		this.menorIdade = menorIdade;
 	}
 
-
 	public String getNomeResponsavel() {
 		return nomeResponsavel;
 	}
-
 
 	public void setNomeResponsavel(String nomeResponsavel) {
 		this.nomeResponsavel = nomeResponsavel;
 	}
 
-
 	public Integer getQuantidadeAlunosUnidade() {
 		return quantidadeAlunosUnidade;
 	}
-
 
 	public void setQuantidadeAlunosUnidade(Integer quantidadeAlunosUnidade) {
 		this.quantidadeAlunosUnidade = quantidadeAlunosUnidade;
 	}
 
-
 	public Integer getQuantidadeAlunosTurma() {
 		return quantidadeAlunosTurma;
 	}
 
-
 	public void setQuantidadeAlunosTurma(Integer quantidadeAlunosTurma) {
 		this.quantidadeAlunosTurma = quantidadeAlunosTurma;
+	}
+
+	public Pessoa getPessoaDadosConsulta() {
+		return pessoaDadosConsulta;
+	}
+
+	public void setPessoaDadosConsulta(Pessoa pessoaDadosConsulta) {
+		this.pessoaDadosConsulta = pessoaDadosConsulta;
+	}
+
+
+	public Boolean getDadosMatriAluno() {
+		return dadosMatriAluno;
+	}
+
+
+	public void setDadosMatriAluno(Boolean dadosMatriAluno) {
+		this.dadosMatriAluno = dadosMatriAluno;
 	}
 }

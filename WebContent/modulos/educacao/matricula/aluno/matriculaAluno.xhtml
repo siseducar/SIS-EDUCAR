@@ -73,6 +73,17 @@
 									</h:inputText>
 								</div>
 							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel 
+									value="#{mensagens['label.cadastro.pessoa.rg']}"/>
+								<div>
+									<h:inputText type="text" id="numRg"
+										styleClass="col-xs-10 col-sm-12 rg" disabled="true"
+										value="#{matriAlunoServlet.pessoaDados.rg}" autocomplete="off">
+										<f:converter converterId="converter.RG"/>
+									</h:inputText>
+								</div>
+							</div>
 						</div>
 						<div class="space-4"/>
 						<div class="row">
@@ -84,6 +95,7 @@
 								</div>
 							</div>
 						</div>
+						<div class="space-10"/>
 					</h:panelGroup>
 					<h:panelGroup style="width: 100%"
 						class="clearfix form-actions" rendered="#{matriAlunoServlet.menorIdade}">
@@ -99,9 +111,10 @@
 								</div>
 							</div>
 						</div>
-						
 					</h:panelGroup>
-					<h:panelGroup style="width: 100%" class="clearfix form-actions">				
+					<h:panelGroup style="width: 100%" class="clearfix form-actions" rendered="#{matriAlunoServlet.dadosMatriAluno}">
+						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/educacao/matricula/aluno/matriculaAluno.css"/>
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/educacao/matricula/aluno/matriculaAluno.js"/>		
 						<h3 class="header smaller lighter blue" align="center"> Dados Escolares </h3>
 						<div class="row">
 							<div class="col-xs-12 col-sm-9">
@@ -126,7 +139,8 @@
 										<h:outputLabel
 											value="#{mensagens['label.cadastro.aluno.codInep']}"/>
 										<div>
-											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep" autocomplete="off"/>
+											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep" autocomplete="off"
+												value="#{matriAlunoServlet.alunoDados.codigoInep}"/>
 										</div>
 									</div>
 								</div>
@@ -141,7 +155,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{matriAlunoServlet.comboRedeEnsino}"
 													var="redeEnsino" itemLabel="#{redeEnsino.nome}" itemValue="#{redeEnsino.pkRedeEnsino}"/>
-												<f:ajax event="change" render="codUniEscolar" resetValues="true"/>
+												<f:ajax event="change" render="codUniEscolar quantAlunosEscola"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -154,7 +168,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{matriAlunoServlet.comboUnidadeEscolar}"
 													var="unidadeEscolar" itemLabel="#{unidadeEscolar.nome}" itemValue="#{unidadeEscolar.pkUnidadeEscolar}"/>
-												<f:ajax event="change" listener="#{matriAlunoServlet.calculaAlunos}" render="quantAlunos" resetValues="true"/>
+												<f:ajax event="change" listener="#{matriAlunoServlet.calculaAlunosUnidade}" render="quantAlunosEscola codEtapa"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -167,7 +181,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{matriAlunoServlet.comboEtapaEscolar}"
 													var="etapa" itemLabel="#{etapa.descricao}" itemValue="#{etapa.pkEtapa}"/>
-												<f:ajax event="change" render="codEtapa" resetValues="true"/>
+												<f:ajax event="change" render="codCurso"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -185,25 +199,24 @@
 									</div>
 								</div>
 							</div>
+							<div class="space-4"/>
 							<div class="col-xs-12 col-sm-3">
-								<div class="space-4"/>
-								<div class="row" align="center">
-									<div class="col-xs-12 col-sm-12">
-										<h:outputLabel value="Quantidade Alunos na Escola"/>
-										<div>
-											<h:outputLabel id="quantAlunos" value="#{matriAlunoServlet.quantidadeAlunosUnidade}"/>	
+								<div class="panel panel-default">
+									<div class="panel-body">		
+										<div class="row">
+											<div class="col-xs-12 col-sm-12">
+												<h:outputLabel value="Alunos na Escola"/>
+												<h:outputLabel id="quantAlunosEscola" value=": #{matriAlunoServlet.quantidadeAlunosUnidade}"/>
+											</div>
 										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12">
+												<h:outputLabel value="Alunos na Turma"/>
+												<h:outputLabel id="quantAlunosTurma" value=": #{matriAlunoServlet.quantidadeAlunosTurma}"/>
+											</div>
+										</div>	
 									</div>
 								</div>
-								<div class="space-4"/>
-								<div class="row" align="center">
-									<div class="col-xs-12 col-sm-12">
-										<h:outputLabel value="Quantidade Alunos na Turma"/>
-										<div>
-											<h:outputLabel value="25"/>
-										</div>
-									</div>
-								</div>	
 							</div>
 						</div>
 						<div class="space-4"/>
@@ -268,6 +281,18 @@
 							</div>
 						</div>
 					</h:panelGroup>
+					<div class="col-xs-12 col-sm-6" id="default-buttons">
+						<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
+							<i class="ace-icon fa fa-file"/>
+							<span class="bigger-110">Novo</span>
+						</button>
+						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
+							<span class="bigger-110">Registrar</span>
+							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+							<f:ajax event="click" execute=":formMatriculaAluno" resetValues="true"
+								listener="#{matriAlunoServlet.salvarCadastroAluno}"/>
+						</h:commandLink>
+					</div>
 				</h:form>
 				<div class="row">
 		    		<h:form id="formConsultaPessoa">
@@ -288,16 +313,44 @@
 						    	</div>
 						    	<div class="modal-body">
 					    			<div class="row">
+					    				<div class="col-xs-12 col-sm-10">
+					    					<h:outputLabel value="Nome"/>
+					    					<div>
+					    						<h:inputText type="text" id="nomePessoaConsulta" class="col-xs-12 col-sm-12" autocomplete="off"
+					    							value="#{matriAlunoServlet.pessoaDadosConsulta.nome}"/>
+					    					</div>
+					    				</div>
+					    			</div>
+					    			<div class="space-4"/>
+					    			<div class="row">
 					    				<div class="col-xs-12 col-sm-3">
 					    					<h:outputLabel value="CPF"/>
 					    					<div>
-						    					<h:inputText type="text" id="numCpfConsulta"
+						    					<h:inputText type="text" id="numCpfConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.cpf}"
 													styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF" autocomplete="off">
 													<f:validator validatorId="validar.CpfValidator"/>
 													<f:converter converterId="converter.CPF"/>
 												</h:inputText>
 					    					</div>
 					    				</div>
+					    				<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="RG"/>
+											<div>
+												<h:inputText type="text" id="numRgConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.rg}"
+													styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG" autocomplete="off">
+													<f:converter converterId="converter.RG"/>
+												</h:inputText>
+											</div>
+										</div>
+					    				<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="Data de Nascimento"/>
+											<div>
+												<h:inputText type="date" id="dataNasciConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.dataNascimento}"
+													styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento" autocomplete="off">
+													<f:converter converterId="converter.DATA"/>
+												</h:inputText>
+											</div>
+										</div>
 					    			</div>
 					    			<div class="space-6"/>
 					    			<div class="row">
@@ -326,7 +379,7 @@
 								    						<span class="green">
 																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span>
-															<f:ajax event="click" listener="#{matriAlunoServlet.editarCadastro}" render=":formMatriculaAluno"
+															<f:ajax event="click" listener="#{matriAlunoServlet.editarCadastro}"  render=":formMatriculaAluno" 
 																onevent="function(data) { esconderModal(data) }" resetValues="true"/>
 														</h:commandLink>
 								    				</center>	
@@ -365,7 +418,8 @@
 									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
 										<span class="bigger-110"> Consultar </span>
 										<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-										<f:ajax event="click" listener="#{matriAlunoServlet.consultaCadastro}" render="tabelaPessoa"/>
+										<f:ajax event="click" listener="#{matriAlunoServlet.consultaCadastro}" render="tabelaPessoa"
+											execute=":formConsultaPessoa"/>
 									</h:commandLink>
 						    	</div>
 						    </div>

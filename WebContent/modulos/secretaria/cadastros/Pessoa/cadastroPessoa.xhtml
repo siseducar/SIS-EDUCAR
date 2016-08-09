@@ -75,7 +75,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel 
-									value="#{mensagens['label.cadastro.pessoa.rg']}" for="numRg"/>
+									value="#{mensagens['label.cadastro.pessoa.rg']}"/>
 								<div>
 									<h:inputText type="text" id="numRg"
 										styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG"
@@ -486,10 +486,12 @@
 						</div>
 					</h:panelGroup>
 					<div class="col-xs-12 col-sm-6" id="default-buttons">
-						<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
-							<i class="ace-icon fa fa-file"/>
+						<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
 							<span class="bigger-110">Novo</span>
-						</button>
+							<i class="ace-icon fa fa-file"/>
+							<f:ajax event="click" render=":formCadastroPessoa" resetValues="true"
+								listener="#{pessoaServlet.limparFormulario}"/>
+						</h:commandLink>
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
@@ -699,7 +701,7 @@
 											<fieldset>   	
 							                    <div id="mapa"/>
 												<!-- Maps API Javascript -->
-												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>	
+												<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 												<script src="http://maps.googleapis.com/maps/api/js"/>
 							                </fieldset>
 										</div>
@@ -716,6 +718,7 @@
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 		<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/fuelux/fuelux.spinner.min.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 	</ui:define>
 </ui:composition>
 </h:html>
