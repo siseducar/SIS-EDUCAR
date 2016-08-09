@@ -291,14 +291,12 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
 			TipoOcupacaoDAO tipoOcupacaoDAO = new TipoOcupacaoDAO();
 			List<UnidadeEscolar> unidadesAux = new ArrayList<UnidadeEscolar>();
-			String querySQL = "SELECT u.* FROM UnidadeEscolar u"
+			String querySQL = "SELECT u.* "
+					+ " FROM UnidadeEscolar u"
 					+ " LEFT OUTER JOIN Pessoa p ON(u.fkDiretor = p.pkPessoa)"
 					+ " LEFT OUTER JOIN RedeEnsino re ON(u.fkRedeEnsino = re.pkRedeEnsino)"
-					+ " LEFT OUTER JOIN Terreno t ON(u.fkTerreno = t.pkTerreno)"
 					+ " LEFT OUTER JOIN Endereco e ON(u.fkEndereco = e.pkEndereco)"
-					+ " LEFT OUTER JOIN Contato c ON(e.fkContato = c.pkContato)"
 					+ " WHERE u.status = ?"
-					+ " AND t.status = ?"
 					+ " AND re.status = ?"
 					+ " AND e.status = ?";
 			
@@ -318,8 +316,6 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			querySQL+= " ORDER BY codigo";
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
-			numeroArqumentos++;
 			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArqumentos++;
 			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);

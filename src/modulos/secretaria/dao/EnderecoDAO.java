@@ -28,6 +28,11 @@ public class EnderecoDAO extends SisEducarDAO
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public EnderecoDAO() throws SQLException
+	{
+		desabilitarAutoCommit(con);
+	}
+	
 	/**
 	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
 	 * @author João Paulo

@@ -76,7 +76,7 @@ public class SituacaoFuncionamentoDAO extends SisEducarDAO {
 			situacaoFuncionamento.setStatus(rs.getInt("status"));
 			situacaoFuncionamento.setOrdemExibicao(rs.getInt("ordemExibicao"));
 			
-			fecharConexaoBanco(con, ps, true, false);
+			fecharConexaoBanco(con, ps, false, false);
 			
 			return situacaoFuncionamento;
 		}
