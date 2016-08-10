@@ -80,6 +80,7 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaCadastroFornecedor		= classAtributeHidden;
     private String classSecretariaCadastroUsuario   		= classAtributeHidden;
     private String classSecretariaCadastroUnidadeEscolar   	= classAtributeHidden;
+    private String classSecretariaCadastroMatriculaAluno   	= classAtributeHidden;
 	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
     
@@ -549,6 +550,7 @@ public class UsuarioServlet implements Serializable
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
+						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_MATRICULA_ALUNO)) { classSecretariaCadastroMatriculaAluno = ""; }
 
 						//LIBERA ACESSO AS TELAS DE CADASTRO
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
@@ -1034,5 +1036,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setEmailPesquisar(String emailPesquisar) {
 		this.emailPesquisar = emailPesquisar;
+	}
+
+	public String getClassSecretariaCadastroMatriculaAluno() {
+		return classSecretariaCadastroMatriculaAluno;
+	}
+
+	public void setClassSecretariaCadastroMatriculaAluno(String classSecretariaCadastroMatriculaAluno) {
+		this.classSecretariaCadastroMatriculaAluno = classSecretariaCadastroMatriculaAluno;
 	}
 }
