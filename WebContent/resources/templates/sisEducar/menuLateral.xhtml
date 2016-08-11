@@ -125,32 +125,21 @@
 				<b class="arrow"/>
 				<ul class="submenu">
 					<li class="">
-						<a href="">
+						<a href="#" class="#{usuarioServlet.classEscolaCadastroSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
-							Turmas
+							CADASTROS
+							<b class="arrow fa fa-angle-down"/>
 						</a>
 						<b class="arrow"/>
-					</li>
-					<li class="dropdown-toggle">
-						<a href="modulos/educacao/matricula/aluno/matriculaAluno.xhtml">
-							<i class="menu-icon fa fa-caret-right"/>
-							Matriculas
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Professores
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Manutenção
-						</a>
-						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="#{usuarioServlet.classEscolaCadastroMatriculaAluno}">
+								<a href="modulos/educacao/matricula/aluno/matriculaAluno.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Matricula Aluno
+								</a>
+								<b class="arrow"/>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>

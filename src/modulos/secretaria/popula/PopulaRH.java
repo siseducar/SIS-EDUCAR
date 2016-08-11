@@ -35,12 +35,13 @@ public class PopulaRH
 		
 		System.out.println("Populando Permissões das Telas...");
 		populaRHDAO.inserirPermissoes("Pessoa", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-		populaRHDAO.inserirPermissoes("Matrícula Aluno", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_MATRICULA_ALUNO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
 		populaRHDAO.inserirPermissoes("Usuário", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
 		populaRHDAO.inserirPermissoes("Fornecedor", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
 		populaRHDAO.inserirPermissoes("Unidade Escolar", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
 		populaRHDAO.inserirPermissoes("Gráficos", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CONSULTA);
 		populaRHDAO.inserirPermissoes("Relatórios", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS, ConstantesRH.PERMISSAO_TIPO_SECRETARIA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+		
+		populaRHDAO.inserirPermissoes("Matrícula Aluno", ConstantesSisEducar.STATUS_ATIVO, ConstantesRH.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO, ConstantesRH.PERMISSAO_TIPO_ESCOLA, ConstantesRH.TIPO_SUB_MENU_CADASTRO);
 		System.out.println("Popula de Permissões Finalizado \n");
 		
 		System.out.println("Populando Raças...");
