@@ -75,6 +75,11 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaConsultaSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
     private String classSecretariaRelatorioSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
     
+    private String classEscolaCadastroSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaLancamentoSubMenu = classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaConsultaSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaRelatorioSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    
     //VARIAVEIS LIGADAS AOS SUB MÓDULOS
     private String classSecretariaCadastroPessoa 			= classAtributeHidden;
     private String classSecretariaCadastroFornecedor		= classAtributeHidden;
@@ -83,6 +88,8 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaCadastroMatriculaAluno   	= classAtributeHidden;
 	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
+    
+    private String classEscolaCadastroMatriculaAluno 		= classAtributeHidden;
     
 	/**
 	 * Construtor
@@ -497,6 +504,11 @@ public class UsuarioServlet implements Serializable
 			Boolean subMenuLancamentoSecretariaLiberado = false;
 			Boolean subMenuRelatorioSecretariaLiberado = false;
 			
+			Boolean subMenuCadastroEscolaLiberado = false;
+			Boolean subMenuLancamentoEscolaLiberado = false;
+			Boolean subMenuConsultaEscolaLiberado = false;
+			Boolean subMenuRelatorioEscolaLiberado = false;
+			
 			if(usuarioLogado!=null)
 			{
 				for (Permissao permissao : usuarioLogado.getPermissoes()) 
@@ -550,12 +562,12 @@ public class UsuarioServlet implements Serializable
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_MATRICULA_ALUNO)) { classSecretariaCadastroMatriculaAluno = ""; }
 
 						//LIBERA ACESSO AS TELAS DE CADASTRO
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
 						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
 					}
+					
 					/* MÓDULO ESCOLA */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA)) 	
 					{ 
@@ -564,7 +576,45 @@ public class UsuarioServlet implements Serializable
 							classModuloEscola = classAtributeDropDown;
 							moduloEscolaLiberado = true;
 						}
+						
+						//LIBERA ACESSO AOS SUB MENUS
+						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CADASTRO))
+						{
+							if(!subMenuCadastroEscolaLiberado)
+							{
+								classEscolaCadastroSubMenu = classAtributeDropDown; 
+								subMenuCadastroEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_LANCAMENTO))
+						{
+							if(!subMenuLancamentoEscolaLiberado)
+							{
+								classEscolaLancamentoSubMenu = classAtributeDropDown; 
+								subMenuLancamentoEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CONSULTA))
+						{
+							if(!subMenuConsultaEscolaLiberado)
+							{
+								classEscolaConsultaSubMenu = classAtributeDropDown; 
+								subMenuConsultaEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_RELATORIO))
+						{
+							if(!subMenuRelatorioEscolaLiberado)
+							{
+								classEscolaRelatorioSubMenu = classAtributeDropDown; 
+								subMenuRelatorioEscolaLiberado = true;
+							}
+						}
+						
+						//LIBERA ACESSO AS TELAS DE CADASTRO
+						if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
 					}
+					
 					/* MÓDULO MERENDA */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) 	
 					{ 
@@ -574,6 +624,7 @@ public class UsuarioServlet implements Serializable
 							moduloMerendaLiberado = true;
 						}
 					}
+					
 					/* MÓDULO DOCENTES */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_DOCENTES)) 	
 					{ 
@@ -583,6 +634,7 @@ public class UsuarioServlet implements Serializable
 							moduloDocentesLiberado = true;
 						}
 					}
+					
 					/* MÓDULO PORTAL */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PORTAL)) 
 					{ 
@@ -592,6 +644,7 @@ public class UsuarioServlet implements Serializable
 							moduloPortalLiberado = true;
 						}
 					}
+					
 					/* MÓDULO PATRIMONIO */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PATROMONIO)) 
 					{ 
@@ -601,6 +654,7 @@ public class UsuarioServlet implements Serializable
 							moduloPatrimonioLiberado = true;
 						}
 					}
+					
 					/* MÓDULO ALMOXARIFADO */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO)) 
 					{ 
@@ -610,6 +664,7 @@ public class UsuarioServlet implements Serializable
 							moduloAlmoxarifadoLiberado = true;
 						}
 					}
+					
 					/* MÓDULO BIBLIOTECA */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA)) 
 					{ 
@@ -619,6 +674,7 @@ public class UsuarioServlet implements Serializable
 							moduloBibliotecaLiberado = true;
 						}
 					}
+					
 					/* MÓDULO TRANSPORTE */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE)) 
 					{ 
@@ -628,6 +684,7 @@ public class UsuarioServlet implements Serializable
 							moduloTransporteLiberado = true;
 						}
 					}
+					
 					/* MÓDULO SOCIAL */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) 
 					{ 
@@ -637,6 +694,7 @@ public class UsuarioServlet implements Serializable
 							moduloSocialLiberado = true;
 						}
 					}
+					
 					/* MÓDULO PROTOCOLO */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) 
 					{ 
@@ -646,6 +704,7 @@ public class UsuarioServlet implements Serializable
 							moduloProtocoloLiberado = true;
 						}
 					}
+					
 					/* MÓDULO OUVIDORIA */
 					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) 
 					{ 
@@ -1044,5 +1103,45 @@ public class UsuarioServlet implements Serializable
 
 	public void setClassSecretariaCadastroMatriculaAluno(String classSecretariaCadastroMatriculaAluno) {
 		this.classSecretariaCadastroMatriculaAluno = classSecretariaCadastroMatriculaAluno;
+	}
+
+	public String getClassEscolaCadastroSubMenu() {
+		return classEscolaCadastroSubMenu;
+	}
+
+	public void setClassEscolaCadastroSubMenu(String classEscolaCadastroSubMenu) {
+		this.classEscolaCadastroSubMenu = classEscolaCadastroSubMenu;
+	}
+
+	public String getClassEscolaLancamentoSubMenu() {
+		return classEscolaLancamentoSubMenu;
+	}
+
+	public void setClassEscolaLancamentoSubMenu(String classEscolaLancamentoSubMenu) {
+		this.classEscolaLancamentoSubMenu = classEscolaLancamentoSubMenu;
+	}
+
+	public String getClassEscolaConsultaSubMenu() {
+		return classEscolaConsultaSubMenu;
+	}
+
+	public void setClassEscolaConsultaSubMenu(String classEscolaConsultaSubMenu) {
+		this.classEscolaConsultaSubMenu = classEscolaConsultaSubMenu;
+	}
+
+	public String getClassEscolaRelatorioSubMenu() {
+		return classEscolaRelatorioSubMenu;
+	}
+
+	public void setClassEscolaRelatorioSubMenu(String classEscolaRelatorioSubMenu) {
+		this.classEscolaRelatorioSubMenu = classEscolaRelatorioSubMenu;
+	}
+
+	public String getClassEscolaCadastroMatriculaAluno() {
+		return classEscolaCadastroMatriculaAluno;
+	}
+
+	public void setClassEscolaCadastroMatriculaAluno(String classEscolaCadastroMatriculaAluno) {
+		this.classEscolaCadastroMatriculaAluno = classEscolaCadastroMatriculaAluno;
 	}
 }
