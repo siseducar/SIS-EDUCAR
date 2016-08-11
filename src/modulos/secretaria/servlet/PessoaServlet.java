@@ -127,6 +127,8 @@ public class PessoaServlet implements Serializable{
 	
 	private Boolean deletarCadastro;
 	
+	private Boolean cadastroSucesso;
+
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -1085,5 +1087,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setDeletarCadastro(Boolean deletarCadastro) {
 		this.deletarCadastro = deletarCadastro;
-	}     
+	}
+	
+	public Boolean getCadastroSucesso() {
+		return cadastroSucesso;
+	}
+
+	public void setCadastroSucesso(Boolean cadastroSucesso) {
+		this.cadastroSucesso = cadastroSucesso;
+	}
 }

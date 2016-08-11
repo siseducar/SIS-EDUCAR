@@ -88,7 +88,7 @@ public class MatriculaAlunoServlet implements Serializable {
 	
 	/* Quantidade de alunos matriculados na UNIDADE ESCOLAR */
 	private Integer quantidadeAlunosUnidade;
-	
+	 
 	/* Quantidade de alunos matriculados na TURMA */
 	private Integer quantidadeAlunosTurma;
 	

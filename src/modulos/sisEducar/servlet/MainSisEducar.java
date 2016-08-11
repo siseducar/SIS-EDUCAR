@@ -35,17 +35,22 @@ public class MainSisEducar implements Servlet, Serializable
 	}
 	
 	@Override
-	public ServletConfig getServletConfig() { return null; }
+	public ServletConfig getServletConfig() { 
+		return null; 
+	}
 
 	@Override
-	public String getServletInfo() { return null; }
+	public String getServletInfo() { 
+		return null; 
+	}
 
 	@Override
-	public void service(ServletRequest arg0, ServletResponse arg1) throws ServletException, IOException { }
+	public void service(ServletRequest arg0, ServletResponse arg1) throws ServletException, IOException {
+		
+	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 }

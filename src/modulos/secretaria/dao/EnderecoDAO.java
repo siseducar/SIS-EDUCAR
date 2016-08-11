@@ -25,7 +25,7 @@ public class EnderecoDAO extends SisEducarDAO
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
-	PreparedStatement ps = null;
+	PreparedStatement ps = null;	
 	ResultSet rs = null;
 	
 	public EnderecoDAO() throws SQLException
