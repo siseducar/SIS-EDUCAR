@@ -67,10 +67,8 @@ public class LoginServlet extends SisEducarServlet
 	 * @author João Paulo
 	 * @return String
 	 */
-	public void validarLogin()
-	{
-		try 
-		{ 
+	public void validarLogin() {
+		try { 
 			Usuario resultadoUsuario = null;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			Boolean acessoLiberado = false;
@@ -78,14 +76,12 @@ public class LoginServlet extends SisEducarServlet
 			//Remove espaços da string
 			usuario.setNome(usuario.getNome().trim());
 			
-			if(usuario.getNome()!=null && usuario.getNome().length() == 0)
-			{
+			if(usuario.getNome()!=null && usuario.getNome().length() == 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));  
-			}
-			else if(usuario.getSenha()!=null && usuario.getSenha().length() == 0)
-			{
+			} else 
+				if(usuario.getSenha()!=null && usuario.getSenha().length() == 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha é obrigatório", null));  
-			}
+				}
 			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{

@@ -13,7 +13,7 @@ var marker;
 /* Funcão para inicilizar o mapa */
 function initialize() {
 	/* Ponto inicial do mapa */
-	var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
+	var latlng = new google.maps.LatLng(-22.64402834, -47.05530858);
 	
 	/* Verifica a atual posicao */
 	if(navigator.geolocation) {
@@ -34,7 +34,7 @@ function initialize() {
 	
 	/* Opções relacionadas ao mapa */
 	var options = {
-		zoom: 13,
+		zoom: 6,
 		center: latlng,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 		
@@ -150,16 +150,16 @@ function carregarEndereco(latitude,longitude) {
 			for(var i=0; i < 1; i++) {
 				for(var j=0; j< data.results[i].address_components.length; j++){
 					if(data.results[i].address_components[j].types == 'street_number'){
-						document.getElementById('numCasa').value = data.results[i].address_components[j].long_name;
+						document.getElementById('#numCasa').value = data.results[i].address_components[j].long_name;
 					}
 					if(data.results[i].address_components[j].types == 'postal_code'){
-						document.getElementById('numCep').value = data.results[i].address_components[j].long_name;
+						document.getElementById('#numCep').value = data.results[i].address_components[j].long_name;
 					}
 					if(data.results[i].address_components[j].types == 'route'){
-						document.getElementById('nomeLogradouro').value = data.results[i].address_components[j].long_name; 
+						document.getElementById('#nomeLogradouro').value = data.results[i].address_components[j].long_name; 
 					}
 					if(data.results[i].address_components[j].types == 'sublocality_level_1,sublocality,political'){
-						document.getElementById('codBairro').value = data.results[i].address_components[j].long_name; 
+						document.getElementById('#codBairro').value = data.results[i].address_components[j].long_name; 
 					}
 					
 				}

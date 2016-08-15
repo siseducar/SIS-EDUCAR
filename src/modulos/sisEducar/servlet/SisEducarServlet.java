@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +18,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 import sun.misc.BASE64Encoder;
 
-@ViewScoped
+@SessionScoped
 @ManagedBean(name="sisEducarServlet")
 public class SisEducarServlet implements Serializable
 {	
