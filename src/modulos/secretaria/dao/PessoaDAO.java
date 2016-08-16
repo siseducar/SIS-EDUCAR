@@ -471,6 +471,7 @@ public class PessoaDAO extends SisEducarDAO
 				if(dataNasci != null) {
 					querySQL+= " AND DATANASCIMENTO = ? "; 
 				}
+				querySQL+= " ORDER BY NOME";
 			
 			ps = con.prepareStatement(querySQL);
 			

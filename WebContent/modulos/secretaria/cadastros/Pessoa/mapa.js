@@ -144,7 +144,7 @@ function carregarEndereco(latitude,longitude) {
 	if( ( latitude != null && latitude != undefined) && (longitude != null && longitude != undefined)) {
 		
 		var latlng = latitude + "," + longitude;  
-		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + latlng + "&sensor=true";
+		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=-22.64376218,-47.05502058&sensor=true";
 		
 		$.getJSON(url, function( data ) {
 			for(var i=0; i < 1; i++) {

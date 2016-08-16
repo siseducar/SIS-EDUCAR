@@ -100,24 +100,9 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de CIDADE */
 	private List<SelectItem> comboCidade;
 	
-	/* Combo com valores de CARGO */
-	private List<SelectItem> comboCargo;
-	
 	private List<SelectItem> comboEstadoNascimento;
 	
 	private List<SelectItem> comboCidadeNascimento;
-	
-	/* Componente */
-	private Boolean nomeMae;
-	
-	/* Componente */
-	private Boolean nomePai;
-	
-	/* Componente */
-	private Boolean nomeResponsavel;
-	
-	/* Componente para validar idade da pessoa */
-	private Boolean menorIdade;
 	
 	/* Componenete Tabela de consutal */
 	private HtmlDataTable dataTable;
@@ -125,10 +110,34 @@ public class PessoaServlet implements Serializable{
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
 	
+	/* Habilita ou desabilita botão para deletar o cadastro */
 	private Boolean deletarCadastro;
 	
+	/*  Habilita ou desabilita a modal de cadastro com sucesso */
 	private Boolean cadastroSucesso;
+	
+	/* Habilita ou desabilita campos padroes da tela */
+	private Boolean desabilitaCampos;
+	
+	/* Habilita ou desabilita campo CPF da tela*/
+	private Boolean campoCPF;
+	
+	/* Habilita ou desabilita campo RG da tela*/
+	private Boolean campoRG;
 
+	/* Habilita ou desabilita campo NOME DA MAE da tela */
+	private Boolean campoNomeMae;
+	
+	/* Habilita ou desabilita campo NOME DO PAI da tela */
+	private Boolean campoNomePai;
+	
+	/* Habilita ou desabilita campo NOME DO RESPONSAVEL da tela */
+	private Boolean campoNomeResponsavel;
+	
+	/* Componente para validar idade da pessoa */
+	private Boolean panelMenorIdade;
+	
+	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
 		if(this.pessoaDados == null){
@@ -203,7 +212,6 @@ public class PessoaServlet implements Serializable{
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
-		comboCargo = new ArrayList<SelectItem>();
 		comboEstadoCivil = new ArrayList<SelectItem>();
 		comboGrauInstrucao = new ArrayList<SelectItem>();
 		comboNacionalidade = new ArrayList<SelectItem>();
@@ -219,11 +227,15 @@ public class PessoaServlet implements Serializable{
 		comboCidadeNascimento = new ArrayList<SelectItem>();
 		
 		carregaCombos();
-		nomeMae = false;
-		nomePai = false;
-		nomeResponsavel = false;
-		menorIdade = false;
+		campoNomeMae = false;
+		campoNomePai = false;
+		campoNomeResponsavel = false;
+		panelMenorIdade = false;
 		deletarCadastro = false;
+		cadastroSucesso = false;
+		desabilitaCampos = false;
+		campoCPF = false;
+		campoRG = false;
 		
 		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
 	}
@@ -301,6 +313,15 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
+	/*
+	 * Metodo para salvar o cadastro de Pessoa
+	 * 
+	 * */
+	public String atualizarCadastroPessoa() {
+		
+		return null;
+	}
+	
 	public Boolean validaDadosPessoa(){
 		if( pessoaDados.getNome() == null || pessoaDados.getNome().equals("") ) {
 			Logs.addWarning("O NOME deve ser preenchido.", null);
@@ -313,7 +334,7 @@ public class PessoaServlet implements Serializable{
 			return false;
 		}	
 		
-		if( menorIdade == false  ) {
+		if( panelMenorIdade == false  ) {
 			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
 				Logs.addWarning("O CPF deve ser preenchido.", null);
 				pessoaDados.setCpf(null);
@@ -410,7 +431,7 @@ public class PessoaServlet implements Serializable{
 			Logs.addWarning("O TELEFONE CELULAR deve ser preenchido.", null);
 			return false;
 		}
-		if( menorIdade == true ) {
+		if( panelMenorIdade == true ) {
 			if( (pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0) && 
 					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
 				Logs.addWarning("O CPF DA MÃE ou de algum RESPONSAVEL deve ser informado.", null);
@@ -460,16 +481,17 @@ public class PessoaServlet implements Serializable{
 			int anoNascimento = nascimento.get(Calendar.YEAR);
 			idade = anoAtual - anoNascimento;
 			if(idade < 0 || idade > 100) {
+				pessoaDados.setDataNascimento(null);
 				Logs.addWarning("Informe uma data valida.",null);
 			} else {
 				if( idade < 18 ){
-					menorIdade = true;
+					panelMenorIdade = true;
 				}else{
-					menorIdade = false;
+					panelMenorIdade = false;
 				}
 			}
 		} else {
-			menorIdade = false;
+			panelMenorIdade = false;
 		}
 	}
 	
@@ -502,11 +524,14 @@ public class PessoaServlet implements Serializable{
 		cidadeNascimentoDados = new Cidade();
 		pessoaSelecionada = new Pessoa();
 		
-		nomeMae = false;
-		nomePai = false;
-		nomeResponsavel = false;
-		menorIdade = false;
+		campoNomeMae = false;
+		campoNomePai = false;
+		campoNomeResponsavel = false;
+		panelMenorIdade = false;
+		campoCPF = false;
+		campoRG = false;
 		deletarCadastro = false;
+		desabilitaCampos = false;
 	}
 
 	public void consultaCadastro() {
@@ -539,6 +564,31 @@ public class PessoaServlet implements Serializable{
 			grauInstruDados = pessoaDados.getGrauInstrucao();
 			situEconomicaDados = pessoaDados.getSituacaoEconomica();
 			religiaoDados = pessoaDados.getReligiao();
+			
+			if( (pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0) 
+					|| (pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0)
+					|| (pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0)) {
+				
+				panelMenorIdade = true;
+				campoNomeMae = true;
+				campoNomePai = true;
+				
+				if( pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0) {
+					campoCPF = true;
+				} else {
+					campoCPF = false;
+				}
+				
+				if( pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {
+					campoRG = true;
+				} else {
+					campoRG = false;
+				}
+			} else {
+				panelMenorIdade = false;
+				campoCPF = true;
+				campoRG = true;
+			}
 			
 			if(enderecoDados.getCidade() != null) {
 				if(enderecoDados.getCidade().getEstado().getPais().getPkPais() != null) {
@@ -576,6 +626,7 @@ public class PessoaServlet implements Serializable{
 				}
 			}
 			deletarCadastro = true;
+			desabilitaCampos = true;
 		}
 	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -592,15 +643,15 @@ public class PessoaServlet implements Serializable{
 			
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomeMae(nome);
-				nomeMae = true;
+				campoNomeMae = true;
 			}else{
 				pessoaDados.setNomeMae(null);
-				nomeMae = false;
+				campoNomeMae = false;
 				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 			}
 		}else{
 			pessoaDados.setNomeMae(null);
-			nomeMae = false;
+			campoNomeMae = false;
 		}
 	}
 	
@@ -615,10 +666,10 @@ public class PessoaServlet implements Serializable{
 			String nome = pessoaDAO.consultaNomeResponsavel(cpfPai); 
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomePai(nome);
-				nomePai = true;
+				campoNomePai = true;
 			}else{
 				pessoaDados.setNomePai(null);
-				nomePai = false;
+				campoNomePai = false;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"CPF não encontrado, favor informar o nome.", null));
 			}
@@ -636,10 +687,10 @@ public class PessoaServlet implements Serializable{
 			String nome = pessoaDAO.consultaNomeResponsavel(cpfResponsavel); 
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomeResponsavel(nome);
-				nomeResponsavel = true;
+				campoNomeResponsavel = true;
 			}else{
 				pessoaDados.setNomePai(null);
-				nomeResponsavel = false;
+				campoNomeResponsavel = false;
 				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
 			}
 		}
@@ -653,6 +704,10 @@ public class PessoaServlet implements Serializable{
 		if( validaDadosPessoa() == true ) {	
 			if(pessoaDados.getPkPessoa() == null ) {					
 				salvarCadastroPessoa();
+			} else {
+				if( pessoaDados.getPkPessoa() != null ){
+					
+				}
 			}
 		}
 	}
@@ -685,9 +740,6 @@ public class PessoaServlet implements Serializable{
 		}
 		if(comboPais.isEmpty()) {
 			comboPais.addAll(paramDados.consultaPais());	
-		}
-		if(comboCargo.isEmpty()) {
-			comboCargo.addAll(paramDados.consultaCargo());	
 		}
 		if(comboGrauParentesco.isEmpty()) {
 			comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());	
@@ -976,38 +1028,6 @@ public class PessoaServlet implements Serializable{
 	public void setComboGrauParentesco(List<SelectItem> comboGrauParentesco) {
 		this.comboGrauParentesco = comboGrauParentesco;
 	}
-	
-	public Boolean getMenorIdade() {
-		return menorIdade;
-	}
-
-	public void setMenorIdade(Boolean menorIdade) {
-		this.menorIdade = menorIdade;
-	}
-
-	public Boolean getNomeMae() {
-		return nomeMae;
-	}
-
-	public void setNomeMae(Boolean nomeMae) {
-		this.nomeMae = nomeMae;
-	}
-
-	public Boolean getNomePai() {
-		return nomePai;
-	}
-
-	public void setNomePai(Boolean nomePai) {
-		this.nomePai = nomePai;
-	}
-
-	public Boolean getNomeResponsavel() {
-		return nomeResponsavel;
-	}
-
-	public void setNomeResponsavel(Boolean nomeResponsavel) {
-		this.nomeResponsavel = nomeResponsavel;
-	}
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* GETTERS AND SETTER DE PARAMETROS DA TELA */
 /* ------------------------------------------------------------------------------------------------------------------------ */
@@ -1095,5 +1115,61 @@ public class PessoaServlet implements Serializable{
 
 	public void setCadastroSucesso(Boolean cadastroSucesso) {
 		this.cadastroSucesso = cadastroSucesso;
+	}
+
+	public Boolean getDesabilitaCampos() {
+		return desabilitaCampos;
+	}
+
+	public void setDesabilitaCampos(Boolean desabilitaCampos) {
+		this.desabilitaCampos = desabilitaCampos;
+	}
+
+	public Boolean getCampoCPF() {
+		return campoCPF;
+	}
+
+	public void setCampoCPF(Boolean campoCPF) {
+		this.campoCPF = campoCPF;
+	}
+
+	public Boolean getCampoRG() {
+		return campoRG;
+	}
+
+	public void setCampoRG(Boolean campoRG) {
+		this.campoRG = campoRG;
+	}
+
+	public Boolean getCampoNomeMae() {
+		return campoNomeMae;
+	}
+
+	public void setCampoNomeMae(Boolean campoNomeMae) {
+		this.campoNomeMae = campoNomeMae;
+	}
+
+	public Boolean getCampoNomePai() {
+		return campoNomePai;
+	}
+
+	public void setCampoNomePai(Boolean campoNomePai) {
+		this.campoNomePai = campoNomePai;
+	}
+
+	public Boolean getCampoNomeResponsavel() {
+		return campoNomeResponsavel;
+	}
+
+	public void setCampoNomeResponsavel(Boolean campoNomeResponsavel) {
+		this.campoNomeResponsavel = campoNomeResponsavel;
+	}
+
+	public Boolean getPanelMenorIdade() {
+		return panelMenorIdade;
+	}
+
+	public void setPanelMenorIdade(Boolean panelMenorIdade) {
+		this.panelMenorIdade = panelMenorIdade;
 	}
 }

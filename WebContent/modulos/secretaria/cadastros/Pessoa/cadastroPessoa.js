@@ -1,5 +1,3 @@
-$("#modal-form").hide();
-
 $(function carrgaElementos() {
 	/*	Componente CPF  */
 	$(".cpf").on('focus',function(){

@@ -33,7 +33,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
-				<h:form id="formCadastroPessoa" enctype="multipart/form-data">
+				<h:form id="formCadastroPessoa" enctype="multipart/form-data" prependId="false">
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
 						class="clearfix form-actions">
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
@@ -49,8 +49,9 @@
 									<h:outputLabel 
 									value="#{mensagens['label.cadastro.pessoa.nome']}" />
 								<div>
-									<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12"
-										value="#{pessoaServlet.pessoaDados.nome}" autocomplete="off"/>
+									<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12 form-control"
+										value="#{pessoaServlet.pessoaDados.nome}" autocomplete="off" 
+										disabled="#{pessoaServlet.desabilitaCampos}"/>
 								</div>
 							</div>
 						</div>
@@ -61,8 +62,9 @@
 									value="#{mensagens['label.cadastro.pessoa.cpf']}" for="numCpf"/>
 								<div>
 									<h:inputText type="text" id="numCpf"
-										styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF"
-										value="#{pessoaServlet.pessoaDados.cpf}" autocomplete="off">
+										styleClass="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+										value="#{pessoaServlet.pessoaDados.cpf}" autocomplete="off"
+										disabled="#{pessoaServlet.campoCPF}">
 										<f:validator validatorId="validar.CpfValidator"/>
 										<f:converter converterId="converter.CPF"/>
 										<f:ajax event="change" listener="#{pessoaServlet.verificaCadastro}" 
@@ -75,8 +77,9 @@
 									value="#{mensagens['label.cadastro.pessoa.rg']}"/>
 								<div>
 									<h:inputText type="text" id="numRg"
-										styleClass="col-xs-12 col-sm-12 rg" title="Numero do RG"
-										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off">
+										styleClass="col-xs-12 col-sm-12 rg form-control" title="Numero do RG"
+										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off"
+										disabled="#{pessoaServlet.campoRG}">
 										<f:converter converterId="converter.RG"/>
 									</h:inputText>
 								</div>
@@ -85,9 +88,10 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
 								<div>
-									<h:inputText type="date" id="dataNasci" 
-										styleClass="col-xs-12 col-sm-12 calendario" title="Data de Nascimento"
-										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off">
+									<h:inputText type="date" id="dataNasci"
+										styleClass="col-xs-12 col-sm-12 calendario form-control" title="Data de Nascimento"
+										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off"
+										disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:converter converterId="converter.DATA"/>
 										<f:ajax event="change" listener="#{pessoaServlet.calculaIdade}" 
 											render="dadosResponsavel" resetValues="true"/>
@@ -100,7 +104,7 @@
 								<div>
 									<h:selectOneMenu id="codSexo"
 										class="form-control" title="Sexo da Pessoa"
-										value="#{pessoaServlet.pessoaDados.sexo}">
+										value="#{pessoaServlet.pessoaDados.sexo}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItem itemLabel="Masculino" itemValue="1"/>
 										<f:selectItem itemLabel="Feminino" itemValue="2"/>
@@ -110,8 +114,8 @@
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel value="Estado de Nascimento"/>
 								<div>
-									<h:selectOneMenu id="codEstNasci"
-										class="form-control" value="#{pessoaServlet.estadoNascimentoDados.pkEstado}">
+									<h:selectOneMenu id="codEstNasci" class="form-control" 
+										value="#{pessoaServlet.estadoNascimentoDados.pkEstado}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{pessoaServlet.comboEstadoNascimento}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
@@ -122,8 +126,8 @@
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel value="Cidade de Nascimento"/>
 								<div>
-									<h:selectOneMenu id="codCidNasci"
-										class="form-control" value="#{pessoaServlet.cidadeNascimentoDados.pkCidade}">
+									<h:selectOneMenu id="codCidNasci" class="form-control" 
+										value="#{pessoaServlet.cidadeNascimentoDados.pkCidade}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{pessoaServlet.comboCidadeNascimento}"
 											var="cidNascimento" itemLabel="#{cidNascimento.nome}" itemValue="#{cidNascimento.pkCidade}"/>
@@ -137,8 +141,8 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.nacionalidade']}"/>
 								<div>
-									<h:selectOneMenu id="codNacionalidade"
-										class="form-control" title="Nacionadlidade da Pessoa"
+									<h:selectOneMenu id="codNacionalidade" class="form-control" 
+										title="Nacionadlidade da Pessoa" disabled="#{pessoaServlet.desabilitaCampos}"
 										value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
@@ -152,7 +156,7 @@
 								<div>
 									<h:selectOneMenu id="codRaca"
 										class="form-control" title="Raça/Cor da Pessoa" 
-										value="#{pessoaServlet.racaDados.pkRaca}">
+										value="#{pessoaServlet.racaDados.pkRaca}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboRaca}"
 											var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
@@ -217,7 +221,7 @@
 						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						<h:panelGroup style="width: 100%"
-							class="clearfix form-actions" rendered="#{pessoaServlet.menorIdade}">
+							class="clearfix form-actions" rendered="#{pessoaServlet.panelMenorIdade}">
 							<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
@@ -225,8 +229,9 @@
 										value="CPF da Mãe"/>
 									<div>
 										<h:inputText type="text" id="numCpfMae"
-											class="col-xs-12 col-sm-12 cpf" title="Numero do CPF"
-											value="#{pessoaServlet.pessoaDados.cpfMae}" autocomplete="off">
+											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+											value="#{pessoaServlet.pessoaDados.cpfMae}" autocomplete="off"
+											disabled="#{pessoaServlet.desabilitaCampos}">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
 											<f:ajax event="change" listener="#{pessoaServlet.validaNomeMae}" 
@@ -238,8 +243,8 @@
 									<h:outputLabel
 										value="Nome da Mãe"/>
 									<div>
-										<h:inputText type="text" id="nomeMae" class="col-xs-12 col-sm-12"
-											value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.nomeMae}" autocomplete="off"/>
+										<h:inputText type="text" id="nomeMae" class="col-xs-12 col-sm-12 form-control"
+											value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.campoNomeMae}" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -250,8 +255,9 @@
 										value="CPF do Pai"/>
 									<div>
 										<h:inputText type="text" id="numCpfPai"
-											class="col-xs-12 col-sm-12 cpf" title="Numero do CPF"
-											value="#{pessoaServlet.pessoaDados.cpfPai}" autocomplete="off">
+											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+											value="#{pessoaServlet.pessoaDados.cpfPai}" autocomplete="off"
+											disabled="#{pessoaServlet.desabilitaCampos}">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
 											<f:ajax event="change" listener="#{pessoaServlet.validaNomePai}" 
@@ -263,8 +269,9 @@
 									<h:outputLabel
 										value="Nome do Pai"/>
 									<div>
-										<h:inputText type="text" id="nomePai" class="col-xs-12 col-sm-12"
-											value="#{pessoaServlet.pessoaDados.nomePai}" disabled="#{pessoaServlet.nomePai}" autocomplete="off"/>
+										<h:inputText type="text" id="nomePai" class="col-xs-12 col-sm-12 form-control"
+											value="#{pessoaServlet.pessoaDados.nomePai}" 
+											disabled="#{pessoaServlet.campoNomePai}" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -275,7 +282,7 @@
 										value="CPF do Responsavel"/>
 									<div>
 										<h:inputText type="text" id="numCpfResponsavel"
-											class="col-xs-12 col-sm-12 cpf" title="Numero do CPF"
+											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
 											value="#{pessoaServlet.pessoaDados.cpfResponsavel}" autocomplete="off">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
@@ -288,9 +295,9 @@
 									<h:outputLabel
 										value="Nome do Responsavel"/>
 									<div>
-										<h:inputText type="text" id="nomeResponsavel" class="col-xs-12 col-sm-12"
+										<h:inputText type="text" id="nomeResponsavel" class="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.pessoaDados.nomeResponsavel}"
-											disabled="#{pessoaServlet.nomeResponsavel}" autocomplete="off"/>
+											disabled="#{pessoaServlet.campoNomeResponsavel}" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
@@ -316,10 +323,9 @@
                         		<div class="col-xs-12 col-sm-6">
                         			<h:outputLabel value="Endereço"/>
                         			<div>
-	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-9"
+	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-9 form-control"
                         			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
                         			</div>
-                        			<div class="space-4"/>
 	                        		<div class="col-xs-12 col-sm-3">
 		                        		<a href="#modalMapa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round botoes" id="openBtn">
 											<span class="bigger-110"> Mostrar no Mapa </span>
@@ -370,7 +376,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
 									<div>
 										<h:inputText
-											styleClass="col-xs-12 col-sm-12 cep" id="numCep" title="Numero do CEP"
+											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep" title="Numero do CEP"
 											value="#{pessoaServlet.enderecoDados.cep}" autocomplete="off">
 											<f:converter converterId="converter.CEP"/>
 										</h:inputText>
@@ -384,7 +390,7 @@
 										value="Logradouro"/>
 									<div>
 										<h:inputText type="text" id="nomeLogradouro" name="nomeLogradouro"
-											styleClass="col-xs-12 col-sm-12"
+											styleClass="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.enderecoDados.logradouro}" autocomplete="off"/>
 									</div>
 								</div>
@@ -393,7 +399,7 @@
 										value="#{mensagens['label.cadastro.pessoa.numero']}"/>
 									<div>
 										<h:inputText type="text" id="numCasa" name="numCasa"
-											styleClass="col-xs-12 col-sm-12" title="Numero da Casa"
+											styleClass="col-xs-12 col-sm-12 form-control" title="Numero da Casa"
 												value="#{pessoaServlet.enderecoDados.numero}"/>
 									</div>
 								</div>
@@ -402,7 +408,7 @@
 										value="#{mensagens['label.cadastro.pessoa.bairro']}"/>
 									<div>
 										<h:inputText type="text" id="codBairro" name="codBairro"
-											styleClass="col-xs-12 col-sm-12" title="Nome do Bairro"
+											styleClass="col-xs-12 col-sm-12 form-control" title="Nome do Bairro"
 											value="#{pessoaServlet.enderecoDados.bairro}" autocomplete="off"/>
 									</div>
 								</div>
@@ -410,7 +416,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}"/>
 									<div>
 										<h:inputText type="text" id="codComplemento"
-											styleClass="col-xs-12 col-sm-12" title="Complemento da Casa"
+											styleClass="col-xs-12 col-sm-12 form-control" title="Complemento da Casa"
 											value="#{pessoaServlet.enderecoDados.complemento}" autocomplete="off"/>
 									</div>
 								</div>
@@ -422,8 +428,8 @@
 			                    	<div>
 			                    		<h:inputHidden id="valorLatitude" valor="valorLatitude" 
 			                    			value="#{pessoaServlet.enderecoDados.latitude}"/>
-			                    		<h:inputText id="txtLatitude" name="txtLatitude" readonly="true"
-			                    			value="#{pessoaServlet.enderecoDados.latitude}" styleClass="col-xs-12 col-sm-12" 
+			                    		<h:inputText id="txtLatitude" name="txtLatitude" disabled="true"
+			                    			value="#{pessoaServlet.enderecoDados.latitude}" styleClass="col-xs-12 col-sm-12 form-control" 
 			                    			autocomplete="off"/>
 			                    	</div>
 								</div>
@@ -432,9 +438,9 @@
 									<div>
 										<h:inputHidden id="valorLongitude" name="valorLongitude" 
 											value="#{pessoaServlet.enderecoDados.longitude}"/>
-										<h:inputText id="txtLongitude" name="txtLongitude" readonly="true" 
-											value="#{pessoaServlet.enderecoDados.longitude}" styleClass="col-xs-12 col-sm-12" 
-											autocomplete="off" />
+										<h:inputText id="txtLongitude" name="txtLongitude" disabled="true" 
+											value="#{pessoaServlet.enderecoDados.longitude}" styleClass="col-xs-12 col-sm-12 form-control" 
+											autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -455,7 +461,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}"/>
 									<div>
 										<h:inputText type="number" id="numTelefone"
-											styleClass="col-xs-12 col-sm-12 telResidencial" title="Numero do Celular"
+											styleClass="col-xs-12 col-sm-12 telResidencial form-control" title="Numero do Celular"
 											value="#{pessoaServlet.contatoDados.telResidencial}" autocomplete="off">
 											<f:converter converterId="converter.TELRESIDENCIAL"/>
 										</h:inputText>
@@ -465,7 +471,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}"/>
 									<div>
 										<h:inputText type="number" id="numCelular"
-											styleClass="col-xs-12 col-sm-12 telCelular" title="Numero do Celular"
+											styleClass="col-xs-12 col-sm-12 telCelular form-control" title="Numero do Celular"
 											value="#{pessoaServlet.contatoDados.telCelular}" autocomplete="off">
 											<f:converter converterId="converter.TELCELULAR"/>
 										</h:inputText>
@@ -475,7 +481,7 @@
 									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}"/>
 									<div>
 										<h:inputText type="text" id="email"
-											styleClass="col-xs-12 col-sm-12" title="E-mail da Pessoa"
+											styleClass="col-xs-12 col-sm-12 form-control" title="E-mail da Pessoa"
 											value="#{pessoaServlet.contatoDados.email}" autocomplete="off"/>
 									</div>
 								</div>

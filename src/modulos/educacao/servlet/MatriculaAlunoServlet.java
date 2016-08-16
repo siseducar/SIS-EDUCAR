@@ -86,6 +86,9 @@ public class MatriculaAlunoServlet implements Serializable {
 	/* Nome da MÃE ou RESPONSAVEL pelo aluno */
 	private String nomeResponsavel;
 	
+	/* Nome da MÃE ou RESPONSAVEL pelo aluno */
+	private String telResponsavel;
+	
 	/* Quantidade de alunos matriculados na UNIDADE ESCOLAR */
 	private Integer quantidadeAlunosUnidade;
 	 
@@ -299,8 +302,11 @@ public class MatriculaAlunoServlet implements Serializable {
 				
 				if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0) {
 					nomeResponsavel = pessoaDados.getNomeMae();
+					telResponsavel = enderecoDados.getContato().getTelCelular();
+					
 				} else {
 					nomeResponsavel = pessoaDados.getNomeResponsavel();
+					telResponsavel = enderecoDados.getContato().getTelCelular();
 				}
 				menorIdade = true;				
 			} else {
@@ -618,5 +624,13 @@ public class MatriculaAlunoServlet implements Serializable {
 
 	public void setDadosMatriAluno(Boolean dadosMatriAluno) {
 		this.dadosMatriAluno = dadosMatriAluno;
+	}
+
+	public String getTelResponsavel() {
+		return telResponsavel;
+	}
+
+	public void setTelResponsavel(String telResponsavel) {
+		this.telResponsavel = telResponsavel;
 	}
 }
