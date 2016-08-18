@@ -245,23 +245,60 @@
 								</div>
 							</div>
 							
-							<!-- PERMISSÕES -->
 							<div class="clearfix form-actions">
-								<h3 class="header smaller lighter blue">Permissões</h3>
+								<div class="form-group">
+									<h3 class="header smaller lighter blue">Permissões</h3>
 								
-								<div class="table-responsive">
-									<p:dataTable tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
-							            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
-							            <p:column headerText="Nome da Tela">
-							                #{value.nome}
-							            </p:column>
-							            <p:column headerText="Tipo da Tela">
-							                #{value.nomeSubMenu}
-							            </p:column>
-							            <p:column headerText="Módulo">
-							                #{value.nomeModulo}
-							            </p:column>
-							        </p:dataTable>
+									<!-- PERMISSÕES -->
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel value="Módulos"/>
+										<div>
+											<h:selectOneMenu class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
+											</h:selectOneMenu>
+										</div>
+										<div class="space"></div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel value="Tipo Tela"/>
+										<div>
+											<h:selectOneMenu class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
+											</h:selectOneMenu>
+										</div>
+										<div class="space"></div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel value="Tela"/>
+										<div>
+											<h:selectOneMenu class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
+											</h:selectOneMenu>
+										</div>
+										<div class="space"></div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-12">
+										<div class="table-responsive">
+											<p:dataTable tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
+									            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
+									            <p:column headerText="Nome da Tela">
+									                #{value.nome}
+									            </p:column>
+									            <p:column headerText="Tipo da Tela">
+									                #{value.nomeSubMenu}
+									            </p:column>
+									            <p:column headerText="Módulo">
+									                #{value.nomeModulo}
+									            </p:column>
+									        </p:dataTable>
+										</div>
+									</div>
 								</div>
 							</div>
 								
