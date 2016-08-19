@@ -3,7 +3,7 @@ package modulos.sisEducar.om;
 public class Modulo 
 {
 	private String nome;
-	private String tipo;
+	private Integer tipo;
 	
 	public String getNome() {
 		return nome;
@@ -11,10 +11,10 @@ public class Modulo
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getTipo() {
+	public Integer getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
 }

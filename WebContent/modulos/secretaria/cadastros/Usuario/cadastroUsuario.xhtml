@@ -253,9 +253,10 @@
 									<div class="col-xs-12 col-sm-4">
 										<h:outputLabel value="Módulos"/>
 										<div>
-											<h:selectOneMenu class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
+											<h:selectOneMenu id="comboModulo" class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
+												<f:ajax event="change" render="comboTela" resetValues="true"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -264,9 +265,10 @@
 									<div class="col-xs-12 col-sm-4">
 										<h:outputLabel value="Tipo Tela"/>
 										<div>
-											<h:selectOneMenu class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
+											<h:selectOneMenu id="comboTipoTela" class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
+												<f:ajax event="change" render="comboTela" resetValues="true"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -275,9 +277,10 @@
 									<div class="col-xs-12 col-sm-4">
 										<h:outputLabel value="Tela"/>
 										<div>
-											<h:selectOneMenu class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
+											<h:selectOneMenu id="comboTela" class="form-control" value="#{usuarioServlet.telaSelecionada.tipoTela}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
+												<f:selectItems value="#{usuarioServlet.comboTela}" var="Tela" itemValue="#{Tela.tipoTela}" itemLabel="#{Tela.nome}"/>
+												<f:ajax event="change" render="tablePermissoes" resetValues="true"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -285,7 +288,7 @@
 									
 									<div class="col-xs-12 col-sm-12">
 										<div class="table-responsive">
-											<p:dataTable tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
+											<p:dataTable id="tablePermissoes" tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
 									            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
 									            <p:column headerText="Nome da Tela">
 									                #{value.nome}

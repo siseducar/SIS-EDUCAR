@@ -24,6 +24,7 @@ import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesRH;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.om.Modulo;
+import modulos.sisEducar.om.Tela;
 import modulos.sisEducar.om.TipoTela;
 import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -47,6 +48,9 @@ public class UsuarioServlet implements Serializable
 	
 	private TipoTela tipoTelaSelecionado;
 	private List<SelectItem> comboTipoTela;
+	
+	private Tela telaSelecionada;
+	private List<SelectItem> comboTela;
 	
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
@@ -108,6 +112,10 @@ public class UsuarioServlet implements Serializable
 		sisEducarServlet = new SisEducarServlet();
 		comboModulo = new ArrayList<SelectItem>();
 		comboTipoTela = new ArrayList<SelectItem>();
+		comboTela = new ArrayList<SelectItem>();
+		if(moduloSelecionado==null)   { moduloSelecionado = new Modulo(); }
+		if(tipoTelaSelecionado==null) { tipoTelaSelecionado = new TipoTela(); }
+		if(telaSelecionada==null)     { telaSelecionada = new Tela(); }
 		
 		cpfPesquisar = "";
 		usuarioPesquisar = "";
@@ -965,6 +973,121 @@ public class UsuarioServlet implements Serializable
 		
 		return itens;
 	}
+
+	
+	/**
+	 * Retorna uma lista com todos os tipos de sub menus
+	 * @author João Paulo
+	 * @return
+	 */
+	public List<SelectItem> consultaTela()
+	{
+		List<SelectItem> itens = new ArrayList<SelectItem>();
+		List<Tela> todasTelas = popularTelas();
+		SelectItem selectItem = null;
+		
+		for (Tela tela : todasTelas) 
+		{
+			selectItem = new SelectItem();
+			if((moduloSelecionado!=null && moduloSelecionado.getTipo()!=null) || (tipoTelaSelecionado!=null && tipoTelaSelecionado.getTipo()!=null))
+			{
+				if(moduloSelecionado!=null && moduloSelecionado.getTipo()!=null && tipoTelaSelecionado!=null && tipoTelaSelecionado.getTipo()!=null)
+				{
+					if(tela.getModulo().equals(moduloSelecionado.getTipo()) && tela.getTipoSubMenu().equals(tipoTelaSelecionado.getTipo())) 
+					{ 
+						selectItem.setLabel(tela.getNome());
+						selectItem.setValue(tela.getTipoTela());
+						itens.add(selectItem);
+					}
+				}
+				else if(moduloSelecionado!=null && moduloSelecionado.getTipo()!=null && tipoTelaSelecionado!=null && tipoTelaSelecionado.getTipo()==null)
+				{
+					if(tela.getModulo().equals(moduloSelecionado.getTipo())) 
+					{ 
+						selectItem.setLabel(tela.getNome());
+						selectItem.setValue(tela.getTipoTela());
+						itens.add(selectItem);
+					}
+				}
+				else if(moduloSelecionado!=null && moduloSelecionado.getTipo()==null && tipoTelaSelecionado!=null && tipoTelaSelecionado.getTipo()!=null)
+				{
+					if(tela.getTipoSubMenu().equals(tipoTelaSelecionado.getTipo())) 
+					{ 
+						selectItem.setLabel(tela.getNome());
+						selectItem.setValue(tela.getTipoTela());
+						itens.add(selectItem);
+					}
+				}
+			}
+			else
+			{
+				selectItem.setLabel(tela.getNome());
+				selectItem.setValue(tela.getTipoTela());
+				itens.add(selectItem);
+			}
+		}
+		
+		return itens;
+	}
+	
+	/**
+	 * Preenche uma lista com todas as telas do sistema
+	 * @author João Paulo
+	 * @return
+	 */
+	public List<Tela> popularTelas()
+	{
+		Integer qtdTelas = 5;
+		List<Tela> telas = new ArrayList<Tela>();
+		Tela tela = null;
+		for (int i = 0; i < qtdTelas; i++) 
+		{
+			tela= new Tela();
+			
+			//SECRETARIA
+			if(i==0)
+			{ 
+				tela.setNome("Pessoa");
+				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA);
+				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+			}
+			else if(i==1)
+			{
+				tela.setNome("Fornecedor");
+				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR);
+				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+			}
+			else if(i==2)
+			{
+				tela.setNome("Usuário");
+				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO);
+				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+			}
+			else if(i==3)
+			{
+				tela.setNome("Unidade Escolar");
+				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR);
+				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+			}
+			//ESCOLA
+			else if(i==4)
+			{
+				tela.setNome("Matrícula Aluno");
+				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_ESCOLA);
+			}
+			
+			telas.add(tela);
+		}
+		
+		return telas;
+	}
+
 	
 	/*Getters and setters*/
 	public Usuario getUsuario() {
@@ -1322,5 +1445,23 @@ public class UsuarioServlet implements Serializable
 
 	public void setComboTipoTela(List<SelectItem> comboTipoTela) {
 		this.comboTipoTela = comboTipoTela;
+	}
+
+	public Tela getTelaSelecionada() {
+		return telaSelecionada;
+	}
+
+	public void setTelaSelecionada(Tela telaSelecionada) {
+		this.telaSelecionada = telaSelecionada;
+	}
+
+	public List<SelectItem> getComboTela() {
+		comboTela.clear();
+		comboTela.addAll(consultaTela());
+		return comboTela;
+	}
+
+	public void setComboTela(List<SelectItem> comboTela) {
+		this.comboTela = comboTela;
 	}
 }
