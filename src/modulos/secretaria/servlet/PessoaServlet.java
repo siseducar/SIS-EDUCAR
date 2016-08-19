@@ -564,6 +564,7 @@ public class PessoaServlet implements Serializable{
 			grauInstruDados = pessoaDados.getGrauInstrucao();
 			situEconomicaDados = pessoaDados.getSituacaoEconomica();
 			religiaoDados = pessoaDados.getReligiao();
+			regiaoDados = enderecoDados.getRegiao();
 			
 			if( (pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0) 
 					|| (pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0)

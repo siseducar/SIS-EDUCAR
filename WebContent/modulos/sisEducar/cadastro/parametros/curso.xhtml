@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+	<ui:define name="barraNavegacao">
+		<li>
+			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Cadastro
+		</li>
+		<li class="active">
+			<i class="ace-icon glyphicon glyphicon-user"/>Parametros
+		</li>
+	</ui:define>
+	<ui:define name="scriptConteudo" >
+		<div class="page-header col-xs-12 col-sm-12">
+			<h1>
+				Parametros
+				<small>
+					<i class="ace-icon fa fa-angle-double-right"/> Parametros de Cursos
+				</small>
+			</h1>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<h:form id="formParamCurso">
+					<h:panelGroup id="dadosCurso" style="width: 100%" class="clearfix form-actions">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12">
+								<h3 class="header smaller lighter blue" align="center"> Dados do Curso </h3>
+							</div>
+						</div>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-3">
+								<h:outputLabel value="Cliente"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-4">
+								<h:outputLabel value="Unidade Escolar"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel value="Ano Letivo"/>
+								<div>
+									<h:inputText styleClass="col-xs-12 col-sm-12"/>
+								</div>
+							</div>
+						</div>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-4">
+								<h:outputLabel value="Nome do Curso"/>
+								<div>
+									<h:inputText styleClass="col-xs-12 col-sm-12"/>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<h:outputLabel value="Graduação"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<h:outputLabel value="Nivel Ensino"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup id="parametrosCurso" style="width: 100%" class="clearfix form-actions">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12">
+								<h3 class="header smaller lighter blue" align="center"> Parâmetros do Curso </h3>
+							</div>
+						</div>
+						<div class="space-4"/>
+						<div class="row">
+							<div class="col-xs-12 col-sm-3">
+								<h:outputLabel value="Duração do Curso"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-1">
+								<h:outputLabel value="CH Curso"/>
+								<div>
+									<h:inputText styleClass="col-xs-12 col-sm-12"/>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel value="Periodos de Avaliação"/>
+								<div>
+									<h:selectOneMenu class="form-control">
+										<f:selectItem itemLabel="Selecione...."/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-2">
+								<h:outputLabel value="Etapas"/>
+								<div>
+									<h:selectOneRadio>
+										<f:selectItem  itemLabel="Sim"/>
+										<f:selectItem  itemLabel="Não"/>
+									</h:selectOneRadio>
+								</div>
+							</div>
+						</div>
+						<h:panelGroup id="panelGradeEtapa" style="width: 80%" class="clearfix form-actions">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+								</div>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</h:html>

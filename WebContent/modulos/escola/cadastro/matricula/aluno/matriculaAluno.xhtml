@@ -34,8 +34,8 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
 				<h:form id="formMatriculaAluno" enctype="multipart/form-data">
-					<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.css"/>
-					<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.js"/>
+					<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.css"/>
+					<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.js"/>
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
 						class="clearfix form-actions">
 						<div class="row">
@@ -135,8 +135,8 @@
 						</div>
 					</h:panelGroup>
 					<h:panelGroup style="width: 100%" class="clearfix form-actions" rendered="#{matriAlunoServlet.dadosMatriAluno}">
-						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.css"/>
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.js"/>		
+						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.css"/>
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.js"/>		
 						<h3 class="header smaller lighter blue" align="center"> Dados Escolares </h3>
 						<div class="row">
 							<div class="col-xs-12 col-sm-9">
@@ -164,6 +164,14 @@
 											<h:inputText styleClass="col-xs-10 col-sm-12" id="codInep" autocomplete="off"
 												value="#{matriAlunoServlet.alunoDados.codigoInep}"/>
 										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<h:outputLabel
+											value="#{mensagens['label.cadastro.aluno.deficiencia']}"/>
+										<h:selectOneRadio>
+											<f:selectItem itemLabel="Sim" itemValue="true" />
+											<f:selectItem itemLabel="Não" itemValue="false" />
+										</h:selectOneRadio>
 									</div>
 								</div>
 								<div class="space-4"/>
@@ -273,28 +281,6 @@
 								</div>
 							</div>								
 						</div>
-						<div class="space-6"/>
-						<div class="row">
-							<div class="col-xs-12">
-								
-								<div class="col-xs-4">
-									<h:outputLabel value="Certidão de Nascimento"/>
-									<div>
-										<h:inputFile styleClass="upload">
-											<f:ajax event="change" resetValues="true"/>
-										</h:inputFile>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<h:outputLabel value="Comprovante Residência"/>
-									<div>
-										<h:inputFile styleClass="upload">
-											<f:ajax event="change" resetValues="true"/>
-										</h:inputFile>
-									</div>
-								</div>
-							</div>
-						</div>
 					</h:panelGroup>
 					<div class="col-xs-12 col-sm-6" id="default-buttons">
 						<button type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
@@ -311,8 +297,8 @@
 				</h:form>
 				<div class="row">
 		    		<h:form id="formConsultaPessoa">
-		    			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.css"/>
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/matricula/aluno/matriculaAluno.js"/>
+		    			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.css"/>
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.js"/>
 						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
 							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
 						  <div class="modal-dialog modal-lg">

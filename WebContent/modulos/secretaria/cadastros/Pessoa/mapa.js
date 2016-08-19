@@ -144,22 +144,22 @@ function carregarEndereco(latitude,longitude) {
 	if( ( latitude != null && latitude != undefined) && (longitude != null && longitude != undefined)) {
 		
 		var latlng = latitude + "," + longitude;  
-		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=-22.64376218,-47.05502058&sensor=true";
+		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+ latlng +"&sensor=true";
 		
 		$.getJSON(url, function( data ) {
 			for(var i=0; i < 1; i++) {
 				for(var j=0; j< data.results[i].address_components.length; j++){
 					if(data.results[i].address_components[j].types == 'street_number'){
-						document.getElementById('#numCasa').value = data.results[i].address_components[j].long_name;
+						document.getElementById('numCasa').value = data.results[i].address_components[j].long_name;
 					}
 					if(data.results[i].address_components[j].types == 'postal_code'){
-						document.getElementById('#numCep').value = data.results[i].address_components[j].long_name;
+						document.getElementById('numCep').value = data.results[i].address_components[j].long_name;
 					}
 					if(data.results[i].address_components[j].types == 'route'){
-						document.getElementById('#nomeLogradouro').value = data.results[i].address_components[j].long_name; 
+						document.getElementById('nomeLogradouro').value = data.results[i].address_components[j].long_name; 
 					}
 					if(data.results[i].address_components[j].types == 'sublocality_level_1,sublocality,political'){
-						document.getElementById('#codBairro').value = data.results[i].address_components[j].long_name; 
+						document.getElementById('codBairro').value = data.results[i].address_components[j].long_name; 
 					}
 					
 				}

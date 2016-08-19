@@ -35,23 +35,13 @@
 							<li class="#{usuarioServlet.classSecretariaCadastroPessoa}">
 								<a href="modulos/secretaria/cadastros/Pessoa/cadastroPessoa.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-user"/>
 									Pessoa
-								</a>
-								<b class="arrow"/>
-							</li>
-							<li class="#{usuarioServlet.classSecretariaCadastroMatriculaAluno}">
-								<a href="modulos/educacao/matricula/aluno/matriculaAluno.xhtml">
-									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-user"/>
-									Matrícula Aluno
 								</a>
 								<b class="arrow"/>
 							</li>
 							<li class="#{usuarioServlet.classSecretariaCadastroFornecedor}">
 								<a href="modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-shopping-cart"/>
 									Fornecedor
 								</a>
 								<b class="arrow"/>
@@ -59,7 +49,6 @@
 							<li class="#{usuarioServlet.classSecretariaCadastroUsuario}">
 								<a href="modulos/secretaria/cadastros/Usuario/cadastroUsuario.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-user"/>
 									Usuário
 								</a>
 								<b class="arrow"/>
@@ -67,7 +56,6 @@
 							<li class="#{usuarioServlet.classSecretariaCadastroUnidadeEscolar}">
 								<a href="modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon fa fa-flag"/>
 									Unidade Escolar
 								</a>
 								<b class="arrow"/>
@@ -92,7 +80,6 @@
 							<li class="#{usuarioServlet.classSecretariaConsultaGraficos}">
 								<a href="modulos/secretaria/consulta/consultaGraficos.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-stats"/>
 									Grafícos
 								</a>
 								<b class="arrow"/>
@@ -100,7 +87,6 @@
 							<li class="#{usuarioServlet.classSecretariaConsultaRelatorios}">
 								<a href="modulos/secretaria/consulta/consultaRelatorios.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
-									<i class="ace-icon glyphicon glyphicon-list-alt"/>
 									Relatórios
 								</a>
 								<b class="arrow"/>
@@ -133,9 +119,16 @@
 						<b class="arrow"/>
 						<ul class="submenu">
 							<li class="#{usuarioServlet.classEscolaCadastroMatriculaAluno}">
-								<a href="modulos/escola/matricula/aluno/matriculaAluno.xhtml">
+								<a href="modulos/escola/cadastro/matricula/aluno/matriculaAluno.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									Matricula Aluno
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="">
+									<i class="menu-icon fa fa-caret-right"/>
+									Turma
 								</a>
 								<b class="arrow"/>
 							</li>
@@ -150,36 +143,6 @@
 					<b class="arrow fa fa-angle-down"/>
 				</a>
 				<b class="arrow"/>
-				<ul class="submenu">
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Elaboração
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Execução
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Cozinha
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Nutricionista
-						</a>
-						<b class="arrow"/>
-					</li>
-				</ul>
 			</li>
 			<li class="">
 				<a href="#" class="#{usuarioServlet.classModuloDocentes}">
@@ -188,36 +151,6 @@
 					<b class="arrow fa fa-angle-down"/>
 				</a>
 				<b class="arrow"/>
-				<ul class="submenu">
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Habilitação
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Vagas
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Pontuação
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Pregão
-						</a>
-						<b class="arrow"/>
-					</li>
-				</ul>
 			</li>
 			<li class="">
 				<a href="#" class="#{usuarioServlet.classModuloPortal}">
@@ -311,43 +244,6 @@
 					<b class="arrow fa fa-angle-down"/>
 				</a>
 				<b class="arrow"/>
-				<ul class="submenu">
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Passes
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Rotas
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Alunos por Rota
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Veiculos
-						</a>
-						<b class="arrow"/>
-					</li>
-					<li class="">
-						<a href="">
-							<i class="menu-icon fa fa-caret-right"/>
-							Motoristas
-						</a>
-						<b class="arrow"/>
-					</li>
-				</ul>
 			</li>
 			<li class="">
 				<a href="#" class="#{usuarioServlet.classModuloSocial}">
@@ -394,6 +290,61 @@
 							<i class="menu-icon fa fa-caret-right"/>
 						</a>
 						<b class="arrow"/>
+					</li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="#{usuarioServlet.classModuloOuvidoria}">
+					<i class="menu-icon fa fa-tachometer "/>
+					<span class="menu-text"> ADM LOTHUS </span>
+					<b class="arrow fa fa-angle-down"/>
+				</a>
+				<b class="arrow"/>
+				<ul class="submenu">
+					<li class="">
+						<a href="#" class="#{usuarioServlet.classSecretariaCadastroSubMenu}">
+							<i class="menu-icon fa fa-caret-right"/>
+							PARAMETROS
+							<b class="arrow fa fa-angle-down"/>
+						</a>
+						<b class="arrow"/>
+						<ul class="submenu">
+							<li class="">
+								<a href="modulos/sisEducar/cadastro/parametros/curso.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Curso
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/sisEducar/cadastro/parametros/curso.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Grade
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/sisEducar/cadastro/parametros/curso.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Disciplina
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/sisEducar/cadastro/parametros/curso.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Avaliação/Promoção
+								</a>
+								<b class="arrow"/>
+							</li>
+							<li class="">
+								<a href="modulos/sisEducar/cadastro/parametros/curso.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									Ambiente
+								</a>
+								<b class="arrow"/>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>
