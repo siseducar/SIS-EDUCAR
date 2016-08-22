@@ -236,6 +236,7 @@ public class ContatoDAO extends SisEducarDAO
 			ps.setInt(2, pkContato);
 			
 			ps.executeQuery();
+			fecharConexaoBanco(con, ps, false, true);
 			fecharConexaoBanco(con, ps, true, false);
 		}
 		catch (SQLException e) {

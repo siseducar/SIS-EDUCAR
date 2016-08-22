@@ -31,9 +31,9 @@ public class AuthenticationFilter implements Filter {
 		Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
 		
 		if(usuarioLogado == null) {
-			chain.doFilter(request, response);
-		} else {
 			res.sendRedirect(req.getContextPath() + "/login/login.xhtml");
+		} else {
+			chain.doFilter(request, response);
 		}
 	}
 

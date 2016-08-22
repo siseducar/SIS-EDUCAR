@@ -293,8 +293,11 @@ public class PessoaServlet implements Serializable{
 					enderecoDAO.deletarEndereco(enderecoDados.getPkEndereco());
 				}
 				if(pessoaDados.getPkPessoa() != null || pessoaDados != null ) {
-					pessoaDados.getPkPessoa();
+					pessoaDAO.deletarPessoa(pessoaDados.getPkPessoa());
 				}
+			} else {
+				Logs.addInfo("Cadastro com sucesso", null);
+				limparFormulario();
 			}
 		} catch (Exception e) {
 			if(contatoDados.getPkContato() != null || contatoDados != null) {
@@ -312,6 +315,21 @@ public class PessoaServlet implements Serializable{
 		}
 		return null;
 	}
+	
+	public String deletarCadastro() throws SQLException {
+		if(pessoaDados.getPkPessoa() != null) {
+			
+			pessoaDAO.deletarPessoa(pessoaDados.getPkPessoa());
+			enderecoDAO.deletarEndereco(enderecoDados.getPkEndereco());
+			contatoDAO.deletarContato(contatoDados.getPkContato());
+			
+			limparFormulario();
+			Logs.addInfo("Cadastro deletado com sucesso", null);
+			return "OK";
+		}
+		return null;
+	}
+	
 	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa

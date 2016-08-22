@@ -511,4 +511,26 @@ public class PessoaDAO extends SisEducarDAO
 			return null;
 		}
 	}
+	
+	public Boolean deletarPessoa(Integer pkPessoa) {
+		try {
+			String querySQL = "DELETE FROM PESSOA "
+					+ " WHERE STATUS = ? "
+					+ " AND PKPESSOA = ? ";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkPessoa);
+			
+			ps.executeQuery();
+			
+			fecharConexaoBanco(con, ps, false, true);
+			fecharConexaoBanco(con, ps, true, false);
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

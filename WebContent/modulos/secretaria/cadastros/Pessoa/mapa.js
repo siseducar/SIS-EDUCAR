@@ -12,9 +12,10 @@ var marker;
 
 /* Funcão para inicilizar o mapa */
 function initialize() {
+	
 	/* Ponto inicial do mapa */
 	var latlng = new google.maps.LatLng(-22.64402834, -47.05530858);
-	
+
 	/* Verifica a atual posicao */
 	if(navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){ 

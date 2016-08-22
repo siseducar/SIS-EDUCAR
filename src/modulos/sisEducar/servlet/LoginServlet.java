@@ -1,18 +1,23 @@
 package modulos.sisEducar.servlet;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import modulos.educacao.dao.AlunoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
+import modulos.secretaria.utils.ConstantesRH;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;
@@ -23,44 +28,27 @@ import sun.misc.BASE64Encoder;
 
 @SessionScoped
 @ManagedBean(name= "loginServlet")
-public class LoginServlet extends SisEducarServlet
-{
+public class LoginServlet implements Serializable {
 	/***/
 	private static final long serialVersionUID = 1L;
+
 	//Objetos e variaveis
-	private String nomeUsuarioLogado;
 	private String emailRedefinicaoSenha = null;
 	
-	Usuario usuario = new Usuario();  
-	private Usuario usuarioLogado = new Usuario();  
+	Usuario usuario;
+	private Usuario usuarioLogado;  
 	Usuario usuarioTemporario = new Usuario();  
+	SisEducarServlet sisEducar = new SisEducarServlet();
 	
 	public String generoMasculino = "none";
 	public String generoFeminino = "none";
 	
 	private String senhaAtual = "";
 	
-	public LoginServlet()
-	{
-		//Aqui eu pego o nome do usuário logado e seto a variável global
-		if(new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO)!= null )
-		{
-			SisEducarServlet.usuarioLogado = (Usuario)new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
-			
-			setUsuarioLogado(SisEducarServlet.usuarioLogado);
-			
-			//Essa variável contem o nome do usuário logado para que seja exebida na tela principal
-			nomeUsuarioLogado = SisEducarServlet.usuarioLogado.getNome();
-			if(SisEducarServlet.usuarioLogado.getGenero().equals("masculino"))
-			{
-				generoMasculino = "initial";
-			}
-			else
-			{
-				generoFeminino = "initial";
-			}
-		}
+	public LoginServlet() {
+		usuario = new Usuario();
 	}
+	
 	/**
 	 * O método é usado para validar se existe um usuario no banco com as informações passadas pelo usuario (nome, senha)
 	 * e também valida se a chave de acesso do cliente é valida para esse usuário
@@ -69,7 +57,7 @@ public class LoginServlet extends SisEducarServlet
 	 */
 	public void validarLogin() {
 		try { 
-			Usuario resultadoUsuario = null;
+			/**Usuario resultadoUsuario = null;
 			SisEducarServlet sisEducarServlet = new SisEducarServlet();
 			Boolean acessoLiberado = false;
 			
@@ -81,7 +69,7 @@ public class LoginServlet extends SisEducarServlet
 			} else 
 				if(usuario.getSenha()!=null && usuario.getSenha().length() == 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha é obrigatório", null));  
-				}
+			}
 			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
 			{
@@ -111,12 +99,46 @@ public class LoginServlet extends SisEducarServlet
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha inválidos", null));  
 					}
 				}
+			}*/
+			
+			if(usuario.getNome()!= null && usuario.getNome().length() == 0) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));  
+			} else {
+				if( usuario.getSenha()!=null && usuario.getSenha().length() == 0) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha é obrigatório", null));  
+				}
 			}
+			
+			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null) {
+				usuario.setSenha(criptografarSenha(usuario.getSenha()));
+				
+				usuarioLogado = new UsuarioDAO().validarUsuario(usuario);
+				
+				if( usuarioLogado != null ) {
+					if(usuarioLogado.getGenero().equals("masculino")) {
+						generoMasculino = "initial";
+					} else {
+						generoFeminino = "initial";
+					}
+					
+					HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+					session.setAttribute("usuario", usuarioLogado);
+					
+					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/menuPrincipal.xhtml");
+				}else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha inválidos", null));
+				}
+			}
+			
 		} 
-		catch (Exception e) 
-		{
+		catch (Exception e) {
 			Logs.addFatal("Validar login", "Erro ao validar o login, contate o administrador.");
 		}
+	}
+	
+	public String logout() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/login/login.xhtml?faces-redirect=true";
 	}
 	
 	/**
@@ -312,7 +334,7 @@ public class LoginServlet extends SisEducarServlet
 				
 				if(usuario!=null)
 				{
-					urlBotaoLink += criptografarURL(true, emailRedefinicaoSenha);
+					urlBotaoLink += sisEducar.criptografarURL(true, emailRedefinicaoSenha);
 					email = EmailUtils.inicializarPropriedades();
 					email.setSubjectMail("SIS-EDUCAR - Redefinição de Senha");
 					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
@@ -357,8 +379,8 @@ public class LoginServlet extends SisEducarServlet
 			String novaSenha = "";
 			Boolean respostaUpdate = false;
 			
-			usuarioTemporario = (Usuario) getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
-			putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, null);
+			usuarioTemporario = (Usuario) sisEducar.getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+			sisEducar.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, null);
 			
 			if(usuario!=null && (!usuario.getSenha().isEmpty() || !usuario.getConfirmarSenha().isEmpty()))
 			{
@@ -442,9 +464,6 @@ public class LoginServlet extends SisEducarServlet
 	/* Getters and Setters */
 	public Usuario getUsuario() 			{ return usuario; }
 	public void setUsuario(Usuario usuario) { this.usuario = usuario; }
-
-	public String getNomeUsuarioLogado()	{ return nomeUsuarioLogado; }
-	public void setNomeUsuarioLogado(String nomeUsuarioLogado) { this.nomeUsuarioLogado = nomeUsuarioLogado; }
 
 	public String getEmailRedefinicaoSenha() {
 		return emailRedefinicaoSenha;

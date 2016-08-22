@@ -113,7 +113,7 @@
 							<span class="user-info">
 								<small>Bem Vindo,</small>
 								<small id="smallNomeUsuarioLogado" class="bigger-110">
-									#{loginServlet.nomeUsuarioLogado}
+									#{loginServlet.usuario.nome}
 								</small>
 							</span>	
 							<i class="ace-icon fa fa-caret-down"/>
@@ -127,10 +127,14 @@
 							</li>	
 							<li class="divider"/>
 							<li>
-								<a href="/SIS-EDUCAR/login/login.xhtml">
-									<i class="ace-icon fa fa-power-off"/>
-									Sair
-								</a>
+								<h:form>
+									<h:commandLink action="#{loginServlet.logout()}">
+										<span>
+											<i class="ace-icon fa fa-power-off"/>
+											Sair
+										</span>
+									</h:commandLink>
+								</h:form>
 							</li>
 						</ul>
 					</li>

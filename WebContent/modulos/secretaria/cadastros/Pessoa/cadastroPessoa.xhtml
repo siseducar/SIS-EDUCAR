@@ -36,8 +36,6 @@
 				<h:form id="formCadastroPessoa" prependId="false">
 					<h:panelGroup id="dadosGenericos" style="width: 100%"
 						class="clearfix form-actions">
-						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 								<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
@@ -68,7 +66,7 @@
 										<f:validator validatorId="validar.CpfValidator"/>
 										<f:converter converterId="converter.CPF"/>
 										<f:ajax event="change" listener="#{pessoaServlet.verificaCadastro}" 
-											render="dadosGenericos" resetValues="true"/>
+											render="numCpf"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -218,8 +216,6 @@
 						</div>
 					</h:panelGroup>
 					<h:panelGroup id="dadosResponsavel">
-						<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
-						<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 						<h:panelGroup style="width: 100%"
 							class="clearfix form-actions" rendered="#{pessoaServlet.panelMenorIdade}">
 							<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
@@ -498,14 +494,14 @@
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
 							<span class="bigger-110">Registrar</span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-							<f:ajax event="click" render=":formCadastroSucesso" execute=":formCadastroPessoa" resetValues="true"
+							<f:ajax event="click" render="@form jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.validaCadastro}"/>
 						</h:commandLink>
-						<h:commandLink type="submit" id="btDeletar"
-							class="btn btn-white btn-success btn-round botoes" rendered="#{pessoaServlet.deletarCadastro}">
-							<span class="bigger-110">Deletar</span>
-							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-						</h:commandLink>
+						<h:panelGroup id="jsPagina">
+							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
+						</h:panelGroup>
 					</div>
 				</h:form>
 				<div class="row">

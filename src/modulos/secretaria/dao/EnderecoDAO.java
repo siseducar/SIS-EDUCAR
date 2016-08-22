@@ -360,6 +360,7 @@ public class EnderecoDAO extends SisEducarDAO
 				dadosEndereco.setPkEndereco(rs.getInt("PKENDERECO"));
 			}
 			
+			fecharConexaoBanco(con, ps, false, true);
 			fecharConexaoBanco(con, ps, true, false);
 			
 			return dadosEndereco;
@@ -386,6 +387,7 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			ps.executeQuery();
 			
+			fecharConexaoBanco(con, ps, false, true);
 			fecharConexaoBanco(con, ps, true, false);
 			
 		}
