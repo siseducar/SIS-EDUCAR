@@ -16,6 +16,9 @@ import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
+import modulos.sisEducar.om.Modulo;
+import modulos.sisEducar.om.Tela;
+import modulos.sisEducar.om.TipoTela;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class UsuarioDAO extends SisEducarDAO
@@ -449,18 +452,36 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return List<Permissao>
 	 * @throws SQLException
 	 */
-	public List<Permissao> buscarPermissoes() throws SQLException
+	public List<Permissao> buscarPermissoes(Modulo modulo, TipoTela tipoTela, Tela tela) throws SQLException
 	{
+		Integer numeroParametros = 1;
 		Permissao permissao = null;
 		List<Permissao> permissoes = new ArrayList<Permissao>();
 		String querySQL = "SELECT * FROM Permissao "
-				+ " WHERE status = ?"
-				+ " AND tipoModuloResponsavel IS NOT NULL"
-				+ " AND tipoSubMenuResponsavel IS NOT NULL";
+				+ " WHERE status = ?";
+		
+		if(modulo!=null)   { querySQL += " AND tipoModuloResponsavel = ?"; }
+		if(tipoTela!=null) { querySQL += " AND tipoSubMenuResponsavel = ?"; }
+		if(tela!=null)     { querySQL += " AND telaResponsavel = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
+		ps.setInt(numeroParametros, ConstantesSisEducar.STATUS_ATIVO);
 		
-		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		if(modulo!=null)
+		{
+			numeroParametros++;
+			ps.setInt(numeroParametros, modulo.getTipo());
+		}
+		if(tipoTela!=null)
+		{
+			numeroParametros++;
+			ps.setInt(numeroParametros, tipoTela.getTipo());
+		}
+		if(tela!=null)
+		{
+			numeroParametros++;
+			ps.setInt(numeroParametros, tela.getTipoTela());
+		}
 		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
@@ -471,6 +492,7 @@ public class UsuarioDAO extends SisEducarDAO
 			permissao.setTipo(rs.getInt("tipo"));
 			permissao.setTipoModuloResponsavel(rs.getInt("tipoModuloResponsavel"));
 			permissao.setTipoSubMenuResponsavel(rs.getInt("tipoSubMenuResponsavel"));
+			permissao.setTelaResponsavel(rs.getInt("telaResponsavel"));
 			
 			permissoes.add(permissao);
 		}

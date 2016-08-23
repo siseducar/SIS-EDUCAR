@@ -9,7 +9,7 @@ import java.sql.Statement;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 
-public class PopulaRHDAO extends SisEducarDAO
+public class PopulaSecretariaDAO extends SisEducarDAO
 {
 	// Realizando conexão com o banco
 	ConectaBanco conexao = new ConectaBanco();
@@ -18,7 +18,7 @@ public class PopulaRHDAO extends SisEducarDAO
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public PopulaRHDAO() throws SQLException
+	public PopulaSecretariaDAO() throws SQLException
 	{
 		desabilitarAutoCommit(con);
 	}
@@ -31,9 +31,9 @@ public class PopulaRHDAO extends SisEducarDAO
 	 * @param tipoPermissao
 	 * @throws SQLException
 	 */
-	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel) throws SQLException 
+	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel, Integer tela) throws SQLException 
 	{
-		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel,tiposubmenuresponsavel) VALUES (?, ?, ?, ?, ?)";
+		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel,tiposubmenuresponsavel, telaResponsavel) VALUES (?, ?, ?, ?, ?, ?)";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, nomePermissao);
@@ -41,6 +41,7 @@ public class PopulaRHDAO extends SisEducarDAO
 		ps.setInt(3, tipoPermissao);
 		ps.setObject(4, tipoModuloResponsavel!=null ? tipoModuloResponsavel : null);
 		ps.setObject(5, tipoSubMenuResponsavel!=null ? tipoSubMenuResponsavel : null);
+		ps.setObject(6, tela!=null ? tela : null);
 		
 		fecharConexaoBanco(con, ps, false, true);
 	}

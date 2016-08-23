@@ -17,7 +17,7 @@ import modulos.educacao.dao.AlunoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
-import modulos.secretaria.utils.ConstantesRH;
+import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;

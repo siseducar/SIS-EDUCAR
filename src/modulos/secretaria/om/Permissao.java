@@ -12,6 +12,7 @@ public class Permissao implements Serializable {
 	private Integer tipo;
 	private Integer tipoModuloResponsavel;
 	private Integer tipoSubMenuResponsavel;
+	private Integer telaResponsavel;
 	private Integer status;
 	
 	public Integer getPkPermissao() {
@@ -61,5 +62,11 @@ public class Permissao implements Serializable {
 	}
 	public void setNomeSubMenu(String nomeSubMenu) {
 		this.nomeSubMenu = nomeSubMenu;
+	}
+	public Integer getTelaResponsavel() {
+		return telaResponsavel;
+	}
+	public void setTelaResponsavel(Integer telaResponsavel) {
+		this.telaResponsavel = telaResponsavel;
 	}
 }

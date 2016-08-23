@@ -280,7 +280,18 @@
 											<h:selectOneMenu id="comboTela" class="form-control" value="#{usuarioServlet.telaSelecionada.tipoTela}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboTela}" var="Tela" itemValue="#{Tela.tipoTela}" itemLabel="#{Tela.nome}"/>
-												<f:ajax event="change" render="tablePermissoes" resetValues="true"/>
+												<f:ajax event="change" render="comboPermissao" resetValues="true"/>
+											</h:selectOneMenu>
+										</div>
+										<div class="space"></div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-4">
+										<h:outputLabel value="Permissões"/>
+										<div>
+											<h:selectOneMenu id="comboPermissao" class="form-control" value="#{usuarioServlet.permissaoSelecionada.pkPermissao}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{usuarioServlet.comboPermissao}" var="Permissao" itemValue="#{Permissao.pkPermissao}" itemLabel="#{Permissao.nome}"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -288,7 +299,7 @@
 									
 									<div class="col-xs-12 col-sm-12">
 										<div class="table-responsive">
-											<p:dataTable id="tablePermissoes" tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}">
+											<p:dataTable id="tablePermissoes" tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}" emptyMessage="O usuário está sem permissões">
 									            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
 									            <p:column headerText="Nome da Tela">
 									                #{value.nome}

@@ -21,7 +21,7 @@ import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
-import modulos.secretaria.utils.ConstantesRH;
+import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.om.Email;
 import modulos.sisEducar.om.Modulo;
 import modulos.sisEducar.om.Tela;
@@ -54,6 +54,9 @@ public class UsuarioServlet implements Serializable
 	
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
+    
+    private Permissao permissaoSelecionada;
+    private List<SelectItem> comboPermissao;
     
     /*Variáveis para pesquisar os usuários cadastrados no banco de dados*/
     private List<Usuario> usuariosCadastrados;
@@ -113,9 +116,12 @@ public class UsuarioServlet implements Serializable
 		comboModulo = new ArrayList<SelectItem>();
 		comboTipoTela = new ArrayList<SelectItem>();
 		comboTela = new ArrayList<SelectItem>();
-		if(moduloSelecionado==null)   { moduloSelecionado = new Modulo(); }
-		if(tipoTelaSelecionado==null) { tipoTelaSelecionado = new TipoTela(); }
-		if(telaSelecionada==null)     { telaSelecionada = new Tela(); }
+		comboPermissao = new ArrayList<SelectItem>();
+		
+		if(moduloSelecionado==null)   		{ moduloSelecionado = new Modulo(); }
+		if(tipoTelaSelecionado==null) 		{ tipoTelaSelecionado = new TipoTela(); }
+		if(telaSelecionada==null)     		{ telaSelecionada = new Tela(); }
+		if(permissaoSelecionada==null)     	{ permissaoSelecionada = new Permissao(); }
 		
 		cpfPesquisar = "";
 		usuarioPesquisar = "";
@@ -131,7 +137,7 @@ public class UsuarioServlet implements Serializable
 		validarPermissoes();
 		
 		//BUSCA AS PERMISSÕES CADASTRADAS NO BANCO DE DADOS E POPULA A TABELA DE PERMISSÕES NO CADASTRO DE USUÁRIO
-		permissoes = buscarPermissoes();
+//		permissoes = buscarPermissoes();
 	}
 	
 	/**
@@ -435,40 +441,34 @@ public class UsuarioServlet implements Serializable
 	 * @author João Paulo
 	 * @return
 	 */
-	public List<Permissao> buscarPermissoes()
+	public List<SelectItem> buscarPermissoes()
 	{
 		try 
 		{
-			List<Permissao> permissoes = new UsuarioDAO().buscarPermissoes();
-			for (Permissao permissao : permissoes) 
+			List<Permissao> permissoes = null;
+			SelectItem selectItem = null;
+			List<SelectItem> itens = new ArrayList<SelectItem>();
+			if((moduloSelecionado!=null && moduloSelecionado.getTipo()!=null) || (tipoTelaSelecionado!=null && tipoTelaSelecionado.getTipo()!=null) 
+					|| (telaSelecionada!=null && telaSelecionada.getTipoTela()!=null))
 			{
-				/* ADICIONA O NOME DOS MÓDULOS NAS PERMISSÕES */
-				if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA)) { permissao.setNomeModulo("Secretaria"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA)) { permissao.setNomeModulo("Escola"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) { permissao.setNomeModulo("Merenda"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_DOCENTES)) { permissao.setNomeModulo("Docentes"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PORTAL)) { permissao.setNomeModulo("Portal"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PATROMONIO)) { permissao.setNomeModulo("Patrimônio"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO)) { permissao.setNomeModulo("Almoxarifado"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA)) { permissao.setNomeModulo("Biblioteca"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE)) { permissao.setNomeModulo("Transporte"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) { permissao.setNomeModulo("Social"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) { permissao.setNomeModulo("Protocolo"); }
-				else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) { permissao.setNomeModulo("Ouvidoria"); }
-
-				/* ADICIONA O NOME DOS SUB MENUS NAS PERMISSÕES */
-				if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CADASTRO)) { permissao.setNomeSubMenu("Cadastro"); }
-				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_LANCAMENTO)) { permissao.setNomeSubMenu("Lançamento"); }
-				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CONSULTA)) { permissao.setNomeSubMenu("Consulta"); }
-				else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
+				permissoes = new UsuarioDAO().buscarPermissoes(moduloSelecionado, tipoTelaSelecionado, telaSelecionada);
+				for (Permissao permissao : permissoes) 
+				{
+					selectItem = new SelectItem();
+					
+					selectItem.setLabel(permissao.getNome());
+					selectItem.setValue(permissao.getPkPermissao());
+					
+					itens.add(selectItem);
+				}
 			}
 			
-			return permissoes;
+			return itens;
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("buscarPermissoes", "");
-			return null;
+			return new ArrayList<SelectItem>();
 		}
 	}
 	
@@ -533,7 +533,7 @@ public class UsuarioServlet implements Serializable
 				for (Permissao permissao : usuarioLogado.getPermissoes()) 
 				{
 					/* MÓDULO SECRETÁRIA */
-					if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA)) 
+					if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA)) 
 					{
 						//LIBERADO O ACESSO AO MÓDULO
 						if(!moduloSecretariaLiberado)
@@ -543,7 +543,7 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AOS SUB MENUS
-						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CADASTRO))
+						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO))
 						{
 							if(!subMenuCadastroSecretariaLiberado)
 							{
@@ -551,7 +551,7 @@ public class UsuarioServlet implements Serializable
 								subMenuCadastroSecretariaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_LANCAMENTO))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO))
 						{
 							if(!subMenuLancamentoSecretariaLiberado)
 							{
@@ -559,7 +559,7 @@ public class UsuarioServlet implements Serializable
 								subMenuLancamentoSecretariaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CONSULTA))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA))
 						{
 							if(!subMenuConsultaSecretariaLiberado)
 							{
@@ -567,7 +567,7 @@ public class UsuarioServlet implements Serializable
 								subMenuConsultaSecretariaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_RELATORIO))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO))
 						{
 							if(!subMenuRelatorioSecretariaLiberado)
 							{
@@ -577,18 +577,18 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { classSecretariaCadastroPessoa = ""; }
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
+						if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { classSecretariaCadastroPessoa = ""; }
+						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
+						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
+						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
 
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
-						else if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
+						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
+						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
 					}
 					
 					/* MÓDULO ESCOLA */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA)) 	
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA)) 	
 					{ 
 						if(!moduloEscolaLiberado)
 						{
@@ -597,7 +597,7 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AOS SUB MENUS
-						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CADASTRO))
+						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO))
 						{
 							if(!subMenuCadastroEscolaLiberado)
 							{
@@ -605,7 +605,7 @@ public class UsuarioServlet implements Serializable
 								subMenuCadastroEscolaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_LANCAMENTO))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO))
 						{
 							if(!subMenuLancamentoEscolaLiberado)
 							{
@@ -613,7 +613,7 @@ public class UsuarioServlet implements Serializable
 								subMenuLancamentoEscolaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_CONSULTA))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA))
 						{
 							if(!subMenuConsultaEscolaLiberado)
 							{
@@ -621,7 +621,7 @@ public class UsuarioServlet implements Serializable
 								subMenuConsultaEscolaLiberado = true;
 							}
 						}
-						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesRH.TIPO_SUB_MENU_RELATORIO))
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO))
 						{
 							if(!subMenuRelatorioEscolaLiberado)
 							{
@@ -631,11 +631,11 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						if(permissao.getTipo().equals(ConstantesRH.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
+						if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
 					}
 					
 					/* MÓDULO MERENDA */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_MERENDA)) 	
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_MERENDA)) 	
 					{ 
 						if(!moduloMerendaLiberado)
 						{
@@ -645,7 +645,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO DOCENTES */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_DOCENTES)) 	
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES)) 	
 					{ 
 						if(!moduloDocentesLiberado)
 						{
@@ -655,7 +655,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO PORTAL */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PORTAL)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PORTAL)) 
 					{ 
 						if(!moduloPortalLiberado)
 						{
@@ -665,7 +665,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO PATRIMONIO */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PATROMONIO)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO)) 
 					{ 
 						if(!moduloPatrimonioLiberado)
 						{
@@ -675,7 +675,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO ALMOXARIFADO */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO)) 
 					{ 
 						if(!moduloAlmoxarifadoLiberado)
 						{
@@ -685,7 +685,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO BIBLIOTECA */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA)) 
 					{ 
 						if(!moduloBibliotecaLiberado)
 						{
@@ -695,7 +695,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO TRANSPORTE */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_TRANSPORTE)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE)) 
 					{ 
 						if(!moduloTransporteLiberado)
 						{
@@ -705,7 +705,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO SOCIAL */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_SOCIAL)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL)) 
 					{ 
 						if(!moduloSocialLiberado)
 						{
@@ -715,7 +715,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO PROTOCOLO */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_PROTOCOLO)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO)) 
 					{ 
 						if(!moduloProtocoloLiberado)
 						{
@@ -725,7 +725,7 @@ public class UsuarioServlet implements Serializable
 					}
 					
 					/* MÓDULO OUVIDORIA */
-					else if(permissao.getTipoModuloResponsavel().equals(ConstantesRH.PERMISSAO_TIPO_OUVIDORIA)) 
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA)) 
 					{ 
 						if(!moduloOuvidoriaLiberado)
 						{
@@ -861,62 +861,62 @@ public class UsuarioServlet implements Serializable
 			if(i==0)
 			{
 				nomeModulo = "Secretaria";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_SECRETARIA;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA;
 			}
 			else if(i==1)
 			{
 				nomeModulo = "Escola";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_ESCOLA;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA;
 			}
 			else if(i==2)
 			{
 				nomeModulo = "Merenda";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_MERENDA;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_MERENDA;
 			}
 			else if(i==3)
 			{
 				nomeModulo = "Docentes";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_DOCENTES;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES;
 			}
 			else if(i==4)
 			{
 				nomeModulo = "Portal";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_PORTAL;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PORTAL;
 			}
 			else if(i==5)
 			{
 				nomeModulo = "Patrimônio";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_PATROMONIO;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO;
 			}
 			else if(i==6)
 			{
 				nomeModulo = "Almoxarifado";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_ALMOXARIFADO;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO;
 			}
 			else if(i==7)
 			{
 				nomeModulo = "Biblioteca";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_BIBLIOTECA;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA;
 			}
 			else if(i==8)
 			{
 				nomeModulo = "Transporte";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_TRANSPORTE;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE;
 			}
 			else if(i==9)
 			{
 				nomeModulo = "Social";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_SOCIAL;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL;
 			}
 			else if(i==10)
 			{
 				nomeModulo = "Protocolo";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_PROTOCOLO;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO;
 			}
 			else if(i==11)
 			{
 				nomeModulo = "Ouvidoria";
-				tipoModulo = ConstantesRH.PERMISSAO_TIPO_OUVIDORIA;
+				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA;
 			}
 			
 			selectItem.setLabel(nomeModulo);
@@ -947,22 +947,22 @@ public class UsuarioServlet implements Serializable
 			if(i==0)
 			{
 				nomeModulo = "Cadastro";
-				tipoModulo = ConstantesRH.TIPO_SUB_MENU_CADASTRO;
+				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO;
 			}
 			else if(i==1)
 			{
 				nomeModulo = "Lançamento";
-				tipoModulo = ConstantesRH.TIPO_SUB_MENU_LANCAMENTO;
+				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO;
 			}
 			else if(i==2)
 			{
 				nomeModulo = "Consulta";
-				tipoModulo = ConstantesRH.TIPO_SUB_MENU_CONSULTA;
+				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA;
 			}
 			else if(i==3)
 			{
 				nomeModulo = "Relatório";
-				tipoModulo = ConstantesRH.TIPO_SUB_MENU_RELATORIO;
+				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO;
 			}
 			
 			selectItem.setLabel(nomeModulo);
@@ -1048,38 +1048,38 @@ public class UsuarioServlet implements Serializable
 			if(i==0)
 			{ 
 				tela.setNome("Pessoa");
-				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA);
-				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
 			else if(i==1)
 			{
 				tela.setNome("Fornecedor");
-				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR);
-				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
 			else if(i==2)
 			{
 				tela.setNome("Usuário");
-				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO);
-				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
 			else if(i==3)
 			{
 				tela.setNome("Unidade Escolar");
-				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR);
-				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_SECRETARIA);
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
 			//ESCOLA
 			else if(i==4)
 			{
 				tela.setNome("Matrícula Aluno");
-				tela.setTipoSubMenu(ConstantesRH.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesRH.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
-				tela.setModulo(ConstantesRH.PERMISSAO_TIPO_ESCOLA);
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA);
 			}
 			
 			telas.add(tela);
@@ -1463,5 +1463,23 @@ public class UsuarioServlet implements Serializable
 
 	public void setComboTela(List<SelectItem> comboTela) {
 		this.comboTela = comboTela;
+	}
+
+	public Permissao getPermissaoSelecionada() {
+		return permissaoSelecionada;
+	}
+
+	public void setPermissaoSelecionada(Permissao permissaoSelecionada) {
+		this.permissaoSelecionada = permissaoSelecionada;
+	}
+
+	public List<SelectItem> getComboPermissao() {
+		comboPermissao.clear();
+		comboPermissao.addAll(buscarPermissoes());
+		return comboPermissao;
+	}
+
+	public void setComboPermissao(List<SelectItem> comboPermissao) {
+		this.comboPermissao = comboPermissao;
 	}
 }

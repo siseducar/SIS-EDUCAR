@@ -1,6 +1,6 @@
 package modulos.secretaria.utils;
 
-public class ConstantesRH 
+public class ConstantesSecretaria 
 {
 	/* Constantes Tipo de Usuario */
 	public static int TIPO_USUARIO_ADMIN = 1;
@@ -45,6 +45,11 @@ public class ConstantesRH
 	public static int TIPO_SUB_MENU_LANCAMENTO = 667;
 	public static int TIPO_SUB_MENU_CONSULTA = 668;
 	public static int TIPO_SUB_MENU_RELATORIO = 669;
+	
+	//TIPOS DE PERMISSÕES GENÉRICAS
+	public static int PERMISSAO_CADASTRAR = 90;
+	public static int PERMISSAO_CONSULTAR = 91;
+	public static int PERMISSAO_EXCLUIR = 92;
 	
 	//PERMISSÕES MÓDULOS
 	public static int PERMISSAO_TIPO_SECRETARIA = 102;
