@@ -472,6 +472,19 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	public String adicionarPermissao()
+	{
+		try 
+		{
+			return "";
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("adicionarPermissao", "adicionarPermissao");
+			return null;
+		}
+	}
+	
 	/**
 	 * Usado para buscar as informações da pessoa que será vinculada no usuário
 	 * @author João Paulo

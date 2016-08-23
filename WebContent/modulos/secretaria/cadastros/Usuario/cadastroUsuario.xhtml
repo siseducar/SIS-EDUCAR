@@ -297,6 +297,17 @@
 										<div class="space"></div>
 									</div>
 									
+									<div class="col-xs-12 col-sm-4">
+										<div>
+										<div class="space"></div>
+											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round"> 
+												<span class="bigger-110">Adicionar</span>	
+												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
+												<p:ajax event="click" listener="#{usuarioServlet.adicionarPermissao}" update="tablePermissoes" process="tablePermissoes"/>
+											</h:commandLink>
+										</div>
+									</div>
+									
 									<div class="col-xs-12 col-sm-12">
 										<div class="table-responsive">
 											<p:dataTable id="tablePermissoes" tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}" emptyMessage="O usuário está sem permissões">
