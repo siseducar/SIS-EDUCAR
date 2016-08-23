@@ -39,6 +39,15 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthenticationFilter</filter-name>
+		<url-pattern>/login/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>AuthenticationFilterMenu</filter-name>
+		<filter-class>modulos.sisEducar.utils.MenuFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationFilterMenu</filter-name>
 		<url-pattern>/modulos/*</url-pattern>
 	</filter-mapping>
 	

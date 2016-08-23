@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -15,9 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import modulos.educacao.dao.AlunoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
-import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
-import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;
@@ -496,4 +493,6 @@ public class LoginServlet implements Serializable {
 	public void setSenhaAtual(String senhaAtual) {
 		this.senhaAtual = senhaAtual;
 	}
+	
+	
 }

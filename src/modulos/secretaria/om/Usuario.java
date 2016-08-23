@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Usuario implements Serializable
 {
-    private static final long serialVersionUID = 1094801825228386363L;
+    private static final long serialVersionUID = 1L;
     
 	/* Variaveis*/
 	private String raAluno;
@@ -26,6 +26,10 @@ public class Usuario implements Serializable
 	private Cidade fkMunicipioCliente;
 	
 	private List<Permissao> permissoes;
+	
+	
+	public Usuario() {
+	}
 	
 	/* Getters and Setters */
 	public String getNome() 				{ return nome; }
