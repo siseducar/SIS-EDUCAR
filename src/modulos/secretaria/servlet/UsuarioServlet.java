@@ -117,6 +117,7 @@ public class UsuarioServlet implements Serializable
 		comboTipoTela = new ArrayList<SelectItem>();
 		comboTela = new ArrayList<SelectItem>();
 		comboPermissao = new ArrayList<SelectItem>();
+		permissoes = new ArrayList<Permissao>();
 		
 		if(moduloSelecionado==null)   		{ moduloSelecionado = new Modulo(); }
 		if(tipoTelaSelecionado==null) 		{ tipoTelaSelecionado = new TipoTela(); }
@@ -135,9 +136,6 @@ public class UsuarioServlet implements Serializable
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
-		
-		//BUSCA AS PERMISSÕES CADASTRADAS NO BANCO DE DADOS E POPULA A TABELA DE PERMISSÕES NO CADASTRO DE USUÁRIO
-//		permissoes = buscarPermissoes();
 	}
 	
 	/**
@@ -472,17 +470,69 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
-	public String adicionarPermissao()
+	/**
+	 * Adiciona a permissão selecionada na tabela de permissões do usuário
+	 * @author João Paulo
+	 * @return
+	 */
+	public void adicionarPermissao()
 	{
-		try 
+		try
 		{
-			return "";
+			Boolean permissaoExiste = false;
+			if(permissaoSelecionada!=null && permissaoSelecionada.getPkPermissao()!=null)
+			{
+				for (Permissao permissao : permissoes) 
+				{
+					if(permissaoSelecionada.getPkPermissao().equals(permissao.getPkPermissao())) { permissaoExiste = true; }
+				}
+
+				if(!permissaoExiste)
+				{
+					permissoes.add(preencherInformacoesFaltantesPermissao(permissaoSelecionada));
+				}
+			}
+			
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("adicionarPermissao", "adicionarPermissao");
-			return null;
 		}
+	}
+	
+	/**
+	 * Preenche as informações restantes da permissão apenas para exibir para o usuário
+	 * @author João Paulo
+	 * @param permissao
+	 * @return
+	 */
+	public Permissao preencherInformacoesFaltantesPermissao(Permissao permissao)
+	{
+		
+		System.out.println(permissao.getTipoModuloResponsavel());
+		System.out.println(permissao.getTipoSubMenuResponsavel());
+		
+		/* ADICIONA O NOME DOS MÓDULOS NAS PERMISSÕES */
+		if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA)) { permissao.setNomeModulo("Secretaria"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA)) { permissao.setNomeModulo("Escola"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_MERENDA)) { permissao.setNomeModulo("Merenda"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES)) { permissao.setNomeModulo("Docentes"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PORTAL)) { permissao.setNomeModulo("Portal"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO)) { permissao.setNomeModulo("Patrimônio"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO)) { permissao.setNomeModulo("Almoxarifado"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA)) { permissao.setNomeModulo("Biblioteca"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE)) { permissao.setNomeModulo("Transporte"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL)) { permissao.setNomeModulo("Social"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO)) { permissao.setNomeModulo("Protocolo"); }
+		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA)) { permissao.setNomeModulo("Ouvidoria"); }
+
+		/* ADICIONA O NOME DOS SUB MENUS NAS PERMISSÕES */
+		if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO)) { permissao.setNomeSubMenu("Cadastro"); }
+		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO)) { permissao.setNomeSubMenu("Lançamento"); }
+		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA)) { permissao.setNomeSubMenu("Consulta"); }
+		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
+		
+		return permissao;
 	}
 	
 	/**

@@ -256,7 +256,7 @@
 											<h:selectOneMenu id="comboModulo" class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
-												<f:ajax event="change" render="comboTela" resetValues="true"/>
+												<f:ajax event="change" render="comboTela"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -268,7 +268,7 @@
 											<h:selectOneMenu id="comboTipoTela" class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
-												<f:ajax event="change" render="comboTela" resetValues="true"/>
+												<f:ajax event="change" render="comboTela"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -280,7 +280,7 @@
 											<h:selectOneMenu id="comboTela" class="form-control" value="#{usuarioServlet.telaSelecionada.tipoTela}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboTela}" var="Tela" itemValue="#{Tela.tipoTela}" itemLabel="#{Tela.nome}"/>
-												<f:ajax event="change" render="comboPermissao" resetValues="true"/>
+												<f:ajax event="change" render="comboPermissao"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -303,7 +303,7 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Adicionar</span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<p:ajax event="click" listener="#{usuarioServlet.adicionarPermissao}" update="tablePermissoes" process="tablePermissoes"/>
+												<f:ajax event="click" render="tablePermissoes" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
 											</h:commandLink>
 										</div>
 									</div>
