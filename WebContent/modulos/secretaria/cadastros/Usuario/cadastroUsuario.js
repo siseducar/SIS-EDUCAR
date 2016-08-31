@@ -46,7 +46,7 @@ function esconderModalPesquisar(data)
 }
 
 /**
- * Usado para esconder a modal pesquisar da tela de cadastro de usuário
+ * Usado para mostrar a modal remover todas as permissões da tela de cadastro de usuário
  * @author João Paulo
  * @param data
  */
@@ -55,5 +55,18 @@ function aparecerModalDeletarTodos(data)
 	if(data.status=="success")
 	{
 		$('#modalDeletarTodos').modal('show');
+	}
+}
+
+/**
+ * Usado para esconder a modal remover todas as permissões da tela de cadastro de usuário
+ * @author João Paulo
+ * @param data
+ */
+function esconderModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('hide');
 	}
 }

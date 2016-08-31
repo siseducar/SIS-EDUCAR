@@ -55,7 +55,6 @@ public class UsuarioServlet implements Serializable
 	
 	private List<Permissao> todasPermissoes;
 	private List<Permissao> permissoes;
-    private List<Permissao> permissoesSelecionadas;
     
     private Permissao permissaoSelecionada;
     private List<SelectItem> comboPermissao;
@@ -406,7 +405,7 @@ public class UsuarioServlet implements Serializable
 		try
 		{
 			usuario = new Usuario();
-			permissoesSelecionadas = new ArrayList<Permissao>();
+			permissoes = new ArrayList<Permissao>();
 		}
 		catch (Exception e) 
 		{
@@ -847,6 +846,9 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	/**
+	 * Remove apenas a permissão selecionada da tabela
+	 */
 	public void removerPermissao()
 	{
 		List<Permissao> listPermissoesAux = new ArrayList<Permissao>();
@@ -865,6 +867,21 @@ public class UsuarioServlet implements Serializable
 			}
 			
 			permissoes = listPermissoesAux;
+		}
+	}
+	
+	/**
+	 * Remove todas as permissões do usuário da tabela
+	 */
+	public void removerTodasPermissoes()
+	{
+		try 
+		{
+			permissoes = new ArrayList<Permissao>();
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("removerTodasPermissoes", "removerTodasPermissoes");
 		}
 	}
 	
@@ -934,13 +951,19 @@ public class UsuarioServlet implements Serializable
 //			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
 			
 			usuario = new Usuario();
-			permissoesSelecionadas = new ArrayList<Permissao>();
+			permissoes = new ArrayList<Permissao>();
 			nomePessoaVinculada = "";
 			
 			if(usuarioSelecionada != null && usuarioSelecionada.getPkUsuario() != null)
 			{
 				usuario = usuarioSelecionada;
 				usuario.setConfirmarEmail(usuario.getEmail());
+				
+				//PREENCHE O OBJETO PERMISSÃO COM AS INFORMAÇÕES QUE A TABELA DE PERMISSÃO PRECISA PARA EXIBIR AS INFORMAÇÕES DA PERMISSÃO
+				for (Permissao permissao : usuario.getPermissoes()) 
+				{
+					permissao = preencherInformacoesFaltantesPermissao(permissao);
+				}
 				
 				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
 				{
@@ -950,7 +973,7 @@ public class UsuarioServlet implements Serializable
 				//Seta as permissões que o usuário tem na tabela de permissões
 				if(usuario.getPermissoes()!=null && usuario.getPermissoes().size() >0)
 				{
-					permissoesSelecionadas = usuario.getPermissoes();
+					permissoes = usuario.getPermissoes();
 				}
 			}
 		} 
@@ -1230,14 +1253,6 @@ public class UsuarioServlet implements Serializable
 
 	public void setPermissoes(List<Permissao> permissoes) {
 		this.permissoes = permissoes;
-	}
-
-	public List<Permissao> getPermissoesSelecionadas() {
-		return permissoesSelecionadas;
-	}
-
-	public void setPermissoesSelecionadas(List<Permissao> permissoesSelecionadas) {
-		this.permissoesSelecionadas = permissoesSelecionadas;
 	}
 
 	public String getClassModuloSecretaria() {

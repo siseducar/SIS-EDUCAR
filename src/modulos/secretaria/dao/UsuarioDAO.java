@@ -511,8 +511,8 @@ public class UsuarioDAO extends SisEducarDAO
 	{
 		Permissao permissao = null;
 		List<Permissao> permissoes = new ArrayList<Permissao>();
-		String querySQL = "SELECT p.pkPermissao AS pkPermissao, p.tipo, p.tipoModuloResponsavel AS tipoModuloResponsavel, "
-				+ " p.tipoSubMenuResponsavel as tipoSubMenuResponsavel"
+		String querySQL = "SELECT p.pkPermissao AS pkPermissao, p.nome as nome, p.tipo, p.tipoModuloResponsavel AS tipoModuloResponsavel, "
+				+ " p.tipoSubMenuResponsavel as tipoSubMenuResponsavel, p.telaResponsavel as telaResponsavel"
 				+ " FROM PermissaoUsuario pu"
 				+ " LEFT OUTER JOIN Permissao p ON(pu.fkPermissao = p.pkPermissao)"
 				+ " LEFT OUTER JOIN Usuario u ON(pu.fkUsuario = u.pkUsuario)"
@@ -534,10 +534,11 @@ public class UsuarioDAO extends SisEducarDAO
 		{
 			permissao = new Permissao();
 			permissao.setPkPermissao(rs.getInt("pkPermissao"));
+			permissao.setNome(rs.getString("nome"));
 			permissao.setTipo(rs.getInt("tipo"));
 			permissao.setTipoModuloResponsavel(rs.getInt("tipoModuloResponsavel"));
 			permissao.setTipoSubMenuResponsavel(rs.getInt("tipoSubMenuResponsavel"));
-			
+			permissao.setTelaResponsavel(rs.getInt("telaResponsavel"));
 			permissoes.add(permissao);
 		}
 		
