@@ -2,6 +2,7 @@ package modulos.secretaria.servlet;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,7 @@ public class UsuarioServlet implements Serializable
 	private Tela telaSelecionada;
 	private List<SelectItem> comboTela;
 	
+	private List<Permissao> todasPermissoes;
 	private List<Permissao> permissoes;
     private List<Permissao> permissoesSelecionadas;
     
@@ -109,8 +111,9 @@ public class UsuarioServlet implements Serializable
     
 	/**
 	 * Construtor
+	 * @throws SQLException 
 	 */
-	public UsuarioServlet()
+	public UsuarioServlet() throws SQLException
 	{
 		sisEducarServlet = new SisEducarServlet();
 		comboModulo = new ArrayList<SelectItem>();
@@ -136,6 +139,8 @@ public class UsuarioServlet implements Serializable
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
+		
+		todasPermissoes = new UsuarioDAO().buscarPermissoes(null, null, null);
 	}
 	
 	/**
@@ -251,9 +256,9 @@ public class UsuarioServlet implements Serializable
 				usuario = usuarioDAO.buscarUsuario(usuario);
 				
 				/* Adiciona as permissões para o usuário*/
-				if(permissoesSelecionadas!=null && permissoesSelecionadas.size() >0)
+				if(permissoes!=null && permissoes.size() >0)
 				{
-					for (Permissao permissao : permissoesSelecionadas) 
+					for (Permissao permissao : permissoes) 
 					{
 						permissaoUsuario = new PermissaoUsuario();
 						permissaoUsuario.setUsuario(usuario);
@@ -480,19 +485,33 @@ public class UsuarioServlet implements Serializable
 		try
 		{
 			Boolean permissaoExiste = false;
+			Permissao permissaoAux = null;
 			if(permissaoSelecionada!=null && permissaoSelecionada.getPkPermissao()!=null)
 			{
+				//OBTEM O OBJETO PERMISSÃO COM TODAS AS SUAS INFORMAÇÕES
+				for (Permissao permissao : todasPermissoes) 
+				{
+					if(permissao.getPkPermissao().equals(permissaoSelecionada.getPkPermissao()))
+					{
+						permissaoAux = permissao;
+						break;
+					}
+				}
+				
+				//SETA A VARIÁVEL DE PERMISSÃO DUPLICADA
 				for (Permissao permissao : permissoes) 
 				{
 					if(permissaoSelecionada.getPkPermissao().equals(permissao.getPkPermissao())) { permissaoExiste = true; }
 				}
 
+				//VERIFICA SE A PERMISSÃO JÁ FOI ADICIONADA NA TABELA, CASO ESTEJA ENTÃO NÃO ADICIONA NOVAMENTE
 				if(!permissaoExiste)
 				{
-					permissoes.add(preencherInformacoesFaltantesPermissao(permissaoSelecionada));
+					permissoes.add(preencherInformacoesFaltantesPermissao(permissaoAux));
 				}
+				
+				permissaoSelecionada = new Permissao();
 			}
-			
 		} 
 		catch (Exception e) 
 		{
@@ -508,9 +527,6 @@ public class UsuarioServlet implements Serializable
 	 */
 	public Permissao preencherInformacoesFaltantesPermissao(Permissao permissao)
 	{
-		
-		System.out.println(permissao.getTipoModuloResponsavel());
-		System.out.println(permissao.getTipoSubMenuResponsavel());
 		
 		/* ADICIONA O NOME DOS MÓDULOS NAS PERMISSÕES */
 		if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA)) { permissao.setNomeModulo("Secretaria"); }
@@ -531,6 +547,16 @@ public class UsuarioServlet implements Serializable
 		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO)) { permissao.setNomeSubMenu("Lançamento"); }
 		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA)) { permissao.setNomeSubMenu("Consulta"); }
 		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
+		
+		/* ADICIONA O NOME DA TELA SELECIONADA */
+		/* SECRETARIA*/
+		if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { permissao.setNomeTela("Pessoa"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { permissao.setNomeTela("Usuário"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { permissao.setNomeTela("Fornecedor"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { permissao.setNomeTela("Unidade Escolar"); }
+	
+		/* ESCOLA */
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { permissao.setNomeTela("Matrícula Aluno"); }
 		
 		return permissao;
 	}
@@ -821,8 +847,30 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	public void removerPermissao()
+	{
+		List<Permissao> listPermissoesAux = new ArrayList<Permissao>();
+		Permissao permissaoSelecionada = null;
+		
+		if(dataTablePermissao!=null && dataTablePermissao.getRowData()!=null) { permissaoSelecionada = (Permissao) dataTablePermissao.getRowData(); }
+		
+		if(permissaoSelecionada != null && permissaoSelecionada.getPkPermissao() != null)
+		{
+			for (Permissao permissao : permissoes) 
+			{
+				if(!permissao.getPkPermissao().equals(permissaoSelecionada.getPkPermissao()))
+				{
+					listPermissoesAux.add(permissao);
+				}
+			}
+			
+			permissoes = listPermissoesAux;
+		}
+	}
+	
 	
 	private HtmlDataTable dataTable;
+	private HtmlDataTable dataTablePermissao;
 	   
     public HtmlDataTable getDataTable() {
           return dataTable;
@@ -832,8 +880,15 @@ public class UsuarioServlet implements Serializable
           this.dataTable = dataTable;
     }            
 
-    
-    public void pageFirst() {
+    public HtmlDataTable getDataTablePermissao() {
+		return dataTablePermissao;
+	}
+
+	public void setDataTablePermissao(HtmlDataTable dataTablePermissao) {
+		this.dataTablePermissao = dataTablePermissao;
+	}
+
+	public void pageFirst() {
         dataTable.setFirst(0);
     }
 
@@ -1544,5 +1599,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setComboPermissao(List<SelectItem> comboPermissao) {
 		this.comboPermissao = comboPermissao;
+	}
+
+	public List<Permissao> getTodasPermissoes() {
+		return todasPermissoes;
+	}
+
+	public void setTodasPermissoes(List<Permissao> todasPermissoes) {
+		this.todasPermissoes = todasPermissoes;
 	}
 }

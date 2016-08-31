@@ -9,6 +9,7 @@ public class Permissao implements Serializable {
 	private String nome;
 	private String nomeModulo; //Essa variável só tem na OM
 	private String nomeSubMenu; //Essa variável só tem na OM
+	private String nomeTela; //Essa variável só tem na OM
 	private Integer tipo;
 	private Integer tipoModuloResponsavel;
 	private Integer tipoSubMenuResponsavel;
@@ -68,5 +69,11 @@ public class Permissao implements Serializable {
 	}
 	public void setTelaResponsavel(Integer telaResponsavel) {
 		this.telaResponsavel = telaResponsavel;
+	}
+	public String getNomeTela() {
+		return nomeTela;
+	}
+	public void setNomeTela(String nomeTela) {
+		this.nomeTela = nomeTela;
 	}
 }

@@ -256,7 +256,7 @@
 											<h:selectOneMenu id="comboModulo" class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
-												<f:ajax event="change" render="comboTela"/>
+												<f:ajax event="change" render="comboPermissao comboTipoTela comboTela"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -268,7 +268,7 @@
 											<h:selectOneMenu id="comboTipoTela" class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboTipoTela}" var="TipoTela" itemValue="#{tipoTela.tipo}" itemLabel="#{tipoTela.nome}"/>
-												<f:ajax event="change" render="comboTela"/>
+												<f:ajax event="change" render="comboPermissao comboTela"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -292,6 +292,7 @@
 											<h:selectOneMenu id="comboPermissao" class="form-control" value="#{usuarioServlet.permissaoSelecionada.pkPermissao}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
 												<f:selectItems value="#{usuarioServlet.comboPermissao}" var="Permissao" itemValue="#{Permissao.pkPermissao}" itemLabel="#{Permissao.nome}"/>
+												<f:ajax event="change" execute="comboPermissao"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="space"></div>
@@ -309,24 +310,70 @@
 									</div>
 									
 									<div class="col-xs-12 col-sm-12">
-										<div class="table-responsive">
-											<p:dataTable id="tablePermissoes" tableStyleClass="table table-hover" value="#{usuarioServlet.permissoes}" selection="#{usuarioServlet.permissoesSelecionadas}" var="value" rowKey="#{value.pkPermissao}" emptyMessage="O usuário está sem permissões">
-									            <p:column selectionMode="multiple" style="width:2%" styleClass="ace"/>
-									            <p:column headerText="Nome da Tela">
-									                #{value.nome}
-									            </p:column>
-									            <p:column headerText="Tipo da Tela">
-									                #{value.nomeSubMenu}
-									            </p:column>
-									            <p:column headerText="Módulo">
-									                #{value.nomeModulo}
-									            </p:column>
-									        </p:dataTable>
+										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{usuarioServlet.dataTablePermissao}"
+						    			headerClass="order-table-header" id="tablePermissoes" value="#{usuarioServlet.permissoes}" var="value"
+						    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+							    			<h:column>
+							    				<center>
+						    						<f:facet name="header">Nome da Permissão</f:facet>
+							    				</center>
+							    				
+						    					<h:outputLabel value="#{value.nome}"></h:outputLabel>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header">Módulo</f:facet>
+												<h:outputLabel value="#{value.nomeModulo}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header">Tipo da tela</f:facet>
+							    				<h:outputLabel value="#{value.nomeSubMenu}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header">Tela</f:facet>
+							    				<h:outputLabel value="#{value.nomeTela}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header" styleClass="center">
+						    						<h:commandLink styleClass="tooltip-success">
+							    						<span class="red">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+														</span>
+														<f:ajax event="click" onevent="function(data) { aparecerModalDeletarTodos(data) }"/>
+														</h:commandLink>
+						    					</f:facet>
+							    				<center>
+													<h:commandLink styleClass="tooltip-success">
+							    						<span class="red">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+														</span>
+														<f:ajax event="click" listener="#{usuarioServlet.removerPermissao}" render="tablePermissoes" resetValues="true"/>
+													</h:commandLink>
+							    				</center>
+			 								</h:column>
+							    		</h:dataTable>
+									</div>
+								</div>
+							</div>
+							
+							<div id="modalDeletarTodos" class="modal fade" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"></button>
+											<h3 class=" smaller lighter blue">Remover todas as permissões</h3>
+										</div>
+										<div class="modal-body">
+											<div class="modal-footer">
+												<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+													Fechar
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-								
+							
 							<div class="col-xs-12 col-sm-6" id="default-buttons">
 								<button type="reset" class="btn btn-white btn-info btn-round">
 									<i class="ace-icon fa fa-file"/>

@@ -44,3 +44,16 @@ function esconderModalPesquisar(data)
 		$('#myModal').modal('hide');
 	}
 }
+
+/**
+ * Usado para esconder a modal pesquisar da tela de cadastro de usuário
+ * @author João Paulo
+ * @param data
+ */
+function aparecerModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('show');
+	}
+}
