@@ -333,13 +333,15 @@
 							    				<h:outputLabel value="#{value.nomeTela}"/>
 							    			</h:column>
 							    			<h:column>
-						    					<f:facet name="header" styleClass="center">
+						    					<f:facet name="header">
+							    				<center>
 						    						<h:commandLink styleClass="tooltip-success">
 							    						<span class="red">
 															<i class="ace-icon fa fa-trash-o bigger-120"></i>
 														</span>
 														<f:ajax event="click" onevent="function(data) { aparecerModalDeletarTodos(data) }"/>
 														</h:commandLink>
+							    				</center>
 						    					</f:facet>
 							    				<center>
 													<h:commandLink styleClass="tooltip-success">
@@ -370,7 +372,7 @@
 												</button>
 												<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
 													<span class="bigger-110">Remover</span>	
-													<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+													<i class="ace-icon fa fa-arrow-right icon-on-right"></i> 
 													<f:ajax event="click" listener="#{usuarioServlet.removerTodasPermissoes}" render=":formCadastroUsuario:tablePermissoes :formCadastroUsuario:comboPermissao" execute=":formCadastroUsuario:tablePermissoes"
 														onevent="function(data) { esconderModalDeletarTodos(data) }"/>
 												</h:commandLink>
