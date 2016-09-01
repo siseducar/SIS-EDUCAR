@@ -15,7 +15,7 @@ var value = $(avatar).next().find('input[type=hidden]:eq(0)').val();
 if(!value || value.length == 0) {
 	deferred = new $.Deferred
 	deferred.resolve();
-	return deferred.promise();
+	deferred.promise();
 }
 
 var $form = $(avatar).next().find('.editableform:eq(0)')
@@ -106,5 +106,5 @@ deferred
 	ie_timeout = null;	
 });
 
-return deferred.promise();
+deferred.promise();
 // ***END OF UPDATE AVATAR HERE*** //

@@ -19,9 +19,11 @@ public class UsuarioTeste {
 		System.out.println("Cadastrando...");
 		
 		Usuario usuario = new Usuario();
-		usuario.setNome("adm");
+		usuario.setNome("michael");
 		usuario.setSenha("123");
-		usuario.setGenero("m");
+		usuario.setCpfcnpj("41225663806");
+		usuario.setEmail("michaelseraphim@live.com");
+		usuario.setGenero("masculino");
 		usuario.setSenha(LoginServlet.criptografarSenha(usuario.getSenha()));
 		
 		resultado = new UsuarioDAO().inserirUsuario(usuario);

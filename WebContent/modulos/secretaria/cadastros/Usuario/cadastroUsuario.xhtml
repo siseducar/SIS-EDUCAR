@@ -304,11 +304,11 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round"> 
 												<span class="bigger-110">Adicionar</span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render="tablePermissoes" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
+												<f:ajax event="click" render="testeRetirar" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
 											</h:commandLink>
 										</div>
 									</div>
-									
+									<h:panelGroup id="testeRetirar">
 									<div class="col-xs-12 col-sm-12">
 										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{usuarioServlet.dataTablePermissao}"
 						    			headerClass="order-table-header" id="tablePermissoes" value="#{usuarioServlet.permissoes}" var="value"
@@ -348,12 +348,13 @@
 							    						<span class="red">
 															<i class="ace-icon fa fa-trash-o bigger-120"></i>
 														</span>
-														<f:ajax event="click" listener="#{usuarioServlet.removerPermissao}" render=":formCadastroUsuario:tablePermissoes" resetValues="true"/>
+														<f:ajax event="click" listener="#{usuarioServlet.removerPermissao}" render="testeRetirar" resetValues="true"/>
 													</h:commandLink>
 							    				</center>
 			 								</h:column>
 							    		</h:dataTable>
 									</div>
+									</h:panelGroup>
 								</div>
 							</div>
 							

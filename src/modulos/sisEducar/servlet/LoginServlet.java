@@ -53,51 +53,7 @@ public class LoginServlet implements Serializable {
 	 * @return String
 	 */
 	public void validarLogin() {
-		try { 
-			/**Usuario resultadoUsuario = null;
-			SisEducarServlet sisEducarServlet = new SisEducarServlet();
-			Boolean acessoLiberado = false;
-			
-			//Remove espaços da string
-			usuario.setNome(usuario.getNome().trim());
-			
-			if(usuario.getNome()!=null && usuario.getNome().length() == 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));  
-			} else 
-				if(usuario.getSenha()!=null && usuario.getSenha().length() == 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Senha é obrigatório", null));  
-			}
-			
-			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null)
-			{
-				if(usuario.getNome().length() > 0 && usuario.getSenha().length() >0)
-				{
-					usuario.setSenha(criptografarSenha(usuario.getSenha()));
-					
-					resultadoUsuario = new UsuarioDAO().validarUsuario(usuario);
-					if(resultadoUsuario!=null)
-					{
-						//Verifica a chave de acesso pelo usuário que está tentando logar
-						acessoLiberado = verificarChaveAcesso(usuario);
-						
-						if(acessoLiberado)
-						{
-							sisEducarServlet.putSessionObject(ConstantesSisEducar.USUARIO_LOGADO, resultadoUsuario);
-							FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/menuPrincipal.xhtml");
-						}
-						else
-						{
-							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acesso não liberado, entre em contato com a administração", null));
-							resetarUsuario();
-						}
-					}
-					else
-					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha inválidos", null));  
-					}
-				}
-			}*/
-			
+		try {			
 			if(usuario.getNome()!= null && usuario.getNome().length() == 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));  
 			} else {

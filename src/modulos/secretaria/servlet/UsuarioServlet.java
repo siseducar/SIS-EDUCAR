@@ -134,7 +134,7 @@ public class UsuarioServlet implements Serializable
 		
 		nomePessoaVinculada = "";
 		usuario = new Usuario();
-		usuarioLogado = (Usuario) sisEducarServlet.getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
