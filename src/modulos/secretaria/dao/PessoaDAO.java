@@ -449,7 +449,7 @@ public class PessoaDAO extends SisEducarDAO
 	/*
 	 * Metodo responsavel por validar responsavel existente
 	 * */
-	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci) {
+	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci, Integer codMunicipio) {
 		try {
 			Integer numeroArgumentos = 1;
 			String formataNome = "%"+ nome + "%";
@@ -477,6 +477,7 @@ public class PessoaDAO extends SisEducarDAO
 			
 			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArgumentos++;
+			
 			if( nome != null && !nome.equals("")) {
 				ps.setString(numeroArgumentos, formataNome);
 				numeroArgumentos++;

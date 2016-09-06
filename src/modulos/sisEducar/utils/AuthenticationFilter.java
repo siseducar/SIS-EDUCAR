@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import modulos.secretaria.om.Usuario;
-
 /**
  * Classe que verifica se existe um usuario logado antes de permitir o acesso a uma pagina
  */
@@ -28,9 +26,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = (HttpSession)req.getSession();
 		
-		Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
-		
-		if(usuarioLogado == null) {
+		if(session.getAttribute("usuario") == null) {
 			chain.doFilter(request, response);
 		} else {
 			res.sendRedirect( req.getContextPath() + "/resources/templates/sisEducar/menuPrincipal.xhtml" );

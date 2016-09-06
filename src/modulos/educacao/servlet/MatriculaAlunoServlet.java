@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import modulos.educacao.dao.AlunoDAO;
@@ -23,6 +24,7 @@ import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
 import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.Logs;
 
@@ -45,6 +47,7 @@ public class MatriculaAlunoServlet implements Serializable {
 	private ParametrosServlet paramDados;
 	private Pessoa pessoaSelecionada;
 	private Pessoa pessoaDadosConsulta;
+	private Usuario usuarioLogado;
 	
 	private AlunoDAO alunoDAO;
 	private PessoaDAO pessoaDAO;
@@ -162,6 +165,8 @@ public class MatriculaAlunoServlet implements Serializable {
 		quantidadeAlunosUnidade = 0;
 		quantidadeAlunosTurma = 0;
 		dadosMatriAluno = false;
+		
+		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 
 	/*
@@ -278,11 +283,13 @@ public class MatriculaAlunoServlet implements Serializable {
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
+		pessoaDadosConsulta.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 		listaConsultaPessoa = 
 				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
 						pessoaDadosConsulta.getCpf(), 
 						pessoaDadosConsulta.getRg(), 
-						pessoaDadosConsulta.getDataNascimento());
+						pessoaDadosConsulta.getDataNascimento(),
+						pessoaDadosConsulta.getFkMunicipioCliente().getPkCidade());
 	}
 	
 	/*

@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import modulos.secretaria.om.Usuario;
-
 public class MenuFilter implements Filter {
 
 	@Override
@@ -22,11 +20,10 @@ public class MenuFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = (HttpSession)req.getSession();
-				
-		Usuario usuarioLogado = (Usuario)session.getAttribute("usuario");
-		if( usuarioLogado == null ) {
+		
+		if( session.getAttribute("usuario") == null ) {
 			res.sendRedirect( req.getContextPath() + "/login/login.xhtml" );
-		} else {
+		} else {		
 			chain.doFilter(request, response);
 		}
 	}

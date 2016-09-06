@@ -32,7 +32,6 @@ import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.servlet.SisEducarServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -104,11 +103,17 @@ public class PessoaServlet implements Serializable{
 	
 	private List<SelectItem> comboCidadeNascimento;
 	
-	/* Componenete Tabela de consutal */
+	/* Componenete Tabela de consulta de Cadastros*/
 	private HtmlDataTable dataTable;
 	
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
+	
+	/* Componente Tabela de consulta de Responsavel*/
+	private HtmlDataTable dataTableResponsavel;
+	
+	/* Lista de responsaveis cadastradas */
+	private List<Pessoa> listaConsultaResponsavel;
 	
 	/* Habilita ou desabilita botão para deletar o cadastro */
 	private Boolean deletarCadastro;
@@ -137,6 +142,11 @@ public class PessoaServlet implements Serializable{
 	/* Componente para validar idade da pessoa */
 	private Boolean panelMenorIdade;
 	
+	private List<Pessoa> listaDadosMae;
+	
+	private List<Pessoa> listaDadosPai;
+	
+	private List<Pessoa> listaDadosResponsavel;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -237,7 +247,7 @@ public class PessoaServlet implements Serializable{
 		campoCPF = false;
 		campoRG = false;
 		
-		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 
 	/*
@@ -336,7 +346,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public String atualizarCadastroPessoa() {
-		
+		System.out.println("teste");
 		return null;
 	}
 	
@@ -355,11 +365,6 @@ public class PessoaServlet implements Serializable{
 		if( panelMenorIdade == false  ) {
 			if(pessoaDados.getCpf() == null  || pessoaDados.getCpf() == 0 ) {
 				Logs.addWarning("O CPF deve ser preenchido.", null);
-				pessoaDados.setCpf(null);
-				return false;
-			}
-			if(pessoaDados.getRg() == null  || pessoaDados.getRg().equals("") ) {
-				Logs.addWarning("O RG deve ser preenchido.", null);
 				pessoaDados.setCpf(null);
 				return false;
 			}
@@ -554,12 +559,13 @@ public class PessoaServlet implements Serializable{
 
 	public void consultaCadastro() {
 		listaConsultaPessoa = new ArrayList<Pessoa>();
-		
+		pessoaDadosConsulta.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 		listaConsultaPessoa = 
 				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
 						pessoaDadosConsulta.getCpf(), 
 						pessoaDadosConsulta.getRg(), 
-						pessoaDadosConsulta.getDataNascimento());
+						pessoaDadosConsulta.getDataNascimento(),
+						pessoaDadosConsulta.getFkMunicipioCliente().getPkCidade());
 	}
 	
 	public void editarCadastro() {
@@ -657,7 +663,6 @@ public class PessoaServlet implements Serializable{
 	public void validaNomeMae(){
 		if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
 			Long cpfMae = pessoaDados.getCpfMae();
-			
 			String nome = pessoaDAO.consultaNomeResponsavel(cpfMae); 
 			
 			if(nome != null && !nome.equals("")){
@@ -714,7 +719,7 @@ public class PessoaServlet implements Serializable{
 			}
 		}
 	}
-		
+	
 	/*
 	 * Metodo para validar o tipo de cadastro
 	 * 
@@ -731,6 +736,18 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 
+	
+	public void consultaCPF() throws SQLException{
+		String CPF = new String();
+		CPF = pessoaDados.getCpf().toString();
+		
+		if(CPF != null && CPF.length() == 11) {
+			if ( pessoaDAO.obtemUnicoPessoaSimples( CPF ) != null ){
+				Logs.addWarning("CPF já cadastrado.",null);
+				pessoaDados.setCpf(null);
+			}
+		}
+	}
 	/*
 	 * Metodo responsavel por carregar os combos da tela
 	 * 
@@ -1190,5 +1207,45 @@ public class PessoaServlet implements Serializable{
 
 	public void setPanelMenorIdade(Boolean panelMenorIdade) {
 		this.panelMenorIdade = panelMenorIdade;
+	}
+
+	public List<Pessoa> getListaDadosMae() {
+		return listaDadosMae;
+	}
+
+	public void setListaDadosMae(List<Pessoa> listaDadosMae) {
+		this.listaDadosMae = listaDadosMae;
+	}
+
+	public List<Pessoa> getListaDadosPai() {
+		return listaDadosPai;
+	}
+
+	public void setListaDadosPai(List<Pessoa> listaDadosPai) {
+		this.listaDadosPai = listaDadosPai;
+	}
+
+	public List<Pessoa> getListaDadosResponsavel() {
+		return listaDadosResponsavel;
+	}
+
+	public void setListaDadosResponsavel(List<Pessoa> listaDadosResponsavel) {
+		this.listaDadosResponsavel = listaDadosResponsavel;
+	}
+
+	public HtmlDataTable getDataTableResponsavel() {
+		return dataTableResponsavel;
+	}
+
+	public void setDataTableResponsavel(HtmlDataTable dataTableResponsavel) {
+		this.dataTableResponsavel = dataTableResponsavel;
+	}
+
+	public List<Pessoa> getListaConsultaResponsavel() {
+		return listaConsultaResponsavel;
+	}
+
+	public void setListaConsultaResponsavel(List<Pessoa> listaConsultaResponsavel) {
+		this.listaConsultaResponsavel = listaConsultaResponsavel;
 	}
 }

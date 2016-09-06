@@ -8,18 +8,21 @@
 <ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 	<ui:define name="barraNavegacao">
 		<li>
-			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Cadastros
+			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>
+			Cadastro
 		</li>
 		<li class="active">
-			<i class="ace-icon glyphicon glyphicon-user"/>Pessoa
+			<i class="ace-icon glyphicon glyphicon-user"/>
+			Cadastro de Pessoas
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
 		<div class="page-header col-xs-12 col-sm-12">
 			<h1>
-				Cadastro
+				Pessoa
 				<small>
-					<i class="ace-icon fa fa-angle-double-right"/> Cadastro de Pessoas
+					<i class="ace-icon fa fa-angle-double-right"/>
+					Cadastro de Pessoas
 				</small>
 			</h1>
 		</div>
@@ -27,9 +30,11 @@
 			<h5 align="center">
 				<a href="#modalConsultaPessoa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
 					<i class="ace-icon fa fa-search bigger-150"/>
-					<span class="bigger-110">Consultar</span>
+					<span class="bigger-110">
+						Consultar
+					</span>
 				</a>
-			</h5> 
+			</h5>
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
@@ -38,17 +43,19 @@
 						class="clearfix form-actions">
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
-								<h3 class="header smaller lighter blue" align="center"> Dados Pessoais </h3>
+								<h3 class="header smaller lighter blue" align="center">
+									Dados Pessoais
+								</h3>
 							</div>
 						</div>
 						<div class="space-4"/>
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
-									<h:outputLabel 
-									value="#{mensagens['label.cadastro.pessoa.nome']}" />
+								<h:outputLabel
+									value="#{mensagens['label.nome']}"/>
 								<div>
 									<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12 form-control"
-										value="#{pessoaServlet.pessoaDados.nome}" autocomplete="off" 
+										value="#{pessoaServlet.pessoaDados.nome}" autocomplete="off"
 										disabled="#{pessoaServlet.desabilitaCampos}"/>
 								</div>
 							</div>
@@ -57,25 +64,25 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.cpf']}" for="numCpf"/>
+									value="#{mensagens['label.cpf']}" for="numCpf"/>
 								<div>
 									<h:inputText type="text" id="numCpf"
-										styleClass="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+										styleClass="col-xs-12 col-sm-12 cpf form-control"
 										value="#{pessoaServlet.pessoaDados.cpf}" autocomplete="off"
 										disabled="#{pessoaServlet.campoCPF}">
 										<f:validator validatorId="validar.CpfValidator"/>
 										<f:converter converterId="converter.CPF"/>
-										<f:ajax event="change" listener="#{pessoaServlet.verificaCadastro}" 
-											render="numCpf"/>
+										<f:ajax event="blur" execute="@this" listener="#{pessoaServlet.consultaCPF}" 
+											render="@this" resetValues="true"/>
 									</h:inputText>
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-2">
-								<h:outputLabel 
-									value="#{mensagens['label.cadastro.pessoa.rg']}"/>
+								<h:outputLabel
+									value="#{mensagens['label.rg']}"/>
 								<div>
 									<h:inputText type="text" id="numRg"
-										styleClass="col-xs-12 col-sm-12 rg form-control" title="Numero do RG"
+										styleClass="col-xs-12 col-sm-12 rg form-control"
 										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off"
 										disabled="#{pessoaServlet.campoRG}">
 										<f:converter converterId="converter.RG"/>
@@ -84,24 +91,24 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.dat.nasci']}"/>
+									value="#{mensagens['label.dat.nasci']}"/>
 								<div>
 									<h:inputText type="date" id="dataNasci"
-										styleClass="col-xs-12 col-sm-12 calendario form-control" title="Data de Nascimento"
+										styleClass="col-xs-12 col-sm-12 calendario form-control"
 										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off"
 										disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:converter converterId="converter.DATA"/>
-										<f:ajax event="change" listener="#{pessoaServlet.calculaIdade}" 
-											render="dadosResponsavel" resetValues="true"/>
+										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.calculaIdade}"
+											render="dataNasci dadosResponsavel" resetValues="true"/>
 									</h:inputText>
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.sexo']}"/>
+									value="#{mensagens['label.sexo']}"/>
 								<div>
 									<h:selectOneMenu id="codSexo"
-										class="form-control" title="Sexo da Pessoa"
+										class="form-control"
 										value="#{pessoaServlet.pessoaDados.sexo}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItem itemLabel="Masculino" itemValue="1"/>
@@ -110,21 +117,21 @@
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-2">
-								<h:outputLabel value="Estado de Nascimento"/>
+								<h:outputLabel value="#{mensagens['label.estado.nasci']}"/>
 								<div>
-									<h:selectOneMenu id="codEstNasci" class="form-control" 
+									<h:selectOneMenu id="codEstNasci" class="form-control"
 										value="#{pessoaServlet.estadoNascimentoDados.pkEstado}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{pessoaServlet.comboEstadoNascimento}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
-										<f:ajax event="change" render="codCidNasci" resetValues="true"/>
+										<f:ajax event="change" execute="@this" render="codCidNasci" resetValues="true"/>
 									</h:selectOneMenu>
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-2">
-								<h:outputLabel value="Cidade de Nascimento"/>
+								<h:outputLabel value="#{mensagens['label.cidade.nasci']}"/>
 								<div>
-									<h:selectOneMenu id="codCidNasci" class="form-control" 
+									<h:selectOneMenu id="codCidNasci" class="form-control"
 										value="#{pessoaServlet.cidadeNascimentoDados.pkCidade}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{pessoaServlet.comboCidadeNascimento}"
@@ -139,8 +146,8 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.nacionalidade']}"/>
 								<div>
-									<h:selectOneMenu id="codNacionalidade" class="form-control" 
-										title="Nacionadlidade da Pessoa" disabled="#{pessoaServlet.desabilitaCampos}"
+									<h:selectOneMenu id="codNacionalidade" class="form-control"
+										disabled="#{pessoaServlet.desabilitaCampos}"
 										value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
@@ -153,8 +160,8 @@
 									value="#{mensagens['label.cadastro.pessoa.raca']}"/>
 								<div>
 									<h:selectOneMenu id="codRaca"
-										class="form-control" title="Raça/Cor da Pessoa" 
-										value="#{pessoaServlet.racaDados.pkRaca}" disabled="#{pessoaServlet.desabilitaCampos}">
+										class="form-control" value="#{pessoaServlet.racaDados.pkRaca}"
+										disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboRaca}"
 											var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
@@ -166,8 +173,7 @@
 									value="#{mensagens['label.cadastro.pessoa.esta.civil']}"/>
 								<div>
 									<h:selectOneMenu id="codEstCivil"
-										class="form-control" title="Estado Civil da Pessoa"
-										value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
+										class="form-control" value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboEstadoCivil}"
 											var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
@@ -178,8 +184,7 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.grau.instru']}"/>
 								<div>
-									<h:selectOneMenu id="codGrauInstru"
-										class="form-control" title="Grau de Instrução da Pessoa"
+									<h:selectOneMenu id="codGrauInstru" class="form-control"
 										value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboGrauInstrucao}"
@@ -191,8 +196,7 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.situ.econo']}"/>
 								<div>
-									<h:selectOneMenu id="codSituEconomica"
-										class="form-control" title="Situação Econômica da Pessoa"
+									<h:selectOneMenu id="codSituEconomica" class="form-control"
 										value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboSituacaoEconomica}"
@@ -204,8 +208,7 @@
 								<h:outputLabel
 									value="#{mensagens['label.cadastro.pessoa.religiao']}"/>
 								<div>
-									<h:selectOneMenu id="codReligiao"
-										class="form-control" title="Religião da Pessoa"
+									<h:selectOneMenu id="codReligiao" class="form-control"
 										value="#{pessoaServlet.religiaoDados.pkReligiao}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{pessoaServlet.comboReligiao}"
@@ -218,92 +221,104 @@
 					<h:panelGroup id="dadosResponsavel">
 						<h:panelGroup style="width: 100%"
 							class="clearfix form-actions" rendered="#{pessoaServlet.panelMenorIdade}">
-							<h3 class="header smaller lighter blue" align="center"> Dados do Responsável </h3>
+							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+							<h3 class="header smaller lighter blue" align="center">
+								Dados dos Responsaveis
+							</h3>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="CPF da Mãe"/>
-									<div>
+									<h:outputLabel value="#{mensagens['label.cpf.mae']}"/>
+									<div class="input-group">
 										<h:inputText type="text" id="numCpfMae"
-											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfMae}" autocomplete="off"
 											disabled="#{pessoaServlet.desabilitaCampos}">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<f:ajax event="change" listener="#{pessoaServlet.validaNomeMae}" 
+											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeMae}"
 												render="nomeMae" resetValues="true"/>
 										</h:inputText>
+										<span class="input-group-addon">
+											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="mae">
+												<i class="fa fa-search bigger-110"/>
+											</a>
+										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
-									<h:outputLabel
-										value="Nome da Mãe"/>
+									<h:outputLabel value="#{mensagens['label.nome.mae']}"/>
 									<div>
 										<h:inputText type="text" id="nomeMae" class="col-xs-12 col-sm-12 form-control"
-											value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="#{pessoaServlet.campoNomeMae}" autocomplete="off"/>
+											value="#{pessoaServlet.pessoaDados.nomeMae}" disabled="true" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
 							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="CPF do Pai"/>
-									<div>
+									<h:outputLabel value="#{mensagens['label.cpf.pai']}"/>
+									<div class="input-group">
 										<h:inputText type="text" id="numCpfPai"
-											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfPai}" autocomplete="off"
 											disabled="#{pessoaServlet.desabilitaCampos}">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<f:ajax event="change" listener="#{pessoaServlet.validaNomePai}" 
+											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomePai}"
 												render="nomePai" resetValues="true"/>
 										</h:inputText>
+										<span class="input-group-addon">
+											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="pai">
+												<i class="fa fa-search bigger-110"/>
+											</a>
+										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
-									<h:outputLabel
-										value="Nome do Pai"/>
+									<h:outputLabel value="#{mensagens['label.nome.pai']}"/>
 									<div>
 										<h:inputText type="text" id="nomePai" class="col-xs-12 col-sm-12 form-control"
-											value="#{pessoaServlet.pessoaDados.nomePai}" 
-											disabled="#{pessoaServlet.campoNomePai}" autocomplete="off"/>
+											value="#{pessoaServlet.pessoaDados.nomePai}"
+											disabled="true" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
 							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="CPF do Responsavel"/>
-									<div>
+									<h:outputLabel value="#{mensagens['label.cpf.responsavel']}"/>
+									<div class="input-group">
 										<h:inputText type="text" id="numCpfResponsavel"
-											class="col-xs-12 col-sm-12 cpf form-control" title="Numero do CPF"
+											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfResponsavel}" autocomplete="off">
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
-											<f:ajax event="change" listener="#{pessoaServlet.validaNomeResponsavel}" 
+											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeResponsavel}"
 												render="nomeResponsavel" resetValues="true"/>
 										</h:inputText>
+										<span class="input-group-addon">
+											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="responsavel">
+												<i class="fa fa-search bigger-110"/>
+											</a>
+										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
-									<h:outputLabel
-										value="Nome do Responsavel"/>
+									<h:outputLabel value="#{mensagens['label.nome.responsavel']}"/>
 									<div>
 										<h:inputText type="text" id="nomeResponsavel" class="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.pessoaDados.nomeResponsavel}"
-											disabled="#{pessoaServlet.campoNomeResponsavel}" autocomplete="off"/>
+											disabled="true" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel
-										value="Grau de Parentesco"/>
+									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.grau.parentesco']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codTipoResponsavel"
 											value="#{pessoaServlet.grauParentescoDados.pkGrauParentesco}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboGrauParentesco}" 
+											<f:selectItems value="#{pessoaServlet.comboGrauParentesco}"
 												var="parentesco" itemLabel="#{parentesco.descricao}" itemValue="#{parentesco.pkGrauParentesco}"/>
 										</h:selectOneMenu>
 									</div>
@@ -314,7 +329,9 @@
 					<h:panelGroup id="enderePessoa" style="width: 100%"
 						class="clearfix form-actions">
 						<div id="conteudoEndereco">
-							<h3 class="header smaller lighter blue" align="center"> Endereço/Contato </h3>
+							<h3 class="header smaller lighter blue" align="center">
+								Endereço/Contato
+							</h3>
 							<div class="row">
                         		<div class="col-xs-12 col-sm-6">
                         			<h:outputLabel value="Endereço"/>
@@ -331,37 +348,34 @@
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-3">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
+									<h:outputLabel value="#{mensagens['label.pais']}"/>
 									<div>
-										<h:selectOneMenu id="codPais"
-											class="form-control" title="Pais residente"
+										<h:selectOneMenu id="codPais" class="form-control"
 											value="#{pessoaServlet.paisDados.pkPais}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboPais}" var="pais" 
 												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}" itemLabelEscaped="#{pais.pkPais}"/>
-											<f:ajax event="change" render="codEstado codCidade"/>
+											<f:ajax event="change" execute="@this" render="codEstado codCidade"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div class="col-xs-12  col-sm-3">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
+									<h:outputLabel value="#{mensagens['label.estado']}"/>
 									<div>
-										<h:selectOneMenu id="codEstado"
-											class="form-control" title="Estado residente"
+										<h:selectOneMenu id="codEstado" class="form-control"
 											value="#{pessoaServlet.estadoDados.pkEstado}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboEstado}"
 												var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-											<f:ajax event="change" render="codCidade"/>
+											<f:ajax event="change" execute="@this" render="codCidade"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div class="col-xs-12  col-sm-4">
-										<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
+										<h:outputLabel value="#{mensagens['label.municipio']}"/>
 									<div>
 										<h:selectOneMenu id="codCidade" name="codCidade"
-											class="form-control" title="Cidade residente"
-											value="#{pessoaServlet.cidadeDados.pkCidade}" >
+											class="form-control" value="#{pessoaServlet.cidadeDados.pkCidade}" >
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboCidade}"
 												var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
@@ -369,10 +383,10 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
+									<h:outputLabel value="#{mensagens['label.cep']}"/>
 									<div>
 										<h:inputText
-											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep" title="Numero do CEP"
+											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep"
 											value="#{pessoaServlet.enderecoDados.cep}" autocomplete="off">
 											<f:converter converterId="converter.CEP"/>
 										</h:inputText>
@@ -392,27 +406,27 @@
 								</div>
 								<div class="col-xs-12 col-sm-1">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.numero']}"/>
+										value="#{mensagens['label.numero']}"/>
 									<div>
 										<h:inputText type="text" id="numCasa" name="numCasa"
-											styleClass="col-xs-12 col-sm-12 form-control" title="Numero da Casa"
+											styleClass="col-xs-12 col-sm-12 form-control"
 												value="#{pessoaServlet.enderecoDados.numero}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-3">
 									<h:outputLabel
-										value="#{mensagens['label.cadastro.pessoa.bairro']}"/>
+										value="#{mensagens['label.bairro']}"/>
 									<div>
 										<h:inputText type="text" id="codBairro" name="codBairro"
-											styleClass="col-xs-12 col-sm-12 form-control" title="Nome do Bairro"
+											styleClass="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.enderecoDados.bairro}" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}"/>
+									<h:outputLabel value="#{mensagens['label.complemento']}"/>
 									<div>
 										<h:inputText type="text" id="codComplemento"
-											styleClass="col-xs-12 col-sm-12 form-control" title="Complemento da Casa"
+											styleClass="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.enderecoDados.complemento}" autocomplete="off"/>
 									</div>
 								</div>
@@ -443,10 +457,10 @@
 							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
+									<h:outputLabel value="#{mensagens['label.zona.residen']}"/>
 									<div>
 										<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
-											class="form-control" title="Tipo de Zona Residencial">
+											class="form-control">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{pessoaServlet.comboZonaResidencial}"
 												var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
@@ -454,30 +468,30 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}"/>
+									<h:outputLabel value="#{mensagens['label.tel.contato']}"/>
 									<div>
 										<h:inputText type="number" id="numTelefone"
-											styleClass="col-xs-12 col-sm-12 telResidencial form-control" title="Numero do Celular"
+											styleClass="col-xs-12 col-sm-12 telResidencial form-control"
 											value="#{pessoaServlet.contatoDados.telResidencial}" autocomplete="off">
 											<f:converter converterId="converter.TELRESIDENCIAL"/>
 										</h:inputText>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}"/>
+									<h:outputLabel value="#{mensagens['label.tel.celular']}"/>
 									<div>
 										<h:inputText type="number" id="numCelular"
-											styleClass="col-xs-12 col-sm-12 telCelular form-control" title="Numero do Celular"
+											styleClass="col-xs-12 col-sm-12 telCelular form-control"
 											value="#{pessoaServlet.contatoDados.telCelular}" autocomplete="off">
 											<f:converter converterId="converter.TELCELULAR"/>
 										</h:inputText>
 									</div>
 								</div>
 								<div class="col-xs-12  col-sm-6">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}"/>
+									<h:outputLabel value="#{mensagens['label.email']}"/>
 									<div>
 										<h:inputText type="text" id="email"
-											styleClass="col-xs-12 col-sm-12 form-control" title="E-mail da Pessoa"
+											styleClass="col-xs-12 col-sm-12 form-control"
 											value="#{pessoaServlet.contatoDados.email}" autocomplete="off"/>
 									</div>
 								</div>
@@ -511,12 +525,14 @@
 						  <div class="modal-dialog modal-lg">
 						    <div class="modal-content">
 						    	<div class="modal-header">
-									<h3 class=" smaller lighter blue">Buscar pessoa(s) cadastrada(s)</h3>
+									<h3 class=" smaller lighter blue">
+										Buscar pessoa(s) cadastrada(s)
+									</h3>
 						    	</div>
 						    	<div class="modal-body">
 					    			<div class="row">
-					    				<div class="col-xs-12 col-sm-10">
-					    					<h:outputLabel value="Nome"/>
+					    				<div class="col-xs-12 col-sm-9">
+					    					<h:outputLabel value="#{mensagens['label.nome']}"/>
 					    					<div>
 					    						<h:inputText type="text" id="nomePessoaConsulta" class="col-xs-12 col-sm-12" autocomplete="off"
 					    							value="#{pessoaServlet.pessoaDadosConsulta.nome}"/>
@@ -526,7 +542,7 @@
 					    			<div class="space-4"/>
 					    			<div class="row">
 					    				<div class="col-xs-12 col-sm-3">
-					    					<h:outputLabel value="CPF"/>
+					    					<h:outputLabel value="#{mensagens['label.cpf']}"/>
 					    					<div>
 						    					<h:inputText type="text" id="numCpfConsulta" value="#{pessoaServlet.pessoaDadosConsulta.cpf}"
 													styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF" autocomplete="off">
@@ -536,7 +552,7 @@
 					    					</div>
 					    				</div>
 					    				<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="RG"/>
+											<h:outputLabel value="#{mensagens['label.rg']}"/>
 											<div>
 												<h:inputText type="text" id="numRgConsulta" value="#{pessoaServlet.pessoaDadosConsulta.rg}"
 													styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG" autocomplete="off">
@@ -545,7 +561,7 @@
 											</div>
 										</div>
 					    				<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="Data de Nascimento"/>
+											<h:outputLabel value="#{mensagens['label.dat.nasci']}"/>
 											<div>
 												<h:inputText type="date" id="dataNasciConsulta" value="#{pessoaServlet.pessoaDadosConsulta.dataNascimento}"
 													styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento" autocomplete="off">
@@ -627,6 +643,100 @@
 						    	</div>
 						    </div>
 						  </div>
+						</div>
+					</h:form>
+				</div>
+				<div class="row">
+					<h:form id="formConsutalResponsavel" prependId="false">
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaResponsavel">
+					  		<div class="modal-dialog modal-lg">
+						    	<div class="modal-content">
+							    	<div class="modal-header">
+										<h3 class=" smaller lighter blue">
+											Buscar Responsavel Cadastrado
+										</h3>
+							    	</div>
+									<div class="modal-body">
+										<div class="row">
+						    				<div class="col-xs-12 col-sm-10">
+						    					<h:outputLabel value="#{mensagens['label.nome']}"/>
+						    					<div>
+						    						<h:inputText type="text" id="nomePessoaResponsavel" class="col-xs-12 col-sm-12" autocomplete="off"
+						    							value="#{pessoaServlet.pessoaDadosConsulta.nome}"/>
+						    					</div>
+						    				</div>
+						    			</div>
+						    			<div class="space-6"/>
+				    					<div class="row">
+				    						<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
+							    				<h:dataTable id="tabelaResponsavel" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
+									    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10" 
+									    			binding="#{pessoaServlet.dataTableResponsavel}" value="#{pessoaServlet.listaConsultaResponsavel}" var="pessoa">
+									    			<h:column>
+									    				<center>
+										    				<f:facet name="header"> NOME </f:facet>
+									    				</center>
+									    				<h:outputLabel value="#{pessoa.nome}"/>
+									    			</h:column>
+									    			<h:column>
+									    				<center>
+									    					<f:facet name="header"> DATA DE NASC.</f:facet>
+									    				</center>
+									    				<h:outputLabel value="#{pessoa.dataNascimento}">
+									    					<f:converter converterId="converter.DATA"/>
+									    				</h:outputLabel>
+									    			</h:column>
+									    			<h:column>
+								    					<f:facet name="header">Selecionar</f:facet>
+									    				<center>
+															<h:commandLink styleClass="tooltip-success">
+									    						<span class="green">
+																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span>
+																<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa:dadosResponsavel"
+																	onevent="function(data) { esconderModal(data) }" resetValues="true"/>
+															</h:commandLink>
+									    				</center>	
+					 								</h:column>
+									    			<f:facet name="footer">
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="Primeira"
+											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                		<f:ajax event="click" listener="#{pessoaServlet.pageFirst}" render="tabelaResponsavel" />
+										                	</h:commandButton>
+											                <h:commandButton value="Anterior"
+											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+											               		<f:ajax event="click" listener="#{pessoaServlet.pagePrevious}" render="tabelaResponsavel" />
+											               	</h:commandButton>
+											                <h:commandButton value="Próxima"
+											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
+											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                        <f:ajax event="click" listener="#{pessoaServlet.pageNext}" render="tabelaResponsavel" />
+									                        </h:commandButton>
+											                <h:commandButton value="Última"
+											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
+											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                    	<f:ajax event="click" listener="#{pessoaServlet.pageLast}" render="tabelaResponsavel" />
+										                    </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
+									    		</h:dataTable>
+						    				</h:panelGroup>
+			    						</div>
+									</div>
+									<div class="modal-footer">
+										<button id="btFecharResponsavel" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
+											<i class="ace-icon fa fa-times red2"/>
+											Fechar
+										</button>
+										<h:commandLink type="submit" id="btConsultarResponsavel" class="btn btn-white btn-success btn-round"> 
+											<span class="bigger-110"> Consultar </span>
+											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
 						</div>
 					</h:form>
 				</div>
