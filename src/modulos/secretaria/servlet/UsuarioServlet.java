@@ -665,14 +665,14 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { classSecretariaCadastroPessoa = ""; }
-						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
-						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
-						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { classSecretariaCadastroPessoa = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
 
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
-						else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
 					}
 					
 					/* MÓDULO ESCOLA */
@@ -719,7 +719,7 @@ public class UsuarioServlet implements Serializable
 						}
 						
 						//LIBERA ACESSO AS TELAS DE CADASTRO
-						if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
 					}
 					
 					/* MÓDULO MERENDA */
