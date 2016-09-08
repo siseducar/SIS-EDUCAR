@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
@@ -41,6 +42,9 @@ public class PessoaServlet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@ManagedProperty("#{paramServlet}")
+	private ParametrosServlet paramDados;
+	
 	/* Atributos */
 	private Pessoa pessoaDados;
 	private Contato contatoDados;
@@ -55,7 +59,6 @@ public class PessoaServlet implements Serializable{
 	private SituacaoEconomica situEconomicaDados;
 	private Religiao religiaoDados;
 	private Regiao regiaoDados;
-	private ParametrosServlet paramDados;
 	private Usuario usuarioLogado;
 	private GrauParentesco grauParentescoDados;
 	private PessoaDAO pessoaDAO;
@@ -65,33 +68,6 @@ public class PessoaServlet implements Serializable{
 	private Cidade cidadeNascimentoDados;
 	private Pessoa pessoaSelecionada;
 	private Pessoa pessoaDadosConsulta;
-		
-	/* Combo com valores de GRAU DE PARENTESCO */
-	private List<SelectItem> comboGrauParentesco;
-	
-	/* Combo com valores de NACIONALIDADE */
-	private List<SelectItem> comboNacionalidade;
-	
-	/* Combo com valores de RAÇA */
-	private List<SelectItem> comboRaca;
-	
-	/* Combo com valores de ESTADO CIVIL */
-	private List<SelectItem> comboEstadoCivil;
-	
-	/* Combo com valores de GRAU DE PARENTESCO */
-	private List<SelectItem> comboGrauInstrucao;
-	
-	/* Combo com valores de SITUAÇÃO ECÔNIMCA */
-	private List<SelectItem> comboSituacaoEconomica;
-	
-	/* Combo com valores de RELIGIÃO */
-	private List<SelectItem> comboReligiao;
-	
-	/* Combo com valores de ZONA RESIDENCIAL */
-	private List<SelectItem> comboZonaResidencial;
-	
-	/* Combo com valores de PAÃ�S */
-	private List<SelectItem> comboPais;
 	
 	/* Combo com valores de ESTADO */
 	private List<SelectItem> comboEstado;
@@ -99,8 +75,7 @@ public class PessoaServlet implements Serializable{
 	/* Combo com valores de CIDADE */
 	private List<SelectItem> comboCidade;
 	
-	private List<SelectItem> comboEstadoNascimento;
-	
+	/* Combo com valores de CIDADE DE NASCIMENTO */
 	private List<SelectItem> comboCidadeNascimento;
 	
 	/* Componenete Tabela de consulta de Cadastros*/
@@ -185,9 +160,6 @@ public class PessoaServlet implements Serializable{
 		if(this.regiaoDados == null) {
 			this.regiaoDados = new Regiao();
 		}
-		if(this.paramDados == null) {
-			this.paramDados = new ParametrosServlet();
-		}
 		if(this.grauParentescoDados == null) {
 			this.grauParentescoDados = new GrauParentesco();
 		}
@@ -215,24 +187,12 @@ public class PessoaServlet implements Serializable{
 		if(this.pessoaDadosConsulta == null) {
 			this.pessoaDadosConsulta = new Pessoa();
 		}
+		if(this.dataTableResponsavel == null) {
+			this.dataTableResponsavel = new HtmlDataTable();
+		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
-		comboEstadoCivil = new ArrayList<SelectItem>();
-		comboGrauInstrucao = new ArrayList<SelectItem>();
-		comboNacionalidade = new ArrayList<SelectItem>();
-		comboRaca = new ArrayList<SelectItem>();
-		comboReligiao = new ArrayList<SelectItem>();
-		comboSituacaoEconomica = new ArrayList<SelectItem>();
-		comboZonaResidencial = new ArrayList<SelectItem>();
-		comboGrauParentesco = new ArrayList<SelectItem>();
-		comboPais = new ArrayList<SelectItem>();
-		comboEstado = new ArrayList<SelectItem>();
-		comboCidade = new ArrayList<SelectItem>();
-		comboEstadoNascimento = new ArrayList<SelectItem>();
-		comboCidadeNascimento = new ArrayList<SelectItem>();
-		
-		carregaCombos();
 		campoNomeMae = false;
 		campoNomePai = false;
 		campoNomeResponsavel = false;
@@ -242,6 +202,10 @@ public class PessoaServlet implements Serializable{
 		desabilitaCampos = false;
 		campoCPF = false;
 		campoRG = false;
+		
+		comboCidade = new ArrayList<SelectItem>();
+		comboCidadeNascimento = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
 		
 		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
@@ -532,7 +496,6 @@ public class PessoaServlet implements Serializable{
 		situEconomicaDados = new SituacaoEconomica();
 		religiaoDados = new Religiao();
 		regiaoDados = new Regiao();
-		paramDados = new ParametrosServlet();
 		grauParentescoDados = new GrauParentesco();
 		pessoaDAO = new PessoaDAO();
 		enderecoDAO = new EnderecoDAO();
@@ -612,7 +575,7 @@ public class PessoaServlet implements Serializable{
 			
 			if(enderecoDados.getCidade() != null) {
 				if(enderecoDados.getCidade().getEstado().getPais().getPkPais() != null) {
-					for(SelectItem selectItem : comboPais) {
+					for(SelectItem selectItem : paramDados.getComboPais()) {
 						if(selectItem.getValue().equals(enderecoDados.getCidade().getEstado().getPais().getPkPais())) {
 							paisDados = new Pais();
 							paisDados.setPkPais(enderecoDados.getCidade().getEstado().getPais().getPkPais());
@@ -771,42 +734,6 @@ public class PessoaServlet implements Serializable{
 				Logs.addWarning("CPF já cadastrado.",null);
 				pessoaDados.setCpf(null);
 			}
-		}
-	}
-	/*
-	 * Metodo responsavel por carregar os combos da tela
-	 * 
-	 * */
-	public void carregaCombos() throws SQLException{
-		if( comboEstadoCivil.isEmpty()) {			
-			comboEstadoCivil.addAll(paramDados.consultaEstaCivil());
-		}
-		if(comboGrauInstrucao.isEmpty()) {
-			comboGrauInstrucao.addAll(paramDados.consultaGrauInstru());	
-		}
-		if(comboNacionalidade.isEmpty()) {
-			comboNacionalidade.addAll(paramDados.consultaNacionalidade());	
-		}
-		if(comboRaca.isEmpty()) {
-			comboRaca.addAll(paramDados.consultaRaca());	
-		}
-		if(comboReligiao.isEmpty()) {
-			comboReligiao.addAll(paramDados.consultaReligiao());	
-		}
-		if(comboSituacaoEconomica.isEmpty()) {
-			comboSituacaoEconomica.addAll(paramDados.consultaSituEconomica());	
-		}
-		if(comboZonaResidencial.isEmpty()) {
-			comboZonaResidencial.addAll(paramDados.consultaRegiao());	
-		}
-		if(comboPais.isEmpty()) {
-			comboPais.addAll(paramDados.consultaPais());	
-		}
-		if(comboGrauParentesco.isEmpty()) {
-			comboGrauParentesco.addAll(paramDados.consultaGrauParentesco());	
-		}
-		if(comboEstadoNascimento.isEmpty()) {
-			comboEstadoNascimento.addAll(paramDados.consultaEstadoNascimento());	
 		}
 	}
 	
@@ -993,14 +920,6 @@ public class PessoaServlet implements Serializable{
 		this.regiaoDados = regiaoDados;
 	}
 	
-	public ParametrosServlet getParamDados() {
-		return paramDados;
-	}
-
-	public void setParamDados(ParametrosServlet paramDados) {
-		this.paramDados = paramDados;
-	}
-
 	public Usuario getUsuarioLogado() {
 		return usuarioLogado;
 	}
@@ -1016,20 +935,9 @@ public class PessoaServlet implements Serializable{
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE PAIS ESTADO E CIDADE */
 	
-	/* PAIS */
-	public List<SelectItem> getComboPais() {
-		return comboPais;
-	}
-
-	public void setComboPais(List<SelectItem> comboPais) {
-		this.comboPais = comboPais;
-	}
-	
 	/* ESTADO */
 	public List<SelectItem> getComboEstado() {
-		if(paisDados.getPkPais() != null && !comboPais.isEmpty()) {
-			
-			ParametrosServlet paramDados = new ParametrosServlet();
+		if(paisDados.getPkPais() != null) {			
 			comboEstado.addAll(paramDados.consultaEstado(paisDados));
 			
 			return comboEstado;
@@ -1046,7 +954,6 @@ public class PessoaServlet implements Serializable{
 	/* CIDADE */
 	public List<SelectItem> getComboCidade() {
 		if(estadoDados.getPkEstado() != null && !comboEstado.isEmpty()){
-			ParametrosServlet paramDados = new ParametrosServlet();
 			comboCidade.addAll(paramDados.consultaCidade(estadoDados));
 			
 			return comboCidade;
@@ -1061,75 +968,6 @@ public class PessoaServlet implements Serializable{
 	}
 	/* GETTERS AND SETTER DE PAIS ESTADO E CIDADE */
 	/* ------------------------------------------------------------------------------------------------------------------------ */
-	
-	/* ------------------------------------------------------------------------------------------------------------------------ */
-	/* GETTERS AND SETTER DE PARAMETROS DA TELA */
-	public List<SelectItem> getComboNacionalidade() {
-		return comboNacionalidade;
-	}
-
-	public void setComboNacionalidade(List<SelectItem> comboNacionalidade) {
-		this.comboNacionalidade = comboNacionalidade;
-	}
-
-	public List<SelectItem> getComboRaca() {
-		return comboRaca;
-	}
-
-	public void setComboRaca(List<SelectItem> comboRaca) {
-		this.comboRaca = comboRaca;
-	}
-
-	public List<SelectItem> getComboEstadoCivil() {
-		return comboEstadoCivil;
-	}
-
-	public void setComboEstadoCivil(List<SelectItem> comboEstadoCivil) {
-		this.comboEstadoCivil = comboEstadoCivil;
-	}
-
-	public List<SelectItem> getComboGrauInstrucao() {
-		return comboGrauInstrucao;
-	}
-
-	public void setComboGrauInstrucao(List<SelectItem> comboGrauInstrucao) {
-		this.comboGrauInstrucao = comboGrauInstrucao;
-	}
-
-	public List<SelectItem> getComboSituacaoEconomica() {
-		return comboSituacaoEconomica;
-	}
-
-	public void setComboSituacaoEconomica(List<SelectItem> comboSituacaoEconomica) {
-		this.comboSituacaoEconomica = comboSituacaoEconomica;
-	}
-
-	public List<SelectItem> getComboReligiao() {
-		return comboReligiao;
-	}
-
-	public void setComboReligiao(List<SelectItem> comboReligiao) {
-		this.comboReligiao = comboReligiao;
-	}
-
-	public List<SelectItem> getComboZonaResidencial() {
-		return comboZonaResidencial;
-	}
-
-	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
-		this.comboZonaResidencial = comboZonaResidencial;
-	}
-/* ------------------------------------------------------------------------------------------------------------------------ */
-	public List<SelectItem> getComboGrauParentesco() {
-		return comboGrauParentesco;
-	}
-
-	public void setComboGrauParentesco(List<SelectItem> comboGrauParentesco) {
-		this.comboGrauParentesco = comboGrauParentesco;
-	}
-/* ------------------------------------------------------------------------------------------------------------------------ */
-/* GETTERS AND SETTER DE PARAMETROS DA TELA */
-/* ------------------------------------------------------------------------------------------------------------------------ */
 	
 	public GrauParentesco getGrauParentescoDados() {
 		return grauParentescoDados;
@@ -1154,21 +992,12 @@ public class PessoaServlet implements Serializable{
 	public void setListaConsultaPessoa(List<Pessoa> listaConsultaPessoa) {
 		this.listaConsultaPessoa = listaConsultaPessoa;
 	}
-
-	public List<SelectItem> getComboEstadoNascimento() {
-		return comboEstadoNascimento;
-	}
-
-	public void setComboEstadoNascimento(List<SelectItem> comboEstadoNascimento) {
-		this.comboEstadoNascimento = comboEstadoNascimento;
-	}
-
 	public List<SelectItem> getComboCidadeNascimento() {
-		comboCidadeNascimento.clear();
-		if(estadoNascimentoDados.getPkEstado() != null && !comboEstadoNascimento.isEmpty()){
-			ParametrosServlet paramDados = new ParametrosServlet();
+		if(estadoNascimentoDados.getPkEstado() != null){
 			comboCidadeNascimento.addAll(paramDados.consultaCidade(estadoNascimentoDados));
 		}
+		cidadeNascimentoDados.setPkCidade(null);
+		comboCidadeNascimento.clear();		
 		return comboCidadeNascimento;
 	}
 
@@ -1294,5 +1123,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setGeneroConsulta(String generoConsulta) {
 		this.generoConsulta = generoConsulta;
+	}
+
+	public ParametrosServlet getParamDados() {
+		return paramDados;
+	}
+
+	public void setParamDados(ParametrosServlet paramDados) {
+		this.paramDados = paramDados;
 	}
 }

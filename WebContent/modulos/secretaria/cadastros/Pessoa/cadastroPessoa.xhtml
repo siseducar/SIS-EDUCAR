@@ -9,17 +9,17 @@
 	<ui:define name="barraNavegacao">
 		<li>
 			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>
-			Cadastro
+			Cadastros
 		</li>
 		<li class="active">
 			<i class="ace-icon glyphicon glyphicon-user"/>
-			Cadastro de Pessoas
+			Pessoas
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
 		<div class="page-header col-xs-12 col-sm-12">
 			<h1>
-				Pessoa
+				Cadastro
 				<small>
 					<i class="ace-icon fa fa-angle-double-right"/>
 					Cadastro de Pessoas
@@ -122,7 +122,7 @@
 									<h:selectOneMenu id="codEstNasci" class="form-control"
 										value="#{pessoaServlet.estadoNascimentoDados.pkEstado}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
-										<f:selectItems value="#{pessoaServlet.comboEstadoNascimento}"
+										<f:selectItems value="#{paramServlet.comboEstadoNascimento}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
 										<f:ajax event="change" execute="@this" render="codCidNasci" resetValues="true"/>
 									</h:selectOneMenu>
@@ -150,7 +150,7 @@
 										disabled="#{pessoaServlet.desabilitaCampos}"
 										value="#{pessoaServlet.nacionalidadeDados.pkNacionalidade}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboNacionalidade}"
+										<f:selectItems value="#{paramServlet.comboNacionalidade}"
 											var="nacionalidade" itemLabel="#{nacionalidade.descricao}" itemValue="#{nacionalidade.pkNacionalidade}"/>
 									</h:selectOneMenu>
 								</div>
@@ -163,7 +163,7 @@
 										class="form-control" value="#{pessoaServlet.racaDados.pkRaca}"
 										disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboRaca}"
+										<f:selectItems value="#{paramServlet.comboRaca}"
 											var="raca" itemLabel="#{raca.descricao}" itemValue="#{raca.pkRaca}"/>
 									</h:selectOneMenu>
 								</div>
@@ -175,7 +175,7 @@
 									<h:selectOneMenu id="codEstCivil"
 										class="form-control" value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboEstadoCivil}"
+										<f:selectItems value="#{paramServlet.comboEstadoCivil}"
 											var="estaCivil" itemLabel="#{estaCivil.descricao}" itemValue="#{estaCivil.pkEstadoCivil}"/>
 									</h:selectOneMenu>
 								</div>
@@ -187,7 +187,7 @@
 									<h:selectOneMenu id="codGrauInstru" class="form-control"
 										value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboGrauInstrucao}"
+										<f:selectItems value="#{paramServlet.comboGrauInstrucao}"
 											var="grauInstru" itemLabel="#{grauInstru.descricao}" itemValue="#{grauInstru.pkGrauInstrucao}"/>
 									</h:selectOneMenu>
 								</div>
@@ -199,7 +199,7 @@
 									<h:selectOneMenu id="codSituEconomica" class="form-control"
 										value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboSituacaoEconomica}"
+										<f:selectItems value="#{paramServlet.comboSituacaoEconomica}"
 											var="situEconomica" itemLabel="#{situEconomica.descricao}" itemValue="#{situEconomica.pkSituacaoEconomica}"/>
 									</h:selectOneMenu>
 								</div>
@@ -211,7 +211,7 @@
 									<h:selectOneMenu id="codReligiao" class="form-control"
 										value="#{pessoaServlet.religiaoDados.pkReligiao}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										<f:selectItems value="#{pessoaServlet.comboReligiao}"
+										<f:selectItems value="#{paramServlet.comboReligiao}"
 											var="religiao" itemLabel="#{religiao.descricao}" itemValue="#{religiao.pkReligiao}"/>
 									</h:selectOneMenu>
 								</div>
@@ -318,7 +318,7 @@
 										<h:selectOneMenu class="form-control" id="codTipoResponsavel"
 											value="#{pessoaServlet.grauParentescoDados.pkGrauParentesco}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboGrauParentesco}"
+											<f:selectItems value="#{paramServlet.comboGrauParentesco}"
 												var="parentesco" itemLabel="#{parentesco.descricao}" itemValue="#{parentesco.pkGrauParentesco}"/>
 										</h:selectOneMenu>
 									</div>
@@ -353,7 +353,7 @@
 										<h:selectOneMenu id="codPais" class="form-control"
 											value="#{pessoaServlet.paisDados.pkPais}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboPais}" var="pais" 
+											<f:selectItems value="#{paramServlet.comboPais}" var="pais" 
 												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}" itemLabelEscaped="#{pais.pkPais}"/>
 											<f:ajax event="change" execute="@this" render="codEstado codCidade"/>
 										</h:selectOneMenu>
@@ -462,7 +462,7 @@
 										<h:selectOneMenu id="codZonaResi" value="#{pessoaServlet.regiaoDados.pkRegiao}"
 											class="form-control">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-											<f:selectItems value="#{pessoaServlet.comboZonaResidencial}"
+											<f:selectItems value="#{paramServlet.comboRegiao}"
 												var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
 										</h:selectOneMenu>
 									</div>
