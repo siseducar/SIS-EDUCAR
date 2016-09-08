@@ -141,12 +141,8 @@ public class PessoaServlet implements Serializable{
 	
 	/* Componente para validar idade da pessoa */
 	private Boolean panelMenorIdade;
-	
-	private List<Pessoa> listaDadosMae;
-	
-	private List<Pessoa> listaDadosPai;
-	
-	private List<Pessoa> listaDadosResponsavel;
+		
+	private String generoConsulta;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -341,6 +337,7 @@ public class PessoaServlet implements Serializable{
 	}
 	
 	
+	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
@@ -470,8 +467,6 @@ public class PessoaServlet implements Serializable{
 		return true;
 	}
 	
-	
-	
 	/*
 	 * Metodo para validar se ja existe o CPF cadastrado
 	 * */
@@ -565,7 +560,7 @@ public class PessoaServlet implements Serializable{
 						pessoaDadosConsulta.getCpf(), 
 						pessoaDadosConsulta.getRg(), 
 						pessoaDadosConsulta.getDataNascimento(),
-						pessoaDadosConsulta.getFkMunicipioCliente().getPkCidade());
+						null);
 	}
 	
 	public void editarCadastro() {
@@ -654,29 +649,49 @@ public class PessoaServlet implements Serializable{
 			desabilitaCampos = true;
 		}
 	}
+	
+	public void consultaCadastroResponsavel() {
+		listaConsultaResponsavel = new ArrayList<Pessoa>();
+		
+		listaConsultaResponsavel = 
+				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
+						pessoaDadosConsulta.getCpf(), 
+						pessoaDadosConsulta.getRg(), 
+						pessoaDadosConsulta.getDataNascimento(),
+						generoConsulta);
+	}
+	
+	public void limparListaResponsavel() {
+		if(listaConsultaResponsavel != null) {			
+			listaConsultaResponsavel = null;
+		}
+	}
+	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
-	 * Metodo responsavel por validar o nome da MAE caso de menor
+	 * Metodo responsavel por validar o nome da MAE caso de menorr
 	 * 
 	 * */
 	public void validaNomeMae(){
 		if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
 			Long cpfMae = pessoaDados.getCpfMae();
-			String nome = pessoaDAO.consultaNomeResponsavel(cpfMae); 
+			String sexo = ConstantesSisEducar.GENERO_FEMININO;
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfMae,sexo); 
 			
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomeMae(nome);
 				campoNomeMae = true;
 			}else{
 				pessoaDados.setNomeMae(null);
+				pessoaDados.setCpfMae(null);
 				campoNomeMae = false;
-				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
+				Logs.addWarning("CPF não encontrado.", null);
 			}
 		}else{
 			pessoaDados.setNomeMae(null);
 			campoNomeMae = false;
-		}
+		} 
 	}
 	
 	/*
@@ -686,17 +701,22 @@ public class PessoaServlet implements Serializable{
 	public void validaNomePai(){
 		if(pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ){
 			Long cpfPai = pessoaDados.getCpfPai();
+			String sexo = ConstantesSisEducar.GENERO_MASCULINO;
 			
-			String nome = pessoaDAO.consultaNomeResponsavel(cpfPai); 
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfPai,sexo); 
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomePai(nome);
 				campoNomePai = true;
 			}else{
 				pessoaDados.setNomePai(null);
+				pessoaDados.setCpfPai(null);
 				campoNomePai = false;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"CPF não encontrado, favor informar o nome.", null));
+						"CPF não encontrado.", null));
 			}
+		} else {
+			pessoaDados.setNomePai(null);
+			campoNomePai = false;
 		}
 	}
 	
@@ -707,18 +727,23 @@ public class PessoaServlet implements Serializable{
 	public void validaNomeResponsavel(){
 		if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 			Long cpfResponsavel = pessoaDados.getCpfResponsavel();
+			String sexo = null;
 			
-			String nome = pessoaDAO.consultaNomeResponsavel(cpfResponsavel); 
+			String nome = pessoaDAO.consultaNomeResponsavel(cpfResponsavel,sexo); 
 			if(nome != null && !nome.equals("")){
 				pessoaDados.setNomeResponsavel(nome);
 				campoNomeResponsavel = true;
 			}else{
-				pessoaDados.setNomePai(null);
+				pessoaDados.setNomeResponsavel(null);
+				pessoaDados.setCpfResponsavel(null);
 				campoNomeResponsavel = false;
-				Logs.addWarning("CPF não encontrado, favor informar o nome.", null);
+				Logs.addWarning("CPF não encontrado.", null);
 			}
+		} else {
+			pessoaDados.setNomeResponsavel(null);
+			campoNomeResponsavel = false;
 		}
-	}
+	}	
 	
 	/*
 	 * Metodo para validar o tipo de cadastro
@@ -785,6 +810,43 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
+	/* 
+	 * Tabela de consulta de cadastro de Responsavel 
+	 * * * * * * */
+	public void pageFirstResponsavel() {
+        dataTableResponsavel.setFirst(0);
+    }
+
+    public void pagePreviousResponavel() {
+        dataTableResponsavel.setFirst(dataTableResponsavel.getFirst() - dataTableResponsavel.getRows());
+    }
+
+    public void pageNextResponsavel() {
+        dataTableResponsavel.setFirst(dataTableResponsavel.getFirst() + dataTableResponsavel.getRows());
+    }
+
+    public void pageLastResponsavel() {
+        int count = getDataTableResponsavel().getRowCount();
+        int rows = dataTableResponsavel.getRows();
+        dataTableResponsavel.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
+	
+    public int getCurrentPageResponsavel() {
+        int rows = dataTableResponsavel.getRows();
+        int first = dataTableResponsavel.getFirst();
+        int count = dataTableResponsavel.getRowCount();
+        return (count / rows) - ((count - first) / rows) + 1;
+    }
+
+    public int getTotalPagesResponsavel() {
+        int rows = dataTableResponsavel.getRows();
+        int count = dataTableResponsavel.getRowCount();
+        return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
+		
+    /* 
+	 * Tabela de consulta de cadastro de Pessoa 
+	 * * * * * * */
 	public void pageFirst() {
         dataTable.setFirst(0);
     }
@@ -815,7 +877,8 @@ public class PessoaServlet implements Serializable{
         int count = dataTable.getRowCount();
         return (count / rows) + ((count % rows != 0) ? 1 : 0);
     }
-		
+
+    
 	/* ------------------------------------------------------------------------------------------------------------------------ */
 	/* GETTERS AND SETTER DE ATRIBUTOS OBJETOS */
 	public Pessoa getPessoaDados() {
@@ -1209,30 +1272,6 @@ public class PessoaServlet implements Serializable{
 		this.panelMenorIdade = panelMenorIdade;
 	}
 
-	public List<Pessoa> getListaDadosMae() {
-		return listaDadosMae;
-	}
-
-	public void setListaDadosMae(List<Pessoa> listaDadosMae) {
-		this.listaDadosMae = listaDadosMae;
-	}
-
-	public List<Pessoa> getListaDadosPai() {
-		return listaDadosPai;
-	}
-
-	public void setListaDadosPai(List<Pessoa> listaDadosPai) {
-		this.listaDadosPai = listaDadosPai;
-	}
-
-	public List<Pessoa> getListaDadosResponsavel() {
-		return listaDadosResponsavel;
-	}
-
-	public void setListaDadosResponsavel(List<Pessoa> listaDadosResponsavel) {
-		this.listaDadosResponsavel = listaDadosResponsavel;
-	}
-
 	public HtmlDataTable getDataTableResponsavel() {
 		return dataTableResponsavel;
 	}
@@ -1247,5 +1286,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setListaConsultaResponsavel(List<Pessoa> listaConsultaResponsavel) {
 		this.listaConsultaResponsavel = listaConsultaResponsavel;
+	}
+
+	public String getGeneroConsulta() {
+		return generoConsulta;
+	}
+
+	public void setGeneroConsulta(String generoConsulta) {
+		this.generoConsulta = generoConsulta;
 	}
 }

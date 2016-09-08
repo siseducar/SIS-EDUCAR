@@ -237,7 +237,7 @@
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeMae}"
-												render="nomeMae" resetValues="true"/>
+												render="nomeMae @this" resetValues="true"/>
 										</h:inputText>
 										<span class="input-group-addon">
 											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="mae">
@@ -266,10 +266,10 @@
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomePai}"
-												render="nomePai" resetValues="true"/>
+												render="nomePai @this" resetValues="true"/>
 										</h:inputText>
 										<span class="input-group-addon">
-											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="pai">
+											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="pai" >
 												<i class="fa fa-search bigger-110"/>
 											</a>
 										</span>
@@ -295,7 +295,7 @@
 											<f:validator validatorId="validar.CpfValidator"/>
 											<f:converter converterId="converter.CPF"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeResponsavel}"
-												render="nomeResponsavel" resetValues="true"/>
+												render="nomeResponsavel @this" resetValues="true"/>
 										</h:inputText>
 										<span class="input-group-addon">
 											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="responsavel">
@@ -659,11 +659,12 @@
 							    	</div>
 									<div class="modal-body">
 										<div class="row">
-						    				<div class="col-xs-12 col-sm-10">
+						    				<div class="col-xs-12 col-sm-8">
 						    					<h:outputLabel value="#{mensagens['label.nome']}"/>
 						    					<div>
 						    						<h:inputText type="text" id="nomePessoaResponsavel" class="col-xs-12 col-sm-12" autocomplete="off"
 						    							value="#{pessoaServlet.pessoaDadosConsulta.nome}"/>
+						    						<h:inputHidden id="tipoGenero" value="#{pessoaServlet.generoConsulta}"/>
 						    					</div>
 						    				</div>
 						    			</div>
@@ -692,7 +693,7 @@
 									    				<center>
 															<h:commandLink styleClass="tooltip-success">
 									    						<span class="green">
-																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																	<i class="ace-icon fa fa-check bigger-120"/>
 																</span>
 																<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa:dadosResponsavel"
 																	onevent="function(data) { esconderModal(data) }" resetValues="true"/>
@@ -733,6 +734,8 @@
 										<h:commandLink type="submit" id="btConsultarResponsavel" class="btn btn-white btn-success btn-round"> 
 											<span class="bigger-110"> Consultar </span>
 											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+											<f:ajax event="click" listener="#{pessoaServlet.consultaCadastroResponsavel}"
+												render="tabelaResponsavel" execute=":formConsutalResponsavel" resetValues="true"/>
 										</h:commandLink>
 									</div>
 								</div>

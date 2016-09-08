@@ -424,14 +424,23 @@ public class PessoaDAO extends SisEducarDAO
 	/*
 	 * Metodo responsavel por validar responsavel existente
 	 * */
-	public String consultaNomeResponsavel(Long cpf){
+	public String consultaNomeResponsavel(Long cpf, String sexo){
 		try {
 			
 			String nomePessoa = null;
-			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ?";
+			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ? ";
+			
+			if(sexo != null && !sexo.equals("")) {
+				querySQL+= " AND SEXO = ?";
+			}
 			
 			ps = con.prepareStatement(querySQL);
+			
 			ps.setString(1, cpf.toString());
+			if(sexo != null && !sexo.equals("")) {
+				ps.setString(2, sexo);
+			}
+			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
@@ -449,7 +458,7 @@ public class PessoaDAO extends SisEducarDAO
 	/*
 	 * Metodo responsavel por validar responsavel existente
 	 * */
-	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci, Integer codMunicipio) {
+	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci, String sexo) {
 		try {
 			Integer numeroArgumentos = 1;
 			String formataNome = "%"+ nome + "%";
@@ -470,6 +479,9 @@ public class PessoaDAO extends SisEducarDAO
 				}
 				if(dataNasci != null) {
 					querySQL+= " AND DATANASCIMENTO = ? "; 
+				}
+				if(sexo != null && !sexo.equals("")) {
+					querySQL+= " AND SEXO = ?";
 				}
 				querySQL+= " ORDER BY NOME";
 			
@@ -492,6 +504,10 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			if(dataNasci != null) {
 				ps.setDate(numeroArgumentos, dataNasci);
+				numeroArgumentos++;
+			}
+			if(sexo != null && !sexo.equals("")) {
+				ps.setString(numeroArgumentos, sexo);
 			}
 			
 			rs = ps.executeQuery();
@@ -501,7 +517,6 @@ public class PessoaDAO extends SisEducarDAO
 				
 				dadosPessoa.setPkPessoa(rs.getInt("PKPESSOA"));
 				dadosPessoa.setNome(rs.getString("NOME"));
-				dadosPessoa.setCpf(rs.getLong("CPF"));
 				dadosPessoa.setDataNascimento(rs.getDate("DATANASCIMENTO"));
 				
 				listaPessoa.add(dadosPessoa);

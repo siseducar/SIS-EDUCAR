@@ -289,7 +289,7 @@ public class MatriculaAlunoServlet implements Serializable {
 						pessoaDadosConsulta.getCpf(), 
 						pessoaDadosConsulta.getRg(), 
 						pessoaDadosConsulta.getDataNascimento(),
-						pessoaDadosConsulta.getFkMunicipioCliente().getPkCidade());
+						null);
 	}
 	
 	/*

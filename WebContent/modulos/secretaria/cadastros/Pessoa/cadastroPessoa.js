@@ -95,6 +95,17 @@ $(function carrgaElementos() {
 	   on_sides: true
 	});
 	
+	$("#mae").on('click', function() {
+		   $("#tipoGenero").val("feminino");
+	});
+	
+	$("#pai").on('click', function() {
+		$("#tipoGenero").val("masculino");
+	});
+	
+	$("#responsavel").on('click', function() {
+		$("#tipoGenero").val("");
+	});
 });
 
 $(function() {
@@ -131,6 +142,13 @@ $(function esconderModal(data) {
 	}
 });
 
+$(function esconderModalResponsavel(data) {
+	if(data.status=="success") {
+		$('#modalConsultaResponsavel').modal('hide');
+	}
+});
+
+
 $(function mostrarModalSucesso(data) {
 	if(data.status=="success") {
 		$('#modalCadastroSucesso').modal('show');
@@ -142,3 +160,4 @@ $(function esconderModalSucesso(data) {
 		$('#modalCadastroSucesso').modal('hide');
 	}
 });
+

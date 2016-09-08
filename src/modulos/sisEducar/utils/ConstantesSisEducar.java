@@ -20,4 +20,7 @@ public class ConstantesSisEducar
 	/*Este status é para quando o usuario solicita uma redefinição de senha*/
 	public static final int STATUS_REDEFINICAO_SENHA_LIBERADO = 777;
 	public static final int STATUS_REDEFINICAO_SENHA_CONCLUIDO = 778;
+	
+	public static final String GENERO_FEMININO = "feminino";
+	public static final String GENERO_MASCULINO = "masculino";
 }
