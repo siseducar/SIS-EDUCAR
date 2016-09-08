@@ -22,9 +22,9 @@ public class PopulaEducacaoPermissoes
 		System.out.println("Populando Permissões de Tela...");
 		
 		/* TELA DE CADASTRO MATRICULA ALUNO */
-		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_EDUCACAO, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
-		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_EDUCACAO, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
-		populaRHDAO.inserirPermissoes("Excluir", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_EXCLUIR, ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_EDUCACAO, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+		populaRHDAO.inserirPermissoes("Excluir", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_EXCLUIR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
 		
 		System.out.println("Popula de permissões finalizado \n");
 	}
