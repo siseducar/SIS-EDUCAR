@@ -102,6 +102,7 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaCadastroFornecedor		= classAtributeHidden;
     private String classSecretariaCadastroUsuario   		= classAtributeHidden;
     private String classSecretariaCadastroUnidadeEscolar   	= classAtributeHidden;
+    private String classSecretariaCadastroAmbiente   		= classAtributeHidden;
     private String classSecretariaCadastroMatriculaAluno   	= classAtributeHidden;
 	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
@@ -669,6 +670,7 @@ public class UsuarioServlet implements Serializable
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { classSecretariaCadastroAmbiente = ""; }
 
 						//LIBERA ACESSO AS TELAS DE CADASTRO
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
@@ -1622,5 +1624,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setTodasPermissoes(List<Permissao> todasPermissoes) {
 		this.todasPermissoes = todasPermissoes;
+	}
+
+	public String getClassSecretariaCadastroAmbiente() {
+		return classSecretariaCadastroAmbiente;
+	}
+
+	public void setClassSecretariaCadastroAmbiente(String classSecretariaCadastroAmbiente) {
+		this.classSecretariaCadastroAmbiente = classSecretariaCadastroAmbiente;
 	}
 }
