@@ -111,7 +111,7 @@
 							<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-female-36.png" style="display:#{loginServlet.generoFeminino}"/>
 							<img class="nav-user-photo" src="${facesContext.externalContext.requestContextPath}/resources/imagens/modulos/sisEducar/user-male-36.png" style="display:#{loginServlet.generoMasculino}"/>
 							<span class="user-info">
-								<small>Bem Vindo,</small>
+								<small>#{mensagens['label.boas.vindas']}</small>
 								<small id="smallNomeUsuarioLogado" class="bigger-110">
 									#{loginServlet.usuarioLogado.nome}
 								</small>
@@ -122,7 +122,7 @@
 							<li>
 								<a href="/SIS-EDUCAR/modulos/sisEducar/consultaPerfillUsuario.xhtml">
 									<i class="ace-icon fa fa-user"/>
-									Perfil
+									#{mensagens['label.perfil']}
 								</a>
 							</li>	
 							<li class="divider"/>
@@ -130,7 +130,7 @@
 								<h:form>
 									<h:commandLink action="#{loginServlet.logout()}" style=" margin-left: 8%; color: black ">
 										<i class="ace-icon fa fa-power-off"/>
-										Sair
+										#{mensagens['label.botao.sair']}
 									</h:commandLink>
 								</h:form>
 							</li>

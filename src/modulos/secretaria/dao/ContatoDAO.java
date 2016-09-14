@@ -35,12 +35,10 @@ public class ContatoDAO extends SisEducarDAO
 		try {
 			Contato contato = null;
 			String querySQL = "SELECT * FROM CONTATO "
-					+ " WHERE STATUS = ?"
-					+ " AND PKCONTATO = ?";
+					+ " WHERE PKCONTATO = ?";
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
-			ps.setInt(2, pkContato);
+			ps.setInt(1, pkContato);
 			
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
@@ -50,7 +48,6 @@ public class ContatoDAO extends SisEducarDAO
 				contato.setTelComercial(rs.getString("TELCOMERCIAL"));
 				contato.setTelResidencial(rs.getString("TELRESIDENCIAL"));
 				contato.setEmail(rs.getString("EMAIL"));
-				contato.setStatus(rs.getInt("STATUS"));
 				
 				fecharConexaoBanco(con, ps, true, false);
 				

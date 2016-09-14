@@ -7,10 +7,12 @@
 	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
 		<ui:define name="barraNavegacao">
 			<li>
-				<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Cadastros
+				<i class="ace-icon glyphicon glyphicon-floppy-disk"/>
+				#{mensagens['label.cadastros']}
 			</li>
 			<li class="active">
-				<i class="ace-icon glyphicon glyphicon-user"/>Usuário 
+				<i class="ace-icon glyphicon glyphicon-user"/>
+				#{mensagens['label.usuario']}
 			</li>
 		</ui:define>
 
@@ -18,10 +20,10 @@
 			<div class="page-content">		
 				<div class="page-header col-xs-12 col-sm-12">
 					<h1>
-						Cadastro
+						#{mensagens['label.cadastro']}
 						<small>
 							<i class="ace-icon fa fa-angle-double-right"></i>
-							Cadastro de Usuários
+							#{mensagens['label.cadastro.usuario']}
 						</small>
 					</h1>
 				</div>
@@ -29,7 +31,7 @@
 					<h5 align="center">
 						<a href="#myModal" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
 							<i class="ace-icon fa fa-search bigger-150"/>
-							<span class="bigger-110">Consultar</span>
+							<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
 						</a>
 					</h5> 
 				</div>
@@ -44,12 +46,12 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"></button>
-											<h3 class=" smaller lighter blue">Buscar usuário(s) cadastrado(s)</h3>
+											<h3 class=" smaller lighter blue"> #{mensagens['label.buscar.usuario']} </h3>
 										</div>
 										<div class="modal-body">
 											<div class="form-group">
 												<div>
-													<output>CPF</output>
+													<output> #{mensagens['label.cpf']} </output>
 													<span class="block input-icon input-icon-right">
 														<h:inputText type="text" styleClass="form-control cpf" autocomplete="off" value="#{usuarioServlet.cpfPesquisar}">
 															<f:validator validatorId="validar.CpfValidator"/>
@@ -60,7 +62,7 @@
 												</div>
 												
 												<div class="">
-														<output>Email</output>
+														<output> #{mensagens['label.email']} </output>
 														<span class="block input-icon input-icon-right"> 
 														<h:inputText autocomplete="off"
 															type="text" class="form-control"
@@ -78,7 +80,7 @@
 								    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 									    			<h:column>
 									    				<center>
-								    						<f:facet name="header">CPF</f:facet>
+								    						<f:facet name="header"> #{mensagens['label.cpf']} </f:facet>
 									    				</center>
 									    				
 								    					<h:outputLabel value="#{value.cpfcnpj}">
@@ -86,15 +88,15 @@
 								    					</h:outputLabel>
 									    			</h:column>
 									    			<h:column>
-								    					<f:facet name="header">Usuário</f:facet>
+								    					<f:facet name="header"> #{mensagens['label.usuario']} </f:facet>
 									    				<h:outputLabel value="#{value.nome}"/>
 									    			</h:column>
 									    			<h:column>
-								    					<f:facet name="header">Email</f:facet>
+								    					<f:facet name="header"> #{mensagens['label.email']} </f:facet>
 														<h:outputLabel value="#{value.email}"/>
 									    			</h:column>
 									    			<h:column>
-								    					<f:facet name="header">Editar</f:facet>
+								    					<f:facet name="header"> #{mensagens['label.botao.editar']} </f:facet>
 									    				<center>
 															<h:commandLink styleClass="tooltip-success">
 									    						<span class="green">
@@ -108,19 +110,19 @@
 					 								
 													<f:facet name="footer">
 											            <h:panelGroup styleClass="pagination pull-right no-margin">
-											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                <h:commandButton value="#{mensagens['label.botao.primeira']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first == 0}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
-											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                <h:commandButton value="#{mensagens['label.botao.anterior']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first == 0}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
 											                </h:commandButton>
-											                <h:commandButton value="Próxima" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                <h:commandButton value="#{mensagens['label.botao.proxima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
-											                <h:commandButton value="Última" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                <h:commandButton value="#{mensagens['label.botao.ultima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
 											                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
 											                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
 											                </h:commandButton>
@@ -132,10 +134,10 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
-												Fechar
+												#{mensagens['label.botao.fechar']}
 											</button>
 											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
-												<span class="bigger-110">Pesquisar</span>	
+												<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>	
 												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 												<f:ajax event="click" listener="#{usuarioServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
 											</h:commandLink>
@@ -152,7 +154,7 @@
 								
 								<div class="col-xs-12 col-sm-4">
 										<div>
-											<output>CPF</output>
+											<output> #{mensagens['label.cpf']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true" autocomplete="off"
 												requiredMessage="#{mensagens['mensagem.requerido.cpf']}">
@@ -165,14 +167,14 @@
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel value="Nome"/>
+										<h:outputLabel value="#{mensagens['label.nome']}"/>
 										<div>
 											<h:inputText type="text" id="nomePessoa" class="col-xs-12 col-sm-12" autocomplete="off" value="#{usuarioServlet.nomePessoaVinculada}" disabled="true"/>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-12">
 										<div>
-											<output>Nome de Usuário</output>
+											<output> #{mensagens['label.nome.usuario']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.nome}" maxlength="11" required="true" autocomplete="off"
 												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
@@ -182,7 +184,7 @@
 									</div>
 									<div class="col-xs-12 col-sm-6">
 										<div>
-											<output>Email</output>
+											<output> #{mensagens['label.email']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.email}" autocomplete="off" maxlength="50" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.email']}"></h:inputText>
@@ -193,7 +195,7 @@
 									
 									<div class="col-xs-12 col-sm-6">
 										<div>
-											<output>Confirmação de Email</output>
+											<output> #{mensagens['label.confirma.email']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarEmail}" autocomplete="off" maxlength="50" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
@@ -203,7 +205,7 @@
 									</div>
 									<div class="col-xs-12 col-sm-6">
 										<div>
-											<output>Senha</output>
+											<output> #{mensagens['label.senha']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.senha']}"></h:inputSecret>
@@ -213,7 +215,7 @@
 									</div>
 									<div class="col-xs-12 col-sm-6">
 										<div>
-											<output>Confirmação de Senha</output>
+											<output> #{mensagens['label.confirma.senha']} </output>
 											<span class="block input-icon input-icon-right">
 												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11" required="true"
 												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoSenha']}"></h:inputSecret>
@@ -228,17 +230,17 @@
 								<input id="inputGeneroAux" name="inputGeneroAux" class="hidden"/>
 								<div class="col-xs-12 col-sm-6">
 									<div class="control-group">
-										<output>Gênero</output>
+										<output> #{mensagens['label.genero']} </output>
 										<div class="inline">
 											<label>
 												<input id="inputGeneroMasculino" checked="checked" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('masculino')">
 												</input>
-												<span class="lbl">Masculino</span>
+												<span class="lbl"> #{mensagens['label.genero.masculino']} </span>
 											</label>
 											
 											<label>
 												<input id="inputGeneroFeminino" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('feminino')"/>
-												<span class="lbl">Feminino</span>
+												<span class="lbl"> #{mensagens['label.genero.feminino']} </span>
 											</label>
 										</div>
 									</div>
@@ -247,11 +249,11 @@
 							
 							<div class="clearfix form-actions">
 								<div class="form-group">
-									<h3 class="header smaller lighter blue">Permissões</h3>
+									<h3 class="header smaller lighter blue"> #{mensagens['label.permissoes']} </h3>
 								
 									<!-- PERMISSÕES -->
 									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel value="Módulos"/>
+										<h:outputLabel value="#{mensagens['label.modulos']}"/>
 										<div>
 											<h:selectOneMenu id="comboModulo" class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
@@ -263,7 +265,7 @@
 									</div>
 									
 									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel value="Tipo Tela"/>
+										<h:outputLabel value="#{mensagens['label.tipo.tela']}"/>
 										<div>
 											<h:selectOneMenu id="comboTipoTela" class="form-control" value="#{usuarioServlet.tipoTelaSelecionado.tipo}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
@@ -275,7 +277,7 @@
 									</div>
 									
 									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel value="Tela"/>
+										<h:outputLabel value="#{mensagens['label.tela']}"/>
 										<div>
 											<h:selectOneMenu id="comboTela" class="form-control" value="#{usuarioServlet.telaSelecionada.tipoTela}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
@@ -287,7 +289,7 @@
 									</div>
 									
 									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel value="Permissões"/>
+										<h:outputLabel value="#{mensagens['label.permissoes']}"/>
 										<div>
 											<h:selectOneMenu id="comboPermissao" class="form-control" value="#{usuarioServlet.permissaoSelecionada.pkPermissao}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
@@ -302,7 +304,7 @@
 										<div>
 										<div class="space"></div>
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round"> 
-												<span class="bigger-110">Adicionar</span>	
+												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
 												<f:ajax event="click" render="testeRetirar" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
 											</h:commandLink>
@@ -315,21 +317,21 @@
 						    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 							    			<h:column>
 							    				<center>
-						    						<f:facet name="header">Nome da Permissão</f:facet>
+						    						<f:facet name="header"> #{mensagens['label.tipo.permissao']} </f:facet>
 							    				</center>
 							    				
 						    					<h:outputLabel value="#{value.nome}"></h:outputLabel>
 							    			</h:column>
 							    			<h:column>
-						    					<f:facet name="header">Módulo</f:facet>
+						    					<f:facet name="header"> #{mensagens['label.tipo.modulo']} </f:facet>
 												<h:outputLabel value="#{value.nomeModulo}"/>
 							    			</h:column>
 							    			<h:column>
-						    					<f:facet name="header">Tipo da tela</f:facet>
+						    					<f:facet name="header"> #{mensagens['label.tipo.tela']} </f:facet>
 							    				<h:outputLabel value="#{value.nomeSubMenu}"/>
 							    			</h:column>
 							    			<h:column>
-						    					<f:facet name="header">Tela</f:facet>
+						    					<f:facet name="header"> #{mensagens['label.tela']} </f:facet>
 							    				<h:outputLabel value="#{value.nomeTela}"/>
 							    			</h:column>
 							    			<h:column>
@@ -364,12 +366,12 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"></button>
-											<h3 class=" smaller lighter blue">Deseja remover todas as permissões?</h3>
+											<h3 class=" smaller lighter blue"> #{mensagens['label.excluir.permissoes']} </h3>
 										</div>
 										<div class="modal-body">
 											<div class="modal-footer">
 												<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
-													Fechar
+													#{mensagens['label.botao.fechar']}
 												</button>
 												<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
 													<span class="bigger-110">Remover</span>	
@@ -386,11 +388,11 @@
 							<div class="col-xs-12 col-sm-6" id="default-buttons">
 								<button type="reset" class="btn btn-white btn-info btn-round">
 									<i class="ace-icon fa fa-file"/>
-									<span class="bigger-110">Novo</span>
+									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								</button>
 								
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
-									<span class="bigger-110">Registrar</span>	
+									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
 								</h:commandLink>

@@ -1,14 +1,13 @@
-$(function () {
-    $("#modalMapa").on('shown.bs.modal', function () {
-        google.maps.event.trigger(map, 'resize');
-    });
-});
-
 /* Variveis utilizadas para o uso do Mapa */
 var geocoder;
 var map;
 var marker;
 
+$(function () {
+    $("#modalMapa").on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, 'resize');
+    });
+});
 
 /* Funcão para inicilizar o mapa */
 function initialize() {
@@ -53,25 +52,6 @@ function initialize() {
 	marker.setPosition(latlng);
 };
 
-$(function() {
-	/* Verifica a atual posicao */
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position){ 
-			var latitudeAtual = position.coords.latitude;
-			var longitudeAtual = position.coords.longitude;
-			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-			carregarEndereco(latitudeAtual, longitudeAtual);
-			
-		}, 
-		function(error){ // callback de erro
-			alert('Erro ao obter localização!');
-			console.log('Erro ao obter localização.', error);
-		});
-	} else {
-		console.log('Navegador não suporta Geolocalização!');
-	}
-});
-
 $(document).ready(function () {
 	initialize();
 	function carregarNoMapa(endereco) {
@@ -99,52 +79,11 @@ $(document).ready(function () {
 		if($(this).val() != "")
 			carregarNoMapa($(this).val());
 	})
-	
-	google.maps.event.addListener(marker, 'drag', function () {
-		geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				if (results[0]) {  
-					$('#txtEndereco').val(results[0].formatted_address);
-					$('#txtLatitude').val(marker.getPosition().lat());
-					$('#txtLongitude').val(marker.getPosition().lng());
-					$('#valorLatitude').val(marker.getPosition().lat());
-					$('#valorLongitude').val(marker.getPosition().lng());
-					carregarEndereco(marker.getPosition().lat(),marker.getPosition().lng());
-				}
-			}
-		});
-	});
-	
-	$("#txtEndereco").autocomplete({
-		source: function (request, response) {
-			geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
-				response($.map(results, function (item) {
-					return {
-						label: item.formatted_address,
-						value: item.formatted_address,
-						latitude: item.geometry.location.lat(),
-          				longitude: item.geometry.location.lng()
-					}
-				}));
-			})
-		},
-		select: function (event, ui) {
-			$("#txtLatitude").val(ui.item.latitude);
-    		$("#txtLongitude").val(ui.item.longitude);
-    		$("#valorLatitude").val(ui.item.latitude);
-    		$("#valorLongitude").val(ui.item.longitude);
-			var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-			marker.setPosition(location);
-			map.setCenter(location);
-			map.setZoom(16);
-			carregarEndereco(ui.item.latitude,ui.item.longitude);
-		}
-	});
 });
 
 
 /* Função que carrega automaticamente os valores dos componentes na tela */
-function carregarEndereco(latitude,longitude) {
+$(function carregarEndereco(latitude,longitude) {
 	if( ( latitude != null && latitude != undefined) && (longitude != null && longitude != undefined)) {
 		
 		var latlng = latitude + "," + longitude;  
@@ -164,8 +103,7 @@ function carregarEndereco(latitude,longitude) {
 					}
 					if(data.results[i].address_components[j].types == 'sublocality_level_1,sublocality,political'){
 						document.getElementById('codBairro').value = data.results[i].address_components[j].long_name; 
-					}
-					
+					}	
 				}
 				
 				var adress = data.results[i].formatted_address;
@@ -178,4 +116,47 @@ function carregarEndereco(latitude,longitude) {
 			}
 		});
 	}
-}
+});
+
+$(function carrgaAutoComplete() {
+	$("#txtEndereco").autocomplete({
+		source: function (request, response) {
+			geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
+				response($.map(results, function (item) {
+					return {
+						label: item.formatted_address,
+						value: item.formatted_address,
+						latitude: item.geometry.location.lat(),
+	      				longitude: item.geometry.location.lng()
+					}
+				}));
+			})
+		},
+		select: function (event, ui) {
+			$("#txtLatitude").val(ui.item.latitude);
+			$("#txtLongitude").val(ui.item.longitude);
+			$("#valorLatitude").val(ui.item.latitude);
+			$("#valorLongitude").val(ui.item.longitude);
+			var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+			marker.setPosition(location);
+			map.setCenter(location);
+			map.setZoom(16);
+			carregarEndereco(ui.item.latitude,ui.item.longitude);
+		}
+	});
+	
+	google.maps.event.addListener(marker, 'drag', function () {
+		geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				if (results[0]) {  
+					$('#txtEndereco').val(results[0].formatted_address);
+					$('#txtLatitude').val(marker.getPosition().lat());
+					$('#txtLongitude').val(marker.getPosition().lng());
+					$('#valorLatitude').val(marker.getPosition().lat());
+					$('#valorLongitude').val(marker.getPosition().lng());
+					carregarEndereco(marker.getPosition().lat(),marker.getPosition().lng());
+				}
+			}
+		});
+	});
+});

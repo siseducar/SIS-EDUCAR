@@ -9,20 +9,20 @@
 	<ui:define name="barraNavegacao">
 		<li>
 			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>
-			Cadastros
+			#{mensagens['label.cadastros']}
 		</li>
 		<li class="active">
 			<i class="ace-icon glyphicon glyphicon-user"/>
-			Pessoas
+			#{mensagens['label.pessoas']}
 		</li>
 	</ui:define>
 	<ui:define name="scriptConteudo" >
 		<div class="page-header col-xs-12 col-sm-12">
 			<h1>
-				Cadastro
+				#{mensagens['label.cadastro']}
 				<small>
 					<i class="ace-icon fa fa-angle-double-right"/>
-					Cadastro de Pessoas
+					#{mensagens['label.cadastro.pessoa']}
 				</small>
 			</h1>
 		</div>
@@ -31,7 +31,7 @@
 				<a href="#modalConsultaPessoa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
 					<i class="ace-icon fa fa-search bigger-150"/>
 					<span class="bigger-110">
-						Consultar
+						#{mensagens['label.consultar']}
 					</span>
 				</a>
 			</h5>
@@ -44,7 +44,7 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 								<h3 class="header smaller lighter blue" align="center">
-									Dados Pessoais
+									#{mensagens['label.dados.pessoais']}
 								</h3>
 							</div>
 						</div>
@@ -64,7 +64,7 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cpf']}" for="numCpf"/>
+									value="#{mensagens['label.cpf']}"/>
 								<div>
 									<h:inputText type="text" id="numCpf"
 										styleClass="col-xs-12 col-sm-12 cpf form-control"
@@ -72,7 +72,7 @@
 										disabled="#{pessoaServlet.campoCPF}">
 										<f:validator validatorId="validar.CpfValidator"/>
 										<f:converter converterId="converter.CPF"/>
-										<f:ajax event="blur" execute="@this" listener="#{pessoaServlet.consultaCPF}" 
+										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.verificaCadastro}" 
 											render="@this" resetValues="true"/>
 									</h:inputText>
 								</div>
@@ -144,7 +144,7 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.nacionalidade']}"/>
+									value="#{mensagens['label.nacionalidade']}"/>
 								<div>
 									<h:selectOneMenu id="codNacionalidade" class="form-control"
 										disabled="#{pessoaServlet.desabilitaCampos}"
@@ -157,7 +157,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.raca']}"/>
+									value="#{mensagens['label.raca']}"/>
 								<div>
 									<h:selectOneMenu id="codRaca"
 										class="form-control" value="#{pessoaServlet.racaDados.pkRaca}"
@@ -170,7 +170,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.esta.civil']}"/>
+									value="#{mensagens['label.estado.civil']}"/>
 								<div>
 									<h:selectOneMenu id="codEstCivil"
 										class="form-control" value="#{pessoaServlet.estaCivilDados.pkEstadoCivil}">
@@ -182,7 +182,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.grau.instru']}"/>
+									value="#{mensagens['label.grau.instru']}"/>
 								<div>
 									<h:selectOneMenu id="codGrauInstru" class="form-control"
 										value="#{pessoaServlet.grauInstruDados.pkGrauInstrucao}">
@@ -194,7 +194,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.situ.econo']}"/>
+									value="#{mensagens['label.situacao.econo']}"/>
 								<div>
 									<h:selectOneMenu id="codSituEconomica" class="form-control"
 										value="#{pessoaServlet.situEconomicaDados.pkSituacaoEconomica}">
@@ -206,7 +206,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-2">
 								<h:outputLabel
-									value="#{mensagens['label.cadastro.pessoa.religiao']}"/>
+									value="#{mensagens['label.religiao']}"/>
 								<div>
 									<h:selectOneMenu id="codReligiao" class="form-control"
 										value="#{pessoaServlet.religiaoDados.pkReligiao}">
@@ -224,7 +224,7 @@
 							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
 							<h3 class="header smaller lighter blue" align="center">
-								Dados dos Responsaveis
+								#{mensagens['label.dados.responsaveis']}
 							</h3>
 							<div class="row">
 								<div class="col-xs-12 col-sm-2">
@@ -313,7 +313,7 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="#{mensagens['label.cadastro.pessoa.grau.parentesco']}"/>
+									<h:outputLabel value="#{mensagens['label.grau.parentesco']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codTipoResponsavel"
 											value="#{pessoaServlet.grauParentescoDados.pkGrauParentesco}">
@@ -330,11 +330,11 @@
 						class="clearfix form-actions">
 						<div id="conteudoEndereco">
 							<h3 class="header smaller lighter blue" align="center">
-								Endereço/Contato
+								#{mensagens['label.dados.endereco']}
 							</h3>
 							<div class="row">
                         		<div class="col-xs-12 col-sm-6">
-                        			<h:outputLabel value="Endereço"/>
+                        			<h:outputLabel value="#{mensagens['label.endereco']}"/>
                         			<div>
 	                        			<h:inputText id="txtEndereco" name="txtEndereco" styleClass="col-xs-12 col-sm-8"
                         			   		value="#{pessoaServlet.enderecoDados.enderecoCompleto}" autocomplete="off"/>
@@ -397,7 +397,7 @@
 							<div class="row">
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel
-										value="Logradouro"/>
+										value="#{mensagens['label.logradouro']}"/>
 									<div>
 										<h:inputText type="text" id="nomeLogradouro" name="nomeLogradouro"
 											styleClass="col-xs-12 col-sm-12 form-control"
@@ -434,7 +434,7 @@
 							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-4">
-			                    	<h:outputLabel value="Latitude" />
+			                    	<h:outputLabel value="#{mensagens['label.latitude']}"/>
 			                    	<div>
 			                    		<h:inputHidden id="valorLatitude" valor="valorLatitude" 
 			                    			value="#{pessoaServlet.enderecoDados.latitude}"/>
@@ -444,7 +444,7 @@
 			                    	</div>
 								</div>
 								<div class="col-xs-12 col-sm-4">
-									<h:outputLabel value="Longitude"/>
+									<h:outputLabel value="#{mensagens['label.longitude']}"/>
 									<div>
 										<h:inputHidden id="valorLongitude" name="valorLongitude" 
 											value="#{pessoaServlet.enderecoDados.longitude}"/>
@@ -500,13 +500,13 @@
 					</h:panelGroup>
 					<div class="col-xs-12 col-sm-6" id="default-buttons">
 						<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
-							<span class="bigger-110">Novo</span>
+							<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 							<i class="ace-icon fa fa-file"/>
 							<f:ajax event="click" render=":formCadastroPessoa" resetValues="true"
 								listener="#{pessoaServlet.limparFormulario}"/>
 						</h:commandLink>
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
-							<span class="bigger-110">Registrar</span>
+							<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							<f:ajax event="click" render="@form jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.validaCadastro}"/>
@@ -526,7 +526,7 @@
 						    <div class="modal-content">
 						    	<div class="modal-header">
 									<h3 class=" smaller lighter blue">
-										Buscar pessoa(s) cadastrada(s)
+										#{mensagens['label.buscar.pessoa']}
 									</h3>
 						    	</div>
 						    	<div class="modal-body">
@@ -578,47 +578,47 @@
 								    			binding="#{pessoaServlet.dataTable}" value="#{pessoaServlet.listaConsultaPessoa}" var="pessoa">
 								    			<h:column>
 								    				<center>
-									    				<f:facet name="header"> NOME </f:facet>
+									    				<f:facet name="header"> #{mensagens['label.nome']} </f:facet>
 								    				</center>
 								    				<h:outputLabel value="#{pessoa.nome}"/>
 								    			</h:column>
 								    			<h:column>
 								    				<center>
-								    					<f:facet name="header"> DATA DE NASC.</f:facet>
+								    					<f:facet name="header"> #{mensagens['label.dat.nasci']} </f:facet>
 								    				</center>
 								    				<h:outputLabel value="#{pessoa.dataNascimento}">
 								    					<f:converter converterId="converter.DATA"/>
 								    				</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
-							    					<f:facet name="header">Editar</f:facet>
+							    					<f:facet name="header"> #{mensagens['label.botao.editar']} </f:facet>
 								    				<center>
 														<h:commandLink styleClass="tooltip-success">
 								    						<span class="green">
 																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span>
-															<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa"
-																onevent="function(data) { esconderModal(data) }" resetValues="true"/>
+															<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa" 
+																data-dismiss="modal" resetValues="true"/>
 														</h:commandLink>
 								    				</center>	
 				 								</h:column>
 				 								
 								    			<f:facet name="footer">
 										            <h:panelGroup styleClass="pagination pull-right no-margin">
-										                <h:commandButton value="Primeira"
+										                <h:commandButton value="#{mensagens['label.botao.primeira']}"
 										                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 									                		<f:ajax event="click" listener="#{pessoaServlet.pageFirst}" render="tabelaPessoa" />
 									                	</h:commandButton>
-										                <h:commandButton value="Anterior"
+										                <h:commandButton value="#{mensagens['label.botao.anterior']}"
 										                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 										               		<f:ajax event="click" listener="#{pessoaServlet.pagePrevious}" render="tabelaPessoa" />
 										               	</h:commandButton>
-										                <h:commandButton value="Próxima"
+										                <h:commandButton value="#{mensagens['label.botao.proxima']}"
 										                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
 										                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 									                        <f:ajax event="click" listener="#{pessoaServlet.pageNext}" render="tabelaPessoa" />
 								                        </h:commandButton>
-										                <h:commandButton value="Última"
+										                <h:commandButton value="#{mensagens['label.botao.ultima']}"
 										                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
 										                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 									                    	<f:ajax event="click" listener="#{pessoaServlet.pageLast}" render="tabelaPessoa" />
@@ -632,10 +632,10 @@
 						    	<div class="modal-footer">
 						    		<button id="btFechar" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
 										<i class="ace-icon fa fa-times red2"/>
-										Fechar
+										#{mensagens['label.botao.fechar']}
 									</button>
 									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
-										<span class="bigger-110"> Consultar </span>
+										<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
 										<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 										<f:ajax event="click" listener="#{pessoaServlet.consultaCadastro}" 
 											render="tabelaPessoa" execute=":formConsultaPessoa" resetValues="true"/>
@@ -654,7 +654,7 @@
 						    	<div class="modal-content">
 							    	<div class="modal-header">
 										<h3 class=" smaller lighter blue">
-											Buscar Responsavel Cadastrado
+											#{mensagens['label.buscar.responsavel']}
 										</h3>
 							    	</div>
 									<div class="modal-body">
@@ -676,20 +676,20 @@
 									    			binding="#{pessoaServlet.dataTableResponsavel}" value="#{pessoaServlet.listaConsultaResponsavel}" var="pessoa">
 									    			<h:column>
 									    				<center>
-										    				<f:facet name="header"> NOME </f:facet>
+										    				<f:facet name="header"> #{mensagens['label.nome']} </f:facet>
 									    				</center>
 									    				<h:outputLabel value="#{pessoa.nome}"/>
 									    			</h:column>
 									    			<h:column>
 									    				<center>
-									    					<f:facet name="header"> DATA DE NASC.</f:facet>
+									    					<f:facet name="header"> #{mensagens['label.dat.nasci']} </f:facet>
 									    				</center>
 									    				<h:outputLabel value="#{pessoa.dataNascimento}">
 									    					<f:converter converterId="converter.DATA"/>
 									    				</h:outputLabel>
 									    			</h:column>
 									    			<h:column>
-								    					<f:facet name="header">Selecionar</f:facet>
+								    					<f:facet name="header"> #{mensagens['label.botao.selecionar']} </f:facet>
 									    				<center>
 															<h:commandLink styleClass="tooltip-success">
 									    						<span class="green">
@@ -702,20 +702,20 @@
 					 								</h:column>
 									    			<f:facet name="footer">
 											            <h:panelGroup styleClass="pagination pull-right no-margin">
-											                <h:commandButton value="Primeira"
+											                <h:commandButton value="#{mensagens['label.botao.primeira']}"
 											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 										                		<f:ajax event="click" listener="#{pessoaServlet.pageFirst}" render="tabelaResponsavel" />
 										                	</h:commandButton>
-											                <h:commandButton value="Anterior"
+											                <h:commandButton value="#{mensagens['label.botao.anterior']}"
 											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 											               		<f:ajax event="click" listener="#{pessoaServlet.pagePrevious}" render="tabelaResponsavel" />
 											               	</h:commandButton>
-											                <h:commandButton value="Próxima"
+											                <h:commandButton value="#{mensagens['label.botao.proxima']}"
 											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
 											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 										                        <f:ajax event="click" listener="#{pessoaServlet.pageNext}" render="tabelaResponsavel" />
 									                        </h:commandButton>
-											                <h:commandButton value="Última"
+											                <h:commandButton value="#{mensagens['label.botao.ultima']}"
 											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
 											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
 										                    	<f:ajax event="click" listener="#{pessoaServlet.pageLast}" render="tabelaResponsavel" />
@@ -729,10 +729,10 @@
 									<div class="modal-footer">
 										<button id="btFecharResponsavel" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
 											<i class="ace-icon fa fa-times red2"/>
-											Fechar
+											#{mensagens['label.botao.fechar']}
 										</button>
 										<h:commandLink type="submit" id="btConsultarResponsavel" class="btn btn-white btn-success btn-round"> 
-											<span class="bigger-110"> Consultar </span>
+											<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
 											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 											<f:ajax event="click" listener="#{pessoaServlet.consultaCadastroResponsavel}"
 												render="tabelaResponsavel" execute=":formConsutalResponsavel" resetValues="true"/>
@@ -744,58 +744,6 @@
 					</h:form>
 				</div>
 				<div class="row">
-					<h:form id="formCadastroSucesso" prependId="false">
-						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
-								role="dialog" aria-labelledby="myLargeModalLabel" id="modalCadastroSucesso">
-							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content">
-							    	<div class="modal-header">
-							    		<h3 class="smaller lighter blue">
-											<span class="col-sm-8">
-												Cadastro com sucesso!
-											</span>
-										</h3>
-							    	</div>
-							    	<div class="modal-body">
-							    		<h:panelGroup id="panelCadastroSucesso" styleClass="clearfix form-actions" style=" width: 100%">
-						    				<div class="row">
-						    					<div class="col-xs-12 col-sm-12">
-									    			<h5> Código do Cadastro </h5>
-									    			<div>
-									    				<h:outputLabel value="HOL0001"/>
-									    			</div>
-						    					</div>
-							    			</div>
-							    			<div class="row">
-							    				<div class="col-xs-6 col-sm-6">
-							    					<h5> Nome </h5>
-								    				<div>
-									    				<h:outputLabel value="Michael Willian Serafim"/>
-									    			</div>
-							    				</div>
-							    				<div class="col-xs-6 col-sm-6">
-							    					<h5> Data de Nascimento </h5>
-								    				<div>
-									    				<h:outputLabel value="14/02/1994"/>
-									    			</div>
-							    				</div>
-							    			</div>
-							    		</h:panelGroup>
-						    		</div>
-						    		<div class="modal-footer">
-						    			<h:commandLink type="submit" id="btLimpar" class="btn btn-white btn-success btn-round"> 
-											<span class="bigger-110"> OK </span>
-											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-											<f:ajax event="click" listener="#{pessoaServlet.limparFormulario}" 
-												render=":formCadastroPessoa" onevent="function(data) { esconderModalSucesso(data) }"/>
-										</h:commandLink>
-						    		</div>
-							    </div>
-						    </div>
-					    </div>
-				    </h:form>
-				</div>
-				<div class="row">
 					<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
 							role="dialog" aria-labelledby="myLargeModalLabel" id="modalMapa">
 						  <div class="modal-dialog modal-lg">
@@ -804,7 +752,7 @@
 						    		<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">X</button>
 						    		<h3 class="smaller lighter blue">
 										<span class="col-sm-8">
-											Localização no Mapa
+											#{mensagens['label.localizacao.mapa']}
 										</span>
 									</h3>
 						    	</div>

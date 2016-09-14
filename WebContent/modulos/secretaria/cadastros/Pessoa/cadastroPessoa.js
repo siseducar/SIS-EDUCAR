@@ -106,6 +106,8 @@ $(function carrgaElementos() {
 	$("#responsavel").on('click', function() {
 		$("#tipoGenero").val("");
 	});
+	
+	
 });
 
 $(function() {

@@ -386,7 +386,6 @@ public class PessoaDAO extends SisEducarDAO
 				estaCivilDados.setPkEstadoCivil(rs.getInt("FKESTADOCIVIL"));
 				grauInstruDados.setPkGrauInstrucao(rs.getInt("FKGRAUINSTRUCAO"));
 				enderecoDados.setPkEndereco(rs.getInt("FKENDERECO"));
-				municipioClienteDados.setPkCidade(rs.getInt("FKMUNICIPIOCLIENTE"));
 				grauParentescoDados.setPkGrauParentesco(rs.getInt("FKGRAUPARENTESCO"));
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 				pessoaDados.setNome(rs.getString("NOME"));
@@ -394,7 +393,6 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setRg(rs.getString("RG"));
 				pessoaDados.setDataNascimento(rs.getDate("DATANASCIMENTO"));
 				pessoaDados.setSexo(rs.getString("SEXO"));
-				pessoaDados.setTipoPessoa(rs.getInt("TIPOPESSOA"));
 				pessoaDados.setNomeMae(rs.getString("NOMEMAE"));
 				pessoaDados.setCpfMae(rs.getLong("CPFMAE"));
 				pessoaDados.setNomePai(rs.getString("NOMEPAI"));
@@ -415,7 +413,6 @@ public class PessoaDAO extends SisEducarDAO
 				return pessoaDados;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 return null;

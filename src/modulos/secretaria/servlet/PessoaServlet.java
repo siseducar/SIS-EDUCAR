@@ -516,6 +516,7 @@ public class PessoaServlet implements Serializable{
 	}
 
 	public void consultaCadastro() {
+		
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		pessoaDadosConsulta.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 		listaConsultaPessoa = 
@@ -725,17 +726,7 @@ public class PessoaServlet implements Serializable{
 	}
 
 	
-	public void consultaCPF() throws SQLException{
-		String CPF = new String();
-		CPF = pessoaDados.getCpf().toString();
-		
-		if(CPF != null && CPF.length() == 11) {
-			if ( pessoaDAO.obtemUnicoPessoaSimples( CPF ) != null ){
-				Logs.addWarning("CPF já cadastrado.",null);
-				pessoaDados.setCpf(null);
-			}
-		}
-	}
+	
 	
 	/* 
 	 * Tabela de consulta de cadastro de Responsavel 
