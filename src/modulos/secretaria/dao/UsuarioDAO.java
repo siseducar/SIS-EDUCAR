@@ -253,22 +253,64 @@ public class UsuarioDAO extends SisEducarDAO
 	 */
 	public Boolean removerUsuario(Usuario usuario) throws SQLException
 	{
-		String querySQL = "UPDATE usuario "
-				+ " SET status = ?"
-				+ " WHERE pkUsuario = ?";
-		
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
-		ps.setString(2, usuario.getPkUsuario());
-		
-		ResultSet rs = ps.executeQuery();
-		if(rs.next())
+		try 
 		{
-			return true;
+			String querySQL = "UPDATE usuario "
+					+ " SET status = ?"
+					+ " WHERE pkUsuario = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, new Integer(usuario.getPkUsuario()));
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				return true;
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("removerUsuario - " + e);
+			return false;
 		}
-		
-		return false;
+	}
+	
+	/**
+	 * USado para remover todas as permissões de um determinado usuário
+	 * @author João Paulo
+	 * @param usuario
+	 * @return
+	 * @throws SQLException
+	 */
+	public Boolean removerPermissoesUsuario(Usuario usuario) throws SQLException
+	{
+		try 
+		{
+			String querySQL = "UPDATE PermissaoUsuario "
+					+ " SET status = ?"
+					+ " WHERE fkUsuario = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, new Integer(usuario.getPkUsuario()));
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				return true;
+			}
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("removerPermissoesUsuario - " + e);
+			return false;
+		}
 	}
 	
 	/**

@@ -207,8 +207,7 @@
 										<div>
 											<output> #{mensagens['label.senha']} </output>
 											<span class="block input-icon input-icon-right">
-												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.senha']}"></h:inputSecret>
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.senha}" maxlength="12"></h:inputSecret>
 												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
@@ -217,8 +216,7 @@
 										<div>
 											<output> #{mensagens['label.confirma.senha']} </output>
 											<span class="block input-icon input-icon-right">
-												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoSenha']}"></h:inputSecret>
+												<h:inputSecret type="text" class="form-control" value="#{usuarioServlet.usuario.confirmarSenha}" maxlength="12"></h:inputSecret>
 												<i class="ace-icon fa fa-lock"></i>
 											</span>
 										</div>
@@ -390,6 +388,12 @@
 									<i class="ace-icon fa fa-file"/>
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								</button>
+								
+								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-danger btn-round"> 
+									<span class="bigger-110">Remover</span>	
+									<i class="ace-icon fa fa-trash-o"></i>
+									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
+								</h:commandLink>
 								
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>	

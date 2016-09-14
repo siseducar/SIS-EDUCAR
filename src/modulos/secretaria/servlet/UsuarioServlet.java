@@ -42,6 +42,7 @@ public class UsuarioServlet implements Serializable
 	SisEducarServlet sisEducarServlet = null;
 	Usuario usuario;
 	Usuario usuarioLogado;
+	private String habilitarBotaoExcluir;
 	private String nomePessoaVinculada;
 	
 	private Modulo moduloSelecionado;
@@ -122,6 +123,8 @@ public class UsuarioServlet implements Serializable
 		comboPermissao = new ArrayList<SelectItem>();
 		permissoes = new ArrayList<Permissao>();
 		
+		habilitarBotaoExcluir = "disabled";
+		
 		if(moduloSelecionado==null)   		{ moduloSelecionado = new Modulo(); }
 		if(tipoTelaSelecionado==null) 		{ tipoTelaSelecionado = new TipoTela(); }
 		if(telaSelecionada==null)     		{ telaSelecionada = new Tela(); }
@@ -179,6 +182,17 @@ public class UsuarioServlet implements Serializable
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Não tem cadastrado no sistema nenhuma pessoa com o CPF informado", null));
 					return null;
 				}
+			}
+			/* Valida Senha*/
+			if(usuario.getSenha()==null || (usuario.getSenha()!=null && usuario.getSenha().length()==0))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha é obrigatória", null));
+				return null;
+			}
+			if(usuario.getConfirmarSenha()==null || (usuario.getConfirmarSenha()!=null && usuario.getConfirmarSenha().length()==0))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A confirmação de senha é obrigatória", null));
+				return null;
 			}
 			
 			if(!usuario.getCpfcnpj().isEmpty() && usuario.getPkUsuario()==null)
@@ -302,7 +316,47 @@ public class UsuarioServlet implements Serializable
 		}
 		catch (Exception e) 
 		{
-			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuarioSimples");
+			Logs.addFatal("Erro ao cadastrar!", "cadastrarUsuario");
+			return null;
+		}
+	}
+	
+	/**
+	 * USado para remover um usuario e suas dependencias
+	 * @author João Paulo
+	 * @return
+	 */
+	public String removerUsuario()
+	{
+		try 
+		{
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			Boolean resultadoRemocaoUsuario = false;
+			Boolean resultadoRemocaoPermissoesUsuario = false;
+			
+			//Se o usuário já está cadastrado no banco de dados eu apenas atualizo as informações do mesmo, caso contrário eu salvo um novo usuário
+			if(usuario.getPkUsuario()!=null)
+			{
+				resultadoRemocaoUsuario = usuarioDAO.removerUsuario(usuario);
+				resultadoRemocaoPermissoesUsuario = usuarioDAO.removerPermissoesUsuario(usuario);
+				
+				if(resultadoRemocaoUsuario && resultadoRemocaoPermissoesUsuario)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário removido", null));  
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não removido", null));  
+				}
+				
+				resetarUsuario();
+			}
+			
+			return null;
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("Erro ao remover!", "cadastrarUsuario");
 			return null;
 		}
 	}
@@ -977,6 +1031,8 @@ public class UsuarioServlet implements Serializable
 				{
 					permissoes = usuario.getPermissoes();
 				}
+				
+				habilitarBotaoExcluir = "";
 			}
 		} 
 		catch (Exception e) 
@@ -1632,5 +1688,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setClassSecretariaCadastroAmbiente(String classSecretariaCadastroAmbiente) {
 		this.classSecretariaCadastroAmbiente = classSecretariaCadastroAmbiente;
+	}
+
+	public String getHabilitarBotaoExcluir() {
+		return habilitarBotaoExcluir;
+	}
+
+	public void setHabilitarBotaoExcluir(String habilitarBotaoExcluir) {
+		this.habilitarBotaoExcluir = habilitarBotaoExcluir;
 	}
 }
