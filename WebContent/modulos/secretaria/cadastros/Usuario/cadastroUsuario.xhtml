@@ -389,7 +389,7 @@
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								</button>
 								
-								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-danger btn-round"> 
+								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-danger btn-round" rendered="#{usuarioServlet.btRemoverEnabled}"> 
 									<span class="bigger-110">Remover</span>	
 									<i class="ace-icon fa fa-trash-o"></i>
 									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
