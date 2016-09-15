@@ -268,6 +268,7 @@ public class UsuarioDAO extends SisEducarDAO
 			if(rs.next())
 			{
 				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
+					fecharConexaoBanco(con, ps, false, true);
 					return true;
 				} else {
 					return false;					
@@ -296,7 +297,7 @@ public class UsuarioDAO extends SisEducarDAO
 		{
 			String querySQL = "UPDATE PermissaoUsuario "
 					+ " SET status = ?"
-					+ " WHERE fkUsuario = ? ";
+					+ " WHERE fkUsuario = ? RETURNING STATUS";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -306,7 +307,12 @@ public class UsuarioDAO extends SisEducarDAO
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
 			{
-				return true;
+				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
+					fecharConexaoBanco(con, ps, false, true);
+					return true;
+				} else {
+					return false;					
+				}
 			}
 			
 			return false;

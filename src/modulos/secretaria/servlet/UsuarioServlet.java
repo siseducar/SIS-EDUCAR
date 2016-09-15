@@ -42,7 +42,7 @@ public class UsuarioServlet implements Serializable
 	SisEducarServlet sisEducarServlet = null;
 	Usuario usuario;
 	Usuario usuarioLogado;
-	private String habilitarBotaoExcluir;
+	private Boolean btRemoverEnabled;
 	private String nomePessoaVinculada;
 	
 	private Modulo moduloSelecionado;
@@ -123,7 +123,7 @@ public class UsuarioServlet implements Serializable
 		comboPermissao = new ArrayList<SelectItem>();
 		permissoes = new ArrayList<Permissao>();
 		
-		habilitarBotaoExcluir = "disabled";
+		btRemoverEnabled = false;
 		
 		if(moduloSelecionado==null)   		{ moduloSelecionado = new Modulo(); }
 		if(tipoTelaSelecionado==null) 		{ tipoTelaSelecionado = new TipoTela(); }
@@ -1032,7 +1032,7 @@ public class UsuarioServlet implements Serializable
 					permissoes = usuario.getPermissoes();
 				}
 				
-				habilitarBotaoExcluir = "";
+				btRemoverEnabled = true;
 			}
 		} 
 		catch (Exception e) 
@@ -1690,11 +1690,11 @@ public class UsuarioServlet implements Serializable
 		this.classSecretariaCadastroAmbiente = classSecretariaCadastroAmbiente;
 	}
 
-	public String getHabilitarBotaoExcluir() {
-		return habilitarBotaoExcluir;
+	public Boolean getBtRemoverEnabled() {
+		return btRemoverEnabled;
 	}
 
-	public void setHabilitarBotaoExcluir(String habilitarBotaoExcluir) {
-		this.habilitarBotaoExcluir = habilitarBotaoExcluir;
+	public void setBtRemoverEnabled(Boolean btRemoverEnabled) {
+		this.btRemoverEnabled = btRemoverEnabled;
 	}
 }
