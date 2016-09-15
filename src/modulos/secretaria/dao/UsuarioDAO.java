@@ -268,6 +268,7 @@ public class UsuarioDAO extends SisEducarDAO
 			if(rs.next())
 			{
 				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
+					fecharConexaoBanco(con, ps, false, true);
 					return true;
 				} else {
 					return false;					
@@ -307,6 +308,7 @@ public class UsuarioDAO extends SisEducarDAO
 			if(rs.next())
 			{
 				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
+					fecharConexaoBanco(con, ps, false, true);
 					return true;
 				} else {
 					return false;					
