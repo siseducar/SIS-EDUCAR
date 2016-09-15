@@ -138,28 +138,27 @@ $(function() {
 	});
 });
 
-$(function esconderModal(data) {
+function esconderModal(data) {
 	if(data.status=="success") {
 		$('#modalConsultaPessoa').modal('hide');
 	}
-});
+};
 
-$(function esconderModalResponsavel(data) {
+function esconderModalResponsavel(data) {
 	if(data.status=="success") {
 		$('#modalConsultaResponsavel').modal('hide');
 	}
-});
+};
 
-
-$(function mostrarModalSucesso(data) {
+function mostrarModalSucesso(data) {
 	if(data.status=="success") {
 		$('#modalCadastroSucesso').modal('show');
 	}
-});
+};
 
-$(function esconderModalSucesso(data) {
+function esconderModalSucesso(data) {
 	if(data.status=="success") {
 		$('#modalCadastroSucesso').modal('hide');
 	}
-});
+};
 
