@@ -109,6 +109,7 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
     
     private String classEscolaCadastroMatriculaAluno 		= classAtributeHidden;
+    private String classEscolaCadastroHorario 				= classAtributeHidden;
     
 	/**
 	 * Construtor
@@ -776,6 +777,7 @@ public class UsuarioServlet implements Serializable
 						
 						//LIBERA ACESSO AS TELAS DE CADASTRO
 						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO)) 		{ classEscolaCadastroHorario = ""; }
 					}
 					
 					/* MÓDULO MERENDA */
@@ -1696,5 +1698,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setBtRemoverEnabled(Boolean btRemoverEnabled) {
 		this.btRemoverEnabled = btRemoverEnabled;
+	}
+
+	public String getClassEscolaCadastroHorario() {
+		return classEscolaCadastroHorario;
+	}
+
+	public void setClassEscolaCadastroHorario(String classEscolaCadastroHorario) {
+		this.classEscolaCadastroHorario = classEscolaCadastroHorario;
 	}
 }

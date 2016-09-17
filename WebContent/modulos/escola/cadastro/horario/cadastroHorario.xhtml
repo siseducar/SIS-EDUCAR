@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+	<ui:define name="barraNavegacao">
+		<li>
+			<i class="ace-icon glyphicon glyphicon-floppy-disk"/>Cadastros
+		</li>
+		<li class="active">
+			<i class="ace-icon glyphicon glyphicon-user"/>Horário
+		</li>
+	</ui:define>
+	<ui:define name="scriptConteudo" >
+		<div class="page-header col-xs-12 col-sm-12">
+			<h1>
+				#{mensagens['label.cadastro']}
+				<small>
+					<i class="ace-icon fa fa-angle-double-right"/> #{mensagens['label.cadastro.horario']}
+				</small>
+			</h1>
+		</div>
+		<div class="nav-search">
+			<h5 align="center">
+				<a href="#modalConsultaPessoa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+					<i class="ace-icon fa fa-search bigger-150"/>
+					<span class="bigger-110">Consultar</span>
+				</a>
+			</h5> 
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<h:form id="formMatriculaAluno" enctype="multipart/form-data">
+				</h:form>
+				<div class="row">
+		    		<h:form id="formConsultaPessoa">
+		    			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.css"/>
+						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/matricula/aluno/matriculaAluno.js"/>
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
+						  <div class="modal-dialog modal-lg">
+						    <div class="modal-content">
+						    	<div class="modal-header">
+						    		<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+						    		<h3 class="smaller lighter blue">
+										<span class="col-sm-8">
+											<i class="ace-icon fa fa-list-alt" aria-hidden="true"/>
+											Consulta de Cadastro
+										</span>
+									</h3>
+						    	</div>
+						    	<div class="modal-body">
+					    			<div class="row">
+					    				<div class="col-xs-12 col-sm-10">
+					    					<h:outputLabel value="Nome"/>
+					    					<div>
+					    						<h:inputText type="text" id="nomePessoaConsulta" class="col-xs-12 col-sm-12" autocomplete="off"
+					    							value="#{matriAlunoServlet.pessoaDadosConsulta.nome}"/>
+					    					</div>
+					    				</div>
+					    			</div>
+					    			<div class="space-4"/>
+					    			<div class="row">
+					    				<div class="col-xs-12 col-sm-3">
+					    					<h:outputLabel value="CPF"/>
+					    					<div>
+						    					<h:inputText type="text" id="numCpfConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.cpf}"
+													styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF" autocomplete="off">
+													<f:validator validatorId="validar.CpfValidator"/>
+													<f:converter converterId="converter.CPF"/>
+												</h:inputText>
+					    					</div>
+					    				</div>
+					    				<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="RG"/>
+											<div>
+												<h:inputText type="text" id="numRgConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.rg}"
+													styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG" autocomplete="off">
+													<f:converter converterId="converter.RG"/>
+												</h:inputText>
+											</div>
+										</div>
+					    				<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="Data de Nascimento"/>
+											<div>
+												<h:inputText type="date" id="dataNasciConsulta" value="#{matriAlunoServlet.pessoaDadosConsulta.dataNascimento}"
+													styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento" autocomplete="off">
+													<f:converter converterId="converter.DATA"/>
+												</h:inputText>
+											</div>
+										</div>
+					    			</div>
+					    			<div class="space-6"/>
+					    			<div class="row">
+					    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
+						    				<h:dataTable id="tabelaPessoa" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
+								    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10"
+								    			binding="#{matriAlunoServlet.dataTable}" value="#{matriAlunoServlet.listaConsultaPessoa}" var="pessoa">
+								    			<h:column>
+								    				<center>
+									    				<f:facet name="header"> NOME </f:facet>
+								    					<h:outputLabel value="#{pessoa.nome}"/>
+								    				</center>
+								    			</h:column>
+								    			<h:column>
+								    				<center>
+								    					<f:facet name="header"> DATA DE NASC.</f:facet>
+									    				<h:outputLabel value="#{pessoa.dataNascimento}">
+									    					<f:converter converterId="converter.DATA"/>
+									    				</h:outputLabel>
+								    				</center>
+								    			</h:column>
+								    			<h:column>
+								    				<center>
+							    					<f:facet name="header">Editar</f:facet>
+														<h:commandLink styleClass="tooltip-success">
+								    						<span class="green">
+																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+															</span>
+															<f:ajax event="click" listener="#{matriAlunoServlet.editarCadastro}"  render=":formMatriculaAluno" 
+																onevent="function(data) { esconderModal(data) }" resetValues="true"/>
+														</h:commandLink>
+								    				</center>	
+				 								</h:column>
+								    			<f:facet name="footer">
+										            <h:panelGroup styleClass="pagination pull-right no-margin">
+										                <h:commandButton value="Primeira"
+										                    disabled="#{matriAlunoServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                		<f:ajax event="click" listener="#{matriAlunoServlet.pageFirst}" render="tabelaPessoa" />
+									                	</h:commandButton>
+										                <h:commandButton value="Anterior"
+										                    disabled="#{matriAlunoServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										               		<f:ajax event="click" listener="#{matriAlunoServlet.pagePrevious}" render="tabelaPessoa" />
+										               	</h:commandButton>
+										                <h:commandButton value="Próxima"
+										                    disabled="#{matriAlunoServlet.dataTable.first + matriAlunoServlet.dataTable.rows
+										                        >= matriAlunoServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                        <f:ajax event="click" listener="#{matriAlunoServlet.pageNext}" render="tabelaPessoa" />
+								                        </h:commandButton>
+										                <h:commandButton value="Última"
+										                    disabled="#{matriAlunoServlet.dataTable.first + matriAlunoServlet.dataTable.rows
+										                        >= matriAlunoServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+									                    	<f:ajax event="click" listener="#{matriAlunoServlet.pageLast}" render="tabelaPessoa" />
+									                    </h:commandButton>
+										            </h:panelGroup>
+										        </f:facet>
+								    		</h:dataTable>
+					    				</h:panelGroup>
+					    			</div>
+						    	</div>
+						    	<div class="modal-footer">
+						    		<button id="btFechar" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
+										<i class="ace-icon fa fa-times red2"/>
+										Fechar
+									</button>
+									<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
+										<span class="bigger-110"> Consultar </span>
+										<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+										<f:ajax event="click" listener="#{matriAlunoServlet.consultaCadastro}" render="tabelaPessoa"
+											execute=":formConsultaPessoa"/>
+									</h:commandLink>
+						    	</div>
+						    </div>
+						  </div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+	<ui:define name="scriptPagina">
+	</ui:define> 
+</ui:composition>
+</h:html>
