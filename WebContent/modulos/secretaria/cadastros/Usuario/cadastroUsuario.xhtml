@@ -384,21 +384,21 @@
 							</div>
 							
 							<div class="col-xs-12 col-sm-6" id="default-buttons">
-								<button type="reset" class="btn btn-white btn-info btn-round">
+								<button type="reset" class="btn btn-white btn-info btn-round botoes">
 									<i class="ace-icon fa fa-file"/>
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								</button>
-								
-								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-danger btn-round" rendered="#{usuarioServlet.btRemoverEnabled}"> 
-									<span class="bigger-110">Remover</span>	
-									<i class="ace-icon fa fa-trash-o"></i>
-									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
-								</h:commandLink>
-								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+																
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes"> 
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
+								</h:commandLink>
+								
+								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{usuarioServlet.btRemoverEnabled}"> 
+									<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
+									<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
+									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
 								</h:commandLink>
 							</div>
 						</h:form>

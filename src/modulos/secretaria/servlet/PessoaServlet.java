@@ -331,7 +331,7 @@ public class PessoaServlet implements Serializable{
 			}
 		}
 				
-		if( pessoaDados.getSexo() == null ) {
+		if( pessoaDados.getSexo() == null || pessoaDados.getSexo().equals("")) {
 			Logs.addWarning("O SEXO deve ser informado.", null);
 			return false;
 		}
