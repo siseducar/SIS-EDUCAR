@@ -25,6 +25,11 @@ public class PopulaEducacaoPermissoes
 		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
 		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
 		populaRHDAO.inserirPermissoes("Excluir", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_EXCLUIR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+
+		/* TELA DE CADASTRO HORÁRIO */
+		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);
+		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);
+		populaRHDAO.inserirPermissoes("Excluir", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_EXCLUIR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);
 		
 		System.out.println("Popula de permissões finalizado \n");
 	}
