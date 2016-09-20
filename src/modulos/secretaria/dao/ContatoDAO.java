@@ -194,16 +194,14 @@ public class ContatoDAO extends SisEducarDAO
 			String querySQL = "INSERT INTO CONTATO ( "
 					+ "TELRESIDENCIAL, "
 					+ "TELCELULAR, "
-					+ "EMAIL, "
-					+ "STATUS ) values( "
-					+ " ?, ?, ?, ?) RETURNING PKCONTATO";
+					+ "EMAIL ) values( "
+					+ " ?, ?, ?) RETURNING PKCONTATO";
 			
 			ps = con.prepareStatement(querySQL);
 			
 			ps.setString(1, dadosContato.getTelResidencial());
 			ps.setString(2, dadosContato.getTelCelular());
 			ps.setString(3, dadosContato.getEmail());
-			ps.setInt(4, ConstantesSisEducar.STATUS_ATIVO);
 						
 			rs = ps.executeQuery();
 			if(rs.next()) {
@@ -236,7 +234,7 @@ public class ContatoDAO extends SisEducarDAO
 			fecharConexaoBanco(con, ps, false, true);
 			fecharConexaoBanco(con, ps, true, false);
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
 		}

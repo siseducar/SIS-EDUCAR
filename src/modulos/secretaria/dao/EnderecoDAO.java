@@ -340,10 +340,10 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setInt(numeroArgumentos, dadosEndereco.getFkMunicipioCliente().getPkCidade());
 			numeroArgumentos++;
 			
-			ps.setString(numeroArgumentos, dadosEndereco.getLatitude());
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude());
 			numeroArgumentos++;
 			
-			ps.setString(numeroArgumentos, dadosEndereco.getLongitude());
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude());
 			numeroArgumentos++;
 			
 			ps.setString(numeroArgumentos, dadosEndereco.getEnderecoCompleto());
@@ -365,8 +365,7 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			return dadosEndereco;
 		} catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					e.toString(),null));
+			new ContatoDAO().deletarContato(dadosEndereco.getContato().getPkContato());
 			return null;
 		}
 	}
@@ -391,7 +390,7 @@ public class EnderecoDAO extends SisEducarDAO
 			fecharConexaoBanco(con, ps, true, false);
 			
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
 		}
@@ -450,8 +449,8 @@ public class EnderecoDAO extends SisEducarDAO
 				enderecoDados.setNumero(rs.getString("NUMERO"));
 				enderecoDados.setComplemento(rs.getString("COMPLEMENTO"));
 				enderecoDados.setEnderecoCompleto(rs.getString("ENDERECOCOMPLETO"));
-				enderecoDados.setLatitude(rs.getString("LATITUDE"));
-				enderecoDados.setLongitude(rs.getString("LONGITUDE"));
+				enderecoDados.setLatitude(rs.getDouble("LATITUDE"));
+				enderecoDados.setLongitude(rs.getDouble("LONGITUDE"));
 				
 				contatoDados.setPkContato(rs.getInt("PKCONTATO"));
 				regiaoDados.setPkRegiao(rs.getInt("PKREGIAO"));

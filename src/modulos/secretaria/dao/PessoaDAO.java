@@ -34,9 +34,10 @@ public class PessoaDAO extends SisEducarDAO
 	
 	/**
 	 * Metodo para salvar os dados referente ao cadastro de uma pessoa
+	 * @throws SQLException 
 	 * 
 	 * */
-	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) {
+	public Pessoa salvarCadastroPessoa(Pessoa pessoaDados) throws SQLException {
 		try {
 			String querySQL;
 			
@@ -46,9 +47,6 @@ public class PessoaDAO extends SisEducarDAO
 			querySQL += " NOME, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
 				querySQL += " CPF, ";
-				querySQL += " SEMCPF, ";
-			} else {
-				querySQL += " SEMCPF, ";
 			}
 			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
 				querySQL += " RG, ";
@@ -64,12 +62,10 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			querySQL += " DATANASCIMENTO, SEXO,  TIPOPESSOA, STATUS, FKRACA, ";
 			querySQL += " FKSITUACAOECONOMICA, FKRELIGIAO, FKNACIONALIDADE, FKESTADOCIVIL, FKGRAUINSTRUCAO, ";
-			querySQL += " FKENDERECO, FKMUNICIPIOCLIENTE, DATACADASTRO ) values ( ";
+			querySQL += " FKENDERECO, DATACADASTRO ) values ( ";
 			
 			querySQL += " ?, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {
-				querySQL += " ?, ?, ";
-			} else {
 				querySQL += " ?, ";
 			}
 			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
@@ -84,7 +80,7 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 				querySQL += " ?, ?, ?, ";
 			}
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -96,12 +92,8 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
 				ps.setLong(numeroArgumentos, pessoaDados.getCpf());
 				numeroArgumentos++;
-				ps.setBoolean(numeroArgumentos, false);
-				numeroArgumentos++;
-			} else {
-				ps.setBoolean(numeroArgumentos, true);
-				numeroArgumentos++;
-			}
+			} 
+
 			// RG caso seja preenchido
 			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
 				ps.setString(numeroArgumentos, pessoaDados.getRg());
@@ -180,10 +172,6 @@ public class PessoaDAO extends SisEducarDAO
 
 			// ENDERECO da pessoa
 			ps.setInt(numeroArgumentos, pessoaDados.getEndereco().getPkEndereco());
-			numeroArgumentos++;
-			
-			// CODIGO DO MUNICIPIO do cliente
-			ps.setInt(numeroArgumentos, pessoaDados.getFkMunicipioCliente().getPkCidade());
 			
 			rs = ps.executeQuery();
 			
@@ -195,6 +183,8 @@ public class PessoaDAO extends SisEducarDAO
 			
 			return pessoaDados;
 		} catch(Exception e) {
+			new EnderecoDAO().deletarEndereco(pessoaDados.getEndereco().getPkEndereco());
+			new ContatoDAO().deletarContato(pessoaDados.getEndereco().getContato().getPkContato());
 			return null;
 		}
 	}
