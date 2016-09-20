@@ -1,6 +1,9 @@
 package modulos.secretaria.om;
 
 import java.io.Serializable;
+import java.util.List;
+
+import modulos.educacao.om.Horario;
 
 public class Turno implements Serializable {	
 	
@@ -10,7 +13,7 @@ public class Turno implements Serializable {
 	private String descricao;
 	private Integer ordemExibicao;
 	private Integer status;
-	
+	private List<Horario> horarios;
 
 	public Integer getPkTurno() {
 		return pkTurno;
@@ -41,5 +44,11 @@ public class Turno implements Serializable {
 	}
 	public void setOrdemExibicao(Integer ordemExibicao) {
 		this.ordemExibicao = ordemExibicao;
+	}
+	public List<Horario> getHorarios() {
+		return horarios;
+	}
+	public void setHorarios(List<Horario> horarios) {
+		this.horarios = horarios;
 	}
 }
