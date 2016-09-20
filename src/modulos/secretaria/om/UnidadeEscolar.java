@@ -1,6 +1,9 @@
 package modulos.secretaria.om;
 
 import java.io.Serializable;
+import java.util.List;
+
+import modulos.educacao.om.Horario;
 
 public class UnidadeEscolar implements Serializable {	
 	
@@ -19,7 +22,7 @@ public class UnidadeEscolar implements Serializable {
 	private Regiao regiao;
 	private Pessoa diretor;
 	private Cidade fkMunicipioCliente;
-	
+	private List<Horario> horarios;
 	
 	public Integer getPkUnidadeEscolar() {
 		return pkUnidadeEscolar;
@@ -104,6 +107,12 @@ public class UnidadeEscolar implements Serializable {
 	}
 	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
 		this.fkMunicipioCliente = fkMunicipioCliente;
+	}
+	public List<Horario> getHorarios() {
+		return horarios;
+	}
+	public void setHorarios(List<Horario> horarios) {
+		this.horarios = horarios;
 	}
 	
 }
