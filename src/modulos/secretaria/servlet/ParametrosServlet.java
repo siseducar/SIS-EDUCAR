@@ -28,6 +28,7 @@ import modulos.secretaria.dao.SituacaoEconomicaDAO;
 import modulos.secretaria.dao.SituacaoFuncionamentoDAO;
 import modulos.secretaria.dao.TipoDeficienciaDAO;
 import modulos.secretaria.dao.TipoOcupacaoDAO;
+import modulos.secretaria.dao.TurnoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Cargo;
 import modulos.secretaria.om.Cidade;
@@ -47,6 +48,7 @@ import modulos.secretaria.om.SituacaoEconomica;
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.TipoOcupacao;
+import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 
 @ManagedBean(name="paramServlet", eager=true)
@@ -93,6 +95,8 @@ public class ParametrosServlet {
 	
 	private List<SelectItem> comboTipoOcupacao;
 	
+	private List<SelectItem> comboTurno;
+	
 	public ParametrosServlet() {
 		if(this.comboNacionalidade == null) {
 			this.comboNacionalidade = new ArrayList<SelectItem>();
@@ -108,6 +112,10 @@ public class ParametrosServlet {
 		
 		if(this.comboTipoOcupacao == null) {
 			this.comboTipoOcupacao = new ArrayList<SelectItem>();
+		}
+		
+		if(this.comboTurno == null) {
+			this.comboTurno = new ArrayList<SelectItem>();
 		}
 		
 		if(this.comboEstadoCivil == null) {
@@ -180,6 +188,10 @@ public class ParametrosServlet {
 		
 		if( comboTipoOcupacao.isEmpty() ) {
 			consultaTipoOcupacao();
+		}
+		
+		if( comboTurno.isEmpty() ) {
+			consultaTurno();
 		}
 		
 		if( comboCargo.isEmpty() ) {			
@@ -307,6 +319,28 @@ public class ParametrosServlet {
 		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de TIPO OCUPAÇÃO, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os tipos ocupação
+	 * */
+	public List<SelectItem> consultaTurno() {
+		try {
+			TurnoDAO turnoDAO = new TurnoDAO();
+			List<Turno> paramTurno = turnoDAO.consultaTurno();
+			
+			for (Turno param : paramTurno){
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkTurno());
+				s.setLabel(param.getDescricao());
+				comboTurno.add(s);
+			}
+			return comboTurno;
+		} catch (SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TURNO, contate o administrador do sistema!", null));
 			return null;
 		}
 	}
