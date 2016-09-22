@@ -46,6 +46,10 @@
     	<converter-id>converter.TELRESIDENCIAL</converter-id>
     	<converter-class>modulos.sisEducar.converter.ConverteTelResidencial</converter-class>
 	</converter>
+	<converter>
+    	<converter-id>converter.HORAMINUTO</converter-id>
+    	<converter-class>modulos.sisEducar.converter.ConverteHoraMinuto</converter-class>
+	</converter>
  	
  	<validator>
     	<validator-id>validar.CpfValidator</validator-id>
@@ -54,5 +58,9 @@
 	<validator>
     	<validator-id>validar.CnpjValidator</validator-id>
     	<validator-class>modulos.sisEducar.validador.ValidaCNPJ</validator-class>
+	</validator>
+ 	<validator>
+    	<validator-id>validar.HoraMinutoValidator</validator-id>
+    	<validator-class>modulos.sisEducar.validador.ValidaHoraMinuto</validator-class>
 	</validator>
 </faces-config>
