@@ -1,5 +1,7 @@
 package modulos.educacao.om;
 
+import java.util.List;
+
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 
@@ -12,6 +14,7 @@ public class Horario
 	private Double horaAula;
 	private Integer status;
 	private Turno turno;
+	private List<HorarioAula> horariosAula;
 	
 	private UnidadeEscolar unidadeEscolar;
 	public Integer getPkHorario() {
@@ -61,5 +64,11 @@ public class Horario
 	}
 	public void setHoraAula(Double horaAula) {
 		this.horaAula = horaAula;
+	}
+	public List<HorarioAula> getHorariosAula() {
+		return horariosAula;
+	}
+	public void setHorariosAula(List<HorarioAula> horariosAula) {
+		this.horariosAula = horariosAula;
 	}
 }
