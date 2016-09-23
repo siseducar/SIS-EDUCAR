@@ -512,10 +512,6 @@
 							<f:ajax event="click" render="@form jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.validaCadastro}"/>
 						</h:commandLink>
-						<h:commandLink type="submit" id="btDeletar" class="btn btn-white btn-warning btn-round botoes" >
-							<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
-							<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
-						</h:commandLink>
 						<h:panelGroup id="jsPagina">
 							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>

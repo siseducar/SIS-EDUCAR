@@ -290,8 +290,6 @@ public class PessoaServlet implements Serializable{
 		if(pessoaDados.getPkPessoa() != null) {
 			
 			pessoaDAO.deletarPessoa(pessoaDados.getPkPessoa());
-			enderecoDAO.deletarEndereco(enderecoDados.getPkEndereco());
-			contatoDAO.deletarContato(contatoDados.getPkContato());
 			
 			limparFormulario();
 			Logs.addInfo("Cadastro deletado com sucesso", null);
