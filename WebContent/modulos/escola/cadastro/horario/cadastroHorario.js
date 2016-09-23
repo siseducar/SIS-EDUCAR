@@ -11,3 +11,29 @@ $(function carregaElementos() {
         $(this).unmask();
     });
 });
+
+/**
+ * Usado para mostrar a modal remover todas as aulas da tela de cadastro de horario
+ * @author João Paulo
+ * @param data
+ */
+function aparecerModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('show');
+	}
+}
+
+/**
+ * Usado para esconder a modal remover todas as aulas da tela de cadastro de horario
+ * @author João Paulo
+ * @param data
+ */
+function esconderModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('hide');
+	}
+}
