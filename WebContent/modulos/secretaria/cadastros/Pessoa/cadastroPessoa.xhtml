@@ -123,7 +123,7 @@
 									<h:selectOneMenu id="codEstNasci" class="form-control"
 										value="#{pessoaServlet.estadoNascimentoDados.pkEstado}" disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
-										<f:selectItems value="#{paramServlet.comboEstadoNascimento}"
+										<f:selectItems value="#{paramServlet.comboEstado}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
 										<f:ajax event="change" execute="@this" render="codCidNasci" resetValues="true"/>
 									</h:selectOneMenu>
@@ -355,7 +355,7 @@
 											value="#{pessoaServlet.paisDados.pkPais}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{paramServlet.comboPais}" var="pais" 
-												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}" itemLabelEscaped="#{pais.pkPais}"/>
+												itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
 											<f:ajax event="change" execute="@this" render="codEstado codCidade"/>
 										</h:selectOneMenu>
 									</div>

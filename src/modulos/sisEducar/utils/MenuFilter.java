@@ -22,7 +22,7 @@ public class MenuFilter implements Filter {
 		HttpSession session = (HttpSession)req.getSession();
 		
 		if( session.getAttribute("usuario") == null ) {
-			res.sendRedirect( req.getContextPath() + "/login/login.xhtml" );
+			res.sendRedirect( req.getContextPath() + "/login" );
 		} else {		
 			chain.doFilter(request, response);
 		}

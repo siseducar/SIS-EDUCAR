@@ -2,7 +2,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"	
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces">
 
 	<h:body>
 		<script type="text/javascript">
@@ -33,31 +34,31 @@
 						<b class="arrow"/>
 						<ul class="submenu">
 							<li class="#{usuarioServlet.classSecretariaCadastroPessoa}">
-								<h:outputLink value="modulos/secretaria/cadastros/Pessoa/cadastroPessoa.xhtml">
+								<pretty:link mappingId="cadastroPessoa">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.pessoa']}
-								</h:outputLink>
+								</pretty:link>
 								<b class="arrow"/>
 							</li>
 							<li class="#{usuarioServlet.classSecretariaCadastroFornecedor}">
-								<a href="modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.xhtml">
+								<pretty:link mappingId="cadastroFornecedor">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.fornecedor']}
-								</a>
+								</pretty:link>
 								<b class="arrow"/>
 							</li>
 							<li class="#{usuarioServlet.classSecretariaCadastroUsuario}">
-								<a href="modulos/secretaria/cadastros/Usuario/cadastroUsuario.xhtml">
+								<pretty:link mappingId="cadastroUsuario">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.usuario']}
-								</a>
+								</pretty:link>
 								<b class="arrow"/>
 							</li>
 							<li class="#{usuarioServlet.classSecretariaCadastroUnidadeEscolar}">
-								<a href="modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.xhtml">
+								<pretty:link mappingId="cadastroUnidadeEscolar">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.unidade']}
-								</a>
+								</pretty:link>
 								<b class="arrow"/>
 							</li>
 							<li class="#{usuarioServlet.classSecretariaCadastroAmbiente}">

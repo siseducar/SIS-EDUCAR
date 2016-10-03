@@ -29,7 +29,7 @@ public class AuthenticationFilter implements Filter {
 		if(session.getAttribute("usuario") == null) {
 			chain.doFilter(request, response);
 		} else {
-			res.sendRedirect( req.getContextPath() + "/resources/templates/sisEducar/menuPrincipal.xhtml" );
+			res.sendRedirect( req.getContextPath() + "/menuPrincipal" );
 		}
 	}
 
