@@ -8,67 +8,158 @@ import modulos.secretaria.om.UnidadeEscolar;
 public class Horario 
 {
 	private Integer pkHorario;
-	private Double inicio;
-	private Double termino;
-	private Double intervalo;
-	private Double horaAula;
+	private Double horaInicio;
+	private Double minutoInicio;
+	private String inicioAux;
+	private Double horaTermino;
+	private Double minutoTermino;
+	private String terminoAux;
+	private Double horaIntervalo;
+	private Double minutoIntervalo;
+	private String intervaloAux;
+	private Double horaHoraAula;
+	private Double minutoHoraAula;
+	private String horaAulaAux;
 	private Integer status;
 	private Turno turno;
 	private List<HorarioAula> horariosAula;
 	
 	private UnidadeEscolar unidadeEscolar;
+
 	public Integer getPkHorario() {
 		return pkHorario;
 	}
+
 	public void setPkHorario(Integer pkHorario) {
 		this.pkHorario = pkHorario;
 	}
-	public Double getInicio() {
-		return inicio;
+
+	public Double getHoraInicio() {
+		return horaInicio;
 	}
-	public void setInicio(Double inicio) {
-		this.inicio = inicio;
+
+	public void setHoraInicio(Double horaInicio) {
+		this.horaInicio = horaInicio;
 	}
-	public Double getTermino() {
-		return termino;
+
+	public Double getMinutoInicio() {
+		return minutoInicio;
 	}
-	public void setTermino(Double termino) {
-		this.termino = termino;
+
+	public void setMinutoInicio(Double minutoInicio) {
+		this.minutoInicio = minutoInicio;
 	}
+
+	public String getInicioAux() {
+		return inicioAux;
+	}
+
+	public void setInicioAux(String inicioAux) {
+		this.inicioAux = inicioAux;
+	}
+
+	public Double getHoraTermino() {
+		return horaTermino;
+	}
+
+	public void setHoraTermino(Double horaTermino) {
+		this.horaTermino = horaTermino;
+	}
+
+	public Double getMinutoTermino() {
+		return minutoTermino;
+	}
+
+	public void setMinutoTermino(Double minutoTermino) {
+		this.minutoTermino = minutoTermino;
+	}
+
+	public String getTerminoAux() {
+		return terminoAux;
+	}
+
+	public void setTerminoAux(String terminoAux) {
+		this.terminoAux = terminoAux;
+	}
+
+	public Double getHoraIntervalo() {
+		return horaIntervalo;
+	}
+
+	public void setHoraIntervalo(Double horaIntervalo) {
+		this.horaIntervalo = horaIntervalo;
+	}
+
+	public Double getMinutoIntervalo() {
+		return minutoIntervalo;
+	}
+
+	public void setMinutoIntervalo(Double minutoIntervalo) {
+		this.minutoIntervalo = minutoIntervalo;
+	}
+
+	public String getIntervaloAux() {
+		return intervaloAux;
+	}
+
+	public void setIntervaloAux(String intervaloAux) {
+		this.intervaloAux = intervaloAux;
+	}
+
+	public Double getHoraHoraAula() {
+		return horaHoraAula;
+	}
+
+	public void setHoraHoraAula(Double horaHoraAula) {
+		this.horaHoraAula = horaHoraAula;
+	}
+
+	public Double getMinutoHoraAula() {
+		return minutoHoraAula;
+	}
+
+	public void setMinutoHoraAula(Double minutoHoraAula) {
+		this.minutoHoraAula = minutoHoraAula;
+	}
+
+	public String getHoraAulaAux() {
+		return horaAulaAux;
+	}
+
+	public void setHoraAulaAux(String horaAulaAux) {
+		this.horaAulaAux = horaAulaAux;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
+
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 	public Turno getTurno() {
 		return turno;
 	}
+
 	public void setTurno(Turno turno) {
 		this.turno = turno;
 	}
-	public UnidadeEscolar getUnidadeEscolar() {
-		return unidadeEscolar;
-	}
-	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
-		this.unidadeEscolar = unidadeEscolar;
-	}
-	public Double getIntervalo() {
-		return intervalo;
-	}
-	public void setIntervalo(Double intervalo) {
-		this.intervalo = intervalo;
-	}
-	public Double getHoraAula() {
-		return horaAula;
-	}
-	public void setHoraAula(Double horaAula) {
-		this.horaAula = horaAula;
-	}
+
 	public List<HorarioAula> getHorariosAula() {
 		return horariosAula;
 	}
+
 	public void setHorariosAula(List<HorarioAula> horariosAula) {
 		this.horariosAula = horariosAula;
 	}
+
+	public UnidadeEscolar getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+
+	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
+	}
+	
 }

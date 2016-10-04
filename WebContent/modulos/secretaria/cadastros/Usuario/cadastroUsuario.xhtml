@@ -79,21 +79,8 @@
 								    			headerClass="order-table-header" id="tablePesquisar" value="#{usuarioServlet.usuariosCadastrados}" var="value"
 								    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 									    			<h:column>
-									    				<center>
-								    						<f:facet name="header"> #{mensagens['label.cpf']} </f:facet>
-									    				</center>
-									    				
-								    					<h:outputLabel value="#{value.cpfcnpj}">
-								    						<f:converter converterId="converter.CPF"/>
-								    					</h:outputLabel>
-									    			</h:column>
-									    			<h:column>
 								    					<f:facet name="header"> #{mensagens['label.usuario']} </f:facet>
 									    				<h:outputLabel value="#{value.nome}"/>
-									    			</h:column>
-									    			<h:column>
-								    					<f:facet name="header"> #{mensagens['label.email']} </f:facet>
-														<h:outputLabel value="#{value.email}"/>
 									    			</h:column>
 									    			<h:column>
 								    					<f:facet name="header"> #{mensagens['label.botao.editar']} </f:facet>

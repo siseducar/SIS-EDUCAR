@@ -72,7 +72,7 @@
 							<div class="col-xs-12 col-sm-3">
 								<h:outputLabel value="#{mensagens['label.cadastro.horario.horarioInicio']}"/>
 								<div>
-									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.inicio}" 
+									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.inicioAux}" 
 									required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.inicio']}">
 										<f:validator validatorId="validar.HoraMinutoValidator"/>
 										<f:converter converterId="converter.HORAMINUTO"/>
@@ -82,7 +82,7 @@
 							<div class="col-xs-12 col-sm-3">
 								<h:outputLabel value="#{mensagens['label.cadastro.horario.horarioTermino']}"/>
 								<div>
-									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.termino}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.termino']}">
+									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.terminoAux}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.termino']}">
 										<f:validator validatorId="validar.HoraMinutoValidator"/>
 										<f:converter converterId="converter.HORAMINUTO"/>
 									</h:inputText>
@@ -91,7 +91,7 @@
 							<div class="col-xs-12 col-sm-3">
 								<h:outputLabel value="#{mensagens['label.cadastro.horario.horarioIntervalo']}"/>
 								<div>
-									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.intervalo}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.intervalo']}">
+									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.intervaloAux}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.intervalo']}">
 										<f:validator validatorId="validar.HoraMinutoValidator"/>
 										<f:converter converterId="converter.HORAMINUTO"/>
 									</h:inputText>
@@ -100,7 +100,7 @@
 							<div class="col-xs-12 col-sm-3">
 								<h:outputLabel value="#{mensagens['label.cadastro.horario.horarioHoraAula']}"/>
 								<div>
-									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.horaAula}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.horaAula']}">
+									<h:inputText styleClass="col-xs-12 col-sm-12 HoraMinuto" value="#{horarioServlet.horario.horaAulaAux}" required="true" requiredMessage="#{mensagens['mensagem.requerido.horario.horaAula']}">
 										<f:validator validatorId="validar.HoraMinutoValidator"/>
 										<f:converter converterId="converter.HORAMINUTO"/>
 									</h:inputText>
@@ -112,7 +112,8 @@
 									<h:commandLink type="submit" id="btAdicionarAula" class="btn btn-white btn-success btn-round"> 
 										<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 										<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-										<f:ajax event="click" render="testeRetirar" resetValues="true" listener="#{horarioServlet.adicionarAula}"/>
+										<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
+											listener="#{horarioServlet.adicionarAula}"/>
 									</h:commandLink>
 								</div>
 							</div>
@@ -129,11 +130,11 @@
 			    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 			    			<h:column>
 		    					<f:facet name="header"> #{mensagens['label.tabela.inicio']} </f:facet>
-								<h:outputLabel value="#{value.inicio}"/>
+								<h:outputLabel value="#{value.inicioAux}"/>
 			    			</h:column>
 			    			<h:column>
 		    					<f:facet name="header"> #{mensagens['label.tabela.termino']} </f:facet>
-			    				<h:outputLabel value="#{value.fim}"/>
+			    				<h:outputLabel value="#{value.terminoAux}"/>
 			    			</h:column>
 			    			<h:column>
 		    					<f:facet name="header">

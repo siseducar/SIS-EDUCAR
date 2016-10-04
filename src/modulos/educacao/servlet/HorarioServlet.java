@@ -2,7 +2,11 @@ package modulos.educacao.servlet;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -54,49 +58,170 @@ public class HorarioServlet implements Serializable
 	}
 	
 	/**
-	 * Adiciona a permissão selecionada na tabela de permissões do usuário
+	 * Adiciona os horários de acordo com preenchimento de informações do usuário na tela
 	 * @author João Paulo
 	 * @return
 	 */
-	public void adicionarPermissao()
+	public void adicionarAula()
 	{
 		try
 		{
-//			Boolean permissaoExiste = false;
-//			Permissao permissaoAux = null;
-//			if(permissaoSelecionada!=null && permissaoSelecionada.getPkPermissao()!=null)
-//			{
-//				//OBTEM O OBJETO PERMISSÃO COM TODAS AS SUAS INFORMAÇÕES
-//				for (Permissao permissao : todasPermissoes) 
-//				{
-//					if(permissao.getPkPermissao().equals(permissaoSelecionada.getPkPermissao()))
-//					{
-//						permissaoAux = permissao;
-//						break;
-//					}
-//				}
-//				
-//				//SETA A VARIÁVEL DE PERMISSÃO DUPLICADA
-//				for (Permissao permissao : permissoes) 
-//				{
-//					if(permissaoSelecionada.getPkPermissao().equals(permissao.getPkPermissao())) { permissaoExiste = true; }
-//				}
-//
-//				//VERIFICA SE A PERMISSÃO JÁ FOI ADICIONADA NA TABELA, CASO ESTEJA ENTÃO NÃO ADICIONA NOVAMENTE
-//				if(!permissaoExiste)
-//				{
-//					permissoes.add(preencherInformacoesFaltantesPermissao(permissaoAux));
-//				}
-//				
-//				permissaoSelecionada = new Permissao();
-//			}
+			String inicioHora = null;
+			String inicioMinuto = null;
+			String terminoHora = null;
+			String terminoMinuto = null;
+			String intervaloHora = null;
+			String intervaloMinuto = null;
+			String horaAulaHora = null;
+			String horaAulaMinuto = null;
+			Double inicio = null;
+			Double termino = null;
+			Double intervalo = null;
+			Double horaAula = null;
+			Integer minutosIniciais = 0;
+			Integer minutosFinais = 0;
+			HorarioAula aula = null;
+			Integer count = 0;
+			String horarioConvertido = "";
+			aulas = new ArrayList<HorarioAula>();
+			
+			inicioHora = horario.getInicioAux().substring(0, 2);
+			inicioMinuto = horario.getInicioAux().substring(2, horario.getInicioAux().length());
+			
+			terminoHora = horario.getTerminoAux().substring(0, 2);
+			terminoMinuto = horario.getTerminoAux().substring(2, horario.getTerminoAux().length());
+			
+			intervaloHora = horario.getIntervaloAux().substring(0, 2);
+			intervaloMinuto = horario.getIntervaloAux().substring(2, horario.getIntervaloAux().length());
+			
+			horaAulaHora = horario.getHoraAulaAux().substring(0, 2);
+			horaAulaMinuto = horario.getHoraAulaAux().substring(2, horario.getHoraAulaAux().length());
+			
+			inicio = new Double(inicioHora + "." + inicioMinuto);
+			termino = new Double(terminoHora + "." + terminoMinuto);
+			intervalo = new Double(intervaloHora + "." + intervaloMinuto);
+			horaAula = new Double(horaAulaHora + "." + horaAulaMinuto);
+			
+			minutosIniciais = (new Integer(inicioHora) * 60) + (new Integer(inicioMinuto));
+			minutosFinais = (new Integer(terminoHora) * 60) + (new Integer(terminoMinuto));
+			
+			do
+			{
+				if(count==2)
+				{
+					horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), null, null,
+							new Integer(intervaloHora), new Integer(intervaloMinuto));
+					
+					aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, true);
+				}
+				else
+				{
+					horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), new Integer(horaAulaHora), new Integer(horaAulaMinuto), 0, 0);
+					
+					aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, false);
+				}
+				
+				
+				inicioHora = horarioConvertido.substring(0, 2);
+				inicioMinuto = horarioConvertido.substring(3, 5);
+				
+				minutosIniciais += ((new Integer(horaAulaHora) * 60) + (new Integer(horaAulaMinuto)));
+				count++;
+						
+				aulas.add(aula);
+			}
+			while(minutosIniciais <= minutosFinais);
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("adicionarAula", "adicionarAula");
 		}
 	}
-
+	
+	/**
+	 * Faz a conversão de hora e retorna no formato string HH:MM
+	 * @author João Paulo
+	 * @param hora
+	 * @param minuto
+	 * @param addHora
+	 * @param addMinuto
+	 * @return
+	 */
+	public String converterHoraMinuto(Integer hora, Integer minuto, Integer addHora, Integer addMinuto, Integer addIntervaloHora, Integer addIntervaloMinuto)
+	{
+		try
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(new Date());
+			gc.set( Calendar.HOUR_OF_DAY, hora);
+			gc.set( Calendar.MINUTE, minuto);
+			
+			if(addHora != null)   		  { gc.add(Calendar.HOUR, addHora); }
+			if(addMinuto != null) 		  { gc.add(Calendar.MINUTE, addMinuto); }
+			if(addIntervaloHora!= null)   { gc.add(Calendar.HOUR, addIntervaloHora); }
+			if(addIntervaloMinuto!= null) { gc.add(Calendar.MINUTE, addIntervaloMinuto); }
+			
+			return sdf.format(gc.getTime());
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("converterHoraMinuto", "converterHoraMinuto");
+			return null;
+		}
+	}
+	
+	public Double converteHoraToInteger(String hora)
+	{
+		try
+		{
+			return new Double(hora.substring(0, 2));
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("converteHoraToInteger", "converteHoraToInteger");
+			return null;
+		}
+	}
+	
+	public Double converteMinutoToInteger(String minuto)
+	{
+		try
+		{
+			return new Double(minuto.substring(3, 5));
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("converteHoraToInteger", "converteHoraToInteger");
+			return null;
+		}
+	}
+	
+	public HorarioAula preencherOMHorarioAula(String inicioHora, String inicioMinuto, String horarioConvertido, Boolean indicarIntervalo)
+	{
+		try
+		{
+			HorarioAula aula = new HorarioAula();
+			aula.setHoraInicio(new Double(inicioHora));
+			aula.setMinutoInicio(new Double(inicioMinuto));
+			
+			if(indicarIntervalo) { aula.setInicioAux("Intervalo - " + inicioHora + ":" + inicioMinuto); }
+			else 				 { aula.setInicioAux(inicioHora + ":" + inicioMinuto); }
+			
+			aula.setHoraTermino(converteHoraToInteger(horarioConvertido));
+			aula.setMinutoTermino(converteMinutoToInteger(horarioConvertido));
+			
+			if(indicarIntervalo) { aula.setTerminoAux("Intervalo - " + horarioConvertido); }
+			else 				 { aula.setTerminoAux(horarioConvertido); }
+			
+			return aula;
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("preencherOMHorarioAula", "preencherOMHorarioAula");
+			return null;
+		}
+	}
 	
 	/**
 	 * Remove todas as aulas da tabela
