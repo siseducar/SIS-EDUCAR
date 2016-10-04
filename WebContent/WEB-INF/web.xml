@@ -53,7 +53,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthenticationFilterMenu</filter-name>
-		<url-pattern>/modulos/*</url-pattern>
+		<url-pattern>/secretaria/*</url-pattern>
 	</filter-mapping>
 	
 	<session-config>

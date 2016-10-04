@@ -77,7 +77,7 @@ public class LoginServlet implements Serializable {
 					HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 					session.setAttribute("usuario", usuarioLogado);
 					
-					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/resources/templates/sisEducar/menuPrincipal.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/menuPrincipal");
 				}else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário/Senha inválidos", null));
 				}

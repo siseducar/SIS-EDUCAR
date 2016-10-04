@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import modulos.secretaria.dao.CargoDAO;
 import modulos.secretaria.dao.CidadeDAO;
 import modulos.secretaria.dao.CursoDAO;
 import modulos.secretaria.dao.EstadoCivilDAO;
@@ -30,7 +29,6 @@ import modulos.secretaria.dao.TipoDeficienciaDAO;
 import modulos.secretaria.dao.TipoOcupacaoDAO;
 import modulos.secretaria.dao.TurnoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
-import modulos.secretaria.om.Cargo;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Estado;
@@ -82,20 +80,26 @@ public class ParametrosServlet {
 	/* Combo com valores de GRAU DE PARENTESCO */
 	private List<SelectItem> comboGrauParentesco;
 	
-	/* Combo com valores de ESTADO DE NASCIMENTO */
-	private List<SelectItem> comboEstadoNascimento;
+	/* Combo com valores de ESTADO*/
+	private List<SelectItem> comboEstado;
 	
+	/* Combo com valores de TIPO DE DEFICIENCIA */
 	private List<SelectItem> comboTipoDeficiencia;
 	
+	/* Combo com valores de TIPO DE REDE DE ENSINO */
 	private List<SelectItem> comboRedeEnsino;
-	
-	private List<SelectItem> comboCargo;
 
+	/* Combo com valores de SITUAÇÃO DE FUNCIONAMENTO */
 	private List<SelectItem> comboSituFuncionamento;
 	
+	/* Combo com valores de TIPO DE OCUPAÇÃO */
 	private List<SelectItem> comboTipoOcupacao;
 	
+	/* Combo com valores de TIPOS DE TURNO */
 	private List<SelectItem> comboTurno;
+	
+	/* Combo com valores de TIPOS DE LOGRADOUROS */
+	private List<SelectItem> comboTipoLogradouro;
 	
 	public ParametrosServlet() {
 		if(this.comboNacionalidade == null) {
@@ -154,12 +158,8 @@ public class ParametrosServlet {
 			this.comboGrauParentesco = new ArrayList<SelectItem>();
 		}
 		
-		if(this.comboCargo == null) {
-			this.comboCargo = new ArrayList<SelectItem>();
-		}
-		
-		if(this.comboEstadoNascimento == null) {
-			this.comboEstadoNascimento = new ArrayList<SelectItem>();
+		if(this.comboEstado == null) {
+			this.comboEstado = new ArrayList<SelectItem>();
 		}
 		
 		carregarCombos();
@@ -194,10 +194,6 @@ public class ParametrosServlet {
 			consultaTurno();
 		}
 		
-		if( comboCargo.isEmpty() ) {			
-			consultaCargo();
-		}
-		
 		if( comboEstadoCivil.isEmpty() ) {			
 			consultaEstaCivil();
 		}
@@ -226,8 +222,8 @@ public class ParametrosServlet {
 			consultaGrauParentesco();
 		}
 		
-		if( comboEstadoNascimento.isEmpty() ) {			
-			consultaEstadoNascimento();
+		if( comboEstado.isEmpty() ) {			
+			consultaEstado();
 		}
 		
 		if( comboSituacaoEconomica.isEmpty() ) {			
@@ -670,31 +666,9 @@ public class ParametrosServlet {
 	}
 	
 	/*
-	 * Metodo para carregar os cargos
-	 * */
-	public List<SelectItem> consultaCargo() {
-		try {			
-			CargoDAO cargoDAO = new CargoDAO();
-			List<Cargo> paramCargo = cargoDAO.consultaCargo();
-			
-			for (Cargo param : paramCargo){
-			   SelectItem  s = new SelectItem();
-			   s.setValue(param.getPkCargo());
-			   s.setLabel(param.getDescricao());
-			   comboCargo.add(s);
-			}
-			return comboCargo;
-		}catch(SQLException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Erro ao carregar os dados de CARGO, contate o administrador do sistema!", null));
-			return null;
-		}
-	}
-	
-	/*
 	 * Metodo para carregar todos os estados
 	 * */
-	public List<SelectItem> consultaEstadoNascimento() {       
+	public List<SelectItem> consultaEstado() {       
         try {
         	
 			EstadoDAO estadoDAO = new EstadoDAO();
@@ -704,9 +678,9 @@ public class ParametrosServlet {
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkEstado());
 			   s.setLabel(param.getNome());
-			   comboEstadoNascimento.add(s);
+			   comboEstado.add(s);
 			}
-			return comboEstadoNascimento;
+			return comboEstado;
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de ESTADO DE NASCIMENTO, contate o administrador do sistema!", null));
@@ -788,12 +762,12 @@ public class ParametrosServlet {
 		this.comboGrauParentesco = comboGrauParentesco;
 	}
 
-	public List<SelectItem> getComboEstadoNascimento() {
-		return comboEstadoNascimento;
+	public List<SelectItem> getComboEstado() {
+		return comboEstado;
 	}
 
-	public void setComboEstadoNascimento(List<SelectItem> comboEstadoNascimento) {
-		this.comboEstadoNascimento = comboEstadoNascimento;
+	public void setComboEstado(List<SelectItem> comboEstado) {
+		this.comboEstado = comboEstado;
 	}
 
 	public List<SelectItem> getComboTipoDeficiencia() {
@@ -810,14 +784,6 @@ public class ParametrosServlet {
 
 	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
 		this.comboRedeEnsino = comboRedeEnsino;
-	}
-
-	public List<SelectItem> getComboCargo() {
-		return comboCargo;
-	}
-
-	public void setComboCargo(List<SelectItem> comboCargo) {
-		this.comboCargo = comboCargo;
 	}
 
 	public List<SelectItem> getComboSituFuncionamento() {
