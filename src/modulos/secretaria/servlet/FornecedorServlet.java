@@ -32,10 +32,7 @@ public class FornecedorServlet implements Serializable {
 	Cidade cidadeDados;
 	TipoLogradouro tipoLograDados;
 	Regiao regiaoDados;
-	
-	/* Combo com informacoes de ESTADO para inscricao estadual */
-	List<SelectItem> estadoInscricaoDados;
-	
+		
 	/* Combo com os valores de ESTADO */
 	List<SelectItem> comboEstado;
 	
@@ -111,14 +108,6 @@ public class FornecedorServlet implements Serializable {
 
 	public void setCidadeDados(Cidade cidadeDados) {
 		this.cidadeDados = cidadeDados;
-	}
-
-	public List<SelectItem> getEstadoInscricaoDados() {
-		return estadoInscricaoDados;
-	}
-
-	public void setEstadoInscricaoDados(List<SelectItem> estadoInscricaoDados) {
-		this.estadoInscricaoDados = estadoInscricaoDados;
 	}
 	
 	public List<SelectItem> getComboEstado() {
