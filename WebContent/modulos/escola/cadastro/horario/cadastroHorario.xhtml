@@ -110,7 +110,18 @@
 								<div>
 								<div class="space"></div>
 									<h:commandLink type="submit" id="btAdicionarAula" class="btn btn-white btn-success btn-round"> 
-										<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
+										<span class="bigger-110"> #{mensagens['label.adicionar.adicionarAula']} </span>	
+										<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
+										<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
+											listener="#{horarioServlet.adicionarAula}"/>
+									</h:commandLink>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<div>
+								<div class="space"></div>
+									<h:commandLink type="submit" id="btAdicionarIntervalo" class="btn btn-white btn-success btn-round"> 
+										<span class="bigger-110"> #{mensagens['label.adicionar.adicionarIntervalo']} </span>	
 										<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
 										<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
 											listener="#{horarioServlet.adicionarAula}"/>
