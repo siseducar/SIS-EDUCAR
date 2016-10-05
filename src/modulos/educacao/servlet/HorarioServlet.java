@@ -76,61 +76,54 @@ public class HorarioServlet implements Serializable
 			String horaAulaMinuto = null;
 			Double inicio = null;
 			Double termino = null;
-			Double intervalo = null;
 			Double horaAula = null;
 			Integer minutosIniciais = 0;
 			Integer minutosFinais = 0;
 			HorarioAula aula = null;
 			Integer count = 0;
 			String horarioConvertido = "";
-			aulas = new ArrayList<HorarioAula>();
 			
-			inicioHora = horario.getInicioAux().substring(0, 2);
-			inicioMinuto = horario.getInicioAux().substring(2, horario.getInicioAux().length());
-			
-			terminoHora = horario.getTerminoAux().substring(0, 2);
-			terminoMinuto = horario.getTerminoAux().substring(2, horario.getTerminoAux().length());
-			
-			intervaloHora = horario.getIntervaloAux().substring(0, 2);
-			intervaloMinuto = horario.getIntervaloAux().substring(2, horario.getIntervaloAux().length());
+			if(aulas.size()>0)
+			{
+				inicioHora = aulas.get(aulas.size()-1).getTerminoAux().substring(0, 2);
+				inicioMinuto = aulas.get(aulas.size()-1).getTerminoAux().substring(3, 5);
+				
+				terminoHora = horario.getTerminoAux().substring(0, 2);
+				terminoMinuto = horario.getTerminoAux().substring(2, 4);
+			}
+			else
+			{
+				inicioHora = horario.getInicioAux().substring(0, 2);
+				inicioMinuto = horario.getInicioAux().substring(2, horario.getInicioAux().length());
+				
+				terminoHora = horario.getTerminoAux().substring(0, 2);
+				terminoMinuto = horario.getTerminoAux().substring(2, horario.getTerminoAux().length());
+			}
 			
 			horaAulaHora = horario.getHoraAulaAux().substring(0, 2);
 			horaAulaMinuto = horario.getHoraAulaAux().substring(2, horario.getHoraAulaAux().length());
 			
 			inicio = new Double(inicioHora + "." + inicioMinuto);
 			termino = new Double(terminoHora + "." + terminoMinuto);
-			intervalo = new Double(intervaloHora + "." + intervaloMinuto);
 			horaAula = new Double(horaAulaHora + "." + horaAulaMinuto);
 			
 			minutosIniciais = (new Integer(inicioHora) * 60) + (new Integer(inicioMinuto));
 			minutosFinais = (new Integer(terminoHora) * 60) + (new Integer(terminoMinuto));
 			
-			do
+			minutosIniciais += ((new Integer(horaAulaHora) * 60) + (new Integer(horaAulaMinuto)));
+			if(minutosIniciais<=minutosFinais)
 			{
-				if(count==2)
-				{
-					horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), null, null,
-							new Integer(intervaloHora), new Integer(intervaloMinuto));
-					
-					aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, true);
-				}
-				else
-				{
-					horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), new Integer(horaAulaHora), new Integer(horaAulaMinuto), 0, 0);
-					
-					aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, false);
-				}
+				horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), new Integer(horaAulaHora), new Integer(horaAulaMinuto), 0, 0);
 				
+				aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, false);
 				
 				inicioHora = horarioConvertido.substring(0, 2);
 				inicioMinuto = horarioConvertido.substring(3, 5);
 				
-				minutosIniciais += ((new Integer(horaAulaHora) * 60) + (new Integer(horaAulaMinuto)));
 				count++;
-						
+				
 				aulas.add(aula);
 			}
-			while(minutosIniciais <= minutosFinais);
 		} 
 		catch (Exception e) 
 		{
