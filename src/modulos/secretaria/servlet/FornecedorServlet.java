@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -39,7 +40,8 @@ public class FornecedorServlet implements Serializable {
 	/* Combo com os valores de MUNICIPIO */
 	List<SelectItem> comboMunicipio;
 	
-	public FornecedorServlet() {
+	@PostConstruct
+	public void init() {
 		if( this.fornecedorDados == null ) {
 			this.fornecedorDados = new Fornecedor();
 		}
@@ -69,7 +71,7 @@ public class FornecedorServlet implements Serializable {
 	}
 	
 	
-	
+	/* GETTERS AND SETTERS */
 	public ParametrosServlet getParamDados() {
 		return paramDados;
 	}
@@ -141,26 +143,19 @@ public class FornecedorServlet implements Serializable {
 		this.comboMunicipio = comboMunicipio;
 	}
 
-
 	public TipoLogradouro getTipoLograDados() {
 		return tipoLograDados;
 	}
-
 
 	public void setTipoLograDados(TipoLogradouro tipoLograDados) {
 		this.tipoLograDados = tipoLograDados;
 	}
 
-
 	public Regiao getRegiaoDados() {
 		return regiaoDados;
 	}
 
-
 	public void setRegiaoDados(Regiao regiaoDados) {
 		this.regiaoDados = regiaoDados;
 	}
-	
-	
-	
 }
