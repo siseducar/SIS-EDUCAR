@@ -54,7 +54,23 @@ public class HorarioServlet implements Serializable
 	
 	public void removerHorario()
 	{
+		List<HorarioAula> aulasAux = new ArrayList<HorarioAula>();
+		HorarioAula aulaSelecionada = null;
 		
+		if(dataTableAulas!=null && dataTableAulas.getRowData()!=null) { aulaSelecionada = (HorarioAula) dataTableAulas.getRowData(); }
+		
+		if(aulaSelecionada != null && aulaSelecionada.getInicioAux()!=null && aulaSelecionada.getTerminoAux()!=null)
+		{
+			for (HorarioAula aula : aulas) 
+			{
+				if(!aula.getInicioAux().equals(aulaSelecionada.getInicioAux()) && !aula.getTerminoAux().equals(aulaSelecionada.getTerminoAux()))
+				{
+					aulasAux.add(aula);
+				}
+			}
+			
+			aulas = aulasAux;
+		}
 	}
 	
 	/**
@@ -70,8 +86,6 @@ public class HorarioServlet implements Serializable
 			String inicioMinuto = null;
 			String terminoHora = null;
 			String terminoMinuto = null;
-			String intervaloHora = null;
-			String intervaloMinuto = null;
 			String horaAulaHora = null;
 			String horaAulaMinuto = null;
 			Double inicio = null;
@@ -80,7 +94,6 @@ public class HorarioServlet implements Serializable
 			Integer minutosIniciais = 0;
 			Integer minutosFinais = 0;
 			HorarioAula aula = null;
-			Integer count = 0;
 			String horarioConvertido = "";
 			
 			if(aulas.size()>0)
@@ -117,17 +130,64 @@ public class HorarioServlet implements Serializable
 				
 				aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, false);
 				
-				inicioHora = horarioConvertido.substring(0, 2);
-				inicioMinuto = horarioConvertido.substring(3, 5);
-				
-				count++;
-				
 				aulas.add(aula);
 			}
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("adicionarAula", "adicionarAula");
+		}
+	}
+	
+	public void adicionarIntervalo()
+	{
+		try
+		{
+			String inicioHora = null;
+			String inicioMinuto = null;
+			String terminoHora = null;
+			String terminoMinuto = null;
+			String intervaloHora = null;
+			String intervaloMinuto = null;
+			String horaAulaHora = null;
+			String horaAulaMinuto = null;
+			Double inicio = null;
+			Double termino = null;
+			Integer minutosIniciais = 0;
+			Integer minutosFinais = 0;
+			HorarioAula aula = null;
+			String horarioConvertido = "";
+			
+			if(aulas.size()>0)
+			{
+				inicioHora = aulas.get(aulas.size()-1).getTerminoAux().substring(0, 2);
+				inicioMinuto = aulas.get(aulas.size()-1).getTerminoAux().substring(3, 5);
+				
+				terminoHora = horario.getTerminoAux().substring(0, 2);
+				terminoMinuto = horario.getTerminoAux().substring(2, 4);
+				
+				intervaloHora = horario.getIntervaloAux().substring(0, 2);
+				intervaloMinuto = horario.getIntervaloAux().substring(2, 4);
+				
+				inicio = new Double(inicioHora + "." + inicioMinuto);
+				termino = new Double(terminoHora + "." + terminoMinuto);
+				
+				minutosIniciais = (new Integer(inicioHora) * 60) + (new Integer(inicioMinuto));
+				minutosFinais = (new Integer(terminoHora) * 60) + (new Integer(terminoMinuto));
+				
+				if(minutosIniciais<=minutosFinais)
+				{
+					horarioConvertido = converterHoraMinuto(new Integer(inicioHora), new Integer(inicioMinuto), null, null, new Integer(intervaloHora), new Integer(intervaloMinuto));
+					
+					aula = preencherOMHorarioAula(inicioHora, inicioMinuto, horarioConvertido, true);
+					
+					aulas.add(aula);
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("adicionarIntervalo", "adicionarIntervalo");
 		}
 	}
 	
@@ -198,13 +258,13 @@ public class HorarioServlet implements Serializable
 			aula.setHoraInicio(new Double(inicioHora));
 			aula.setMinutoInicio(new Double(inicioMinuto));
 			
-			if(indicarIntervalo) { aula.setInicioAux("Intervalo - " + inicioHora + ":" + inicioMinuto); }
+			if(indicarIntervalo) { aula.setInicioAux(inicioHora + ":" + inicioMinuto + "(Intervalo)"); }
 			else 				 { aula.setInicioAux(inicioHora + ":" + inicioMinuto); }
 			
 			aula.setHoraTermino(converteHoraToInteger(horarioConvertido));
 			aula.setMinutoTermino(converteMinutoToInteger(horarioConvertido));
 			
-			if(indicarIntervalo) { aula.setTerminoAux("Intervalo - " + horarioConvertido); }
+			if(indicarIntervalo) { aula.setTerminoAux(horarioConvertido + "(Intervalo)"); }
 			else 				 { aula.setTerminoAux(horarioConvertido); }
 			
 			return aula;
