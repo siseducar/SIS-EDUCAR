@@ -14,9 +14,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.model.SelectItem;
 
+import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
+import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Turno;
+import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.Logs;
 
@@ -33,6 +36,7 @@ public class HorarioServlet implements Serializable
 	private Horario horario;
 	private List<SelectItem> comboTurno;
 	private Boolean btRemoverEnabled = false;
+	private UnidadeEscolar unidadeEscolarSelecionada = null;
 	
 	private List<HorarioAula> aulas;
 	
@@ -250,6 +254,26 @@ public class HorarioServlet implements Serializable
 		}
 	}
 	
+	public void buscarUnidadeEscolar()
+	{
+		try
+		{
+			if(codigoUnidadeEscolar!=null && codigoUnidadeEscolar.length()>0)
+			{
+				UnidadeEscolar unidadeEscolar = new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(codigoUnidadeEscolar, null);
+				if(unidadeEscolar!=null)
+				{
+					unidadeEscolarSelecionada = unidadeEscolar;
+					nomeUnidadeEscolar = unidadeEscolar.getNome();
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarUnidadeEscolar", "buscarUnidadeEscolar");
+		}
+	}
+	
 	public HorarioAula preencherOMHorarioAula(String inicioHora, String inicioMinuto, String horarioConvertido, Boolean indicarIntervalo)
 	{
 		try
@@ -315,8 +339,13 @@ public class HorarioServlet implements Serializable
 //		}
 	}
 	
-	public void pesquisarHorarios()
+	public void pesquisarHorarios() throws SQLException
 	{
+		if(unidadeEscolarSelecionada!=null && unidadeEscolarSelecionada.getPkUnidadeEscolar()>0 && turnoDado!=null && turnoDado.getPkTurno()>0)
+		{
+			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado);
+			aulas = horario.getHorariosAula();
+		}
 	}
 	
 	/*
@@ -408,5 +437,13 @@ public class HorarioServlet implements Serializable
 
 	public void setAulas(List<HorarioAula> aulas) {
 		this.aulas = aulas;
+	}
+
+	public UnidadeEscolar getUnidadeEscolarSelecionada() {
+		return unidadeEscolarSelecionada;
+	}
+
+	public void setUnidadeEscolarSelecionada(UnidadeEscolar unidadeEscolarSelecionada) {
+		this.unidadeEscolarSelecionada = unidadeEscolarSelecionada;
 	}
 }
