@@ -8,10 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -129,5 +132,82 @@ public class HorarioDAO extends SisEducarDAO
 		}
 		
 		return horariosAula;
+	}
+	
+	/**
+	 * Usado para inserir um horario no banco de dados
+	 * @author João Paulo
+	 * @param horario
+	 * @return
+	 */
+	public Boolean inserirHorario(Horario horario)
+	{
+		try 
+		{
+			String querySQL = "INSERT INTO horario "
+					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, horaIntervalo, minutoIntervalo, horaHoraAula, minutoHoraAula, status, fkUnidadeEscolar, fkTurno) "
+					+ " values(?,?,?,?,?,?,?,?,?,?,?) RETURNING pkHorario";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setDouble(1, horario.getHoraInicio());
+			ps.setDouble(2, horario.getMinutoInicio());
+			ps.setDouble(3, horario.getHoraTermino());
+			ps.setDouble(4, horario.getMinutoTermino());
+			ps.setDouble(5, horario.getHoraIntervalo());
+			ps.setDouble(6, horario.getMinutoIntervalo());
+			ps.setDouble(7, horario.getHoraHoraAula());
+			ps.setDouble(8, horario.getMinutoHoraAula());
+			ps.setInt(9, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setObject(10, horario.getUnidadeEscolar().getPkUnidadeEscolar());
+			ps.setObject(11, horario.getTurno().getPkTurno());
+			
+			ResultSet rs = ps.executeQuery();
+			horario.setPkHorario(rs.getInt("pkHorario"));
+			
+			fecharConexaoBanco(con, ps, false, true);
+			for (HorarioAula ha : horario.getHorariosAula()) 
+			{
+				ha.setHorario(horario);
+				inserirHorarioAula(ha);
+			}
+			
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	/**
+	 * Usado para inserir um horario aula no banco de dados
+	 * @author João Paulo
+	 * @param horarioAula
+	 */
+	public void inserirHorarioAula(HorarioAula horarioAula)
+	{
+		try 
+		{
+			String querySQL = "INSERT INTO horarioAula "
+					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, status, fkHorario) "
+					+ " values(?,?,?,?,?,?)";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setDouble(1, horarioAula.getHoraInicio());
+			ps.setDouble(2, horarioAula.getMinutoInicio());
+			ps.setDouble(3, horarioAula.getHoraTermino());
+			ps.setDouble(4, horarioAula.getMinutoTermino());
+			ps.setInt(5, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setDouble(6, horarioAula.getHorario().getPkHorario());
+			
+			fecharConexaoBanco(con, ps, false, true);
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+		}
 	}
 }
