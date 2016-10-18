@@ -415,6 +415,78 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Busca o registro com apenas as informações da unidade escolar, usado para buscas rápidas
+	 * @author João Paulo
+	 * @param codigo
+	 * @param nome
+	 * @return
+	 */
+	public UnidadeEscolar buscarUnidadeEscolarSimples(String codigo, String nome)
+	{
+		try 
+		{
+			Integer numeroArqumentos = 1;
+			UnidadeEscolar unidadeEscolar = null;
+			Cidade cidade = null;
+			String querySQL = "SELECT u.* "
+					+ " FROM UnidadeEscolar u"
+					+ " WHERE u.status = ?";
+			
+			if(codigo!=null && codigo.length()>0)
+			{
+				querySQL += " AND u.codigo like ?";
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				querySQL+= " AND u.nome like ?";
+			}
+			
+			querySQL+= " ORDER BY codigo";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroArqumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArqumentos++;
+			if(codigo!=null && codigo.length()>0)
+			{
+				ps.setObject(numeroArqumentos, "%" + codigo + "%");
+				numeroArqumentos ++;
+			}
+			if(nome!=null && nome.length() >0)
+			{
+				ps.setObject(numeroArqumentos, "%" + nome + "%");
+				numeroArqumentos ++;
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				cidade = new Cidade();
+				unidadeEscolar = new UnidadeEscolar();
+				unidadeEscolar.setPkUnidadeEscolar(rs.getInt("pkUnidadeEscolar"));
+				unidadeEscolar.setCodigo(rs.getString("codigo"));
+				unidadeEscolar.setNome(rs.getString("nome"));
+				unidadeEscolar.setUnidadeControlada(rs.getBoolean("unidadeControlada"));
+				unidadeEscolar.setUnidadeInformatizada(rs.getBoolean("unidadeInformatizada"));
+				unidadeEscolar.setStatus(rs.getInt("status"));
+				
+				if(rs.getObject("fkMunicipioCliente")!=null)
+				{
+					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
+					unidadeEscolar.setFkMunicipioCliente(cidade);
+				}
+			}
+			
+			return unidadeEscolar;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println(e);
+			return null;
+		}
+	}
+	
+	/**
 	 * Conta a quantidade de alunos dentro da Unidade Escolar
 	 * 
 	 */

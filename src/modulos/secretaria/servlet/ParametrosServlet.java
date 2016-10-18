@@ -801,4 +801,20 @@ public class ParametrosServlet {
 	public void setComboTipoOcupacao(List<SelectItem> comboTipoOcupacao) {
 		this.comboTipoOcupacao = comboTipoOcupacao;
 	}
+
+	public List<SelectItem> getComboTurno() {
+		return comboTurno;
+	}
+
+	public void setComboTurno(List<SelectItem> comboTurno) {
+		this.comboTurno = comboTurno;
+	}
+
+	public List<SelectItem> getComboTipoLogradouro() {
+		return comboTipoLogradouro;
+	}
+
+	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
+		this.comboTipoLogradouro = comboTipoLogradouro;
+	}
 }
