@@ -9,14 +9,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
+import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Turno;
+import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.Logs;
 
@@ -26,13 +32,16 @@ public class HorarioServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public ParametrosServlet parametrosServlet;
 	private String codigoUnidadeEscolar;
 	private String nomeUnidadeEscolar;
 	private Turno turnoDado;
 	private Horario horario;
 	private List<SelectItem> comboTurno;
 	private Boolean btRemoverEnabled = false;
+	private UnidadeEscolar unidadeEscolarSelecionada = null;
+	
+	@ManagedProperty("#{paramServlet}")
+	private ParametrosServlet paramDados;
 	
 	private List<HorarioAula> aulas;
 	
@@ -44,11 +53,34 @@ public class HorarioServlet implements Serializable
 		
 		if(horario==null) { horario = new Horario(); }
 		if(turnoDado==null) { turnoDado = new Turno(); }
-		if(parametrosServlet==null) { parametrosServlet = new ParametrosServlet(); }
 	}
 	
 	public void cadastrarHorario()
 	{
+		try 
+		{
+			Boolean resultado = false;
+			if(unidadeEscolarSelecionada!=null && turnoDado!=null)
+			{
+				horario.setUnidadeEscolar(unidadeEscolarSelecionada);
+				horario.setTurno(turnoDado);
+				horario.setHorariosAula(aulas);
+				
+				resultado = new HorarioDAO().inserirHorario(horario);
+				if(resultado)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Horário registrado", null));
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Horário não registrado", null));
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("cadastrarHorario", "cadastrarHorario");
+		}
 		
 	}
 	
@@ -250,6 +282,26 @@ public class HorarioServlet implements Serializable
 		}
 	}
 	
+	public void buscarUnidadeEscolar()
+	{
+		try
+		{
+			if(codigoUnidadeEscolar!=null && codigoUnidadeEscolar.length()>0)
+			{
+				UnidadeEscolar unidadeEscolar = new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(codigoUnidadeEscolar, null);
+				if(unidadeEscolar!=null)
+				{
+					unidadeEscolarSelecionada = unidadeEscolar;
+					nomeUnidadeEscolar = unidadeEscolar.getNome();
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarUnidadeEscolar", "buscarUnidadeEscolar");
+		}
+	}
+	
 	public HorarioAula preencherOMHorarioAula(String inicioHora, String inicioMinuto, String horarioConvertido, Boolean indicarIntervalo)
 	{
 		try
@@ -296,27 +348,32 @@ public class HorarioServlet implements Serializable
 	 */
 	public void removerPermissao()
 	{
-//		List<Permissao> listPermissoesAux = new ArrayList<Permissao>();
-//		Permissao permissaoSelecionada = null;
-//		
-//		if(dataTablePermissao!=null && dataTablePermissao.getRowData()!=null) { permissaoSelecionada = (Permissao) dataTablePermissao.getRowData(); }
-//		
-//		if(permissaoSelecionada != null && permissaoSelecionada.getPkPermissao() != null)
-//		{
-//			for (Permissao permissao : permissoes) 
-//			{
-//				if(!permissao.getPkPermissao().equals(permissaoSelecionada.getPkPermissao()))
-//				{
-//					listPermissoesAux.add(permissao);
-//				}
-//			}
-//			
-//			permissoes = listPermissoesAux;
-//		}
+		List<HorarioAula> listAulasAux = new ArrayList<HorarioAula>();
+		HorarioAula aulaSelecionada = null;
+		
+		if(dataTable!=null && dataTable.getRowData()!=null) { aulaSelecionada = (HorarioAula) dataTable.getRowData(); }
+		
+		if(aulaSelecionada != null && aulaSelecionada.getPkHorarioAula() != null)
+		{
+			for (HorarioAula aula : aulas) 
+			{
+				if(!aula.getPkHorarioAula().equals(aulaSelecionada.getPkHorarioAula()))
+				{
+					listAulasAux.add(aula);
+				}
+			}
+			
+			aulas = listAulasAux;
+		}
 	}
 	
-	public void pesquisarHorarios()
+	public void pesquisarHorarios() throws SQLException
 	{
+		if(unidadeEscolarSelecionada!=null && unidadeEscolarSelecionada.getPkUnidadeEscolar()>0 && turnoDado!=null && turnoDado.getPkTurno()>0)
+		{
+			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado);
+			aulas = horario.getHorariosAula();
+		}
 	}
 	
 	/*
@@ -386,7 +443,7 @@ public class HorarioServlet implements Serializable
 
 	public List<SelectItem> getComboTurno() {
 		comboTurno.clear();
-		comboTurno.addAll(parametrosServlet.consultaTurno());
+		comboTurno.addAll(paramDados.getComboTurno());
 		return comboTurno;
 	}
 
@@ -408,5 +465,21 @@ public class HorarioServlet implements Serializable
 
 	public void setAulas(List<HorarioAula> aulas) {
 		this.aulas = aulas;
+	}
+
+	public UnidadeEscolar getUnidadeEscolarSelecionada() {
+		return unidadeEscolarSelecionada;
+	}
+
+	public void setUnidadeEscolarSelecionada(UnidadeEscolar unidadeEscolarSelecionada) {
+		this.unidadeEscolarSelecionada = unidadeEscolarSelecionada;
+	}
+
+	public ParametrosServlet getParamDados() {
+		return paramDados;
+	}
+
+	public void setParamDados(ParametrosServlet paramDados) {
+		this.paramDados = paramDados;
 	}
 }
