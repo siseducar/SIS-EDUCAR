@@ -15,26 +15,10 @@ function initialize() {
 	
 	/* Ponto inicial do mapa */
 	var latlng = new google.maps.LatLng(-22.64402834, -47.05530858);
-
-	/* Verifica a atual posicao */
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position){ 
-			var latitudeAtual = position.coords.latitude;
-			var longitudeAtual = position.coords.longitude;
-			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-			if($('#codPessoa').val() == "") {				
-				carregarEndereco(latitudeAtual, longitudeAtual);
-			}
-			
-			latlng = new google.maps.LatLng(latitudeAtual, longitudeAtual);
-		}, 
-		function(error){ // callback de erro
-			alert('Erro ao obter localização!');
-			console.log('Erro ao obter localização.', error);
-		});
-	} else {
-		console.log('Navegador não suporta Geolocalização!');
-	}
+	var latitudeAtual = -22.64402834;
+	var longitudeAtual = -47.05530858;
+	
+	carregarEndereco(latitudeAtual, longitudeAtual);
 	
 	/* Opções relacionadas ao mapa */
 	var options = {
@@ -52,25 +36,6 @@ function initialize() {
 	
 	marker.setPosition(latlng);
 };
-
-$(function() {
-	/* Verifica a atual posicao */
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position){ 
-			var latitudeAtual = position.coords.latitude;
-			var longitudeAtual = position.coords.longitude;
-			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-			carregarEndereco(latitudeAtual, longitudeAtual);
-			
-		}, 
-		function(error){ // callback de erro
-			alert('Erro ao obter localização!');
-			console.log('Erro ao obter localização.', error);
-		});
-	} else {
-		console.log('Navegador não suporta Geolocalização!');
-	}
-});
 
 $(document).ready(function () {
 	initialize();

@@ -18,6 +18,7 @@ public class Endereco implements Serializable {
 	private Double longitude;
 	private String enderecoCompleto;
 	private Regiao regiao;
+	private TipoLogradouro tipologradouro;
 	private Cidade fkMunicipioCliente;
 	private Contato contato;
 	
@@ -110,5 +111,11 @@ public class Endereco implements Serializable {
 	}
 	public void setRegiao(Regiao regiao) {
 		this.regiao = regiao;
+	}
+	public TipoLogradouro getTipologradouro() {
+		return tipologradouro;
+	}
+	public void setTipologradouro(TipoLogradouro tipologradouro) {
+		this.tipologradouro = tipologradouro;
 	}
 }
