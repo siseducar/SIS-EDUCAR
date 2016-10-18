@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
@@ -31,7 +32,6 @@ public class HorarioServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public ParametrosServlet parametrosServlet;
 	private String codigoUnidadeEscolar;
 	private String nomeUnidadeEscolar;
 	private Turno turnoDado;
@@ -39,6 +39,9 @@ public class HorarioServlet implements Serializable
 	private List<SelectItem> comboTurno;
 	private Boolean btRemoverEnabled = false;
 	private UnidadeEscolar unidadeEscolarSelecionada = null;
+	
+	@ManagedProperty("#{paramServlet}")
+	private ParametrosServlet paramDados;
 	
 	private List<HorarioAula> aulas;
 	
@@ -50,7 +53,6 @@ public class HorarioServlet implements Serializable
 		
 		if(horario==null) { horario = new Horario(); }
 		if(turnoDado==null) { turnoDado = new Turno(); }
-		if(parametrosServlet==null) { parametrosServlet = new ParametrosServlet(); }
 	}
 	
 	public void cadastrarHorario()
@@ -441,7 +443,7 @@ public class HorarioServlet implements Serializable
 
 	public List<SelectItem> getComboTurno() {
 		comboTurno.clear();
-		comboTurno.addAll(parametrosServlet.consultaTurno());
+		comboTurno.addAll(paramDados.getComboTurno());
 		return comboTurno;
 	}
 
@@ -471,5 +473,13 @@ public class HorarioServlet implements Serializable
 
 	public void setUnidadeEscolarSelecionada(UnidadeEscolar unidadeEscolarSelecionada) {
 		this.unidadeEscolarSelecionada = unidadeEscolarSelecionada;
+	}
+
+	public ParametrosServlet getParamDados() {
+		return paramDados;
+	}
+
+	public void setParamDados(ParametrosServlet paramDados) {
+		this.paramDados = paramDados;
 	}
 }
