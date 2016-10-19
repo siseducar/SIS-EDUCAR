@@ -15,7 +15,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
@@ -36,18 +35,13 @@ public class HorarioServlet implements Serializable
 	private String nomeUnidadeEscolar;
 	private Turno turnoDado;
 	private Horario horario;
-	private List<SelectItem> comboTurno;
 	private Boolean btRemoverEnabled = false;
 	private UnidadeEscolar unidadeEscolarSelecionada = null;
-	
-	@ManagedProperty("#{paramServlet}")
-	private ParametrosServlet paramDados;
 	
 	private List<HorarioAula> aulas;
 	
 	public HorarioServlet()
 	{
-		comboTurno = new ArrayList<SelectItem>();
 		aulas = new ArrayList<HorarioAula>();
 		btRemoverEnabled = false;
 		
@@ -385,7 +379,6 @@ public class HorarioServlet implements Serializable
 		turnoDado = new Turno();
 		codigoUnidadeEscolar = "";
 		nomeUnidadeEscolar = "";
-		comboTurno = new ArrayList<SelectItem>();
 		horario = new Horario();
 	}
 
@@ -441,16 +434,6 @@ public class HorarioServlet implements Serializable
 		this.horario = horario;
 	}
 
-	public List<SelectItem> getComboTurno() {
-		comboTurno.clear();
-		comboTurno.addAll(paramDados.getComboTurno());
-		return comboTurno;
-	}
-
-	public void setComboTurno(List<SelectItem> comboTurno) {
-		this.comboTurno = comboTurno;
-	}
-
 	public Boolean getBtRemoverEnabled() {
 		return btRemoverEnabled;
 	}
@@ -473,13 +456,5 @@ public class HorarioServlet implements Serializable
 
 	public void setUnidadeEscolarSelecionada(UnidadeEscolar unidadeEscolarSelecionada) {
 		this.unidadeEscolarSelecionada = unidadeEscolarSelecionada;
-	}
-
-	public ParametrosServlet getParamDados() {
-		return paramDados;
-	}
-
-	public void setParamDados(ParametrosServlet paramDados) {
-		this.paramDados = paramDados;
 	}
 }
