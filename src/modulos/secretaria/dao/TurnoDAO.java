@@ -35,7 +35,9 @@ public class TurnoDAO extends SisEducarDAO {
 			
 			while (rs.next()){
 				Turno paramTurno = new Turno();
-
+				
+				paramTurno.setPkTurno(rs.getInt("PKTURNO"));
+				paramTurno.setCodigo(rs.getString("CODIGO"));
 				paramTurno.setDescricao(rs.getString("DESCRICAO"));
 				paramTurno.setOrdemExibicao(rs.getInt("ORDEMEXIBICAO"));
 				

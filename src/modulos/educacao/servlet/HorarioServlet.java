@@ -9,12 +9,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
-import javax.faces.context.FacesContext;
 
 import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
@@ -22,7 +19,6 @@ import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
-import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="horarioServlet")
@@ -63,11 +59,11 @@ public class HorarioServlet implements Serializable
 				resultado = new HorarioDAO().inserirHorario(horario);
 				if(resultado)
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Horário registrado", null));
+					Logs.addInfo("Horário registrado", null);
 				}
 				else
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Horário não registrado", null));
+					Logs.addInfo("Horário não registrado", null);
 				}
 			}
 		} 
