@@ -8,13 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
-
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
-import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -108,6 +105,7 @@ public class HorarioDAO extends SisEducarDAO
 		
 		if(horario!=null)		 	{ querySQL += " AND FKHORARIO = ?"; }
 		
+		querySQL += " ORDER BY PKHORARIOAULA";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
@@ -127,6 +125,7 @@ public class HorarioDAO extends SisEducarDAO
 			horarioAula.setMinutoInicio(rs.getDouble("MINUTOINICIO"));
 			horarioAula.setHoraTermino(rs.getDouble("HORATERMINO"));
 			horarioAula.setMinutoTermino(rs.getDouble("MINUTOTERMINO"));
+			horarioAula.setTipoIntervalo(rs.getBoolean("TIPOINTERVALO"));
 			
 			horariosAula.add(horarioAula);
 		}
@@ -158,12 +157,15 @@ public class HorarioDAO extends SisEducarDAO
 			ps.setDouble(6, horario.getMinutoIntervalo());
 			ps.setDouble(7, horario.getHoraHoraAula());
 			ps.setDouble(8, horario.getMinutoHoraAula());
-			ps.setInt(9, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setInt(9, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setObject(10, horario.getUnidadeEscolar().getPkUnidadeEscolar());
 			ps.setObject(11, horario.getTurno().getPkTurno());
 			
 			ResultSet rs = ps.executeQuery();
-			horario.setPkHorario(rs.getInt("pkHorario"));
+			if(rs.next())
+			{
+				horario.setPkHorario(rs.getInt("pkHorario"));
+			}
 			
 			fecharConexaoBanco(con, ps, false, true);
 			for (HorarioAula ha : horario.getHorariosAula()) 
@@ -191,8 +193,8 @@ public class HorarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO horarioAula "
-					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, status, fkHorario) "
-					+ " values(?,?,?,?,?,?)";
+					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, status, fkHorario, tipoIntervalo) "
+					+ " values(?,?,?,?,?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -200,14 +202,104 @@ public class HorarioDAO extends SisEducarDAO
 			ps.setDouble(2, horarioAula.getMinutoInicio());
 			ps.setDouble(3, horarioAula.getHoraTermino());
 			ps.setDouble(4, horarioAula.getMinutoTermino());
-			ps.setInt(5, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setInt(5, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setDouble(6, horarioAula.getHorario().getPkHorario());
+			ps.setBoolean(7, horarioAula.getTipoIntervalo());
 			
 			fecharConexaoBanco(con, ps, false, true);
 		} 
 		catch (SQLException e) 
 		{
 			System.out.println(e);
+		}
+	}
+	
+	/**
+	 * Deleta todos os horários de aula de um horário
+	 * @author João Paulo
+	 * @param horario
+	 * @return
+	 */
+	public Boolean deletarHorariosAula(Horario horario) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE HORARIO "
+					+ " SET STATUS = ?"
+					+ " WHERE FKHORARIO = ? RETURNING STATUS";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, horario.getPkHorario());
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) 
+				{
+					fecharConexaoBanco(con, ps, false, true);
+					return true;
+				}
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Usado para editar um horário
+	 * @author João Paulo
+	 * @param horario
+	 * @return
+	 */
+	public Boolean editarHorario(Horario horario) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE HORARIO "
+					+ " SET (HORAINICIO, MINUTOINICIO, HORATERMINO, MINUTOTERMINO, HORAINTERVALO, MINUTOINTERVALO, HORAHORAAULA, MINUTOHORAAULA, FKUNIDADEESCOLAR, FKTURNO) "
+					+ " = (?,?,?,?,?,?,?,?,?,?)"
+					+ " WHERE PKHORARIO = ? RETURNING PKHORARIO";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setDouble(1, horario.getHoraInicio());
+			ps.setDouble(2, horario.getMinutoInicio());
+			ps.setDouble(3, horario.getHoraTermino());
+			ps.setDouble(4, horario.getMinutoTermino());
+			ps.setDouble(5, horario.getHoraIntervalo());
+			ps.setDouble(6, horario.getMinutoIntervalo());
+			ps.setDouble(7, horario.getHoraHoraAula());
+			ps.setDouble(8, horario.getMinutoHoraAula());
+			ps.setObject(9, horario.getUnidadeEscolar().getPkUnidadeEscolar());
+			ps.setObject(10, horario.getTurno().getPkTurno());
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				if(rs.getInt("PKHORARIO") > 0) 
+				{
+					fecharConexaoBanco(con, ps, false, true);
+					for (HorarioAula ha : horario.getHorariosAula()) 
+					{
+						ha.setHorario(horario);
+						inserirHorarioAula(ha);
+					}
+					
+					return true;
+				}
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			return false;
 		}
 	}
 }

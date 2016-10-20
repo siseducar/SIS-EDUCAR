@@ -9,6 +9,7 @@ public class HorarioAula
 	private Double horaTermino;
 	private String terminoAux;
 	private Double minutoTermino;
+	private Boolean tipoIntervalo;
 	private Integer status;
 	private Horario horario;
 	public Integer getPkHorarioAula() {
@@ -64,6 +65,12 @@ public class HorarioAula
 	}
 	public void setTerminoAux(String terminoAux) {
 		this.terminoAux = terminoAux;
+	}
+	public Boolean getTipoIntervalo() {
+		return tipoIntervalo;
+	}
+	public void setTipoIntervalo(Boolean tipoIntervalo) {
+		this.tipoIntervalo = tipoIntervalo;
 	}
 	
 }

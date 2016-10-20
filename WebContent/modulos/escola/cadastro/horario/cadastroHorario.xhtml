@@ -62,10 +62,11 @@
 								<h:outputLabel value="#{mensagens['label.cadastro.horario.turno']}"/>
 								<div>
 									<h:selectOneMenu id="codTurno"
-										class="form-control">
+										class="form-control" value="#{horarioServlet.turnoDado.pkTurno}">
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{paramServlet.comboTurno}"
 											var="turno" itemLabel="#{turno.nome}" itemValue="#{turno.pkTurno}"/>
+											<f:ajax event="change" render=":formHorario" execute="@this" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
 									</h:selectOneMenu>
 								</div>
 								<div class="space-4"></div>
