@@ -65,8 +65,8 @@
 									<h:selectOneMenu class="form-control"
 										value="#{horarioServlet.turnoDado.pkTurno}">
 										<f:selectItem itemValue="" itemLabel="Selecione..." />
-										<f:selectItems value="#{horarioServlet.comboTurno}" var="turno" itemValue="#{turno.pkturno}" itemLabel="#{turno.nome}"/>
-										<f:ajax event="change" render=":formHorario:tableAulas" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
+										<f:selectItems value="#{paramServlet.comboTurno}" var="turno" itemValue="#{turno.pkturno}" itemLabel="#{turno.nome}"/>
+										<f:ajax event="change" render=":formHorario:tableAulas" execute="@this" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
 									</h:selectOneMenu>
 								</div>
 								<div class="space-4"></div>
