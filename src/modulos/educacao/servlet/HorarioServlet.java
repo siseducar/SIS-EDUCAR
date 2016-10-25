@@ -33,7 +33,7 @@ public class HorarioServlet implements Serializable
 	private String nomeUnidadeEscolar;
 	private Turno turnoDado;
 	private Horario horario;
-	private Boolean btRemoverEnabled = false;
+	private Boolean btRemoverEnabled;
 	private UnidadeEscolar unidadeEscolarSelecionada = null;
 	
 	private List<HorarioAula> aulas;
@@ -70,7 +70,6 @@ public class HorarioServlet implements Serializable
 				
 				if(resultado)
 				{
-					limparFormulario();
 					if(horario.getPkHorario()!=null)
 					{
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O Horário foi editado com sucesso", null));
@@ -79,6 +78,7 @@ public class HorarioServlet implements Serializable
 					{
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O Horário foi salvo com sucesso", null));
 					}
+					limparFormulario();
 				}
 				else
 				{
@@ -111,6 +111,29 @@ public class HorarioServlet implements Serializable
 			}
 			
 			aulas = aulasAux;
+		}
+	}
+	
+	/**
+	 * Usado para remover o horário e suas aulas
+	 * @author João Paulo
+	 * @throws SQLException
+	 */
+	public void removerGeral() throws SQLException
+	{
+		Boolean resultado = false;
+		if(horario!=null && horario.getPkHorario()!=null)
+		{
+			resultado = new HorarioDAO().deletarHorario(horario);
+			if(resultado)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O Horário foi removido com sucesso", null));
+				limparFormulario();
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O Horário não foi removido", null));
+			}
 		}
 	}
 	
@@ -353,33 +376,9 @@ public class HorarioServlet implements Serializable
 		}
 	}
 	
-	/**
-	 * Remove apenas a aulas selecionada na tabela
-	 */
-	public void removerPermissao()
-	{
-		List<HorarioAula> listAulasAux = new ArrayList<HorarioAula>();
-		HorarioAula aulaSelecionada = null;
-		
-		if(dataTable!=null && dataTable.getRowData()!=null) { aulaSelecionada = (HorarioAula) dataTable.getRowData(); }
-		
-		if(aulaSelecionada != null && aulaSelecionada.getPkHorarioAula() != null)
-		{
-			for (HorarioAula aula : aulas) 
-			{
-				if(!aula.getPkHorarioAula().equals(aulaSelecionada.getPkHorarioAula()))
-				{
-					listAulasAux.add(aula);
-				}
-			}
-			
-			aulas = listAulasAux;
-		}
-	}
-	
 	public void pesquisarHorarios() throws SQLException
 	{
-		if(unidadeEscolarSelecionada!=null && unidadeEscolarSelecionada.getPkUnidadeEscolar()>0 && turnoDado!=null && turnoDado.getPkTurno()>0)
+		if(unidadeEscolarSelecionada!=null && unidadeEscolarSelecionada.getPkUnidadeEscolar()>0 && turnoDado!=null && turnoDado.getPkTurno()!=null)
 		{
 			Integer horaInicio = 0;
 			Integer minutoInicio = 0;
@@ -397,70 +396,13 @@ public class HorarioServlet implements Serializable
 			
 			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado);
 			
-			//Inicio
-			posicaoPonto = horario.getHoraInicio().toString().indexOf(".");
-			horaInicio = new Integer(horario.getHoraInicio().toString().substring(0, posicaoPonto));
-			posicaoPonto = horario.getMinutoInicio().toString().indexOf(".");
-			minutoInicio = new Integer(horario.getMinutoInicio().toString().substring(0, posicaoPonto));
-			
-			if(horaInicio.toString().length() == 1) 	{ inicio += "0" + horaInicio; }
-			else 										{ inicio += horaInicio; }
-			
-			if(minutoInicio.toString().length() == 1) 	{ inicio += ":0" + minutoInicio; }
-			else 										{ inicio += ":" + minutoInicio; }
-			
-			//Termino
-			posicaoPonto = horario.getHoraTermino().toString().indexOf(".");
-			horaTermino = new Integer(horario.getHoraTermino().toString().substring(0, posicaoPonto));
-			posicaoPonto = horario.getMinutoTermino().toString().indexOf(".");
-			minutoTermino = new Integer(horario.getMinutoTermino().toString().substring(0, posicaoPonto));
-			
-			if(horaTermino.toString().length() == 1) 	{ termino += "0" + horaTermino; }
-			else 										{ termino += horaTermino; }
-			
-			if(minutoTermino.toString().length() == 1) 	{ termino += ":0" + minutoTermino; }
-			else 										{ termino += ":" + minutoTermino; }
-			
-			//Intervalo
-			posicaoPonto = horario.getHoraIntervalo().toString().indexOf(".");
-			horaIntervalo = new Integer(horario.getHoraIntervalo().toString().substring(0, posicaoPonto));
-			posicaoPonto = horario.getMinutoIntervalo().toString().indexOf(".");
-			minutoIntervalo = new Integer(horario.getMinutoIntervalo().toString().substring(0, posicaoPonto));
-			
-			if(horaIntervalo.toString().length() == 1) 	{ intervalo += "0" + horaIntervalo; }
-			else 										{ intervalo += horaIntervalo; }
-			
-			if(minutoIntervalo.toString().length() == 1) 	{ intervalo += ":0" + minutoIntervalo; }
-			else 											{ intervalo += ":" + minutoIntervalo; }
-			
-			//Hora Aula
-			posicaoPonto = horario.getHoraHoraAula().toString().indexOf(".");
-			horaHoraAula = new Integer(horario.getHoraHoraAula().toString().substring(0, posicaoPonto));
-			posicaoPonto = horario.getMinutoHoraAula().toString().indexOf(".");
-			minutoHoraAula = new Integer(horario.getMinutoHoraAula().toString().substring(0, posicaoPonto));
-			
-			if(horaHoraAula.toString().length() == 1) 	{ horaAula+= "0" + horaHoraAula; }
-			else 										{ horaAula += horaHoraAula; }
-			
-			if(minutoHoraAula.toString().length() == 1) 	{ horaAula += ":0" + minutoHoraAula; }
-			else 											{ horaAula += ":" + minutoHoraAula; }
-			
-			horario.setInicioAux(inicio);
-			horario.setTerminoAux(termino);
-			horario.setIntervaloAux(intervalo);
-			horario.setHoraAulaAux(horaAula);
-			
-			aulas = horario.getHorariosAula();
-			for (HorarioAula horarioAula : aulas) 
+			if(horario!=null && horario.getPkHorario()!=null)
 			{
-				inicio = "";
-				termino = "";
-				
 				//Inicio
-				posicaoPonto = horarioAula.getHoraInicio().toString().indexOf(".");
-				horaInicio = new Integer(horarioAula.getHoraInicio().toString().substring(0, posicaoPonto));
-				posicaoPonto = horarioAula.getMinutoInicio().toString().indexOf(".");
-				minutoInicio = new Integer(horarioAula.getMinutoInicio().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getHoraInicio().toString().indexOf(".");
+				horaInicio = new Integer(horario.getHoraInicio().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getMinutoInicio().toString().indexOf(".");
+				minutoInicio = new Integer(horario.getMinutoInicio().toString().substring(0, posicaoPonto));
 				
 				if(horaInicio.toString().length() == 1) 	{ inicio += "0" + horaInicio; }
 				else 										{ inicio += horaInicio; }
@@ -469,10 +411,10 @@ public class HorarioServlet implements Serializable
 				else 										{ inicio += ":" + minutoInicio; }
 				
 				//Termino
-				posicaoPonto = horarioAula.getHoraTermino().toString().indexOf(".");
-				horaTermino = new Integer(horarioAula.getHoraTermino().toString().substring(0, posicaoPonto));
-				posicaoPonto = horarioAula.getMinutoTermino().toString().indexOf(".");
-				minutoTermino = new Integer(horarioAula.getMinutoTermino().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getHoraTermino().toString().indexOf(".");
+				horaTermino = new Integer(horario.getHoraTermino().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getMinutoTermino().toString().indexOf(".");
+				minutoTermino = new Integer(horario.getMinutoTermino().toString().substring(0, posicaoPonto));
 				
 				if(horaTermino.toString().length() == 1) 	{ termino += "0" + horaTermino; }
 				else 										{ termino += horaTermino; }
@@ -480,14 +422,78 @@ public class HorarioServlet implements Serializable
 				if(minutoTermino.toString().length() == 1) 	{ termino += ":0" + minutoTermino; }
 				else 										{ termino += ":" + minutoTermino; }
 				
-				if(horarioAula.getTipoIntervalo())
-				{
-					inicio += "(Intervalo)";
-					termino += "(Intervalo)";
-				}
+				//Intervalo
+				posicaoPonto = horario.getHoraIntervalo().toString().indexOf(".");
+				horaIntervalo = new Integer(horario.getHoraIntervalo().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getMinutoIntervalo().toString().indexOf(".");
+				minutoIntervalo = new Integer(horario.getMinutoIntervalo().toString().substring(0, posicaoPonto));
 				
-				horarioAula.setInicioAux(inicio);
-				horarioAula.setTerminoAux(termino);
+				if(horaIntervalo.toString().length() == 1) 	{ intervalo += "0" + horaIntervalo; }
+				else 										{ intervalo += horaIntervalo; }
+				
+				if(minutoIntervalo.toString().length() == 1) 	{ intervalo += ":0" + minutoIntervalo; }
+				else 											{ intervalo += ":" + minutoIntervalo; }
+				
+				//Hora Aula
+				posicaoPonto = horario.getHoraHoraAula().toString().indexOf(".");
+				horaHoraAula = new Integer(horario.getHoraHoraAula().toString().substring(0, posicaoPonto));
+				posicaoPonto = horario.getMinutoHoraAula().toString().indexOf(".");
+				minutoHoraAula = new Integer(horario.getMinutoHoraAula().toString().substring(0, posicaoPonto));
+				
+				if(horaHoraAula.toString().length() == 1) 	{ horaAula+= "0" + horaHoraAula; }
+				else 										{ horaAula += horaHoraAula; }
+				
+				if(minutoHoraAula.toString().length() == 1) 	{ horaAula += ":0" + minutoHoraAula; }
+				else 											{ horaAula += ":" + minutoHoraAula; }
+				
+				horario.setInicioAux(inicio);
+				horario.setTerminoAux(termino);
+				horario.setIntervaloAux(intervalo);
+				horario.setHoraAulaAux(horaAula);
+				
+				aulas = horario.getHorariosAula();
+				for (HorarioAula horarioAula : aulas) 
+				{
+					inicio = "";
+					termino = "";
+					
+					//Inicio
+					posicaoPonto = horarioAula.getHoraInicio().toString().indexOf(".");
+					horaInicio = new Integer(horarioAula.getHoraInicio().toString().substring(0, posicaoPonto));
+					posicaoPonto = horarioAula.getMinutoInicio().toString().indexOf(".");
+					minutoInicio = new Integer(horarioAula.getMinutoInicio().toString().substring(0, posicaoPonto));
+					
+					if(horaInicio.toString().length() == 1) 	{ inicio += "0" + horaInicio; }
+					else 										{ inicio += horaInicio; }
+					
+					if(minutoInicio.toString().length() == 1) 	{ inicio += ":0" + minutoInicio; }
+					else 										{ inicio += ":" + minutoInicio; }
+					
+					//Termino
+					posicaoPonto = horarioAula.getHoraTermino().toString().indexOf(".");
+					horaTermino = new Integer(horarioAula.getHoraTermino().toString().substring(0, posicaoPonto));
+					posicaoPonto = horarioAula.getMinutoTermino().toString().indexOf(".");
+					minutoTermino = new Integer(horarioAula.getMinutoTermino().toString().substring(0, posicaoPonto));
+					
+					if(horaTermino.toString().length() == 1) 	{ termino += "0" + horaTermino; }
+					else 										{ termino += horaTermino; }
+					
+					if(minutoTermino.toString().length() == 1) 	{ termino += ":0" + minutoTermino; }
+					else 										{ termino += ":" + minutoTermino; }
+					
+					if(horarioAula.getTipoIntervalo())
+					{
+						inicio += "(Intervalo)";
+						termino += "(Intervalo)";
+					}
+					
+					horarioAula.setInicioAux(inicio);
+					horarioAula.setTerminoAux(termino);
+				}
+			}
+			else
+			{
+				aulas = new ArrayList<HorarioAula>();
 			}
 		}
 	}

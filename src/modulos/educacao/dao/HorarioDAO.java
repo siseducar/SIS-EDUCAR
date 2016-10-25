@@ -78,6 +78,7 @@ public class HorarioDAO extends SisEducarDAO
 			horario.setMinutoIntervalo(rs.getDouble("MINUTOINTERVALO"));
 			horario.setHoraHoraAula(rs.getDouble("HORAHORAAULA"));
 			horario.setMinutoHoraAula(rs.getDouble("MINUTOHORAAULA"));
+			horario.setNome(rs.getString("NOME"));
 			horario.setTurno(turno);
 			horario.setUnidadeEscolar(unidadeEscolar);
 			
@@ -144,8 +145,8 @@ public class HorarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO horario "
-					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, horaIntervalo, minutoIntervalo, horaHoraAula, minutoHoraAula, status, fkUnidadeEscolar, fkTurno) "
-					+ " values(?,?,?,?,?,?,?,?,?,?,?) RETURNING pkHorario";
+					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, horaIntervalo, minutoIntervalo, horaHoraAula, minutoHoraAula, status, fkUnidadeEscolar, fkTurno, nome) "
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?) RETURNING pkHorario";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -160,6 +161,7 @@ public class HorarioDAO extends SisEducarDAO
 			ps.setInt(9, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setObject(10, horario.getUnidadeEscolar().getPkUnidadeEscolar());
 			ps.setObject(11, horario.getTurno().getPkTurno());
+			ps.setObject(12, horario.getNome());
 			
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
@@ -224,7 +226,7 @@ public class HorarioDAO extends SisEducarDAO
 	{
 		try 
 		{
-			String querySQL = "UPDATE HORARIO "
+			String querySQL = "UPDATE HORARIOAULA "
 					+ " SET STATUS = ?"
 					+ " WHERE FKHORARIO = ? RETURNING STATUS";
 			
@@ -252,6 +254,48 @@ public class HorarioDAO extends SisEducarDAO
 	}
 	
 	/**
+	 * Usado para deletar um horário do sistema e as aulas de horário
+	 * @param horario
+	 * @return
+	 */
+	public Boolean deletarHorario(Horario horario) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE HORARIO "
+					+ " SET STATUS = ?"
+					+ " WHERE PKHORARIO = ? RETURNING STATUS";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, horario.getPkHorario());
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) 
+				{
+					fecharConexaoBanco(con, ps, false, true);
+					
+					for (HorarioAula horarioAula : horario.getHorariosAula()) 
+					{
+						deletarHorariosAula(horario);
+					}
+					
+					return true;
+				}
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Usado para editar um horário
 	 * @author João Paulo
 	 * @param horario
@@ -262,8 +306,8 @@ public class HorarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "UPDATE HORARIO "
-					+ " SET (HORAINICIO, MINUTOINICIO, HORATERMINO, MINUTOTERMINO, HORAINTERVALO, MINUTOINTERVALO, HORAHORAAULA, MINUTOHORAAULA, FKUNIDADEESCOLAR, FKTURNO) "
-					+ " = (?,?,?,?,?,?,?,?,?,?)"
+					+ " SET (HORAINICIO, MINUTOINICIO, HORATERMINO, MINUTOTERMINO, HORAINTERVALO, MINUTOINTERVALO, HORAHORAAULA, MINUTOHORAAULA, FKUNIDADEESCOLAR, FKTURNO, NOME) "
+					+ " = (?,?,?,?,?,?,?,?,?,?,?)"
 					+ " WHERE PKHORARIO = ? RETURNING PKHORARIO";
 			
 			ps = con.prepareStatement(querySQL);
@@ -278,6 +322,8 @@ public class HorarioDAO extends SisEducarDAO
 			ps.setDouble(8, horario.getMinutoHoraAula());
 			ps.setObject(9, horario.getUnidadeEscolar().getPkUnidadeEscolar());
 			ps.setObject(10, horario.getTurno().getPkTurno());
+			ps.setObject(11, horario.getNome());
+			ps.setObject(12, horario.getPkHorario());
 			
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
