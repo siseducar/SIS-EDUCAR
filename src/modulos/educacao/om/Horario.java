@@ -8,6 +8,7 @@ import modulos.secretaria.om.UnidadeEscolar;
 public class Horario 
 {
 	private Integer pkHorario;
+	private String nome;
 	private Double horaInicio;
 	private Double minutoInicio;
 	private String inicioAux;
@@ -28,6 +29,14 @@ public class Horario
 
 	public Integer getPkHorario() {
 		return pkHorario;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public void setPkHorario(Integer pkHorario) {
