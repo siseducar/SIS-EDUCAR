@@ -23,9 +23,143 @@
 				</small>
 			</h1>
 		</div>
+		<div class="nav-search">
+			<h5 align="center">
+				<a href="#myModalPesquisar" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+					<i class="ace-icon fa fa-search bigger-150"/>
+					<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
+				</a>
+			</h5> 
+		</div>
 		
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
+				<h:form id="formPesquisar" prependId="false">
+					<!-- Modal - Busca -->
+					<div id="myModalPesquisar" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"></button>
+									<h3 class=" smaller lighter blue"> #{mensagens['label.buscar.horario']} </h3>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-xs-12 col-sm-12">
+												<output> #{mensagens['label.cadastro.nomeHorario']} </output>
+												<span class="block input-icon input-icon-right"> 
+												<h:inputText autocomplete="off"
+													type="text" class="form-control" value="#{horarioServlet.nomeHorarioPesquisar}">
+												</h:inputText>
+											</span>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12">
+											<h:outputLabel value="#{mensagens['label.cadastro.horario.turno']}"/>
+											<h:selectOneMenu
+												class="form-control" value="#{horarioServlet.turnoDadoPesquisar.pkTurno}">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<f:selectItems value="#{paramServlet.comboTurno}"
+													var="turno" itemLabel="#{turno.nome}" itemValue="#{turno.pkTurno}"/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="row">
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.horario.codigoUnidadeEscolar']}"/>
+											<div class="input-group">
+												<h:inputText styleClass="col-xs-12 col-sm-12" value="#{horarioServlet.codigoUnidadeEscolarPesquisa}" autocomplete="off">
+													<p:ajax event="change" listener="#{horarioServlet.buscarUnidadeEscolarPesquisa}" update="nomeUnidadeEscolarPesquisa"/>
+												</h:inputText>
+												<span class="input-group-addon">
+													<a href="" role="button" data-toggle="modal">
+														<i class="fa fa-search bigger-110"/>
+													</a>
+												</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-8">
+											<h:outputLabel value="#{mensagens['label.cadastro.horario.nomeUnidadeEscolar']}"/>
+											<div>
+												<h:inputText id="nomeUnidadeEscolarPesquisa" styleClass="col-xs-12 col-sm-12" value="#{horarioServlet.nomeUnidadeEscolarPesquisa}" autocomplete="off"
+													disabled="true"/>
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="space-4"></div>
+									<div class="table-responsive">
+										<h:panelGroup id="panelDataTable">
+										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{horarioServlet.dataTable}"
+						    			headerClass="order-table-header" id="tablePesquisar" value="#{horarioServlet.horariosCadastrados}" var="horario"
+						    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+							    			<h:column>
+						    					<f:facet name="header"> #{mensagens['label.cadastro.horario']} </f:facet>
+							    				<h:outputLabel value="#{horario.nome}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header"> #{mensagens['label.horario.unidadeEscolar']} </f:facet>
+							    				<h:outputLabel value="#{horario.unidadeEscolar.nome}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header"> #{mensagens['label.horario.turno']} </f:facet>
+							    				<h:outputLabel value="#{horario.turno.descricao}"/>
+							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header"> #{mensagens['label.botao.editar']} </f:facet>
+							    				<center>
+													<h:commandLink styleClass="tooltip-success">
+							    						<span class="green">
+															<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+														</span>
+														<f:ajax event="click" listener="#{horarioServlet.editarHorario}" render=":formHorario" 
+															execute=":formPesquisar" resetValues="true"/>
+													</h:commandLink>
+							    				</center>
+			 								</h:column>
+			 								
+											<f:facet name="footer">
+									            <h:panelGroup styleClass="pagination pull-right no-margin">
+									                <h:commandButton value="#{mensagens['label.botao.primeira']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTable.first == 0}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.anterior']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTable.first == 0}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.proxima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.ultima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
+									                </h:commandButton>
+									            </h:panelGroup>
+									        </f:facet>
+							    		</h:dataTable>
+										</h:panelGroup>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+										#{mensagens['label.botao.fechar']}
+									</button>
+									<h:commandLink id="btConsultar" type="submit" class="btn btn-white btn-success btn-round" rendered="#{horarioServlet.btConsultarEnabled}"> 
+										<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>	
+										<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+										<f:ajax event="click" listener="#{horarioServlet.consultar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
+									</h:commandLink>
+								</div>
+							</div>
+						</div>
+					</div><!-- FIM - Modal - Busca -->
+				</h:form>
 				<h:form id="formHorario" prependId="false">
 					<h:panelGroup id="dadosUnidadeEscolar" style="width: 100%" class="clearfix form-actions">
 						<script src="${facesContext.externalContext.requestContextPath}/modulos/escola/cadastro/horario/cadastroHorario.js"/>
@@ -212,7 +346,7 @@
 							<f:ajax event="click" render=":formHorario" resetValues="true"
 								listener="#{horarioServlet.limparFormulario}"/>
 						</h:commandLink>
-						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
+						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{horarioServlet.btCadastrarEnabled}">
 							<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"

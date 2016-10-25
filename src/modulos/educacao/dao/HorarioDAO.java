@@ -10,6 +10,8 @@ import java.util.List;
 
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
+import modulos.secretaria.dao.TurnoDAO;
+import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
@@ -38,7 +40,7 @@ public class HorarioDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException
 	 */
-	public Horario obtemHorariosPorTurno(UnidadeEscolar unidadeEscolar, Turno turno) throws SQLException
+	public Horario obtemHorariosPorTurno(UnidadeEscolar unidadeEscolar, Turno turno, Integer pkHorario) throws SQLException
 	{
 		Integer numeroArgumentos = 1;
 		Horario horario = null;
@@ -48,6 +50,7 @@ public class HorarioDAO extends SisEducarDAO
 		
 		if(unidadeEscolar!=null)		 	{ querySQL += " AND FKUNIDADEESCOLAR = ?"; }
 		if(turno!=null)						{ querySQL += " AND FKTURNO = ?"; }
+		if(pkHorario!=null)						{ querySQL += " AND PKHORARIO = ?"; }
 		
 		ps = con.prepareStatement(querySQL);
 		
@@ -64,6 +67,12 @@ public class HorarioDAO extends SisEducarDAO
 			numeroArgumentos ++; 
 			ps.setInt(numeroArgumentos, turno.getPkTurno());
 		}
+		
+		if(pkHorario!=null)
+		{
+			numeroArgumentos ++; 
+			ps.setInt(numeroArgumentos, pkHorario);
+		}
 				
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
@@ -79,13 +88,71 @@ public class HorarioDAO extends SisEducarDAO
 			horario.setHoraHoraAula(rs.getDouble("HORAHORAAULA"));
 			horario.setMinutoHoraAula(rs.getDouble("MINUTOHORAAULA"));
 			horario.setNome(rs.getString("NOME"));
-			horario.setTurno(turno);
-			horario.setUnidadeEscolar(unidadeEscolar);
+			horario.setTurno(new TurnoDAO().obtemSimples(rs.getInt("FKTURNO"), null));
+			horario.setUnidadeEscolar(new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(null, null, rs.getInt("FKUNIDADEESCOLAR")));
 			
 			horario.setHorariosAula(obtemHorariosAula(horario));
 		}
 		
 		return horario;
+	}
+	
+	/**
+	 * Busca todos os horários com status ativo no banco de dados
+	 * @author João Paulo
+	 * @param nome
+	 * @param unidadeEscolar
+	 * @param turno
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Horario> consultarSimples(String nome, UnidadeEscolar unidadeEscolar, Turno turno) throws SQLException
+	{
+		Integer numeroArgumentos = 1;
+		Horario horario = null;
+		List<Horario> horarios = new ArrayList<Horario>();
+		
+		String querySQL = "SELECT * FROM HORARIO"
+				+ " WHERE STATUS = ?";
+		
+		if(nome!=null && nome.length()>0)		 								{ querySQL += " AND UPPER(NOME) LIKE UPPER('%" + nome + "%')"; }
+		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)	{ querySQL += " AND FKUNIDADEESCOLAR = ?"; }
+		if(turno!=null && turno.getPkTurno()!=null)								{ querySQL += " AND FKTURNO = ?"; }
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(nome!=null && nome.length()>0)
+		{
+			numeroArgumentos ++; 
+			ps.setString(numeroArgumentos, nome);
+		}
+		
+		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)	
+		{ 
+			numeroArgumentos ++; 
+			ps.setInt(numeroArgumentos, unidadeEscolar.getPkUnidadeEscolar());
+		}
+		
+		if(turno!=null && turno.getPkTurno()!=null)	
+		{ 
+			numeroArgumentos ++; 
+			ps.setInt(numeroArgumentos, turno.getPkTurno());
+		}
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next())
+		{
+			horario = new Horario();
+			horario.setPkHorario(rs.getInt("PKHORARIO"));
+			horario.setNome(rs.getString("NOME"));
+			horario.setTurno(new TurnoDAO().obtemSimples(rs.getInt("FKTURNO"), null));
+			horario.setUnidadeEscolar(new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(null, null, rs.getInt("FKUNIDADEESCOLAR")));
+			
+			horarios.add(horario);
+		}
+		
+		return horarios;
 	}
 	
 	/**
