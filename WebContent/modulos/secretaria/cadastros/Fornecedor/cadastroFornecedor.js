@@ -53,7 +53,7 @@ $(function($) {
 		if ((tecla > 47 && tecla < 58)) {
 			return true;
 		} else {
-			if (tecla != 8) {				
+			if (tecla != 8) {
 				return false;
 			} else {
 				return true;
@@ -62,7 +62,6 @@ $(function($) {
 	});
 });
 
-$(function($) {
-
-
-});
+$("#contaBancoMais").click(function () {
+	  $('#infoConta').clone().insertAfter("#infoConta");
+  });

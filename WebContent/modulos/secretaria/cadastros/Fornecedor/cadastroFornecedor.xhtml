@@ -275,28 +275,34 @@
 						
 						<h:panelGroup id="dadosBancariosEmpresa" style="width: 100%" class="clearfix form-actions">
 							<h3 class="header smaller lighter blue" align="center">Dados Bancarios da Empresa</h3>
-							<div class="row">
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Banco"/>
-									<div>
-										<h:selectOneMenu id="codBanco" class="form-control">
-											<f:selectItem itemValue="" itemLabel="Selecione..."/>
-										</h:selectOneMenu>
+								<div class="row">
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Banco"/>
+										<div>
+											<h:selectOneMenu id="codBanco" class="form-control">
+												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-1">
+										<h:outputLabel value="Agência"/>
+										<div>
+											<h:inputText type="text" class="form-control numeros"/>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<h:outputLabel value="Conta Corrente"/>
+										<div>
+											<h:inputText type="text" class="form-control numeros"/>
+										</div>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-1">
-									<h:outputLabel value="Agência"/>
-									<div>
-										<h:inputText type="text" class="form-control numeros"/>
-									</div>
+								<div class="row">
+									<h:panelGroup id="listaBancaria">
+										<h:dataTable id="tabelContaBancaria">
+										</h:dataTable>
+									</h:panelGroup>
 								</div>
-								<div class="col-xs-12 col-sm-2">
-									<h:outputLabel value="Conta Corrente"/>
-									<div>
-										<h:inputText type="text" class="form-control numeros"/>
-									</div>
-								</div>
-							</div>
 						</h:panelGroup>
 						
 						<div class="col-sx-12 col-sm-6" id="default-buttons">

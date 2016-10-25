@@ -15,10 +15,26 @@ function initialize() {
 	
 	/* Ponto inicial do mapa */
 	var latlng = new google.maps.LatLng(-22.64402834, -47.05530858);
-	var latitudeAtual = -22.64402834;
-	var longitudeAtual = -47.05530858;
-	
-	carregarEndereco(latitudeAtual, longitudeAtual);
+
+	/* Verifica a atual posicao */
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position){ 
+			var latitudeAtual = position.coords.latitude;
+			var longitudeAtual = position.coords.longitude;
+			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
+			if($('#codPessoa').val() == "") {				
+				carregarEndereco(latitudeAtual, longitudeAtual);
+			}
+			
+			latlng = new google.maps.LatLng(latitudeAtual, longitudeAtual);
+		}, 
+		function(error){ // callback de erro
+			alert('Erro ao obter localização!');
+			console.log('Erro ao obter localização.', error);
+		});
+	} else {
+		console.log('Navegador não suporta Geolocalização!');
+	}
 	
 	/* Opções relacionadas ao mapa */
 	var options = {
@@ -36,6 +52,25 @@ function initialize() {
 	
 	marker.setPosition(latlng);
 };
+
+$(function() {
+	/* Verifica a atual posicao */
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position){ 
+			var latitudeAtual = position.coords.latitude;
+			var longitudeAtual = position.coords.longitude;
+			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
+			carregarEndereco(latitudeAtual, longitudeAtual);
+			
+		}, 
+		function(error){ // callback de erro
+			alert('Erro ao obter localização!');
+			console.log('Erro ao obter localização.', error);
+		});
+	} else {
+		console.log('Navegador não suporta Geolocalização!');
+	}
+});
 
 $(document).ready(function () {
 	initialize();
@@ -127,7 +162,7 @@ function carregarEndereco(latitude,longitude) {
 					if(data.results[i].address_components[j].types == 'route'){
 						document.getElementById('nomeLogradouro').value = data.results[i].address_components[j].long_name; 
 					}
-					if(data.results[i].address_components[j].types == 'sublocality_level_1,sublocality,political'){
+					if( (data.results[i].address_components[j].types == 'political','sublocality','sublocality_level_1') ){
 						document.getElementById('codBairro').value = data.results[i].address_components[j].long_name; 
 					}
 					
