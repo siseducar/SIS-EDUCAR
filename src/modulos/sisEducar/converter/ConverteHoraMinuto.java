@@ -20,12 +20,22 @@ public class ConverteHoraMinuto implements Converter {
 	  public String getAsString(FacesContext context, UIComponent component,
 	            Object value) {
 			String horaMinuto = value.toString();
-			if( horaMinuto != null && horaMinuto.length() == 4) {
-				horaMinuto = horaMinuto.substring(0,2) + ":" + horaMinuto.substring(2,4);
-			} else {
-				horaMinuto = null;
+			if(horaMinuto != null) 
+			{
+				if(horaMinuto.length() == 4)
+				{
+					horaMinuto = horaMinuto.substring(0,2) + ":" + horaMinuto.substring(2,4);
+				}
+				else if(horaMinuto.length() == 5)
+				{
+					return horaMinuto;
+				}
+				else 
+				{
+					return null;
+				}
 			}
 			
-			return horaMinuto;
+			return null;
 	   }    
 }
