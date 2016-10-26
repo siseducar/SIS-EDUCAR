@@ -71,8 +71,8 @@
 										styleClass="col-xs-12 col-sm-12 cpf form-control"
 										value="#{pessoaServlet.pessoaDados.cpf}" autocomplete="off"
 										disabled="#{pessoaServlet.campoCPF}">
-										<f:validator validatorId="validar.CpfValidator"/>
-										<f:converter converterId="converter.CPF"/>
+										<f:validator validatorId="valida.cpf"/>
+										<f:converter converterId="converte.cpf"/>
 										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.verificaCadastro}" 
 											render="@this" resetValues="true"/>
 									</h:inputText>
@@ -86,7 +86,7 @@
 										styleClass="col-xs-12 col-sm-12 rg form-control"
 										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off"
 										disabled="#{pessoaServlet.campoRG}">
-										<f:converter converterId="converter.RG"/>
+										<f:converter converterId="converte.rg"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 										styleClass="col-xs-12 col-sm-12 calendario form-control"
 										value="#{pessoaServlet.pessoaDados.dataNascimento}" autocomplete="off"
 										disabled="#{pessoaServlet.desabilitaCampos}">
-										<f:converter converterId="converter.DATA"/>
+										<f:converter converterId="converte.data"/>
 										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.calculaIdade}"
 											render="dataNasci dadosResponsavel" resetValues="true"/>
 									</h:inputText>
@@ -235,8 +235,8 @@
 											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfMae}" autocomplete="off"
 											disabled="#{pessoaServlet.desabilitaCampos}">
-											<f:validator validatorId="validar.CpfValidator"/>
-											<f:converter converterId="converter.CPF"/>
+											<f:validator validatorId="valida.cpf"/>
+											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeMae}"
 												render="nomeMae @this" resetValues="true"/>
 										</h:inputText>
@@ -264,8 +264,8 @@
 											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfPai}" autocomplete="off"
 											disabled="#{pessoaServlet.desabilitaCampos}">
-											<f:validator validatorId="validar.CpfValidator"/>
-											<f:converter converterId="converter.CPF"/>
+											<f:validator validatorId="valida.cpf"/>
+											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomePai}"
 												render="nomePai @this" resetValues="true"/>
 										</h:inputText>
@@ -293,8 +293,8 @@
 										<h:inputText type="text" id="numCpfResponsavel"
 											class="col-xs-12 col-sm-12 cpf form-control"
 											value="#{pessoaServlet.pessoaDados.cpfResponsavel}" autocomplete="off">
-											<f:validator validatorId="validar.CpfValidator"/>
-											<f:converter converterId="converter.CPF"/>
+											<f:validator validatorId="valida.cpf"/>
+											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeResponsavel}"
 												render="nomeResponsavel @this" resetValues="true"/>
 										</h:inputText>
@@ -389,7 +389,7 @@
 										<h:inputText
 											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep"
 											value="#{pessoaServlet.enderecoDados.cep}" autocomplete="off">
-											<f:converter converterId="converter.CEP"/>
+											<f:converter converterId="converte.cep"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -474,7 +474,7 @@
 										<h:inputText type="number" id="numTelefone"
 											styleClass="col-xs-12 col-sm-12 telResidencial form-control"
 											value="#{pessoaServlet.contatoDados.telResidencial}" autocomplete="off">
-											<f:converter converterId="converter.TELRESIDENCIAL"/>
+											<f:converter converterId="converte.telresidencial"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -484,7 +484,7 @@
 										<h:inputText type="number" id="numCelular"
 											styleClass="col-xs-12 col-sm-12 telCelular form-control"
 											value="#{pessoaServlet.contatoDados.telCelular}" autocomplete="off">
-											<f:converter converterId="converter.TELCELULAR"/>
+											<f:converter converterId="converte.telcelular"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -493,7 +493,9 @@
 									<div>
 										<h:inputText type="text" id="email"
 											styleClass="col-xs-12 col-sm-12 form-control"
-											value="#{pessoaServlet.contatoDados.email}" autocomplete="off"/>
+											value="#{pessoaServlet.contatoDados.email}" autocomplete="off">
+											<f:validator validatorId="valida.email"/>
+										</h:inputText>
 									</div>
 								</div>
 							</div>
@@ -547,8 +549,8 @@
 					    					<div>
 						    					<h:inputText type="text" id="numCpfConsulta" value="#{pessoaServlet.pessoaDadosConsulta.cpf}"
 													styleClass="col-xs-12 col-sm-12 cpf" title="Numero do CPF" autocomplete="off">
-													<f:validator validatorId="validar.CpfValidator"/>
-													<f:converter converterId="converter.CPF"/>
+													<f:validator validatorId="valida.cpf"/>
+													<f:converter converterId="converte.cpf"/>
 												</h:inputText>
 					    					</div>
 					    				</div>
@@ -557,7 +559,7 @@
 											<div>
 												<h:inputText type="text" id="numRgConsulta" value="#{pessoaServlet.pessoaDadosConsulta.rg}"
 													styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG" autocomplete="off">
-													<f:converter converterId="converter.RG"/>
+													<f:converter converterId="converte.rg"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -566,7 +568,7 @@
 											<div>
 												<h:inputText type="date" id="dataNasciConsulta" value="#{pessoaServlet.pessoaDadosConsulta.dataNascimento}"
 													styleClass="col-xs-10 col-sm-12 calendario" title="Data de Nascimento" autocomplete="off">
-													<f:converter converterId="converter.DATA"/>
+													<f:converter converterId="converte.data"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -588,7 +590,7 @@
 								    					<f:facet name="header"> #{mensagens['label.dat.nasci']} </f:facet>
 								    				</center>
 								    				<h:outputLabel value="#{pessoa.dataNascimento}">
-								    					<f:converter converterId="converter.DATA"/>
+								    					<f:converter converterId="converte.data"/>
 								    				</h:outputLabel>
 								    			</h:column>
 								    			<h:column>
@@ -665,7 +667,6 @@
 						    					<div>
 						    						<h:inputText type="text" id="nomePessoaResponsavel" class="col-xs-12 col-sm-12" autocomplete="off"
 						    							value="#{pessoaServlet.pessoaDadosConsulta.nome}"/>
-						    						<h:inputHidden id="tipoGenero" value="#{pessoaServlet.generoConsulta}"/>
 						    					</div>
 						    				</div>
 						    			</div>
@@ -686,7 +687,7 @@
 									    					<f:facet name="header"> #{mensagens['label.dat.nasci']} </f:facet>
 									    				</center>
 									    				<h:outputLabel value="#{pessoa.dataNascimento}">
-									    					<f:converter converterId="converter.DATA"/>
+									    					<f:converter converterId="converte.data"/>
 									    				</h:outputLabel>
 									    			</h:column>
 									    			<h:column>
@@ -769,24 +770,6 @@
 						    </div>
 					    </div>
 				    </div>
-				</div>
-			</div>
-			<div class="row">
-				<div id="modal-form" class="modal" tabindex="-1" aria-hidden="false">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h4 class="blue bigger">Please fill the following form fields</h4>
-							</div>
-	
-							<div class="modal-body">
-							</div>
-	
-							<div class="modal-footer">
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

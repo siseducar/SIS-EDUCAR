@@ -116,8 +116,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* Componente para validar idade da pessoa */
 	private Boolean panelMenorIdade;
-		
-	private String generoConsulta;
 	
 	/* Metodo Construtor */
 	public PessoaServlet() throws SQLException {
@@ -620,7 +618,7 @@ public class PessoaServlet implements Serializable{
 						pessoaDadosConsulta.getCpf(), 
 						pessoaDadosConsulta.getRg(), 
 						pessoaDadosConsulta.getDataNascimento(),
-						generoConsulta);
+						"masculino");
 	}
 	
 	public void limparListaResponsavel() {
@@ -1104,14 +1102,6 @@ public class PessoaServlet implements Serializable{
 
 	public void setListaConsultaResponsavel(List<Pessoa> listaConsultaResponsavel) {
 		this.listaConsultaResponsavel = listaConsultaResponsavel;
-	}
-
-	public String getGeneroConsulta() {
-		return generoConsulta;
-	}
-
-	public void setGeneroConsulta(String generoConsulta) {
-		this.generoConsulta = generoConsulta;
 	}
 
 	public ParametrosServlet getParamDados() {

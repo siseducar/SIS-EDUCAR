@@ -22,9 +22,7 @@ function initialize() {
 			var latitudeAtual = position.coords.latitude;
 			var longitudeAtual = position.coords.longitude;
 			marker.setPosition(new google.maps.LatLng(latitudeAtual, longitudeAtual));
-			if($('#codPessoa').val() == "") {				
-				carregarEndereco(latitudeAtual, longitudeAtual);
-			}
+			carregarEndereco(latitudeAtual, longitudeAtual);
 			
 			latlng = new google.maps.LatLng(latitudeAtual, longitudeAtual);
 		}, 
@@ -162,7 +160,7 @@ function carregarEndereco(latitude,longitude) {
 					if(data.results[i].address_components[j].types == 'route'){
 						document.getElementById('nomeLogradouro').value = data.results[i].address_components[j].long_name; 
 					}
-					if( (data.results[i].address_components[j].types == 'political','sublocality','sublocality_level_1') ){
+					if( (data.results[i].address_components[j].types == 'political') ){
 						document.getElementById('codBairro').value = data.results[i].address_components[j].long_name; 
 					}
 					

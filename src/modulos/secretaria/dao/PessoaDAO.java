@@ -341,12 +341,17 @@ public class PessoaDAO extends SisEducarDAO
 		
 		return pessoa;
 	}
-	
+
+	/**
+	 * Retorna os dados completos do cadastro para alteração
+	 * @author Michael
+	 * @return Pessoa pessoaDados
+	 */
 	public Pessoa consultaCadastroPessoa(Integer pkPessoa) {
 		
 		try { 
 			
-			String querySQL = "SELECT * FROM PESSOA "
+			String querySQL = "SELECT * FROM Pessoa "
 					+ " WHERE STATUS = ? AND PKPESSOA = ? ";
 			
 			ps = con.prepareStatement(querySQL);
@@ -408,14 +413,16 @@ public class PessoaDAO extends SisEducarDAO
 		 return null;
 	}
 	
-	/*
-	 * Metodo responsavel por validar responsavel existente
-	 * */
+	/**
+	 * Retorna os dados (Nome) do responsavel
+	 * @author Michael
+	 * @return String nomePessoa
+	 */
 	public String consultaNomeResponsavel(Long cpf, String sexo){
 		try {
 			
 			String nomePessoa = null;
-			String querySQL = "SELECT NOME FROM PESSOA WHERE CPF = ? ";
+			String querySQL = "SELECT NOME FROM Pessoa WHERE CPF = ? ";
 			
 			if(sexo != null && !sexo.equals("")) {
 				querySQL+= " AND SEXO = ?";
@@ -442,9 +449,11 @@ public class PessoaDAO extends SisEducarDAO
 		return null;
 	}
 	
-	/*
-	 * Metodo responsavel por validar responsavel existente
-	 * */
+	/**
+	 * Retorna uma lista de Responsaveis da pessoa menor de idade
+	 * @author Michael
+	 * @return Lista Pessoa
+	 */
 	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci, String sexo) {
 		try {
 			Integer numeroArgumentos = 1;
@@ -515,6 +524,11 @@ public class PessoaDAO extends SisEducarDAO
 		}
 	}
 	
+	/**
+	 * Delete de um cadastro, atualiza o status do banco para desabilitado
+	 * @author Michael
+	 * @return Boolean
+	 */
 	public Boolean deletarPessoa(Integer pkPessoa) {
 		try {
 			String querySQL = "UPDATE PESSOA "
@@ -542,5 +556,32 @@ public class PessoaDAO extends SisEducarDAO
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Consulta os dados de menor para valiadr se ja existe cadastro
+	 * @author Michael
+	 * @return Boolean
+	 */
+	public Boolean validaMenorIdade(Pessoa pessoaDados){
+		try {
+			String querySQL = " SELECT * FROM PESSOA "
+					+ " WHERE STATUS = ? "
+					+ " AND DATANASCIMENTO = ? "
+					+ " AND SEXO = ? "
+					+ " ";
+			if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0 ) {
+				querySQL+= " AND CPFMAE = ?";
+			}
+			if(pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ) {
+				querySQL+= " AND CPFPAI = ?";
+			}
+			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0 ) {
+				querySQL+= " AND CPFRESPONSAVEL = ?";
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 }
