@@ -15,12 +15,19 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
+import modulos.secretaria.om.Permissao;
+import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
+import modulos.secretaria.utils.ConstantesSecretaria;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="horarioServlet")
@@ -30,21 +37,66 @@ public class HorarioServlet implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private String codigoUnidadeEscolar;
+	private String codigoUnidadeEscolarPesquisa;
 	private String nomeUnidadeEscolar;
+	private String nomeUnidadeEscolarPesquisa;
+	private String nomeHorarioPesquisar;
+	private Turno turnoDadoPesquisar = null;
+	private UnidadeEscolar unidadeEscolarPesquisar = null;
 	private Turno turnoDado;
 	private Horario horario;
-	private Boolean btRemoverEnabled;
 	private UnidadeEscolar unidadeEscolarSelecionada = null;
-	
+	private List<Horario> horariosCadastrados;
 	private List<HorarioAula> aulas;
+	Usuario usuarioLogado = null;
+	private Boolean btRemoverEnabled;
+	private Boolean btCadastrarEnabled;
+	private Boolean btConsultarEnabled;
+	Boolean temPermissaoCadastrar = false;
+	Boolean temPermissaoExcluir = false;
+	Boolean temPermissaoConsultar = false;
 	
 	public HorarioServlet()
 	{
 		aulas = new ArrayList<HorarioAula>();
 		btRemoverEnabled = false;
+		btCadastrarEnabled = false;
+		btConsultarEnabled = false;
 		
+		if(turnoDadoPesquisar==null) { turnoDadoPesquisar = new Turno(); }
+		if(unidadeEscolarPesquisar==null) { unidadeEscolarPesquisar = new UnidadeEscolar(); }
 		if(horario==null) { horario = new Horario(); }
 		if(turnoDado==null) { turnoDado = new Turno(); }
+		if(usuarioLogado==null)
+		{
+			usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+			validarPermissoes();
+			if(temPermissaoCadastrar) { setBtCadastrarEnabled(true); }
+			if(temPermissaoConsultar) { setBtConsultarEnabled(true); }
+		}
+	}
+	
+	public void validarPermissoes()
+	{
+		//validar permissão
+		for (Permissao permissao : usuarioLogado.getPermissoes()) 
+		{
+			if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_EXCLUIR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO))
+			{
+				temPermissaoExcluir = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CADASTRAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO))
+			{
+				temPermissaoCadastrar = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CONSULTAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO))
+			{
+				temPermissaoConsultar = true;
+			}
+		}
 	}
 	
 	public void cadastrarHorario()
@@ -89,6 +141,146 @@ public class HorarioServlet implements Serializable
 		catch (Exception e) 
 		{
 			Logs.addError("cadastrarHorario", "cadastrarHorario");
+		}
+		
+	}
+	
+	public void editarHorario()
+	{
+		try 
+		{
+			Integer horaInicio = 0;
+			Integer minutoInicio = 0;
+			Integer horaTermino = 0;
+			Integer minutoTermino = 0;
+			Integer horaIntervalo = 0;
+			Integer minutoIntervalo = 0;
+			Integer horaHoraAula = 0;
+			Integer minutoHoraAula = 0;
+			Integer posicaoPonto = -1;
+			String inicio = "";
+			String termino = "";
+			String intervalo = "";
+			String horaAula = "";
+			Horario horarioSelecionado = (Horario) dataTable.getRowData();
+			
+			horario = new Horario();
+			aulas = new ArrayList<HorarioAula>();
+			
+			if(horarioSelecionado != null && horarioSelecionado.getPkHorario() != null)
+			{
+				horario = new HorarioDAO().obtemHorariosPorTurno(null, null, horarioSelecionado.getPkHorario());
+				unidadeEscolarSelecionada = horario.getUnidadeEscolar();
+				codigoUnidadeEscolar = unidadeEscolarSelecionada.getCodigo();
+				nomeUnidadeEscolar = unidadeEscolarSelecionada.getNome();
+				turnoDado = horario.getTurno();
+				if(horario!=null && horario.getPkHorario()!=null)
+				{
+					//Inicio
+					posicaoPonto = horario.getHoraInicio().toString().indexOf(".");
+					horaInicio = new Integer(horario.getHoraInicio().toString().substring(0, posicaoPonto));
+					posicaoPonto = horario.getMinutoInicio().toString().indexOf(".");
+					minutoInicio = new Integer(horario.getMinutoInicio().toString().substring(0, posicaoPonto));
+					
+					if(horaInicio.toString().length() == 1) 	{ inicio += "0" + horaInicio; }
+					else 										{ inicio += horaInicio; }
+					
+					if(minutoInicio.toString().length() == 1) 	{ inicio += ":0" + minutoInicio; }
+					else 										{ inicio += ":" + minutoInicio; }
+					
+					//Termino
+					posicaoPonto = horario.getHoraTermino().toString().indexOf(".");
+					horaTermino = new Integer(horario.getHoraTermino().toString().substring(0, posicaoPonto));
+					posicaoPonto = horario.getMinutoTermino().toString().indexOf(".");
+					minutoTermino = new Integer(horario.getMinutoTermino().toString().substring(0, posicaoPonto));
+					
+					if(horaTermino.toString().length() == 1) 	{ termino += "0" + horaTermino; }
+					else 										{ termino += horaTermino; }
+					
+					if(minutoTermino.toString().length() == 1) 	{ termino += ":0" + minutoTermino; }
+					else 										{ termino += ":" + minutoTermino; }
+					
+					//Intervalo
+					posicaoPonto = horario.getHoraIntervalo().toString().indexOf(".");
+					horaIntervalo = new Integer(horario.getHoraIntervalo().toString().substring(0, posicaoPonto));
+					posicaoPonto = horario.getMinutoIntervalo().toString().indexOf(".");
+					minutoIntervalo = new Integer(horario.getMinutoIntervalo().toString().substring(0, posicaoPonto));
+					
+					if(horaIntervalo.toString().length() == 1) 	{ intervalo += "0" + horaIntervalo; }
+					else 										{ intervalo += horaIntervalo; }
+					
+					if(minutoIntervalo.toString().length() == 1) 	{ intervalo += ":0" + minutoIntervalo; }
+					else 											{ intervalo += ":" + minutoIntervalo; }
+					
+					//Hora Aula
+					posicaoPonto = horario.getHoraHoraAula().toString().indexOf(".");
+					horaHoraAula = new Integer(horario.getHoraHoraAula().toString().substring(0, posicaoPonto));
+					posicaoPonto = horario.getMinutoHoraAula().toString().indexOf(".");
+					minutoHoraAula = new Integer(horario.getMinutoHoraAula().toString().substring(0, posicaoPonto));
+					
+					if(horaHoraAula.toString().length() == 1) 	{ horaAula+= "0" + horaHoraAula; }
+					else 										{ horaAula += horaHoraAula; }
+					
+					if(minutoHoraAula.toString().length() == 1) 	{ horaAula += ":0" + minutoHoraAula; }
+					else 											{ horaAula += ":" + minutoHoraAula; }
+					
+					horario.setInicioAux(inicio);
+					horario.setTerminoAux(termino);
+					horario.setIntervaloAux(intervalo);
+					horario.setHoraAulaAux(horaAula);
+					
+					aulas = horario.getHorariosAula();
+					for (HorarioAula horarioAula : aulas) 
+					{
+						inicio = "";
+						termino = "";
+						
+						//Inicio
+						posicaoPonto = horarioAula.getHoraInicio().toString().indexOf(".");
+						horaInicio = new Integer(horarioAula.getHoraInicio().toString().substring(0, posicaoPonto));
+						posicaoPonto = horarioAula.getMinutoInicio().toString().indexOf(".");
+						minutoInicio = new Integer(horarioAula.getMinutoInicio().toString().substring(0, posicaoPonto));
+						
+						if(horaInicio.toString().length() == 1) 	{ inicio += "0" + horaInicio; }
+						else 										{ inicio += horaInicio; }
+						
+						if(minutoInicio.toString().length() == 1) 	{ inicio += ":0" + minutoInicio; }
+						else 										{ inicio += ":" + minutoInicio; }
+						
+						//Termino
+						posicaoPonto = horarioAula.getHoraTermino().toString().indexOf(".");
+						horaTermino = new Integer(horarioAula.getHoraTermino().toString().substring(0, posicaoPonto));
+						posicaoPonto = horarioAula.getMinutoTermino().toString().indexOf(".");
+						minutoTermino = new Integer(horarioAula.getMinutoTermino().toString().substring(0, posicaoPonto));
+						
+						if(horaTermino.toString().length() == 1) 	{ termino += "0" + horaTermino; }
+						else 										{ termino += horaTermino; }
+						
+						if(minutoTermino.toString().length() == 1) 	{ termino += ":0" + minutoTermino; }
+						else 										{ termino += ":" + minutoTermino; }
+						
+						if(horarioAula.getTipoIntervalo())
+						{
+							inicio += "(Intervalo)";
+							termino += "(Intervalo)";
+						}
+						
+						horarioAula.setInicioAux(inicio);
+						horarioAula.setTerminoAux(termino);
+					}
+				}
+				else
+				{
+					aulas = new ArrayList<HorarioAula>();
+				}
+				
+				//validar permissão excluir
+				if(temPermissaoExcluir) { btRemoverEnabled = true; }
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("editarHorario", "editarHorario");
 		}
 		
 	}
@@ -321,7 +513,7 @@ public class HorarioServlet implements Serializable
 		{
 			if(codigoUnidadeEscolar!=null && codigoUnidadeEscolar.length()>0)
 			{
-				UnidadeEscolar unidadeEscolar = new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(codigoUnidadeEscolar, null);
+				UnidadeEscolar unidadeEscolar = new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(codigoUnidadeEscolar, null, null);
 				if(unidadeEscolar!=null)
 				{
 					unidadeEscolarSelecionada = unidadeEscolar;
@@ -332,6 +524,26 @@ public class HorarioServlet implements Serializable
 		catch (Exception e) 
 		{
 			Logs.addError("buscarUnidadeEscolar", "buscarUnidadeEscolar");
+		}
+	}
+	
+	public void buscarUnidadeEscolarPesquisa()
+	{
+		try
+		{
+			if(codigoUnidadeEscolarPesquisa!=null && codigoUnidadeEscolarPesquisa.length()>0)
+			{
+				UnidadeEscolar unidadeEscolar = new UnidadeEscolarDAO().buscarUnidadeEscolarSimples(codigoUnidadeEscolarPesquisa, null, null);
+				if(unidadeEscolar!=null)
+				{
+					unidadeEscolarPesquisar = unidadeEscolar;
+					nomeUnidadeEscolarPesquisa = unidadeEscolar.getNome();
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("buscarUnidadeEscolarPesquisa", "buscarUnidadeEscolarPesquisa");
 		}
 	}
 	
@@ -376,6 +588,18 @@ public class HorarioServlet implements Serializable
 		}
 	}
 	
+	public void consultar()
+	{
+		try 
+		{
+			horariosCadastrados = new HorarioDAO().consultarSimples(nomeHorarioPesquisar, unidadeEscolarPesquisar, turnoDado);
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("consultar", "consultar");
+		}
+	}
+	
 	public void pesquisarHorarios() throws SQLException
 	{
 		if(unidadeEscolarSelecionada!=null && unidadeEscolarSelecionada.getPkUnidadeEscolar()>0 && turnoDado!=null && turnoDado.getPkTurno()!=null)
@@ -394,7 +618,7 @@ public class HorarioServlet implements Serializable
 			String intervalo = "";
 			String horaAula = "";
 			
-			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado);
+			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado, null);
 			
 			if(horario!=null && horario.getPkHorario()!=null)
 			{
@@ -531,6 +755,38 @@ public class HorarioServlet implements Serializable
 		this.dataTableAulas = dataTableAulas;
 	}
 	
+	public void pageFirst() {
+        dataTable.setFirst(0);
+    }
+
+    public void pagePrevious() {
+        dataTable.setFirst(dataTable.getFirst() - dataTable.getRows());
+    }
+
+    public void pageNext() {
+        dataTable.setFirst(dataTable.getFirst() + dataTable.getRows());
+    }
+
+    public void pageLast() {
+        int count = dataTable.getRowCount();
+        int rows = dataTable.getRows();
+        dataTable.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
+	
+    public int getCurrentPage() {
+        int rows = dataTable.getRows();
+        int first = dataTable.getFirst();
+        int count = dataTable.getRowCount();
+        return (count / rows) - ((count - first) / rows) + 1;
+    }
+
+    public int getTotalPages() {
+        int rows = dataTable.getRows();
+        int count = dataTable.getRowCount();
+        return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
+
+	
 	/* GETTERS AND SETTERS */
 	public String getCodigoUnidadeEscolar() {
 		return codigoUnidadeEscolar;
@@ -586,5 +842,69 @@ public class HorarioServlet implements Serializable
 
 	public void setUnidadeEscolarSelecionada(UnidadeEscolar unidadeEscolarSelecionada) {
 		this.unidadeEscolarSelecionada = unidadeEscolarSelecionada;
+	}
+
+	public List<Horario> getHorariosCadastrados() {
+		return horariosCadastrados;
+	}
+
+	public void setHorariosCadastrados(List<Horario> horariosCadastrados) {
+		this.horariosCadastrados = horariosCadastrados;
+	}
+
+	public String getNomeHorarioPesquisar() {
+		return nomeHorarioPesquisar;
+	}
+
+	public void setNomeHorarioPesquisar(String nomeHorarioPesquisar) {
+		this.nomeHorarioPesquisar = nomeHorarioPesquisar;
+	}
+
+	public Turno getTurnoDadoPesquisar() {
+		return turnoDadoPesquisar;
+	}
+
+	public void setTurnoDadoPesquisar(Turno turnoDadoPesquisar) {
+		this.turnoDadoPesquisar = turnoDadoPesquisar;
+	}
+
+	public UnidadeEscolar getUnidadeEscolarPesquisar() {
+		return unidadeEscolarPesquisar;
+	}
+
+	public void setUnidadeEscolarPesquisar(UnidadeEscolar unidadeEscolarPesquisar) {
+		this.unidadeEscolarPesquisar = unidadeEscolarPesquisar;
+	}
+
+	public String getCodigoUnidadeEscolarPesquisa() {
+		return codigoUnidadeEscolarPesquisa;
+	}
+
+	public void setCodigoUnidadeEscolarPesquisa(String codigoUnidadeEscolarPesquisa) {
+		this.codigoUnidadeEscolarPesquisa = codigoUnidadeEscolarPesquisa;
+	}
+
+	public String getNomeUnidadeEscolarPesquisa() {
+		return nomeUnidadeEscolarPesquisa;
+	}
+
+	public void setNomeUnidadeEscolarPesquisa(String nomeUnidadeEscolarPesquisa) {
+		this.nomeUnidadeEscolarPesquisa = nomeUnidadeEscolarPesquisa;
+	}
+
+	public Boolean getBtCadastrarEnabled() {
+		return btCadastrarEnabled;
+	}
+
+	public void setBtCadastrarEnabled(Boolean btCadastrarEnabled) {
+		this.btCadastrarEnabled = btCadastrarEnabled;
+	}
+
+	public Boolean getBtConsultarEnabled() {
+		return btConsultarEnabled;
+	}
+
+	public void setBtConsultarEnabled(Boolean btConsultarEnabled) {
+		this.btConsultarEnabled = btConsultarEnabled;
 	}
 }

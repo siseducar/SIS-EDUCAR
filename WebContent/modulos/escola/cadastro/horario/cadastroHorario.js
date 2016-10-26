@@ -13,6 +13,19 @@ $(function carregaElementos() {
 });
 
 /**
+ * Usado para esconder a modal pesquisar da tela de cadastro de usuário
+ * @author João Paulo
+ * @param data
+ */
+function esconderModalPesquisar(data)
+{
+	if(data.status=="success")
+	{
+		$('#myModalPesquisar').modal('hide');
+	}
+}
+
+/**
  * Usado para mostrar a modal remover todas as aulas da tela de cadastro de horario
  * @author João Paulo
  * @param data

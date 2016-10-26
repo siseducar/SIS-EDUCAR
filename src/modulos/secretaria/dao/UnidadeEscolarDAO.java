@@ -421,7 +421,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	 * @param nome
 	 * @return
 	 */
-	public UnidadeEscolar buscarUnidadeEscolarSimples(String codigo, String nome)
+	public UnidadeEscolar buscarUnidadeEscolarSimples(String codigo, String nome, Integer pkUnidadeEscolar)
 	{
 		try 
 		{
@@ -440,6 +440,10 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				querySQL+= " AND u.nome like ?";
 			}
+			if(pkUnidadeEscolar!=null)
+			{
+				querySQL+= " AND u.pkunidadeescolar = ?";
+			}
 			
 			querySQL+= " ORDER BY codigo";
 			ps = con.prepareStatement(querySQL);
@@ -454,6 +458,11 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			if(nome!=null && nome.length() >0)
 			{
 				ps.setObject(numeroArqumentos, "%" + nome + "%");
+				numeroArqumentos ++;
+			}
+			if(pkUnidadeEscolar!=null)
+			{
+				ps.setInt(numeroArqumentos, pkUnidadeEscolar);
 				numeroArqumentos ++;
 			}
 			
