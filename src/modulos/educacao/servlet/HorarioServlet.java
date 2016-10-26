@@ -732,6 +732,7 @@ public class HorarioServlet implements Serializable
 		unidadeEscolarSelecionada = new UnidadeEscolar();
 		codigoUnidadeEscolar = "";
 		nomeUnidadeEscolar = "";
+		btRemoverEnabled = false;
 		horario = new Horario();
 		aulas = new ArrayList<HorarioAula>();
 	}

@@ -117,7 +117,7 @@
 															<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 														</span>
 														<f:ajax event="click" listener="#{horarioServlet.editarHorario}" render=":formHorario" 
-															execute=":formPesquisar" resetValues="true"/>
+															execute=":formPesquisar" resetValues="true" onevent="function(data) { esconderModalPesquisar(data) }"/>
 													</h:commandLink>
 							    				</center>
 			 								</h:column>
