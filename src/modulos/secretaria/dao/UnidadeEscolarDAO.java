@@ -520,6 +520,42 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			System.out.println(e);
 			return quantidadeAluno;
 		}
-		
+	}
+	
+	/**
+	 * Usado para remover uma unidade escolar do banco de dados
+	 * @author João Paulo
+	 * @param unidadeEscolar
+	 * @return
+	 */
+	public Boolean remover(UnidadeEscolar unidadeEscolar) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE UNIDADEESCOLAR "
+					+ " SET STATUS = ?"
+					+ " WHERE PKUNIDADEESCOLAR = ? RETURNING STATUS";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, unidadeEscolar.getPkUnidadeEscolar());
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) 
+				{
+					fecharConexaoBanco(con, ps, false, true);
+					return true;
+				}
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{
+			return false;
+		}
 	}
 }

@@ -140,7 +140,7 @@
 											<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
 												Fechar
 											</button>
-											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+											<h:commandLink type="submit" class="btn btn-white btn-success btn-round" rendered="#{unidadeEscolarServlet.btConsultarEnabled}"> 
 												<span class="bigger-110">Pesquisar</span>	
 												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 												<f:ajax event="click" listener="#{unidadeEscolarServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
@@ -194,7 +194,7 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
-									<h:outputLabel value="#{mensagens['label.cadastro.aluno.rede.ensino']}"/>
+									<h:outputLabel value="#{mensagens['label.rede.ensino']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codRedeEnsino" required="true"
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.redeEnsino']}"
@@ -237,7 +237,7 @@
 								<div id="conteudoEndereco">
 									<h3 class="header smaller lighter blue">Endereço/Contato</h3>
 										<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.pais']}"/>
+											<h:outputLabel value="#{mensagens['label.pais']}"/>
 											<div>
 												<h:selectOneMenu id="codPais"
 													required="true"
@@ -252,7 +252,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.estado']}"/>
+											<h:outputLabel value="#{mensagens['label.estado']}"/>
 											<div>
 												<h:selectOneMenu id="codEstado"
 													required="true"
@@ -267,7 +267,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.municipio']}"/>
+											<h:outputLabel value="#{mensagens['label.municipio']}"/>
 											<div>
 												<h:selectOneMenu id="codCidade"
 													required="true"
@@ -282,7 +282,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.cep']}"/>
+											<h:outputLabel value="#{mensagens['label.cep']}"/>
 											<div>
 												<h:inputText styleClass="col-sm-12 cep" id="numCep" autocomplete="off" title="Numero do CEP" value="#{unidadeEscolarServlet.enderecoDado.cep}">
 													<f:converter converterId="converter.CEP"/>
@@ -292,7 +292,7 @@
 									<div class="form-group">
 										<div class="col-xs-12 col-sm-6">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.pessoa.rua']}" />
+												value="#{mensagens['label.rua']}" />
 											<div>
 												<h:inputText type="text" id="codRua" autocomplete="off"
 													required="true"
@@ -303,7 +303,7 @@
 										</div>
 										<div class="col-xs-12 col-sm-1">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.pessoa.numero']}" />
+												value="#{mensagens['label.numero']}" />
 											<div>
 												<h:inputText type="text" id="numCasa" autocomplete="off"
 													required="true"
@@ -314,7 +314,7 @@
 										</div>
 										<div class="col-xs-12 col-sm-5">
 											<h:outputLabel
-												value="#{mensagens['label.cadastro.pessoa.bairro']}" />
+												value="#{mensagens['label.bairro']}" />
 											<div>
 												<h:inputText type="text" id="codBairro" autocomplete="off"
 													class="col-sm-12" title="Nome do Bairro"
@@ -322,7 +322,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-6">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.complemento']}" />
+											<h:outputLabel value="#{mensagens['label.complemento']}" />
 											<div>
 												<h:inputText type="text" id="codComplemento" autocomplete="off"
 													class="col-sm-12" title="Complemento da Casa"
@@ -332,7 +332,7 @@
 									</div>
 									<div class="form-group">
 										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.zona.residen']}"/>
+											<h:outputLabel value="#{mensagens['label.zona.residen']}"/>
 											<div>
 												<h:selectOneMenu id="codZonaResi" value="#{unidadeEscolarServlet.regiaoDado.pkRegiao}"
 													class="form-control" title="Tipo de Zona Residencial">
@@ -343,7 +343,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.conta']}" />
+											<h:outputLabel value="#{mensagens['label.tel.contato']}" />
 											<div>
 												<h:inputText type="text" id="numTelefone" autocomplete="off" styleClass="col-sm-12 telResidencial" title="Numero do Telefone" 
 													value="#{unidadeEscolarServlet.contatoDado.telResidencial}">
@@ -352,7 +352,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.tel.cel']}" />
+											<h:outputLabel value="#{mensagens['label.tel.celular']}" />
 											<div>
 												<h:inputText type="text" id="numCelular" autocomplete="off" styleClass="col-sm-12 telCelular" title="Numero do Celular"
 												value="#{unidadeEscolarServlet.contatoDado.telCelular}">
@@ -361,7 +361,7 @@
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-6">
-											<h:outputLabel value="#{mensagens['label.cadastro.pessoa.email']}" />
+											<h:outputLabel value="#{mensagens['label.email']}" />
 											<div>
 												<h:inputText type="text" id="email" autocomplete="off"
 													required="true"	
@@ -423,10 +423,16 @@
 									<span class="bigger-110">Novo</span>
 								</button>
 								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round"> 
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
 									<span class="bigger-110">Registrar</span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{unidadeEscolarServlet.cadastrarUnidadeEscolar}" update=":formPrincipal" process=":formPrincipal"/>
+								</h:commandLink>
+								
+								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{unidadeEscolarServlet.btRemoverEnabled}"> 
+									<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
+									<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
+									<p:ajax event="click" listener="#{unidadeEscolarServlet.removerGeral}" update=":formPrincipal" process=":formPrincipal" />
 								</h:commandLink>	
 							</div>
 						</h:form>

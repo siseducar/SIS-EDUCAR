@@ -15,19 +15,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
-
 import modulos.educacao.dao.HorarioDAO;
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Permissao;
-import modulos.secretaria.om.PermissaoUsuario;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesSecretaria;
-import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="horarioServlet")

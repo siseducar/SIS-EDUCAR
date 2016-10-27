@@ -123,7 +123,7 @@
 											<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
 												#{mensagens['label.botao.fechar']}
 											</button>
-											<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+											<h:commandLink type="submit" class="btn btn-white btn-success btn-round" rendered="#{usuarioServlet.btConsultarEnabled}"> 
 												<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>	
 												<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 												<f:ajax event="click" listener="#{usuarioServlet.pesquisar}" render=":formPesquisar:tablePesquisar" execute=":formPesquisar"/>
@@ -376,7 +376,7 @@
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								</button>
 																
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes"> 
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{usuarioServlet.btCadastrarEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />

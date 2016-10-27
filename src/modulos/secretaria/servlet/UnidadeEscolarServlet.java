@@ -22,6 +22,7 @@ import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.Pais;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
@@ -30,7 +31,7 @@ import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.servlet.SisEducarServlet;
+import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -64,6 +65,13 @@ public class UnidadeEscolarServlet implements Serializable
     private String cpfDiretorPesquisar;
 	private String codigoPesquisar;
     private String nomePesquisar;
+    
+    private Boolean btRemoverEnabled;
+	private Boolean btCadastrarEnabled;
+	private Boolean btConsultarEnabled;
+	Boolean temPermissaoCadastrar = false;
+	Boolean temPermissaoExcluir = false;
+	Boolean temPermissaoConsultar = false;
 	
 	
 	/* Combo com valores de ZONA RESIDENCIAL */
@@ -148,8 +156,38 @@ public class UnidadeEscolarServlet implements Serializable
 		comboTipoOcupacao = new ArrayList<SelectItem>();
 		comboSituacaoFuncionamento = new ArrayList<SelectItem>();
 		
+		btCadastrarEnabled = false;
+		btConsultarEnabled = false;
+		btRemoverEnabled = false;
+		
 		//Busco o usuário logado
-		usuarioLogado = (Usuario) new SisEducarServlet().getSessionObject(ConstantesSisEducar.USUARIO_LOGADO);
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		validarPermissoes();
+		if(temPermissaoCadastrar) { setBtCadastrarEnabled(true); }
+		if(temPermissaoConsultar) { setBtConsultarEnabled(true); }
+	}
+	
+	public void validarPermissoes()
+	{
+		//validar permissão
+		for (Permissao permissao : usuarioLogado.getPermissoes()) 
+		{
+			if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_EXCLUIR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR))
+			{
+				temPermissaoExcluir = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CADASTRAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR))
+			{
+				temPermissaoCadastrar = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CONSULTAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR))
+			{
+				temPermissaoConsultar = true;
+			}
+		}
 	}
 	
 	/**
@@ -310,11 +348,14 @@ public class UnidadeEscolarServlet implements Serializable
 			terreno = new Terreno();
 			unidadeEscolar = new UnidadeEscolar();
 			enderecoDado = new Endereco();
+			contatoDado = new Contato();
 			redeEnsinoDado = new RedeEnsino();
 			situacaoFuncionamentoDado = new SituacaoFuncionamento();
 			tipoOcupacaoDado = new TipoOcupacao();
 			regiaoDado = new Regiao();
 			pessoaDado = new Pessoa();
+			cidadeDado = new Cidade();
+			estadoDado = new Estado();
 			paisDado = new Pais();
 			
 			comboZonaResidencial = new ArrayList<SelectItem>();
@@ -324,6 +365,8 @@ public class UnidadeEscolarServlet implements Serializable
 			comboRedeEnsino = new ArrayList<SelectItem>();
 			comboTipoOcupacao = new ArrayList<SelectItem>();
 			comboSituacaoFuncionamento = new ArrayList<SelectItem>();
+			
+			btRemoverEnabled = false;
 		}
 		catch (Exception e) 
 		{
@@ -422,6 +465,8 @@ public class UnidadeEscolarServlet implements Serializable
 					cpfDiretor = unidadeEscolarSelecionada.getDiretor().getCpf().toString();
 					nomeDiretor = unidadeEscolarSelecionada.getDiretor().getNome();
 				}
+				
+				if(temPermissaoExcluir) { btRemoverEnabled = true; }
 			}
 		} 
 		catch (Exception e) 
@@ -443,6 +488,24 @@ public class UnidadeEscolarServlet implements Serializable
 		catch (Exception e) 
 		{
 			Logs.addError("pesquisar", "");
+		}
+	}
+	
+	public void removerGeral() throws SQLException
+	{
+		Boolean resultado = false;
+		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)
+		{
+			resultado = new UnidadeEscolarDAO().remover(unidadeEscolar);
+			if(resultado)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A Unidade Escolar foi removida com sucesso", null));
+				resetarUnidadeEscolar();
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A Unidade Escolar não foi removida", null));
+			}
 		}
 	}
 
@@ -726,5 +789,29 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setContatoDado(Contato contatoDado) {
 		this.contatoDado = contatoDado;
+	}
+
+	public Boolean getBtRemoverEnabled() {
+		return btRemoverEnabled;
+	}
+
+	public void setBtRemoverEnabled(Boolean btRemoverEnabled) {
+		this.btRemoverEnabled = btRemoverEnabled;
+	}
+
+	public Boolean getBtCadastrarEnabled() {
+		return btCadastrarEnabled;
+	}
+
+	public void setBtCadastrarEnabled(Boolean btCadastrarEnabled) {
+		this.btCadastrarEnabled = btCadastrarEnabled;
+	}
+
+	public Boolean getBtConsultarEnabled() {
+		return btConsultarEnabled;
+	}
+
+	public void setBtConsultarEnabled(Boolean btConsultarEnabled) {
+		this.btConsultarEnabled = btConsultarEnabled;
 	}
 }
