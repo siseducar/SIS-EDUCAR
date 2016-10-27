@@ -43,6 +43,11 @@ public class UsuarioServlet implements Serializable
 	Usuario usuario;
 	Usuario usuarioLogado;
 	private Boolean btRemoverEnabled;
+	private Boolean btCadastrarEnabled;
+	private Boolean btConsultarEnabled;
+	private Boolean temPermissaoCadastrar = false;
+	private Boolean temPermissaoExcluir = false;
+	private Boolean temPermissaoConsultar = false;
 	private String nomePessoaVinculada;
 	
 	private Modulo moduloSelecionado;
@@ -125,6 +130,8 @@ public class UsuarioServlet implements Serializable
 		permissoes = new ArrayList<Permissao>();
 		
 		btRemoverEnabled = false;
+		btCadastrarEnabled = false;
+		btConsultarEnabled = false;
 		
 		if(moduloSelecionado==null)   		{ moduloSelecionado = new Modulo(); }
 		if(tipoTelaSelecionado==null) 		{ tipoTelaSelecionado = new TipoTela(); }
@@ -143,6 +150,9 @@ public class UsuarioServlet implements Serializable
 		
 		//LIBERA AS TELAS DO SISTEMA DE ACORDO COM AS PERMISSÕES DO USUÁRIO
 		validarPermissoes();
+		validarPermissoesTela();
+		if(temPermissaoCadastrar) { setBtCadastrarEnabled(true); }
+		if(temPermissaoConsultar) { setBtConsultarEnabled(true); }
 		
 		todasPermissoes = new UsuarioDAO().buscarPermissoes(null, null, null);
 	}
@@ -888,6 +898,38 @@ public class UsuarioServlet implements Serializable
 		}
 	}
 	
+	public void validarPermissoesTela()
+	{
+		try 
+		{
+			if(usuarioLogado!=null)
+			{
+				for (Permissao permissao : usuarioLogado.getPermissoes()) 
+				{
+					if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_EXCLUIR) 
+							&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO))
+					{
+						temPermissaoExcluir = true;
+					}
+					else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CADASTRAR) 
+							&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO))
+					{
+						temPermissaoCadastrar = true;
+					}
+					else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CONSULTAR) 
+							&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO))
+					{
+						temPermissaoConsultar = true;
+					}
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("validarPermissoesTela", "validarPermissoesTela");
+		}
+	}
+	
 	/**
 	 * Usado para buscar todos os usuários cadastrados pelos filtros digitados na tela pelo usuário
 	 * @author João Paulo
@@ -1034,7 +1076,7 @@ public class UsuarioServlet implements Serializable
 					permissoes = usuario.getPermissoes();
 				}
 				
-				btRemoverEnabled = true;
+				if(temPermissaoExcluir) { btRemoverEnabled = true; }
 			}
 		} 
 		catch (Exception e) 
@@ -1706,5 +1748,45 @@ public class UsuarioServlet implements Serializable
 
 	public void setClassEscolaCadastroHorario(String classEscolaCadastroHorario) {
 		this.classEscolaCadastroHorario = classEscolaCadastroHorario;
+	}
+
+	public Boolean getBtCadastrarEnabled() {
+		return btCadastrarEnabled;
+	}
+
+	public void setBtCadastrarEnabled(Boolean btCadastrarEnabled) {
+		this.btCadastrarEnabled = btCadastrarEnabled;
+	}
+
+	public Boolean getBtConsultarEnabled() {
+		return btConsultarEnabled;
+	}
+
+	public void setBtConsultarEnabled(Boolean btConsultarEnabled) {
+		this.btConsultarEnabled = btConsultarEnabled;
+	}
+
+	public Boolean getTemPermissaoCadastrar() {
+		return temPermissaoCadastrar;
+	}
+
+	public void setTemPermissaoCadastrar(Boolean temPermissaoCadastrar) {
+		this.temPermissaoCadastrar = temPermissaoCadastrar;
+	}
+
+	public Boolean getTemPermissaoExcluir() {
+		return temPermissaoExcluir;
+	}
+
+	public void setTemPermissaoExcluir(Boolean temPermissaoExcluir) {
+		this.temPermissaoExcluir = temPermissaoExcluir;
+	}
+
+	public Boolean getTemPermissaoConsultar() {
+		return temPermissaoConsultar;
+	}
+
+	public void setTemPermissaoConsultar(Boolean temPermissaoConsultar) {
+		this.temPermissaoConsultar = temPermissaoConsultar;
 	}
 }
