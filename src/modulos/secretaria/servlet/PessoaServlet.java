@@ -296,6 +296,10 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
+	public void sexo(){
+		
+		System.out.println(pessoaDados.getSexo());
+	}
 	
 	
 	/*

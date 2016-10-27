@@ -1,8 +1,10 @@
 package modulos.sisEducar.utils;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="sisEducarConstantes")
+@ManagedBean(name="sisEducarConstantes", eager=true)
+@ApplicationScoped
 public class ConstantesSisEducar 
 {
 	/* Path do projeto, contem o caminho completo até o package sisEducar */
@@ -23,4 +25,13 @@ public class ConstantesSisEducar
 	
 	public static final String GENERO_FEMININO = "feminino";
 	public static final String GENERO_MASCULINO = "masculino";
+	
+	
+	/* GETTERS */
+	public static String getGeneroFeminino() {
+		return GENERO_FEMININO;
+	}
+	public static String getGeneroMasculino() {
+		return GENERO_MASCULINO;
+	}
 }
