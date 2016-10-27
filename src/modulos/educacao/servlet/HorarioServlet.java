@@ -588,7 +588,7 @@ public class HorarioServlet implements Serializable
 	{
 		try 
 		{
-			horariosCadastrados = new HorarioDAO().consultarSimples(nomeHorarioPesquisar, unidadeEscolarPesquisar, turnoDado);
+			horariosCadastrados = new HorarioDAO().consultarSimples(nomeHorarioPesquisar, unidadeEscolarPesquisar, turnoDadoPesquisar);
 		} 
 		catch (Exception e) 
 		{
