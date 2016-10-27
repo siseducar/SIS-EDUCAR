@@ -56,7 +56,6 @@
 															type="text" class="form-control"
 															value="#{unidadeEscolarServlet.codigoPesquisar}" maxlength="50" autocomplete="off">
 														</h:inputText>
-														<i class="ace-icon fa fa-user"></i>
 													</span>
 												</div>
 												<div class="">
@@ -66,7 +65,6 @@
 															type="text" class="form-control"
 															value="#{unidadeEscolarServlet.nomePesquisar}" maxlength="50" autocomplete="off">
 														</h:inputText>
-														<i class="ace-icon fa fa-user"></i>
 													</span>
 												</div>
 												<div>
@@ -75,7 +73,6 @@
 														<h:inputText type="text" styleClass="form-control cpf" value="#{unidadeEscolarServlet.cpfDiretorPesquisar}" autocomplete="off">
 															<f:converter converterId="converter.CPF"/>
 														</h:inputText>
-														<i class="ace-icon fa fa-credit-card"></i>
 													</span>
 												</div>
 											</div>
@@ -159,7 +156,6 @@
 										<span class="block input-icon input-icon-right">
 											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="true"
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
-											<i class="ace-icon fa fa-key"></i>
 										</span>
 									</div>
 								</div>
@@ -169,7 +165,6 @@
 										<span class="block input-icon input-icon-right">
 											<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" autocomplete="off" maxlength="100" required="true"
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
-											<i class="ace-icon fa fa-user"></i>
 										</span>
 									</div>
 									<div class="space-4"></div>
@@ -194,6 +189,7 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
+									<div class="space-4"></div>
 									<h:outputLabel value="#{mensagens['label.rede.ensino']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codRedeEnsino" required="true"
@@ -203,9 +199,9 @@
 											<f:selectItems value="#{unidadeEscolarServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.nome}"/>
 										</h:selectOneMenu>
 									</div>
-									<div class="space-4"></div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
+									<div class="space-4"></div>
 									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
 									<div>
 										<h:selectOneMenu class="form-control" id="codSituFunc"
