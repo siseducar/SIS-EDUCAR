@@ -198,7 +198,7 @@
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.redeEnsino']}"
 											value="#{unidadeEscolarServlet.redeEnsinoDado.pkRedeEnsino}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{unidadeEscolarServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.nome}"/>
+											<f:selectItems value="#{paramServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.nome}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -211,7 +211,7 @@
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.situacaoFuncionamento']}"
 											value="#{unidadeEscolarServlet.situacaoFuncionamentoDado.pkSituacaoFuncionamento}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{unidadeEscolarServlet.comboSituacaoFuncionamento}" var="situacaoFuncionamento" itemValue="#{situacaoFuncionamento.pkSituacaoFuncionamento}" itemLabel="#{situacaoFuncionamento.nome}"/>
+											<f:selectItems value="#{paramServlet.comboSituFuncionamento}" var="situacaoFuncionamento" itemValue="#{situacaoFuncionamento.pkSituacaoFuncionamento}" itemLabel="#{situacaoFuncionamento.nome}"/>
 										</h:selectOneMenu>
 									</div>
 									<div class="space-4"></div>
@@ -224,7 +224,7 @@
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoOcupacao']}"
 											value="#{unidadeEscolarServlet.tipoOcupacaoDado.pkTipoOcupacao}">
 											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{unidadeEscolarServlet.comboTipoOcupacao}" var="tipoOcupacao" itemValue="#{tipoOcupacao.pkTipoOcupacao}" itemLabel="#{tipoOcupacao.nome}"/>
+											<f:selectItems value="#{paramServlet.comboTipoOcupacao}" var="tipoOcupacao" itemValue="#{tipoOcupacao.pkTipoOcupacao}" itemLabel="#{tipoOcupacao.nome}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -243,7 +243,7 @@
 													class="form-control" title="Pais residente"
 													value="#{unidadeEscolarServlet.paisDado.pkPais}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{unidadeEscolarServlet.comboPais}"
+													<f:selectItems value="#{paramServlet.comboPais}"
 														var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
 													<p:ajax event="change" update="codEstado, codCidade"/>
 												</h:selectOneMenu>
@@ -258,7 +258,7 @@
 													class="form-control" title="Estado residente"
 													value="#{unidadeEscolarServlet.estadoDado.pkEstado}">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{unidadeEscolarServlet.comboEstado}"
+													<f:selectItems value="#{paramServlet.comboEstado}"
 														var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
 													<p:ajax event="change" update="codCidade"/>
 												</h:selectOneMenu>
@@ -335,7 +335,7 @@
 												<h:selectOneMenu id="codZonaResi" value="#{unidadeEscolarServlet.regiaoDado.pkRegiao}"
 													class="form-control" title="Tipo de Zona Residencial">
 													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{unidadeEscolarServlet.comboZonaResidencial}"
+													<f:selectItems value="#{paramServlet.comboRegiao}"
 														var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
 												</h:selectOneMenu>
 											</div>
@@ -363,7 +363,7 @@
 											<div>
 												<h:inputText type="text" id="email" autocomplete="off"
 													required="true"	
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.email']}"
+													requiredMessage="#{mensagens['mensagem.requerido.email']}"
 													class="col-sm-12" title="E-mail da Pessoa"
 													value="#{unidadeEscolarServlet.contatoDado.email}" />
 											</div>

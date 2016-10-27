@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
@@ -41,6 +42,9 @@ public class UnidadeEscolarServlet implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
+	@ManagedProperty("#{paramServlet}")
+	private ParametrosServlet paramDados;
+	
 	private UnidadeEscolar unidadeEscolar;
 	private Terreno terreno;
 	private Pessoa diretor;
@@ -56,11 +60,9 @@ public class UnidadeEscolarServlet implements Serializable
 	private TipoOcupacao tipoOcupacaoDado;
 	private Regiao regiaoDado;
 	private Pessoa pessoaDado;
-	private ParametrosServlet parametrosServlet;
 	
 	/* VARIAVEIS DO CONSULTAR */
 	private List<UnidadeEscolar> unidadesEscolaresCadastrados;
-    private Usuario usuarioCadastradoSelecionado;
     
     private String cpfDiretorPesquisar;
 	private String codigoPesquisar;
@@ -73,27 +75,11 @@ public class UnidadeEscolarServlet implements Serializable
 	Boolean temPermissaoExcluir = false;
 	Boolean temPermissaoConsultar = false;
 	
-	
-	/* Combo com valores de ZONA RESIDENCIAL */
-	private List<SelectItem> comboZonaResidencial;
-	
-	/* Combo com valores de PAÍS */
-	private List<SelectItem> comboPais;
-	
 	/* Combo com valores de ESTADO */
 	private List<SelectItem> comboEstado;
 	
 	/* Combo com valores de CIDADE */
 	private List<SelectItem> comboCidade;
-	
-	/* Combo com valores de REDE DE ENSINO */
-	private List<SelectItem> comboRedeEnsino;
-	
-	/* Combo com valores de TIPO OCUPAÇÃO */
-	private List<SelectItem> comboTipoOcupacao;
-	
-	/* Combo com valores de SITUAÇÃO FUNCIONAMENTO */
-	private List<SelectItem> comboSituacaoFuncionamento;
 	
 	private Usuario usuarioLogado = null;
 	
@@ -141,24 +127,16 @@ public class UnidadeEscolarServlet implements Serializable
 		if(this.cidadeDado == null) {			
 			this.cidadeDado = new Cidade();
 		}
-		if(this.parametrosServlet == null) {			
-			this.parametrosServlet = new ParametrosServlet();
-		}
 		
 		nomeDiretor = new String();
 		cpfDiretor = new String();
 		
-		comboZonaResidencial = new ArrayList<SelectItem>();
-		comboPais = new ArrayList<SelectItem>();
-		comboEstado = new ArrayList<SelectItem>();
-		comboCidade = new ArrayList<SelectItem>();
-		comboRedeEnsino = new ArrayList<SelectItem>();
-		comboTipoOcupacao = new ArrayList<SelectItem>();
-		comboSituacaoFuncionamento = new ArrayList<SelectItem>();
-		
 		btCadastrarEnabled = false;
 		btConsultarEnabled = false;
 		btRemoverEnabled = false;
+		
+		comboCidade = new ArrayList<SelectItem>();
+		comboEstado = new ArrayList<SelectItem>();
 		
 		//Busco o usuário logado
 		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
@@ -358,14 +336,6 @@ public class UnidadeEscolarServlet implements Serializable
 			estadoDado = new Estado();
 			paisDado = new Pais();
 			
-			comboZonaResidencial = new ArrayList<SelectItem>();
-			comboPais = new ArrayList<SelectItem>();
-			comboEstado = new ArrayList<SelectItem>();
-			comboCidade = new ArrayList<SelectItem>();
-			comboRedeEnsino = new ArrayList<SelectItem>();
-			comboTipoOcupacao = new ArrayList<SelectItem>();
-			comboSituacaoFuncionamento = new ArrayList<SelectItem>();
-			
 			btRemoverEnabled = false;
 		}
 		catch (Exception e) 
@@ -410,47 +380,37 @@ public class UnidadeEscolarServlet implements Serializable
 				if(unidadeEscolarSelecionada.getEndereco()!=null)
 				{
 					enderecoDado = unidadeEscolarSelecionada.getEndereco();
-					if(enderecoDado.getCidade()!=null)
-					{
-						if(enderecoDado.getCidade().getEstado()!=null && enderecoDado.getCidade().getEstado().getPais()!=null)
-						{
-							for (SelectItem selectItem : comboPais)
-							{
-								if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPais().getPkPais()))
-								{
+					if(enderecoDado.getCidade() != null) {
+						if(enderecoDado.getCidade().getEstado().getPais().getPkPais() != null) {
+							for(SelectItem selectItem : paramDados.getComboPais()) {
+								if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPais().getPkPais())) {
 									paisDado = new Pais();
 									paisDado.setPkPais(enderecoDado.getCidade().getEstado().getPais().getPkPais());
 									break;
 								}
 							}
-							
-							if(paisDado!=null && paisDado.getPkPais()>0)
-							{
-								if(comboEstado == null || (comboEstado!=null && comboEstado.size()==0)) { comboEstado = parametrosServlet.consultaEstado(paisDado); }
-								
-								for (SelectItem selectItem : comboEstado) 
-								{	
-									if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPkEstado()))
-									{
-										estadoDado = new Estado();
-										estadoDado.setPkEstado(enderecoDado.getCidade().getEstado().getPkEstado());
-										break;
-									}
+						}
+						if(paisDado != null && paisDado.getPkPais() != null) {
+							if( comboEstado == null || comboEstado.isEmpty()) {
+								comboEstado = paramDados.consultaEstado(paisDado);
+							}
+							for(SelectItem selectItem : comboEstado) {
+								if(selectItem.getValue().equals(enderecoDado.getCidade().getEstado().getPkEstado())) {
+									estadoDado = new Estado();
+									estadoDado.setPkEstado(enderecoDado.getCidade().getEstado().getPkEstado());
+									break;
 								}
 							}
-							
-							if(estadoDado!=null && estadoDado.getPkEstado()>0)
-							{
-								if(comboCidade == null || (comboCidade!=null && comboCidade.size()==0)) { comboCidade = parametrosServlet.consultaCidade(estadoDado); }
-								
-								for (SelectItem selectItem : comboCidade) 
-								{
-									if(selectItem.getValue().equals(enderecoDado.getCidade().getPkCidade()))
-									{
-										cidadeDado = new Cidade();
-										cidadeDado.setPkCidade(enderecoDado.getCidade().getPkCidade());
-										break;
-									}
+						}
+						if(estadoDado != null && estadoDado.getPkEstado() != null){
+							if( comboCidade == null || comboCidade.isEmpty()) { 
+								comboCidade = paramDados.consultaCidade(estadoDado); 
+							}
+							for(SelectItem selectItem : comboCidade) {
+								if(selectItem.getValue().equals(enderecoDado.getCidade().getPkCidade())) {
+									cidadeDado = new Cidade();
+									cidadeDado.setPkCidade(enderecoDado.getCidade().getPkCidade());
+									break;
 								}
 							}
 						}
@@ -591,30 +551,11 @@ public class UnidadeEscolarServlet implements Serializable
 	public void setCpfDiretor(String cpfDiretor) {
 		this.cpfDiretor = cpfDiretor;
 	}
-	
-	public List<SelectItem> getComboZonaResidencial() {
-		comboZonaResidencial.addAll(parametrosServlet.consultaRegiao());
-		return comboZonaResidencial;
-	}
-
-	public void setComboZonaResidencial(List<SelectItem> comboZonaResidencial) {
-		this.comboZonaResidencial = comboZonaResidencial;
-	}
-
-	public List<SelectItem> getComboPais() {
-		comboPais.clear();
-		comboPais.addAll(parametrosServlet.consultaPais());
-		return comboPais;
-	}
-
-	public void setComboPais(List<SelectItem> comboPais) {
-		this.comboPais = comboPais;
-	}
 
 	public List<SelectItem> getComboEstado() {
 		comboEstado.clear();
 		if(paisDado != null && paisDado.getPkPais() != null) { 
-			comboEstado = parametrosServlet.consultaEstado(paisDado); 
+			comboEstado = paramDados.consultaEstado(paisDado); 
 		}
 		return comboEstado;
 	}
@@ -626,7 +567,7 @@ public class UnidadeEscolarServlet implements Serializable
 	public List<SelectItem> getComboCidade() {
 		comboCidade.clear();
 		if(estadoDado != null && estadoDado.getPkEstado()!= null) { 
-			comboCidade = parametrosServlet.consultaCidade(estadoDado); 
+			comboCidade = paramDados.consultaCidade(estadoDado); 
 		}
 		return comboCidade;
 	}
@@ -635,38 +576,6 @@ public class UnidadeEscolarServlet implements Serializable
 		this.comboCidade = comboCidade;
 	}
 
-	public List<SelectItem> getComboRedeEnsino() throws SQLException {
-		comboRedeEnsino.clear();
-		comboRedeEnsino.addAll(parametrosServlet.consultaRedeEnsino());
-		return comboRedeEnsino;
-	}
-
-	public void setComboRedeEnsino(List<SelectItem> comboRedeEnsino) {
-		this.comboRedeEnsino = comboRedeEnsino;
-	}
-
-	public List<SelectItem> getComboTipoOcupacao() {
-		comboTipoOcupacao.clear();
-		comboTipoOcupacao.addAll(parametrosServlet.consultaTipoOcupacao());
-		
-		return comboTipoOcupacao;
-	}
-
-	public void setComboTipoOcupacao(List<SelectItem> comboTipoOcupacao) {
-		this.comboTipoOcupacao = comboTipoOcupacao;
-	}
-
-	public List<SelectItem> getComboSituacaoFuncionamento() {
-		comboSituacaoFuncionamento.clear();
-		comboSituacaoFuncionamento.addAll(parametrosServlet.consultaSituacaoFuncionamento());
-		
-		return comboSituacaoFuncionamento;
-	}
-
-	public void setComboSituacaoFuncionamento(List<SelectItem> comboSituacaoFuncionamento) {
-		this.comboSituacaoFuncionamento = comboSituacaoFuncionamento;
-	}
-	
 	public Pais getPaisDado() {
 		return paisDado;
 	}
@@ -813,5 +722,13 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setBtConsultarEnabled(Boolean btConsultarEnabled) {
 		this.btConsultarEnabled = btConsultarEnabled;
+	}
+
+	public ParametrosServlet getParamDados() {
+		return paramDados;
+	}
+
+	public void setParamDados(ParametrosServlet paramDados) {
+		this.paramDados = paramDados;
 	}
 }
