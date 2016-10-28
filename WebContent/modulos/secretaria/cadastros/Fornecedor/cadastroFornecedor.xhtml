@@ -53,8 +53,8 @@
 										value="#{mensagens['label.cnpj']}"/>
 									<div>
 										<h:inputText type="text" styleClass="col-sm-12 cnpj" id="numCnpj">
-											<f:validator validatorId="validar.CnpjValidator"/>
-											<f:converter converterId="converter.CNPJ"/>
+											<f:validator validatorId="valida.cnpj"/>
+											<f:converter converterId="converte.cnpj"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -64,8 +64,8 @@
 									<div>
 										<h:inputText type="text" id="numCpf"
 											styleClass="col-sm-12 cpf">
-											<f:validator validatorId="validar.CpfValidator"/>
-											<f:converter converterId="converter.CPF"/>
+											<f:validator validatorId="valida.cpf"/>
+											<f:converter converterId="converte.cpf"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -260,7 +260,7 @@
 									<h:outputLabel value="Telefone da Empresa"/>
 									<div>
 										<h:inputText type="number" id="numTelefone" styleClass="col-sm-12 telResidencial">
-											<f:converter converterId="converter.TELRESIDENCIAL"/>
+											<f:converter converterId="converte.telresidencial"/>
 										</h:inputText>
 									</div>
 								</div>

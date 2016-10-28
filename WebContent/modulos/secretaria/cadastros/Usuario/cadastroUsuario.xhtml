@@ -54,8 +54,8 @@
 													<output> #{mensagens['label.cpf']} </output>
 													<span class="block input-icon input-icon-right">
 														<h:inputText type="text" styleClass="form-control cpf" autocomplete="off" value="#{usuarioServlet.cpfPesquisar}">
-															<f:validator validatorId="validar.CpfValidator"/>
-															<f:converter converterId="converter.CPF"/>
+															<f:validator validatorId="valida.cpf"/>
+															<f:converter converterId="converte.cpf"/>
 														</h:inputText>
 													</span>
 												</div>
@@ -144,8 +144,8 @@
 												<h:inputText type="text" styleClass="form-control cpf" value="#{usuarioServlet.usuario.cpfcnpj}" required="true" autocomplete="off"
 												requiredMessage="#{mensagens['mensagem.requerido.usuario.cpf']}">
 													<p:ajax event="change" listener="#{usuarioServlet.buscarInformacoesPessoaVinculada}" update="componentes" />
-													<f:validator validatorId="validar.CpfValidator"/>
-													<f:converter converterId="converter.CPF"/>
+													<f:validator validatorId="valida.cpf"/>
+													<f:converter converterId="converte.cpf"/>
 												</h:inputText>
 											</span>
 										</div>

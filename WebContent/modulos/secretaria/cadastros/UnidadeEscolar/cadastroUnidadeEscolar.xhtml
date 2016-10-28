@@ -71,7 +71,7 @@
 													<output>CPF do Diretor</output>
 													<span class="block input-icon input-icon-right">
 														<h:inputText type="text" styleClass="form-control cpf" value="#{unidadeEscolarServlet.cpfDiretorPesquisar}" autocomplete="off">
-															<f:converter converterId="converter.CPF"/>
+															<f:converter converterId="converte.cpf"/>
 														</h:inputText>
 													</span>
 												</div>
@@ -178,8 +178,8 @@
 											<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" autocomplete="off" styleClass="col-sm-12 cpf" required="true"
 											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cpfDiretor']}">
 												<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
-												<f:validator validatorId="validar.CpfValidator"/>
-												<f:converter converterId="converter.CPF"/>
+												<f:validator validatorId="valida.cpf"/>
+												<f:converter converterId="converte.cpf"/>
 											</h:inputText>
 										</div>
 									</div>
@@ -283,7 +283,7 @@
 											<h:outputLabel value="#{mensagens['label.cep']}"/>
 											<div>
 												<h:inputText styleClass="col-sm-12 cep" id="numCep" autocomplete="off" title="Numero do CEP" value="#{unidadeEscolarServlet.enderecoDado.cep}">
-													<f:converter converterId="converter.CEP"/>
+													<f:converter converterId="converte.cep"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -345,7 +345,7 @@
 											<div>
 												<h:inputText type="text" id="numTelefone" autocomplete="off" styleClass="col-sm-12 telResidencial" title="Numero do Telefone" 
 													value="#{unidadeEscolarServlet.contatoDado.telResidencial}">
-													<f:converter converterId="converter.TELRESIDENCIAL"/>
+													<f:converter converterId="converte.telresidencial"/>
 												</h:inputText>											
 											</div>
 										</div>
@@ -354,7 +354,7 @@
 											<div>
 												<h:inputText type="text" id="numCelular" autocomplete="off" styleClass="col-sm-12 telCelular" title="Numero do Celular"
 												value="#{unidadeEscolarServlet.contatoDado.telCelular}">
-													<f:converter converterId="converter.TELCELULAR"/>
+													<f:converter converterId="converte.telcelular"/>
 												</h:inputText>
 											</div>
 										</div>
