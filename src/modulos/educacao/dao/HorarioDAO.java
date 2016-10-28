@@ -122,12 +122,6 @@ public class HorarioDAO extends SisEducarDAO
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		
-		if(nome!=null && nome.length()>0)
-		{
-			numeroArgumentos ++; 
-			ps.setString(numeroArgumentos, nome);
-		}
-		
 		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)	
 		{ 
 			numeroArgumentos ++; 
