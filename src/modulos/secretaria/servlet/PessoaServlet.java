@@ -217,8 +217,8 @@ public class PessoaServlet implements Serializable{
 			/* Objeto com os atributos de contato da pessoa */
 			contatoDados = contatoDAO.salvarContatoPessoa(contatoDados);
 			if(contatoDados.getPkContato() == null ){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Erro",null));
+				Logs.addError("Erro ao salvar dados de contato", null);
+				
 				return null;
 			}
 			 
@@ -284,23 +284,19 @@ public class PessoaServlet implements Serializable{
 		return null;
 	}
 	
-	public String deletarCadastro() throws SQLException {
-		if(pessoaDados.getPkPessoa() != null) {
-			
-			pessoaDAO.deletarPessoa(pessoaDados.getPkPessoa());
-			
-			limparFormulario();
-			Logs.addInfo("Cadastro deletado com sucesso", null);
-			return "OK";
+	public void deletarCadastro() throws SQLException {
+		try {
+			if(pessoaDados.getPkPessoa() != null) {
+				
+				pessoaDAO.deletarPessoa(pessoaDados.getPkPessoa());
+				
+				limparFormulario();
+				Logs.addInfo("Cadastro deletado com sucesso", null);
+			}
+		} catch (Exception e) {
+			Logs.addError("Erro ao deletar cadastro.", e.toString());
 		}
-		return null;
-	}
-	
-	public void sexo(){
-		
-		System.out.println(pessoaDados.getSexo());
-	}
-	
+	}	
 	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
@@ -330,9 +326,22 @@ public class PessoaServlet implements Serializable{
 				return false;
 			}
 		}
-				
+		
+		
 		if( pessoaDados.getSexo() == null || pessoaDados.getSexo().equals("")) {
 			Logs.addWarning("O SEXO deve ser informado.", null);
+			return false;
+		}
+
+		if(estadoNascimentoDados.getPkEstado() == null) {
+			Logs.addWarning("O ESTADO DE NASCIMENTO deve ser informado.", null);
+			pessoaDados.setCpf(null);
+			return false;
+		}
+		
+		if(cidadeNascimentoDados.getPkCidade() == null) {
+			Logs.addWarning("A CIDADE DE NASCIMENTO deve ser informada.", null);
+			pessoaDados.setCpf(null);
 			return false;
 		}
 		
@@ -377,7 +386,7 @@ public class PessoaServlet implements Serializable{
 		}
 		
 		if( cidadeDados.getPkCidade() == null ) {
-			Logs.addWarning("O MUNICÍ�PIO deve ser informado.", null);
+			Logs.addWarning("O MUNICÍPIO deve ser informado.", null);
 			return false;
 		}
 		
@@ -415,6 +424,12 @@ public class PessoaServlet implements Serializable{
 			Logs.addWarning("O TELEFONE CELULAR deve ser preenchido.", null);
 			return false;
 		}
+		
+		if( contatoDados.getEmail() == null || contatoDados.getEmail().equals("")) {
+			Logs.addWarning("O EMAIL deve ser preenchido.", null);
+			return false;
+		}
+		
 		if( panelMenorIdade == true ) {
 			if( (pessoaDados.getCpfMae() == null || pessoaDados.getCpfMae() == 0) && 
 					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
