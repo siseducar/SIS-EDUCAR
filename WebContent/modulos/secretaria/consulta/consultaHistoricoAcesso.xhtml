@@ -1,0 +1,98 @@
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon glyphicon glyphicon-search"/>
+				#{mensagens['label.consultar']}
+			</li>
+			<li class="active">
+				<i class="ace-icon glyphicon glyphicon-user"/>
+				#{mensagens['label.historicoAcesso']}
+			</li>
+		</ui:define>
+
+		<ui:define name="scriptConteudo">	
+			<div class="page-content">		
+				<div class="page-header col-xs-12 col-sm-12">
+					<h1>
+						#{mensagens['label.consulta']}
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							#{mensagens['label.cadastro.historicoAcesso']}
+						</small>
+					</h1>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+						<h:form id="formPrincipal" prependId="false">
+							<div class="clearfix form-actions">
+								<div class="form-group">
+									<h:panelGroup id="componentes">
+										<div class="col-xs-12 col-sm-12">
+											<div>
+												<output> #{mensagens['label.nome.usuario']} </output>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{historicoAcessoServlet.nomeUsuario}" maxlength="11" required="true" autocomplete="off"
+													requiredMessage="#{mensagens['mensagem.requerido.usuario.nome']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class="clearfix form-actions">
+								<div class="form-group">
+									<h3 class="header smaller lighter blue"> #{mensagens['label.acessos']} </h3>
+									<h:panelGroup id="testeRetirar">
+										<div class="col-xs-12 col-sm-12">
+											<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{historicoAcessoServlet.dataTablePermissao}"
+							    			headerClass="order-table-header" id="tableAcessos" value="#{historicoAcessoServlet.acessos}" var="value"
+							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+								    			<h:column>
+								    				<center>
+							    						<f:facet name="header"> #{mensagens['label.tabela.usuario']} </f:facet>
+								    				</center>
+								    				
+							    					<h:outputLabel value="#{value.usuario.pessoa.nome}"></h:outputLabel>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header"> #{mensagens['label.tabela.dataAcesso']} </f:facet>
+													<h:outputLabel value="#{value.dataLogin}"/>
+								    			</h:column>
+								    		</h:dataTable>
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class="col-xs-12 col-sm-12" id="default-buttons">
+								<button type="reset" class="btn btn-white btn-info btn-round botoes">
+									<i class="ace-icon fa fa-file"/>
+									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
+								</button>
+																
+								<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round botoes" rendered="#{historicoAcessoServlet.btConsultaEnabled}"> 
+									<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>	
+									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<p:ajax event="click" listener="#{historicoAcessoServlet.consultarAcessos}" update=":formPrincipal" process=":formPrincipal" />
+								</h:commandLink>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.min.js"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.bootstrap.js"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
+		</ui:define>
+	</ui:composition>
+</h:html>

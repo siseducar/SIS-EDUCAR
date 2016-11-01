@@ -110,6 +110,7 @@ public class UsuarioServlet implements Serializable
     private String classSecretariaCadastroUnidadeEscolar   	= classAtributeHidden;
     private String classSecretariaCadastroAmbiente   		= classAtributeHidden;
     private String classSecretariaCadastroMatriculaAluno   	= classAtributeHidden;
+    private String classSecretariaConsultaHistoricoAcesso	= classAtributeHidden;
 	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
     
@@ -737,7 +738,8 @@ public class UsuarioServlet implements Serializable
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { classSecretariaCadastroAmbiente = ""; }
 
-						//LIBERA ACESSO AS TELAS DE CADASTRO
+						//LIBERA ACESSO AS TELAS DE CONSULTA
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO)) { classSecretariaConsultaHistoricoAcesso = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
 					}
@@ -1788,5 +1790,13 @@ public class UsuarioServlet implements Serializable
 
 	public void setTemPermissaoConsultar(Boolean temPermissaoConsultar) {
 		this.temPermissaoConsultar = temPermissaoConsultar;
+	}
+
+	public String getClassSecretariaConsultaHistoricoAcesso() {
+		return classSecretariaConsultaHistoricoAcesso;
+	}
+
+	public void setClassSecretariaConsultaHistoricoAcesso(String classSecretariaConsultaHistoricoAcesso) {
+		this.classSecretariaConsultaHistoricoAcesso = classSecretariaConsultaHistoricoAcesso;
 	}
 }
