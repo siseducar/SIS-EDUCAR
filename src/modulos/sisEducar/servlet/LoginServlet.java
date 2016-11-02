@@ -3,6 +3,7 @@ package modulos.sisEducar.servlet;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import modulos.educacao.dao.AlunoDAO;
+import modulos.secretaria.dao.HistoricoAcessoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
+import modulos.secretaria.om.HistoricoAcesso;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
@@ -54,6 +57,7 @@ public class LoginServlet implements Serializable {
 	 */
 	public void validarLogin() {
 		try {			
+			HistoricoAcesso historicoAcesso = new HistoricoAcesso();
 			if(usuario.getNome()!= null && usuario.getNome().length() == 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário é obrigatório", null));  
 			} else {
@@ -76,6 +80,9 @@ public class LoginServlet implements Serializable {
 					
 					HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 					session.setAttribute("usuario", usuarioLogado);
+					
+					historicoAcesso.setUsuario(usuarioLogado);
+					new HistoricoAcessoDAO().inserirHistoricoAcesso(historicoAcesso);
 					
 					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/menuPrincipal");
 				}else {
