@@ -6,10 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.secretaria.om.HistoricoAcesso;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class HistoricoAcessoDAO extends SisEducarDAO
 {
@@ -53,5 +57,47 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 			System.out.println(e);
 			return false;
 		}
+	}
+	
+	/**
+	 * Busca todos os históricos de acesso no banco de dados
+	 * @author João Paulo
+	 * @param usuario
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<HistoricoAcesso> consultar(Usuario usuario) throws SQLException
+	{
+		List<HistoricoAcesso> acessos = new ArrayList<HistoricoAcesso>();
+		HistoricoAcesso historicoAcesso = null;
+		Integer numeroArgumentos = 1;
+		String querySQL = "SELECT * FROM HistoricoAcesso WHERE status = ?";
+		
+		if(usuario!=null)
+		{
+			querySQL += "AND fkUsuario = ?";
+		}
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(usuario!=null)
+		{
+			numeroArgumentos++;
+			ps.setObject(numeroArgumentos , new Integer(usuario.getPkUsuario()));
+		}
+		
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) 
+		{
+			historicoAcesso = new HistoricoAcesso();
+			historicoAcesso.setDataLogin(rs.getDate("DATALOGIN"));
+			historicoAcesso.setUsuario(usuario);
+			
+			acessos.add(historicoAcesso);
+		}
+		
+		return acessos;
 	}
 }

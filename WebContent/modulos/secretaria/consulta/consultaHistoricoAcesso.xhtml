@@ -34,12 +34,22 @@
 							<div class="clearfix form-actions">
 								<div class="form-group">
 									<h:panelGroup id="componentes">
-										<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-4">
 											<div>
-												<output> #{mensagens['label.nome.usuario']} </output>
+												<output> #{mensagens['label.cadastro.pessoa.cpf']} </output>
 												<span class="block input-icon input-icon-right">
-													<h:inputText type="text" class="form-control" value="#{historicoAcessoServlet.nomeUsuario}" maxlength="11" required="true" autocomplete="off"
-													requiredMessage="#{mensagens['mensagem.requerido.usuario.nome']}"></h:inputText>
+													<h:inputText id="inputCpfPessoa" type="text" class="form-control" value="#{historicoAcessoServlet.cpfPessoa}" maxlength="15" required="true" autocomplete="off">
+														<f:ajax event="change" listener="#{historicoAcessoServlet.buscarPessoa}" render="inputNomePessoa" resetValues="true"/>
+													</h:inputText>
+												</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-8">
+											<div>
+												<output> #{mensagens['label.cadastro.pessoa.nome']} </output>
+												<span class="block input-icon input-icon-right">
+													<h:inputText id="inputNomePessoa" type="text" class="form-control" value="#{historicoAcessoServlet.nomePessoa}" maxlength="11" required="true" autocomplete="off" disabled="true">
+													</h:inputText>
 												</span>
 											</div>
 										</div>

@@ -1,6 +1,7 @@
 package modulos.secretaria.servlet;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -8,8 +9,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 
+import modulos.secretaria.dao.HistoricoAcessoDAO;
+import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.HistoricoAcesso;
 import modulos.secretaria.om.Permissao;
+import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesSecretaria;
 
@@ -23,7 +27,9 @@ public class HistoricoAcessoServlet implements Serializable
 	private Usuario usuarioLogado = null;
 	private Boolean btConsultaEnabled = false;
 	public Boolean temPermissaoConsultar = false;
-	private String nomeUsuario = "";
+	private String cpfPessoa = "";
+	private String nomePessoa = "";
+	private Usuario usuarioBusca = null;
 	
 	/**
 	 * Construtor
@@ -34,8 +40,9 @@ public class HistoricoAcessoServlet implements Serializable
 		
 		//Busco o usuário logado
 		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-		nomeUsuario = usuarioLogado.getNome();
 		
+		setCpfPessoa("");
+		setNomePessoa("");
 		validarPermissoes();
 		if(temPermissaoConsultar) { btConsultaEnabled = true; }
 	}
@@ -53,8 +60,22 @@ public class HistoricoAcessoServlet implements Serializable
 		}
 	}
 	
-	public void consultarAcessos()
+	public void consultarAcessos() throws SQLException
 	{
+		acessos = new HistoricoAcessoDAO().consultar(usuarioBusca);
+	}
+	
+	public void buscarPessoa() throws SQLException
+	{
+		Pessoa pessoa = null;
+		if(cpfPessoa!=null && cpfPessoa.length()>0)
+		{
+			pessoa = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
+			if(pessoa!=null)
+			{
+				nomePessoa = pessoa.getNome();
+			}
+		}
 	}
 	
 	private HtmlDataTable dataTable;
@@ -136,11 +157,19 @@ public class HistoricoAcessoServlet implements Serializable
 		this.btConsultaEnabled = btConsultaEnabled;
 	}
 
-	public String getNomeUsuario() {
-		return nomeUsuario;
+	public String getCpfPessoa() {
+		return cpfPessoa;
 	}
 
-	public void setNomeUsuario(String nomeUsuario) {
-		this.nomeUsuario = nomeUsuario;
+	public void setCpfPessoa(String cpfPessoa) {
+		this.cpfPessoa = cpfPessoa;
+	}
+
+	public String getNomePessoa() {
+		return nomePessoa;
+	}
+
+	public void setNomePessoa(String nomePessoa) {
+		this.nomePessoa = nomePessoa;
 	}
 }
