@@ -290,7 +290,7 @@ public class LoginServlet implements Serializable {
 			
 			if(emailRedefinicaoSenha!=null && emailRedefinicaoSenha.length() >0)
 			{
-				usuario = new UsuarioDAO().obtemUsuario(emailRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO);
+				usuario = new UsuarioDAO().obtemUsuario(emailRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO, null);
 				
 				if(usuario!=null)
 				{

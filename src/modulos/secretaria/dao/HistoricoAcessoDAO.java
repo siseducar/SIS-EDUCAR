@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.HistoricoAcesso;
+import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -66,21 +67,56 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<HistoricoAcesso> consultar(Usuario usuario) throws SQLException
+	public List<HistoricoAcesso> consultar(Usuario usuario, Pessoa pessoa, Date inicio, Date fim) throws SQLException
 	{
 		List<HistoricoAcesso> acessos = new ArrayList<HistoricoAcesso>();
 		HistoricoAcesso historicoAcesso = null;
 		Integer numeroArgumentos = 1;
-		String querySQL = "SELECT * FROM HistoricoAcesso WHERE status = ?";
+		String querySQL = "SELECT HA.* FROM HISTORICOACESSO HA" +
+				" INNER JOIN USUARIO U ON(HA.FKUSUARIO = U.PKUSUARIO)" +
+				" INNER JOIN PESSOA P ON(U.FKPESSOA = P.PKPESSOA)" +
+				" WHERE HA.STATUS = ?" +
+				" AND U.STATUS = ?" +
+				" AND P.STATUS = ?";
+		
+		if(inicio!=null)
+		{
+			querySQL += " AND DATALOGIN >= ?";
+		}
+		if(fim!=null)
+		{
+			querySQL += " AND DATALOGIN <= ?";
+		}
 		
 		if(usuario!=null)
 		{
-			querySQL += "AND fkUsuario = ?";
+			querySQL += " AND U.PKUSUARIO = ?";
+		}
+		
+		if(pessoa!=null)
+		{
+			querySQL += " AND P.PKPESSOA = ?";
 		}
 		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		numeroArgumentos++;
+		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+		
+		if(inicio!=null)
+		{
+			numeroArgumentos++;
+			ps.setDate(numeroArgumentos, inicio);
+		}
+		
+		if(fim!=null)
+		{
+			numeroArgumentos++;
+			ps.setDate(numeroArgumentos, fim);
+		}
 		
 		if(usuario!=null)
 		{
@@ -88,12 +124,18 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 			ps.setObject(numeroArgumentos , new Integer(usuario.getPkUsuario()));
 		}
 		
+		if(pessoa!=null)
+		{
+			numeroArgumentos++;
+			ps.setObject(numeroArgumentos, pessoa.getPkPessoa());
+		}
+		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{
 			historicoAcesso = new HistoricoAcesso();
 			historicoAcesso.setDataLogin(rs.getDate("DATALOGIN"));
-			historicoAcesso.setUsuario(usuario);
+			historicoAcesso.setUsuario(new UsuarioDAO().obtemUsuario(null, ConstantesSisEducar.STATUS_ATIVO, new Integer(rs.getString("FKUSUARIO"))));
 			
 			acessos.add(historicoAcesso);
 		}

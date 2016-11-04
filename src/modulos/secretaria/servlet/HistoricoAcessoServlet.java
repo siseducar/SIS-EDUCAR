@@ -29,7 +29,7 @@ public class HistoricoAcessoServlet implements Serializable
 	public Boolean temPermissaoConsultar = false;
 	private String cpfPessoa = "";
 	private String nomePessoa = "";
-	private Usuario usuarioBusca = null;
+	private Pessoa pessoaBusca = null;
 	
 	/**
 	 * Construtor
@@ -62,18 +62,18 @@ public class HistoricoAcessoServlet implements Serializable
 	
 	public void consultarAcessos() throws SQLException
 	{
-		acessos = new HistoricoAcessoDAO().consultar(usuarioBusca);
+		acessos = new HistoricoAcessoDAO().consultar(usuarioLogado, pessoaBusca, null, null);
 	}
 	
 	public void buscarPessoa() throws SQLException
 	{
-		Pessoa pessoa = null;
+		pessoaBusca = new Pessoa();
 		if(cpfPessoa!=null && cpfPessoa.length()>0)
 		{
-			pessoa = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
-			if(pessoa!=null)
+			pessoaBusca = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
+			if(pessoaBusca!=null)
 			{
-				nomePessoa = pessoa.getNome();
+				nomePessoa = pessoaBusca.getNome();
 			}
 		}
 	}
@@ -171,5 +171,13 @@ public class HistoricoAcessoServlet implements Serializable
 
 	public void setNomePessoa(String nomePessoa) {
 		this.nomePessoa = nomePessoa;
+	}
+
+	public Pessoa getPessoaBusca() {
+		return pessoaBusca;
+	}
+
+	public void setPessoaBusca(Pessoa pessoaBusca) {
+		this.pessoaBusca = pessoaBusca;
 	}
 }

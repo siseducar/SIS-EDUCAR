@@ -127,7 +127,7 @@ public class SisEducarServlet implements Serializable
 			//Depois que eu pegar o conteudo do parametro eu descriptografo para obter o email do usuario
 			parametroUsuarioURLDescriptografado = criptografarURL(false, parametroUsuarioURL);
 			
-			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografado, ConstantesSisEducar.STATUS_INCOMPLETO);
+			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografado, ConstantesSisEducar.STATUS_INCOMPLETO, null);
 			
 			if(usuario!=null)
 			{
@@ -167,7 +167,7 @@ public class SisEducarServlet implements Serializable
 			//Depois que eu pegar o conteudo do parametro eu descriptografo para obter o email do usuario
 			parametroUsuarioURLDescriptografadoRedefinicaoSenha = criptografarURL(false, parametroUsuarioURLRedefinicaoSenha);
 			
-			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografadoRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO);
+			usuario = new UsuarioDAO().obtemUsuario(parametroUsuarioURLDescriptografadoRedefinicaoSenha, ConstantesSisEducar.STATUS_ATIVO, null);
 			
 			if(usuario!=null)
 			{

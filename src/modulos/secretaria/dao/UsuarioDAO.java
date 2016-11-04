@@ -394,17 +394,38 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @return {@link} Usuario
 	 * @throws SQLException
 	 */
-	public Usuario obtemUsuario(String email, Integer status) throws SQLException
+	public Usuario obtemUsuario(String email, Integer status, Integer pkUsuario) throws SQLException
 	{
+		Integer numeroArgumentos = 1;
 		Usuario usuario = new Usuario();
 		String querySQL = "SELECT * FROM Usuario "
-				+ " WHERE email = ?"
-				+ " AND status = ?";
+				+ " WHERE status = ?";
+		
+		if(email!=null)
+		{
+			querySQL += " AND email = ?";
+		}
+		
+		if(pkUsuario!=null)
+		{
+			querySQL += " AND PKUSUARIO = ?";
+		}
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setString(1, email);
-		ps.setInt(2 , status);
+		ps.setInt(numeroArgumentos , status);
+		if(email!=null)
+		{
+			numeroArgumentos++;
+			ps.setString(numeroArgumentos, email);
+		}
+		
+		if(pkUsuario!=null)
+		{
+			numeroArgumentos++;
+			ps.setInt(numeroArgumentos, pkUsuario);
+		}
+		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 
 		{

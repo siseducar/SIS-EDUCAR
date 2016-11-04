@@ -31,6 +31,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<h:form id="formPrincipal" prependId="false">
+							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/consulta/consultaHistoricoAcesso.js"/>
 							<div class="clearfix form-actions">
 								<div class="form-group">
 									<h:panelGroup id="componentes">
@@ -38,7 +39,9 @@
 											<div>
 												<output> #{mensagens['label.cadastro.pessoa.cpf']} </output>
 												<span class="block input-icon input-icon-right">
-													<h:inputText id="inputCpfPessoa" type="text" class="form-control" value="#{historicoAcessoServlet.cpfPessoa}" maxlength="15" required="true" autocomplete="off">
+													<h:inputText id="inputCpfPessoa" type="text" styleClass="form-control cpf" value="#{historicoAcessoServlet.cpfPessoa}" maxlength="15" required="true" autocomplete="off">
+															<f:validator validatorId="valida.cpf"/>
+															<f:converter converterId="converte.cpf"/>
 														<f:ajax event="change" listener="#{historicoAcessoServlet.buscarPessoa}" render="inputNomePessoa" resetValues="true"/>
 													</h:inputText>
 												</span>
@@ -100,6 +103,7 @@
 			</div>
 		</ui:define>
 		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/consulta/consultaHistoricoAcesso.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.min.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.bootstrap.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
