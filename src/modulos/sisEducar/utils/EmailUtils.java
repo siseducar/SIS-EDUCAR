@@ -35,7 +35,7 @@ public class EmailUtils
 			email.setSmtpAuth("true");
 			email.setSmtpStarttls("true");
 			email.setUserMail("tccsiseducar@gmail.com");
-			email.setFromNameMail("Sis-Educar");
+			email.setFromNameMail("CORUJA");
 			email.setPassMail("joao123michael123");
 			email.setCharsetMail("ISO-8859-1");
 			email.setTypeTextMail(Email.TYPE_TEXT_HTML);

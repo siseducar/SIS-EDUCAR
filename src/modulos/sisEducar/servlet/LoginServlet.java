@@ -296,7 +296,7 @@ public class LoginServlet implements Serializable {
 				{
 					urlBotaoLink += sisEducar.criptografarURL(true, emailRedefinicaoSenha);
 					email = EmailUtils.inicializarPropriedades();
-					email.setSubjectMail("SIS-EDUCAR - Redefinição de Senha");
+					email.setSubjectMail("CORUJA - Redefinição de Senha");
 					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
 							" <p style=\"text-align:left; font-size:17px; \">Recebemos uma solicitação de refinição de senha para este usuário, se não foi você que efetuou esta solicitação por favor desconsidere o email.</p> " + 
 							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para continuar o processo de redefinição de senha clique no botão abaixo.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Redefinir Senha"));

@@ -25,7 +25,7 @@ public class EmailTeste extends SisEducarServlet
         urlBotaoLink += SisEducarServlet.criptografarURL(true, "teste@teste");
 		
 		email = EmailUtils.inicializarPropriedades();
-		email.setSubjectMail("Validação de registro SIS-EDUCAR");
+		email.setSubjectMail("Validação de registro CORUJA");
 		email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + "João P" + ",</p> " + 
 				" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
 				" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-style:italic; font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
