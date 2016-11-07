@@ -442,6 +442,7 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setTipo(rs.getInt("tipo"));
 			usuario.setGenero(rs.getString("genero"));
 			usuario.setFkMunicipioCliente(cidade);
+			usuario.setPessoa(new PessoaDAO().obtemPessoaSimples(rs.getInt("FKPESSOA")));
 			return usuario;
 		}
 		

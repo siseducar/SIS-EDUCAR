@@ -98,6 +98,8 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 			querySQL += " AND P.PKPESSOA = ?";
 		}
 		
+		querySQL += " ORDER BY DATALOGIN DESC";
+		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);

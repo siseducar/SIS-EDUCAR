@@ -125,20 +125,20 @@
 											<f:facet name="footer">
 									            <h:panelGroup styleClass="pagination pull-right no-margin">
 									                <h:commandButton value="#{mensagens['label.botao.primeira']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
-									                	disabled="#{usuarioServlet.dataTable.first == 0}">
-									                	<f:ajax event="click" listener="#{usuarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
+									                	disabled="#{horarioServlet.dataTable.first == 0}">
+									                	<f:ajax event="click" listener="#{horarioServlet.pageFirst}" render=":formPesquisar:panelDataTable" />
 									                </h:commandButton>
 									                <h:commandButton value="#{mensagens['label.botao.anterior']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
-									                	disabled="#{usuarioServlet.dataTable.first == 0}">
-									                	<f:ajax event="click" listener="#{usuarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
+									                	disabled="#{horarioServlet.dataTable.first == 0}">
+									                	<f:ajax event="click" listener="#{horarioServlet.pagePrevious}" render=":formPesquisar:panelDataTable"/>
 									                </h:commandButton>
 									                <h:commandButton value="#{mensagens['label.botao.proxima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
-									                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
-									                	<f:ajax event="click" listener="#{usuarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
+									                	disabled="#{horarioServlet.dataTable.first + horarioServlet.dataTable.rows >= horarioServlet.dataTable.rowCount}">
+									                	<f:ajax event="click" listener="#{horarioServlet.pageNext}" render=":formPesquisar:panelDataTable" />
 									                </h:commandButton>
 									                <h:commandButton value="#{mensagens['label.botao.ultima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
-									                	disabled="#{usuarioServlet.dataTable.first + usuarioServlet.dataTable.rows >= usuarioServlet.dataTable.rowCount}">
-									                	<f:ajax event="click" listener="#{usuarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
+									                	disabled="#{horarioServlet.dataTable.first + horarioServlet.dataTable.rows >= horarioServlet.dataTable.rowCount}">
+									                	<f:ajax event="click" listener="#{horarioServlet.pageLast}" render=":formPesquisar:panelDataTable" />
 									                </h:commandButton>
 									            </h:panelGroup>
 									        </f:facet>

@@ -62,7 +62,7 @@ public class HistoricoAcessoServlet implements Serializable
 	
 	public void consultarAcessos() throws SQLException
 	{
-		acessos = new HistoricoAcessoDAO().consultar(usuarioLogado, pessoaBusca, null, null);
+		acessos = new HistoricoAcessoDAO().consultar(null, pessoaBusca, null, null);
 	}
 	
 	public void buscarPessoa() throws SQLException
@@ -71,6 +71,7 @@ public class HistoricoAcessoServlet implements Serializable
 		if(cpfPessoa!=null && cpfPessoa.length()>0)
 		{
 			pessoaBusca = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
+//			nomePessoa = "";
 			if(pessoaBusca!=null)
 			{
 				nomePessoa = pessoaBusca.getNome();
@@ -79,7 +80,6 @@ public class HistoricoAcessoServlet implements Serializable
 	}
 	
 	private HtmlDataTable dataTable;
-	private HtmlDataTable dataTablePermissao;
 	   
     public HtmlDataTable getDataTable() {
           return dataTable;
@@ -88,14 +88,6 @@ public class HistoricoAcessoServlet implements Serializable
     public void setDataTable(HtmlDataTable dataTable) {
           this.dataTable = dataTable;
     }            
-
-    public HtmlDataTable getDataTablePermissao() {
-		return dataTablePermissao;
-	}
-
-	public void setDataTablePermissao(HtmlDataTable dataTablePermissao) {
-		this.dataTablePermissao = dataTablePermissao;
-	}
 
 	public void pageFirst() {
         dataTable.setFirst(0);

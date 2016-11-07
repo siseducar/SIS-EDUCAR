@@ -39,7 +39,7 @@
 											<div>
 												<output> #{mensagens['label.cadastro.pessoa.cpf']} </output>
 												<span class="block input-icon input-icon-right">
-													<h:inputText id="inputCpfPessoa" type="text" styleClass="form-control cpf" value="#{historicoAcessoServlet.cpfPessoa}" maxlength="15" required="true" autocomplete="off">
+													<h:inputText id="inputCpfPessoa" type="text" styleClass="form-control cpf" value="#{historicoAcessoServlet.cpfPessoa}" maxlength="15" autocomplete="off">
 															<f:validator validatorId="valida.cpf"/>
 															<f:converter converterId="converte.cpf"/>
 														<f:ajax event="change" listener="#{historicoAcessoServlet.buscarPessoa}" render="inputNomePessoa" resetValues="true"/>
@@ -51,7 +51,7 @@
 											<div>
 												<output> #{mensagens['label.cadastro.pessoa.nome']} </output>
 												<span class="block input-icon input-icon-right">
-													<h:inputText id="inputNomePessoa" type="text" class="form-control" value="#{historicoAcessoServlet.nomePessoa}" maxlength="11" required="true" autocomplete="off" disabled="true">
+													<h:inputText id="inputNomePessoa" type="text" class="form-control" value="#{historicoAcessoServlet.nomePessoa}" autocomplete="off" disabled="true">
 													</h:inputText>
 												</span>
 											</div>
@@ -65,8 +65,8 @@
 									<h3 class="header smaller lighter blue"> #{mensagens['label.acessos']} </h3>
 									<h:panelGroup id="testeRetirar">
 										<div class="col-xs-12 col-sm-12">
-											<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{historicoAcessoServlet.dataTablePermissao}"
-							    			headerClass="order-table-header" id="tableAcessos" value="#{historicoAcessoServlet.acessos}" var="value"
+											<h:dataTable id="tableAcessos" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{historicoAcessoServlet.dataTable}"
+							    			headerClass="order-table-header" value="#{historicoAcessoServlet.acessos}" var="value"
 							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 								    			<h:column>
 								    				<center>
@@ -79,6 +79,26 @@
 							    					<f:facet name="header"> #{mensagens['label.tabela.dataAcesso']} </f:facet>
 													<h:outputLabel value="#{value.dataLogin}"/>
 								    			</h:column>
+								    			<f:facet name="footer">
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="#{mensagens['label.botao.primeira']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{historicoAcessoServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{historicoAcessoServlet.pageFirst}" render=":formPrincipal:tableAcessos" />
+											                </h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.anterior']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{historicoAcessoServlet.dataTable.first == 0}">
+											                	<f:ajax event="click" listener="#{historicoAcessoServlet.pagePrevious}" render=":formPrincipal:tableAcessos"/>
+											                </h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.proxima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{historicoAcessoServlet.dataTable.first + historicoAcessoServlet.dataTable.rows >= historicoAcessoServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{historicoAcessoServlet.pageNext}" render=":formPrincipal:tableAcessos" />
+											                </h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.ultima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{historicoAcessoServlet.dataTable.first + historicoAcessoServlet.dataTable.rows >= historicoAcessoServlet.dataTable.rowCount}">
+											                	<f:ajax event="click" listener="#{historicoAcessoServlet.pageLast}" render=":formPrincipal:tableAcessos" />
+											                </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
 								    		</h:dataTable>
 										</div>
 									</h:panelGroup>
