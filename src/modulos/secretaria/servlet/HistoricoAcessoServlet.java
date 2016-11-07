@@ -2,6 +2,8 @@ package modulos.secretaria.servlet;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -16,6 +18,7 @@ import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesSecretaria;
+import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="historicoAcessoServlet")
 @ViewScoped
@@ -63,6 +66,11 @@ public class HistoricoAcessoServlet implements Serializable
 	public void consultarAcessos() throws SQLException
 	{
 		acessos = new HistoricoAcessoDAO().consultar(null, pessoaBusca, null, null);
+		for (HistoricoAcesso historicoAcesso : acessos) 
+		{
+			
+			historicoAcesso.setDataLoginAux(converteDateToString(historicoAcesso.getDataLogin()));
+		}
 	}
 	
 	public void buscarPessoa() throws SQLException
@@ -71,11 +79,31 @@ public class HistoricoAcessoServlet implements Serializable
 		if(cpfPessoa!=null && cpfPessoa.length()>0)
 		{
 			pessoaBusca = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
-//			nomePessoa = "";
+			nomePessoa = "";
 			if(pessoaBusca!=null)
 			{
 				nomePessoa = pessoaBusca.getNome();
 			}
+		}
+	}
+	
+	/**
+	 * Converte o formato simples de date para date com hora, minuto e segundo
+	 * @author João Paulo
+	 * @param data
+	 * @return
+	 */
+	public static String converteDateToString(Timestamp data)
+	{
+		try 
+		{
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			return format.format(data);
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("converteDateToString", "");
+			return null;
 		}
 	}
 	

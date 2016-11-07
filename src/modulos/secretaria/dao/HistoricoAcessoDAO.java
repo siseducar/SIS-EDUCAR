@@ -136,7 +136,7 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 		while (rs.next()) 
 		{
 			historicoAcesso = new HistoricoAcesso();
-			historicoAcesso.setDataLogin(rs.getDate("DATALOGIN"));
+			historicoAcesso.setDataLogin(rs.getTimestamp("DATALOGIN"));
 			historicoAcesso.setUsuario(new UsuarioDAO().obtemUsuario(null, ConstantesSisEducar.STATUS_ATIVO, new Integer(rs.getString("FKUSUARIO"))));
 			
 			acessos.add(historicoAcesso);
