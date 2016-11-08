@@ -23,7 +23,7 @@
 						#{mensagens['label.consulta']}
 						<small>
 							<i class="ace-icon fa fa-angle-double-right"></i>
-							#{mensagens['label.cadastro.historicoAcesso']}
+							#{mensagens['label.historicoAcesso.consulta.historicoAcesso']}
 						</small>
 					</h1>
 				</div>
@@ -31,10 +31,10 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<h:form id="formPrincipal" prependId="false">
-							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/consulta/consultaHistoricoAcesso.js"/>
 							<div class="clearfix form-actions">
 								<div class="form-group">
 									<h:panelGroup id="componentes">
+										<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/consulta/consultaHistoricoAcesso.js"/>
 										<div class="col-xs-12 col-sm-4">
 											<div>
 												<output> #{mensagens['label.cadastro.pessoa.cpf']} </output>
@@ -56,13 +56,37 @@
 												</span>
 											</div>
 										</div>
+										<div class="col-xs-12 col-sm-2">
+											<div class="space-6"></div>
+											<h:outputLabel
+												value="#{mensagens['label.historicoAcesso.dat.inicio']}"/>
+											<div>
+												<h:inputText type="date" id="dataInicio"
+													styleClass="col-xs-12 col-sm-12 calendario form-control"
+													value="#{historicoAcessoServlet.inicioAux}" autocomplete="off">
+													<f:converter converterId="converte.data"/>
+												</h:inputText>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-2">
+											<div class="space-6"></div>
+											<h:outputLabel
+												value="#{mensagens['label.historicoAcesso.dat.fim']}"/>
+											<div>
+												<h:inputText type="date" id="dataFim"
+													styleClass="col-xs-12 col-sm-12 calendario form-control"
+													value="#{historicoAcessoServlet.fimAux}" autocomplete="off">
+													<f:converter converterId="converte.data"/>
+												</h:inputText>
+											</div>
+										</div>
 									</h:panelGroup>
 								</div>
 							</div>
 							
 							<div class="clearfix form-actions">
 								<div class="form-group">
-									<h3 class="header smaller lighter blue"> #{mensagens['label.acessos']} </h3>
+									<h3 class="header smaller lighter blue"> #{mensagens['label.historicoAcesso.acessos']} </h3>
 									<h:panelGroup id="testeRetirar">
 										<div class="col-xs-12 col-sm-12">
 											<h:dataTable id="tableAcessos" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{historicoAcessoServlet.dataTable}"
@@ -70,13 +94,13 @@
 							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
 								    			<h:column>
 								    				<center>
-							    						<f:facet name="header"> #{mensagens['label.tabela.usuario']} </f:facet>
+							    						<f:facet name="header"> #{mensagens['label.historicoAcesso.tabela.usuario']} </f:facet>
 								    				</center>
 								    				
 							    					<h:outputLabel value="#{value.usuario.pessoa.nome}"></h:outputLabel>
 								    			</h:column>
 								    			<h:column>
-							    					<f:facet name="header"> #{mensagens['label.tabela.dataAcesso']} </f:facet>
+							    					<f:facet name="header"> #{mensagens['label.historicoAcesso.tabela.dataAcesso']} </f:facet>
 													<h:outputLabel value="#{value.dataLoginAux}"/>
 								    			</h:column>
 								    			<f:facet name="footer">

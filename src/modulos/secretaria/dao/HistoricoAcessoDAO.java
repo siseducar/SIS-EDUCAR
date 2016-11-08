@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,19 +72,43 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 	{
 		List<HistoricoAcesso> acessos = new ArrayList<HistoricoAcesso>();
 		HistoricoAcesso historicoAcesso = null;
+		Timestamp inicioAux = null;
+		Timestamp fimAux = null;
 		Integer numeroArgumentos = 1;
+		
 		String querySQL = "SELECT HA.* FROM HISTORICOACESSO HA" +
 				" INNER JOIN USUARIO U ON(HA.FKUSUARIO = U.PKUSUARIO)" +
 				" INNER JOIN PESSOA P ON(U.FKPESSOA = P.PKPESSOA)" +
 				" WHERE HA.STATUS = ?" +
 				" AND U.STATUS = ?" +
 				" AND P.STATUS = ?";
-		
+
 		if(inicio!=null)
+		{
+			inicioAux = new Timestamp(0);
+			inicioAux.setDate(inicio.getDate());
+			inicioAux.setMonth(inicio.getMonth());
+			inicioAux.setYear(inicio.getYear());
+			inicioAux.setHours(0);
+			inicioAux.setMinutes(0);
+			inicioAux.setSeconds(0);
+		}
+		if(fim!=null)
+		{
+			fimAux = new Timestamp(0);
+			fimAux.setDate(fim.getDate());
+			fimAux.setMonth(fim.getMonth());
+			fimAux.setYear(fim.getYear());
+			fimAux.setHours(23);
+			fimAux.setMinutes(59);
+			fimAux.setSeconds(59);
+		}
+		
+		if(inicioAux!=null)
 		{
 			querySQL += " AND DATALOGIN >= ?";
 		}
-		if(fim!=null)
+		if(fimAux!=null)
 		{
 			querySQL += " AND DATALOGIN <= ?";
 		}
@@ -108,16 +133,16 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		
-		if(inicio!=null)
+		if(inicioAux!=null)
 		{
 			numeroArgumentos++;
-			ps.setDate(numeroArgumentos, inicio);
+			ps.setTimestamp(numeroArgumentos, inicioAux);
 		}
 		
-		if(fim!=null)
+		if(fimAux!=null)
 		{
 			numeroArgumentos++;
-			ps.setDate(numeroArgumentos, fim);
+			ps.setTimestamp(numeroArgumentos, fimAux);
 		}
 		
 		if(usuario!=null)

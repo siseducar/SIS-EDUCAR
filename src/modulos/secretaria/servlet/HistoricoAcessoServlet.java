@@ -1,6 +1,7 @@
 package modulos.secretaria.servlet;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,8 @@ public class HistoricoAcessoServlet implements Serializable
 	private String cpfPessoa = "";
 	private String nomePessoa = "";
 	private Pessoa pessoaBusca = null;
+	private Date inicioAux = null;
+	private Date fimAux = null;
 	
 	/**
 	 * Construtor
@@ -65,7 +68,7 @@ public class HistoricoAcessoServlet implements Serializable
 	
 	public void consultarAcessos() throws SQLException
 	{
-		acessos = new HistoricoAcessoDAO().consultar(null, pessoaBusca, null, null);
+		acessos = new HistoricoAcessoDAO().consultar(null, pessoaBusca, inicioAux, fimAux);
 		for (HistoricoAcesso historicoAcesso : acessos) 
 		{
 			
@@ -199,5 +202,21 @@ public class HistoricoAcessoServlet implements Serializable
 
 	public void setPessoaBusca(Pessoa pessoaBusca) {
 		this.pessoaBusca = pessoaBusca;
+	}
+
+	public Date getInicioAux() {
+		return inicioAux;
+	}
+
+	public void setInicioAux(Date inicioAux) {
+		this.inicioAux = inicioAux;
+	}
+
+	public Date getFimAux() {
+		return fimAux;
+	}
+
+	public void setFimAux(Date fimAux) {
+		this.fimAux = fimAux;
 	}
 }
