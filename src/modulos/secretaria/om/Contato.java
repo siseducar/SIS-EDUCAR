@@ -17,8 +17,6 @@ public class Contato implements Serializable {
 	private String emailempresa;
 	private String siteempresa;
 	private String fax;
-	
-	
 	private Integer status;
 	private Boolean enviarNotificacao;
 	

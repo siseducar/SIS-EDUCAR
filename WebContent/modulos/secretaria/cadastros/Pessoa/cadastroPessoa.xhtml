@@ -51,17 +51,6 @@
 						</div>
 						<div class="space-4"/>
 						<div class="row">
-							<div class="col-xs-12 col-sm-2" style="visibility: true ">
-								<h:outputLabel
-									value="#{mensagens['label.nome']}"/>
-								<div>
-									<h:inputText type="text" id="codigoPessoa" class="col-xs-12 col-sm-12 form-control"
-										value="#{pessoaServlet.pessoaDados.nome}" autocomplete="off"
-										disabled="#{pessoaServlet.desabilitaCampos}"/>
-								</div>
-							</div>
-						</div>
-						<div class="row">
 							<div class="col-xs-12 col-sm-12">
 								<h:outputLabel
 									value="#{mensagens['label.nome']}"/>
@@ -136,7 +125,7 @@
 										<f:selectItem itemLabel="Selecione..." itemValue=""/>
 										<f:selectItems value="#{paramServlet.comboEstado}"
 											var="estNascimento" itemLabel="#{estNascimento.nome}" itemValue="#{estNascimento.pkEstado}"/>
-										<f:ajax event="change" execute="@this" render="codCidNasci" resetValues="true"/>
+										<f:ajax event="change" execute="@this" render="codCidNasci"/>
 									</h:selectOneMenu>
 								</div>
 							</div>

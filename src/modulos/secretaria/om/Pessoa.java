@@ -8,6 +8,7 @@ import modulos.sisEducar.om.Anexo;
 public class Pessoa implements Serializable {	
 	
 	private static final long serialVersionUID = 1L;
+	
 	private Integer pkPessoa;
 	private Integer codigo;
 	private String nome;

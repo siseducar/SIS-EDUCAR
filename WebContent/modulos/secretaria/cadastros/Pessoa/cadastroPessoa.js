@@ -84,17 +84,7 @@ $(function carrgaElementos() {
 			}
 		}
 	});
-	
-	$(".spinner").ace_spinner({
-        min: 0,
-        max: 100,
-	    step: 1,
-	    
-	   icon_up: 'fa fa-caret-up',
-	   icon_down: 'fa fa-caret-down',
-	   on_sides: true
-	});
-	
+		
 	$("#mae").on('click', function() {
 		   $("#tipoGenero").val("feminino");
 	});
@@ -111,31 +101,16 @@ $(function carrgaElementos() {
 });
 
 $(function() {
-    $( ".calendario" ).datepicker({
-    	dateFormat: 'dd/mm/yy',
-        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-        nextText: 'Próximo',
-        prevText: 'Anterior',
+	$( ".calendario" ).datepicker({
+		dateFormat: 'dd/mm/yy',
+	    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+	    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+	    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+	    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+	    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+	    nextText: 'Próximo',
+	    prevText: 'Anterior',
     });
-  });
-
-$(function() {
-	$(".upload").ace_file_input({
-		style: 'well',
-		no_file: "Escolha uma",
-		droppable: true, //html5 browsers only
-		thumbnail: 'small', //html5 browsers only
-		maxSize: 1000000, //~100 KB
-		allowExt:  ['jpg', 'jpeg', 'png', 'bmp'],
-		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/tif', 'image/tiff', 'image/bmp'] //html5 browsers only
-	});
-	$(".upload").ace_file_input({
-		'allowExt': ['jpg', 'jpeg', 'png']
-	});
 });
 
 function esconderModal(data) {

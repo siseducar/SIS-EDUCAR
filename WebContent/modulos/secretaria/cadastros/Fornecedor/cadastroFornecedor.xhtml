@@ -16,17 +16,27 @@
 			</li>
 		</ui:define>
 		<ui:define name="scriptConteudo" >
-			<div class="page-content">
-				<div class="page-header">
-					<h1>
-						#{mensagens['label.cadastro']}
-						<small> 
-							<i class="ace-icon fa fa-angle-double-right"/>
-							#{mensagens['label.cadastro.fornecedor']}
-						</small>
-					</h1>
-				</div>
-				<div class="row">
+			<div class="page-header col-xs-12 col-sm-12">
+				<h1>
+					#{mensagens['label.cadastro']}
+					<small> 
+						<i class="ace-icon fa fa-angle-double-right"/>
+						#{mensagens['label.cadastro.fornecedor']}
+					</small>
+				</h1>
+			</div>
+			<div class="nav-search">
+				<h5 align="center">
+					<a href="#modalConsultaFornecedor" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+						<i class="ace-icon fa fa-search bigger-150"/>
+						<span class="bigger-110">
+							#{mensagens['label.consultar']}
+						</span>
+					</a>
+				</h5>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
 					<h:form id="formCadstroFornecedor" prependId="false">
 						<h:panelGroup id="dadosEmpresa" style="width: 100%" class="clearfix form-actions">
 							<h3 class="header smaller lighter blue" align="center"> #{mensagens['label.dados.empresa']} </h3>
@@ -35,14 +45,16 @@
 									<h:outputLabel 
 										value="#{mensagens['label.razao.social']}"/>
 									<div>
-										<h:inputText type="text" styleClass="col-sm-12" id="razaoSocial"/>
+										<h:inputText type="text" styleClass="col-sm-12" id="razaoSocial"
+											value="#{forneServlet.fornecedorDados.razaoSocial}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel 
 										value="#{mensagens['label.nome.fantasia']}"/>
 									<div>
-										<h:inputText type="text" styleClass="col-sm-12" id="nomeFantasia"/>
+										<h:inputText type="text" styleClass="col-sm-12" id="nomeFantasia"
+											value="#{forneServlet.fornecedorDados.nomeFantasia}"/>
 									</div>
 								</div>
 							</div>
@@ -52,9 +64,11 @@
 									<h:outputLabel 
 										value="#{mensagens['label.cnpj']}"/>
 									<div>
-										<h:inputText type="text" styleClass="col-sm-12 cnpj" id="numCnpj">
+										<h:inputText type="text" styleClass="col-sm-12 cnpj" id="numCnpj"
+											value="#{forneServlet.fornecedorDados.cnpj}">
 											<f:validator validatorId="valida.cnpj"/>
 											<f:converter converterId="converte.cnpj"/>
+											<f:ajax event="change" execute="@this"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -62,19 +76,21 @@
 									<h:outputLabel
 										value="#{mensagens['label.cpf.fornecedor']}"/>
 									<div>
-										<h:inputText type="text" id="numCpf"
-											styleClass="col-sm-12 cpf">
+										<h:inputText type="text" id="numCpf" styleClass="col-sm-12 cpf" 
+											value="#{forneServlet.pessoaDados.cpf}">
 											<f:validator validatorId="valida.cpf"/>
 											<f:converter converterId="converte.cpf"/>
+											<f:ajax event="change" execute="@this" 
+												render="nomeContato" listener="#{forneServlet.consultaNomeContato}"/>
 										</h:inputText>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-4">
+								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel
 										value="#{mensagens['label.nome']}"/>
 									<div>
-										<h:inputText type="text" id="nomeContato"
-											styleClass="col-sm-12"/>
+										<h:inputText type="text" id="nomeContato" styleClass="col-sm-12"
+											value="#{forneServlet.pessoaDados.nome}" disabled="true"/>
 									</div>
 								</div>
 							</div>
@@ -83,11 +99,12 @@
 								<div class="col-xs-12 col-sm-3">
 									<h:outputLabel value="#{mensagens['label.estado']}"/>
 									<div>
-										<h:selectOneMenu id="codInscriEstado" class="form-control">
+										<h:selectOneMenu id="codInscriEstado" class="form-control"
+											value="#{forneServlet.estadoInscricaoDados.pkEstado}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 											<f:selectItems value="#{paramServlet.comboEstado}" var="estado" 
 												itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}" />
-												<f:ajax event="change" render="inscriEstadual"/>
+											<f:ajax event="change" execute="@this" render="munInscri"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -95,15 +112,18 @@
 									<h:outputLabel
 										value="#{mensagens['label.inscri.estadual']}"/>
 									<div>
-										<h:inputText type="text" id="inscriEstadual"
-											styleClass="col-sm-12 numeros"/>
+										<h:inputText type="text" id="numInscriEstadual" styleClass="col-sm-12 numeros"
+											value="#{forneServlet.fornecedorDados.numInscriEstadual}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-3">
 									<h:outputLabel value="#{mensagens['label.municipio']}"/>
 									<div>
-										<h:selectOneMenu id="codInscriMun" class="form-control">
+										<h:selectOneMenu id="munInscri" class="form-control"
+											value="#{forneServlet.cidadeInscricaoDados.pkCidade}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+											<f:selectItems value="#{fornceServlet.comboMunicipioInscricao}"
+												var="cidade" itemLabel="#{cidade.descricao}" itemValue="#{cidade.pkCidade}"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -111,8 +131,8 @@
 									<h:outputLabel
 										value="#{mensagens['label.inscri.municipal']}"/>
 									<div>
-										<h:inputText type="text" id="inscriMunicipal"
-											styleClass="col-sm-12 numeros"/>
+										<h:inputText type="text" id="numInscriMunicipal" styleClass="col-sm-12 numeros"
+											value="#{forneServlet.fornecedorDados.numInscriMunicipal}"/>
 									</div>
 								</div>
 							</div>
@@ -137,8 +157,8 @@
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel value="#{mensagens['label.observacao']}"/>
 									<div>
-										<h:inputText type="text" id="observacao"
-											styleClass="col-sm-12 numeros"/>
+										<h:inputText type="text" id="observacao" styleClass="col-sm-12"
+											value="#{forneServlet.fornecedorDados.observacao}"/>
 									</div>
 								</div>
 							</div>
@@ -185,9 +205,8 @@
 									<h:outputLabel 
 										value="#{mensagens['label.cep']}"/>
 									<div>
-										<h:inputText
-											styleClass="col-sm-12 numeros" id="numCep" title="Numero do CEP">
-										</h:inputText>
+										<h:inputText styleClass="col-sm-12 numeros cep" id="numCep" title="Numero do CEP"
+											value="#{forneServlet.enderecoDados.cep}"/>
 									</div>
 								</div>
 							</div>
@@ -196,7 +215,8 @@
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel value="Tipo Logradouro"/>
 									<div>
-										<h:selectOneMenu id="tipoLogradouro" class="form-control">
+										<h:selectOneMenu id="tipoLogradouro" class="form-control"
+											value="#{forneServlet.enderecoDados.tipologradouro.pkTipoLogradouro}">
 											<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										</h:selectOneMenu>
 									</div>
@@ -205,27 +225,31 @@
 									<h:outputLabel
 										value="Logradouro"/>
 									<div>
-										<h:inputText type="text" id="nomeLogradouro" styleClass="col-sm-12"/>
+										<h:inputText type="text" id="nomeLogradouro" styleClass="col-sm-12"
+											value="#{forneServlet.enderecoDados.logradouro}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-1">
 									<h:outputLabel
 										value="Numero"/>
 									<div>
-										<h:inputText type="text" id="numEndereco" styleClass="col-sm-12"/>
+										<h:inputText type="text" id="numEndereco" styleClass="col-sm-12"
+											value="#{forneServlet.enderecoDados.numero}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-3">
 									<h:outputLabel
 										value="Bairro"/>
 									<div>
-										<h:inputText type="text" id="codBairro" styleClass="col-sm-12"/>
+										<h:inputText type="text" id="codBairro" styleClass="col-sm-12"
+											value="#{forneServlet.enderecoDados.bairro}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel value="Complemento"/>
 									<div>
-										<h:inputText type="text" id="codComplemento" styleClass="col-sm-12"/>
+										<h:inputText type="text" id="codComplemento" styleClass="col-sm-12"
+											value="#{forneServlet.enderecoDados.complemento}"/>
 									</div>
 								</div>
 							</div>
@@ -234,13 +258,15 @@
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel value="E-mail da Empresa"/>
 									<div>
-										<h:inputText type="text" class="form-control"/>
+										<h:inputText type="text" class="form-control"
+											value="#{forneServlet.contatoDados.emailempresa}"/>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<h:outputLabel value="Site da Empresa"/>
 									<div>
-										<h:inputText type="text" class="form-control"/>
+										<h:inputText type="text" class="form-control"
+											value="#{forneServlet.contatoDados.siteempresa}"/>
 									</div>
 								</div>
 							</div>
@@ -259,7 +285,8 @@
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel value="Telefone da Empresa"/>
 									<div>
-										<h:inputText type="number" id="numTelefone" styleClass="col-sm-12 telResidencial">
+										<h:inputText type="number" id="numTelefone" styleClass="col-sm-12 telResidencial"
+											value="#{forneServlet.contatoDados.telComercial}">
 											<f:converter converterId="converte.telresidencial"/>
 										</h:inputText>
 									</div>
@@ -267,7 +294,8 @@
 								<div class="col-xs-12 col-sm-2">
 									<h:outputLabel value="Fax"/>
 									<div>
-										<h:inputText id="numFax" class="form-control"/>
+										<h:inputText id="numFax" class="form-control"
+											value="#{forneServlet.contatoDados.fax}"/>
 									</div>
 								</div>
 							</div>
@@ -313,9 +341,90 @@
 							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
 								<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+								<f:ajax event="click" render="@form" execute="@form" resetValues="true"
+									listener="#{forneServlet.validaCadastro}"/>
 							</h:commandLink>
 						</div>
 					</h:form>
+					<div class="row">
+			    		<h:form id="formConsultaFornecedor" prependId="false">
+							<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+								role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaFornecedor">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							    	<div class="modal-header">
+										<h3 class=" smaller lighter blue">
+											#{mensagens['label.buscar.fornecedor']}
+										</h3>
+							    	</div>
+							    	<div class="modal-body">
+						    			<div class="space-6"/>
+						    			<div class="row">
+						    				<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
+							    				<h:dataTable id="tabelaFornecedor" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
+									    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10"
+									    			binding="#{forneServlet.dataTable}" value="#{forneServlet.listaConsultaFornecedores}" var="fornecedor">
+									    			<h:column>
+									    				<center>
+										    				<f:facet name="header"> #{mensagens['label.razao.social']} </f:facet>
+									    				</center>
+									    				<h:outputLabel value="#{fornecedor.razaoSocial}"/>
+									    			</h:column>
+									    			<h:column>
+									    				<center>
+									    					<f:facet name="header"> #{mensagens['label.nome.fantasia']} </f:facet>
+									    				</center>
+									    				<h:outputLabel value="#{fornecedor.nomeFantasia}"/>
+									    			</h:column>
+									    			<h:column>
+									    				<center>
+									    					<f:facet name="header"> #{mensagens['label.cnpj']} </f:facet>
+									    				</center>
+									    				<h:outputLabel value="#{fornecedor.cnpj}"/>
+									    			</h:column>
+									    			<f:facet name="footer">
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="#{mensagens['label.botao.primeira']}"
+											                    disabled="#{forneServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                		<f:ajax event="click" listener="#{forneServlet.pageFirst}" render="tabelaPessoa" />
+										                	</h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.anterior']}"
+											                    disabled="#{forneServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+											               		<f:ajax event="click" listener="#{forneServlet.pagePrevious}" render="tabelaPessoa" />
+											               	</h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.proxima']}"
+											                    disabled="#{forneServlet.dataTable.first + forneServlet.dataTable.rows
+											                        >= forneServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                        <f:ajax event="click" listener="#{forneServlet.pageNext}" render="tabelaPessoa" />
+									                        </h:commandButton>
+											                <h:commandButton value="#{mensagens['label.botao.ultima']}"
+											                    disabled="#{forneServlet.dataTable.first + forneServlet.dataTable.rows
+											                        >= forneServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
+										                    	<f:ajax event="click" listener="#{forneServlet.pageLast}" render="tabelaPessoa" />
+										                    </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
+									    		</h:dataTable>
+						    				</h:panelGroup>
+						    			</div>
+							    	</div>
+							    	<div class="modal-footer">
+							    		<button id="btFechar" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
+											<i class="ace-icon fa fa-times red2"/>
+											#{mensagens['label.botao.fechar']}
+										</button>
+										<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
+											<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
+											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+											<f:ajax event="click" listener="#{forneServlet.consultaCadastro}" 
+												render="tabelaFornecedor" execute=":formConsultaFornecedor"/>
+										</h:commandLink>
+							    	</div>
+							    </div>
+							  </div>
+							</div>
+						</h:form>
+					</div>
 				</div>
 			</div>
 		</ui:define>

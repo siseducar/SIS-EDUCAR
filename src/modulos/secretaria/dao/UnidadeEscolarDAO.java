@@ -394,7 +394,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 					
 					if(endereco.getContato()!=null)
 					{
-						endereco.setContato(new ContatoDAO().buscarContato(endereco.getContato().getPkContato()));
+						endereco.setContato(new ContatoDAO().buscarContato(endereco.getContato()));
 					}
 				}
 				if(rs.getObject("fkMunicipioCliente")!=null)

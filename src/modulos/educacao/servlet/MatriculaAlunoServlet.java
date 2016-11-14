@@ -276,21 +276,7 @@ public class MatriculaAlunoServlet implements Serializable {
 		}
 		return true;
 	}
-	
-	/*
-	 * Consulta o cadastro da pessoa
-	 * **/
-	public void consultaCadastro() {
-		listaConsultaPessoa = new ArrayList<Pessoa>();
-		
-		pessoaDadosConsulta.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
-		listaConsultaPessoa = 
-				pessoaDAO.consultaCadastroPessoa(pessoaDadosConsulta.getNome(), 
-						pessoaDadosConsulta.getCpf(), 
-						pessoaDadosConsulta.getRg(), 
-						pessoaDadosConsulta.getDataNascimento(),
-						null);
-	}
+
 	
 	/*
 	 * Metodo para editar cadastro selecionado

@@ -30,7 +30,7 @@ public class ContatoDAO extends SisEducarDAO
 	 * @return
 	 * @throws SQLException
 	 */
-	public Contato buscarContato(Integer pkContato)
+	public Contato buscarContato(Contato contatoDados)
 	{
 		try {
 			Contato contato = null;
@@ -38,7 +38,7 @@ public class ContatoDAO extends SisEducarDAO
 					+ " WHERE PKCONTATO = ?";
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setInt(1, pkContato);
+			ps.setInt(1, contatoDados.getPkContato());
 			
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
@@ -189,20 +189,90 @@ public class ContatoDAO extends SisEducarDAO
 	/*
 	 * Metodo para salvar os dados de contato no cadastro da pessoa
 	 * */
-	public Contato salvarContatoPessoa(Contato dadosContato) {
+	public Contato salvarContato(Contato dadosContato) {
 		try {
-			String querySQL = "INSERT INTO CONTATO ( "
-					+ "TELRESIDENCIAL, "
-					+ "TELCELULAR, "
-					+ "EMAIL ) values( "
-					+ " ?, ?, ?) RETURNING PKCONTATO";
+			int numeroArgumentos = 1;
+			String querySQL = "INSERT INTO CONTATO ( ";
+				if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
+					querySQL+= " TELRESIDENCIAL, ";
+				}
+				if( dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("") ) {
+					querySQL+= " TELCELULAR, ";
+				}
+				if( dadosContato.getTelComercial() != null && !dadosContato.getTelComercial().equals("") ) {
+					querySQL+= " TELCOMERCIAL, ";
+				}
+				if( dadosContato.getEmail() != null && !dadosContato.getEmail().equals("") ) {
+					querySQL+= " EMAIL, ";
+				}
+				if( dadosContato.getEmailempresa() != null && !dadosContato.getEmailempresa().equals("") ) {
+					querySQL+= " EMAILEMPRESA, ";
+				}
+				if( dadosContato.getSiteempresa() != null && !dadosContato.getSiteempresa().equals("") ) {
+					querySQL+= " SITEEMPRESA, ";
+				}
+				if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
+					querySQL+= " FAX, ";
+				}
+				
+				querySQL+= " STATUS ";
+				
+				querySQL+= " ) values( ";
+				if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getTelComercial() != null && !dadosContato.getTelComercial().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getEmail() != null && !dadosContato.getEmail().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getEmailempresa() != null && !dadosContato.getEmailempresa().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getSiteempresa() != null && !dadosContato.getSiteempresa().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
+					querySQL+= " ?, ";
+				}
+				querySQL += "? ) RETURNING PKCONTATO ";
 			
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setString(1, dadosContato.getTelResidencial());
-			ps.setString(2, dadosContato.getTelCelular());
-			ps.setString(3, dadosContato.getEmail());
-						
+			if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelResidencial());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelCelular());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getTelComercial() != null && !dadosContato.getTelComercial().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelComercial());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getEmail() != null && !dadosContato.getEmail().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getEmail());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getEmailempresa() != null && !dadosContato.getEmailempresa().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getEmailempresa());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getSiteempresa() != null && !dadosContato.getSiteempresa().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getSiteempresa());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getFax());
+				numeroArgumentos++;
+			}			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				dadosContato.setPkContato(rs.getInt("PKCONTATO"));

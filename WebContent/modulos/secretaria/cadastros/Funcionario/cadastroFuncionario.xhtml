@@ -1,0 +1,185 @@
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition	template="/resources/templates/sisEducar/menuPrincipal.xhtml">
+		<ui:define name="barraNavegacao">
+			<li>
+				<i class="ace-icon glyphicon glyphicon-floppy-disk"/>
+				#{mensagens['label.cadastros']}
+			</li>
+			<li class="active">
+				<i class="ace-icon glyphicon glyphicon-user"/>
+				#{mensagens['label.pessoas']}
+			</li>
+		</ui:define>
+		<ui:define name="scriptConteudo" >
+			<div class="page-header col-xs-12 col-sm-12">
+				<h1>
+					#{mensagens['label.cadastro']}
+					<small> 
+						<i class="ace-icon fa fa-angle-double-right"/>
+						#{mensagens['label.cadastro.funcionario']}
+					</small>
+				</h1>
+			</div>
+			<div class="nav-search">
+				<h5 align="center">
+					<a href="#modalConsultaFornecedor" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+						<i class="ace-icon fa fa-search bigger-150"/>
+						<span class="bigger-110">
+							#{mensagens['label.consultar']}
+						</span>
+					</a>
+				</h5>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<h:form id="formCadstroFornecedor" prependId="false">
+						<h:panelGroup id="dadosEmpresa" style="width: 100%" class="clearfix form-actions">
+							<h3 class="header smaller lighter blue" align="center"> Dados do Funcionario </h3>
+							<div class="row">
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel value="#{mensagens['label.cpf']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-sm-12 cpf" id="cpfFuncionario"
+											autocomplete="off">
+											<f:validator validatorId="valida.cpf"/>
+											<f:converter converterId="converte.cpf"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-9">
+									<h:outputLabel 
+										value="#{mensagens['label.nome']}"/>
+									<div>
+										<h:inputText type="text" styleClass="col-sm-12" id="nomeFuncionario"
+											disabled="true"/>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-4">
+									<h:outputLabel 
+										value="Código Matricula"/>
+									<div>
+										<h:inputText type="text" styleClass="col-sm-12" id="matricula"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<h:outputLabel 
+										value="Número Contrato"/>
+									<div>
+										<h:inputText type="text" styleClass="col-sm-12" id="numContrato"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<h:outputLabel value="Código Admissão"/>
+									<div>
+										<h:inputText type="text" id="codAdmissao" styleClass="col-sm-12"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="Data Admissão"/>
+									<div>
+										<h:inputText type="text" id="dataAdmissao" 
+											styleClass="col-xs-12 col-sm-12 calendario form-control">
+											<f:converter converterId="converte.data"/>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel value="Vinculo Empregaticio"/>
+									<div>
+										<h:selectOneMenu styleClass="form-control" id="vincEmpregaticio">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel value="Ocupação Atual"/>
+									<div>
+										<h:selectOneMenu styleClass="form-control" id="ocupAtual">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<h:outputLabel value="Sede Atual"/>
+									<div>
+										<h:selectOneMenu styleClass="form-control" id="sedeAtual">
+											<f:selectItem itemValue="" itemLabel="Selecione..."/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="Carga Semanal"/>
+									<div>
+										<h:inputText id="cargaSemanal" styleClass="col-sm-12"/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="Carga Mensal"/>
+									<div>
+										<h:inputText id="cargaMensal" styleClass="col-sm-12"/>
+									</div>
+								</div>
+							</div>
+							<div class="space-4"/>
+							<div class="row">
+								<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<div class="col-xs-12 col-sm-12">
+										<h:outputLabel value="Concursado"/>
+										<div>
+											<h:selectOneRadio id="concursado">
+												<f:selectItem itemValue="" itemLabel="Sim"/>
+												<f:selectItem itemValue="" itemLabel="Não"/>
+											</h:selectOneRadio>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="col-xs-12 col-sm-12">
+										<h:outputLabel value="Aposentado"/>
+										<div>
+											<h:selectOneRadio id="aposentado">
+												<f:selectItem itemValue="" itemLabel="Sim"/>
+												<f:selectItem itemValue="" itemLabel="Não"/>
+											</h:selectOneRadio>
+										</div>
+									</div>
+								</div>
+								</div>
+							</div>
+						</h:panelGroup>
+						<div class="col-sx-12 col-sm-6" id="default-buttons">
+							<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
+								<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
+								<i class="ace-icon fa fa-file"/>
+							</h:commandLink>
+							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
+								<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
+								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
+								<f:ajax event="click" render="@form" execute="@form" resetValues="true"
+									listener="#{forneServlet.validaCadastro}"/>
+							</h:commandLink>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</ui:define>
+		<ui:define name="scriptPagina">
+			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
+			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
+		</ui:define>
+	</ui:composition>
+</h:html>

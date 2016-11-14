@@ -1,7 +1,6 @@
 package modulos.secretaria.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.util.List;
 
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Endereco;
+import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.EstadoCivil;
 import modulos.secretaria.om.GrauInstrucao;
 import modulos.secretaria.om.GrauParentesco;
@@ -44,7 +44,7 @@ public class PessoaDAO extends SisEducarDAO
 			Integer numeroArgumentos = 1;
 			
 			querySQL = " INSERT INTO PESSOA ( ";
-			querySQL += " NOME, ";
+			querySQL += " NOME, CODIGO, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
 				querySQL += " CPF, ";
 			}
@@ -60,11 +60,11 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 				querySQL += " CPFRESPONSAVEL, NOMERESPONSAVEL, FKGRAUPARENTESCO, ";
 			}
-			querySQL += " DATANASCIMENTO, SEXO,  TIPOPESSOA, STATUS, FKRACA, ";
+			querySQL += " DATANASCIMENTO, SEXO, STATUS, FKRACA, ";
 			querySQL += " FKSITUACAOECONOMICA, FKRELIGIAO, FKNACIONALIDADE, FKESTADOCIVIL, FKGRAUINSTRUCAO, ";
-			querySQL += " FKENDERECO, DATACADASTRO ) values ( ";
+			querySQL += " FKENDERECO, FKNATURALIDADE, DATACADASTRO ) values ( ";
 			
-			querySQL += " ?, ";
+			querySQL += " ?, ?, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {
 				querySQL += " ?, ";
 			}
@@ -86,6 +86,9 @@ public class PessoaDAO extends SisEducarDAO
 			
 			// NOME da Pessoa
 			ps.setString(numeroArgumentos, pessoaDados.getNome());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, pessoaDados.getCodigo().toString());
 			numeroArgumentos++;
 			
 			// CPF caso seja preenchido
@@ -137,13 +140,9 @@ public class PessoaDAO extends SisEducarDAO
 			// SEXO da pessoa
 			ps.setString(numeroArgumentos, pessoaDados.getSexo());
 			numeroArgumentos++;
-			
-			// TIPO de pessoa a ser cadastrada
-			ps.setInt(numeroArgumentos, pessoaDados.getTipoPessoa());
-			numeroArgumentos++;
-			
+						
 			// STATUS da pessoa
-			ps.setInt(numeroArgumentos, pessoaDados.getStatus());
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArgumentos++;
 			
 			// RACA da pessoa
@@ -172,6 +171,9 @@ public class PessoaDAO extends SisEducarDAO
 
 			// ENDERECO da pessoa
 			ps.setInt(numeroArgumentos, pessoaDados.getEndereco().getPkEndereco());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, pessoaDados.getFkCidadeNascimento().getPkCidade());
 			
 			rs = ps.executeQuery();
 			
@@ -351,8 +353,16 @@ public class PessoaDAO extends SisEducarDAO
 		
 		try { 
 			
-			String querySQL = "SELECT * FROM Pessoa "
-					+ " WHERE STATUS = ? AND PKPESSOA = ? ";
+			String querySQL = "SELECT "
+					+ "	PS.*, "
+					+ " CD.PKCIDADE, "
+					+ " ES.PKESTADO "
+					+ " FROM Pessoa PS "
+					+ " INNER JOIN Cidade CD "
+					+ " ON PS.FKNATURALIDADE = CD.PKCIDADE "
+					+ " INNER JOIN Estado ES"
+					+ " ON CD.FKESTADO = ES.PKESTADO "
+					+ " WHERE PS.STATUS = ? AND PS.PKPESSOA = ? ";
 			
 			ps = con.prepareStatement(querySQL);
 		
@@ -372,7 +382,8 @@ public class PessoaDAO extends SisEducarDAO
 				SituacaoEconomica situEconomicaDados = new SituacaoEconomica();
 				Religiao religiaoDados = new Religiao();
 				GrauParentesco grauParentescoDados = new GrauParentesco();
-				
+				Cidade cidadeNaturalidade = new Cidade(); 
+				Estado estadoNaturalidade = new Estado();
 				
 				racaDados.setPkRaca(rs.getInt("FKRACA"));
 				situEconomicaDados.setPkSituacaoEconomica(rs.getInt("FKSITUACAOECONOMICA"));
@@ -382,6 +393,8 @@ public class PessoaDAO extends SisEducarDAO
 				grauInstruDados.setPkGrauInstrucao(rs.getInt("FKGRAUINSTRUCAO"));
 				enderecoDados.setPkEndereco(rs.getInt("FKENDERECO"));
 				grauParentescoDados.setPkGrauParentesco(rs.getInt("FKGRAUPARENTESCO"));
+				cidadeNaturalidade.setPkCidade(rs.getInt("PKCIDADE"));
+				estadoNaturalidade.setPkEstado(rs.getInt("PKESTADO"));
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 				pessoaDados.setNome(rs.getString("NOME"));
 				pessoaDados.setCpf(rs.getLong("CPF"));
@@ -404,6 +417,9 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setEndereco(enderecoDados);
 				pessoaDados.setFkMunicipioCliente(municipioClienteDados);
 				pessoaDados.setGrauParentesco(grauParentescoDados);
+				
+				cidadeNaturalidade.setEstado(estadoNaturalidade);
+				pessoaDados.setFkCidadeNascimento(cidadeNaturalidade);
 
 				return pessoaDados;
 			}
@@ -454,29 +470,29 @@ public class PessoaDAO extends SisEducarDAO
 	 * @author Michael
 	 * @return Lista Pessoa
 	 */
-	public List<Pessoa> consultaCadastroPessoa(String nome, Long cpf, String rg, Date dataNasci, String sexo) {
+	public List<Pessoa> consultaCadastroPessoa(Pessoa pessoaDados) {
 		try {
 			Integer numeroArgumentos = 1;
-			String formataNome = "%"+ nome + "%";
+			String formataNome = "%"+ pessoaDados.getNome() + "%";
 			
 			List<Pessoa> listaPessoa = new ArrayList<Pessoa>();
 			
 			String querySQL = " SELECT * FROM PESSOA "
 					+ " WHERE STATUS = ? ";
 				
-				if( nome != null && !nome.equals("")) {
+				if( pessoaDados.getNome() != null && !pessoaDados.getNome().equals("")) {
 					querySQL+= " AND NOME ILIKE ?";
 				}
-				if( cpf != null && cpf != 0) {
+				if( pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0) {
 					querySQL+= " AND CPF = ? ";
 				}
-				if( rg != null && !rg.equals("")) {
+				if( pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {
 					querySQL+= " AND RG = ? ";
 				}
-				if(dataNasci != null) {
+				if(pessoaDados.getDataNascimento() != null) {
 					querySQL+= " AND DATANASCIMENTO = ? "; 
 				}
-				if(sexo != null && !sexo.equals("")) {
+				if(pessoaDados.getSexo() != null && !pessoaDados.getSexo().equals("")) {
 					querySQL+= " AND SEXO = ?";
 				}
 				querySQL+= " ORDER BY NOME";
@@ -486,24 +502,24 @@ public class PessoaDAO extends SisEducarDAO
 			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 			numeroArgumentos++;
 			
-			if( nome != null && !nome.equals("")) {
+			if( pessoaDados.getNome() != null && !pessoaDados.getNome().equals("")) {
 				ps.setString(numeroArgumentos, formataNome);
 				numeroArgumentos++;
 			}
-			if( cpf != null && cpf != 0) {
-				ps.setString(numeroArgumentos, cpf.toString());
+			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0) {
+				ps.setLong(numeroArgumentos, pessoaDados.getCpf());
 				numeroArgumentos++;
 			}
-			if( rg != null && !rg.equals("")) {
-				ps.setString(numeroArgumentos, rg);
+			if( pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {
+				ps.setString(numeroArgumentos, pessoaDados.getRg());
 				numeroArgumentos++;
 			}
-			if(dataNasci != null) {
-				ps.setDate(numeroArgumentos, dataNasci);
+			if(pessoaDados.getDataNascimento() != null) {
+				ps.setDate(numeroArgumentos, pessoaDados.getDataNascimento());
 				numeroArgumentos++;
 			}
-			if(sexo != null && !sexo.equals("")) {
-				ps.setString(numeroArgumentos, sexo);
+			if(pessoaDados.getSexo() != null && !pessoaDados.getSexo().equals("")) {
+				ps.setString(numeroArgumentos, pessoaDados.getSexo());
 			}
 			
 			rs = ps.executeQuery();
