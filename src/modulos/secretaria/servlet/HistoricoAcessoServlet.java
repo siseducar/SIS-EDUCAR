@@ -79,10 +79,10 @@ public class HistoricoAcessoServlet implements Serializable
 	public void buscarPessoa() throws SQLException
 	{
 		pessoaBusca = new Pessoa();
+		nomePessoa = "";
 		if(cpfPessoa!=null && cpfPessoa.length()>0)
 		{
 			pessoaBusca = new PessoaDAO().obtemUnicoPessoaSimples(cpfPessoa);
-			nomePessoa = "";
 			if(pessoaBusca!=null)
 			{
 				nomePessoa = pessoaBusca.getNome();
