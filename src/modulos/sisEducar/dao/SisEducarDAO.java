@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.om.ChaveAcesso;
+import modulos.sisEducar.om.Versao;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class SisEducarDAO 
@@ -89,5 +92,49 @@ public class SisEducarDAO
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Busca as últimas 5 versões do sistema
+	 * @author João Paulo
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Versao> pesquisarVersoes() throws SQLException
+	{
+		Versao versao = null;
+		List<Versao> versoes = new ArrayList<Versao>();
+		String querySQL = "SELECT * FROM Versao "
+				+ "WHERE status = ?"
+				+ "ORDER BY data DESC LIMIT 5";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) 
+		{
+			versao = new Versao();
+			versao.setVersao(rs.getString("versao"));
+			versao.setDescricao(rs.getString("descricao"));
+			versao.setData(rs.getDate("data"));
+			versao.setVisualizado(rs.getBoolean("visualizado"));
+			
+			versoes.add(versao);
+		}
+		
+		return versoes;
+	}
+	
+	public void atualizarVersoesVisualizados() throws SQLException
+	{
+		String querySQL = "UPDATE Versao "
+				+ " SET VISUALIZADO = TRUE"
+				+ " WHERE STATUS = ? RETURNING STATUS";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		
+		ps.executeQuery();
 	}
 }
