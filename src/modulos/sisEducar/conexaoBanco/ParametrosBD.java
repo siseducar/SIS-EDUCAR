@@ -6,7 +6,7 @@ public class ParametrosBD
 	String nomeBaseTeste = "sisEducarTeste";
 	
 	String DRIVER = "org.postgresql.Driver";
-	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseOriginal;
+	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseTeste;
 	String usuario = "postgres";
 	String senha = "postgres";
 
