@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 public class ConstantesSisEducar 
 {
 	/* Path do projeto, contem o caminho completo até o package sisEducar */
-	public static final String PATH_PROJETO_NOME = "/SIS-EDUCAR";
+	public static final String PATH_PROJETO_NOME = "/coruja";
 	
 	public static String USUARIO_LOGADO = "";
 

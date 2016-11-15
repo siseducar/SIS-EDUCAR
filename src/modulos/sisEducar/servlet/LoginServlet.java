@@ -153,7 +153,7 @@ public class LoginServlet implements Serializable {
 			Boolean resultadoEnvioEmail = false;
 			Email email = null;
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
-			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
+			String urlBotaoLink = "http://localHost:8080/coruja/validacaoUsuario.xhtml?validacao=";
 			
 			if(usuario.getRaAluno().isEmpty())
 			{
@@ -283,7 +283,7 @@ public class LoginServlet implements Serializable {
 			Usuario usuario = null;
 			Map<String, String> destinatarios = new HashMap<String, String>();
 			Boolean resultadoEnvioEmail = false;
-			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/redefinirSenha.xhtml?redefinir=";
+			String urlBotaoLink = "http://localHost:8080/coruja/redefinirSenha.xhtml?redefinir=";
 			Email email = new Email();
 			String parametro = "&validacao=";
 			

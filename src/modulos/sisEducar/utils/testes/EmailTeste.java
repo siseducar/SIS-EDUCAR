@@ -20,7 +20,7 @@ public class EmailTeste extends SisEducarServlet
 	public static void main(String[] args) throws UnsupportedEncodingException, MessagingException 
     {
         Email email = EmailUtils.inicializarPropriedades();
-        String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
+        String urlBotaoLink = "http://localHost:8080/coruja/validacaoUsuario.xhtml?validacao=";
         
         urlBotaoLink += SisEducarServlet.criptografarURL(true, "teste@teste");
 		

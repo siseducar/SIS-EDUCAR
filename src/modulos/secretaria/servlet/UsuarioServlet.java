@@ -176,7 +176,7 @@ public class UsuarioServlet implements Serializable
 			Email email = null;
 			Pessoa pessoa = null;
 			String generoSelecionado = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("inputGeneroAux");
-			String urlBotaoLink = "http://localHost:8080/SIS-EDUCAR/validacaoUsuario.xhtml?validacao=";
+			String urlBotaoLink = "http://localHost:8080/coruja/validacaoUsuario.xhtml?validacao=";
 			PermissaoUsuario permissaoUsuario = null;
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
