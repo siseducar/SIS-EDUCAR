@@ -413,7 +413,74 @@
 										</div>
 								</div>
 							</h:panelGroup>
-								
+							
+							<h:panelGroup id="panelAmbiente" style="width: 100%" class="clearfix form-actions">
+								<div id="conteudoAmbinte">
+									<h3 class="header smaller lighter blue">Ambiente</h3>
+									<div class="form-group">
+										<div class="col-xs-12 col-sm-2">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.codigo']}"/>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.nome']}"/>
+											<div>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" autocomplete="off" maxlength="100" required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
+												</span>
+											</div>
+											<div class="space-4"></div>
+										</div>
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.tipo']}" />
+											<div>
+												<h:selectOneMenu class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
+													<f:ajax event="change" render="comboPermissao comboTipoTela comboTela"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-2">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.metragem']}" />
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.bloco']}" />
+											<div>
+												<h:selectOneMenu class="form-control" value="#{usuarioServlet.moduloSelecionado.tipo}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{usuarioServlet.comboModulo}" var="modulo" itemValue="#{modulo.tipo}" itemLabel="#{modulo.nome}"/>
+													<f:ajax event="change" render="comboPermissao comboTipoTela comboTela"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-2">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.capacidade']}" />
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+									
 							<!-- Botões -->
 							<div class="col-sx-12 col-sm-12" id="default-buttons">
 								<button type="reset"  class="btn btn-white btn-info btn-round">
