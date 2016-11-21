@@ -158,5 +158,20 @@ public class PopulaSecretaria
 		populaRHDAO.inserirParametros("GrauParentesco", "AM", "Avô", ConstantesSisEducar.STATUS_ATIVO, 5);
 		populaRHDAO.inserirParametros("GrauParentesco", "AF", "Avó", ConstantesSisEducar.STATUS_ATIVO, 6);
 		System.out.println("Popula Grau Parentesco Finalizado \n");
+		
+		System.out.println("Populando Tipos de Ambiente...");
+		populaRHDAO.inserirParametros("TipoAmbiente", "SL", "Sala", ConstantesSisEducar.STATUS_ATIVO, 1);
+		populaRHDAO.inserirParametros("TipoAmbiente", "BN", "Banheiro", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("TipoAmbiente", "DS", "Dispensa", ConstantesSisEducar.STATUS_ATIVO, 3);
+		populaRHDAO.inserirParametros("TipoAmbiente", "CZ", "Cozinha", ConstantesSisEducar.STATUS_ATIVO, 4);
+		populaRHDAO.inserirParametros("TipoAmbiente", "QD", "Quadra", ConstantesSisEducar.STATUS_ATIVO, 5);
+		System.out.println("Popula Tipos Ambiente Finalizado \n");
+		
+		System.out.println("Populando Bloco...");
+		populaRHDAO.inserirParametros("Bloco", "P", "Principal", ConstantesSisEducar.STATUS_ATIVO, 1);
+		populaRHDAO.inserirParametros("Bloco", "1", "1", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("Bloco", "2", "2", ConstantesSisEducar.STATUS_ATIVO, 3);
+		populaRHDAO.inserirParametros("Bloco", "3", "3", ConstantesSisEducar.STATUS_ATIVO, 4);
+		System.out.println("Popula Bloco Finalizado \n");
 	}
 }

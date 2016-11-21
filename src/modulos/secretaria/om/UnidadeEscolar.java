@@ -23,6 +23,7 @@ public class UnidadeEscolar implements Serializable {
 	private Pessoa diretor;
 	private Cidade fkMunicipioCliente;
 	private List<Horario> horarios;
+	private List<Ambiente> ambientes;
 	
 	public Integer getPkUnidadeEscolar() {
 		return pkUnidadeEscolar;
@@ -113,6 +114,12 @@ public class UnidadeEscolar implements Serializable {
 	}
 	public void setHorarios(List<Horario> horarios) {
 		this.horarios = horarios;
+	}
+	public List<Ambiente> getAmbientes() {
+		return ambientes;
+	}
+	public void setAmbientes(List<Ambiente> ambientes) {
+		this.ambientes = ambientes;
 	}
 	
 }

@@ -18,6 +18,8 @@ import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.dao.TerrenoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
+import modulos.secretaria.om.Ambiente;
+import modulos.secretaria.om.Bloco;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
@@ -29,6 +31,7 @@ import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.Terreno;
+import modulos.secretaria.om.TipoAmbiente;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
@@ -60,9 +63,14 @@ public class UnidadeEscolarServlet implements Serializable
 	private TipoOcupacao tipoOcupacaoDado;
 	private Regiao regiaoDado;
 	private Pessoa pessoaDado;
+	private TipoAmbiente tipoAmbienteDado;
+	private Bloco tipoBlocoDado;
+	private Ambiente ambienteDado;
 	
 	/* VARIAVEIS DO CONSULTAR */
 	private List<UnidadeEscolar> unidadesEscolaresCadastrados;
+	
+	private List<Ambiente> ambientes;
     
     private String cpfDiretorPesquisar;
 	private String codigoPesquisar;
@@ -126,6 +134,15 @@ public class UnidadeEscolarServlet implements Serializable
 		}
 		if(this.cidadeDado == null) {			
 			this.cidadeDado = new Cidade();
+		}
+		if(this.tipoAmbienteDado == null) {			
+			this.tipoAmbienteDado = new TipoAmbiente();
+		}
+		if(this.tipoBlocoDado == null) {			
+			this.tipoBlocoDado = new Bloco();
+		}
+		if(this.ambienteDado == null) {			
+			this.ambienteDado = new Ambiente();
 		}
 		
 		nomeDiretor = new String();
@@ -451,6 +468,17 @@ public class UnidadeEscolarServlet implements Serializable
 		}
 	}
 	
+	public void adicionarAmbiente()
+	{
+		try 
+		{
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("adicionarAmbiente", "adicionarAmbiente");
+		}
+	}
+	
 	public void removerGeral() throws SQLException
 	{
 		Boolean resultado = false;
@@ -470,6 +498,7 @@ public class UnidadeEscolarServlet implements Serializable
 	}
 
 	private HtmlDataTable dataTable;
+	private HtmlDataTable dataTableAmbiente;
 	   
     public HtmlDataTable getDataTable() {
           return dataTable;
@@ -730,5 +759,45 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setParamDados(ParametrosServlet paramDados) {
 		this.paramDados = paramDados;
+	}
+
+	public TipoAmbiente getTipoAmbienteDado() {
+		return tipoAmbienteDado;
+	}
+
+	public void setTipoAmbienteDado(TipoAmbiente tipoAmbienteDado) {
+		this.tipoAmbienteDado = tipoAmbienteDado;
+	}
+
+	public Bloco getTipoBlocoDado() {
+		return tipoBlocoDado;
+	}
+
+	public void setTipoBlocoDado(Bloco tipoBlocoDado) {
+		this.tipoBlocoDado = tipoBlocoDado;
+	}
+
+	public Ambiente getAmbienteDado() {
+		return ambienteDado;
+	}
+
+	public void setAmbienteDado(Ambiente ambienteDado) {
+		this.ambienteDado = ambienteDado;
+	}
+
+	public HtmlDataTable getDataTableAmbiente() {
+		return dataTableAmbiente;
+	}
+
+	public void setDataTableAmbiente(HtmlDataTable dataTableAmbiente) {
+		this.dataTableAmbiente = dataTableAmbiente;
+	}
+
+	public List<Ambiente> getAmbientes() {
+		return ambientes;
+	}
+
+	public void setAmbientes(List<Ambiente> ambientes) {
+		this.ambientes = ambientes;
 	}
 }

@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.BlocoDAO;
 import modulos.secretaria.dao.CidadeDAO;
 import modulos.secretaria.dao.CursoDAO;
 import modulos.secretaria.dao.EstadoCivilDAO;
@@ -25,10 +26,12 @@ import modulos.secretaria.dao.RegiaoDAO;
 import modulos.secretaria.dao.ReligiaoDAO;
 import modulos.secretaria.dao.SituacaoEconomicaDAO;
 import modulos.secretaria.dao.SituacaoFuncionamentoDAO;
+import modulos.secretaria.dao.TipoAmbienteDAO;
 import modulos.secretaria.dao.TipoDeficienciaDAO;
 import modulos.secretaria.dao.TipoOcupacaoDAO;
 import modulos.secretaria.dao.TurnoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
+import modulos.secretaria.om.Bloco;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Curso;
 import modulos.secretaria.om.Estado;
@@ -44,6 +47,7 @@ import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
 import modulos.secretaria.om.SituacaoFuncionamento;
+import modulos.secretaria.om.TipoAmbiente;
 import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.Turno;
@@ -100,6 +104,12 @@ public class ParametrosServlet {
 	
 	/* Combo com valores de TIPOS DE LOGRADOUROS */
 	private List<SelectItem> comboTipoLogradouro;
+	
+	/* Combo com valores de TIPOS AMBIENTE */
+	private List<SelectItem> comboTiposAmbiente;
+	
+	/* Combo com valores de BLOCOS AMBIENTE */
+	private List<SelectItem> comboBlocosAmbiente;
 	
 	public ParametrosServlet() {
 		if(this.comboNacionalidade == null) {
@@ -160,6 +170,14 @@ public class ParametrosServlet {
 		
 		if(this.comboEstado == null) {
 			this.comboEstado = new ArrayList<SelectItem>();
+		}
+		
+		if(this.comboTiposAmbiente == null) {
+			this.comboTiposAmbiente = new ArrayList<SelectItem>();
+		}
+		
+		if(this.comboBlocosAmbiente == null) {
+			this.comboBlocosAmbiente = new ArrayList<SelectItem>();
 		}
 		
 		carregarCombos();
@@ -228,6 +246,14 @@ public class ParametrosServlet {
 		
 		if( comboSituacaoEconomica.isEmpty() ) {			
 			consultaSituEconomica();
+		}
+		
+		if( comboTiposAmbiente.isEmpty() ) {			
+			consultaTiposAmbiente();
+		}
+		
+		if( comboBlocosAmbiente.isEmpty() ) {			
+			consultaBlocosAmbiente();
 		}
 	}
 	
@@ -403,6 +429,60 @@ public class ParametrosServlet {
 		}catch(SQLException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de SITUAÇÕES ECONÔMICAS, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os tipos de ambiente
+	 * */
+	public List<SelectItem> consultaTiposAmbiente() 
+	{
+		try 
+		{
+			TipoAmbienteDAO tipoAmbienteDAO = new TipoAmbienteDAO();
+			List<TipoAmbiente> paramTiposAmbiente = tipoAmbienteDAO.consultaTipoAmbiente();
+			
+			for (TipoAmbiente param : paramTiposAmbiente)
+			{
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkTipoAmbiente());
+				s.setLabel(param.getDescricao());
+				comboTiposAmbiente.add(s);
+			}
+			return comboTiposAmbiente;
+		}
+		catch(SQLException e) 
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPO AMBIENTE, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	/*
+	 * Metodo para carregar os blocos de ambiente
+	 * */
+	public List<SelectItem> consultaBlocosAmbiente() 
+	{
+		try 
+		{
+			BlocoDAO tipoAmbienteDAO = new BlocoDAO();
+			List<Bloco> paramBloco = tipoAmbienteDAO.consultaBloco();
+			
+			for (Bloco param : paramBloco)
+			{
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkBloco());
+				s.setLabel(param.getDescricao());
+				comboBlocosAmbiente.add(s);
+			}
+			return comboBlocosAmbiente;
+		}
+		catch(SQLException e) 
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPO AMBIENTE, contate o administrador do sistema!", null));
 			return null;
 		}
 	}
@@ -816,5 +896,21 @@ public class ParametrosServlet {
 
 	public void setComboTipoLogradouro(List<SelectItem> comboTipoLogradouro) {
 		this.comboTipoLogradouro = comboTipoLogradouro;
+	}
+
+	public List<SelectItem> getComboTiposAmbiente() {
+		return comboTiposAmbiente;
+	}
+
+	public void setComboTiposAmbiente(List<SelectItem> comboTiposAmbiente) {
+		this.comboTiposAmbiente = comboTiposAmbiente;
+	}
+
+	public List<SelectItem> getComboBlocosAmbiente() {
+		return comboBlocosAmbiente;
+	}
+
+	public void setComboBlocosAmbiente(List<SelectItem> comboBlocosAmbiente) {
+		this.comboBlocosAmbiente = comboBlocosAmbiente;
 	}
 }
