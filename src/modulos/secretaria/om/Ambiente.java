@@ -6,10 +6,10 @@ public class Ambiente
 	private String codigo;
 	private String nome;
 	private Double metragem;
-	private Integer tipo;
-	private Integer bloco;
 	private Integer status;
 	private Integer capacidade;
+	private TipoAmbiente tipo;
+	private Bloco bloco;
 	private UnidadeEscolar unidadeEscolar;
 	
 	public Integer getPkAmbiente() {
@@ -36,18 +36,6 @@ public class Ambiente
 	public void setMetragem(Double metragem) {
 		this.metragem = metragem;
 	}
-	public Integer getTipo() {
-		return tipo;
-	}
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
-	}
-	public Integer getBloco() {
-		return bloco;
-	}
-	public void setBloco(Integer bloco) {
-		this.bloco = bloco;
-	}
 	public Integer getStatus() {
 		return status;
 	}
@@ -65,5 +53,17 @@ public class Ambiente
 	}
 	public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
 		this.unidadeEscolar = unidadeEscolar;
+	}
+	public TipoAmbiente getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoAmbiente tipo) {
+		this.tipo = tipo;
+	}
+	public Bloco getBloco() {
+		return bloco;
+	}
+	public void setBloco(Bloco bloco) {
+		this.bloco = bloco;
 	}
 }

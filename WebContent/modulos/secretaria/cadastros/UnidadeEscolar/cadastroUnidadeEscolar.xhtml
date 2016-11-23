@@ -421,8 +421,7 @@
 										<div>
 											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.codigo']}"/>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.codigo}" autocomplete="off" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.codigo}" autocomplete="off" maxlength="20"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -430,8 +429,7 @@
 										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.nome']}"/>
 										<div>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control"  autocomplete="off" maxlength="100" required="true" value="#{unidadeEscolarServlet.ambienteDado.nome}"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
+												<h:inputText type="text" class="form-control"  autocomplete="off" maxlength="100" value="#{unidadeEscolarServlet.ambienteDado.nome}"></h:inputText>
 											</span>
 										</div>
 										<div class="space-4"></div>
@@ -449,8 +447,7 @@
 										<div>
 											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.metragem']}" />
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.metragem}" autocomplete="off" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.metragem}" autocomplete="off" maxlength="8"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -467,8 +464,7 @@
 										<div>
 											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.capacidade']}" />
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.capacidade}" autocomplete="off" maxlength="11" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.capacidade}" autocomplete="off" maxlength="5"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -478,7 +474,7 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render="testeRetirar" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
+												<f:ajax event="click" render=":formPrincipal:tableAmbiente" execute="@this" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
 											</h:commandLink>
 										</div>
 									</div>

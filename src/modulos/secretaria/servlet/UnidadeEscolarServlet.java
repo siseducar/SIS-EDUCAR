@@ -472,6 +472,18 @@ public class UnidadeEscolarServlet implements Serializable
 	{
 		try 
 		{
+			if(ambienteDado!=null)
+			{
+				if(ambienteDado.getCodigo()!=null && ambienteDado.getNome()!=null && ambienteDado.getCapacidade()!=null && tipoAmbienteDado!=null && tipoBlocoDado!=null)
+				{
+					ambienteDado.setTipo(tipoAmbienteDado);
+					ambienteDado.setBloco(tipoBlocoDado);
+					
+					ambientes.add(ambienteDado);
+					
+					ambienteDado = new Ambiente();
+				}
+			}
 		} 
 		catch (Exception e) 
 		{
