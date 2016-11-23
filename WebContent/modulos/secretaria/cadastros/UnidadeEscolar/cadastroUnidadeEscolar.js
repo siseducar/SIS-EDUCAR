@@ -60,3 +60,29 @@ function esconderModalPesquisar(data)
 		$('#myModal').modal('hide');
 	}
 }
+
+/**
+ * Usado para mostrar a modal remover todas as permissões da tela de cadastro de unidade escolar
+ * @author João Paulo
+ * @param data
+ */
+function aparecerModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('show');
+	}
+}
+
+/**
+ * Usado para esconder a modal remover todas as permissões da tela de cadastro de unidade escolar
+ * @author João Paulo
+ * @param data
+ */
+function esconderModalDeletarTodos(data)
+{
+	if(data.status=="success")
+	{
+		$('#modalDeletarTodos').modal('hide');
+	}
+}

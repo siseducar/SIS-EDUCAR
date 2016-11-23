@@ -13,6 +13,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.AmbienteDAO;
 import modulos.secretaria.dao.ContatoDAO;
 import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
@@ -144,6 +145,9 @@ public class UnidadeEscolarServlet implements Serializable
 		if(this.ambienteDado == null) {			
 			this.ambienteDado = new Ambiente();
 		}
+		if(this.ambientes==null){
+			this.ambientes = new ArrayList<Ambiente>();
+		}
 		
 		nomeDiretor = new String();
 		cpfDiretor = new String();
@@ -200,6 +204,7 @@ public class UnidadeEscolarServlet implements Serializable
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
 			TerrenoDAO terrenoDAO = new TerrenoDAO();
 			Pessoa pessoa = null;
+			AmbienteDAO ambienteDAO = new AmbienteDAO();
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -290,6 +295,17 @@ public class UnidadeEscolarServlet implements Serializable
 				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			}
 			
+			/* Salva os Ambientes */
+			ambienteDAO.remover(unidadeEscolar);
+			if(ambientes!=null && ambientes.size()>0)
+			{
+				for (Ambiente ambiente : ambientes) 
+				{
+					ambiente.setUnidadeEscolar(unidadeEscolar);
+					ambienteDAO.inserir(ambiente);
+				}
+			}
+			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade Escolar cadastrada com sucesso", null));
@@ -352,6 +368,11 @@ public class UnidadeEscolarServlet implements Serializable
 			cidadeDado = new Cidade();
 			estadoDado = new Estado();
 			paisDado = new Pais();
+			
+			ambienteDado = new Ambiente();
+			tipoAmbienteDado = new TipoAmbiente();
+			tipoBlocoDado = new Bloco();
+			ambientes = new ArrayList<Ambiente>();
 			
 			btRemoverEnabled = false;
 		}
@@ -443,6 +464,8 @@ public class UnidadeEscolarServlet implements Serializable
 					nomeDiretor = unidadeEscolarSelecionada.getDiretor().getNome();
 				}
 				
+				ambientes = unidadeEscolarSelecionada.getAmbientes();
+				
 				if(temPermissaoExcluir) { btRemoverEnabled = true; }
 			}
 		} 
@@ -482,12 +505,54 @@ public class UnidadeEscolarServlet implements Serializable
 					ambientes.add(ambienteDado);
 					
 					ambienteDado = new Ambiente();
+					tipoAmbienteDado = new TipoAmbiente();
+					tipoBlocoDado = new Bloco();
 				}
 			}
 		} 
 		catch (Exception e) 
 		{
 			Logs.addError("adicionarAmbiente", "adicionarAmbiente");
+		}
+	}
+	
+	public void removerAmbiente()
+	{
+		try 
+		{
+			List<Ambiente> listAmbientes = new ArrayList<Ambiente>();
+			Ambiente ambienteSelecionado = null;
+			
+			if(dataTableAmbiente!=null && dataTableAmbiente.getRowData()!=null) { ambienteSelecionado = (Ambiente) dataTableAmbiente.getRowData(); }
+			
+			if(ambienteSelecionado != null && ambienteSelecionado.getPkAmbiente() != null)
+			{
+				for (Ambiente ambiente : ambientes) 
+				{
+					if(!ambiente.getPkAmbiente().equals(ambienteSelecionado.getPkAmbiente()))
+					{
+						listAmbientes.add(ambiente);
+					}
+				}
+				
+				ambientes = listAmbientes;
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("removerAmbiente", "removerAmbiente");
+		}
+	}
+	
+	public void removerTodosAmbientes()
+	{
+		try 
+		{
+			ambientes = new ArrayList<Ambiente>();
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("removerTodosAmbientes", "removerTodosAmbientes");
 		}
 	}
 	

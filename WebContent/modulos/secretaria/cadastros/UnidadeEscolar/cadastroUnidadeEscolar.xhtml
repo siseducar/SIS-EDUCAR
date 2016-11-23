@@ -474,13 +474,13 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render=":formPrincipal:tableAmbiente" execute="@this" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
+												<f:ajax event="click" render="panelAmbiente" execute="panelAmbiente" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
 											</h:commandLink>
 										</div>
 									</div>
 								</div>
 								
-								<h:panelGroup>
+								<h:panelGroup id="panelTableAmbiente">
 									<div class="col-xs-12 col-sm-12">
 										<div class="space"></div>
 										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{unidadeEscolarServlet.dataTableAmbiente}"
@@ -498,7 +498,7 @@
 							    			</h:column>
 							    			<h:column>
 						    					<f:facet name="header">Tipo</f:facet>
-							    				<h:outputLabel value="#{value.tipo}"/>
+							    				<h:outputLabel value="#{value.tipo.descricao}"/>
 							    			</h:column>
 							    			<h:column>
 						    					<f:facet name="header">Área M²</f:facet>
@@ -506,16 +506,61 @@
 							    			</h:column>
 							    			<h:column>
 						    					<f:facet name="header">Bloco</f:facet>
-							    				<h:outputLabel value="#{value.bloco}"/>
+							    				<h:outputLabel value="#{value.bloco.descricao}"/>
 							    			</h:column>
 							    			<h:column>
 						    					<f:facet name="header">Capacidade</f:facet>
 							    				<h:outputLabel value="#{value.capacidade}"/>
 							    			</h:column>
+							    			<h:column>
+						    					<f:facet name="header">
+							    				<center>
+						    						<h:commandLink styleClass="tooltip-success">
+							    						<span class="red">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+														</span>
+														<f:ajax event="click" onevent="function(data) { aparecerModalDeletarTodos(data) }"/>
+														</h:commandLink>
+							    				</center>
+						    					</f:facet>
+							    				<center>
+													<h:commandLink styleClass="tooltip-success">
+							    						<span class="red">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+														</span>
+														<f:ajax event="click" listener="#{unidadeEscolarServlet.removerAmbiente}" render="panelTableAmbiente" resetValues="true"/>
+													</h:commandLink>
+							    				</center>
+			 								</h:column>
 							    		</h:dataTable>
 									</div>
 								</h:panelGroup>
 							</h:panelGroup>
+							
+							<div id="modalDeletarTodos" class="modal fade" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"></button>
+											<h3 class=" smaller lighter blue"> #{mensagens['label.excluir.permissoes']} </h3>
+										</div>
+										<div class="modal-body">
+											<div class="modal-footer">
+												<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+													#{mensagens['label.botao.fechar']}
+												</button>
+												<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+													<span class="bigger-110">Remover</span>	
+													<i class="ace-icon fa fa-arrow-right icon-on-right"></i> 
+													<f:ajax event="click" listener="#{unidadeEscolarServlet.removerTodosAmbientes}" render="panelTableAmbiente" execute="panelTableAmbiente"
+														onevent="function(data) { esconderModalDeletarTodos(data) }"/>
+												</h:commandLink>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 									
 							<!-- Botões -->
 							<div class="col-sx-12 col-sm-12" id="default-buttons">

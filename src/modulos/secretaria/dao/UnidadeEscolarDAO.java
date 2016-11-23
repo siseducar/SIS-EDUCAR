@@ -402,6 +402,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 					cidade.setPkCidade(rs.getInt("fkMunicipioCliente"));
 					unidadeEscolar.setFkMunicipioCliente(cidade);
 				}
+				unidadeEscolar.setAmbientes(new AmbienteDAO().buscar(unidadeEscolar));
+				
 				unidadesAux.add(unidadeEscolar);
 			}
 			
