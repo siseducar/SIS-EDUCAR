@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Ambiente;
-import modulos.secretaria.om.Bloco;
-import modulos.secretaria.om.TipoAmbiente;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
@@ -93,8 +91,8 @@ public class AmbienteDAO extends SisEducarDAO
 	{
 		List<Ambiente> ambientes = new ArrayList<Ambiente>();
 		Ambiente ambiente = null;
-		TipoAmbiente tipoAmbiente = new TipoAmbiente();
-		Bloco bloco = new Bloco();
+		TipoAmbienteDAO tipoAmbienteDAO = new TipoAmbienteDAO();
+		BlocoDAO blocoDAO = new BlocoDAO();
 		
 		String querySQL = "SELECT * FROM Ambiente"
 				+ " WHERE status = ?"
@@ -107,8 +105,6 @@ public class AmbienteDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		while(rs.next())
 		{
-			tipoAmbiente = new TipoAmbiente();
-			bloco = new Bloco();
 			ambiente = new Ambiente();
 			ambiente.setPkAmbiente(rs.getInt("PKAMBIENTE"));
 			ambiente.setCodigo(rs.getString("CODIGO"));
@@ -116,11 +112,8 @@ public class AmbienteDAO extends SisEducarDAO
 			ambiente.setMetragem(rs.getDouble("METRAGEM"));
 			ambiente.setCapacidade(rs.getInt("CAPACIDADE"));
 			
-			tipoAmbiente.setPkTipoAmbiente(rs.getInt("FKTIPOAMBIENTE"));
-			bloco.setPkBloco(rs.getInt("FKBLOCO"));
-			
-			ambiente.setTipo(tipoAmbiente);
-			ambiente.setBloco(bloco);
+			ambiente.setTipo(tipoAmbienteDAO.buscarSimplesTipoAmbiente(rs.getInt("FKTIPOAMBIENTE")));
+			ambiente.setBloco(blocoDAO.buscarSimplesBlocoAmbiente(rs.getInt("FKBLOCO")));
 			
 			ambientes.add(ambiente);
 		}

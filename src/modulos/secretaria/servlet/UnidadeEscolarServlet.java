@@ -374,6 +374,8 @@ public class UnidadeEscolarServlet implements Serializable
 			tipoBlocoDado = new Bloco();
 			ambientes = new ArrayList<Ambiente>();
 			
+			unidadesEscolaresCadastrados = new ArrayList<UnidadeEscolar>();
+			
 			btRemoverEnabled = false;
 		}
 		catch (Exception e) 
@@ -465,6 +467,14 @@ public class UnidadeEscolarServlet implements Serializable
 				}
 				
 				ambientes = unidadeEscolarSelecionada.getAmbientes();
+				if(ambientes!=null && ambientes.size()>0)
+				{
+					for (Ambiente ambiente : ambientes) 
+					{
+						ambiente.setTipoNome(ambiente.getTipo().getDescricao());
+						ambiente.setBlocoNome(ambiente.getBloco().getDescricao());
+					}
+				}
 				
 				if(temPermissaoExcluir) { btRemoverEnabled = true; }
 			}
@@ -501,6 +511,24 @@ public class UnidadeEscolarServlet implements Serializable
 				{
 					ambienteDado.setTipo(tipoAmbienteDado);
 					ambienteDado.setBloco(tipoBlocoDado);
+					
+					for (SelectItem item : paramDados.getComboTiposAmbiente())
+					{
+						if(item.getValue().equals(tipoAmbienteDado.getPkTipoAmbiente())) 
+						{ 
+							ambienteDado.setTipoNome(item.getLabel());
+							break;
+						}
+					}
+					
+					for (SelectItem item : paramDados.getComboBlocosAmbiente()) 
+					{
+						if(item.getValue().equals(tipoBlocoDado.getPkBloco())) 
+						{ 
+							ambienteDado.setBlocoNome(item.getLabel());
+							break;
+						}
+					}
 					
 					ambientes.add(ambienteDado);
 					
@@ -561,6 +589,10 @@ public class UnidadeEscolarServlet implements Serializable
 		Boolean resultado = false;
 		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)
 		{
+			/*AMBIENTES*/
+			new AmbienteDAO().remover(unidadeEscolar);
+			
+			/*UNIDADE ESCOLAR*/
 			resultado = new UnidadeEscolarDAO().remover(unidadeEscolar);
 			if(resultado)
 			{

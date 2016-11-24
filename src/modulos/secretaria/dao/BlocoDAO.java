@@ -46,4 +46,33 @@ public class BlocoDAO extends SisEducarDAO
 		
 		return listaTipos;
 	}
+	
+	/**
+	 * BUsca um bloco pela sua pk
+	 * @author João Paulo
+	 * @param pkBloco
+	 * @return
+	 * @throws SQLException
+	 */
+	public Bloco buscarSimplesBlocoAmbiente(Integer pkBloco) throws SQLException 
+	{
+		String querySQL = "SELECT * FROM Bloco WHERE STATUS = ? AND pkBloco = ?";
+		ps = con.prepareStatement(querySQL.toString());
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(2, pkBloco);
+		ResultSet rs = ps.executeQuery();
+		
+		if(rs.next()) 
+		{
+			Bloco paramTipo = new Bloco();
+			paramTipo.setPkBloco(rs.getInt("PKBLOCO"));
+			paramTipo.setCodigo(rs.getString("CODIGO"));
+			paramTipo.setDescricao(rs.getString("DESCRICAO"));
+			
+			return paramTipo;
+		}
+		
+		return null;
+	}
 }
