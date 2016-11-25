@@ -2,8 +2,6 @@ package modulos.sisEducar.om;
 
 import java.sql.Date;
 
-import modulos.secretaria.om.Cidade;
-
 public class Versao 
 {
 	private Integer pkVersao;
@@ -13,7 +11,6 @@ public class Versao
 	private String dataAux;
 	private Integer status;
 	private Boolean visualizado;
-	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkVersao() {
 		return pkVersao;
@@ -56,11 +53,5 @@ public class Versao
 	}
 	public void setVisualizado(Boolean visualizado) {
 		this.visualizado = visualizado;
-	}
-	public Cidade getFkMunicipioCliente() {
-		return fkMunicipioCliente;
-	}
-	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
-		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }
