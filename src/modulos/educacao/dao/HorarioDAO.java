@@ -8,12 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import modulos.educacao.om.Horario;
 import modulos.educacao.om.HorarioAula;
 import modulos.secretaria.dao.TurnoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -26,9 +29,12 @@ public class HorarioDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	Usuario usuarioLogado = null;
 
 	public HorarioDAO() throws SQLException 
 	{
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		
 		desabilitarAutoCommit(con);
 	}
 	
@@ -112,13 +118,15 @@ public class HorarioDAO extends SisEducarDAO
 		Horario horario = null;
 		List<Horario> horarios = new ArrayList<Horario>();
 		
-		String querySQL = "SELECT * FROM HORARIO"
-				+ " WHERE STATUS = ?";
+		String querySQL = "SELECT H.* FROM HORARIO H"
+				+ " INNER JOIN UNIDADEESCOLAR U ON(H.FKUNIDADEESCOLAR = U.PKUNIDADEESCOLAR)"
+				+ " WHERE H.STATUS = ?";
 		
-		if(nome!=null && nome.length()>0)		 								{ querySQL += " AND UPPER(NOME) LIKE UPPER('%" + nome + "%')"; }
-		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)	{ querySQL += " AND FKUNIDADEESCOLAR = ?"; }
-		if(turno!=null && turno.getPkTurno()!=null)								{ querySQL += " AND FKTURNO = ?"; }
+		if(nome!=null && nome.length()>0)		 								{ querySQL += " AND UPPER(H.NOME) LIKE UPPER('%" + nome + "%')"; }
+		if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null)	{ querySQL += " AND U.PKUNIDADEESCOLAR = ?"; }
+		if(turno!=null && turno.getPkTurno()!=null)								{ querySQL += " AND H.FKTURNO = ?"; }
 		
+		querySQL += " AND U.FKMUNICIPIOCLIENTE = ?";
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		
@@ -133,6 +141,9 @@ public class HorarioDAO extends SisEducarDAO
 			numeroArgumentos ++; 
 			ps.setInt(numeroArgumentos, turno.getPkTurno());
 		}
+		
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 		
 		ResultSet rs = ps.executeQuery();
 		while(rs.next())

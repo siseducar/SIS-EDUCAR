@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
@@ -17,6 +19,7 @@ import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.Terreno;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
+import modulos.secretaria.om.Usuario;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -29,9 +32,12 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	Usuario usuarioLogado = null;
 	
 	public UnidadeEscolarDAO() throws SQLException
 	{
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		
 		desabilitarAutoCommit(con);
 	}
 	
@@ -214,6 +220,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		if(codigo!=null && codigo.length() >0) 	{  querySQL += " AND codigo = ?"; }
 		if(nome!=null && nome.length() >0)		{ querySQL += " AND nome = ?"; }
 		
+		querySQL += " AND fkMunicipioCliente = ?";
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
@@ -230,6 +237,9 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			ps.setString(numeroArgumentos, nome);
 		}
 		
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
+		
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
@@ -244,11 +254,15 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		
 		List<UnidadeEscolar> listaUnidadeEscolar = new ArrayList<UnidadeEscolar>();
 		
-		String querySQL = "SELECT * FROM UNIDADEESCOLAR WHERE FKREDEENSINO = ? AND STATUS = ? ORDER BY NOME";
+		String querySQL = "SELECT * FROM UNIDADEESCOLAR WHERE FKREDEENSINO = ? AND STATUS = ? ";
+
+		querySQL += " FKMUNICIPIOCLIENTE = ?";
+		querySQL += " ORDER BY NOME";
 		
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(1, pkRedeEnsino);
 		ps.setInt(2, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setObject(3, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 		rs = ps.executeQuery();
 		
 		while (rs.next()){
@@ -313,6 +327,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				querySQL+= " AND p.cpf like ?";
 			}
 			
+			querySQL+= " and u.fkMunicipioCliente = ?";
 			querySQL+= " ORDER BY codigo";
 			ps = con.prepareStatement(querySQL);
 			
@@ -337,6 +352,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				ps.setObject(numeroArqumentos, "%" + cpfDiretor + "%");
 				numeroArqumentos ++;
 			}
+			
+			ps.setObject(numeroArqumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -447,6 +464,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				querySQL+= " AND u.pkunidadeescolar = ?";
 			}
 			
+			querySQL+= " and u.fkMunicipioCliente = ?";
 			querySQL+= " ORDER BY codigo";
 			ps = con.prepareStatement(querySQL);
 			
@@ -468,6 +486,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				numeroArqumentos ++;
 			}
 			
+			ps.setObject(numeroArqumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next())
