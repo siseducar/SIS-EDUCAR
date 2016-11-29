@@ -9,7 +9,9 @@ public class Ambiente
 	private Integer status;
 	private Integer capacidade;
 	private TipoAmbiente tipo;
+	private String tipoNome;
 	private Bloco bloco;
+	private String blocoNome;
 	private UnidadeEscolar unidadeEscolar;
 	
 	public Integer getPkAmbiente() {
@@ -65,5 +67,17 @@ public class Ambiente
 	}
 	public void setBloco(Bloco bloco) {
 		this.bloco = bloco;
+	}
+	public String getTipoNome() {
+		return tipoNome;
+	}
+	public void setTipoNome(String tipoNome) {
+		this.tipoNome = tipoNome;
+	}
+	public String getBlocoNome() {
+		return blocoNome;
+	}
+	public void setBlocoNome(String blocoNome) {
+		this.blocoNome = blocoNome;
 	}
 }

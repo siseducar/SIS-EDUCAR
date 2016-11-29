@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import modulos.secretaria.om.HistoricoAcesso;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Usuario;
@@ -25,11 +27,14 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;	
 	ResultSet rs = null;
+	Usuario usuarioLogado = null;
 
 	Date dataAtual = new Date(System.currentTimeMillis());
 	
 	public HistoricoAcessoDAO() throws SQLException
 	{
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		
 		//Quando construir a classe, deverá desabilitar o autoCommit
 		desabilitarAutoCommit(con);
 	}
@@ -45,11 +50,12 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO HistoricoAcesso "
-					+ " (dataLogin, fkUsuario) values(now(),?)";
+					+ " (dataLogin, fkUsuario, fkMunicipioCliente) values(now(),?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
 			ps.setObject(1, new Integer(historicoAcesso.getUsuario().getPkUsuario()));
+			ps.setObject(2, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 			
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
@@ -123,6 +129,8 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 			querySQL += " AND P.PKPESSOA = ?";
 		}
 		
+		querySQL += " AND HA.FKMUNICIPIOCLIENTE = ?";
+		
 		querySQL += " ORDER BY DATALOGIN DESC";
 		
 		ps = con.prepareStatement(querySQL);
@@ -156,6 +164,9 @@ public class HistoricoAcessoDAO extends SisEducarDAO
 			numeroArgumentos++;
 			ps.setObject(numeroArgumentos, pessoa.getPkPessoa());
 		}
+		
+		numeroArgumentos++;
+		ps.setObject(numeroArgumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 		
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) 

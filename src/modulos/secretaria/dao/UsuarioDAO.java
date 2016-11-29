@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
@@ -29,11 +31,15 @@ public class UsuarioDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;	
 	ResultSet rs = null;
+	
+	Usuario usuarioLogado = null;
 
 	Date dataAtual = new Date(System.currentTimeMillis());
 	
 	public UsuarioDAO() throws SQLException
 	{
+		usuarioLogado = (Usuario)  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		
 		//Quando construir a classe, deverá desabilitar o autoCommit
 		desabilitarAutoCommit(con);
 	}
@@ -682,6 +688,7 @@ public class UsuarioDAO extends SisEducarDAO
 			{
 				querySQL+= " AND email like ?";
 			}
+			querySQL+= " AND fkMunicipioCliente = ?";
 			querySQL+= " ORDER BY nome";
 			
 			ps = con.prepareStatement(querySQL);
@@ -703,6 +710,8 @@ public class UsuarioDAO extends SisEducarDAO
 				ps.setObject(numeroArqumentos, "%" + email + "%");
 				numeroArqumentos ++;
 			}
+			
+			ps.setObject(numeroArqumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 			
 			ResultSet rs = ps.executeQuery();
 			

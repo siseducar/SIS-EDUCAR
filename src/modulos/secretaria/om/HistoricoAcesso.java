@@ -9,6 +9,7 @@ public class HistoricoAcesso
 	private String dataLoginAux;
 	private Integer status;
 	private Usuario usuario;
+	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkHistoricoAcesso() {
 		return pkHistoricoAcesso;
@@ -39,5 +40,11 @@ public class HistoricoAcesso
 	}
 	public void setDataLogin(Timestamp dataLogin) {
 		this.dataLogin = dataLogin;
+	}
+	public Cidade getFkMunicipioCliente() {
+		return fkMunicipioCliente;
+	}
+	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
+		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }
