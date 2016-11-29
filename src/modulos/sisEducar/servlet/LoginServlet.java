@@ -16,7 +16,9 @@ import modulos.educacao.dao.AlunoDAO;
 import modulos.secretaria.dao.HistoricoAcessoDAO;
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.HistoricoAcesso;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
+import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;
@@ -43,6 +45,51 @@ public class LoginServlet implements Serializable {
 	public String generoFeminino = "none";
 	
 	private String senhaAtual = "";
+	
+	 //Esta variável é o conteúdo que o class dos módulos tem, por padrão eles já irão vir hidden, o módulo só será liberado se o usuário tiver permissão deste módulo
+    private String classAtributeHidden   	= "hidden";
+    private String classAtributeDropDown 	= "dropdown-toggle";
+    
+    //VARIAVEIS LIGADAS AOS MÓDULOS
+    private String classModuloSecretaria 	= classAtributeDropDown + " " + classAtributeHidden;
+    
+    /* ATENÇÃO - TODOS ESSES MÓDULOS ABAIXO IRÃO APARECER NO MEU PRINCIPAL APENAS PARA VISUALIZAÇÃO DO CLIENTE*/
+    private String classModuloEscola     	= classAtributeDropDown;
+	private String classModuloMerenda    	= classAtributeDropDown;
+    private String classModuloDocentes   	= classAtributeDropDown;
+    private String classModuloPortal     	= classAtributeDropDown;
+    private String classModuloPatrimonio 	= classAtributeDropDown;
+    private String classModuloAlmoxarifado  = classAtributeDropDown;
+    private String classModuloBiblioteca 	= classAtributeDropDown;
+    private String classModuloTransporte 	= classAtributeDropDown;
+    private String classModuloSocial     	= classAtributeDropDown;
+    private String classModuloProtocolo  	= classAtributeDropDown;
+    private String classModuloOuvidoria 	= classAtributeDropDown;
+
+    //VARIAVEIS LIGADAS AOS SUB MÓDULOS
+    private String classSecretariaCadastroSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classSecretariaLancamentoSubMenu = classAtributeDropDown + " " + classAtributeHidden;
+    private String classSecretariaConsultaSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classSecretariaRelatorioSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    
+    private String classEscolaCadastroSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaLancamentoSubMenu = classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaConsultaSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    private String classEscolaRelatorioSubMenu 	= classAtributeDropDown + " " + classAtributeHidden;
+    
+    //VARIAVEIS LIGADAS AOS SUB MÓDULOS
+    private String classSecretariaCadastroPessoa 			= classAtributeHidden;
+    private String classSecretariaCadastroFornecedor		= classAtributeHidden;
+    private String classSecretariaCadastroUsuario   		= classAtributeHidden;
+    private String classSecretariaCadastroUnidadeEscolar   	= classAtributeHidden;
+    private String classSecretariaCadastroAmbiente   		= classAtributeHidden;
+    private String classSecretariaCadastroMatriculaAluno   	= classAtributeHidden;
+    private String classSecretariaConsultaHistoricoAcesso	= classAtributeHidden;
+	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
+    private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
+    
+    private String classEscolaCadastroMatriculaAluno 		= classAtributeHidden;
+    private String classEscolaCadastroHorario 				= classAtributeHidden;
 	
 	public LoginServlet() {
 		usuario = new Usuario();
@@ -77,11 +124,14 @@ public class LoginServlet implements Serializable {
 						generoFeminino = "initial";
 					}
 					
+					
 					HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 					session.setAttribute("usuario", usuarioLogado);
 					
 					historicoAcesso.setUsuario(usuarioLogado);
 					new HistoricoAcessoDAO().inserirHistoricoAcesso(historicoAcesso);
+					
+					validarPermissoes();
 					
 					FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/menuPrincipal");
 				}else {
@@ -420,6 +470,251 @@ public class LoginServlet implements Serializable {
 		}      
 	}
 	
+	public void validarPermissoes()
+	{
+		try 
+		{
+			Boolean moduloSecretariaLiberado = false;
+			Boolean moduloEscolaLiberado = false;
+			Boolean moduloMerendaLiberado = false;
+			Boolean moduloDocentesLiberado = false;
+			Boolean moduloPortalLiberado = false;
+			Boolean moduloPatrimonioLiberado = false;
+			Boolean moduloAlmoxarifadoLiberado = false;
+			Boolean moduloTransporteLiberado = false;
+			Boolean moduloBibliotecaLiberado = false;
+			Boolean moduloSocialLiberado = false;
+			Boolean moduloProtocoloLiberado = false;
+			Boolean moduloOuvidoriaLiberado = false;
+			
+			Boolean subMenuCadastroSecretariaLiberado = false;
+			Boolean subMenuConsultaSecretariaLiberado = false;
+			Boolean subMenuLancamentoSecretariaLiberado = false;
+			Boolean subMenuRelatorioSecretariaLiberado = false;
+			
+			Boolean subMenuCadastroEscolaLiberado = false;
+			Boolean subMenuLancamentoEscolaLiberado = false;
+			Boolean subMenuConsultaEscolaLiberado = false;
+			Boolean subMenuRelatorioEscolaLiberado = false;
+			
+			if(usuarioLogado!=null)
+			{
+				for (Permissao permissao : usuarioLogado.getPermissoes()) 
+				{
+					/* MÓDULO SECRETÁRIA */
+					if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA)) 
+					{
+						//LIBERADO O ACESSO AO MÓDULO
+						if(!moduloSecretariaLiberado)
+						{
+							classModuloSecretaria = classAtributeDropDown; 
+							moduloSecretariaLiberado = true;
+						}
+						
+						//LIBERA ACESSO AOS SUB MENUS
+						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO))
+						{
+							if(!subMenuCadastroSecretariaLiberado)
+							{
+								classSecretariaCadastroSubMenu = classAtributeDropDown; 
+								subMenuCadastroSecretariaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO))
+						{
+							if(!subMenuLancamentoSecretariaLiberado)
+							{
+								setClassSecretariaLancamentoSubMenu(classAtributeDropDown); 
+								subMenuLancamentoSecretariaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA))
+						{
+							if(!subMenuConsultaSecretariaLiberado)
+							{
+								classSecretariaConsultaSubMenu = classAtributeDropDown; 
+								subMenuConsultaSecretariaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO))
+						{
+							if(!subMenuRelatorioSecretariaLiberado)
+							{
+								classSecretariaRelatorioSubMenu = classAtributeDropDown; 
+								subMenuRelatorioSecretariaLiberado = true;
+							}
+						}
+						
+						//LIBERA ACESSO AS TELAS DE CADASTRO
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_PESSOA)) { classSecretariaCadastroPessoa = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { classSecretariaCadastroUsuario = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { classSecretariaCadastroFornecedor = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { classSecretariaCadastroUnidadeEscolar = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { classSecretariaCadastroAmbiente = ""; }
+
+						//LIBERA ACESSO AS TELAS DE CONSULTA
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO)) { classSecretariaConsultaHistoricoAcesso = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
+					}
+					
+					/* MÓDULO ESCOLA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA)) 	
+					{ 
+						if(!moduloEscolaLiberado)
+						{
+							classModuloEscola = classAtributeDropDown;
+							moduloEscolaLiberado = true;
+						}
+						
+						//LIBERA ACESSO AOS SUB MENUS
+						if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO))
+						{
+							if(!subMenuCadastroEscolaLiberado)
+							{
+								classEscolaCadastroSubMenu = classAtributeDropDown; 
+								subMenuCadastroEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO))
+						{
+							if(!subMenuLancamentoEscolaLiberado)
+							{
+								classEscolaLancamentoSubMenu = classAtributeDropDown; 
+								subMenuLancamentoEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA))
+						{
+							if(!subMenuConsultaEscolaLiberado)
+							{
+								classEscolaConsultaSubMenu = classAtributeDropDown; 
+								subMenuConsultaEscolaLiberado = true;
+							}
+						}
+						else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO))
+						{
+							if(!subMenuRelatorioEscolaLiberado)
+							{
+								classEscolaRelatorioSubMenu = classAtributeDropDown; 
+								subMenuRelatorioEscolaLiberado = true;
+							}
+						}
+						
+						//LIBERA ACESSO AS TELAS DE CADASTRO
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { classEscolaCadastroMatriculaAluno = ""; }
+						if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO)) 		{ classEscolaCadastroHorario = ""; }
+					}
+					
+					/* MÓDULO MERENDA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_MERENDA)) 	
+					{ 
+						if(!moduloMerendaLiberado)
+						{
+							classModuloMerenda = classAtributeDropDown;
+							moduloMerendaLiberado = true;
+						}
+					}
+					
+					/* MÓDULO DOCENTES */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES)) 	
+					{ 
+						if(!moduloDocentesLiberado)
+						{
+							classModuloDocentes = classAtributeDropDown; 
+							moduloDocentesLiberado = true;
+						}
+					}
+					
+					/* MÓDULO PORTAL */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PORTAL)) 
+					{ 
+						if(!moduloPortalLiberado)
+						{
+							classModuloPortal = classAtributeDropDown; 
+							moduloPortalLiberado = true;
+						}
+					}
+					
+					/* MÓDULO PATRIMONIO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO)) 
+					{ 
+						if(!moduloPatrimonioLiberado)
+						{
+							classModuloPatrimonio = classAtributeDropDown; 
+							moduloPatrimonioLiberado = true;
+						}
+					}
+					
+					/* MÓDULO ALMOXARIFADO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO)) 
+					{ 
+						if(!moduloAlmoxarifadoLiberado)
+						{
+							classModuloAlmoxarifado = classAtributeDropDown; 
+							moduloAlmoxarifadoLiberado = true;
+						}
+					}
+					
+					/* MÓDULO BIBLIOTECA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA)) 
+					{ 
+						if(!moduloBibliotecaLiberado)
+						{
+							classModuloBiblioteca = classAtributeDropDown; 
+							moduloBibliotecaLiberado = true;
+						}
+					}
+					
+					/* MÓDULO TRANSPORTE */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE)) 
+					{ 
+						if(!moduloTransporteLiberado)
+						{
+							classModuloTransporte = classAtributeDropDown; 
+							moduloTransporteLiberado = true;
+						}
+					}
+					
+					/* MÓDULO SOCIAL */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL)) 
+					{ 
+						if(!moduloSocialLiberado)
+						{
+							classModuloSocial = classAtributeDropDown; 
+							moduloSocialLiberado = true;
+						}
+					}
+					
+					/* MÓDULO PROTOCOLO */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO)) 
+					{ 
+						if(!moduloProtocoloLiberado)
+						{
+							classModuloProtocolo = classAtributeDropDown; 
+							moduloProtocoloLiberado = true;
+						}
+					}
+					
+					/* MÓDULO OUVIDORIA */
+					else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA)) 
+					{ 
+						if(!moduloOuvidoriaLiberado)
+						{
+							classModuloOuvidoria = classAtributeDropDown; 
+							moduloOuvidoriaLiberado = true;
+						}
+					}
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("", "");
+		}
+	}
+	
+		
 	/* Getters and Setters */
 	public Usuario getUsuario() 			{ return usuario; }
 	public void setUsuario(Usuario usuario) { this.usuario = usuario; }
@@ -454,6 +749,270 @@ public class LoginServlet implements Serializable {
 	}
 	public void setSenhaAtual(String senhaAtual) {
 		this.senhaAtual = senhaAtual;
+	}
+
+	public String getClassAtributeHidden() {
+		return classAtributeHidden;
+	}
+
+	public void setClassAtributeHidden(String classAtributeHidden) {
+		this.classAtributeHidden = classAtributeHidden;
+	}
+
+	public String getClassAtributeDropDown() {
+		return classAtributeDropDown;
+	}
+
+	public void setClassAtributeDropDown(String classAtributeDropDown) {
+		this.classAtributeDropDown = classAtributeDropDown;
+	}
+
+	public String getClassModuloSecretaria() {
+		return classModuloSecretaria;
+	}
+
+	public void setClassModuloSecretaria(String classModuloSecretaria) {
+		this.classModuloSecretaria = classModuloSecretaria;
+	}
+
+	public String getClassModuloEscola() {
+		return classModuloEscola;
+	}
+
+	public void setClassModuloEscola(String classModuloEscola) {
+		this.classModuloEscola = classModuloEscola;
+	}
+
+	public String getClassModuloMerenda() {
+		return classModuloMerenda;
+	}
+
+	public void setClassModuloMerenda(String classModuloMerenda) {
+		this.classModuloMerenda = classModuloMerenda;
+	}
+
+	public String getClassModuloDocentes() {
+		return classModuloDocentes;
+	}
+
+	public void setClassModuloDocentes(String classModuloDocentes) {
+		this.classModuloDocentes = classModuloDocentes;
+	}
+
+	public String getClassModuloPortal() {
+		return classModuloPortal;
+	}
+
+	public void setClassModuloPortal(String classModuloPortal) {
+		this.classModuloPortal = classModuloPortal;
+	}
+
+	public String getClassModuloPatrimonio() {
+		return classModuloPatrimonio;
+	}
+
+	public void setClassModuloPatrimonio(String classModuloPatrimonio) {
+		this.classModuloPatrimonio = classModuloPatrimonio;
+	}
+
+	public String getClassModuloAlmoxarifado() {
+		return classModuloAlmoxarifado;
+	}
+
+	public void setClassModuloAlmoxarifado(String classModuloAlmoxarifado) {
+		this.classModuloAlmoxarifado = classModuloAlmoxarifado;
+	}
+
+	public String getClassModuloBiblioteca() {
+		return classModuloBiblioteca;
+	}
+
+	public void setClassModuloBiblioteca(String classModuloBiblioteca) {
+		this.classModuloBiblioteca = classModuloBiblioteca;
+	}
+
+	public String getClassModuloTransporte() {
+		return classModuloTransporte;
+	}
+
+	public void setClassModuloTransporte(String classModuloTransporte) {
+		this.classModuloTransporte = classModuloTransporte;
+	}
+
+	public String getClassModuloSocial() {
+		return classModuloSocial;
+	}
+
+	public void setClassModuloSocial(String classModuloSocial) {
+		this.classModuloSocial = classModuloSocial;
+	}
+
+	public String getClassModuloProtocolo() {
+		return classModuloProtocolo;
+	}
+
+	public void setClassModuloProtocolo(String classModuloProtocolo) {
+		this.classModuloProtocolo = classModuloProtocolo;
+	}
+
+	public String getClassModuloOuvidoria() {
+		return classModuloOuvidoria;
+	}
+
+	public void setClassModuloOuvidoria(String classModuloOuvidoria) {
+		this.classModuloOuvidoria = classModuloOuvidoria;
+	}
+
+	public String getClassSecretariaCadastroSubMenu() {
+		return classSecretariaCadastroSubMenu;
+	}
+
+	public void setClassSecretariaCadastroSubMenu(String classSecretariaCadastroSubMenu) {
+		this.classSecretariaCadastroSubMenu = classSecretariaCadastroSubMenu;
+	}
+
+	public String getClassSecretariaLancamentoSubMenu() {
+		return classSecretariaLancamentoSubMenu;
+	}
+
+	public void setClassSecretariaLancamentoSubMenu(String classSecretariaLancamentoSubMenu) {
+		this.classSecretariaLancamentoSubMenu = classSecretariaLancamentoSubMenu;
+	}
+
+	public String getClassSecretariaConsultaSubMenu() {
+		return classSecretariaConsultaSubMenu;
+	}
+
+	public void setClassSecretariaConsultaSubMenu(String classSecretariaConsultaSubMenu) {
+		this.classSecretariaConsultaSubMenu = classSecretariaConsultaSubMenu;
+	}
+
+	public String getClassSecretariaRelatorioSubMenu() {
+		return classSecretariaRelatorioSubMenu;
+	}
+
+	public void setClassSecretariaRelatorioSubMenu(String classSecretariaRelatorioSubMenu) {
+		this.classSecretariaRelatorioSubMenu = classSecretariaRelatorioSubMenu;
+	}
+
+	public String getClassEscolaCadastroSubMenu() {
+		return classEscolaCadastroSubMenu;
+	}
+
+	public void setClassEscolaCadastroSubMenu(String classEscolaCadastroSubMenu) {
+		this.classEscolaCadastroSubMenu = classEscolaCadastroSubMenu;
+	}
+
+	public String getClassEscolaLancamentoSubMenu() {
+		return classEscolaLancamentoSubMenu;
+	}
+
+	public void setClassEscolaLancamentoSubMenu(String classEscolaLancamentoSubMenu) {
+		this.classEscolaLancamentoSubMenu = classEscolaLancamentoSubMenu;
+	}
+
+	public String getClassEscolaConsultaSubMenu() {
+		return classEscolaConsultaSubMenu;
+	}
+
+	public void setClassEscolaConsultaSubMenu(String classEscolaConsultaSubMenu) {
+		this.classEscolaConsultaSubMenu = classEscolaConsultaSubMenu;
+	}
+
+	public String getClassEscolaRelatorioSubMenu() {
+		return classEscolaRelatorioSubMenu;
+	}
+
+	public void setClassEscolaRelatorioSubMenu(String classEscolaRelatorioSubMenu) {
+		this.classEscolaRelatorioSubMenu = classEscolaRelatorioSubMenu;
+	}
+
+	public String getClassSecretariaCadastroPessoa() {
+		return classSecretariaCadastroPessoa;
+	}
+
+	public void setClassSecretariaCadastroPessoa(String classSecretariaCadastroPessoa) {
+		this.classSecretariaCadastroPessoa = classSecretariaCadastroPessoa;
+	}
+
+	public String getClassSecretariaCadastroFornecedor() {
+		return classSecretariaCadastroFornecedor;
+	}
+
+	public void setClassSecretariaCadastroFornecedor(String classSecretariaCadastroFornecedor) {
+		this.classSecretariaCadastroFornecedor = classSecretariaCadastroFornecedor;
+	}
+
+	public String getClassSecretariaCadastroUsuario() {
+		return classSecretariaCadastroUsuario;
+	}
+
+	public void setClassSecretariaCadastroUsuario(String classSecretariaCadastroUsuario) {
+		this.classSecretariaCadastroUsuario = classSecretariaCadastroUsuario;
+	}
+
+	public String getClassSecretariaCadastroUnidadeEscolar() {
+		return classSecretariaCadastroUnidadeEscolar;
+	}
+
+	public void setClassSecretariaCadastroUnidadeEscolar(String classSecretariaCadastroUnidadeEscolar) {
+		this.classSecretariaCadastroUnidadeEscolar = classSecretariaCadastroUnidadeEscolar;
+	}
+
+	public String getClassSecretariaCadastroAmbiente() {
+		return classSecretariaCadastroAmbiente;
+	}
+
+	public void setClassSecretariaCadastroAmbiente(String classSecretariaCadastroAmbiente) {
+		this.classSecretariaCadastroAmbiente = classSecretariaCadastroAmbiente;
+	}
+
+	public String getClassSecretariaCadastroMatriculaAluno() {
+		return classSecretariaCadastroMatriculaAluno;
+	}
+
+	public void setClassSecretariaCadastroMatriculaAluno(String classSecretariaCadastroMatriculaAluno) {
+		this.classSecretariaCadastroMatriculaAluno = classSecretariaCadastroMatriculaAluno;
+	}
+
+	public String getClassSecretariaConsultaHistoricoAcesso() {
+		return classSecretariaConsultaHistoricoAcesso;
+	}
+
+	public void setClassSecretariaConsultaHistoricoAcesso(String classSecretariaConsultaHistoricoAcesso) {
+		this.classSecretariaConsultaHistoricoAcesso = classSecretariaConsultaHistoricoAcesso;
+	}
+
+	public String getClassSecretariaConsultaGraficos() {
+		return classSecretariaConsultaGraficos;
+	}
+
+	public void setClassSecretariaConsultaGraficos(String classSecretariaConsultaGraficos) {
+		this.classSecretariaConsultaGraficos = classSecretariaConsultaGraficos;
+	}
+
+	public String getClassSecretariaConsultaRelatorios() {
+		return classSecretariaConsultaRelatorios;
+	}
+
+	public void setClassSecretariaConsultaRelatorios(String classSecretariaConsultaRelatorios) {
+		this.classSecretariaConsultaRelatorios = classSecretariaConsultaRelatorios;
+	}
+
+	public String getClassEscolaCadastroMatriculaAluno() {
+		return classEscolaCadastroMatriculaAluno;
+	}
+
+	public void setClassEscolaCadastroMatriculaAluno(String classEscolaCadastroMatriculaAluno) {
+		this.classEscolaCadastroMatriculaAluno = classEscolaCadastroMatriculaAluno;
+	}
+
+	public String getClassEscolaCadastroHorario() {
+		return classEscolaCadastroHorario;
+	}
+
+	public void setClassEscolaCadastroHorario(String classEscolaCadastroHorario) {
+		this.classEscolaCadastroHorario = classEscolaCadastroHorario;
 	}
 	
 	

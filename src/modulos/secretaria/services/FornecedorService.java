@@ -42,13 +42,13 @@ public class FornecedorService {
 	 * @uso cadastroFornecedor.xhtml
 	 * @param Long cpfContato 
 	 */
-	public Pessoa consultaNomeContato(Long cpfContato) {
-		
+	public String consultaNomeContato(Long cpfContato) {
 		try {
-			Pessoa dadosContato = null;
+			Pessoa dadosContato;
 			dadosContato = new PessoaDAO().obtemUnicoPessoaSimples(cpfContato.toString());
 			
-			return dadosContato;
+			return dadosContato.getNome();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

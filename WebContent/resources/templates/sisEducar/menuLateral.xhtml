@@ -18,7 +18,7 @@
 		</div>
 		<ul class="nav nav-list">
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloSecretaria}"> 
+				<a href="#" class="#{loginServlet.classModuloSecretaria}"> 
 					<i class="menu-icon fa fa-folder blue"/>
 					<span class="menu-text"> #{mensagens['label.secretaria']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -26,42 +26,42 @@
 				<b class="arrow"/>					
 				<ul class="submenu">
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classSecretariaCadastroSubMenu}">
+						<a href="#" class="#{loginServlet.classSecretariaCadastroSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							#{mensagens['label.secretaria.cadastros']}
 							<b class="arrow fa fa-angle-down"/>
 						</a>
 						<b class="arrow"/>
 						<ul class="submenu">
-							<li class="#{usuarioServlet.classSecretariaCadastroPessoa}">
+							<li class="#{loginServlet.classSecretariaCadastroPessoa}">
 								<pretty:link mappingId="cadastroPessoa">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.pessoa']}
 								</pretty:link>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaCadastroFornecedor}">
+							<li class="#{loginServlet.classSecretariaCadastroFornecedor}">
 								<pretty:link mappingId="cadastroFornecedor">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.fornecedor']}
 								</pretty:link>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaCadastroUsuario}">
+							<li class="#{loginServlet.classSecretariaCadastroUsuario}">
 								<pretty:link mappingId="cadastroUsuario">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.usuario']}
 								</pretty:link>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaCadastroUnidadeEscolar}">
+							<li class="#{loginServlet.classSecretariaCadastroUnidadeEscolar}">
 								<pretty:link mappingId="cadastroUnidadeEscolar">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.unidade']}
 								</pretty:link>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaCadastroAmbiente}">
+							<li class="#{loginServlet.classSecretariaCadastroAmbiente}">
 								<a href="modulos/secretaria/cadastros/AmbienteEscolar/cadastroAmbiente.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.cadastros.ambiente']}
@@ -71,35 +71,35 @@
 						</ul>
 					</li>
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classSecretariaLancamentoSubMenu}">
+						<a href="#" class="#{loginServlet.classSecretariaLancamentoSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							LANÇAMENTOS
 							<b class="arrow fa fa-angle-down"/>
 						</a>
 					</li>
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classSecretariaConsultaSubMenu}">
+						<a href="#" class="#{loginServlet.classSecretariaConsultaSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							#{mensagens['label.secretaria.consultas']}
 							<b class="arrow fa fa-angle-down"/>
 						</a>
 						<b class="arrow"/>
 						<ul class="submenu">
-							<li class="#{usuarioServlet.classSecretariaConsultaHistoricoAcesso}">
+							<li class="#{loginServlet.classSecretariaConsultaHistoricoAcesso}">
 								<a href="modulos/secretaria/consulta/consultaHistoricoAcesso.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.consultas.historicoAcesso']}
 								</a>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaConsultaGraficos}">
+							<li class="#{loginServlet.classSecretariaConsultaGraficos}">
 								<a href="modulos/secretaria/consulta/consultaGraficos.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.consultas.graficos']}
 								</a>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classSecretariaConsultaRelatorios}">
+							<li class="#{loginServlet.classSecretariaConsultaRelatorios}">
 								<a href="modulos/secretaria/consulta/consultaRelatorios.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.secretaria.consultas.relatorios']}
@@ -109,7 +109,7 @@
 						</ul>
 					</li>
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classSecretariaRelatorioSubMenu}">
+						<a href="#" class="#{loginServlet.classSecretariaRelatorioSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							RELATÓRIOS
 							<b class="arrow fa fa-angle-down"/>
@@ -118,7 +118,7 @@
 				</ul>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloEscola}">
+				<a href="#" class="#{loginServlet.classModuloEscola}">
 					<i class="menu-icon fa fa-graduation-cap purple"/>
 					<span class="menu-text"> #{mensagens['label.escola']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -126,21 +126,21 @@
 				<b class="arrow"/>
 				<ul class="submenu">
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classEscolaCadastroSubMenu}">
+						<a href="#" class="#{loginServlet.classEscolaCadastroSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							#{mensagens['label.escola.cadastros']}
 							<b class="arrow fa fa-angle-down"/>
 						</a>
 						<b class="arrow"/>
 						<ul class="submenu">
-							<li class="#{usuarioServlet.classEscolaCadastroHorario}">
+							<li class="#{loginServlet.classEscolaCadastroHorario}">
 								<a href="modulos/escola/cadastro/horario/cadastroHorario.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.escola.cadastros.horario']}
 								</a>
 								<b class="arrow"/>
 							</li>
-							<li class="#{usuarioServlet.classEscolaCadastroMatriculaAluno}">
+							<li class="#{loginServlet.classEscolaCadastroMatriculaAluno}">
 								<a href="modulos/escola/cadastro/matricula/aluno/matriculaAluno.xhtml">
 									<i class="menu-icon fa fa-caret-right"/>
 									#{mensagens['label.escola.cadastros.matricula']}
@@ -159,7 +159,7 @@
 				</ul>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloMerenda}">
+				<a href="#" class="#{loginServlet.classModuloMerenda}">
 					<i class="menu-icon fa fa-cutlery green"/>
 					<span class="menu-text"> #{mensagens['label.merenda']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -167,7 +167,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloDocentes}">
+				<a href="#" class="#{loginServlet.classModuloDocentes}">
 					<i class="menu-icon fa fa-user orange"/>
 					<span class="menu-text"> #{mensagens['label.docentes']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -175,13 +175,13 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloPortal}">
+				<a href="#" class="#{loginServlet.classModuloPortal}">
 					<i class="menu-icon fa fa-hand-o-down"/>
 					<span class="menu-text"> #{mensagens['label.portal']} </span>
 				</a>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloPatrimonio}">
+				<a href="#" class="#{loginServlet.classModuloPatrimonio}">
 					<i class="menu-icon fa fa-university light blue"/>
 					<span class="menu-text"> #{mensagens['label.patrimonio']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -189,7 +189,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloAlmoxarifado}">
+				<a href="#" class="#{loginServlet.classModuloAlmoxarifado}">
 					<i class="menu-icon fa fa-archive coral"/>
 					<span class="menu-text"> #{mensagens['label.almoxarifado']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -197,7 +197,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloBiblioteca}">
+				<a href="#" class="#{loginServlet.classModuloBiblioteca}">
 					<i class="menu-icon fa fa-book brown"/>
 					<span class="menu-text"> #{mensagens['label.biblioteca']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -205,7 +205,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloTransporte}">
+				<a href="#" class="#{loginServlet.classModuloTransporte}">
 					<i class="menu-icon fa fa-car red"/>
 					<span class="menu-text"> #{mensagens['label.transporte']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -213,7 +213,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloSocial}">
+				<a href="#" class="#{loginServlet.classModuloSocial}">
 					<i class="menu-icon fa fa-users pink"/>
 					<span class="menu-text"> #{mensagens['label.social']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -221,7 +221,7 @@
 				<b class="arrow"/>
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloProtocolo}">
+				<a href="#" class="#{loginServlet.classModuloProtocolo}">
 					<i class="menu-icon fa fa-file-archive-o"/>
 					<span class="menu-text"> #{mensagens['label.protocolo']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -229,7 +229,7 @@
 				<b class="arrow"/>				
 			</li>					
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloOuvidoria}">
+				<a href="#" class="#{loginServlet.classModuloOuvidoria}">
 					<i class="menu-icon fa fa-phone brown"/>
 					<span class="menu-text"> #{mensagens['label.ouvidoria']} </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -237,7 +237,7 @@
 				<b class="arrow"/>				
 			</li>
 			<li class="">
-				<a href="#" class="#{usuarioServlet.classModuloOuvidoria}">
+				<a href="#" class="#{loginServlet.classModuloOuvidoria}">
 					<i class="menu-icon fa fa-tachometer "/>
 					<span class="menu-text"> ADM LOTHUS </span>
 					<b class="arrow fa fa-angle-down"/>
@@ -245,7 +245,7 @@
 				<b class="arrow"/>
 				<ul class="submenu">
 					<li class="">
-						<a href="#" class="#{usuarioServlet.classSecretariaCadastroSubMenu}">
+						<a href="#" class="#{loginServlet.classSecretariaCadastroSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
 							PARAMETROS
 							<b class="arrow fa fa-angle-down"/>

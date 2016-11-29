@@ -1,5 +1,6 @@
 package modulos.secretaria.services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,9 +96,15 @@ public class PessoaService {
 	public String consultaNomeResponsavel(Long cpf,String sexo) {
 		String nomeResponsavel = null;
 		
-		nomeResponsavel = new PessoaDAO().consultaNomeResponsavel(cpf, sexo);
+		try {
+			
+			nomeResponsavel = new PessoaDAO().consultaNomeResponsavel(cpf, sexo);
+			return nomeResponsavel;
+			
+		} catch (SQLException e) {
+			return nomeResponsavel;
+		}
 		
-		return nomeResponsavel;
 	}
 	
 	/**

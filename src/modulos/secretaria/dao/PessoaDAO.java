@@ -26,11 +26,10 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 public class PessoaDAO extends SisEducarDAO
 {
 	// Realizando conexão com o banco
-	ConectaBanco conexao = new ConectaBanco();
-	Connection con = conexao.getConection();
-	Statement st = null;
-	PreparedStatement ps = null;
-	ResultSet rs = null;
+	private ConectaBanco conexao = new ConectaBanco();
+	private Connection con = conexao.getConection();
+	private PreparedStatement ps = null;
+	private ResultSet rs = null;
 	
 	/**
 	 * Metodo para salvar os dados referente ao cadastro de uma pessoa
@@ -181,13 +180,11 @@ public class PessoaDAO extends SisEducarDAO
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 			}
 			
-			fecharConexaoBanco(con, ps, true, false);
-			
 			return pessoaDados;
 		} catch(Exception e) {
-			new EnderecoDAO().deletarEndereco(pessoaDados.getEndereco().getPkEndereco());
-			new ContatoDAO().deletarContato(pessoaDados.getEndereco().getContato().getPkContato());
 			return null;
+		} finally {
+			con.close();
 		}
 	}
 	
@@ -349,7 +346,7 @@ public class PessoaDAO extends SisEducarDAO
 	 * @author Michael
 	 * @return Pessoa pessoaDados
 	 */
-	public Pessoa consultaCadastroPessoa(Integer pkPessoa) {
+	public Pessoa consultaCadastroPessoa(Integer pkPessoa) throws SQLException {
 		
 		try { 
 			
@@ -425,6 +422,8 @@ public class PessoaDAO extends SisEducarDAO
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 		 return null;
 	}
@@ -433,8 +432,9 @@ public class PessoaDAO extends SisEducarDAO
 	 * Retorna os dados (Nome) do responsavel
 	 * @author Michael
 	 * @return String nomePessoa
+	 * @throws SQLException 
 	 */
-	public String consultaNomeResponsavel(Long cpf, String sexo){
+	public String consultaNomeResponsavel(Long cpf, String sexo) throws SQLException{
 		try {
 			
 			String nomePessoa = null;
@@ -460,6 +460,8 @@ public class PessoaDAO extends SisEducarDAO
 			return nomePessoa;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 		
 		return null;
@@ -470,7 +472,7 @@ public class PessoaDAO extends SisEducarDAO
 	 * @author Michael
 	 * @return Lista Pessoa
 	 */
-	public List<Pessoa> consultaCadastroPessoa(Pessoa pessoaDados) {
+	public List<Pessoa> consultaCadastroPessoa(Pessoa pessoaDados) throws SQLException {
 		try {
 			Integer numeroArgumentos = 1;
 			String formataNome = "%"+ pessoaDados.getNome() + "%";
@@ -537,6 +539,8 @@ public class PessoaDAO extends SisEducarDAO
 			return listaPessoa;
 		} catch (Exception e)  {			
 			return null;
+		} finally {
+			con.close();
 		}
 	}
 	
@@ -544,8 +548,9 @@ public class PessoaDAO extends SisEducarDAO
 	 * Delete de um cadastro, atualiza o status do banco para desabilitado
 	 * @author Michael
 	 * @return Boolean
+	 * @throws SQLException 
 	 */
-	public Boolean deletarPessoa(Integer pkPessoa) {
+	public Boolean deletarPessoa(Integer pkPessoa) throws SQLException {
 		try {
 			String querySQL = "UPDATE PESSOA "
 					+ " SET STATUS = ?"
@@ -566,11 +571,12 @@ public class PessoaDAO extends SisEducarDAO
 				}
 			}
 			fecharConexaoBanco(con, ps, false, true);
-			fecharConexaoBanco(con, ps, true, false);
 			
 			return false;
 		} catch (Exception e) {
 			return false;
+		} finally {
+			con.close();
 		}
 	}
 	

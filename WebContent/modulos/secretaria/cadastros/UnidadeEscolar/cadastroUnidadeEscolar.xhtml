@@ -474,7 +474,8 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render=":formPrincipal:tableAmbiente" execute="@this" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
+												<f:ajax event="click" render=":formPrincipal:tableAmbiente" 
+													execute="panelAmbiente" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
 											</h:commandLink>
 										</div>
 									</div>

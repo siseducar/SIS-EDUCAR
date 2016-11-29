@@ -281,7 +281,7 @@ public class MatriculaAlunoServlet implements Serializable {
 	/*
 	 * Metodo para editar cadastro selecionado
 	 * **/
-	public void editarCadastro() {
+	public void editarCadastro() throws SQLException {
 		pessoaSelecionada = (Pessoa) dataTable.getRowData();
 		
 		if(pessoaSelecionada != null && pessoaSelecionada.getPkPessoa() != null) {

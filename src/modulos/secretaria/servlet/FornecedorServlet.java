@@ -65,6 +65,8 @@ public class FornecedorServlet implements Serializable {
 	/* Componenete Tabela de consulta de Cadastros*/
 	private HtmlDataTable dataTable;
 	
+	private Boolean panelDadosEmpresa;
+	
 	@PostConstruct
 	public void init() {
 		if( this.fornecedorDados == null ) {
@@ -107,6 +109,8 @@ public class FornecedorServlet implements Serializable {
 		comboEstado = new ArrayList<SelectItem>();
 		comboMunicipio = new ArrayList<SelectItem>();
 		comboMunicipioInscricao = new ArrayList<SelectItem>();
+		
+		panelDadosEmpresa = false;
 		
 		usuarioLogadao = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 		
@@ -264,10 +268,21 @@ public class FornecedorServlet implements Serializable {
 	public void consultaNomeContato() {
 		try {
 			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() > 0) {				
-				pessoaDados = new FornecedorService().consultaNomeContato(pessoaDados.getCpf());
+				
+				pessoaDados.setNome(new FornecedorService().consultaNomeContato(pessoaDados.getCpf()));
+				
+				if( pessoaDados.getNome() != null ) {
+					panelDadosEmpresa = true;
+				} else {
+					pessoaDados.setCpf(null);
+					pessoaDados.setNome(null);
+					panelDadosEmpresa = false;
+					Logs.addInfo("CPF não encontrado!", null);
+				}
 			} else {
 				pessoaDados.setCpf(null);
 				pessoaDados.setNome(null);
+				panelDadosEmpresa = false;
 			}
 		} catch (Exception e) {
 		}
@@ -478,5 +493,13 @@ public class FornecedorServlet implements Serializable {
 
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
+	}
+
+	public Boolean getPanelDadosEmpresa() {
+		return panelDadosEmpresa;
+	}
+
+	public void setPanelDadosEmpresa(Boolean panelDadosEmpresa) {
+		this.panelDadosEmpresa = panelDadosEmpresa;
 	}
 }
