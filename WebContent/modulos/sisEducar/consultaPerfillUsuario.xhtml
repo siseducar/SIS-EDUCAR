@@ -42,7 +42,7 @@
 											<output>Nome de Usuário</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{loginServlet.usuarioLogado.nome}" autocomplete="off" maxlength="50" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.usuario']}"></h:inputText>
+												requiredMessage="#{mensagens['mensagem.requerido.usuario.nome']}"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -60,7 +60,7 @@
 											<output>Confirmação de Email</output>
 											<span class="block input-icon input-icon-right">
 												<h:inputText type="text" class="form-control" value="#{loginServlet.usuarioLogado.confirmarEmail}" autocomplete="off" maxlength="30" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.confirmacaoEmail']}"></h:inputText>
+												requiredMessage="#{mensagens['mensagem.requerido.usuario.confirmacaoEmail']}"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -68,7 +68,8 @@
 										<div>
 											<output>Senha</output>
 											<span class="block input-icon input-icon-right">
-												<h:inputSecret type="text" class="form-control" value="#{loginServlet.usuarioLogado.senha}" maxlength="8"></h:inputSecret>
+												<h:inputSecret type="text" class="form-control" value="#{loginServlet.usuarioLogado.senha}" maxlength="8" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.usuario.senha']}"></h:inputSecret>
 											</span>
 										</div>
 									</div>
@@ -77,7 +78,6 @@
 							
 							<!-- Botões -->
 							<div class="clearfix">
-								<p:messages></p:messages>
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round">
 									<span class="bigger-110">Editar</span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
