@@ -2,6 +2,7 @@ package modulos.secretaria.popula;
 
 import java.sql.SQLException;
 
+import modulos.secretaria.dao.PopulaJustificativasFaltaDAO;
 import modulos.secretaria.dao.PopulaSecretariaDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
@@ -17,7 +18,8 @@ public class PopulaSecretaria
 	public static void main(String[] args) throws SQLException 
 	{
 		PopulaSecretariaDAO populaRHDAO = new PopulaSecretariaDAO();
-	
+        PopulaJustificativasFaltaDAO justificativasFaltaDAO = new PopulaJustificativasFaltaDAO();
+        
 		System.out.println("Populando Raças...");
 		populaRHDAO.inserirParametros("Raca", "BR", "Branca", ConstantesSisEducar.STATUS_ATIVO, 1);
 		populaRHDAO.inserirParametros("Raca", "PR", "Preta", ConstantesSisEducar.STATUS_ATIVO, 2);
@@ -173,5 +175,11 @@ public class PopulaSecretaria
 		populaRHDAO.inserirParametros("Bloco", "2", "2", ConstantesSisEducar.STATUS_ATIVO, 3);
 		populaRHDAO.inserirParametros("Bloco", "3", "3", ConstantesSisEducar.STATUS_ATIVO, 4);
 		System.out.println("Popula Bloco Finalizado \n");
+		
+		System.out.println("Populando Justificativas de Falta...");
+		justificativasFaltaDAO.inserirJustificativas("FM", "Falta Médica", true, 1);
+		justificativasFaltaDAO.inserirJustificativas("FJ", "Falta Justificada", false, 2);
+		justificativasFaltaDAO.inserirJustificativas("FNJ", "Falta Não Justificada", false, 3);
+		System.out.println("Popula Justificativas de Falta Finalizado \n");
 	}
 }
