@@ -64,6 +64,7 @@ public class PessoaServlet implements Serializable{
 	private Cidade cidadeNascimentoDados;
 	private Pessoa pessoaSelecionada;
 	private Pessoa pessoaDadosConsulta;
+	private Pessoa pessoaResponsavelDadosConsulta;
 	
 	/* Combo com valores de ESTADO */
 	private List<SelectItem> comboEstado;
@@ -163,6 +164,9 @@ public class PessoaServlet implements Serializable{
 		if(this.pessoaDadosConsulta == null) {
 			this.pessoaDadosConsulta = new Pessoa();
 		}
+		if(this.pessoaResponsavelDadosConsulta == null) {
+			this.pessoaResponsavelDadosConsulta = new Pessoa();
+		}
 		if(this.dataTableResponsavel == null) {
 			this.dataTableResponsavel = new HtmlDataTable();
 		}
@@ -236,8 +240,23 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
 	 * */
-	public String atualizarCadastroPessoa() {
-		System.out.println("teste");
+	public String atualizarCadastroPessoa() throws SQLException {
+		if( !new ContatoService().atualizarDadosContato(contatoDados)) {
+			Logs.addError("Erro ao atualizar dados.", null);
+		} else {
+			enderecoDados.setContato(contatoDados);
+			if ( !new EnderecoService().atualizarDadosEndereco(enderecoDados) ) {
+				Logs.addError("Erro ao atualizar endereco.", null);
+			} else {
+				pessoaDados.setEndereco(enderecoDados);
+				if ( !new PessoaService().atualizarDadosPessoa(pessoaDados) ) {
+					Logs.addError("Erro ao atualizar os dados da Pessoa.", null);
+				} else {
+					Logs.addInfo("Dados atualizados com sucesso!", null);
+				}
+			}
+			
+		}
 		return null;
 	}
 	
@@ -599,7 +618,7 @@ public class PessoaServlet implements Serializable{
 	public void consultaCadastroResponsavel() {
 		listaConsultaResponsavel = new ArrayList<Pessoa>();
 		
-		listaConsultaResponsavel = new PessoaService().consultaListaPessoa(pessoaDadosConsulta);
+		listaConsultaResponsavel = new PessoaService().consultaListaPessoa(pessoaResponsavelDadosConsulta);
 	}
 	
 	public void limparListaResponsavel() {
@@ -621,9 +640,9 @@ public class PessoaServlet implements Serializable{
 						pessoaDados.getCpfMae(),
 						ConstantesSisEducar.GENERO_FEMININO) ); 
 			
-			if(pessoaDados.getNomeMae() != null && !pessoaDados.getNomeMae().equals("")){
+			if(pessoaDados.getNomeMae() == null || pessoaDados.getNomeMae().equals("")){
 				pessoaDados.setCpfMae(null);
-				Logs.addWarning("CPF não encontrado.", null);				
+				Logs.addWarning("CPF não encontrado.", null);			
 			}
 		}
 	}
@@ -639,7 +658,7 @@ public class PessoaServlet implements Serializable{
 						pessoaDados.getCpfPai(),
 						ConstantesSisEducar.GENERO_MASCULINO) ); 
 			
-			if(pessoaDados.getNomePai() != null && !pessoaDados.getNomePai().equals("")){
+			if(pessoaDados.getNomePai() == null && pessoaDados.getNomePai().equals("")){
 				pessoaDados.setCpfPai(null);
 				Logs.addWarning("CPF não encontrado.", null);				
 			}
@@ -657,7 +676,7 @@ public class PessoaServlet implements Serializable{
 						pessoaDados.getCpfResponsavel(),
 						null) ); 
 			
-			if(pessoaDados.getNomeResponsavel() != null && !pessoaDados.getNomeResponsavel().equals("")){
+			if(pessoaDados.getNomeResponsavel() == null && pessoaDados.getNomeResponsavel().equals("")){
 				pessoaDados.setCpfResponsavel(null);
 				Logs.addWarning("CPF não encontrado.", null);				
 			}
@@ -668,13 +687,13 @@ public class PessoaServlet implements Serializable{
 	 * Metodo para validar o tipo de cadastro
 	 * 
 	 * */
-	public void validaCadastro(){
+	public void validaCadastro() throws SQLException{
 		if( validaDadosPessoa() ) {	
 			if(pessoaDados.getPkPessoa() == null ) {					
 				salvarCadastroPessoa();
 			} else {
 				if( pessoaDados.getPkPessoa() != null ) {
-					
+					atualizarCadastroPessoa();
 				}
 			}
 		}
@@ -1035,5 +1054,13 @@ public class PessoaServlet implements Serializable{
 
 	public void setParamDados(ParametrosServlet paramDados) {
 		this.paramDados = paramDados;
+	}
+
+	public Pessoa getPessoaResponsavelDadosConsulta() {
+		return pessoaResponsavelDadosConsulta;
+	}
+
+	public void setPessoaResponsavelDadosConsulta(Pessoa pessoaResponsavelDadosConsulta) {
+		this.pessoaResponsavelDadosConsulta = pessoaResponsavelDadosConsulta;
 	}
 }

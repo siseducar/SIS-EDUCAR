@@ -16,7 +16,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class ContatoDAO extends SisEducarDAO
 {
-	// Realizando conexão com o banco
+
 	ConectaBanco conexao = new ConectaBanco();
 	Connection con = conexao.getConection();
 	Statement st = null;
@@ -283,6 +283,59 @@ public class ContatoDAO extends SisEducarDAO
 			return dadosContato;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+		
+	/*
+	 * Metodo para atualizar os dados de contato
+	 * */
+	public Boolean atualizarContatoPessoa(Contato dadosContato) throws SQLException {
+		try {
+			int numeroArgumentos = 1;
+			
+			String querySQL = "UPDATE CONTATO SET";
+				if(dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("")) {
+					querySQL += " TELRESIDENCIAL = ?, ";
+				}
+				if(dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("")) {
+					querySQL += " TELCELULAR = ?, ";
+				}
+				if(dadosContato.getEmail() != null && !dadosContato.getEmail().equals("")) {
+					querySQL += " EMAIL = ? ";
+				}
+				querySQL += " WHERE STATUS = ? ";
+				querySQL += " AND PKCONTATO = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			if(dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("")) {
+				ps.setString(numeroArgumentos, dadosContato.getTelResidencial());
+				numeroArgumentos++;
+			}
+			if(dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("")) {
+				ps.setString(numeroArgumentos, dadosContato.getTelCelular());
+				numeroArgumentos++;
+			}
+			if(dadosContato.getEmail() != null && !dadosContato.getEmail().equals("")) {
+				ps.setString(numeroArgumentos, dadosContato.getEmail());
+				numeroArgumentos++;
+			}
+			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosContato.getPkContato());
+			
+			ps.execute();
+			
+			return true;
+		}
+		catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					e.toString(),null));
+			return false;
+		} finally {
+			con.close();
 		}
 	}
 	

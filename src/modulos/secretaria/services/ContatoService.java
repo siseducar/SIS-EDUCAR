@@ -43,4 +43,23 @@ public class ContatoService {
 			return null;
 		}
 	}
+	
+	/**
+	 * Atualiza os dados do contato da pessoa
+	 * @author Michael
+	 * @param Contato contatoDados
+	 * @return false/true
+	 */
+	public Boolean atualizarDadosContato(Contato contatoDados) {
+		try {
+			
+			if(new ContatoDAO().atualizarContatoPessoa(contatoDados)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

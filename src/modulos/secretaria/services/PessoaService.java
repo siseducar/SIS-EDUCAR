@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import modulos.secretaria.dao.EnderecoDAO;
 import modulos.secretaria.dao.PessoaDAO;
+import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Pessoa;
 
 public class PessoaService {
@@ -29,6 +31,25 @@ public class PessoaService {
 		}	
 		
 		return false;
+	}
+	
+	/**
+	 * Atualiza os dados da pessoa
+	 * @author Michael
+	 * @param Pessoa pessoaDados
+	 * @return false/true
+	 */
+	public Boolean atualizarDadosPessoa(Pessoa pessoaDados) {
+		try {
+			if( new PessoaDAO().atualizarDadosPessoa(pessoaDados)) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	/**

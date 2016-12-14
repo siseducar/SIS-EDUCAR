@@ -1014,6 +1014,4 @@ public class LoginServlet implements Serializable {
 	public void setClassEscolaCadastroHorario(String classEscolaCadastroHorario) {
 		this.classEscolaCadastroHorario = classEscolaCadastroHorario;
 	}
-	
-	
 }

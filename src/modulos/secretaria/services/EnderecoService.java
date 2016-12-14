@@ -27,6 +27,25 @@ public class EnderecoService {
 	}
 	
 	/**
+	 * Atualiza os dados do endereco da pessoa
+	 * @author Michael
+	 * @param Endereco enderecoDados
+	 * @return false/true
+	 */
+	public Boolean atualizarDadosEndereco(Endereco enderecoDados) {
+		try {
+			if( new EnderecoDAO().atualizarEndercoPessoa(enderecoDados)) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	/**
 	 * Consulta os dados do endereco da pessoa
 	 * @author Michael
 	 * @param Endereco enderecoDados

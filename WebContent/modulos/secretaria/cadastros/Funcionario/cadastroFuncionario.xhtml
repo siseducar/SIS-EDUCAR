@@ -27,7 +27,7 @@
 			</div>
 			<div class="nav-search">
 				<h5 align="center">
-					<a href="#modalConsultaFornecedor" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
+					<a href="#modalConsultaPessoa" role="button" data-toggle="modal" class="btn btn-white btn-info btn-round ">
 						<i class="ace-icon fa fa-search bigger-150"/>
 						<span class="bigger-110">
 							#{mensagens['label.consultar']}
@@ -51,7 +51,7 @@
 										</h:inputText>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-9">
+								<div class="col-xs-12 col-sm-7">
 									<h:outputLabel 
 										value="#{mensagens['label.nome']}"/>
 									<div>
@@ -59,7 +59,14 @@
 											disabled="true"/>
 									</div>
 								</div>
+								<div class="col-xs-12 col-sm-2">
+	                        		<a href="#modalDadosHistorico" role="button" data-toggle="modal" 
+	                        			class="btn btn-white btn-info btn-round" id="openBtn">
+										<span class="bigger-110"> Historico de Cargos </span>
+									</a>
+                        		</div>
 							</div>
+							<div class="space-4"/>
 							<div class="row">
 								<div class="col-xs-12 col-sm-4">
 									<h:outputLabel 
@@ -135,32 +142,127 @@
 							</div>
 							<div class="space-4"/>
 							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="Concursado"/>
+									<div>
+										<h:selectOneRadio id="concursado" value="#{funcionarioServlet.validaConcursado}">
+											<f:selectItem itemValue="1" itemLabel="Sim"/>
+											<f:selectItem itemValue="0" itemLabel="Não"/>
+											<f:ajax event="change" execute="@this" listener="#{funcionarioServlet.validaPanelConcurso}"
+												render="dadosConcurso"/>
+										</h:selectOneRadio>
+									</div>
+								</div>
 								<div class="row">
-								<div class="col-xs-12 col-sm-6">
 									<div class="col-xs-12 col-sm-12">
-										<h:outputLabel value="Concursado"/>
-										<div>
-											<h:selectOneRadio id="concursado">
-												<f:selectItem itemValue="" itemLabel="Sim"/>
-												<f:selectItem itemValue="" itemLabel="Não"/>
-											</h:selectOneRadio>
-										</div>
+										<h:panelGroup id="dadosConcurso">
+											<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
+											<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
+											<h:panelGroup rendered="#{funcionarioServlet.panelDadosConcurso}">
+												<div class="col-xs-12 col-sm-3">
+													<h:outputLabel value="Nome do Concurso"/>
+													<div>
+														<h:inputText styleClass="col-sm-12"/>
+													</div>
+												</div>
+												<div class="col-xs-12 col-sm-3">
+													<h:outputLabel value="Num. do Contrato"/>
+													<div>
+														<h:inputText styleClass="col-sm-12"/>
+													</div>
+												</div>
+												<div class="col-xs-12 col-sm-2">
+													<h:outputLabel value="Data do Concurso"/>
+													<div>
+														<h:inputText type="text"
+															styleClass="col-xs-12 col-sm-12 calendario form-control">
+															<f:converter converterId="converte.data"/>
+														</h:inputText>
+													</div>
+												</div>
+												<div class="col-xs-12 col-sm-2">
+													<h:outputLabel value="Posição no Concurso"/>
+													<div>
+														<h:inputText styleClass="col-sm-12"/>
+													</div>
+												</div>
+											</h:panelGroup>
+										</h:panelGroup>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-6">
-									<div class="col-xs-12 col-sm-12">
-										<h:outputLabel value="Aposentado"/>
-										<div>
-											<h:selectOneRadio id="aposentado">
-												<f:selectItem itemValue="" itemLabel="Sim"/>
-												<f:selectItem itemValue="" itemLabel="Não"/>
-											</h:selectOneRadio>
-										</div>
+							</div>
+							<div class="space-6"/>
+							<div class="row">
+								<div class="col-xs-12 col-sm-2">
+									<h:outputLabel value="Aposentado"/>
+									<div>
+										<h:selectOneRadio id="aposentado" value="#{funcionarioServlet.validaAposentado}">
+											<f:selectItem itemValue="1" itemLabel="Sim"/>
+											<f:selectItem itemValue="0" itemLabel="Não"/>
+											<f:ajax event="change" execute="@this" listener="#{funcionarioServlet.validaPanelAposentado}"
+												render="dadosAposentado"/>
+										</h:selectOneRadio>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12">
+										<h:panelGroup id="dadosAposentado">
+											<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
+											<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
+											<h:panelGroup rendered="#{funcionarioServlet.panelDadosAposentado}">
+												<div class="col-xs-12 col-sm-2">
+													<h:outputLabel value="Data do Concurso"/>
+													<div>
+														<h:inputText styleClass="col-xs-12 col-sm-12 calendario form-control"/>
+													</div>
+												</div>
+											</h:panelGroup>
+										</h:panelGroup>
+									</div>
 								</div>
 							</div>
 						</h:panelGroup>
+						
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
+							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaPessoa">
+						  <div class="modal-dialog modal-lg">
+						    <div class="modal-content">
+						    	<div class="modal-header">
+									<h3 class="smaller lighter blue"> Historico de Cargos </h3>
+						    	</div>
+						    	<div class="modal-body">
+					    			<h:panelGroup id="dadosHistoricoCargo" style="width: 100%" class="clearfix form-actions">
+										<div class="col-xs-12 col-sm-12">
+											<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
+							    			headerClass="order-table-header" id="tablePermissoes"
+							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+								    			<h:column>
+								    				<center>
+							    						<f:facet name="header"> Cargo </f:facet>
+								    				</center>					    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header"> Data </f:facet>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header"> Situação </f:facet>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header"> Sede </f:facet>
+								    			</h:column>
+								    		</h:dataTable>
+										</div>
+									</h:panelGroup>
+						    	</div>
+						    	<div class="modal-footer">
+						    		<button id="btFechar" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
+										<i class="ace-icon fa fa-times red2"/>
+										#{mensagens['label.botao.fechar']}
+									</button>
+						    	</div>
+						    </div>
+						  </div>
+						</div>
+						
 						<div class="col-sx-12 col-sm-6" id="default-buttons">
 							<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
 								<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>

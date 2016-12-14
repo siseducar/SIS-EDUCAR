@@ -371,6 +371,118 @@ public class EnderecoDAO extends SisEducarDAO
 	}
 	
 	/*
+	 * Metodo para atualizar os dados de contato
+	 * */
+	public Boolean atualizarEndercoPessoa(Endereco dadosEndereco) throws SQLException {
+		try {
+			int numeroArgumentos = 1;
+			
+			String querySQL = "UPDATE ENDERECO SET";
+				if(dadosEndereco.getCidade().getPkCidade() != null) {
+					querySQL += " FKCIDADE = ?, ";
+				}
+				if(dadosEndereco.getCep() != null && !dadosEndereco.getCep().equals("")) {
+					querySQL += " CEP = ?, ";
+				}
+				if(dadosEndereco.getLogradouro() != null && !dadosEndereco.getLogradouro().equals("")) {
+					querySQL += " LOGRADOURO = ?, ";
+				}
+				if(dadosEndereco.getNumero() != null && !dadosEndereco.getNumero().equals("")) {
+					querySQL += " NUMERO = ?, ";
+				}
+				if(dadosEndereco.getBairro() != null && !dadosEndereco.getBairro().equals("")) {
+					querySQL += " BAIRRO = ?, ";
+				}
+				if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
+					querySQL += " COMPLEMENTO = ?, ";
+				}
+				if(dadosEndereco.getTipo() != null && !dadosEndereco.getTipo().equals("")) {
+					querySQL += " TIPO = ?, ";
+				}
+				if(dadosEndereco.getEnderecoCompleto() != null && !dadosEndereco.getEnderecoCompleto().equals("")) {
+					querySQL += " ENDERECOCOMPLETO = ?, ";
+				}
+				if(dadosEndereco.getLatitude() != null && !dadosEndereco.getLatitude().equals("")) {
+					querySQL += " LATITUDE = ?, ";
+				}
+				if(dadosEndereco.getLongitude() != null && !dadosEndereco.getLongitude().equals("")) {
+					querySQL += " LONGITUDE = ?, ";
+				}
+				if(dadosEndereco.getRegiao().getPkRegiao() != null) {
+					querySQL += " FKREGIAO = ? ";
+				}
+				
+				querySQL += " WHERE STATUS = ? ";
+				querySQL += " AND PKENDERECO = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			if(dadosEndereco.getCidade().getPkCidade() != null) {
+				ps.setInt(numeroArgumentos, dadosEndereco.getCidade().getPkCidade());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getCep() != null && !dadosEndereco.getCep().equals("")) {
+				ps.setInt(numeroArgumentos, dadosEndereco.getCep());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getLogradouro() != null && !dadosEndereco.getLogradouro().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getLogradouro());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getNumero() != null && !dadosEndereco.getNumero().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getNumero());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getBairro() != null && !dadosEndereco.getBairro().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getBairro());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getTipo() != null && !dadosEndereco.getTipo().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getTipo());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getEnderecoCompleto() != null && !dadosEndereco.getEnderecoCompleto().equals("")) {
+				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getLatitude() != null && !dadosEndereco.getLatitude().equals("")) {
+				ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getLongitude() != null && !dadosEndereco.getLongitude().equals("")) {
+				ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getRegiao().getPkRegiao() != null) {
+				ps.setInt(numeroArgumentos, dadosEndereco.getRegiao().getPkRegiao());
+				numeroArgumentos++;
+			}
+			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getPkEndereco());
+			
+			ps.execute();
+			
+			fecharConexaoBanco(con, ps, false, true);
+			
+			return true;
+		}
+		catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					e.toString(),null));
+			return false;
+		} finally {
+			con.close();
+		}
+	}
+	
+	/*
 	 * Metodo para deletar os dados de endereco
 	 * */
 	public void deletarEndereco(Integer pkEndereco) {
