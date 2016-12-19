@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class PopulaSecretariaDAO extends SisEducarDAO
 {
@@ -33,17 +34,21 @@ public class PopulaSecretariaDAO extends SisEducarDAO
 	 */
 	public void inserirPermissoes(String nomePermissao, Integer status, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel, Integer tela) throws SQLException 
 	{
-		String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel,tiposubmenuresponsavel, telaResponsavel) VALUES (?, ?, ?, ?, ?, ?)";
-		ps = con.prepareStatement(querySQL);
-		
-		ps.setString(1, nomePermissao);
-		ps.setInt(2, status);
-		ps.setInt(3, tipoPermissao);
-		ps.setObject(4, tipoModuloResponsavel!=null ? tipoModuloResponsavel : null);
-		ps.setObject(5, tipoSubMenuResponsavel!=null ? tipoSubMenuResponsavel : null);
-		ps.setObject(6, tela!=null ? tela : null);
-		
-		fecharConexaoBanco(con, ps, false, true);
+		Boolean existePermissao = verificaPermissao(nomePermissao, tipoPermissao, tipoModuloResponsavel, tipoSubMenuResponsavel, tela);
+		if(!existePermissao)
+		{
+			String querySQL = "INSERT INTO Permissao (nome, status, tipo, tipoModuloResponsavel,tiposubmenuresponsavel, telaResponsavel) VALUES (?, ?, ?, ?, ?, ?)";
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, nomePermissao);
+			ps.setInt(2, status);
+			ps.setInt(3, tipoPermissao);
+			ps.setObject(4, tipoModuloResponsavel!=null ? tipoModuloResponsavel : null);
+			ps.setObject(5, tipoSubMenuResponsavel!=null ? tipoSubMenuResponsavel : null);
+			ps.setObject(6, tela!=null ? tela : null);
+			
+			fecharConexaoBanco(con, ps, false, true);
+		}
 	}
 	
 	/**
@@ -56,34 +61,111 @@ public class PopulaSecretariaDAO extends SisEducarDAO
 	 */
 	public void inserirParametros(String nomeTabela, String codigo, String descricao, Integer status, Integer ordemExibicao) throws SQLException 
 	{
-		String querySQL = "INSERT INTO " + nomeTabela 
-				+ " ("
-				+ "      codigo, descricao, status";
-		
-		if(ordemExibicao!=null && ordemExibicao >0)
+		Boolean existeParametro = verificaParametro(nomeTabela, codigo, descricao);
+		if(!existeParametro)
 		{
-			querySQL += ", ordemExibicao";
-			querySQL += " )";
-			querySQL += " VALUES (?, ?, ?, ?)";
+			String querySQL = "INSERT INTO " + nomeTabela 
+					+ " ("
+					+ "      codigo, descricao, status";
+			
+			if(ordemExibicao!=null && ordemExibicao >0)
+			{
+				querySQL += ", ordemExibicao";
+				querySQL += " )";
+				querySQL += " VALUES (?, ?, ?, ?)";
+			}
+			else
+			{ 
+				querySQL += " )"; 
+				querySQL += " VALUES (?, ?, ?)";
+			}
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setString(1, codigo);
+			ps.setString(2, descricao);
+			ps.setInt(3, status);
+			
+			if(ordemExibicao!=null && ordemExibicao >0)
+			{
+				ps.setInt(4, ordemExibicao);
+			}
+			
+			if(codigo.equals("NI"))
+			{
+				System.out.println(ps);
+			}
+			
+			fecharConexaoBanco(con, ps, false, true);
 		}
-		else
-		{ 
-			querySQL += " )"; 
-			querySQL += " VALUES (?, ?, ?)";
-		}
-		
+	}
+	
+	/**
+	 * Verifica se existe o parametro, caso existir retorna TRUE, caso contrário retorna FALSE
+	 * @author João Paulo
+	 * @param nomeTabela
+	 * @param codigo
+	 * @param descricao
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean verificaParametro(String nomeTabela, String codigo, String descricao) throws SQLException
+	{
+		String querySQL = "SELECT STATUS FROM "
+				+ nomeTabela
+				+ " WHERE CODIGO = ? AND DESCRICAO = ? AND STATUS = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		
 		ps.setString(1, codigo);
 		ps.setString(2, descricao);
-		ps.setInt(3, status);
+		ps.setInt(3, ConstantesSisEducar.STATUS_ATIVO);
 		
-		if(ordemExibicao!=null && ordemExibicao >0)
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) 
 		{
-			ps.setInt(4, ordemExibicao);
+			return true;
 		}
 		
-		fecharConexaoBanco(con, ps, false, true);
+		return false;
+	}
+	
+	/**
+	 * Verifica se existe uma permissão com os mesmos parâmetros, caso sim etorna true, caso contrário volta false
+	 * @author João Paulo
+	 * @param nomePermissao
+	 * @param tipoPermissao
+	 * @param tipoModuloResponsavel
+	 * @param tipoSubMenuResponsavel
+	 * @param tela
+	 * @return TRUE || FALSE
+	 * @throws SQLException
+	 */
+	public Boolean verificaPermissao(String nomePermissao, Integer tipoPermissao, Integer tipoModuloResponsavel, Integer tipoSubMenuResponsavel, Integer tela) throws SQLException
+	{
+		String querySQL = "SELECT STATUS FROM PERMISSAO "
+				+ " WHERE NOME = ? "
+				+ " AND STATUS = ?"
+				+ " AND TIPO = ? "
+				+ " AND TIPOMODULORESPONSAVEL = ? "
+				+ " AND TIPOSUBMENURESPONSAVEL = ? "
+				+ " AND TELARESPONSAVEL = ? ";
+				
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setString(1, nomePermissao);
+		ps.setInt(2, ConstantesSisEducar.STATUS_ATIVO);
+		ps.setInt(3, tipoPermissao);
+		ps.setInt(4, tipoModuloResponsavel);
+		ps.setInt(5, tipoSubMenuResponsavel);
+		ps.setInt(6, tela);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) 
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

@@ -6,7 +6,7 @@ public class RedeEnsino implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer pkRedeEnsino;
-	private String codigo;
+	private String descricao;
 	private String nome;
 	private int status;
 	private int ordemExibicao;
@@ -17,12 +17,6 @@ public class RedeEnsino implements Serializable {
 	}
 	public void setPkRedeEnsino(Integer pkRedeEnsino) {
 		this.pkRedeEnsino = pkRedeEnsino;
-	}
-	public String getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
 	}
 	public String getNome() {
 		return nome;
@@ -47,6 +41,12 @@ public class RedeEnsino implements Serializable {
 	}
 	public void setOrdemExibicao(int ordemExibicao) {
 		this.ordemExibicao = ordemExibicao;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
 

@@ -17,15 +17,20 @@ public class PopulaEducacaoPermissoes
 	 */
 	public static void main(String[] args) throws SQLException 
 	{
-		PopulaSecretariaDAO populaRHDAO = new PopulaSecretariaDAO();
+		executar();
+	}
 	
+	public static void executar() throws SQLException
+	{
+		PopulaSecretariaDAO populaRHDAO = new PopulaSecretariaDAO();
+		
 		System.out.println("Populando Permissões de Tela...");
 		
 		/* TELA DE CADASTRO MATRICULA ALUNO */
 		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
 		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
 		populaRHDAO.inserirPermissoes("Excluir", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_EXCLUIR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
-
+		
 		/* TELA DE CADASTRO HORÁRIO */
 		populaRHDAO.inserirPermissoes("Cadastrar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CADASTRAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);
 		populaRHDAO.inserirPermissoes("Consultar", ConstantesSisEducar.STATUS_ATIVO, ConstantesSecretaria.PERMISSAO_CONSULTAR, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA, ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO, ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);

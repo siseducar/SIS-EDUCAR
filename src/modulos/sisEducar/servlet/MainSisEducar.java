@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import modulos.educacao.popula.PopulaEducacaoPermissoes;
+import modulos.secretaria.popula.PopulaSecretaria;
+import modulos.secretaria.popula.PopulaSecretariaPermissoes;
 import modulos.secretaria.servlet.ParametrosServlet;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
@@ -29,6 +32,13 @@ public class MainSisEducar implements Servlet, Serializable
 			new ParametrosServlet();
 			
 			System.out.println("<-------Sistema SisEducar iniciado-------->");
+			
+			System.out.println("Populando Parâmetros");
+				PopulaSecretaria.executar();
+				PopulaEducacaoPermissoes.executar();
+				PopulaSecretariaPermissoes.executar();
+			System.out.println("Fim Populas");
+			
 		}
 		catch(Exception e)
 		{ e.printStackTrace(); }
