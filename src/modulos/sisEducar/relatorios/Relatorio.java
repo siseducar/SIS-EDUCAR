@@ -1,6 +1,8 @@
 package modulos.sisEducar.relatorios;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
@@ -22,6 +24,9 @@ public class Relatorio
 	 */
 	public static String gerarArquivoPDF(List<?> informacoes, String pathJRXML, String pathDestino, String nomeArquivo) throws JRException
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");    
+		Date data = new Date();
+		
 		// COMPILACAO DO JRXML
 		JasperReport report = JasperCompileManager.compileReport(pathJRXML);
 		
@@ -38,7 +43,11 @@ public class Relatorio
 		JasperPrint print = JasperFillManager.fillReport(report, null,
 		new JRBeanCollectionDataSource(informacoes));
 
-		pathDestino += File.separator + nomeArquivo + ".pdf";
+		/* VERIFICA SE A PASTA DE DESTINO EXISTE, CASO NÃO EXISTIR O SISTEMA IRÁ CRIÁ-LA */
+		File file = new File(pathDestino);
+		if(!file.exists()) { file.mkdirs(); }
+		
+		pathDestino += File.separator + nomeArquivo + "(" + sdf.format(data) + ")" + ".pdf";
 		
 		// EXPORTACAO DO RELATORIO PARA OUTRO FORMATO, NO CASO PDF
 		JasperExportManager.exportReportToPdfFile(print, pathDestino);

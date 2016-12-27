@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.sisEducar.relatorios.Relatorio;
+import modulos.sisEducar.utils.ConstantesSisEducar;
 
 
 public class MainImpressaoRelatorioPDF {
 
 	public static void main(String[] args) throws Exception 
 	{
-		System.out.println("Gerando relatório...");
 		// lista com os nossos clientes
 		List<ClasseTesteImpressaoRelatorioPDF> lista = new ArrayList<ClasseTesteImpressaoRelatorioPDF>();
 		
@@ -33,8 +33,9 @@ public class MainImpressaoRelatorioPDF {
 		lista.add(c2);
 		lista.add(c3);
 
-		Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", "C:\\relatoriosTemp", "RelatorioClientes");
-
+		System.out.println("Gerando relatório de teste...");
+		Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
+				ConstantesSisEducar.PATH_PROJETO_JOAO + ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL, "RelatorioClientes");
 		System.out.println("Relatório gerado.");
 	}
 }
