@@ -17,8 +17,13 @@ public class PopulaSecretariaPermissoes
 	 */
 	public static void main(String[] args) throws SQLException 
 	{
-		PopulaSecretariaDAO populaRHDAO = new PopulaSecretariaDAO();
+		executar();
+	}
 	
+	public static void executar() throws SQLException
+	{
+		PopulaSecretariaDAO populaRHDAO = new PopulaSecretariaDAO();
+		
 		System.out.println("Populando Permissões de Tela...");
 		
 		/* TELA DE CADASTRO PESSOA */

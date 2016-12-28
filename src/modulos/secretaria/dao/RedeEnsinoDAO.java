@@ -72,7 +72,7 @@ public class RedeEnsinoDAO extends SisEducarDAO {
 			cidade = new Cidade();
 			redeEnsino = new RedeEnsino();
 			redeEnsino.setPkRedeEnsino(rs.getInt("pkRedeEnsino"));
-			redeEnsino.setCodigo(rs.getString("codigo"));
+			redeEnsino.setDescricao(rs.getString("descricao"));
 			redeEnsino.setNome(rs.getString("nome"));
 			redeEnsino.setStatus(rs.getInt("status"));
 			redeEnsino.setOrdemExibicao(rs.getInt("ordemExibicao"));
