@@ -24,10 +24,10 @@
 			</div>
 			<div class="page-content">
 				<div class="page-content-area">
-					<div class="loaderDiv hidden">
+					<div class="loaderDiv hidden loading">
 						<p:ajaxStatus onstart="PF('statusDialog').show()" 
 							onsuccess="PF('statusDialog').hide()" />
-						<p:dialog id="loading" widgetVar="statusDialog" modal="true" 
+						<p:dialog widgetVar="statusDialog" modal="true" styleClass="loading" 
 							draggable="false" closable="false" resizable="false" showHeader="false">									
 						</p:dialog>
 					</div>

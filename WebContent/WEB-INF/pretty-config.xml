@@ -16,6 +16,12 @@
 	<url-mapping id="cadastroPessoa">
 		<pattern value="/secretaria/cadastro/Pessoa"/>
 		<view-id value="/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.xhtml"/>
+		
+	</url-mapping>
+	
+	<url-mapping id="cadastroFuncionario">
+		<pattern value="/secretaria/cadastro/Funcionario"/>
+		<view-id value="/modulos/secretaria/cadastros/Funcionario/cadastroFuncionario.xhtml"/>
 	</url-mapping>
 	
 	<url-mapping id="cadastroFornecedor">

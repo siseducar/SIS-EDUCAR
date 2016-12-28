@@ -73,8 +73,7 @@
 										disabled="#{pessoaServlet.campoCPF}">
 										<f:validator validatorId="valida.cpf"/>
 										<f:converter converterId="converte.cpf"/>
-										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.verificaCadastro}" 
-											render="@this" resetValues="true"/>
+										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.verificaCadastro}"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -83,7 +82,7 @@
 									value="#{mensagens['label.rg']}"/>
 								<div>
 									<h:inputText type="text" id="numRg"
-										styleClass="col-xs-12 col-sm-12 rg form-control"
+										styleClass="col-xs-12 col-sm-12  form-control"
 										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off"
 										disabled="#{pessoaServlet.campoRG}">
 										<f:converter converterId="converte.rg"/>
@@ -238,13 +237,8 @@
 											<f:validator validatorId="valida.cpf"/>
 											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeMae}"
-												render="nomeMae @this" resetValues="true"/>
+												render="nomeMae"/>
 										</h:inputText>
-										<span class="input-group-addon">
-											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="mae">
-												<i class="fa fa-search bigger-110" />
-											</a>
-										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
@@ -267,13 +261,8 @@
 											<f:validator validatorId="valida.cpf"/>
 											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomePai}"
-												render="nomePai @this" resetValues="true"/>
+												render="nomePai"/>
 										</h:inputText>
-										<span class="input-group-addon">
-											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="pai" >
-												<i class="fa fa-search bigger-110"/>
-											</a>
-										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
@@ -296,13 +285,8 @@
 											<f:validator validatorId="valida.cpf"/>
 											<f:converter converterId="converte.cpf"/>
 											<f:ajax event="change" execute="@this" listener="#{pessoaServlet.validaNomeResponsavel}"
-												render="nomeResponsavel @this" resetValues="true"/>
+												render="nomeResponsavel"/>
 										</h:inputText>
-										<span class="input-group-addon">
-											<a href="#modalConsultaResponsavel" role="button" data-toggle="modal" id="responsavel">
-												<i class="fa fa-search bigger-110"/>
-											</a>
-										</span>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8">
@@ -439,7 +423,7 @@
 			                    	<div>
 			                    		<h:inputHidden id="valorLatitude" valor="valorLatitude" 
 			                    			value="#{pessoaServlet.enderecoDados.latitude}"/>
-			                    		<h:inputText id="txtLatitude" name="txtLatitude" disabled="true"
+			                    		<h:inputText id="txtLatitude" name="txtLatitude"
 			                    			value="#{pessoaServlet.enderecoDados.latitude}" styleClass="col-xs-12 col-sm-12 form-control" 
 			                    			autocomplete="off"/>
 			                    	</div>
@@ -449,7 +433,7 @@
 									<div>
 										<h:inputHidden id="valorLongitude" name="valorLongitude" 
 											value="#{pessoaServlet.enderecoDados.longitude}"/>
-										<h:inputText id="txtLongitude" name="txtLongitude" disabled="true" 
+										<h:inputText id="txtLongitude" name="txtLongitude" 
 											value="#{pessoaServlet.enderecoDados.longitude}" styleClass="col-xs-12 col-sm-12 form-control" 
 											autocomplete="off"/>
 									</div>
@@ -513,6 +497,13 @@
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 							<f:ajax event="click" render="@form jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.validaCadastro}"/>
+						</h:commandLink>
+						<h:commandLink type="submit" id="btExcluir" class="btn btn-white btn-warning btn-round botoes"
+							rendered="#{pessoaServlet.deletarCadastro}">
+							<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
+							<i class="ace-icon fa fa-trash-o icon-on-right"/>
+							<f:ajax event="click" render="@form formConsultaPessoa" execute="@form" resetValues="true"
+								listener="#{pessoaServlet.deletarCadastroPessoa}"/>
 						</h:commandLink>
 						<h:panelGroup id="jsPagina">
 							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
@@ -649,109 +640,8 @@
 						</div>
 					</h:form>
 				</div>
-				<div class="row">
-					<h:form id="formConsutalResponsavel" prependId="false">
-						<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
-							role="dialog" aria-labelledby="myLargeModalLabel" id="modalConsultaResponsavel">
-					  		<div class="modal-dialog modal-lg">
-						    	<div class="modal-content">
-							    	<div class="modal-header">
-										<h3 class=" smaller lighter blue">
-											#{mensagens['label.buscar.responsavel']}
-										</h3>
-							    	</div>
-									<div class="modal-body">
-										<div class="row">
-						    				<div class="col-xs-12 col-sm-3">
-						    					<h:outputLabel value="#{mensagens['label.cpf']}"/>
-						    					<div>
-						    						<h:inputText type="text" id="cpfPessoaResponsavel" class="col-xs-12 col-sm-12" autocomplete="off"
-						    							value="#{pessoaServlet.pessoaResponsavelDadosConsulta.cpf}"/>
-						    					</div>
-						    				</div>
-						    				<div class="col-xs-12 col-sm-9">
-						    					<h:outputLabel value="#{mensagens['label.nome']}"/>
-						    					<div>
-						    						<h:inputText type="text" id="nomePessoaResponsavel" class="col-xs-12 col-sm-12" autocomplete="off"
-						    							value="#{pessoaServlet.pessoaResponsavelDadosConsulta.nome}"/>
-						    					</div>
-						    				</div>
-						    			</div>
-						    			<div class="space-6"/>
-				    					<div class="row">
-				    						<h:panelGroup styleClass="clearfix form-actions" style=" width: 100%">
-							    				<h:dataTable id="tabelaResponsavel" styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover"
-									    			headerClass="order-table-header" rowClasses="order-table-odd-row,order-table-even-row" rows="10" 
-									    			binding="#{pessoaServlet.dataTableResponsavel}" value="#{pessoaServlet.listaConsultaResponsavel}" var="pessoa">
-									    			<h:column>
-									    				<center>
-										    				<f:facet name="header"> #{mensagens['label.nome']} </f:facet>
-									    				</center>
-									    				<h:outputLabel value="#{pessoa.nome}"/>
-									    			</h:column>
-									    			<h:column>
-									    				<center>
-									    					<f:facet name="header"> #{mensagens['label.dat.nasci']} </f:facet>
-									    				</center>
-									    				<h:outputLabel value="#{pessoa.dataNascimento}">
-									    					<f:converter converterId="converte.data"/>
-									    				</h:outputLabel>
-									    			</h:column>
-									    			<h:column>
-								    					<f:facet name="header"> #{mensagens['label.botao.selecionar']} </f:facet>
-									    				<center>
-															<h:commandLink styleClass="tooltip-success">
-									    						<span class="green">
-																	<i class="ace-icon fa fa-check bigger-120"/>
-																</span>
-																<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa"
-																	onevent="function(data) { esconderModal(data) }"/>
-															</h:commandLink>
-									    				</center>	
-					 								</h:column>
-									    			<f:facet name="footer">
-											            <h:panelGroup styleClass="pagination pull-right no-margin">
-											                <h:commandButton value="#{mensagens['label.botao.primeira']}"
-											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
-										                		<f:ajax event="click" listener="#{pessoaServlet.pageFirst}" render="tabelaResponsavel" />
-										                	</h:commandButton>
-											                <h:commandButton value="#{mensagens['label.botao.anterior']}"
-											                    disabled="#{pessoaServlet.dataTable.first == 0}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
-											               		<f:ajax event="click" listener="#{pessoaServlet.pagePrevious}" render="tabelaResponsavel" />
-											               	</h:commandButton>
-											                <h:commandButton value="#{mensagens['label.botao.proxima']}"
-											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
-											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
-										                        <f:ajax event="click" listener="#{pessoaServlet.pageNext}" render="tabelaResponsavel" />
-									                        </h:commandButton>
-											                <h:commandButton value="#{mensagens['label.botao.ultima']}"
-											                    disabled="#{pessoaServlet.dataTable.first + pessoaServlet.dataTable.rows
-											                        >= pessoaServlet.dataTable.rowCount}" styleClass="btn btn-white btn-inverse btn-sm btn-round">
-										                    	<f:ajax event="click" listener="#{pessoaServlet.pageLast}" render="tabelaResponsavel" />
-										                    </h:commandButton>
-											            </h:panelGroup>
-											        </f:facet>
-									    		</h:dataTable>
-						    				</h:panelGroup>
-			    						</div>
-									</div>
-									<div class="modal-footer">
-										<button id="btFecharResponsavel" class="btn btn-white btn-default btn-round bootbox-close-button" data-dismiss="modal" aria-hidden="true">
-											<i class="ace-icon fa fa-times red2"/>
-											#{mensagens['label.botao.fechar']}
-										</button>
-										<h:commandLink type="submit" id="btConsultarResponsavel" class="btn btn-white btn-success btn-round"> 
-											<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
-											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-											<f:ajax event="click" listener="#{pessoaServlet.consultaCadastroResponsavel}"
-												render="tabelaResponsavel" execute=":formConsutalResponsavel"/>
-										</h:commandLink>
-									</div>
-								</div>
-							</div>
-						</div>
-					</h:form>
-				</div>
+				
+				<!-- Modal contendo Mapa -->
 				<div class="row">
 					<div class="modal fade bs-example-modal-lg" tabindex="-1" data-backdrop="static" 
 							role="dialog" aria-labelledby="myLargeModalLabel" id="modalMapa">
@@ -766,12 +656,6 @@
 						    	<div class="modal-body">
 						    		<div class="row">
 										<div class="col-xs-12 col-sm-12">
-											<fieldset>   	
-							                    <div id="mapa"/>
-												<!-- Maps API Javascript -->
-												<script
-													src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDq-CWTrModh6C6dnlU2LTNK4Q4XEZmCvc"/>
-							                </fieldset>
 										</div>
 									</div>
 						    	</div>
@@ -780,6 +664,7 @@
 				    </div>
 				</div>
 			</div>
+			<!-- Modal Contendo Mapa -->
 		</div>
 	</ui:define>
 	<ui:define name="scriptPagina">

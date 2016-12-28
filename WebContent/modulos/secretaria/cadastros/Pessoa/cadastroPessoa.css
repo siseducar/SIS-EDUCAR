@@ -78,3 +78,14 @@
 .calendario {
 	z-index: 10;
 }
+
+.btConsultaResponsavel {
+	padding: 0;
+	border: 0;
+}
+
+.ui-menu .ui-menu-item a{
+    background:red;
+    height:10px;
+    font-size:8px;
+}

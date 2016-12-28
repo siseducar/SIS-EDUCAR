@@ -411,7 +411,7 @@ public class LoginServlet implements Serializable {
 					
 					if(respostaUpdate)
 					{
-						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login/login.xhtml");
+						FacesContext.getCurrentInstance().getExternalContext().redirect(ConstantesSisEducar.PATH_PROJETO_NOME + "/login");
 					}
 					else
 					{

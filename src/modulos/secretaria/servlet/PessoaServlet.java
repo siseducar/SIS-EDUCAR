@@ -64,7 +64,6 @@ public class PessoaServlet implements Serializable{
 	private Cidade cidadeNascimentoDados;
 	private Pessoa pessoaSelecionada;
 	private Pessoa pessoaDadosConsulta;
-	private Pessoa pessoaResponsavelDadosConsulta;
 	
 	/* Combo com valores de ESTADO */
 	private List<SelectItem> comboEstado;
@@ -80,12 +79,6 @@ public class PessoaServlet implements Serializable{
 	
 	/* Lista de pessoas cadastradas */
 	private List<Pessoa> listaConsultaPessoa;
-	
-	/* Componente Tabela de consulta de Responsavel*/
-	private HtmlDataTable dataTableResponsavel;
-	
-	/* Lista de responsaveis cadastradas */
-	private List<Pessoa> listaConsultaResponsavel;
 	
 	/* Habilita ou desabilita botão para deletar o cadastro */
 	private Boolean deletarCadastro;
@@ -164,22 +157,16 @@ public class PessoaServlet implements Serializable{
 		if(this.pessoaDadosConsulta == null) {
 			this.pessoaDadosConsulta = new Pessoa();
 		}
-		if(this.pessoaResponsavelDadosConsulta == null) {
-			this.pessoaResponsavelDadosConsulta = new Pessoa();
-		}
-		if(this.dataTableResponsavel == null) {
-			this.dataTableResponsavel = new HtmlDataTable();
-		}
 		
 		 /* testando cmite parcial */
 		pessoaDados.setTipoPessoa(0);
 		panelMenorIdade = false;
-		deletarCadastro = false;
 		cadastroSucesso = false;
 		desabilitaCampos = false;
 		campoCPF = false;
 		campoRG = false;
 		
+		deletarCadastro = false;
 		comboCidade = new ArrayList<SelectItem>();
 		comboCidadeNascimento = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
@@ -222,7 +209,7 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
-	public void deletarCadastro() throws SQLException {
+	public void deletarCadastroPessoa() throws SQLException {
 		try {
 			if(pessoaDados.getPkPessoa() != null) {
 				
@@ -249,6 +236,13 @@ public class PessoaServlet implements Serializable{
 				Logs.addError("Erro ao atualizar endereco.", null);
 			} else {
 				pessoaDados.setEndereco(enderecoDados);
+				if(pessoaDados.getSexo().equals("2")) {
+					pessoaDados.setSexo(ConstantesSisEducar.GENERO_FEMININO);
+				} else{
+					if(pessoaDados.getSexo().equals("1")) {
+						pessoaDados.setSexo(ConstantesSisEducar.GENERO_MASCULINO);
+					}
+				}
 				if ( !new PessoaService().atualizarDadosPessoa(pessoaDados) ) {
 					Logs.addError("Erro ao atualizar os dados da Pessoa.", null);
 				} else {
@@ -494,6 +488,9 @@ public class PessoaServlet implements Serializable{
 		campoRG = false;
 		deletarCadastro = false;
 		desabilitaCampos = false;
+		
+		listaConsultaPessoa = new ArrayList<Pessoa>();
+		
 	}
 
 	public void consultaCadastro() {
@@ -612,21 +609,10 @@ public class PessoaServlet implements Serializable{
 			}
 			deletarCadastro = true;
 			desabilitaCampos = true;
+			listaConsultaPessoa = new ArrayList<Pessoa>();
 		}
 	}
-	
-	public void consultaCadastroResponsavel() {
-		listaConsultaResponsavel = new ArrayList<Pessoa>();
 		
-		listaConsultaResponsavel = new PessoaService().consultaListaPessoa(pessoaResponsavelDadosConsulta);
-	}
-	
-	public void limparListaResponsavel() {
-		if(listaConsultaResponsavel != null) {			
-			listaConsultaResponsavel = null;
-		}
-	}
-	
 /* ------------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------Metodos utlizados na tela------------------------------------------------ */
 	/*
@@ -634,6 +620,7 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaNomeMae(){
+		
 		if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
 			pessoaDados.setNomeMae( 
 					new PessoaService().consultaNomeResponsavel(
@@ -644,6 +631,9 @@ public class PessoaServlet implements Serializable{
 				pessoaDados.setCpfMae(null);
 				Logs.addWarning("CPF não encontrado.", null);			
 			}
+		} else {
+			pessoaDados.setCpfMae(null);
+			pessoaDados.setNomeMae(null);
 		}
 	}
 	
@@ -662,6 +652,9 @@ public class PessoaServlet implements Serializable{
 				pessoaDados.setCpfPai(null);
 				Logs.addWarning("CPF não encontrado.", null);				
 			}
+		} else {
+			pessoaDados.setCpfPai(null);
+			pessoaDados.setNomePai(null);
 		}
 	}
 	
@@ -680,6 +673,9 @@ public class PessoaServlet implements Serializable{
 				pessoaDados.setCpfResponsavel(null);
 				Logs.addWarning("CPF não encontrado.", null);				
 			}
+		} else {
+			pessoaDados.setCpfResponsavel(null);
+			pessoaDados.setNomeResponsavel(null);
 		}
 	}	
 	
@@ -699,40 +695,7 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 
-	/* 
-	 * Tabela de consulta de cadastro de Responsavel 
-	 * * * * * * */
-	public void pageFirstResponsavel() {
-        dataTableResponsavel.setFirst(0);
-    }
-
-    public void pagePreviousResponavel() {
-        dataTableResponsavel.setFirst(dataTableResponsavel.getFirst() - dataTableResponsavel.getRows());
-    }
-
-    public void pageNextResponsavel() {
-        dataTableResponsavel.setFirst(dataTableResponsavel.getFirst() + dataTableResponsavel.getRows());
-    }
-
-    public void pageLastResponsavel() {
-        int count = getDataTableResponsavel().getRowCount();
-        int rows = dataTableResponsavel.getRows();
-        dataTableResponsavel.setFirst(count - ((count % rows != 0) ? count % rows : rows));
-    }
-	
-    public int getCurrentPageResponsavel() {
-        int rows = dataTableResponsavel.getRows();
-        int first = dataTableResponsavel.getFirst();
-        int count = dataTableResponsavel.getRowCount();
-        return (count / rows) - ((count - first) / rows) + 1;
-    }
-
-    public int getTotalPagesResponsavel() {
-        int rows = dataTableResponsavel.getRows();
-        int count = dataTableResponsavel.getRowCount();
-        return (count / rows) + ((count % rows != 0) ? 1 : 0);
-    }
-		
+			
     /* 
 	 * Tabela de consulta de cadastro de Pessoa 
 	 * * * * * * */
@@ -1032,35 +995,11 @@ public class PessoaServlet implements Serializable{
 		this.panelMenorIdade = panelMenorIdade;
 	}
 
-	public HtmlDataTable getDataTableResponsavel() {
-		return dataTableResponsavel;
-	}
-
-	public void setDataTableResponsavel(HtmlDataTable dataTableResponsavel) {
-		this.dataTableResponsavel = dataTableResponsavel;
-	}
-
-	public List<Pessoa> getListaConsultaResponsavel() {
-		return listaConsultaResponsavel;
-	}
-
-	public void setListaConsultaResponsavel(List<Pessoa> listaConsultaResponsavel) {
-		this.listaConsultaResponsavel = listaConsultaResponsavel;
-	}
-
 	public ParametrosServlet getParamDados() {
 		return paramDados;
 	}
 
 	public void setParamDados(ParametrosServlet paramDados) {
 		this.paramDados = paramDados;
-	}
-
-	public Pessoa getPessoaResponsavelDadosConsulta() {
-		return pessoaResponsavelDadosConsulta;
-	}
-
-	public void setPessoaResponsavelDadosConsulta(Pessoa pessoaResponsavelDadosConsulta) {
-		this.pessoaResponsavelDadosConsulta = pessoaResponsavelDadosConsulta;
 	}
 }

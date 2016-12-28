@@ -27,7 +27,7 @@ public class NacionalidadeDAO extends SisEducarDAO {
 		
 		List<Nacionalidade> listaNacionalidade = new ArrayList<>();
 		
-		String querySQL = "SELECT * FROM NACIONALIDADE WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
+		String querySQL = "SELECT * FROM Nacionalidade WHERE STATUS = ? ORDER BY ORDEMEXIBICAO";
 
 		ps = con.prepareStatement(querySQL);
 		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
