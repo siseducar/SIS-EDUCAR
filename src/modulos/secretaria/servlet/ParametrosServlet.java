@@ -632,7 +632,7 @@ public class ParametrosServlet {
 			for (RedeEnsino param : paramRedeEnsino){
 			   SelectItem  s = new SelectItem();
 			   s.setValue(param.getPkRedeEnsino());
-			   s.setLabel(param.getNome());
+			   s.setLabel(param.getDescricao());
 			   comboRedeEnsino.add(s);
 			}
 			return comboRedeEnsino;

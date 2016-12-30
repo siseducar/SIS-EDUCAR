@@ -88,8 +88,8 @@ public class EnderecoDAO extends SisEducarDAO
 	public Endereco atualizarEndereco(Endereco endereco) throws SQLException
 	{
 		String querySQL = "UPDATE endereco "
-				+ " SET (cep, logradouro, bairro, numero, complemento, tipo, fkcidade) = "
-				+ " (?,?,?,?,?,?,?)"
+				+ " SET (cep, logradouro, bairro, numero, complemento, tipo, fkcidade, fkContato) = "
+				+ " (?,?,?,?,?,?,?,?)"
 				+ " WHERE pkEndereco = ?";
 		
 		ps = con.prepareStatement(querySQL);
@@ -101,7 +101,8 @@ public class EnderecoDAO extends SisEducarDAO
 		ps.setObject(5, endereco.getComplemento());
 		ps.setObject(6, endereco.getTipo());
 		ps.setObject(7, endereco.getCidade()!=null ? endereco.getCidade().getPkCidade() : null);
-		ps.setObject(8, endereco.getPkEndereco());
+		ps.setObject(8, endereco.getContato()!=null ? endereco.getContato().getPkContato() : null);
+		ps.setObject(9, endereco.getPkEndereco());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
@@ -272,6 +273,7 @@ public class EnderecoDAO extends SisEducarDAO
 				endereco.setFkMunicipioCliente(cidadeEnderecoMunicipioCliente);
 				
 				contato.setPkContato(rs.getInt("fkContato"));
+				contato = new ContatoDAO().buscarContato(contato);
 				endereco.setContato(contato);
 				
 				return endereco;
@@ -287,7 +289,7 @@ public class EnderecoDAO extends SisEducarDAO
 	 * @throws SQLException 
 	 * 
 	 * */
-	public Endereco salvarEnderecoPessoa(Endereco dadosEndereco) {
+	public Endereco salvarEnderecoPessoa(Endereco dadosEndereco) throws SQLException {
 		try {
 			String querySQL;
 			

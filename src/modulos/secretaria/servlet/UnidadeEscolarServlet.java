@@ -219,7 +219,7 @@ public class UnidadeEscolarServlet implements Serializable
 			}
 			
 			/* Rede Ensino */
-			if(redeEnsinoDado!=null)
+			if(redeEnsinoDado!=null && redeEnsinoDado.getPkRedeEnsino()!=null)
 			{
 				unidadeEscolar.setRedeEnsino(new RedeEnsino());
 				unidadeEscolar.getRedeEnsino().setPkRedeEnsino(new Integer(redeEnsinoDado.getPkRedeEnsino()));

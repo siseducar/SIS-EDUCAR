@@ -6,19 +6,16 @@ public class ParametrosBD
 	String nomeBaseTeste = "sisEducarTeste";
 	String nomeServidor = "coruja";
 	
+	//Dados referente ao banco
+//	String DRIVER = "org.postgresql.Driver";
+//	String URL = "jdbc:postgresql://10.70.26.198:5432/" + nomeServidor;
+//	String usuario = "webadmin";
+//	String senha = "LGRgza99444";
 	
 	String DRIVER = "org.postgresql.Driver";
-	String URL = "jdbc:postgresql://10.70.26.198:5432/" + nomeServidor;
-	String usuario = "webadmin";
-	String senha = "LGRgza99444";
-	
-	/* Dados referente ao banco
-	String DRIVER = "org.postgresql.Driver";
-	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseOriginal;
+	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseTeste;
 	String usuario = "postgres";
 	String senha = "postgres";
-	 */
-	
 	
 	/* Getters and Setters */
 	public String getDRIVER() {	return DRIVER; }
