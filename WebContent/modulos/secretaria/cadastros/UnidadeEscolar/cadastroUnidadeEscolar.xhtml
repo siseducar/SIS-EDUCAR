@@ -153,12 +153,21 @@
 							<div class="clearfix form-actions">
 								<h3 class="header smaller lighter blue">Informações Principais</h3>
 								<div class="form-group">
-									<div class="col-xs-12 col-sm-4">
+									<div class="col-xs-12 col-sm-2">
 										<div>
 											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigo']}"/>
 											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="true"
+												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="false" disabled="true" 
 												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+											</span>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-2">
+										<div>
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigoFederal']}"/>
+											<span class="block input-icon input-icon-right">
+												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigoFederal}" autocomplete="off" maxlength="11" required="true" 
+												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigoFederal']}"></h:inputText>
 											</span>
 										</div>
 									</div>
@@ -572,10 +581,12 @@
 									
 							<!-- Botões -->
 							<div class="col-sx-12 col-sm-12" id="default-buttons">
-								<button type="reset"  class="btn btn-white btn-info btn-round">
+								<h:commandLink type="submit" id="btNovo" class="btn btn-white btn-info btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
+									<span class="bigger-110">Novo</span>	
 									<i class="ace-icon fa fa-file"/>
-									<span class="bigger-110">Novo</span>
-								</button>
+									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<p:ajax event="click" listener="#{unidadeEscolarServlet.resetarUnidadeEscolar}" update=":formPrincipal :formPesquisar" process=":formPrincipal"/>
+								</h:commandLink>
 								
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
 									<span class="bigger-110">Registrar</span>	
@@ -586,7 +597,7 @@
 								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{unidadeEscolarServlet.btRemoverEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
 									<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
-									<p:ajax event="click" listener="#{unidadeEscolarServlet.removerGeral}" update=":formPrincipal" process=":formPrincipal" />
+									<p:ajax event="click" listener="#{unidadeEscolarServlet.removerGeral}" update=":formPrincipal :formPesquisar" />
 								</h:commandLink>	
 							</div>
 						</h:form>

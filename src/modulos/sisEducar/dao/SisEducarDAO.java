@@ -137,4 +137,38 @@ public class SisEducarDAO
 		
 		ps.executeQuery();
 	}
+	
+	/**
+	 * Obtem o próximo código disponível de uma determinada tabela
+	 * @author João Paulo
+	 * @param nomeTabela
+	 * @param status
+	 * @return CODIGO(String)
+	 * @throws SQLException
+	 */
+	public String obtemCodigoDisponivel(String nomeTabela, Integer status) throws SQLException
+	{
+		//CASO NÃO TIVER NENHUM REGISTRO ENTÃO O PADRÃO DO PRIMEIRO NÚMERO SERÁ 1
+		String numeroRetorno = "1";
+		Integer numeroAux = 0;
+		String querySQL = "SELECT * FROM "
+				+ nomeTabela
+				+ " WHERE status = ?"
+				+ " ORDER BY CODIGO DESC"
+				+ " LIMIT 1";
+		
+		ps = con.prepareStatement(querySQL);
+		ps.setInt(1, status);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) 
+		{
+			numeroRetorno = rs.getString("CODIGO");
+			numeroAux = new Integer(numeroRetorno);
+			numeroAux++;
+			numeroRetorno = numeroAux.toString();
+		}
+		
+		return numeroRetorno;
+	}
 }
