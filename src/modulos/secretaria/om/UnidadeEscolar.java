@@ -10,6 +10,7 @@ public class UnidadeEscolar implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer pkUnidadeEscolar;
 	private String codigo;
+	private String codigoFederal;
 	private String nome;
 	private int status;
 	private Boolean unidadeControlada = false;
@@ -120,6 +121,12 @@ public class UnidadeEscolar implements Serializable {
 	}
 	public void setAmbientes(List<Ambiente> ambientes) {
 		this.ambientes = ambientes;
+	}
+	public String getCodigoFederal() {
+		return codigoFederal;
+	}
+	public void setCodigoFederal(String codigoFederal) {
+		this.codigoFederal = codigoFederal;
 	}
 	
 }

@@ -37,6 +37,7 @@ import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.UnidadeEscolar;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesSecretaria;
+import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -219,7 +220,7 @@ public class UnidadeEscolarServlet implements Serializable
 			}
 			
 			/* Rede Ensino */
-			if(redeEnsinoDado!=null)
+			if(redeEnsinoDado!=null && redeEnsinoDado.getPkRedeEnsino()!=null)
 			{
 				unidadeEscolar.setRedeEnsino(new RedeEnsino());
 				unidadeEscolar.getRedeEnsino().setPkRedeEnsino(new Integer(redeEnsinoDado.getPkRedeEnsino()));
@@ -291,6 +292,8 @@ public class UnidadeEscolarServlet implements Serializable
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null) { unidadeEscolarDAO.atualizarUnidadeEscolar(unidadeEscolar); }
 			else
 			{
+				unidadeEscolar.setCodigo(new SisEducarDAO().obtemCodigoDisponivel("UNIDADEESCOLAR", ConstantesSisEducar.STATUS_ATIVO));
+				
 				/* Salva a unidade escolar */
 				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);
 			}

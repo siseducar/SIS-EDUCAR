@@ -202,26 +202,6 @@
 									</div>
 								</h:panelGroup>
 								</div>
-								
-								<!-- Este campo estará escondido para armazenar o genero selecionado -->
-								<input id="inputGeneroAux" name="inputGeneroAux" class="hidden"/>
-								<div class="col-xs-12 col-sm-6">
-									<div class="control-group">
-										<output> #{mensagens['label.genero']} </output>
-										<div class="inline">
-											<label>
-												<input id="inputGeneroMasculino" checked="checked" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('masculino')">
-												</input>
-												<span class="lbl"> #{mensagens['label.genero.masculino']} </span>
-											</label>
-											
-											<label>
-												<input id="inputGeneroFeminino" name="form-field-radio" type="radio" class="ace" onclick="atualizarGenero('feminino')"/>
-												<span class="lbl"> #{mensagens['label.genero.feminino']} </span>
-											</label>
-										</div>
-									</div>
-								</div>
 							</div>
 							
 							<div class="clearfix form-actions">
@@ -363,21 +343,22 @@
 							</div>
 							
 							<div class="col-xs-12 col-sm-12" id="default-buttons">
-								<button type="reset" class="btn btn-white btn-info btn-round botoes">
-									<i class="ace-icon fa fa-file"/>
+								<h:commandLink type="submit" id="btNovo" class="btn btn-white btn-info btn-round botoes" rendered="#{usuarioServlet.btCadastrarEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
-								</button>
-																
+									<i class="ace-icon fa fa-file"/>
+									<p:ajax event="click" listener="#{usuarioServlet.resetarUsuario}" update=":formCadastroUsuario :formPesquisar" process=":formCadastroUsuario" />
+								</h:commandLink>
+								
 								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{usuarioServlet.btCadastrarEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
+									<p:ajax event="click" listener="#{usuarioServlet.cadastrarUsuario}" update=":formCadastroUsuario :formPesquisar" process=":formCadastroUsuario" />
 								</h:commandLink>
 								
 								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{usuarioServlet.btRemoverEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
 									<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
-									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario" process=":formCadastroUsuario" />
+									<p:ajax event="click" listener="#{usuarioServlet.removerUsuario}" update=":formCadastroUsuario :formPesquisar"/>
 								</h:commandLink>
 							</div>
 						</h:form>

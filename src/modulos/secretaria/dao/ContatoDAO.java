@@ -23,6 +23,8 @@ public class ContatoDAO extends SisEducarDAO
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 		
+	public ContatoDAO() throws SQLException { desabilitarAutoCommit(con); }
+	
 	/**
 	 * Busca um contato pela pk dele
 	 * @author João Paulo

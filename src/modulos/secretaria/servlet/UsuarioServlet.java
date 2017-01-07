@@ -425,7 +425,17 @@ public class UsuarioServlet implements Serializable
 		try
 		{
 			usuario = new Usuario();
+			nomePessoaVinculada = "";
 			permissoes = new ArrayList<Permissao>();
+			usuariosCadastrados = new ArrayList<Usuario>();
+			usuarioCadastradoSelecionado = null;
+		    cpfPesquisar = "";
+			usuarioPesquisar = "";
+		    emailPesquisar = "";
+		    moduloSelecionado = null;
+		    tipoTelaSelecionado = null;
+		    telaSelecionada = null;
+		    permissaoSelecionada = null;
 		}
 		catch (Exception e) 
 		{

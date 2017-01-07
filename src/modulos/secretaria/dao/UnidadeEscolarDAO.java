@@ -56,8 +56,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				Integer numeroArgumentos = 1;
 				String querySQL = "INSERT INTO unidadeescolar "
-						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno, fkDiretor, fkMunicipioCliente, fkEndereco) "
-						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (codigo, nome, status, fkredeensino, fkregiao, fksituacaofuncionamento, unidadecontrolada, unidadeinformatizada, fktipoocupacao, fkterreno, fkDiretor, fkMunicipioCliente, fkEndereco, codigoFederal) "
+						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				ps = con.prepareStatement(querySQL);
 				
@@ -152,6 +152,10 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 					ps.setObject(numeroArgumentos, null);
 				}
 				numeroArgumentos++;
+				if(unidadeEscolar.getCodigoFederal()!=null)
+				{
+					ps.setString(numeroArgumentos, unidadeEscolar.getCodigoFederal());
+				}
 				
 				fecharConexaoBanco(con, ps, false, true);
 			}
@@ -177,7 +181,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	{
 		String querySQL = "UPDATE unidadeescolar "
 				+ " SET (codigo, nome, unidadeControlada, unidadeInformatizada, fkRedeEnsino, fkRegiao, fkSituacaoFuncionamento,"
-				+ " fkTipoOcupacao, fkDiretor) = (?,?,?,?,?,?,?,?,?)"
+				+ " fkTipoOcupacao, fkDiretor, codigoFederal) = (?,?,?,?,?,?,?,?,?,?)"
 				+ " WHERE pkUnidadeEscolar = ?";
 		
 		ps = con.prepareStatement(querySQL);
@@ -191,7 +195,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		ps.setObject(7, unidadeEscolar.getSituacaoFuncionamento()!=null ? unidadeEscolar.getSituacaoFuncionamento().getPkSituacaoFuncionamento() : null);
 		ps.setObject(8, unidadeEscolar.getTipoOcupacao()!=null ? unidadeEscolar.getTipoOcupacao().getPkTipoOcupacao() : null);
 		ps.setObject(9, unidadeEscolar.getDiretor()!=null ? unidadeEscolar.getDiretor().getPkPessoa() : null);
-		ps.setInt(10, unidadeEscolar.getPkUnidadeEscolar());
+		ps.setString(10, unidadeEscolar.getCodigoFederal());
+		ps.setInt(11, unidadeEscolar.getPkUnidadeEscolar());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
@@ -370,6 +375,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				unidadeEscolar = new UnidadeEscolar();
 				unidadeEscolar.setPkUnidadeEscolar(rs.getInt("pkUnidadeEscolar"));
 				unidadeEscolar.setCodigo(rs.getString("codigo"));
+				unidadeEscolar.setCodigoFederal(rs.getString("codigoFederal"));
 				unidadeEscolar.setNome(rs.getString("nome"));
 				unidadeEscolar.setUnidadeControlada(rs.getBoolean("unidadeControlada"));
 				unidadeEscolar.setUnidadeInformatizada(rs.getBoolean("unidadeInformatizada"));

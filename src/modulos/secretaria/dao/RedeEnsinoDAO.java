@@ -37,7 +37,7 @@ public class RedeEnsinoDAO extends SisEducarDAO {
 		while (rs.next()){
 			RedeEnsino paramRedeEnsino = new RedeEnsino();
 			paramRedeEnsino.setPkRedeEnsino(rs.getInt("PKREDEENSINO"));
-			paramRedeEnsino.setNome(rs.getString("NOME"));
+			paramRedeEnsino.setDescricao(rs.getString("DESCRICAO"));
 			
 			listaRedeEnsino.add(paramRedeEnsino);
 		}
