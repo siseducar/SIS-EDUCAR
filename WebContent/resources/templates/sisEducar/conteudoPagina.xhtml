@@ -25,10 +25,11 @@
 			<div class="page-content">
 				<div class="page-content-area">
 					<div class="loaderDiv hidden loading">
-						<p:ajaxStatus onstart="PF('statusDialog').show()" 
-							onsuccess="PF('statusDialog').hide()" />
-						<p:dialog widgetVar="statusDialog" modal="true" styleClass="loading" 
-							draggable="false" closable="false" resizable="false" showHeader="false">									
+						<p:ajaxStatus onstart="PF('statusDialog').show();" 
+							onsuccess="PF('statusDialog').hide();" />
+						<p:dialog widgetVar="statusDialog" modal="true" 
+							draggable="false" closable="false" header="Status">
+							Testando processamento aguarde......									
 						</p:dialog>
 					</div>
 					<p:growl id="grow"  showDetail="false" autoUpdate="true" life="5000"/>

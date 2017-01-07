@@ -29,13 +29,6 @@ public class ConstantesSisEducar
 	
 	public static final String GENERO_FEMININO = "feminino";
 	public static final String GENERO_MASCULINO = "masculino";
-	
-	
-	/* GETTERS */
-	public static String getGeneroFeminino() {
-		return GENERO_FEMININO;
-	}
-	public static String getGeneroMasculino() {
-		return GENERO_MASCULINO;
-	}
+
+	public static final String TIPO_ENDERECO_RESIDENCIAL = "Residencial";
 }

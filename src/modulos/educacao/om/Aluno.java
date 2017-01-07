@@ -10,7 +10,6 @@ import modulos.secretaria.om.RedeEnsino;
 import modulos.secretaria.om.TipoDeficiencia;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
-import modulos.sisEducar.om.Anexo;
 
 public class Aluno implements Serializable {	
 	
@@ -35,10 +34,7 @@ public class Aluno implements Serializable {
 	private Turno turno;
 	private TipoDeficiencia deficiencia;
 	private Boolean alunoDeficiente;
-	private Anexo fkFotoAluno;
-	private Anexo fkCopiaCertidaoNascimento;
-	private Anexo fkCopiaComprovanteResidencia;
-	
+
 	public String getRa2() {
 		return ra2;
 	}
@@ -158,23 +154,5 @@ public class Aluno implements Serializable {
 	}
 	public void setCidadeNascimento(Cidade cidadeNascimento) {
 		this.cidadeNascimento = cidadeNascimento;
-	}
-	public Anexo getFkFotoAluno() {
-		return fkFotoAluno;
-	}
-	public void setFkFotoAluno(Anexo fkFotoAluno) {
-		this.fkFotoAluno = fkFotoAluno;
-	}
-	public Anexo getFkCopiaCertidaoNascimento() {
-		return fkCopiaCertidaoNascimento;
-	}
-	public void setFkCopiaCertidaoNascimento(Anexo fkCopiaCertidaoNascimento) {
-		this.fkCopiaCertidaoNascimento = fkCopiaCertidaoNascimento;
-	}
-	public Anexo getFkCopiaComprovanteResidencia() {
-		return fkCopiaComprovanteResidencia;
-	}
-	public void setFkCopiaComprovanteResidencia(Anexo fkCopiaComprovanteResidencia) {
-		this.fkCopiaComprovanteResidencia = fkCopiaComprovanteResidencia;
 	}
 }

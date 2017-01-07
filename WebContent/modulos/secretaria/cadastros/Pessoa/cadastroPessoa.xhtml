@@ -85,7 +85,6 @@
 										styleClass="col-xs-12 col-sm-12  form-control"
 										value="#{pessoaServlet.pessoaDados.rg}" autocomplete="off"
 										disabled="#{pessoaServlet.campoRG}">
-										<f:converter converterId="converte.rg"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -99,7 +98,7 @@
 										disabled="#{pessoaServlet.desabilitaCampos}">
 										<f:converter converterId="converte.data"/>
 										<f:ajax event="change" execute="@this" listener="#{pessoaServlet.calculaIdade}"
-											render="dataNasci dadosResponsavel" resetValues="true"/>
+											render="dataNasci dadosResponsavel"/>
 									</h:inputText>
 								</div>
 							</div>
@@ -489,26 +488,25 @@
 						<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
 							<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 							<i class="ace-icon fa fa-file"/>
-							<f:ajax event="click" render=":formCadastroPessoa" resetValues="true"
-								listener="#{pessoaServlet.limparFormulario}"/>
+							<f:ajax event="click" render=":formCadastroPessoa :formConsultaPessoa jsPagina" resetValues="true"
+								listener="#{pessoaServlet.limparFormulario}" immediate="true"/>
 						</h:commandLink>
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
 							<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-							<f:ajax event="click" render="@form jsPagina" execute="@form" resetValues="true"
+							<f:ajax event="click" render=":formCadastroPessoa :formConsultaPessoa jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.validaCadastro}"/>
 						</h:commandLink>
 						<h:commandLink type="submit" id="btExcluir" class="btn btn-white btn-warning btn-round botoes"
 							rendered="#{pessoaServlet.deletarCadastro}">
 							<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
 							<i class="ace-icon fa fa-trash-o icon-on-right"/>
-							<f:ajax event="click" render="@form formConsultaPessoa" execute="@form" resetValues="true"
+							<f:ajax event="click" render=":formCadastroPessoa :formConsultaPessoa jsPagina" execute="@form" resetValues="true"
 								listener="#{pessoaServlet.deletarCadastroPessoa}"/>
 						</h:commandLink>
 						<h:panelGroup id="jsPagina">
 							<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
 							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 						</h:panelGroup>
 					</div>
 				</h:form>
@@ -550,7 +548,6 @@
 											<div>
 												<h:inputText type="text" id="numRgConsulta" value="#{pessoaServlet.pessoaDadosConsulta.rg}"
 													styleClass="col-xs-10 col-sm-12 rg" title="Numero do RG" autocomplete="off">
-													<f:converter converterId="converte.rg"/>
 												</h:inputText>
 											</div>
 										</div>
@@ -592,7 +589,7 @@
 																<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span>
 															<f:ajax event="click" listener="#{pessoaServlet.editarCadastro}" render=":formCadastroPessoa" 
-																onevent="function(data) { esconderModal(data) }" resetValues="true"/>
+																onevent="function(data) { esconderModal(data) }"/>
 														</h:commandLink>
 								    				</center>	
 				 								</h:column>
@@ -669,8 +666,8 @@
 	</ui:define>
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
-		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>
 	</ui:define>
 </ui:composition>
 </h:html>

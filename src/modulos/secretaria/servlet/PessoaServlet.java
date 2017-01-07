@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -182,8 +181,8 @@ public class PessoaServlet implements Serializable{
 	 * */
 	public void salvarCadastroPessoa() {
 		try {
-			/* Objeto com os atributos de endereco da pessoa */
-			enderecoDados.setTipo("Residencial");
+			/* Objeto com os atributos de enderoeco da pessoa */
+			enderecoDados.setTipo(ConstantesSisEducar.TIPO_ENDERECO_RESIDENCIAL);
 			enderecoDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 			
 			if( !new ContatoService().salvarContato(contatoDados)) {
@@ -195,12 +194,20 @@ public class PessoaServlet implements Serializable{
 				} else {
 					pessoaDados.setEndereco(enderecoDados);
 					pessoaDados.setCodigo(123);
+					
+					if(pessoaDados.getSexo().equals("1")) {
+						pessoaDados.setSexo(ConstantesSisEducar.GENERO_MASCULINO);
+					} else{
+						if(pessoaDados.getSexo().equals("2")) {
+							pessoaDados.setSexo(ConstantesSisEducar.GENERO_FEMININO);
+						}
+					}
+					
 					if( !new PessoaService().salvarCadastroPessoa( pessoaDados )) {
 						Logs.addError("Erro ao salvar cadastro.", null);
 					} else {
 						limparFormulario();
 						Logs.addInfo("Cadastro Salvo.", null);
-						
 					}
 				}
 			}
@@ -401,6 +408,10 @@ public class PessoaServlet implements Serializable{
 					 (pessoaDados.getCpfResponsavel() == null || pessoaDados.getCpfResponsavel() == 0)) {
 				Logs.addWarning("O CPF DA MÃE ou de algum RESPONSAVEL deve ser informado.", null);
 				return false;
+			} else {
+				if(grauParentescoDados.getPkGrauParentesco() != null) {
+					pessoaDados.setGrauParentesco(grauParentescoDados);
+				}
 			}
 			if( (pessoaDados.getNomeMae() == null || pessoaDados.getNomeMae().equals("")) && 
 					 (pessoaDados.getNomeResponsavel() == null || pessoaDados.getNomeResponsavel().equals(""))) {
@@ -428,23 +439,26 @@ public class PessoaServlet implements Serializable{
 		}
 	}
 	
+	
 	/*
 	 * Metodo para validar idade da pessoa cadastrada
 	 * */
-	public void calculaIdade(){	
-		if(pessoaDados.getDataNascimento() != null && !pessoaDados.getDataNascimento().equals("__/__/____")){
+	public void calculaIdade() {
+		if( pessoaDados.getDataNascimento() != null && !pessoaDados.getDataNascimento().equals("__/__/____") ) {
+			Calendar dataNascimento = Calendar.getInstance();
+			dataNascimento.setTime(pessoaDados.getDataNascimento());
+			Calendar dataAtual = Calendar.getInstance();
+			Integer diferencaMes = dataAtual.get(Calendar.MONTH) - dataNascimento.get(Calendar.MONTH);
+			Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH) - dataNascimento.get(Calendar.DAY_OF_MONTH);
+			Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR));
 			
-			GregorianCalendar dataHoje = new GregorianCalendar();
-			GregorianCalendar nascimento = new GregorianCalendar();
+			if(diferencaMes < 0	|| (diferencaMes == 0 && diferencaDia < 0)) {
+				idade--;
+			}
 			
-			int idade;
-			nascimento.setTime(pessoaDados.getDataNascimento());
-					
-			int anoAtual = dataHoje.get(Calendar.YEAR);
-			int anoNascimento = nascimento.get(Calendar.YEAR);
-			idade = anoAtual - anoNascimento;
 			if(idade < 0 || idade > 100) {
 				pessoaDados.setDataNascimento(null);
+				panelMenorIdade = false;
 				Logs.addWarning("Informe uma data valida.",null);
 			} else {
 				if( idade < 18 ){
@@ -456,8 +470,8 @@ public class PessoaServlet implements Serializable{
 		} else {
 			panelMenorIdade = false;
 		}
-	}
-	
+	}	
+
 	/*
 	 * Metodo para limpar o formulario apos cadastro realizado
 	 * 
@@ -465,32 +479,38 @@ public class PessoaServlet implements Serializable{
 	public void limparFormulario() throws SQLException{
 		
 		pessoaDados = new Pessoa();
-		contatoDados = new Contato();
-		paisDados = new Pais();
-		estadoDados = new Estado();
-		cidadeDados = new Cidade();
-		enderecoDados = new Endereco();
+		
+		estadoNascimentoDados = new Estado();
+		cidadeNascimentoDados = new Cidade();
+
 		nacionalidadeDados = new Nacionalidade();
 		racaDados = new Raca();
 		estaCivilDados = new EstadoCivil();
 		grauInstruDados = new GrauInstrucao();
 		situEconomicaDados = new SituacaoEconomica();
 		religiaoDados = new Religiao();
-		regiaoDados = new Regiao();
-		grauParentescoDados = new GrauParentesco();
-		dataTable = new HtmlDataTable();
-		estadoNascimentoDados = new Estado();
-		cidadeNascimentoDados = new Cidade();
-		pessoaSelecionada = new Pessoa();
 		
-		panelMenorIdade = false;
-		campoCPF = false;
-		campoRG = false;
-		deletarCadastro = false;
-		desabilitaCampos = false;
+		enderecoDados = new Endereco();
+		paisDados = new Pais();
+		estadoDados = new Estado();
+		cidadeDados = new Cidade();
+		regiaoDados = new Regiao();
+		contatoDados = new Contato();
+
+		grauParentescoDados = new GrauParentesco();
+
+		pessoaSelecionada = new Pessoa();
+		pessoaDadosConsulta = new Pessoa();
+		
+		dataTable = new HtmlDataTable();
 		
 		listaConsultaPessoa = new ArrayList<Pessoa>();
 		
+		deletarCadastro = false;
+		desabilitaCampos = false;
+		campoCPF = false;
+		campoRG = false;
+		panelMenorIdade = false;		
 	}
 
 	public void consultaCadastro() {
@@ -522,6 +542,14 @@ public class PessoaServlet implements Serializable{
 			religiaoDados = pessoaDados.getReligiao();
 			regiaoDados = enderecoDados.getRegiao();
 			cidadeNascimentoDados = pessoaDados.getFkCidadeNascimento();
+			
+			if (pessoaDados.getSexo() != null && pessoaDados.getSexo().equals(ConstantesSisEducar.GENERO_MASCULINO)) {    		
+				pessoaDados.setSexo("1");
+	    	} else {
+	    		if(pessoaDados.getSexo() != null && pessoaDados.getSexo().equals(ConstantesSisEducar.GENERO_FEMININO)) {    			
+	    			pessoaDados.setSexo("2");
+	    		}
+	    	}
 			
 			if( (pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0) 
 					|| (pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0)
@@ -910,12 +938,12 @@ public class PessoaServlet implements Serializable{
 		this.listaConsultaPessoa = listaConsultaPessoa;
 	}
 	public List<SelectItem> getComboCidadeNascimento() {
+		comboCidadeNascimento.clear();		
 		if(estadoNascimentoDados.getPkEstado() != null){
 			comboCidadeNascimento.addAll(paramDados.consultaCidade(estadoNascimentoDados));
 			return comboCidadeNascimento;
 		}
 		cidadeNascimentoDados.setPkCidade(null);
-		comboCidadeNascimento.clear();		
 		return comboCidadeNascimento;
 	}
 

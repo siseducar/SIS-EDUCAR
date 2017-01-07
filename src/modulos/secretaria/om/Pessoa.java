@@ -3,8 +3,6 @@ package modulos.secretaria.om;
 import java.io.Serializable;
 import java.sql.Date;
 
-import modulos.sisEducar.om.Anexo;
-
 public class Pessoa implements Serializable {	
 	
 	private static final long serialVersionUID = 1L;
@@ -40,8 +38,7 @@ public class Pessoa implements Serializable {
 	private Endereco endereco;
 	private Cidade fkMunicipioCliente;
 	private Cidade fkCidadeNascimento;
-	private Anexo fkFotoPerfil;
-	
+
 	/* GETTERS AND SETTERS */
 	public Integer getPkPessoa() {
 		return pkPessoa;
@@ -230,12 +227,4 @@ public class Pessoa implements Serializable {
 	public void setFkCidadeNascimento(Cidade fkCidadeNascimento) {
 		this.fkCidadeNascimento = fkCidadeNascimento;
 	}
-	public Anexo getFkFotoPerfil() {
-		return fkFotoPerfil;
-	}
-	public void setFkFotoPerfil(Anexo fkFotoPerfil) {
-		this.fkFotoPerfil = fkFotoPerfil;
-	}
-	
-
 }
