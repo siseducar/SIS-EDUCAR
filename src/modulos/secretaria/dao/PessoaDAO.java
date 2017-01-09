@@ -272,6 +272,8 @@ public class PessoaDAO extends SisEducarDAO
 				pessoa = new Pessoa();
 				pessoa.setPkPessoa(rs.getInt("PKPESSOA"));
 				pessoa.setNome(rs.getString("NOME"));
+				pessoa.setCpf(rs.getLong("CPF"));
+				pessoa.setSexo(rs.getString("SEXO"));
 				pessoa.setDataNascimento(rs.getDate("DATANASCIMENTO"));
 				listaPessoas.add(pessoa);
 			}

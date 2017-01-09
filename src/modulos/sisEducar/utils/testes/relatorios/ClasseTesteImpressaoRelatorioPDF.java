@@ -4,8 +4,9 @@ package modulos.sisEducar.utils.testes.relatorios;
 public class ClasseTesteImpressaoRelatorioPDF 
 {
 	private String nome;
-	private String email;
-	private String telefone;
+	private String cpf;
+	private String dataNascimento;
+	private String sexo;
 	
 	public String getNome() {
 		return nome;
@@ -13,16 +14,22 @@ public class ClasseTesteImpressaoRelatorioPDF
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEmail() {
-		return email;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
-	public String getTelefone() {
-		return telefone;
+	public String getDataNascimento() {
+		return dataNascimento;
 	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setDataNascimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 }
