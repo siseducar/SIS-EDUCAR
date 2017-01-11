@@ -2,6 +2,7 @@ package modulos.secretaria.servlet;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -14,6 +15,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
@@ -23,7 +25,9 @@ import modulos.secretaria.om.GrauInstrucao;
 import modulos.secretaria.om.GrauParentesco;
 import modulos.secretaria.om.Nacionalidade;
 import modulos.secretaria.om.Pais;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Pessoa;
+import modulos.secretaria.om.PessoaRelatorio;
 import modulos.secretaria.om.Raca;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.Religiao;
@@ -32,6 +36,8 @@ import modulos.secretaria.om.Usuario;
 import modulos.secretaria.services.ContatoService;
 import modulos.secretaria.services.EnderecoService;
 import modulos.secretaria.services.PessoaService;
+import modulos.secretaria.utils.ConstantesSecretaria;
+import modulos.sisEducar.relatorios.Relatorio;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
 
@@ -64,6 +70,8 @@ public class PessoaServlet implements Serializable{
 	private Cidade cidadeNascimentoDados;
 	private Pessoa pessoaSelecionada;
 	private Pessoa pessoaDadosConsulta;
+	private Boolean btConsultarRelatorioEnabled;
+	private Boolean temPermissaoConsultarRelatorio;
 	
 	/* Combo com valores de ESTADO */
 	private List<SelectItem> comboEstado;
@@ -171,9 +179,36 @@ public class PessoaServlet implements Serializable{
 		comboCidadeNascimento = new ArrayList<SelectItem>();
 		comboEstado = new ArrayList<SelectItem>();
 		
+		btConsultarRelatorioEnabled = false;
+		
 		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 		
 		pessoaDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
+		
+		validarPermissoesTela();
+		if(temPermissaoConsultarRelatorio) { btConsultarRelatorioEnabled = true; }
+	}
+	
+	public void validarPermissoesTela()
+	{
+		try 
+		{
+			if(usuarioLogado!=null)
+			{
+				for (Permissao permissao : usuarioLogado.getPermissoes()) 
+				{
+					if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CONSULTAR) 
+							&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_RELATORIOS_PESSOAS))
+					{
+						temPermissaoConsultarRelatorio = true;
+					}
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("validarPermissoesTela", "validarPermissoesTela");
+		}
 	}
 
 	/*
@@ -677,6 +712,59 @@ public class PessoaServlet implements Serializable{
 			pessoaDados.setCpfResponsavel(null);
 			pessoaDados.setNomeResponsavel(null);
 		}
+	}
+	
+	/**
+	 * Usado para limpar o formuario da tela de relatorio pessoa
+	 * @author João Paulo
+	 */
+	public void resetarRelatorioPessoa()
+	{
+		try 
+		{
+			
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("resetarRelatorioPessoa", "Erro ao limpar");
+		}
+	}
+	
+	/**
+	 * Usado para imprimir o relatório de pessoas
+	 * @author João Paulo
+	 */
+	public void imprimirRelatorio()
+	{
+		try 
+		{
+			List<PessoaRelatorio> lista = new ArrayList<PessoaRelatorio>();
+			List<Pessoa> pessoas = new PessoaDAO().obtemTodos();
+			PessoaRelatorio pessoaRelatorio = null;
+			SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+			
+			for (Pessoa pessoa : pessoas) 
+			{
+				pessoaRelatorio = new PessoaRelatorio();
+				pessoaRelatorio.setNome(pessoa.getNome());
+				
+				if(pessoa.getCpf()!=null) 				{ pessoaRelatorio.setCpf(pessoa.getCpf().toString()); }
+				if(pessoa.getSexo().equals("M")) 		{ pessoaRelatorio.setSexo("Masculino"); }
+				else 							 		{ pessoaRelatorio.setSexo("Feminino"); }
+				if(pessoa.getDataNascimento()!=null)	{ pessoaRelatorio.setDataNascimento(dataFormatada.format(pessoa.getDataNascimento())); }
+				
+				lista.add(pessoaRelatorio);
+			}
+			
+			System.out.println("Gerando relatório de teste...");
+			Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
+					ConstantesSisEducar.PATH_PROJETO_JOAO + ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL, "RelatorioClientes");
+			System.out.println("Relatório gerado.");
+		} 
+		catch (Exception e) 
+		{
+			Logs.addError("imprimirRelatorio", "Erro ao imprimir");
+		}
 	}	
 	
 	/*
@@ -1001,5 +1089,21 @@ public class PessoaServlet implements Serializable{
 
 	public void setParamDados(ParametrosServlet paramDados) {
 		this.paramDados = paramDados;
+	}
+
+	public Boolean getTemPermissaoConsultarRelatorio() {
+		return temPermissaoConsultarRelatorio;
+	}
+
+	public void setTemPermissaoConsultarRelatorio(Boolean temPermissaoConsultarRelatorio) {
+		this.temPermissaoConsultarRelatorio = temPermissaoConsultarRelatorio;
+	}
+
+	public Boolean getBtConsultarRelatorioEnabled() {
+		return btConsultarRelatorioEnabled;
+	}
+
+	public void setBtConsultarRelatorioEnabled(Boolean btConsultarRelatorioEnabled) {
+		this.btConsultarRelatorioEnabled = btConsultarRelatorioEnabled;
 	}
 }
