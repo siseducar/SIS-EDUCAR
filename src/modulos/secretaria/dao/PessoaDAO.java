@@ -284,6 +284,56 @@ public class PessoaDAO extends SisEducarDAO
 		return null;
 	}
 	
+	public List<Pessoa> obtemTodosFiltros(String cpf, String nome)
+	{
+		try {
+			Integer numeroParametros = 1;
+			Pessoa pessoa = null;
+			List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+			String querySQL = "SELECT * FROM pessoa"
+					+ " WHERE status = ?";
+			
+			if(cpf!=null && cpf.length()>0)
+			{
+				querySQL += " AND CPF = ?";
+			}
+			if(nome!=null && nome.length()>0)
+			{
+				querySQL += " AND NOME ILIKE ?";
+			}
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(numeroParametros, ConstantesSisEducar.STATUS_ATIVO);
+			if(cpf!=null && cpf.length()>0)
+			{
+				numeroParametros++;
+				ps.setString(numeroParametros, cpf);
+			}
+			if(nome!=null && nome.length()>0)
+			{
+				numeroParametros++;
+				ps.setString(numeroParametros, "%" + nome + "%");
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				pessoa = new Pessoa();
+				pessoa.setPkPessoa(rs.getInt("PKPESSOA"));
+				pessoa.setNome(rs.getString("NOME"));
+				pessoa.setCpf(rs.getLong("CPF"));
+				pessoa.setSexo(rs.getString("SEXO"));
+				pessoa.setDataNascimento(rs.getDate("DATANASCIMENTO"));
+				listaPessoas.add(pessoa);
+			}
+			return listaPessoas;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public Pessoa inserirPessoa(Pessoa pessoa) throws SQLException 
 	{
 		Integer numeroArgumentos = 1;

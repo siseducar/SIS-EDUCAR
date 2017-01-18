@@ -34,6 +34,25 @@
 							<div class="clearfix form-actions">
 								<div class="form-group">
 									<h:panelGroup id="componentes">
+										<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/relatorios/pessoa/relatorioPessoa.js"/>
+										<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
+										<div class="col-xs-12 col-sm-4">
+											<output>CPF</output>
+											<div>
+												<h:inputText type="text" id="numCpfDiretor" value="#{pessoaRelatorioServlet.cpfPesquisar}" autocomplete="off" styleClass="col-sm-12 cpf" required="false">
+													<f:converter converterId="converte.cpf"/>
+												</h:inputText>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-8">
+											<output>Nome</output>
+											<span class="block input-icon input-icon-right cpf"> 
+												<h:inputText
+													type="text" class="form-control"
+													value="#{pessoaRelatorioServlet.nomePesquisar}" maxlength="50" autocomplete="off">
+												</h:inputText>
+											</span>
+										</div>
 									</h:panelGroup>
 								</div>
 							</div>
@@ -42,13 +61,13 @@
 								<h:commandLink type="submit" id="btNovo" class="btn btn-white btn-info btn-round botoes"> 
 									<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 									<i class="ace-icon fa fa-file"/>
-									<p:ajax event="click" listener="#{pessoaServlet.resetarRelatorioPessoa}" update=":formPrincipal" process=":formPrincipal" />
+									<p:ajax event="click" listener="#{pessoaRelatorioServlet.resetarRelatorioPessoa}" update=":formPrincipal" process=":formPrincipal" />
 								</h:commandLink>
 								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{pessoaServlet.btConsultarRelatorioEnabled}"> 
+								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{pessoaRelatorioServlet.btConsultarRelatorioEnabled}"> 
 									<span class="bigger-110"> #{mensagens['label.botao.imprimir']} </span>	
 									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{pessoaServlet.imprimirRelatorio}" update=":formPrincipal" process=":formPrincipal" />
+									<p:ajax event="click" listener="#{pessoaRelatorioServlet.imprimirRelatorio}" update=":formPrincipal" process=":formPrincipal" />
 								</h:commandLink>
 							</div>
 						</h:form>
@@ -57,8 +76,6 @@
 			</div>
 		</ui:define>
 		<ui:define name="scriptPagina">
-			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.min.js"/>
-			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.dataTables.bootstrap.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 		</ui:define>
 	</ui:composition>
