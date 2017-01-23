@@ -450,11 +450,11 @@ public class FornecedorServlet implements Serializable {
 	}
 
 	public List<SelectItem> getComboMunicipioInscricao() {
+		comboMunicipioInscricao.clear();
 		if( estadoInscricaoDados.getPkEstado() != null ) {
 			comboMunicipioInscricao.addAll(paramDados.consultaCidade(estadoInscricaoDados));
 			return comboMunicipioInscricao;
 		}
-		comboMunicipioInscricao.clear();
 		cidadeInscricaoDados.setPkCidade(null);
 		return comboMunicipioInscricao;
 	}

@@ -1,74 +1,48 @@
-/* Variveis utilizadas para o uso do Mapa */
-var geocoder;
-var map;
-var marker;
-var latitude = -22.64402834;
-var longitude = -47.05530858;
+var placeSearch, autocomplete;
 
-/* Funcão para inicilizar o mapa */
-function initialize() {
-
-	/* Ponto inicial do mapa */
-	var latlng = new google.maps.LatLng(latitude, longitude);
-	
-	
-	/* Opções relacionadas ao mapa */
-	var options = {
-		zoom: 6,
-		center: latlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-		
-	};
-	
-	map = new google.maps.Map(document.getElementById("mapa"), options);
-	
-	geocoder = new google.maps.Geocoder();
-	
-	marker = new google.maps.Marker({
-		map: map,
-		draggable: true,
-	});
-	
-	marker.setPosition(latlng);
+var componentForm = {
+	numCep : 'short_name',
+	nomeLogradouro : 'long_name',
+	numEndereco : 'short_name'
 };
 
-$(document).ready(function () {
-	initialize();	
+function initAutocomplete() {
+	autocomplete = new google.maps.places.Autocomplete(
+		/** @type {!HTMLInputElement} */(document.getElementById('txtEndereco')),
+		{types: ['geocode']});
 	
-	google.maps.event.addListener(marker, 'drag', function () {
-		geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				if (results[0]) {  
-					$('#txtEndereco').val(results[0].formatted_address);
-					$('#txtLatitude').val(marker.getPosition().lat());
-					$('#txtLongitude').val(marker.getPosition().lng());
-					$('#valorLatitude').val(marker.getPosition().lat());
-					$('#valorLongitude').val(marker.getPosition().lng());
-				}
-			}
+	autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+	var place = autocomplete.getPlace();
+	
+	for( var component in componentForm ) {
+		$(component).val = '';
+	    $(component).disabled = true;
+	}
+	
+	for( var i = 0; i < place.address_components.length; i++ ) {
+		var addressType = place.address_components[i].types[0];
+	    if (componentForm[addressType]) {
+	      var value = place.address_components[i][componentForm[addressType]];
+	      $(addressType).val(value);
+	    }
+	}
+}
+
+function geolocate() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			var geolocation = {
+	            lat: position.coords.latitude,
+	            lng: position.coords.longitude
+			};
+			var circle = new google.maps.Circle({
+				center: geolocation,
+				radius: position.coords.accuracy
+			});
+			autocomplete.setBounds(circle.getBounds());
 		});
-	});
-	
-	$("#txtEndereco").autocomplete({
-        source: function (request, response) {
-            geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
-                response($.map(results, function (item) {
-                    return {
-                        label: item.formatted_address,
-                        value: item.formatted_address,
-                        latitude: item.geometry.location.lat(),
-                        longitude: item.geometry.location.lng()
-                    }
-                }));
-            })
-        },
-        select: function (event, ui) {
-            $("#txtLatitude").val(ui.item.latitude);
-            $("#txtLongitude").val(ui.item.longitude);
-            var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-            marker.setPosition(location);
-            map.setCenter(location);
-            map.setZoom(16);
-        }
-    });
-});
+	}
+}

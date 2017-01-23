@@ -12,10 +12,25 @@ public class ParametrosBD
 //	String usuario = "webadmin";
 //	String senha = "LGRgza99444";
 	
+	/* Dados referente ao banco
 	String DRIVER = "org.postgresql.Driver";
+<<<<<<< HEAD
+	String URL = "jdbc:postgresql://10.70.26.198:5432/" + nomeServidor;
+	String usuario = "webadmin";
+	String senha = "LGRgza99444";
+	 */
+	
+	String DRIVER = "org.postgresql.Driver";
+	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseOriginal;
+=======
 	String URL = "jdbc:postgresql://localhost:5432/" + nomeBaseTeste;
+>>>>>>> branch 'master' of https://github.com/siseducar/SIS-EDUCAR.git
 	String usuario = "postgres";
 	String senha = "postgres";
+<<<<<<< HEAD
+	
+=======
+>>>>>>> branch 'master' of https://github.com/siseducar/SIS-EDUCAR.git
 	
 	/* Getters and Setters */
 	public String getDRIVER() {	return DRIVER; }
