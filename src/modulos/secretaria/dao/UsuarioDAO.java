@@ -197,9 +197,10 @@ public class UsuarioDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
-			municipioCliente = new Cidade();
-			municipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
-			
+			municipioCliente = new CidadeDAO().obtemCidade(null, null, rs.getInt("FKMUNICIPIOCLIENTE"));
+//			municipioCliente = new Cidade();
+//			municipioCliente.setPkCidade(rs.getInt("FKMUNICIPIOCLIENTE"));
+//			
 			usuario.setPkUsuario(rs.getString("pkusuario"));
 			usuario.setNome(rs.getString("nome"));
 			usuario.setSenha(rs.getString("senha"));

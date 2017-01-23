@@ -11,7 +11,7 @@ public class ConstantesSisEducar
 	public static final String PATH_PROJETO_NOME = "/coruja";
 	public static final String PATH_PROJETO_JOAO = "E:\\Projetos(Sigmai - Java)\\Sistema Educação Lothus\\";
 	public static final String PATH_PROJETO_MICHAEL = "";
-	public static final String PATH_DESTINO_RELATORIOS_LOCAL = "coruja\\relatorios\\exemplos";
+	public static final String PATH_DESTINO_RELATORIOS_LOCAL = "WebContent\\relatorios\\";
 	public static final String PATH_DESTINO_RELATORIOS_SERVIDOR = "";
 	
 	public static String USUARIO_LOGADO = "";

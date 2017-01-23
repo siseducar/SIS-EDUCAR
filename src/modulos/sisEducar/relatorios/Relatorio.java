@@ -25,7 +25,8 @@ public class Relatorio
 	public static String gerarArquivoPDF(List<?> informacoes, String pathJRXML, String pathDestino, String nomeArquivo) throws JRException
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");    
-		Date data = new Date();
+		Date data = new Date(); 
+		String nomeCompletoArquivo = "";
 		
 		// COMPILACAO DO JRXML
 		JasperReport report = JasperCompileManager.compileReport(pathJRXML);
@@ -44,14 +45,15 @@ public class Relatorio
 		new JRBeanCollectionDataSource(informacoes));
 
 		/* VERIFICA SE A PASTA DE DESTINO EXISTE, CASO NÃO EXISTIR O SISTEMA IRÁ CRIÁ-LA */
-		File file = new File(pathDestino);
+		File file = new File(pathDestino);pathDestino = "relatorios\\Mogi Mirim\\Pessoa";
 		if(!file.exists()) { file.mkdirs(); }
 		
-		pathDestino += File.separator + nomeArquivo + "(" + sdf.format(data) + ")" + ".pdf";
+		nomeCompletoArquivo = File.separator + nomeArquivo + "(" + sdf.format(data) + ")" + ".pdf";
+		pathDestino += nomeCompletoArquivo;
 		
 		// EXPORTACAO DO RELATORIO PARA OUTRO FORMATO, NO CASO PDF
 		JasperExportManager.exportReportToPdfFile(print, pathDestino);
 		
-		return pathDestino;
+		return nomeCompletoArquivo;
 	}
 }

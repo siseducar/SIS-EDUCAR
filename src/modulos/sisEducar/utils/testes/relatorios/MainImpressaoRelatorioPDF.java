@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
-
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Pessoa;
 import modulos.sisEducar.relatorios.Relatorio;
@@ -37,7 +35,7 @@ public class MainImpressaoRelatorioPDF {
 		
 		System.out.println("Gerando relatório de teste...");
 		Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
-				ConstantesSisEducar.PATH_PROJETO_JOAO + ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL, "RelatorioClientes");
+				ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL + "Mogi Mirim\\Pessoa\\", "RelatorioClientes");
 		System.out.println("Relatório gerado.");
 	}
 }

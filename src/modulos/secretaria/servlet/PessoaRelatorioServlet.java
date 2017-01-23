@@ -93,6 +93,9 @@ public class PessoaRelatorioServlet implements Serializable
 			List<Pessoa> pessoas = new PessoaDAO().obtemTodosFiltros(cpfPesquisar, nomePesquisar);
 			PessoaRelatorio pessoaRelatorio = null;
 			SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+			String nomeArquivo = "";
+			String pastaPadraoGerar = ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL + "Mogi Mirim\\Pessoa";
+			String pastaPadraoAbrir = "relatorios\\" + usuarioLogado.getFkMunicipioCliente().getNome() + "\\Pessoa\\";
 			
 			for (Pessoa pessoa : pessoas) 
 			{
@@ -108,9 +111,11 @@ public class PessoaRelatorioServlet implements Serializable
 			}
 			
 			System.out.println("Gerando relatório de teste...");
-			Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
-					ConstantesSisEducar.PATH_PROJETO_JOAO + ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL, "RelatorioClientes");
+			nomeArquivo = Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
+					pastaPadraoGerar, "RelatorioClientes");
 			System.out.println("Relatório gerado.");
+			
+			FacesContext.getCurrentInstance().getExternalContext().redirect(pastaPadraoAbrir + nomeArquivo);
 		} 
 		catch (Exception e) 
 		{
