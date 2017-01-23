@@ -1,6 +1,7 @@
 package modulos.secretaria.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -135,7 +136,7 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			
 			// DATA de Nascimento
-			ps.setDate(numeroArgumentos, pessoaDados.getDataNascimento());
+			ps.setDate(numeroArgumentos, (Date) pessoaDados.getDataNascimento());
 			numeroArgumentos++;
 			
 			// SEXO da pessoa
@@ -306,7 +307,7 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getRg());
 		numeroArgumentos++;*/
-		ps.setDate(numeroArgumentos, pessoa.getDataNascimento());
+		ps.setDate(numeroArgumentos, (Date) pessoa.getDataNascimento());
 		numeroArgumentos++;
 		ps.setString(numeroArgumentos, pessoa.getSexo());
 		numeroArgumentos++;
@@ -314,7 +315,7 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setBoolean(numeroArgumentos, pessoa.getFalecido()!=null ? pessoa.getFalecido() : false);
 		numeroArgumentos++;
-		ps.setDate(numeroArgumentos, pessoa.getDataFalecimento());
+		ps.setDate(numeroArgumentos, (Date) pessoa.getDataFalecimento());
 		numeroArgumentos++;
 		ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
 		numeroArgumentos++;
@@ -336,7 +337,7 @@ public class PessoaDAO extends SisEducarDAO
 		numeroArgumentos++;
 		ps.setObject(numeroArgumentos, pessoa.getEndereco()!=null ? pessoa.getEndereco().getPkEndereco() : null);
 		
-		fecharConexaoBanco(con, ps, false, true);
+		//fecharConexaoBanco(con, ps, false, true);
 		
 		//pessoa.setPkPessoa(obtemPKPessoa(pessoa.getNome(), pessoa.getNomeFantasia(), pessoa.getCpf(), pessoa.getCnpj()));
 		
@@ -607,7 +608,7 @@ public class PessoaDAO extends SisEducarDAO
 				numeroArgumentos++;
 			}
 			if(pessoaDados.getDataNascimento() != null) {
-				ps.setDate(numeroArgumentos, pessoaDados.getDataNascimento());
+				ps.setDate(numeroArgumentos, (Date) pessoaDados.getDataNascimento());
 				numeroArgumentos++;
 			}
 			if(pessoaDados.getSexo() != null && !pessoaDados.getSexo().equals("")) {
@@ -655,12 +656,12 @@ public class PessoaDAO extends SisEducarDAO
 			if(rs.next())
 			{
 				if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
-					fecharConexaoBanco(con, ps, true, false);
+					//fecharConexaoBanco(con, ps, true, false);
 					
 					return true;
 				}
 			}
-			fecharConexaoBanco(con, ps, false, true);
+			//fecharConexaoBanco(con, ps, false, true);
 			
 			return false;
 		} catch (Exception e) {

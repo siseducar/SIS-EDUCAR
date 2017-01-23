@@ -370,7 +370,7 @@
 									<h:outputLabel value="#{mensagens['label.cep']}"/>
 									<div>
 										<h:inputText
-											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep"
+											styleClass="col-xs-12 col-sm-12 cep form-control" id="numCep" name="numCep"
 											value="#{pessoaServlet.enderecoDados.cep}" autocomplete="off">
 											<f:converter converterId="converte.cep"/>
 										</h:inputText>
@@ -392,7 +392,7 @@
 									<h:outputLabel
 										value="#{mensagens['label.numero']}"/>
 									<div>
-										<h:inputText type="text" id="numCasa" name="numCasa"
+										<h:inputText type="text" id="numEndereco" name="numEndereco"
 											styleClass="col-xs-12 col-sm-12 form-control"
 												value="#{pessoaServlet.enderecoDados.numero}"/>
 									</div>
@@ -653,6 +653,9 @@
 						    	<div class="modal-body">
 						    		<div class="row">
 										<div class="col-xs-12 col-sm-12">
+											<fieldset>
+							                    <div id="mapa"/>
+							                </fieldset>
 										</div>
 									</div>
 						    	</div>
@@ -666,8 +669,9 @@
 	</ui:define>
 	<ui:define name="scriptPagina">
 		<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.css"/>
-		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"/>
 		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/cadastroPessoa.js"/>
+		<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Pessoa/mapa.js"/>		
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcAo56gXaH2uvux8pcCtzaNeeClxEsv1E&amp;libraries=places" async="async" defer="defer"/>
 	</ui:define>
 </ui:composition>
 </h:html>

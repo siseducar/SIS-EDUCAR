@@ -1,10 +1,20 @@
 package modulos.secretaria.om;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ * Entidade que representa PESSOA 
+ * @author Michael
+ */
+@Entity
 public class Pessoa implements Serializable {	
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer pkPessoa;
