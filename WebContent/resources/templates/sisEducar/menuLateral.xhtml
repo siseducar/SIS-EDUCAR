@@ -111,9 +111,19 @@
 					<li class="">
 						<a href="#" class="#{loginServlet.classSecretariaRelatorioSubMenu}">
 							<i class="menu-icon fa fa-caret-right"/>
-							RELATÓRIOS
+							#{mensagens['label.secretaria.relatorios']}
 							<b class="arrow fa fa-angle-down"/>
 						</a>
+						<b class="arrow"/>
+						<ul class="submenu">
+							<li class="#{loginServlet.classSecretariaRelatorioPessoas}">
+								<a href="modulos/secretaria/relatorios/pessoa/relatorioPessoa.xhtml">
+									<i class="menu-icon fa fa-caret-right"/>
+									#{mensagens['label.relatorio.pessoa']}
+								</a>
+								<b class="arrow"/>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>

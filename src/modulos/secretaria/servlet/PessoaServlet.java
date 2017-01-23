@@ -174,7 +174,7 @@ public class PessoaServlet implements Serializable{
 		
 		pessoaDados.setFkMunicipioCliente(usuarioLogado.getFkMunicipioCliente());
 	}
-
+	
 	/*
 	 * Metodo para salvar o cadastro de Pessoa
 	 * 
@@ -705,7 +705,7 @@ public class PessoaServlet implements Serializable{
 			pessoaDados.setCpfResponsavel(null);
 			pessoaDados.setNomeResponsavel(null);
 		}
-	}	
+	}
 	
 	/*
 	 * Metodo para validar o tipo de cadastro

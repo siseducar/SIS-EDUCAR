@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-12-27T21:22:41 -->
+<!-- 2017-01-09T21:17:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatoriosClientes" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f00e4e70-1e5a-4322-a865-08f1a24dc114">
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="nome" class="java.lang.String"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="telefone" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -49,18 +50,18 @@
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="44" y="40" width="196" height="30" uuid="3f3d1dc7-1cb7-43ff-a464-b2481be2322d"/>
+				<reportElement x="280" y="10" width="196" height="30" uuid="3f3d1dc7-1cb7-43ff-a464-b2481be2322d"/>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="44" y="70" width="196" height="30" uuid="b6930728-570b-418c-88e8-de637fc7a176"/>
+				<reportElement x="44" y="40" width="196" height="30" uuid="b6930728-570b-418c-88e8-de637fc7a176"/>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="4" y="10" width="40" height="30" uuid="69e0a7bb-edd9-4382-9d68-d719e97cc8cf"/>
@@ -70,19 +71,33 @@
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="40" width="40" height="30" uuid="0f9a67e9-7c94-42ca-9060-7dfd409a131d"/>
+				<reportElement x="240" y="10" width="40" height="30" uuid="0f9a67e9-7c94-42ca-9060-7dfd409a131d"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<text><![CDATA[Email:]]></text>
+				<text><![CDATA[CPF:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="70" width="40" height="30" uuid="d418a563-4986-4157-ab3a-3e5d048cab42"/>
+				<reportElement x="4" y="40" width="40" height="30" uuid="d418a563-4986-4157-ab3a-3e5d048cab42"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<text><![CDATA[Telefone:]]></text>
+				<text><![CDATA[Sexo:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="240" y="40" width="40" height="30" uuid="fc52af89-c554-40ed-a0d9-08f81df06996"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Nasc.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="40" width="196" height="30" uuid="d9eeb6ce-b86e-4007-8deb-864e71649bc5"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<summary>

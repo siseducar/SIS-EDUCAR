@@ -1,7 +1,6 @@
-package modulos.sisEducar.utils.testes.relatorios;
+package modulos.secretaria.om;
 
-
-public class ClasseTesteImpressaoRelatorioPDF 
+public class PessoaRelatorio 
 {
 	private String nome;
 	private String cpf;

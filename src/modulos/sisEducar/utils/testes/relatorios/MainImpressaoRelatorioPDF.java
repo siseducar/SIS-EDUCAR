@@ -1,8 +1,13 @@
 package modulos.sisEducar.utils.testes.relatorios;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
+import modulos.secretaria.dao.PessoaDAO;
+import modulos.secretaria.om.Pessoa;
 import modulos.sisEducar.relatorios.Relatorio;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
@@ -13,26 +18,23 @@ public class MainImpressaoRelatorioPDF {
 	{
 		// lista com os nossos clientes
 		List<ClasseTesteImpressaoRelatorioPDF> lista = new ArrayList<ClasseTesteImpressaoRelatorioPDF>();
+		List<Pessoa> pessoas = new PessoaDAO().obtemTodos();
+		ClasseTesteImpressaoRelatorioPDF classeTesteImpressaoRelatorioPDF = null;
+		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
 		
-		ClasseTesteImpressaoRelatorioPDF c1 = new ClasseTesteImpressaoRelatorioPDF();
-		c1.setNome("Alexandre Macedo");
-		c1.setEmail("alexbmac@gmail.com");
-		c1.setTelefone("9999-9999");
-
-		ClasseTesteImpressaoRelatorioPDF c2 = new ClasseTesteImpressaoRelatorioPDF();
-		c2.setNome("Rafael Cosentino");
-		c2.setEmail("cosen@gmail.com");
-		c2.setTelefone("8888-8888");
-
-		ClasseTesteImpressaoRelatorioPDF c3 = new ClasseTesteImpressaoRelatorioPDF();
-		c3.setNome("Daniel Machado");
-		c3.setEmail("daniel@gmail.com");
-		c3.setTelefone("7777-7777");
-
-		lista.add(c1);
-		lista.add(c2);
-		lista.add(c3);
-
+		for (Pessoa pessoa : pessoas) 
+		{
+			classeTesteImpressaoRelatorioPDF = new ClasseTesteImpressaoRelatorioPDF();
+			classeTesteImpressaoRelatorioPDF.setNome(pessoa.getNome());
+			
+			if(pessoa.getCpf()!=null) 				{ classeTesteImpressaoRelatorioPDF.setCpf(pessoa.getCpf().toString()); }
+			if(pessoa.getSexo().equals("M")) 		{ classeTesteImpressaoRelatorioPDF.setSexo("Masculino"); }
+			else 							 		{ classeTesteImpressaoRelatorioPDF.setSexo("Feminino"); }
+			if(pessoa.getDataNascimento()!=null)	{ classeTesteImpressaoRelatorioPDF.setDataNascimento(dataFormatada.format(pessoa.getDataNascimento())); }
+			
+			lista.add(classeTesteImpressaoRelatorioPDF);
+		}
+		
 		System.out.println("Gerando relatório de teste...");
 		Relatorio.gerarArquivoPDF(lista, "C:\\relatoriosTemp\\RelatoriosClientes.jrxml", 
 				ConstantesSisEducar.PATH_PROJETO_JOAO + ConstantesSisEducar.PATH_DESTINO_RELATORIOS_LOCAL, "RelatorioClientes");

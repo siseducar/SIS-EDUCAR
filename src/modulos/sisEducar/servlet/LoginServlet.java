@@ -87,6 +87,7 @@ public class LoginServlet implements Serializable {
     private String classSecretariaConsultaHistoricoAcesso	= classAtributeHidden;
 	private String classSecretariaConsultaGraficos   		= classAtributeHidden;
     private String classSecretariaConsultaRelatorios   		= classAtributeHidden;
+    private String classSecretariaRelatorioPessoas   		= classAtributeHidden;
     
     private String classEscolaCadastroMatriculaAluno 		= classAtributeHidden;
     private String classEscolaCadastroHorario 				= classAtributeHidden;
@@ -556,6 +557,9 @@ public class LoginServlet implements Serializable {
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO)) { classSecretariaConsultaHistoricoAcesso = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_GRAFICOS)) { classSecretariaConsultaGraficos = ""; }
 						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_RELATORIOS)) { classSecretariaConsultaRelatorios = ""; }
+						
+						//LIBERA ACESSO AS TELAS DE RELATÓRIO
+						else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_RELATORIOS_PESSOAS)) { classSecretariaRelatorioPessoas = ""; }
 					}
 					
 					/* MÓDULO ESCOLA */
@@ -1013,5 +1017,13 @@ public class LoginServlet implements Serializable {
 
 	public void setClassEscolaCadastroHorario(String classEscolaCadastroHorario) {
 		this.classEscolaCadastroHorario = classEscolaCadastroHorario;
+	}
+
+	public String getClassSecretariaRelatorioPessoas() {
+		return classSecretariaRelatorioPessoas;
+	}
+
+	public void setClassSecretariaRelatorioPessoas(String classSecretariaRelatorioPessoas) {
+		this.classSecretariaRelatorioPessoas = classSecretariaRelatorioPessoas;
 	}
 }

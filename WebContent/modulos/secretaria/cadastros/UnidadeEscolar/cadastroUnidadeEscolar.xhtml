@@ -147,459 +147,461 @@
 								</div>
 							</div><!-- FIM - Modal - Busca -->
 						</h:form>
-						<h:form id="formPrincipal">
-							<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.js"/>
-							<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
-							<div class="clearfix form-actions">
-								<h3 class="header smaller lighter blue">Informações Principais</h3>
-								<div class="form-group">
-									<div class="col-xs-12 col-sm-2">
-										<div>
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigo']}"/>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="false" disabled="true" 
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
-											</span>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<div>
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigoFederal']}"/>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigoFederal}" autocomplete="off" maxlength="11" required="true" 
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigoFederal']}"></h:inputText>
-											</span>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome']}"/>
-										<div>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" autocomplete="off" maxlength="100" required="true"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
-											</span>
-										</div>
-										<div class="space-4"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-xs-12 col-sm-4">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.cpf.diretor']}"/>
-										<div>
-											<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" autocomplete="off" styleClass="col-sm-12 cpf" required="true"
-											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cpfDiretor']}">
-												<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
-												<f:validator validatorId="valida.cpf"/>
-												<f:converter converterId="converte.cpf"/>
-											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-8">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome.diretor']}"/>
-										<div>
-											<h:inputText type="text" id="nomeDiretor" autocomplete="off" class="col-sm-12"	value="#{unidadeEscolarServlet.nomeDiretor}" disabled="true"/>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-6">
-									<div class="space-4"></div>
-									<h:outputLabel value="#{mensagens['label.rede.ensino']}"/>
-									<div>
-										<h:selectOneMenu class="form-control" id="codRedeEnsino" required="true"
-											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.redeEnsino']}"
-											value="#{unidadeEscolarServlet.redeEnsinoDado.pkRedeEnsino}">
-											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{paramServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.descricao}"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-6">
-									<div class="space-4"></div>
-									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
-									<div>
-										<h:selectOneMenu class="form-control" id="codSituFunc"
-											required="true"
-											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.situacaoFuncionamento']}"
-											value="#{unidadeEscolarServlet.situacaoFuncionamentoDado.pkSituacaoFuncionamento}">
-											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{paramServlet.comboSituFuncionamento}" var="situacaoFuncionamento" itemValue="#{situacaoFuncionamento.pkSituacaoFuncionamento}" itemLabel="#{situacaoFuncionamento.nome}"/>
-										</h:selectOneMenu>
-									</div>
-									<div class="space-4"></div>
-								</div>
-								<div class="col-xs-12 col-sm-6">
-									<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.tipoOcupacao']}"/>
-									<div>
-										<h:selectOneMenu class="form-control" id="codTipoOcu"
-											required="true"
-											requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoOcupacao']}"
-											value="#{unidadeEscolarServlet.tipoOcupacaoDado.pkTipoOcupacao}">
-											<f:selectItem itemValue="" itemLabel="Selecione..." />
-											<f:selectItems value="#{paramServlet.comboTipoOcupacao}" var="tipoOcupacao" itemValue="#{tipoOcupacao.pkTipoOcupacao}" itemLabel="#{tipoOcupacao.nome}"/>
-										</h:selectOneMenu>
-									</div>
-								</div>
-							</div>
-							
-							<h:panelGroup id="enderePessoa" style="width: 100%"
-							class="clearfix form-actions">
-								<div id="conteudoEndereco">
-									<h3 class="header smaller lighter blue">Endereço/Contato</h3>
-										<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="#{mensagens['label.pais']}"/>
+						<h:form id="formPrincipal" prependId="false">
+							<h:panelGroup id="dadosResponsavel">
+								<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.js"/>
+								<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
+								<div class="clearfix form-actions">
+									<h3 class="header smaller lighter blue">Informações Principais</h3>
+									<div class="form-group">
+										<div class="col-xs-12 col-sm-2">
 											<div>
-												<h:selectOneMenu id="codPais"
-													required="true"
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.pais']}"
-													class="form-control" title="Pais residente"
-													value="#{unidadeEscolarServlet.paisDado.pkPais}">
-													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{paramServlet.comboPais}"
-														var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
-													<p:ajax event="change" update="codEstado, codCidade"/>
-												</h:selectOneMenu>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-3">
-											<h:outputLabel value="#{mensagens['label.estado']}"/>
-											<div>
-												<h:selectOneMenu id="codEstado"
-													required="true"
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.estado']}"
-													class="form-control" title="Estado residente"
-													value="#{unidadeEscolarServlet.estadoDado.pkEstado}">
-													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{paramServlet.comboEstado}"
-														var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
-													<p:ajax event="change" update="codCidade"/>
-												</h:selectOneMenu>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.municipio']}"/>
-											<div>
-												<h:selectOneMenu id="codCidade"
-													required="true"
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cidade']}"
-													class="form-control" title="Cidade residente"
-													value="#{unidadeEscolarServlet.cidadeDado.pkCidade}">
-													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{unidadeEscolarServlet.comboCidade}"
-														var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
-													<p:ajax event="change"/>
-												</h:selectOneMenu>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigo']}"/>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigo}" autocomplete="off" maxlength="11" required="false" disabled="true" 
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigo']}"></h:inputText>
+												</span>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.cep']}"/>
 											<div>
-												<h:inputText styleClass="col-sm-12 cep" id="numCep" autocomplete="off" title="Numero do CEP" value="#{unidadeEscolarServlet.enderecoDado.cep}">
-													<f:converter converterId="converte.cep"/>
-												</h:inputText>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigoFederal']}"/>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.codigoFederal}" autocomplete="off" maxlength="11" required="true" 
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigoFederal']}"></h:inputText>
+												</span>
 											</div>
 										</div>
-									<div class="form-group">
-										<div class="col-xs-12 col-sm-6">
-											<h:outputLabel
-												value="#{mensagens['label.rua']}" />
+										<div class="col-xs-12 col-sm-8">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome']}"/>
 											<div>
-												<h:inputText type="text" id="codRua" autocomplete="off"
-													required="true"
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouro']}"
-													class="col-sm-12" title="Nome da Rua"
-													value="#{unidadeEscolarServlet.enderecoDado.logradouro}" />
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.unidadeEscolar.nome}" autocomplete="off" maxlength="100" required="true"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nome']}"></h:inputText>
+												</span>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-1">
-											<h:outputLabel
-												value="#{mensagens['label.numero']}" />
-											<div>
-												<h:inputText type="text" id="numCasa" autocomplete="off"
-													required="true"
-													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouroNumero']}"
-													class="col-sm-12" title="Numero da Casa"
-	 												value="#{unidadeEscolarServlet.enderecoDado.numero}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-5">
-											<h:outputLabel
-												value="#{mensagens['label.bairro']}" />
-											<div>
-												<h:inputText type="text" id="codBairro" autocomplete="off"
-													class="col-sm-12" title="Nome do Bairro"
-													value="#{unidadeEscolarServlet.enderecoDado.bairro}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6">
-											<h:outputLabel value="#{mensagens['label.complemento']}" />
-											<div>
-												<h:inputText type="text" id="codComplemento" autocomplete="off"
-													class="col-sm-12" title="Complemento da Casa"
-													value="#{unidadeEscolarServlet.enderecoDado.complemento}" />
-											</div>
+											<div class="space-4"></div>
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.zona.residen']}"/>
+										<div class="col-xs-12 col-sm-4">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.cpf.diretor']}"/>
 											<div>
-												<h:selectOneMenu id="codZonaResi" value="#{unidadeEscolarServlet.regiaoDado.pkRegiao}"
-													class="form-control" title="Tipo de Zona Residencial">
-													<f:selectItem itemValue="" itemLabel="Selecione..."/>
-													<f:selectItems value="#{paramServlet.comboRegiao}"
-														var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
-												</h:selectOneMenu>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.tel.contato']}" />
-											<div>
-												<h:inputText type="text" id="numTelefone" autocomplete="off" styleClass="col-sm-12 telResidencial" title="Numero do Telefone" 
-													value="#{unidadeEscolarServlet.contatoDado.telResidencial}">
-													<f:converter converterId="converte.telresidencial"/>
-												</h:inputText>											
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-2">
-											<h:outputLabel value="#{mensagens['label.tel.celular']}" />
-											<div>
-												<h:inputText type="text" id="numCelular" autocomplete="off" styleClass="col-sm-12 telCelular" title="Numero do Celular"
-												value="#{unidadeEscolarServlet.contatoDado.telCelular}">
-													<f:converter converterId="converte.telcelular"/>
+												<h:inputText type="text" id="numCpfDiretor" value="#{unidadeEscolarServlet.cpfDiretor}" autocomplete="off" styleClass="col-sm-12 cpf" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cpfDiretor']}">
+													<p:ajax event="change" listener="#{unidadeEscolarServlet.buscarInformacoesDiretor}" update="nomeDiretor"/>
+													<f:validator validatorId="valida.cpf"/>
+													<f:converter converterId="converte.cpf"/>
 												</h:inputText>
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-6">
-											<h:outputLabel value="#{mensagens['label.email']}" />
+										<div class="col-xs-12 col-sm-8">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.nome.diretor']}"/>
 											<div>
-												<h:inputText type="text" id="email" autocomplete="off"
-													required="false"	
-													requiredMessage="#{mensagens['mensagem.requerido.email']}"
-													class="col-sm-12" title="E-mail da Pessoa"
-													value="#{unidadeEscolarServlet.contatoDado.email}" />
+												<h:inputText type="text" id="nomeDiretor" autocomplete="off" class="col-sm-12"	value="#{unidadeEscolarServlet.nomeDiretor}" disabled="true"/>
 											</div>
 										</div>
 									</div>
-								</div>
-							</h:panelGroup>
-							
-							<h:panelGroup id="panelTerreno" style="width: 100%"
-							class="clearfix form-actions">
-								<div id="conteudoEndereco">
-									<h3 class="header smaller lighter blue">Informações Geográficas</h3>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.distanciaAteSede']}" />
-											<div>
-												<h:inputText type="text" class="col-sm-8" autocomplete="off"
-													value="#{unidadeEscolarServlet.terreno.distanciaAteSede}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaTerrenoM2']}" />
-											<div>
-												<h:inputText type="text" class="col-sm-8"  autocomplete="off"
-													value="#{unidadeEscolarServlet.terreno.areaTerrenoM2}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaConstrucaoM2']}" />
-											<div>
-												<h:inputText type="text" class="col-sm-8"  autocomplete="off"
-													value="#{unidadeEscolarServlet.terreno.areaConstrucaoM2}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.latitude']}" />
-											<div>
-												<h:inputText type="text" class="col-sm-8" autocomplete="off"
-													value="#{unidadeEscolarServlet.terreno.latitude}" />
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.longitude']}" />
-											<div>
-												<h:inputText type="text" class="col-sm-8" autocomplete="off"
-													value="#{unidadeEscolarServlet.terreno.longitude}" />
-											</div>
-										</div>
-								</div>
-							</h:panelGroup>
-							
-							<h:panelGroup id="panelAmbiente" style="width: 100%" class="clearfix form-actions">
-								<div id="conteudoAmbinte">
-								<h3 class="header smaller lighter blue">Ambiente</h3>
-									<div class="col-xs-12 col-sm-3">
+									<div class="col-xs-12 col-sm-6">
+										<div class="space-4"></div>
+										<h:outputLabel value="#{mensagens['label.rede.ensino']}"/>
 										<div>
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.codigo']}"/>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.codigo}" autocomplete="off" maxlength="20" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigoAmbiente']}"></h:inputText>
-											</span>
+											<h:selectOneMenu class="form-control" id="codRedeEnsino" required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.redeEnsino']}"
+												value="#{unidadeEscolarServlet.redeEnsinoDado.pkRedeEnsino}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{paramServlet.comboRedeEnsino}" var="redeEnsino" itemValue="#{redeEnsino.pkredeEnsino}" itemLabel="#{redeEnsino.descricao}"/>
+											</h:selectOneMenu>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-9">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.nome']}"/>
+									<div class="col-xs-12 col-sm-6">
+										<div class="space-4"></div>
+										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.situacaoFuncionamento']}"/>
 										<div>
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control"  autocomplete="off" maxlength="100" value="#{unidadeEscolarServlet.ambienteDado.nome}" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nomeAmbiente']}"></h:inputText>
-											</span>
+											<h:selectOneMenu class="form-control" id="codSituFunc"
+												required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.situacaoFuncionamento']}"
+												value="#{unidadeEscolarServlet.situacaoFuncionamentoDado.pkSituacaoFuncionamento}">
+												<f:selectItem itemValue="" itemLabel="Selecione..." />
+												<f:selectItems value="#{paramServlet.comboSituFuncionamento}" var="situacaoFuncionamento" itemValue="#{situacaoFuncionamento.pkSituacaoFuncionamento}" itemLabel="#{situacaoFuncionamento.nome}"/>
+											</h:selectOneMenu>
 										</div>
 										<div class="space-4"></div>
 									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.tipo']}" />
+									<div class="col-xs-12 col-sm-6">
+										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.tipoOcupacao']}"/>
 										<div>
-											<h:selectOneMenu class="form-control" value="#{unidadeEscolarServlet.tipoAmbienteDado.pkTipoAmbiente}" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoAmbiente']}">
+											<h:selectOneMenu class="form-control" id="codTipoOcu"
+												required="true"
+												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoOcupacao']}"
+												value="#{unidadeEscolarServlet.tipoOcupacaoDado.pkTipoOcupacao}">
 												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{paramServlet.comboTiposAmbiente}" var="tipoAmbiente" itemValue="#{tipoAmbiente.pkTipoAmbiente}" itemLabel="#{tipoAmbiente.descricao}"/>
+												<f:selectItems value="#{paramServlet.comboTipoOcupacao}" var="tipoOcupacao" itemValue="#{tipoOcupacao.pkTipoOcupacao}" itemLabel="#{tipoOcupacao.nome}"/>
 											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<div>
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.metragem']}" />
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.metragem}" autocomplete="off" maxlength="8" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.areaM2Ambiente']}"></h:inputText>
-											</span>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.bloco']}" />
-										<div>
-											<h:selectOneMenu class="form-control" value="#{unidadeEscolarServlet.tipoBlocoDado.pkBloco}" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.blocoAmbiente']}">
-												<f:selectItem itemValue="" itemLabel="Selecione..." />
-												<f:selectItems value="#{paramServlet.comboBlocosAmbiente}" var="bloco" itemValue="#{bloco.pkBloco}" itemLabel="#{bloco.descricao}"/>
-											</h:selectOneMenu>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<div>
-											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.capacidade']}" />
-											<span class="block input-icon input-icon-right">
-												<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.capacidade}" autocomplete="off" maxlength="5" required="false"
-												requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.capacidadeAmbiente']}"></h:inputText>
-											</span>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-3">
-										<div>
-											<div class="space"></div>
-											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
-												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
-												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render="panelAmbiente" execute="panelAmbiente" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
-											</h:commandLink>
 										</div>
 									</div>
 								</div>
 								
-								<h:panelGroup id="panelTableAmbiente">
-									<div class="col-xs-12 col-sm-12">
-										<div class="space"></div>
-										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{unidadeEscolarServlet.dataTableAmbiente}"
-						    			headerClass="order-table-header" id="tableAmbiente" value="#{unidadeEscolarServlet.ambientes}" var="value"
-						    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
-							    			<h:column>
-							    				<center>
-						    						<f:facet name="header">Código</f:facet>
-							    				</center>
-						    					<h:outputLabel value="#{value.codigo}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">Nome</f:facet>
-							    				<h:outputLabel value="#{value.nome}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">Tipo</f:facet>
-							    				<h:outputLabel value="#{value.tipoNome}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">Área M²</f:facet>
-							    				<h:outputLabel value="#{value.metragem}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">Bloco</f:facet>
-							    				<h:outputLabel value="#{value.blocoNome}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">Capacidade</f:facet>
-							    				<h:outputLabel value="#{value.capacidade}"/>
-							    			</h:column>
-							    			<h:column>
-						    					<f:facet name="header">
-							    				<center>
-						    						<h:commandLink styleClass="tooltip-success">
-							    						<span class="red">
-															<i class="ace-icon fa fa-trash-o bigger-120"></i>
-														</span>
-														<f:ajax event="click" onevent="function(data) { aparecerModalDeletarTodos(data) }"/>
-														</h:commandLink>
-							    				</center>
-						    					</f:facet>
-							    				<center>
-													<h:commandLink styleClass="tooltip-success">
-							    						<span class="red">
-															<i class="ace-icon fa fa-trash-o bigger-120"></i>
-														</span>
-														<f:ajax event="click" listener="#{unidadeEscolarServlet.removerAmbiente}" render=":formPrincipal:tableAmbiente" resetValues="true"/>
-													</h:commandLink>
-							    				</center>
-			 								</h:column>
-							    		</h:dataTable>
+								<h:panelGroup id="enderePessoa" style="width: 100%"
+								class="clearfix form-actions">
+									<div id="conteudoEndereco">
+										<h3 class="header smaller lighter blue">Endereço/Contato</h3>
+											<div class="col-xs-12 col-sm-3">
+												<h:outputLabel value="#{mensagens['label.pais']}"/>
+												<div>
+													<h:selectOneMenu id="codPais"
+														required="true"
+														requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.pais']}"
+														class="form-control" title="Pais residente"
+														value="#{unidadeEscolarServlet.paisDado.pkPais}">
+														<f:selectItem itemValue="" itemLabel="Selecione..."/>
+														<f:selectItems value="#{paramServlet.comboPais}"
+															var="pais" itemLabel="#{pais.nome}" itemValue="#{pais.pkPais}"/>
+														<p:ajax event="change" update="codEstado, codCidade"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-3">
+												<h:outputLabel value="#{mensagens['label.estado']}"/>
+												<div>
+													<h:selectOneMenu id="codEstado"
+														required="true"
+														requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.estado']}"
+														class="form-control" title="Estado residente"
+														value="#{unidadeEscolarServlet.estadoDado.pkEstado}">
+														<f:selectItem itemValue="" itemLabel="Selecione..."/>
+														<f:selectItems value="#{paramServlet.comboEstado}"
+															var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}"/>
+														<p:ajax event="change" update="codCidade"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.municipio']}"/>
+												<div>
+													<h:selectOneMenu id="codCidade"
+														required="true"
+														requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.cidade']}"
+														class="form-control" title="Cidade residente"
+														value="#{unidadeEscolarServlet.cidadeDado.pkCidade}">
+														<f:selectItem itemValue="" itemLabel="Selecione..."/>
+														<f:selectItems value="#{unidadeEscolarServlet.comboCidade}"
+															var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.pkCidade}"/>
+														<p:ajax event="change"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-2">
+												<h:outputLabel value="#{mensagens['label.cep']}"/>
+												<div>
+													<h:inputText styleClass="col-sm-12 cep" id="numCep" autocomplete="off" title="Numero do CEP" value="#{unidadeEscolarServlet.enderecoDado.cep}">
+														<f:converter converterId="converte.cep"/>
+													</h:inputText>
+												</div>
+											</div>
+										<div class="form-group">
+											<div class="col-xs-12 col-sm-6">
+												<h:outputLabel
+													value="#{mensagens['label.rua']}" />
+												<div>
+													<h:inputText type="text" id="codRua" autocomplete="off"
+														required="true"
+														requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouro']}"
+														class="col-sm-12" title="Nome da Rua"
+														value="#{unidadeEscolarServlet.enderecoDado.logradouro}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-1">
+												<h:outputLabel
+													value="#{mensagens['label.numero']}" />
+												<div>
+													<h:inputText type="text" id="numCasa" autocomplete="off"
+														required="true"
+														requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.logradouroNumero']}"
+														class="col-sm-12" title="Numero da Casa"
+		 												value="#{unidadeEscolarServlet.enderecoDado.numero}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-5">
+												<h:outputLabel
+													value="#{mensagens['label.bairro']}" />
+												<div>
+													<h:inputText type="text" id="codBairro" autocomplete="off"
+														class="col-sm-12" title="Nome do Bairro"
+														value="#{unidadeEscolarServlet.enderecoDado.bairro}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-6">
+												<h:outputLabel value="#{mensagens['label.complemento']}" />
+												<div>
+													<h:inputText type="text" id="codComplemento" autocomplete="off"
+														class="col-sm-12" title="Complemento da Casa"
+														value="#{unidadeEscolarServlet.enderecoDado.complemento}" />
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-xs-12 col-sm-2">
+												<h:outputLabel value="#{mensagens['label.zona.residen']}"/>
+												<div>
+													<h:selectOneMenu id="codZonaResi" value="#{unidadeEscolarServlet.regiaoDado.pkRegiao}"
+														class="form-control" title="Tipo de Zona Residencial">
+														<f:selectItem itemValue="" itemLabel="Selecione..."/>
+														<f:selectItems value="#{paramServlet.comboRegiao}"
+															var="regiao" itemLabel="#{regiao.descricao}" itemValue="#{regiao.pkRegiao}"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-2">
+												<h:outputLabel value="#{mensagens['label.tel.contato']}" />
+												<div>
+													<h:inputText type="text" id="numTelefone" autocomplete="off" styleClass="col-sm-12 telResidencial" title="Numero do Telefone" 
+														value="#{unidadeEscolarServlet.contatoDado.telResidencial}">
+														<f:converter converterId="converte.telresidencial"/>
+													</h:inputText>											
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-2">
+												<h:outputLabel value="#{mensagens['label.tel.celular']}" />
+												<div>
+													<h:inputText type="text" id="numCelular" autocomplete="off" styleClass="col-sm-12 telCelular" title="Numero do Celular"
+													value="#{unidadeEscolarServlet.contatoDado.telCelular}">
+														<f:converter converterId="converte.telcelular"/>
+													</h:inputText>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-6">
+												<h:outputLabel value="#{mensagens['label.email']}" />
+												<div>
+													<h:inputText type="text" id="email" autocomplete="off"
+														required="false"	
+														requiredMessage="#{mensagens['mensagem.requerido.email']}"
+														class="col-sm-12" title="E-mail da Pessoa"
+														value="#{unidadeEscolarServlet.contatoDado.email}" />
+												</div>
+											</div>
+										</div>
 									</div>
 								</h:panelGroup>
-							</h:panelGroup>
-							
-							<div id="modalDeletarTodos" class="modal fade" role="dialog">
-								<div class="modal-dialog">
-									<!-- Modal content-->
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"></button>
-											<h3 class=" smaller lighter blue"> #{mensagens['label.excluir.ambientes']} </h3>
+								
+								<h:panelGroup id="panelTerreno" style="width: 100%"
+								class="clearfix form-actions">
+									<div id="conteudoEndereco">
+										<h3 class="header smaller lighter blue">Informações Geográficas</h3>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.distanciaAteSede']}" />
+												<div>
+													<h:inputText type="text" class="col-sm-8" autocomplete="off"
+														value="#{unidadeEscolarServlet.terreno.distanciaAteSede}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaTerrenoM2']}" />
+												<div>
+													<h:inputText type="text" class="col-sm-8"  autocomplete="off"
+														value="#{unidadeEscolarServlet.terreno.areaTerrenoM2}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.areaConstrucaoM2']}" />
+												<div>
+													<h:inputText type="text" class="col-sm-8"  autocomplete="off"
+														value="#{unidadeEscolarServlet.terreno.areaConstrucaoM2}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.latitude']}" />
+												<div>
+													<h:inputText type="text" class="col-sm-8" autocomplete="off"
+														value="#{unidadeEscolarServlet.terreno.latitude}" />
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-4">
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.terreno.longitude']}" />
+												<div>
+													<h:inputText type="text" class="col-sm-8" autocomplete="off"
+														value="#{unidadeEscolarServlet.terreno.longitude}" />
+												</div>
+											</div>
+									</div>
+								</h:panelGroup>
+								
+								<h:panelGroup id="panelAmbiente" style="width: 100%" class="clearfix form-actions">
+									<div id="conteudoAmbinte">
+									<h3 class="header smaller lighter blue">Ambiente</h3>
+										<div class="col-xs-12 col-sm-3">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.codigo']}"/>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.codigo}" autocomplete="off" maxlength="20" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.codigoAmbiente']}"></h:inputText>
+												</span>
+											</div>
 										</div>
-										<div class="modal-body">
-											<div class="modal-footer">
-												<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
-													#{mensagens['label.botao.fechar']}
-												</button>
-												<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
-													<span class="bigger-110">Remover</span>	
-													<i class="ace-icon fa fa-arrow-right icon-on-right"></i> 
-													<f:ajax event="click" listener="#{unidadeEscolarServlet.removerTodosAmbientes}" render=":formPrincipal:tableAmbiente" execute="panelTableAmbiente"
-														onevent="function(data) { esconderModalDeletarTodos(data) }"/>
+										<div class="col-xs-12 col-sm-9">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.nome']}"/>
+											<div>
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control"  autocomplete="off" maxlength="100" value="#{unidadeEscolarServlet.ambienteDado.nome}" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.nomeAmbiente']}"></h:inputText>
+												</span>
+											</div>
+											<div class="space-4"></div>
+										</div>
+										<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.tipo']}" />
+											<div>
+												<h:selectOneMenu class="form-control" value="#{unidadeEscolarServlet.tipoAmbienteDado.pkTipoAmbiente}" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.tipoAmbiente']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{paramServlet.comboTiposAmbiente}" var="tipoAmbiente" itemValue="#{tipoAmbiente.pkTipoAmbiente}" itemLabel="#{tipoAmbiente.descricao}"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-3">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.metragem']}" />
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.metragem}" autocomplete="off" maxlength="8" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.areaM2Ambiente']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-3">
+											<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.bloco']}" />
+											<div>
+												<h:selectOneMenu class="form-control" value="#{unidadeEscolarServlet.tipoBlocoDado.pkBloco}" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.blocoAmbiente']}">
+													<f:selectItem itemValue="" itemLabel="Selecione..." />
+													<f:selectItems value="#{paramServlet.comboBlocosAmbiente}" var="bloco" itemValue="#{bloco.pkBloco}" itemLabel="#{bloco.descricao}"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-3">
+											<div>
+												<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.ambiente.capacidade']}" />
+												<span class="block input-icon input-icon-right">
+													<h:inputText type="text" class="form-control" value="#{unidadeEscolarServlet.ambienteDado.capacidade}" autocomplete="off" maxlength="5" required="false"
+													requiredMessage="#{mensagens['mensagem.requerido.unidadeEscolar.capacidadeAmbiente']}"></h:inputText>
+												</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-3">
+											<div>
+												<div class="space"></div>
+												<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
+													<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
+													<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
+													<f:ajax event="click" render="panelAmbiente" execute="panelAmbiente" resetValues="true" listener="#{unidadeEscolarServlet.adicionarAmbiente}"/>
 												</h:commandLink>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
 									
-							<!-- Botões -->
-							<div class="col-sx-12 col-sm-12" id="default-buttons">
-								<h:commandLink type="submit" id="btNovo" class="btn btn-white btn-info btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
-									<span class="bigger-110">Novo</span>	
-									<i class="ace-icon fa fa-file"/>
-									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{unidadeEscolarServlet.resetarUnidadeEscolar}" update=":formPrincipal :formPesquisar" process=":formPrincipal"/>
-								</h:commandLink>
+									<h:panelGroup id="panelTableAmbiente">
+										<div class="col-xs-12 col-sm-12">
+											<div class="space"></div>
+											<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{unidadeEscolarServlet.dataTableAmbiente}"
+							    			headerClass="order-table-header" id="tableAmbiente" value="#{unidadeEscolarServlet.ambientes}" var="value"
+							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+								    			<h:column>
+								    				<center>
+							    						<f:facet name="header">Código</f:facet>
+								    				</center>
+							    					<h:outputLabel value="#{value.codigo}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Nome</f:facet>
+								    				<h:outputLabel value="#{value.nome}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Tipo</f:facet>
+								    				<h:outputLabel value="#{value.tipoNome}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Área M²</f:facet>
+								    				<h:outputLabel value="#{value.metragem}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Bloco</f:facet>
+								    				<h:outputLabel value="#{value.blocoNome}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">Capacidade</f:facet>
+								    				<h:outputLabel value="#{value.capacidade}"/>
+								    			</h:column>
+								    			<h:column>
+							    					<f:facet name="header">
+								    				<center>
+							    						<h:commandLink styleClass="tooltip-success">
+								    						<span class="red">
+																<i class="ace-icon fa fa-trash-o bigger-120"></i>
+															</span>
+															<f:ajax event="click" onevent="function(data) { aparecerModalDeletarTodos(data) }"/>
+															</h:commandLink>
+								    				</center>
+							    					</f:facet>
+								    				<center>
+														<h:commandLink styleClass="tooltip-success">
+								    						<span class="red">
+																<i class="ace-icon fa fa-trash-o bigger-120"></i>
+															</span>
+															<f:ajax event="click" listener="#{unidadeEscolarServlet.removerAmbiente}" render=":formPrincipal:tableAmbiente" resetValues="true"/>
+														</h:commandLink>
+								    				</center>
+				 								</h:column>
+								    		</h:dataTable>
+										</div>
+									</h:panelGroup>
+								</h:panelGroup>
 								
-								<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
-									<span class="bigger-110">Registrar</span>	
-									<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-									<p:ajax event="click" listener="#{unidadeEscolarServlet.cadastrarUnidadeEscolar}" update=":formPrincipal :formPesquisar" process=":formPrincipal"/>
-								</h:commandLink>
-								
-								<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{unidadeEscolarServlet.btRemoverEnabled}"> 
-									<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
-									<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
-									<p:ajax event="click" listener="#{unidadeEscolarServlet.removerGeral}" update=":formPrincipal :formPesquisar" />
-								</h:commandLink>	
-							</div>
+								<div id="modalDeletarTodos" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"></button>
+												<h3 class=" smaller lighter blue"> #{mensagens['label.excluir.ambientes']} </h3>
+											</div>
+											<div class="modal-body">
+												<div class="modal-footer">
+													<button type="button" class="btn btn-white btn-info btn-round" data-dismiss="modal">
+														#{mensagens['label.botao.fechar']}
+													</button>
+													<h:commandLink type="submit" class="btn btn-white btn-success btn-round"> 
+														<span class="bigger-110">Remover</span>	
+														<i class="ace-icon fa fa-arrow-right icon-on-right"></i> 
+														<f:ajax event="click" listener="#{unidadeEscolarServlet.removerTodosAmbientes}" render=":formPrincipal:tableAmbiente" execute="panelTableAmbiente"
+															onevent="function(data) { esconderModalDeletarTodos(data) }"/>
+													</h:commandLink>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+										
+								<!-- Botões -->
+								<div class="col-sx-12 col-sm-12" id="default-buttons">
+									<h:commandLink type="submit" id="btNovo" class="btn btn-white btn-info btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
+										<span class="bigger-110">Novo</span>	
+										<i class="ace-icon fa fa-file"/>
+										<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+										<p:ajax event="click" listener="#{unidadeEscolarServlet.resetarUnidadeEscolar}" update=":formPrincipal :formPesquisar" process=":formPrincipal"/>
+									</h:commandLink>
+									
+									<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round" rendered="#{unidadeEscolarServlet.btCadastrarEnabled}"> 
+										<span class="bigger-110">Registrar</span>	
+										<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+										<p:ajax event="click" listener="#{unidadeEscolarServlet.cadastrarUnidadeEscolar}" update=":formPrincipal :formPesquisar" process=":formPrincipal"/>
+									</h:commandLink>
+									
+									<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{unidadeEscolarServlet.btRemoverEnabled}"> 
+										<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
+										<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
+										<p:ajax event="click" listener="#{unidadeEscolarServlet.removerGeral}" update=":formPrincipal :formPesquisar" />
+									</h:commandLink>	
+								</div>
+							</h:panelGroup>
 						</h:form>
 					</div>
 				</div>
@@ -607,7 +609,6 @@
 		</ui:define>		
 		<ui:define name="scriptPagina">
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.css"/>
-			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/UnidadeEscolar/cadastroUnidadeEscolar.js"/>
 			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 		</ui:define>
 	</ui:composition>
