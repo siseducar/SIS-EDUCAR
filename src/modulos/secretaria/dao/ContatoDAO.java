@@ -280,7 +280,7 @@ public class ContatoDAO extends SisEducarDAO
 				dadosContato.setPkContato(rs.getInt("PKCONTATO"));
 			}
 			
-			fecharConexaoBanco(con, ps, true, false);
+			fecharConexaoBanco(con, ps, false, true);
 			
 			return dadosContato;
 		} catch (Exception e) {
