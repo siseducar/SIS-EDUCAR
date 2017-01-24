@@ -289,7 +289,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	 * @param cpfDiretor
 	 * @return
 	 */
-	public List<UnidadeEscolar> buscar(String codigo, String nome, String cpfDiretor)
+	public List<UnidadeEscolar> buscar(String codigo, String codigoFederal, String nome, String cpfDiretor)
 	{
 		try 
 		{
@@ -323,6 +323,10 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			{
 				querySQL += " AND u.codigo like ?";
 			}
+			if(codigoFederal!=null && codigoFederal.length()>0)
+			{
+				querySQL += " AND u.codigoFederal like ?";
+			}
 			if(nome!=null && nome.length() >0)
 			{
 				querySQL+= " AND u.nome like ?";
@@ -345,6 +349,11 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			if(codigo!=null && codigo.length()>0)
 			{
 				ps.setObject(numeroArqumentos, "%" + codigo + "%");
+				numeroArqumentos ++;
+			}
+			if(codigoFederal!=null && codigoFederal.length()>0)
+			{
+				ps.setObject(numeroArqumentos, "%" + codigoFederal + "%");
 				numeroArqumentos ++;
 			}
 			if(nome!=null && nome.length() >0)

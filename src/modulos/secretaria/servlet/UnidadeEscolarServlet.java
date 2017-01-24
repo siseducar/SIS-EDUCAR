@@ -76,6 +76,7 @@ public class UnidadeEscolarServlet implements Serializable
     
     private String cpfDiretorPesquisar;
 	private String codigoPesquisar;
+	private String codigoFederalPesquisar;
     private String nomePesquisar;
     
     private Boolean btRemoverEnabled;
@@ -379,6 +380,11 @@ public class UnidadeEscolarServlet implements Serializable
 			tipoBlocoDado = new Bloco();
 			ambientes = new ArrayList<Ambiente>();
 			
+			cpfDiretorPesquisar = "";
+			nomePesquisar = "";
+			codigoPesquisar = "";
+			codigoFederalPesquisar = "";
+			
 			unidadesEscolaresCadastrados = new ArrayList<UnidadeEscolar>();
 			
 			btRemoverEnabled = false;
@@ -498,7 +504,7 @@ public class UnidadeEscolarServlet implements Serializable
 	{
 		try 
 		{
-			unidadesEscolaresCadastrados = new UnidadeEscolarDAO().buscar(codigoPesquisar, nomePesquisar, cpfDiretorPesquisar);
+			unidadesEscolaresCadastrados = new UnidadeEscolarDAO().buscar(codigoPesquisar, codigoFederalPesquisar, nomePesquisar, cpfDiretorPesquisar);
 		} 
 		catch (Exception e) 
 		{
@@ -913,5 +919,13 @@ public class UnidadeEscolarServlet implements Serializable
 
 	public void setAmbientes(List<Ambiente> ambientes) {
 		this.ambientes = ambientes;
+	}
+
+	public String getCodigoFederalPesquisar() {
+		return codigoFederalPesquisar;
+	}
+
+	public void setCodigoFederalPesquisar(String codigoFederalPesquisar) {
+		this.codigoFederalPesquisar = codigoFederalPesquisar;
 	}
 }

@@ -59,6 +59,15 @@
 													</span>
 												</div>
 												<div class="">
+														<h:outputLabel value="#{mensagens['label.cadastro.unidadeEscolar.codigoFederal']}"/>
+														<span class="block input-icon input-icon-right"> 
+														<h:inputText
+															type="text" class="form-control"
+															value="#{unidadeEscolarServlet.codigoFederalPesquisar}" maxlength="50" autocomplete="off">
+														</h:inputText>
+													</span>
+												</div>
+												<div class="">
 														<output>Nome</output>
 														<span class="block input-icon input-icon-right"> 
 														<h:inputText
@@ -87,6 +96,12 @@
 								    						<f:facet name="header">Código</f:facet>
 									    				</center>
 								    					<h:outputLabel value="#{value.codigo}"/>
+									    			</h:column>
+									    			<h:column>
+									    				<center>
+								    						<f:facet name="header"> #{mensagens['label.cadastro.unidadeEscolar.codigoFederal']}</f:facet>
+									    				</center>
+								    					<h:outputLabel value="#{value.codigoFederal}"/>
 									    			</h:column>
 									    			<h:column>
 								    					<f:facet name="header">Nome</f:facet>
