@@ -226,8 +226,8 @@ public class EnderecoDAO extends SisEducarDAO
 		ps.setObject(6, endereco.getTipo());
 		ps.setObject(7, endereco.getCidade()!=null ? endereco.getCidade().getPkCidade() : null);
 		ps.setObject(8, endereco.getContato()!=null ? endereco.getContato().getPkContato() : null);
-		ps.setObject(8, endereco.getRegiao()!=null ? endereco.getRegiao().getPkRegiao() : null);
-		ps.setObject(9, endereco.getPkEndereco());
+		ps.setObject(9, endereco.getRegiao()!=null ? endereco.getRegiao().getPkRegiao() : null);
+		ps.setObject(10, endereco.getPkEndereco());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
