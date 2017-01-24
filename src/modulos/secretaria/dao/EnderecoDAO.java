@@ -43,27 +43,151 @@ public class EnderecoDAO extends SisEducarDAO
 	{
 		try 
 		{
-			String querySQL = "INSERT INTO endereco "
-					+ " (cep, logradouro, bairro, numero, complemento, tipo, status, fkcidade, fkMunicipioCliente, fkContato) values(?,?,?,?,?,?,?,?,?,?)";
+			Integer numeroValues = 0;
+			Integer numeroArgumentos = 0;
+			String querySQL = "INSERT INTO endereco (";
+
+			if(endereco.getCep()!=null)
+			{
+				numeroValues++;
+				querySQL += " cep";
+			}
+			if(endereco.getLogradouro()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,logradouro";
+			}
+			if(endereco.getBairro()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,bairro";
+			}
+			if(endereco.getNumero()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,numero";
+			}
+			if(endereco.getComplemento()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,complemento";
+			}
+			if(endereco.getLatitude()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,latitude";
+			}
+			if(endereco.getLongitude()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,longitude";
+			}
+			if(endereco.getEnderecoCompleto()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,enderecoCompleto";
+			}
+			if(endereco.getCidade()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,fkcidade";
+			}
+			if(endereco.getContato()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,fkContato";
+			}
+			if(endereco.getRegiao()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,fkRegiao";
+			}
+			if(endereco.getFkMunicipioCliente()!=null)
+			{
+				numeroValues++;
+				querySQL += " ,fkMunicipioCliente";
+			}
+			querySQL += ") VALUES(";
+			for (int i = 0; i < numeroValues; i++) 
+			{
+				if(numeroValues==(i+1))
+				{
+					querySQL += "?";
+				}
+				else
+				{
+					querySQL += "?,";
+				}
+			}
+			querySQL += ")";
 			
 			ps = con.prepareStatement(querySQL);
 			
-			ps.setObject(1, endereco.getCep());
-			ps.setObject(2, endereco.getLogradouro());
-			ps.setObject(3, endereco.getBairro());
-			ps.setObject(4, endereco.getNumero());
-			ps.setObject(5, endereco.getComplemento());
-			ps.setInt(6, 0);
-			ps.setInt(7, ConstantesSisEducar.STATUS_ATIVO);
+			if(endereco.getCep()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getCep().toString());
+			}
+			if(endereco.getLogradouro()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getLogradouro());
+			}
+			if(endereco.getBairro()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getBairro());
+			}
+			if(endereco.getNumero()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getNumero());
+			}
+			if(endereco.getComplemento()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getComplemento());
+			}
 			
-			if(endereco!=null && endereco.getCidade()!=null && endereco.getCidade().getPkCidade()>0) { ps.setInt(8, endereco.getCidade().getPkCidade()); }
-			else { ps.setObject(8, null); }
+			if(endereco.getLatitude()!=null)
+			{
+				numeroArgumentos++;
+				ps.setDouble(numeroArgumentos, endereco.getLatitude());
+			}
+			if(endereco.getLongitude()!=null)
+			{
+				numeroArgumentos++;
+				ps.setDouble(numeroArgumentos, endereco.getLongitude());
+			}
+			if(endereco.getEnderecoCompleto()!=null)
+			{
+				numeroArgumentos++;
+				ps.setString(numeroArgumentos, endereco.getEnderecoCompleto());
+			}
 			
-			if(endereco!=null && endereco.getFkMunicipioCliente()!=null && endereco.getFkMunicipioCliente().getPkCidade()>0) { ps.setInt(9, endereco.getFkMunicipioCliente().getPkCidade()); }
-			else { ps.setObject(9, null);}
+			if(endereco.getCidade()!=null && endereco.getCidade().getPkCidade()>0) 
+			{
+				numeroArgumentos++;
+				ps.setInt(numeroArgumentos, endereco.getCidade().getPkCidade()); 
+			}
 			
-			if(endereco!=null && endereco.getContato()!=null && endereco.getContato().getPkContato()>0) { ps.setInt(10, endereco.getContato().getPkContato()); }
-			else { ps.setObject(10, null);}
+			if(endereco.getContato()!=null && endereco.getContato().getPkContato()>0) 
+			{
+				numeroArgumentos++;
+				ps.setInt(numeroArgumentos, endereco.getContato().getPkContato()); 
+			}
+			
+			if(endereco.getRegiao()!=null) 
+			{
+				numeroArgumentos++;
+				ps.setInt(numeroArgumentos, endereco.getRegiao().getPkRegiao()); 
+			}
+
+			if(endereco.getFkMunicipioCliente()!=null && endereco.getFkMunicipioCliente().getPkCidade()>0) 
+			{
+				numeroArgumentos++;
+				ps.setInt(numeroArgumentos, endereco.getFkMunicipioCliente().getPkCidade()); 
+			}
 			
 			fecharConexaoBanco(con, ps, false, true);
 
@@ -88,8 +212,8 @@ public class EnderecoDAO extends SisEducarDAO
 	public Endereco atualizarEndereco(Endereco endereco) throws SQLException
 	{
 		String querySQL = "UPDATE endereco "
-				+ " SET (cep, logradouro, bairro, numero, complemento, tipo, fkcidade, fkContato) = "
-				+ " (?,?,?,?,?,?,?,?)"
+				+ " SET (cep, logradouro, bairro, numero, complemento, tipo, fkcidade, fkContato, fkRegiao) = "
+				+ " (?,?,?,?,?,?,?,?,?)"
 				+ " WHERE pkEndereco = ?";
 		
 		ps = con.prepareStatement(querySQL);
@@ -102,6 +226,7 @@ public class EnderecoDAO extends SisEducarDAO
 		ps.setObject(6, endereco.getTipo());
 		ps.setObject(7, endereco.getCidade()!=null ? endereco.getCidade().getPkCidade() : null);
 		ps.setObject(8, endereco.getContato()!=null ? endereco.getContato().getPkContato() : null);
+		ps.setObject(8, endereco.getRegiao()!=null ? endereco.getRegiao().getPkRegiao() : null);
 		ps.setObject(9, endereco.getPkEndereco());
 		
 		fecharConexaoBanco(con, ps, false, true);
@@ -143,7 +268,7 @@ public class EnderecoDAO extends SisEducarDAO
 		if(cep!=null && cep >0) 
 		{ 
 			numeroArgumentos ++; 
-			ps.setInt(numeroArgumentos, cep);
+			ps.setString(numeroArgumentos, cep.toString());
 		}
 		
 		if(logradouro!=null && logradouro.length()>0)	

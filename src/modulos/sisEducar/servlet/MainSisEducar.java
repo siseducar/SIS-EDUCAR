@@ -34,9 +34,9 @@ public class MainSisEducar implements Servlet, Serializable
 			System.out.println("<-------Sistema SisEducar iniciado-------->");
 			
 			System.out.println("Populando Parâmetros");
-				PopulaSecretaria.executar();
-				PopulaEducacaoPermissoes.executar();
-				PopulaSecretariaPermissoes.executar();
+//				PopulaSecretaria.executar();
+//				PopulaEducacaoPermissoes.executar();
+//				PopulaSecretariaPermissoes.executar();
 			System.out.println("Fim Populas");
 			
 		}

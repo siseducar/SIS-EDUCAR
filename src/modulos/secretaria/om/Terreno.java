@@ -12,7 +12,6 @@ public class Terreno implements Serializable {
 	private Double latitude;
 	private Double longitude;
 	private Integer status;
-	private Cidade fkMunicipioCliente;
 	
 	public Integer getPkTerreno() {
 		return pkTerreno;
@@ -55,11 +54,5 @@ public class Terreno implements Serializable {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-	public Cidade getFkMunicipioCliente() {
-		return fkMunicipioCliente;
-	}
-	public void setFkMunicipioCliente(Cidade fkMunicipioCliente) {
-		this.fkMunicipioCliente = fkMunicipioCliente;
 	}
 }

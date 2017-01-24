@@ -71,7 +71,7 @@ public class CidadeDAO extends SisEducarDAO
 			cidade.setPkCidade(rs.getInt("pkcidade"));
 			cidade.setNome(rs.getString("nome"));
 			cidade.setSigla(rs.getString("sigla"));
-			cidade.setCodigoibge(rs.getInt("codigoibge"));
+//			cidade.setCodigoibge(rs.getInt("codigoibge"));
 			cidade.setStatus(rs.getInt("status"));
 			cidade.setEstado(new EstadoDAO().obtemEstado(rs.getInt("fkEstado"), null, null));
 			

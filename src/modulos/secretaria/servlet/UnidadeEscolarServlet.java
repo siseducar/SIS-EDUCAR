@@ -257,6 +257,8 @@ public class UnidadeEscolarServlet implements Serializable
 			/* SALVA O ENDEÇO */
 			if(enderecoDado!=null)
 			{
+				enderecoDado.setRegiao(regiaoDado);
+				enderecoDado.setFkMunicipioCliente(unidadeEscolar.getFkMunicipioCliente());
 				//CONTATO
 				if(enderecoDado.getContato()!=null && enderecoDado.getContato().getPkContato()!=0)
 				{

@@ -177,9 +177,6 @@ public class TerrenoDAO extends SisEducarDAO
 			terreno.setLatitude(rs.getDouble("latitude"));
 			terreno.setLongitude(rs.getDouble("longitude"));
 			
-			cidadeTerrenoMunicipioCliente.setPkCidade(rs.getInt("fkMunicipioCliente"));
-			terreno.setFkMunicipioCliente(cidadeTerrenoMunicipioCliente);
-			
 			return terreno;
 		}
 		

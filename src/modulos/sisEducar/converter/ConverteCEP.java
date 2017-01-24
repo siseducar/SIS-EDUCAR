@@ -12,8 +12,8 @@ public class ConverteCEP implements Converter{
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 		String cep = null;
 		int digitos = value.replace("-", "").length();
-        if (digitos == 8) {
-        	cep = value.replace("-", "");
+        if (digitos == 9) {
+        	cep = value.replace("-", "").replace(".", "");
         }
         return cep;
     }
