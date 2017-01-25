@@ -45,9 +45,9 @@ public class PopulaSecretaria
 		System.out.println("Popula de Situação Econômica Finalizado \n");
 		
 		System.out.println("Populando Religião...");
-		populaRHDAO.inserirParametros("Religiao", "CC", "Cristã-Católica", ConstantesSisEducar.STATUS_ATIVO, 1);
-		populaRHDAO.inserirParametros("Religiao", "CL", "Cristã-Luterana", ConstantesSisEducar.STATUS_ATIVO, 2);
-		populaRHDAO.inserirParametros("Religiao", "CE", "Cristã-Evangélica", ConstantesSisEducar.STATUS_ATIVO, 3);
+		populaRHDAO.inserirParametros("Religiao", "CC", "Cristã Católica", ConstantesSisEducar.STATUS_ATIVO, 1);
+		populaRHDAO.inserirParametros("Religiao", "CL", "Cristã Luterana", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("Religiao", "CE", "Cristã Evangélica", ConstantesSisEducar.STATUS_ATIVO, 3);
 		populaRHDAO.inserirParametros("Religiao", "ES", "Espiritismo", ConstantesSisEducar.STATUS_ATIVO, 4);
 		populaRHDAO.inserirParametros("Religiao", "IS", "Islamismo", ConstantesSisEducar.STATUS_ATIVO, 5);
 		populaRHDAO.inserirParametros("Religiao", "BU", "Budismo", ConstantesSisEducar.STATUS_ATIVO, 6);
@@ -58,7 +58,7 @@ public class PopulaSecretaria
 		System.out.println("Popula de Religião Finalizado \n");
 		
 		System.out.println("Populando Tipo Deficiência...");
-		populaRHDAO.inserirParametros("TipoDeficiencia", "DA", "Def. Auditivo", ConstantesSisEducar.STATUS_ATIVO, 1);
+		populaRHDAO.inserirParametros("TipoDeficiencia", "DA", "Def. Auditiva", ConstantesSisEducar.STATUS_ATIVO, 1);
 		populaRHDAO.inserirParametros("TipoDeficiencia", "DF", "Def. Física", ConstantesSisEducar.STATUS_ATIVO, 2);
 		populaRHDAO.inserirParametros("TipoDeficiencia", "DM", "Def. Mental", ConstantesSisEducar.STATUS_ATIVO, 3);
 		populaRHDAO.inserirParametros("TipoDeficiencia", "DV", "Def. Visual", ConstantesSisEducar.STATUS_ATIVO, 4);
@@ -68,7 +68,7 @@ public class PopulaSecretaria
 		
 		System.out.println("Populando Região...");
 		populaRHDAO.inserirParametros("Regiao", "RU", "Rural", ConstantesSisEducar.STATUS_ATIVO, 1);
-		populaRHDAO.inserirParametros("Regiao", "UR", "Urbano", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("Regiao", "UR", "Urbana", ConstantesSisEducar.STATUS_ATIVO, 2);
 		populaRHDAO.inserirParametros("Regiao", "NI", "Não Informado", ConstantesSisEducar.STATUS_ATIVO, 3);
 		System.out.println("Popula de Região Finalizado \n");
 		
@@ -99,17 +99,19 @@ public class PopulaSecretaria
 		
 		System.out.println("Populando Grau Instrução...");
 		populaRHDAO.inserirParametros("GrauInstrucao", "AN", "Analfabeto", ConstantesSisEducar.STATUS_ATIVO, 1);
-		populaRHDAO.inserirParametros("GrauInstrucao", "FU", "Fundamental", ConstantesSisEducar.STATUS_ATIVO, 2);
-		populaRHDAO.inserirParametros("GrauInstrucao", "FI", "Fundamental Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 3);
-		populaRHDAO.inserirParametros("GrauInstrucao", "MI", "Médio Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 4);
-		populaRHDAO.inserirParametros("GrauInstrucao", "ME", "Médio", ConstantesSisEducar.STATUS_ATIVO, 5);
-		populaRHDAO.inserirParametros("GrauInstrucao", "SI", "Superior Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 6);
-		populaRHDAO.inserirParametros("GrauInstrucao", "SC", "Superior Completo", ConstantesSisEducar.STATUS_ATIVO, 7);
-		populaRHDAO.inserirParametros("GrauInstrucao", "SA", "Superior Andamento", ConstantesSisEducar.STATUS_ATIVO, 8);
-		populaRHDAO.inserirParametros("GrauInstrucao", "PG", "Pós Graduado", ConstantesSisEducar.STATUS_ATIVO, 9);
-		populaRHDAO.inserirParametros("GrauInstrucao", "ME", "Mestrado", ConstantesSisEducar.STATUS_ATIVO, 10);
-		populaRHDAO.inserirParametros("GrauInstrucao", "DO", "Doutorado", ConstantesSisEducar.STATUS_ATIVO, 11);
-		populaRHDAO.inserirParametros("GrauInstrucao", "NI", "Não Informado", ConstantesSisEducar.STATUS_ATIVO, 12);
+		populaRHDAO.inserirParametros("GrauInstrucao", "FC", "Ensino Fundamental Completo", ConstantesSisEducar.STATUS_ATIVO, 2);
+		populaRHDAO.inserirParametros("GrauInstrucao", "FA", "Ensino Fundamental Cursando", ConstantesSisEducar.STATUS_ATIVO, 3);
+		populaRHDAO.inserirParametros("GrauInstrucao", "FI", "Ensino Fundamental Incompleto", ConstantesSisEducar.STATUS_ATIVO, 4);
+		populaRHDAO.inserirParametros("GrauInstrucao", "MI", "Ensino Médio Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 5);
+		populaRHDAO.inserirParametros("GrauInstrucao", "MA", "Ensino Médio Cursando", ConstantesSisEducar.STATUS_ATIVO, 6);
+		populaRHDAO.inserirParametros("GrauInstrucao", "MC", "Ensino Médio Completo", ConstantesSisEducar.STATUS_ATIVO, 7);
+		populaRHDAO.inserirParametros("GrauInstrucao", "SI", "Ensino Superior Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 8);
+		populaRHDAO.inserirParametros("GrauInstrucao", "SA", "Ensino Superior Cursando", ConstantesSisEducar.STATUS_ATIVO, 9);
+		populaRHDAO.inserirParametros("GrauInstrucao", "SC", "Ensino Superior Completo", ConstantesSisEducar.STATUS_ATIVO, 10);
+		populaRHDAO.inserirParametros("GrauInstrucao", "PG", "Pós Graduação", ConstantesSisEducar.STATUS_ATIVO, 11);
+		populaRHDAO.inserirParametros("GrauInstrucao", "ME", "Mestrado", ConstantesSisEducar.STATUS_ATIVO, 12);
+		populaRHDAO.inserirParametros("GrauInstrucao", "DO", "Doutorado", ConstantesSisEducar.STATUS_ATIVO, 13);
+		populaRHDAO.inserirParametros("GrauInstrucao", "NI", "Não Informado", ConstantesSisEducar.STATUS_ATIVO, 14);
 		System.out.println("Popula de Grau Instrução Finalizado \n");
 		
 		System.out.println("Populando Situacao Funcionamento...");
