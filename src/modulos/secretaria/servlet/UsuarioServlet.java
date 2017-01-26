@@ -235,7 +235,7 @@ public class UsuarioServlet implements Serializable
 				if(!atualizacaoUsuario)
 				{
 					//Como o usuário estará em confirmação ele estará com o status imcompleto, então eu seto o status imcompleto nele
-					usuario.setStatus(ConstantesSisEducar.STATUS_INCOMPLETO);
+					usuario.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				}
 				usuario = usuarioDAO.buscarUsuario(usuario);
 				
@@ -254,29 +254,30 @@ public class UsuarioServlet implements Serializable
 				
 				if(!atualizacaoUsuario)
 				{
-					/* Envio de email de validação */
-					urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
-					email = EmailUtils.inicializarPropriedades();
-					email.setSubjectMail("Confirmação de cadastro de usuário");
-					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
-							" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
-							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
-					
-					destinatarios.put(usuario.getEmail(), usuario.getNome());
-					email.setToMailsUsers(destinatarios);
-					
-					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
-					//Se o envio não der certo eu removo o usuário que foi cadastrado no sistema
-					if(!resultadoEnvioEmail)
-					{
-						resultadoRemocaoUsuario = usuarioDAO.removerUsuario(usuario);
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário registrado, mas o email não foi enviado", null));
-					}
-					else
-					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email cadastrado", null));	
-					}
+//					/* Envio de email de validação */
+//					urlBotaoLink += SisEducarServlet.criptografarURL(true, usuario.getEmail());
+//					email = EmailUtils.inicializarPropriedades();
+//					email.setSubjectMail("Confirmação de cadastro de usuário");
+//					email.setBodyMail(EmailUtils.emailPadrao(" <p style=\"text-align:left; font-size:17px; \">Olá " + usuario.getNome() + ",</p> " + 
+//							" <p style=\"text-align:left; font-size:17px; \">A sua solicitação de cadastro foi realizada com sucesso.</p> " + 
+//							" <p style=\"font-style:italic; font-size:17px; text-align:left;\"><b>Para que o cadastro seja efetivado clique no botão abaixo. Atenção o link irá expirar em 48 horas.</b></p>", "<p style=\"font-size:17px; text-align:left;\">Caso o botão acima não funcione clique no link abaixo:</p>", urlBotaoLink, urlBotaoLink, true, "Ativar Usuário"));
+//					
+//					destinatarios.put(usuario.getEmail(), usuario.getNome());
+//					email.setToMailsUsers(destinatarios);
+//					
+//					resultadoEnvioEmail = new EmailUtils().enviarEmail(email);
+//					//Se o envio não der certo eu removo o usuário que foi cadastrado no sistema
+//					if(!resultadoEnvioEmail)
+//					{
+//						resultadoRemocaoUsuario = usuarioDAO.removerUsuario(usuario);
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário registrado, mas o email não foi enviado", null));
+//					}
+//					else
+//					{
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email cadastrado", null));	
+//					}
 				}
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado com sucesso", null));  
 			}
 			else
 			{

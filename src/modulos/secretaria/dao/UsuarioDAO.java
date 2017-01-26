@@ -87,7 +87,7 @@ public class UsuarioDAO extends SisEducarDAO
 			ps.setDate(3, dataAtual);
 			ps.setInt(4, usuario.getTipo());
 			ps.setString(5, usuario.getEmail());
-			ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setInt(6, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setString(7, usuario.getCpfcnpj());
 			ps.setString(8, usuario.getGenero());
 			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
