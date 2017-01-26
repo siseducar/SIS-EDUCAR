@@ -78,7 +78,7 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "INSERT INTO usuario "
-					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa) values(?,?,?,?,?,?,?,?,?,?)";
+					+ " (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa, fkCidadeOrigem) values(?,?,?,?,?,?,?,?,?,?,?)";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -92,6 +92,7 @@ public class UsuarioDAO extends SisEducarDAO
 			ps.setString(8, usuario.getGenero());
 			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
 			ps.setObject(10, usuario.getPessoa()!=null ? usuario.getPessoa().getPkPessoa() : null);
+			ps.setObject(11, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
 			
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
@@ -125,7 +126,7 @@ public class UsuarioDAO extends SisEducarDAO
 			ps.setDate(3, dataAtual);
 			ps.setInt(4, usuario.getTipo());
 			ps.setString(5, usuario.getEmail());
-			ps.setInt(6, ConstantesSisEducar.STATUS_INCOMPLETO);
+			ps.setInt(6, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setString(7, usuario.getCpfcnpj());
 			ps.setString(8, usuario.getGenero());
 			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
