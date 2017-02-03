@@ -10,7 +10,6 @@ import java.util.List;
 
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Versao;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -18,8 +17,7 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 public class SisEducarDAO 
 {
 	// Realizando conexão com o banco
-	ConectaBanco conexao = new ConectaBanco();
-	Connection con = conexao.getConection();
+	Connection con;
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
