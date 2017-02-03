@@ -45,7 +45,11 @@ public class PessoaDAO extends SisEducarDAO
 			
 			Integer numeroArgumentos = 1;
 			
-			querySQL = " INSERT INTO PESSOA ( ";
+			/*--------------------------- Campos para INSERT------------------------------- */
+			querySQL = " INSERT INTO PESSOA AS PS ( ";
+			if( pessoaDados.getPkPessoa() != null ) {
+				querySQL += " PKPESSOA, ";
+			}
 			querySQL += " NOME, CODIGO, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
 				querySQL += " CPF, ";
@@ -66,6 +70,9 @@ public class PessoaDAO extends SisEducarDAO
 			querySQL += " FKSITUACAOECONOMICA, FKRELIGIAO, FKNACIONALIDADE, FKESTADOCIVIL, FKGRAUINSTRUCAO, ";
 			querySQL += " FKENDERECO, FKNATURALIDADE, DATACADASTRO ) values ( ";
 			
+			if( pessoaDados.getPkPessoa() != null ) {
+				querySQL += " ?, ";
+			}
 			querySQL += " ?, ?, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {
 				querySQL += " ?, ";
@@ -82,9 +89,61 @@ public class PessoaDAO extends SisEducarDAO
 			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
 				querySQL += " ?, ?, ?, ";
 			}
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) RETURNING PKPESSOA";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE ) ";
+			
+			/*--------------------------- Campos para UPDATE------------------------------- */
+			querySQL += " ON CONFLICT (pkpessoa) DO UPDATE SET";
+			
+			if( pessoaDados.getCodigo() != null ) {				
+				querySQL += " CODIGO = ?, ";
+			}
+			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
+				querySQL += " CPF = ?, ";
+			}
+			if( pessoaDados.getRg() != null && !pessoaDados.getRg().equals("") ) {				
+				querySQL += " RG = ?, ";
+			}
+			if( pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0 ){
+				querySQL += " CPFMAE = ?, NOMEMAE = ?, ";
+			}
+			if( pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0 ){
+				querySQL += " CPFPAI = ?, NOMEPAI = ?, ";
+			}
+			if( pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0 ){
+				querySQL += " CPFRESPONSAVEL = ?, NOMERESPONSAVEL = ?, FKGRAUPARENTESCO = ?, ";
+			}
+			if( pessoaDados.getRaca().getPkRaca() != null ) {				
+				querySQL += " FKRACA = ? , ";
+			}
+			if( pessoaDados.getSituacaoEconomica().getPkSituacaoEconomica() != null ) {
+				querySQL += " FKSITUACAOECONOMICA = ?, ";
+			}
+			if( pessoaDados.getReligiao().getPkReligiao() != null ) {
+				querySQL += " FKRELIGIAO = ?, ";
+			}
+			if ( pessoaDados.getNacionalidade().getPkNacionalidade() != null ) {
+				querySQL += " FKNACIONALIDADE = ? ";
+			}
+			if( pessoaDados.getEstadoCivil().getPkEstadoCivil() != null ) {
+				querySQL += " FKESTADOCIVIL = ? ";
+			}
+			if( pessoaDados.getGrauInstrucao().getPkGrauInstrucao() != null ) {
+				querySQL += " FKGRAUINSTRUCAO = ? ";
+			}
+			if( pessoaDados.getFkCidadeNascimento().getPkCidade() != null ) {
+				querySQL += " FKNATURALIDADE = ? ";
+			}
+			
+			querySQL += " WHERE PS.PKPESSOA = ? RETURNING PKPESSOA ";
 			
 			ps = con.prepareStatement(querySQL);
+			
+			/*--------------------------- Campos para INSERT------------------------------- */
+			//PK da Pessoa
+			if( pessoaDados.getPkPessoa() != null ) {
+				ps.setInt(numeroArgumentos++, pessoaDados.getPkPessoa());
+				numeroArgumentos++;
+			}
 			
 			// NOME da Pessoa
 			ps.setString(numeroArgumentos, pessoaDados.getNome());
@@ -176,12 +235,106 @@ public class PessoaDAO extends SisEducarDAO
 			numeroArgumentos++;
 			
 			ps.setInt(numeroArgumentos, pessoaDados.getFkCidadeNascimento().getPkCidade());
+			numeroArgumentos++;
+			
+			/*--------------------------- Campos para UPDATE------------------------------- */
+			
+			// CODIGO caso seja preenchido
+			if( pessoaDados.getCodigo() != null ) {
+				ps.setString(numeroArgumentos, pessoaDados.getCodigo().toString());
+				numeroArgumentos++;
+			}
+			
+			// CPF caso seja preenchido
+			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
+				ps.setLong(numeroArgumentos, pessoaDados.getCpf());
+				numeroArgumentos++;
+			} 
+
+			// RG caso seja preenchido
+			if(pessoaDados.getRg() != null && !pessoaDados.getRg().equals("")) {				
+				ps.setString(numeroArgumentos, pessoaDados.getRg());
+				numeroArgumentos++;
+			}
+			
+			// CPF E NOME da mãe
+			if(pessoaDados.getCpfMae() != null && pessoaDados.getCpfMae() != 0){
+				ps.setLong(numeroArgumentos, pessoaDados.getCpfMae());
+				numeroArgumentos++;
+				
+				ps.setString(numeroArgumentos, pessoaDados.getNomeMae());
+				numeroArgumentos++;
+			}
+			
+			// CPF e NOME do pai
+			if(pessoaDados.getCpfPai() != null && pessoaDados.getCpfPai() != 0){
+				ps.setLong(numeroArgumentos, pessoaDados.getCpfPai());
+				numeroArgumentos++;
+				
+				ps.setString(numeroArgumentos, pessoaDados.getNomePai());
+				numeroArgumentos++;
+			}
+			
+			// CPF e NOME do responsavel
+			if(pessoaDados.getCpfResponsavel() != null && pessoaDados.getCpfResponsavel() != 0){
+				ps.setLong(numeroArgumentos, pessoaDados.getCpfResponsavel());
+				numeroArgumentos++;
+				
+				ps.setString(numeroArgumentos, pessoaDados.getNomeResponsavel());
+				numeroArgumentos++;
+				
+				ps.setInt(numeroArgumentos, pessoaDados.getGrauParentesco().getPkGrauParentesco() );
+				numeroArgumentos++;
+			}
+			
+			// RACA da pessoa
+			if( pessoaDados.getRaca().getPkRaca() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getRaca().getPkRaca());
+				numeroArgumentos++;
+			}
+			
+			// SITUACAO ECONOMICA da pessoa
+			if( pessoaDados.getSituacaoEconomica().getPkSituacaoEconomica() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getSituacaoEconomica().getPkSituacaoEconomica());
+				numeroArgumentos++;
+			}
+			
+			// RELIGIAO da pessoa
+			if( pessoaDados.getReligiao().getPkReligiao() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getReligiao().getPkReligiao());
+				numeroArgumentos++;
+			}
+			
+			//NACIONALIDADE da pessoa
+			if( pessoaDados.getNacionalidade().getPkNacionalidade() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getNacionalidade().getPkNacionalidade());
+				numeroArgumentos++;
+			}
+			
+			// ESTADO CIVIL da pessoa
+			if( pessoaDados.getEstadoCivil() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getEstadoCivil().getPkEstadoCivil());
+				numeroArgumentos++;
+			}
+			
+			// GRAU DE INSTRUCAO da pessoa
+			if( pessoaDados.getGrauInstrucao() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getGrauInstrucao().getPkGrauInstrucao());
+				numeroArgumentos++;
+			}
+			
+			if( pessoaDados.getFkCidadeNascimento().getPkCidade() != null ) {				
+				ps.setInt(numeroArgumentos, pessoaDados.getFkCidadeNascimento().getPkCidade());
+				numeroArgumentos++;
+			}
 			
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
 				pessoaDados.setPkPessoa(rs.getInt("PKPESSOA"));
 			}
+			
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return pessoaDados;
 		} catch(Exception e) {

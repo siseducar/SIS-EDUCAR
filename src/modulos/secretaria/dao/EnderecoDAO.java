@@ -28,11 +28,6 @@ public class EnderecoDAO extends SisEducarDAO
 	PreparedStatement ps = null;	
 	ResultSet rs = null;
 	
-	public EnderecoDAO() throws SQLException
-	{
-		desabilitarAutoCommit(con);
-	}
-	
 	/**
 	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
 	 * @author João Paulo
@@ -189,7 +184,7 @@ public class EnderecoDAO extends SisEducarDAO
 				ps.setInt(numeroArgumentos, endereco.getFkMunicipioCliente().getPkCidade()); 
 			}
 			
-			fecharConexaoBanco(con, ps, false, true);
+			fecharConexaoBanco(con, ps, true, false);
 
 			endereco.setPkEndereco(obtemPKEndereco(endereco.getCep(), endereco.getLogradouro(), endereco.getBairro(), endereco.getNumero(), endereco.getComplemento(), endereco.getTipo(), 
 					endereco.getCidade()));

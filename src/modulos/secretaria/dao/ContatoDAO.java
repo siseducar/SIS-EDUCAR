@@ -22,8 +22,6 @@ public class ContatoDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-		
-	public ContatoDAO() throws SQLException { desabilitarAutoCommit(con); }
 	
 	/**
 	 * Busca um contato pela pk dele
@@ -51,6 +49,7 @@ public class ContatoDAO extends SisEducarDAO
 				contato.setTelResidencial(rs.getString("TELRESIDENCIAL"));
 				contato.setEmail(rs.getString("EMAIL"));
 				
+				fecharConexaoBanco(con, ps, false, true);
 				fecharConexaoBanco(con, ps, true, false);
 				
 				return contato;
@@ -280,7 +279,7 @@ public class ContatoDAO extends SisEducarDAO
 				dadosContato.setPkContato(rs.getInt("PKCONTATO"));
 			}
 			
-			fecharConexaoBanco(con, ps, false, true);
+			fecharConexaoBanco(con, ps, true, false);
 			
 			return dadosContato;
 		} catch (Exception e) {
