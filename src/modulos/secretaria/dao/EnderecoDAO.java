@@ -22,12 +22,17 @@ import modulos.sisEducar.utils.ConstantesSisEducar;
 public class EnderecoDAO extends SisEducarDAO 
 {
 	// Realizando conexão com o banco
-	ConectaBanco conexao = new ConectaBanco();
-	Connection con = conexao.getConection();
+	Connection con;
 	Statement st = null;
 	PreparedStatement ps = null;	
 	ResultSet rs = null;
 	
+	
+	public EnderecoDAO() {
+		if( con == null ) {
+			con = (Connection) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("conexao");
+		}
+	}
 	/**
 	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
 	 * @author João Paulo

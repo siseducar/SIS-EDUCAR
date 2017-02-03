@@ -10,18 +10,22 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import modulos.secretaria.om.Contato;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class ContatoDAO extends SisEducarDAO
 {
-
-	ConectaBanco conexao = new ConectaBanco();
-	Connection con = conexao.getConection();
+	Connection con;
 	Statement st = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+
+	public ContatoDAO() {
+		if( con == null ) {
+			con = (Connection) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("conexao");
+		}
+	}
+	
 	
 	/**
 	 * Busca um contato pela pk dele

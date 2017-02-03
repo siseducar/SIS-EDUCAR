@@ -22,17 +22,23 @@ import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Raca;
 import modulos.secretaria.om.Religiao;
 import modulos.secretaria.om.SituacaoEconomica;
-import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 
 public class PessoaDAO extends SisEducarDAO
 {
 	// Realizando conexão com o banco
-	private ConectaBanco conexao = new ConectaBanco();
-	private Connection con = conexao.getConection();
+	private Connection con;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
+	
+	
+	public PessoaDAO() {
+		if( con == null ) {
+			con = (Connection) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("conexao");
+		}
+	}
+	
 	
 	/**
 	 * Metodo para salvar os dados referente ao cadastro de uma pessoa

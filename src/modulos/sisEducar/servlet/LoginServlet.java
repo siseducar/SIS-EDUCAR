@@ -3,6 +3,7 @@ package modulos.sisEducar.servlet;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import modulos.secretaria.om.HistoricoAcesso;
 import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Usuario;
 import modulos.secretaria.utils.ConstantesSecretaria;
+import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.ChaveAcesso;
 import modulos.sisEducar.om.Email;
@@ -33,6 +35,9 @@ public class LoginServlet implements Serializable {
 	/***/
 	private static final long serialVersionUID = 1L;
 
+	private ConectaBanco conexao;
+	private Connection con;
+	
 	//Objetos e variaveis
 	private String emailRedefinicaoSenha = null;
 	
@@ -94,6 +99,10 @@ public class LoginServlet implements Serializable {
 	
 	public LoginServlet() {
 		usuario = new Usuario();
+		conexao = new ConectaBanco();
+		if( con == null ) {
+			con = conexao.getConection();
+		}
 	}
 	
 	/**
@@ -128,6 +137,7 @@ public class LoginServlet implements Serializable {
 					
 					HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 					session.setAttribute("usuario", usuarioLogado);
+					session.setAttribute("conexao", con);
 					
 					historicoAcesso.setUsuario(usuarioLogado);
 					new HistoricoAcessoDAO().inserirHistoricoAcesso(historicoAcesso);

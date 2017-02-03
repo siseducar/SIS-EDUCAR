@@ -21,6 +21,7 @@ public class ConectaBanco {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		
 		return con;
 	}
 }
