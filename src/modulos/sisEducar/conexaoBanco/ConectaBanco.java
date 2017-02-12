@@ -1,11 +1,8 @@
 package modulos.sisEducar.conexaoBanco;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
-import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 
@@ -15,7 +12,18 @@ public class ConectaBanco {
 	public Connection getConection() {
 		
 		try {
+			InitialContext cxt = new InitialContext ();
+			if (cxt == null) {
+			   System.out.println("Uh oh - sem contexto!");
+			}
+
+			DataSource ds = (DataSource) cxt.lookup ("java:/comp/env/jdbc/coruja");
+
+			if ( ds == null ) {
+			   System.out.println("Fonte de dados não encontrada!");
+			}
 			
+			/*
 			InitialContext initCtx = new InitialContext();
 			
 			Context envContext  = (Context)initCtx.lookup("java:/comp/env");
@@ -23,10 +31,10 @@ public class ConectaBanco {
 			DataSource ds = (DataSource)envContext.lookup("jdbc/coruja");
 			
 			//DataSource ds = (DataSource) initCtx.lookup( "java:/comp/env/jdbc/coruja" );
-			Connection con = ds.getConnection();
+			Connection con = ds.getConnection();*/
 			
-			return con;
-		} catch (SQLException | NamingException e) {
+			return null;
+		} catch (Exception e) {
 			
 			return null;
 		}
