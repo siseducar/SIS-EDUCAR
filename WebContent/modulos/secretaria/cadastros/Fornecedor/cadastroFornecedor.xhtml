@@ -111,7 +111,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{paramServlet.comboEstado}" var="estado" 
 													itemLabel="#{estado.nome}" itemValue="#{estado.pkEstado}" />
-												<f:ajax event="change" execute="@htis" render="munInscri"/>
+												<f:ajax event="change" execute="@this" render="munInscri"/>
 											</h:selectOneMenu>
 										</div>
 									</div>

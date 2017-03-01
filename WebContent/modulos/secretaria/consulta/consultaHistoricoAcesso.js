@@ -14,8 +14,8 @@ $(function($) {
 	/* Componente CALENDARIO */
 	$(".calendario").on('focus',function(){
 		$(this).css({"background-color":"#FFFAFA","color":"#000000"});
-        $(this).attr('placeholder','Ex.: 00/00/0000 00:00:00');
-        $(this).mask("99/99/9999 99:99:99");
+        $(this).attr('placeholder','Ex.: 00/00/0000');
+        $(this).mask("99/99/9999");
     });
 	$(".calendario").blur(function(){
 		$(this).css({"background-color":"#FFFFFF","color":"#000000"});
