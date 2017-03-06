@@ -1010,10 +1010,10 @@ public class UsuarioServlet implements Serializable
 	 */
 	public List<Tela> popularTelas()
 	{
-		Integer qtdTelas = 5;
+		Integer qtdTelas = 6;
 		List<Tela> telas = new ArrayList<Tela>();
 		Tela tela = null;
-		for (int i = 0; i < qtdTelas; i++) 
+		for (int i = 0; i <= qtdTelas; i++) 
 		{
 			tela= new Tela();
 			
@@ -1046,12 +1046,26 @@ public class UsuarioServlet implements Serializable
 				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR);
 				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
-			//ESCOLA
 			else if(i==4)
 			{
-				tela.setNome("Matrícula Aluno");
+				tela.setNome("Ambiente");
 				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
+			}
+			else if(i==5)
+			{
+				tela.setNome("Histórico Acesso");
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO);
+				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
+			}
+			//ESCOLA
+			else if(i==6)
+			{
+				tela.setNome("Horário");
+				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO);
 				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA);
 			}
 			
