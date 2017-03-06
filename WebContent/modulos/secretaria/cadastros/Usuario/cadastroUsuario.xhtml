@@ -263,11 +263,11 @@
 											<h:commandLink type="submit" id="btAdicionarPermissao" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 												<span class="bigger-110"> #{mensagens['label.botao.adicionar']} </span>	
 												<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-												<f:ajax event="click" render="testeRetirar" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
+												<f:ajax event="click" render="panelDataTablePermissao" resetValues="true" listener="#{usuarioServlet.adicionarPermissao}"/>
 											</h:commandLink>
 										</div>
 									</div>
-									<h:panelGroup id="testeRetirar">
+									<h:panelGroup id="panelDataTablePermissao">
 									<div class="col-xs-12 col-sm-12">
 										<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{usuarioServlet.dataTablePermissao}"
 						    			headerClass="order-table-header" id="tablePermissoes" value="#{usuarioServlet.permissoes}" var="value"
@@ -307,10 +307,30 @@
 							    						<span class="red">
 															<i class="ace-icon fa fa-trash-o bigger-120"></i>
 														</span>
-														<f:ajax event="click" listener="#{usuarioServlet.removerPermissao}" render="testeRetirar" resetValues="true"/>
+														<f:ajax event="click" listener="#{usuarioServlet.removerPermissao}" render="panelDataTablePermissao" resetValues="true"/>
 													</h:commandLink>
 							    				</center>
 			 								</h:column>
+			 								<f:facet name="footer">
+									            <h:panelGroup styleClass="pagination pull-right no-margin">
+									                <h:commandButton value="#{mensagens['label.botao.primeira']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTablePermissao.first == 0}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pagePermissaoFirst}" render=":formCadastroUsuario:panelDataTablePermissao" />
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.anterior']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTablePermissao.first == 0}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pagePermissaoPrevious}" render=":formCadastroUsuario:panelDataTablePermissao"/>
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.proxima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTablePermissao.first + usuarioServlet.dataTablePermissao.rows >= usuarioServlet.dataTablePermissao.rowCount}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pagePermissaoNext}" render=":formCadastroUsuario:panelDataTablePermissao" />
+									                </h:commandButton>
+									                <h:commandButton value="#{mensagens['label.botao.ultima']}" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+									                	disabled="#{usuarioServlet.dataTablePermissao.first + usuarioServlet.dataTablePermissao.rows >= usuarioServlet.dataTablePermissao.rowCount}">
+									                	<f:ajax event="click" listener="#{usuarioServlet.pagePermissaoLast}" render=":formCadastroUsuario:panelDataTablePermissao" />
+									                </h:commandButton>
+									            </h:panelGroup>
+									        </f:facet>
 							    		</h:dataTable>
 									</div>
 									</h:panelGroup>

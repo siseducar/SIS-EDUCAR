@@ -596,9 +596,11 @@ public class UsuarioServlet implements Serializable
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { permissao.setNomeTela("Usuário"); }
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { permissao.setNomeTela("Fornecedor"); }
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { permissao.setNomeTela("Unidade Escolar"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { permissao.setNomeTela("Ambiente"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO)) { permissao.setNomeTela("Histórico Acesso"); }
 	
 		/* ESCOLA */
-		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_MATRICULA_ALUNO)) { permissao.setNomeTela("Matrícula Aluno"); }
+		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA_CADASTROS_HORARIO)) { permissao.setNomeTela("Horário"); }
 		
 		return permissao;
 	}
@@ -764,6 +766,37 @@ public class UsuarioServlet implements Serializable
         int rows = dataTable.getRows();
         int count = dataTable.getRowCount();
         return (count / rows) + ((count % rows != 0) ? 1 : 0);
+    }
+    
+    public void pagePermissaoFirst() {
+    	dataTablePermissao.setFirst(0);
+    }
+    
+    public void pagePermissaoPrevious() {
+    	dataTablePermissao.setFirst(dataTablePermissao.getFirst() - dataTablePermissao.getRows());
+    }
+    
+    public void pagePermissaoNext() {
+    	dataTablePermissao.setFirst(dataTablePermissao.getFirst() + dataTablePermissao.getRows());
+    }
+    
+    public void pagePermissaoLast() {
+    	int count = dataTablePermissao.getRowCount();
+    	int rows = dataTablePermissao.getRows();
+    	dataTablePermissao.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
+    
+    public int getCurrentPermissaoPage() {
+    	int rows = dataTablePermissao.getRows();
+    	int first = dataTablePermissao.getFirst();
+    	int count = dataTablePermissao.getRowCount();
+    	return (count / rows) - ((count - first) / rows) + 1;
+    }
+    
+    public int getTotalPermissaoPages() {
+    	int rows = dataTablePermissao.getRows();
+    	int count = dataTablePermissao.getRowCount();
+    	return (count / rows) + ((count % rows != 0) ? 1 : 0);
     }
 	
 	
