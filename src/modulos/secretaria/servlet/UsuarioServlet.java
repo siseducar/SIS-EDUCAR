@@ -150,15 +150,37 @@ public class UsuarioServlet implements Serializable
 				}
 			}
 			/* Valida Senha*/
-			if(usuario.getSenha()==null || (usuario.getSenha()!=null && usuario.getSenha().length()==0))
+			if(usuario.getPkUsuario()==null)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha é obrigatória", null));
-				return null;
-			}
-			if(usuario.getConfirmarSenha()==null || (usuario.getConfirmarSenha()!=null && usuario.getConfirmarSenha().length()==0))
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A confirmação de senha é obrigatória", null));
-				return null;
+				if(usuario.getSenha()==null || (usuario.getSenha()!=null && usuario.getSenha().length()==0))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha é obrigatória", null));
+					return null;
+				}
+				if(usuario.getConfirmarSenha()==null || (usuario.getConfirmarSenha()!=null && usuario.getConfirmarSenha().length()==0))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A confirmação de senha é obrigatória", null));
+					return null;
+				}
+				if(usuario.getSenha().length() != 8 && usuario.getConfirmarSenha().length() != 8)
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 dígitos", null));
+					return null;
+				}
+				
+				if(usuario.getSenha().equals("12345678"))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
+					return null;
+				}
+				
+				if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas estão diferentes", null));
+					return null;
+				}
+				
+				usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			}
 			
 			if(!usuario.getCpfcnpj().isEmpty() && usuario.getPkUsuario()==null)
@@ -189,41 +211,16 @@ public class UsuarioServlet implements Serializable
 				return null;
 			}
 			
-			/*
-			 * Validação de senha
-			 * <Senha> -----------------------------
-			 */
-			if(usuario.getSenha().length() != 8 && usuario.getConfirmarSenha().length() != 8)
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha deve ter 8 dígitos", null));
-				return null;
-			}
-			
-			if(usuario.getSenha().equals("12345678"))
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "A senha não pode ser sequencial", null));
-				return null;
-			}
-			
-			if(!usuario.getSenha().equals(usuario.getConfirmarSenha()))
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "As senhas estão diferentes", null));
-				return null;
-			}
-			/**
-			 * </Senha> -----------------------------
-			 */
-			
 			//Se o genero selecionado tiver null é porque o usuário deixou a opção masculino marcada, se for <> null é porque ele clicou em algum rádio do tipo gênero
 			if(generoSelecionado!=null && generoSelecionado.length()>0) { usuario.setGenero(generoSelecionado); }
 			else 														{ usuario.setGenero("masculino"); }
-			usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			
 			//Se o usuário já está cadastrado no banco de dados eu apenas atualizo as informações do mesmo, caso contrário eu salvo um novo usuário
 			if(usuario.getPkUsuario()!=null)
 			{
 				atualizacaoUsuario = true;
 				resultado = usuarioDAO.alterarUsuario(usuario);
+				usuarioDAO.removerPermissoesUsuario(usuario);
 			}
 			else
 			{
@@ -237,7 +234,6 @@ public class UsuarioServlet implements Serializable
 					//Como o usuário estará em confirmação ele estará com o status imcompleto, então eu seto o status imcompleto nele
 					usuario.setStatus(ConstantesSisEducar.STATUS_ATIVO);
 				}
-				usuario = usuarioDAO.buscarUsuario(usuario);
 				
 				/* Adiciona as permissões para o usuário*/
 				if(permissoes!=null && permissoes.size() >0)
@@ -277,7 +273,6 @@ public class UsuarioServlet implements Serializable
 //						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviamos um email de confirmação para o email cadastrado", null));	
 //					}
 				}
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado com sucesso", null));  
 			}
 			else
 			{
@@ -285,9 +280,9 @@ public class UsuarioServlet implements Serializable
 			}
 			
 			if(atualizacaoUsuario)
-			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário editado com sucesso", null));  
-			}
+			else
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado com sucesso", null));  
 			
 			resetarUsuario();
 			return null;
@@ -449,6 +444,7 @@ public class UsuarioServlet implements Serializable
 		    tipoTelaSelecionado = null;
 		    telaSelecionada = null;
 		    permissaoSelecionada = null;
+		    btRemoverEnabled = false;
 		}
 		catch (Exception e) 
 		{
@@ -670,7 +666,7 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
-			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar, null);
+			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar);
 		} 
 		catch (Exception e) 
 		{
@@ -808,21 +804,16 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
-			Usuario usuarioSelecionada = new Usuario();
-			usuarioSelecionada = (Usuario) dataTable.getRowData();
+			
+			Usuario usuarioSelecionada = (Usuario) dataTable.getRowData();
+			
 			usuario = new Usuario();
 			permissoes = new ArrayList<Permissao>();
 			nomePessoaVinculada = "";
 			
 			if(usuarioSelecionada != null && usuarioSelecionada.getPkUsuario() != null)
 			{
-				usuario = new UsuarioDAO().buscar(null, null, null, new Integer(usuarioSelecionada.getPkUsuario())).get(0);
-				
-				if(usuario.getSenha().equals(usuarioSelecionada.getSenha()))
-					usuario.setSenha(SisEducarServlet.descriptografarSenha(usuarioSelecionada.getSenha()));
-				if(usuario.getConfirmarSenha().equals(usuarioSelecionada.getConfirmarSenha()))
-					usuario.setConfirmarSenha(SisEducarServlet.descriptografarSenha(usuarioSelecionada.getConfirmarSenha()));
-				
+				usuario = usuarioSelecionada;
 				usuario.setConfirmarEmail(usuario.getEmail());
 				
 				//PREENCHE O OBJETO PERMISSÃO COM AS INFORMAÇÕES QUE A TABELA DE PERMISSÃO PRECISA PARA EXIBIR AS INFORMAÇÕES DA PERMISSÃO
@@ -833,7 +824,6 @@ public class UsuarioServlet implements Serializable
 				
 				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
 				{
-					usuario.setCpfcnpj(usuario.getPessoa().getCpf().toString());
 					nomePessoaVinculada = usuario.getPessoa().getNome();
 				}
 				

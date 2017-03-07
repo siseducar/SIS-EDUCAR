@@ -1,7 +1,7 @@
 package modulos.sisEducar.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import modulos.secretaria.dao.UsuarioDAO;
@@ -21,6 +20,7 @@ import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.om.Versao;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.Logs;
+import sun.misc.BASE64Encoder;
 
 @SessionScoped
 @ManagedBean(name="sisEducarServlet")
@@ -124,14 +124,19 @@ public class SisEducarServlet implements Serializable
 	 * @param senha sem modificações
 	 * @return senha modificada
 	 */
-	public static String criptografarSenha (String senha) throws NoSuchAlgorithmException 
+	public static String criptografarSenha (String senha) 
 	{     
-		return Base64.encodeBase64String(StringUtils.getBytesUtf8(senha));
-	}
-	
-	public static String descriptografarSenha (String senha) throws IOException 
-	{     
-		return StringUtils.newStringUtf8(Base64.decodeBase64(senha));
+		try 
+		{
+			MessageDigest digest = MessageDigest.getInstance("SHA1");
+			digest.update(senha.getBytes());
+			BASE64Encoder encoder = new BASE64Encoder();
+			return encoder.encode(digest.digest());
+		} 
+		catch (NoSuchAlgorithmException ns) 
+		{
+			return null;
+		}      
 	}
 	
 	/**

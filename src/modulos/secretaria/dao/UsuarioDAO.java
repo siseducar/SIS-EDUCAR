@@ -115,23 +115,22 @@ public class UsuarioDAO extends SisEducarDAO
 		try 
 		{
 			String querySQL = "UPDATE Usuario"
-					+ " SET (nome, senha, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa) = "
-					+ " (?,?,?,?,?,?,?,?,?,?)"
+					+ " SET (nome, dataLancamento,  tipo, email, status, cpfcnpj, genero, fkMunicipioCliente, fkPessoa) = "
+					+ " (?,?,?,?,?,?,?,?,?)"
 					+ " WHERE pkUsuario = CAST(? as int)";
 			
 			ps = con.prepareStatement(querySQL);
 			
 			ps.setString(1, usuario.getNome());
-			ps.setString(2, usuario.getSenha());
-			ps.setDate(3, dataAtual);
-			ps.setInt(4, usuario.getTipo());
-			ps.setString(5, usuario.getEmail());
-			ps.setInt(6, ConstantesSisEducar.STATUS_ATIVO);
-			ps.setString(7, usuario.getCpfcnpj());
-			ps.setString(8, usuario.getGenero());
-			ps.setObject(9, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
-			ps.setObject(10, usuario.getPessoa()!=null ? usuario.getPessoa().getPkPessoa() : null);
-			ps.setObject(11, usuario.getPkUsuario());
+			ps.setDate(2, dataAtual);
+			ps.setInt(3, usuario.getTipo());
+			ps.setString(4, usuario.getEmail());
+			ps.setInt(5, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setString(6, usuario.getCpfcnpj());
+			ps.setString(7, usuario.getGenero());
+			ps.setObject(8, usuario.getFkMunicipioCliente()!=null ? usuario.getFkMunicipioCliente().getPkCidade() : null);
+			ps.setObject(9, usuario.getPessoa()!=null ? usuario.getPessoa().getPkPessoa() : null);
+			ps.setObject(10, usuario.getPkUsuario());
 			
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
@@ -242,7 +241,6 @@ public class UsuarioDAO extends SisEducarDAO
 			usuario.setPkUsuario(rs.getString("pkusuario"));
 			usuario.setNome(rs.getString("nome"));
 			usuario.setSenha(rs.getString("senha"));
-			usuario.setConfirmarSenha(rs.getString("senha"));
 			usuario.setGenero(rs.getString("genero"));
 			usuario.setEmail(rs.getString("email"));
 			usuario.setCpfcnpj(rs.getString("cpfcnpj"));			
@@ -667,7 +665,7 @@ public class UsuarioDAO extends SisEducarDAO
 	 * @param email
 	 * @return List<Usuario>
 	 */
-	public List<Usuario> buscar(String cpf, String usuario, String email, Integer pkUsuario)
+	public List<Usuario> buscar(String cpf, String usuario, String email)
 	{
 		try 
 		{
@@ -691,10 +689,6 @@ public class UsuarioDAO extends SisEducarDAO
 			{
 				querySQL+= " AND email like ?";
 			}
-			if(pkUsuario!=null && pkUsuario >0)
-			{
-				querySQL+= " AND pkUsuario = ?";
-			}
 			querySQL+= " AND fkMunicipioCliente = ?";
 			querySQL+= " ORDER BY nome";
 			
@@ -717,11 +711,6 @@ public class UsuarioDAO extends SisEducarDAO
 				ps.setObject(numeroArqumentos, "%" + email + "%");
 				numeroArqumentos ++;
 			}
-			if(pkUsuario!=null && pkUsuario>0)
-			{
-				ps.setInt(numeroArqumentos, pkUsuario);
-				numeroArqumentos++;
-			}
 			
 			ps.setObject(numeroArqumentos, usuarioLogado.getFkMunicipioCliente().getPkCidade());
 			
@@ -735,8 +724,6 @@ public class UsuarioDAO extends SisEducarDAO
 				usuaAux.setPkUsuario(rs.getString("pkUsuario"));
 				usuaAux.setCpfcnpj(rs.getString("cpfcnpj"));
 				usuaAux.setNome(rs.getString("nome"));
-				usuaAux.setSenha(rs.getString("senha"));
-				usuaAux.setConfirmarSenha(rs.getString("senha"));
 				usuaAux.setEmail(rs.getString("email"));
 				usuaAux.setDataLancamento(rs.getDate("dataLancamento"));
 				usuaAux.setTipo(rs.getInt("tipo"));
