@@ -1,8 +1,6 @@
 package modulos.sisEducar.servlet;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +23,6 @@ import modulos.sisEducar.om.Email;
 import modulos.sisEducar.utils.ConstantesSisEducar;
 import modulos.sisEducar.utils.EmailUtils;
 import modulos.sisEducar.utils.Logs;
-import sun.misc.BASE64Encoder;
 
 @SessionScoped
 @ManagedBean(name= "loginServlet")
@@ -114,7 +111,7 @@ public class LoginServlet implements Serializable {
 			}
 			
 			if(usuario!=null && usuario.getNome()!=null && usuario.getSenha()!=null) {
-				usuario.setSenha(criptografarSenha(usuario.getSenha()));
+				usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 				
 				usuarioLogado = new UsuarioDAO().validarUsuario(usuario);
 				
@@ -288,7 +285,7 @@ public class LoginServlet implements Serializable {
 			 * </Senha> -----------------------------
 			 */
 			
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 			resultado = new UsuarioDAO().inserirUsuario(usuario);
 			
 			if(resultado)
@@ -407,7 +404,7 @@ public class LoginServlet implements Serializable {
 				}
 				else
 				{
-					novaSenha = criptografarSenha(usuario.getSenha());
+					novaSenha = SisEducarServlet.criptografarSenha(usuario.getSenha());
 					respostaUpdate = new UsuarioDAO().redefinirSenha(usuarioTemporario.getPkUsuario(), novaSenha);
 					
 					if(respostaUpdate)
@@ -449,26 +446,6 @@ public class LoginServlet implements Serializable {
 		{
 			Logs.addFatal("Resetar", "Falha ao resetar o usuário");
 		}
-	}
-	
-	/**
-	 * O método é usado para criptografar senhas
-	 * @param senha sem modificações
-	 * @return senha modificada
-	 */
-	public static String criptografarSenha (String senha) 
-	{     
-		try 
-		{
-			MessageDigest digest = MessageDigest.getInstance("SHA1");
-			digest.update(senha.getBytes());
-			BASE64Encoder encoder = new BASE64Encoder();
-			return encoder.encode(digest.digest());
-		} 
-		catch (NoSuchAlgorithmException ns) 
-		{
-			return null;
-		}      
 	}
 	
 	public void validarPermissoes()

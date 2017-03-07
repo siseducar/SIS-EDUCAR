@@ -1,19 +1,20 @@
 package modulos.sisEducar.utils.testes;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import modulos.secretaria.dao.UsuarioDAO;
 import modulos.secretaria.om.Usuario;
-import modulos.sisEducar.servlet.LoginServlet;
+import modulos.sisEducar.servlet.SisEducarServlet;
 
 public class UsuarioTeste {
 
-	public static void main(String[] args) throws SQLException 
+	public static void main(String[] args) throws SQLException, NoSuchAlgorithmException 
 	{
 		inserirUsuario();
 	}
 	
-	public static void inserirUsuario() throws SQLException
+	public static void inserirUsuario() throws SQLException, NoSuchAlgorithmException
 	{
 		Boolean resultado = false;
 		System.out.println("Cadastrando...");
@@ -24,7 +25,7 @@ public class UsuarioTeste {
 		usuario.setCpfcnpj("41225663806");
 		usuario.setEmail("michaelseraphim@live.com");
 		usuario.setGenero("masculino");
-		usuario.setSenha(LoginServlet.criptografarSenha(usuario.getSenha()));
+		usuario.setSenha(SisEducarServlet.criptografarSenha(usuario.getSenha()));
 		
 		resultado = new UsuarioDAO().inserirUsuario(usuario);
 		

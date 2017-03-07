@@ -670,7 +670,7 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
-			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar);
+			usuariosCadastrados = new UsuarioDAO().buscar(cpfPesquisar, usuarioPesquisar, emailPesquisar, null);
 		} 
 		catch (Exception e) 
 		{
@@ -808,18 +808,21 @@ public class UsuarioServlet implements Serializable
 	{
 		try 
 		{
-			
-			Usuario usuarioSelecionada = (Usuario) dataTable.getRowData();
-//			System.out.println("Nome Usuario Selecionado  = " + usuarioSelecionada.getNome());
-//			System.out.println("PK Usuario Selecionado  = " + usuarioSelecionada.getPkUsuario());
-			
+			Usuario usuarioSelecionada = new Usuario();
+			usuarioSelecionada = (Usuario) dataTable.getRowData();
 			usuario = new Usuario();
 			permissoes = new ArrayList<Permissao>();
 			nomePessoaVinculada = "";
 			
 			if(usuarioSelecionada != null && usuarioSelecionada.getPkUsuario() != null)
 			{
-				usuario = usuarioSelecionada;
+				usuario = new UsuarioDAO().buscar(null, null, null, new Integer(usuarioSelecionada.getPkUsuario())).get(0);
+				
+				if(usuario.getSenha().equals(usuarioSelecionada.getSenha()))
+					usuario.setSenha(SisEducarServlet.descriptografarSenha(usuarioSelecionada.getSenha()));
+				if(usuario.getConfirmarSenha().equals(usuarioSelecionada.getConfirmarSenha()))
+					usuario.setConfirmarSenha(SisEducarServlet.descriptografarSenha(usuarioSelecionada.getConfirmarSenha()));
+				
 				usuario.setConfirmarEmail(usuario.getEmail());
 				
 				//PREENCHE O OBJETO PERMISSÃO COM AS INFORMAÇÕES QUE A TABELA DE PERMISSÃO PRECISA PARA EXIBIR AS INFORMAÇÕES DA PERMISSÃO
@@ -830,6 +833,7 @@ public class UsuarioServlet implements Serializable
 				
 				if(usuario.getPessoa()!=null && usuario.getPessoa().getNome()!=null)
 				{
+					usuario.setCpfcnpj(usuario.getPessoa().getCpf().toString());
 					nomePessoaVinculada = usuario.getPessoa().getNome();
 				}
 				
