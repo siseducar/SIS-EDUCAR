@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -107,6 +108,24 @@ public class HistoricoAcessoServlet implements Serializable
 		{
 			Logs.addError("converteDateToString", "");
 			return null;
+		}
+	}
+	
+	public void resetarHistoricoAcesso()
+	{
+		try
+		{
+			usuarioLogado = null;
+			cpfPessoa = "";
+			nomePessoa = "";
+			inicioAux = null;
+			fimAux = null;
+			
+			acessos = new ArrayList<HistoricoAcesso>();
+		}
+		catch (Exception e) 
+		{
+			Logs.addFatal("Resetar", "Falha ao resetar o histórico de acesso");
 		}
 	}
 	
