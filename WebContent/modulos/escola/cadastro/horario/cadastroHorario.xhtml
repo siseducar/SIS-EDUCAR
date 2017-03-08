@@ -75,11 +75,6 @@
 												<h:inputText styleClass="col-xs-12 col-sm-12" value="#{horarioServlet.codigoUnidadeEscolarPesquisa}" autocomplete="off">
 													<p:ajax event="change" listener="#{horarioServlet.buscarUnidadeEscolarPesquisa}" update="nomeUnidadeEscolarPesquisa"/>
 												</h:inputText>
-												<span class="input-group-addon">
-													<a href="" role="button" data-toggle="modal">
-														<i class="fa fa-search bigger-110"/>
-													</a>
-												</span>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-8">
@@ -184,11 +179,6 @@
 									<h:inputText styleClass="col-xs-12 col-sm-12" value="#{horarioServlet.codigoUnidadeEscolar}" autocomplete="off">
 										<p:ajax event="change" listener="#{horarioServlet.buscarUnidadeEscolar}" update="nomeUnidadeEscolar"/>
 									</h:inputText>
-									<span class="input-group-addon">
-										<a href="" role="button" data-toggle="modal">
-											<i class="fa fa-search bigger-110"/>
-										</a>
-									</span>
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-4">
@@ -206,7 +196,7 @@
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{paramServlet.comboTurno}"
 											var="turno" itemLabel="#{turno.nome}" itemValue="#{turno.pkTurno}"/>
-											<f:ajax event="change" render=":formHorario" execute="@this" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
+											<f:ajax event="change" render=":formHorario:dadosUnidadeEscolar :formHorario:testeRetirar" execute="@this" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
 									</h:selectOneMenu>
 								</div>
 								<div class="space-4"></div>
@@ -254,7 +244,7 @@
 									<h:commandLink type="submit" id="btAdicionarAula" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 										<span class="bigger-110"> #{mensagens['label.adicionar.adicionarAula']} </span>	
 										<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-										<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
+										<p:ajax event="click" update=":formHorario:testeRetirar" process=":formHorario" resetValues="true"
 											listener="#{horarioServlet.adicionarAula}"/>
 									</h:commandLink>
 								</div>
@@ -265,7 +255,7 @@
 									<h:commandLink type="submit" id="btAdicionarIntervalo" class="btn btn-white btn-success btn-round col-xs-12 col-sm-12"> 
 										<span class="bigger-110"> #{mensagens['label.adicionar.adicionarIntervalo']} </span>	
 										<i class="ace-icon fa fa-arrow-down icon-on-right"></i>
-										<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
+										<p:ajax event="click" update=":formHorario:testeRetirar" process=":formHorario" resetValues="true"
 											listener="#{horarioServlet.adicionarIntervalo}"/>
 									</h:commandLink>
 								</div>
@@ -343,19 +333,19 @@
 						<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
 							<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 							<i class="ace-icon fa fa-file"/>
-							<f:ajax event="click" render=":formHorario" resetValues="true"
+							<f:ajax event="click" render=":formHorario :formPesquisar" resetValues="true"
 								listener="#{horarioServlet.limparFormulario}"/>
 						</h:commandLink>
 						<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes" rendered="#{horarioServlet.btCadastrarEnabled}">
 							<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 							<i class="ace-icon fa fa-arrow-right icon-on-right"/>
-							<p:ajax event="click" update=":formHorario" process=":formHorario" resetValues="true"
+							<p:ajax event="click" update=":formHorario :formPesquisar" process=":formHorario" resetValues="true"
 								listener="#{horarioServlet.cadastrarHorario}"/>
 						</h:commandLink>
 						<h:commandLink type="submit" id="btRemover" class="btn btn-white btn-warning btn-round botoes" rendered="#{horarioServlet.btRemoverEnabled}"> 
 							<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
 							<i class="ace-icon fa fa-trash-o bigger-120 orange"/>
-							<p:ajax event="click" listener="#{horarioServlet.removerGeral}" update=":formHorario" process=":formHorario" />
+							<p:ajax event="click" listener="#{horarioServlet.removerGeral}" update=":formHorario :formPesquisar" process=":formHorario" />
 						</h:commandLink>
 					</div>
 				</h:form>

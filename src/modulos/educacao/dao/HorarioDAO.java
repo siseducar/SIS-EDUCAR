@@ -218,7 +218,7 @@ public class HorarioDAO extends SisEducarDAO
 		{
 			String querySQL = "INSERT INTO horario "
 					+ " (horaInicio, minutoInicio, horaTermino, minutoTermino, horaIntervalo, minutoIntervalo, horaHoraAula, minutoHoraAula, status, fkUnidadeEscolar, fkTurno, nome) "
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?) RETURNING pkHorario";
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?) RETURNING PKHORARIO";
 			
 			ps = con.prepareStatement(querySQL);
 			
@@ -238,7 +238,7 @@ public class HorarioDAO extends SisEducarDAO
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
 			{
-				horario.setPkHorario(rs.getInt("pkHorario"));
+				horario.setPkHorario(rs.getInt("PKHORARIO"));
 			}
 			
 			fecharConexaoBanco(con, ps, false, true);

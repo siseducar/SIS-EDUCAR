@@ -100,11 +100,23 @@ public class HorarioServlet implements Serializable
 		try 
 		{
 			Boolean resultado = false;
+			Boolean edicao = false;
 			if(unidadeEscolarSelecionada!=null && turnoDado!=null)
 			{
+				if(horario.getPkHorario()!=null)
+					edicao = true;
+				
 				horario.setUnidadeEscolar(unidadeEscolarSelecionada);
 				horario.setTurno(turnoDado);
 				horario.setHorariosAula(aulas);
+				horario.setHoraHoraAula(new Double(horario.getHoraAulaAux().substring(0,2)));
+				horario.setMinutoHoraAula(new Double(horario.getHoraAulaAux().substring(2,4)));
+				horario.setHoraInicio(new Double(horario.getInicioAux().substring(0,2)));
+				horario.setMinutoInicio(new Double(horario.getInicioAux().substring(2,4)));
+				horario.setHoraTermino(new Double(horario.getTerminoAux().substring(0,2)));
+				horario.setMinutoTermino(new Double(horario.getTerminoAux().substring(2,4)));
+				horario.setHoraIntervalo(new Double(horario.getIntervaloAux().substring(0,2)));
+				horario.setMinutoIntervalo(new Double(horario.getIntervaloAux().substring(2,4)));
 				
 				if(horario.getPkHorario()!=null)
 				{
@@ -118,7 +130,7 @@ public class HorarioServlet implements Serializable
 				
 				if(resultado)
 				{
-					if(horario.getPkHorario()!=null)
+					if(edicao)
 					{
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "O Horário foi editado com sucesso", null));
 					}
@@ -725,6 +737,7 @@ public class HorarioServlet implements Serializable
 	public void limparFormulario() throws SQLException{
 		
 		turnoDado = new Turno();
+		horariosCadastrados = new ArrayList<Horario>();
 		unidadeEscolarSelecionada = new UnidadeEscolar();
 		codigoUnidadeEscolar = "";
 		nomeUnidadeEscolar = "";
