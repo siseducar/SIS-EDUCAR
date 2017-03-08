@@ -196,7 +196,7 @@
 										<f:selectItem itemValue="" itemLabel="Selecione..."/>
 										<f:selectItems value="#{paramServlet.comboTurno}"
 											var="turno" itemLabel="#{turno.nome}" itemValue="#{turno.pkTurno}"/>
-											<f:ajax event="change" render=":formHorario:dadosUnidadeEscolar :formHorario:testeRetirar" execute="@this" resetValues="true" listener="#{horarioServlet.pesquisarHorarios}"/>
+											<f:ajax event="change" render=":formHorario:dadosUnidadeEscolar :formHorario:testeRetirar" execute="@this" resetValues="false" listener="#{horarioServlet.pesquisarHorarios}"/>
 									</h:selectOneMenu>
 								</div>
 								<div class="space-4"></div>

@@ -627,8 +627,10 @@ public class HorarioServlet implements Serializable
 			String horaAula = "";
 			
 			horario = new HorarioDAO().obtemHorariosPorTurno(unidadeEscolarSelecionada, turnoDado, null);
+			if(horario==null)
+				horario = new Horario();
 			
-			if(horario!=null && horario.getPkHorario()!=null)
+			if(horario.getPkHorario()!=null)
 			{
 				//Inicio
 				posicaoPonto = horario.getHoraInicio().toString().indexOf(".");
