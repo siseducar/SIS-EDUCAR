@@ -61,7 +61,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				
 				ps = con.prepareStatement(querySQL);
 				
-				ps.setString(numeroArgumentos, unidadeEscolar.getCodigo());
+				ps.setInt(numeroArgumentos, new Integer(unidadeEscolar.getCodigo()));
 				numeroArgumentos++;
 				
 				ps.setString(numeroArgumentos, unidadeEscolar.getNome());
@@ -181,12 +181,12 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 	{
 		String querySQL = "UPDATE unidadeescolar "
 				+ " SET (codigo, nome, unidadeControlada, unidadeInformatizada, fkRedeEnsino, fkRegiao, fkSituacaoFuncionamento,"
-				+ " fkTipoOcupacao, fkDiretor, codigoFederal) = (?,?,?,?,?,?,?,?,?,?)"
+				+ " fkTipoOcupacao, fkDiretor, codigoFederal, fkTerreno) = (?,?,?,?,?,?,?,?,?,?,?)"
 				+ " WHERE pkUnidadeEscolar = ?";
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setString(1, unidadeEscolar.getCodigo());
+		ps.setInt(1, new Integer(unidadeEscolar.getCodigo()));
 		ps.setString(2, unidadeEscolar.getNome());
 		ps.setBoolean(3, unidadeEscolar.getUnidadeControlada());
 		ps.setBoolean(4, unidadeEscolar.getUnidadeInformatizada());
@@ -196,7 +196,8 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		ps.setObject(8, unidadeEscolar.getTipoOcupacao()!=null ? unidadeEscolar.getTipoOcupacao().getPkTipoOcupacao() : null);
 		ps.setObject(9, unidadeEscolar.getDiretor()!=null ? unidadeEscolar.getDiretor().getPkPessoa() : null);
 		ps.setString(10, unidadeEscolar.getCodigoFederal());
-		ps.setInt(11, unidadeEscolar.getPkUnidadeEscolar());
+		ps.setInt(11, unidadeEscolar.getTerreno()!=null ? unidadeEscolar.getTerreno().getPkTerreno() : null);
+		ps.setInt(12, unidadeEscolar.getPkUnidadeEscolar());
 		
 		fecharConexaoBanco(con, ps, false, true);
 		
@@ -233,7 +234,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		if(codigo!=null && codigo.length() >0)
 		{
 			numeroArgumentos ++;
-			ps.setString(numeroArgumentos, codigo);
+			ps.setInt(numeroArgumentos, new Integer(codigo));
 		}
 		
 		if(nome!=null && nome.length() >0)
@@ -321,7 +322,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			
 			if(codigo!=null && codigo.length()>0)
 			{
-				querySQL += " AND u.codigo like ?";
+				querySQL += " AND u.codigo = ?";
 			}
 			if(codigoFederal!=null && codigoFederal.length()>0)
 			{
@@ -348,7 +349,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			numeroArqumentos ++;
 			if(codigo!=null && codigo.length()>0)
 			{
-				ps.setObject(numeroArqumentos, "%" + codigo + "%");
+				ps.setInt(numeroArqumentos, new Integer(codigo));
 				numeroArqumentos ++;
 			}
 			if(codigoFederal!=null && codigoFederal.length()>0)

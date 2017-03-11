@@ -207,6 +207,10 @@ public class UnidadeEscolarServlet implements Serializable
 			TerrenoDAO terrenoDAO = new TerrenoDAO();
 			Pessoa pessoa = null;
 			AmbienteDAO ambienteDAO = new AmbienteDAO();
+			Boolean editar = false;
+			
+			if(unidadeEscolar.getPkUnidadeEscolar()>0)
+				editar = true;
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
 			{
@@ -275,7 +279,7 @@ public class UnidadeEscolarServlet implements Serializable
 				
 				//ENDEREÇO
 				if(enderecoDado.getPkEndereco()!=null) { enderecoDado = enderecoDAO.atualizarEndereco(enderecoDado); }
-				else                                   { enderecoDado = new EnderecoDAO().inserirEndereco(enderecoDado); }
+				else                                   { enderecoDado = new EnderecoDAO().salvarEnderecoPessoa(enderecoDado); }
 				
 				if(enderecoDado!=null && enderecoDado.getPkEndereco()!=null) { unidadeEscolar.setEndereco(enderecoDado); }
 			}
@@ -314,7 +318,10 @@ public class UnidadeEscolarServlet implements Serializable
 			
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()>0)
 			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade Escolar cadastrada com sucesso", null));
+				if(editar)
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade Escolar editada com sucesso", null));
+				else
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Unidade Escolar cadastrada com sucesso", null));
 				resetarUnidadeEscolar();
 			}
 			else
@@ -660,6 +667,23 @@ public class UnidadeEscolarServlet implements Serializable
         return (count / rows) + ((count % rows != 0) ? 1 : 0);
     }
     
+    public void pageAmbienteFirst() {
+    	dataTableAmbiente.setFirst(0);
+    }
+    
+    public void pageAmbientePrevious() {
+    	dataTableAmbiente.setFirst(dataTableAmbiente.getFirst() - dataTableAmbiente.getRows());
+    }
+    
+    public void pageAmbienteNext() {
+    	dataTableAmbiente.setFirst(dataTableAmbiente.getFirst() + dataTableAmbiente.getRows());
+    }
+    
+    public void pageAmbienteLast() {
+    	int count = dataTableAmbiente.getRowCount();
+    	int rows = dataTableAmbiente.getRows();
+    	dataTableAmbiente.setFirst(count - ((count % rows != 0) ? count % rows : rows));
+    }
 	/* Getters and setters */
 	public UnidadeEscolar getUnidadeEscolar() {
 		return unidadeEscolar;

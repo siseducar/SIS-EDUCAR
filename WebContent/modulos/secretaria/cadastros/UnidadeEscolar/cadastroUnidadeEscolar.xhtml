@@ -519,7 +519,7 @@
 											<div class="space"></div>
 											<h:dataTable styleClass="order-table col-xs-12 col-sm-12 table table-striped table-bordered table-hover" binding="#{unidadeEscolarServlet.dataTableAmbiente}"
 							    			headerClass="order-table-header" id="tableAmbiente" value="#{unidadeEscolarServlet.ambientes}" var="value"
-							    			rowClasses="order-table-odd-row,order-table-even-row" rows="10">
+							    			rowClasses="order-table-odd-row,order-table-even-row" rows="5">
 								    			<h:column>
 								    				<center>
 							    						<f:facet name="header">Código</f:facet>
@@ -566,6 +566,26 @@
 														</h:commandLink>
 								    				</center>
 				 								</h:column>
+				 								<f:facet name="footer">
+											            <h:panelGroup styleClass="pagination pull-right no-margin">
+											                <h:commandButton value="Primeira" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{unidadeEscolarServlet.dataTableAmbiente.first == 0}">
+											                	<f:ajax event="click" listener="#{unidadeEscolarServlet.pageAmbienteFirst}" render=":formPrincipal:panelTableAmbiente" />
+											                </h:commandButton>
+											                <h:commandButton value="Anterior" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{unidadeEscolarServlet.dataTableAmbiente.first == 0}">
+											                	<f:ajax event="click" listener="#{unidadeEscolarServlet.pageAmbientePrevious}" render=":formPrincipal:panelTableAmbiente"/>
+											                </h:commandButton>
+											                <h:commandButton value="Próxima" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{unidadeEscolarServlet.dataTableAmbiente.first + unidadeEscolarServlet.dataTableAmbiente.rows >= unidadeEscolarServlet.dataTableAmbiente.rowCount}">
+											                	<f:ajax event="click" listener="#{unidadeEscolarServlet.pageAmbienteNext}" render=":formPrincipal:panelTableAmbiente" />
+											                </h:commandButton>
+											                <h:commandButton value="Última" styleClass="btn btn-white btn-inverse btn-sm btn-round"
+											                	disabled="#{unidadeEscolarServlet.dataTableAmbiente.first + unidadeEscolarServlet.dataTableAmbiente.rows >= unidadeEscolarServlet.dataTableAmbiente.rowCount}">
+											                	<f:ajax event="click" listener="#{unidadeEscolarServlet.pageAmbienteLast}" render=":formPrincipal:panelTableAmbiente" />
+											                </h:commandButton>
+											            </h:panelGroup>
+											        </f:facet>
 								    		</h:dataTable>
 										</div>
 									</h:panelGroup>

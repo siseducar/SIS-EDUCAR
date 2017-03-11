@@ -126,7 +126,7 @@ public class EnderecoDAO extends SisEducarDAO
 			if(endereco.getCep()!=null)
 			{
 				numeroArgumentos++;
-				ps.setString(numeroArgumentos, endereco.getCep().toString());
+				ps.setInt(numeroArgumentos, endereco.getCep());
 			}
 			if(endereco.getLogradouro()!=null)
 			{
@@ -190,7 +190,7 @@ public class EnderecoDAO extends SisEducarDAO
 			}
 			
 			fecharConexaoBanco(con, ps, false, true);
-
+			
 			endereco.setPkEndereco(obtemPKEndereco(endereco.getCep(), endereco.getLogradouro(), endereco.getBairro(), endereco.getNumero(), endereco.getComplemento(), endereco.getTipo(), 
 					endereco.getCidade()));
 			
@@ -268,7 +268,7 @@ public class EnderecoDAO extends SisEducarDAO
 		if(cep!=null && cep >0) 
 		{ 
 			numeroArgumentos ++; 
-			ps.setString(numeroArgumentos, cep.toString());
+			ps.setInt(numeroArgumentos, cep);
 		}
 		
 		if(logradouro!=null && logradouro.length()>0)	
@@ -467,10 +467,10 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setInt(numeroArgumentos, dadosEndereco.getFkMunicipioCliente().getPkCidade());
 			numeroArgumentos++;
 			
-			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude());
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude()!=null ? dadosEndereco.getLatitude() : 0d);
 			numeroArgumentos++;
 			
-			ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude());
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude()!=null ? dadosEndereco.getLongitude() : 0d);
 			numeroArgumentos++;
 			
 			ps.setString(numeroArgumentos, dadosEndereco.getEnderecoCompleto());

@@ -3,7 +3,7 @@ package modulos.sisEducar.conexaoBanco;
 public class ParametrosBD 
 {
 	String nomeBaseOriginal = "sisEducar";
-	String nomeBaseTeste = "sisEducarTeste";
+	String nomeBaseTeste = "baseTeste";
 	String nomeServidor = "coruja";
 	
 	//Dados referente ao banco
