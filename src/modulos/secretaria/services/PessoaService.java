@@ -32,25 +32,6 @@ public class PessoaService {
 	}
 	
 	/**
-	 * Atualiza os dados da pessoa
-	 * @author Michael
-	 * @param Pessoa pessoaDados
-	 * @return false/true
-	 */
-	public Boolean atualizarDadosPessoa(Pessoa pessoaDados) {
-		try {
-			if( new PessoaDAO().atualizarDadosPessoa(pessoaDados)) {
-				return true;
-			} else {
-				return false;
-			}
-			
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	/**
 	 * Valida se ja existe o cadastro
 	 * @author Michael
 	 * @uso cadastroPessoa.xhtml

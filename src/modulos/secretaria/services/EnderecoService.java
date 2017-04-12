@@ -6,7 +6,7 @@ import modulos.secretaria.om.Endereco;
 public class EnderecoService {
 
 	/**
-	 * Salva os dados do endereco da pessoa
+	 * Salva ou atualiza os dados do endereco da pessoa
 	 * @author Michael
 	 * @param Endereco enderecoDados
 	 * @return false/true
@@ -24,25 +24,6 @@ public class EnderecoService {
 		}	
 		
 		return false;
-	}
-	
-	/**
-	 * Atualiza os dados do endereco da pessoa
-	 * @author Michael
-	 * @param Endereco enderecoDados
-	 * @return false/true
-	 */
-	public Boolean atualizarDadosEndereco(Endereco enderecoDados) {
-		try {
-			if( new EnderecoDAO().atualizarEndercoPessoa(enderecoDados)) {
-				return true;
-			} else {
-				return false;
-			}
-			
-		} catch (Exception e) {
-			return false;
-		}
 	}
 	
 	/**

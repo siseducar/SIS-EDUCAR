@@ -18,6 +18,7 @@ import modulos.secretaria.om.Regiao;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.Logs;
 
 public class EnderecoDAO extends SisEducarDAO 
 {
@@ -27,11 +28,6 @@ public class EnderecoDAO extends SisEducarDAO
 	Statement st = null;
 	PreparedStatement ps = null;	
 	ResultSet rs = null;
-	
-	public EnderecoDAO() throws SQLException
-	{
-		desabilitarAutoCommit(con);
-	}
 	
 	/**
 	 * Insere o endereço e já obtem a pk do enreço salvo e retorna o objeto completo
@@ -410,7 +406,7 @@ public class EnderecoDAO extends SisEducarDAO
 	}
 	
 	/**
-	 * Metodo para salvar o endereco da pessoa cadastrada
+	 * Metodo para salvar e atualizar os dados de endereco da pessoa
 	 * @throws SQLException 
 	 * 
 	 * */
@@ -421,23 +417,38 @@ public class EnderecoDAO extends SisEducarDAO
 			Integer numeroArgumentos = 1;
 			
 			querySQL = " INSERT INTO ENDERECO ( ";
-			querySQL += " CEP, LOGRADOURO, BAIRRO, NUMERO, ";
-			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
-				querySQL += " COMPLEMENTO, ";
+			if( dadosEndereco.getPkEndereco() != null ) {
+				querySQL += " PKCONTATO, ";
 			}
-			querySQL += " TIPO, STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE,  ";
-			querySQL += " ENDERECOCOMPLETO, FKREGIAO, FKCONTATO ) values ( ";
-			
-			querySQL += " ?, ?, ?, ?, ";
-			
+			querySQL += " CEP, LOGRADOURO, BAIRRO, NUMERO, TIPO, STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE, ENDERECOCOMPLETO, FKREGIAO, FKCONTATO";
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
-				querySQL += " ?,";
+				querySQL += " , COMPLEMENTO, ";
+			}  
+			querySQL += " ) values ( "; 
+			if( dadosEndereco.getPkEndereco() != null ) {
+				querySQL += " ?, ";
 			}
 			
-			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING PKENDERECO";
+			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ";
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
+				querySQL += " , ? ";
+			}
+			
+			querySQL += ") ON CONFLICT (PKENDERECO) DO UPDATE SET ";
+			querySQL += " CEP = ?, LOGRADOURO = ?, BAIRRO = ?, NUMERO = ?, TIPO = ?, STATUS = ?, FKCIDADE = ?, FKMUNICIPIOCLIENTE = ?, LATITUDE = ?, LONGITUDE = ?, ENDERECOCOMPLETO = ?, FKREGIAO = ?, FKCONTATO = ?";
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
+				querySQL += " , COMPLEMENTO = ? ";
+			}
+			
+			querySQL += "WHERE ENDERECEO.PKENDERECO = ? RETURNING PKENDERECO";
 			
 			ps = con.prepareStatement(querySQL.toString());
 			
+			/* Dados para Insert */
+			if( dadosEndereco.getPkEndereco() != null ) {
+				ps.setInt(numeroArgumentos, dadosEndereco.getPkEndereco());
+				numeroArgumentos++;
+			}
 			ps.setInt(numeroArgumentos, dadosEndereco.getCep());
 			numeroArgumentos++;
 
@@ -449,11 +460,6 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			ps.setString(numeroArgumentos, dadosEndereco.getNumero());
 			numeroArgumentos++;
-			
-			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {				
-				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
-				numeroArgumentos++;
-			}
 			
 			ps.setString(numeroArgumentos, dadosEndereco.getTipo());
 			numeroArgumentos++;
@@ -467,7 +473,7 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setInt(numeroArgumentos, dadosEndereco.getFkMunicipioCliente().getPkCidade());
 			numeroArgumentos++;
 			
-			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude()!=null ? dadosEndereco.getLatitude() : 0d);
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude() !=null ? dadosEndereco.getLatitude() : 0d);
 			numeroArgumentos++;
 			
 			ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude()!=null ? dadosEndereco.getLongitude() : 0d);
@@ -480,131 +486,73 @@ public class EnderecoDAO extends SisEducarDAO
 			numeroArgumentos++;
 			
 			ps.setInt(numeroArgumentos, dadosEndereco.getContato().getPkContato());
+			numeroArgumentos++;
+			
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {				
+				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
+				numeroArgumentos++;
+			}
+			
+			/* Dados para Update */
+			ps.setInt(numeroArgumentos, dadosEndereco.getCep());
+			numeroArgumentos++;
+
+			ps.setString(numeroArgumentos, dadosEndereco.getLogradouro());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getBairro());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getNumero());
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getTipo());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getCidade().getPkCidade());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getFkMunicipioCliente().getPkCidade());
+			numeroArgumentos++;
+			
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude() !=null ? dadosEndereco.getLatitude() : 0d);
+			numeroArgumentos++;
+			
+			ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude()!=null ? dadosEndereco.getLongitude() : 0d);
+			numeroArgumentos++;
+			
+			ps.setString(numeroArgumentos, dadosEndereco.getEnderecoCompleto());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getRegiao().getPkRegiao());
+			numeroArgumentos++;
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getContato().getPkContato());
+			numeroArgumentos++;
+			
+			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {				
+				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
+				numeroArgumentos++;
+			}
+			
+			ps.setInt(numeroArgumentos, dadosEndereco.getPkEndereco() != null ? dadosEndereco.getPkEndereco() : 0);
 			
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
 				dadosEndereco.setPkEndereco(rs.getInt("PKENDERECO"));
 			}
-			
-			fecharConexaoBanco(con, ps, false, true);
-			fecharConexaoBanco(con, ps, true, false);
-			
+						
 			return dadosEndereco;
 		} catch(Exception e) {
 			new ContatoDAO().deletarContato(dadosEndereco.getContato().getPkContato());
+			Logs.addInfo(e.toString(), null);
 			return null;
-		}
-	}
-	
-	/*
-	 * Metodo para atualizar os dados de contato
-	 * */
-	public Boolean atualizarEndercoPessoa(Endereco dadosEndereco) throws SQLException {
-		try {
-			int numeroArgumentos = 1;
-			
-			String querySQL = "UPDATE ENDERECO SET";
-				if(dadosEndereco.getCidade().getPkCidade() != null) {
-					querySQL += " FKCIDADE = ?, ";
-				}
-				if(dadosEndereco.getCep() != null && !dadosEndereco.getCep().equals("")) {
-					querySQL += " CEP = ?, ";
-				}
-				if(dadosEndereco.getLogradouro() != null && !dadosEndereco.getLogradouro().equals("")) {
-					querySQL += " LOGRADOURO = ?, ";
-				}
-				if(dadosEndereco.getNumero() != null && !dadosEndereco.getNumero().equals("")) {
-					querySQL += " NUMERO = ?, ";
-				}
-				if(dadosEndereco.getBairro() != null && !dadosEndereco.getBairro().equals("")) {
-					querySQL += " BAIRRO = ?, ";
-				}
-				if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
-					querySQL += " COMPLEMENTO = ?, ";
-				}
-				if(dadosEndereco.getTipo() != null && !dadosEndereco.getTipo().equals("")) {
-					querySQL += " TIPO = ?, ";
-				}
-				if(dadosEndereco.getEnderecoCompleto() != null && !dadosEndereco.getEnderecoCompleto().equals("")) {
-					querySQL += " ENDERECOCOMPLETO = ?, ";
-				}
-				if(dadosEndereco.getLatitude() != null && !dadosEndereco.getLatitude().equals("")) {
-					querySQL += " LATITUDE = ?, ";
-				}
-				if(dadosEndereco.getLongitude() != null && !dadosEndereco.getLongitude().equals("")) {
-					querySQL += " LONGITUDE = ?, ";
-				}
-				if(dadosEndereco.getRegiao().getPkRegiao() != null) {
-					querySQL += " FKREGIAO = ? ";
-				}
-				
-				querySQL += " WHERE STATUS = ? ";
-				querySQL += " AND PKENDERECO = ?";
-			
-			ps = con.prepareStatement(querySQL);
-			
-			if(dadosEndereco.getCidade().getPkCidade() != null) {
-				ps.setInt(numeroArgumentos, dadosEndereco.getCidade().getPkCidade());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getCep() != null && !dadosEndereco.getCep().equals("")) {
-				ps.setInt(numeroArgumentos, dadosEndereco.getCep());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getLogradouro() != null && !dadosEndereco.getLogradouro().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getLogradouro());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getNumero() != null && !dadosEndereco.getNumero().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getNumero());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getBairro() != null && !dadosEndereco.getBairro().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getBairro());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getTipo() != null && !dadosEndereco.getTipo().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getTipo());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getEnderecoCompleto() != null && !dadosEndereco.getEnderecoCompleto().equals("")) {
-				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getLatitude() != null && !dadosEndereco.getLatitude().equals("")) {
-				ps.setDouble(numeroArgumentos, dadosEndereco.getLatitude());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getLongitude() != null && !dadosEndereco.getLongitude().equals("")) {
-				ps.setDouble(numeroArgumentos, dadosEndereco.getLongitude());
-				numeroArgumentos++;
-			}
-			if(dadosEndereco.getRegiao().getPkRegiao() != null) {
-				ps.setInt(numeroArgumentos, dadosEndereco.getRegiao().getPkRegiao());
-				numeroArgumentos++;
-			}
-			
-			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
-			numeroArgumentos++;
-			
-			ps.setInt(numeroArgumentos, dadosEndereco.getPkEndereco());
-			
-			ps.execute();
-			
-			fecharConexaoBanco(con, ps, false, true);
-			
-			return true;
-		}
-		catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					e.toString(),null));
-			return false;
 		} finally {
+			ps.close();
 			con.close();
 		}
 	}
@@ -612,7 +560,7 @@ public class EnderecoDAO extends SisEducarDAO
 	/*
 	 * Metodo para deletar os dados de endereco
 	 * */
-	public void deletarEndereco(Integer pkEndereco) {
+	public void deletarEndereco(Integer pkEndereco) throws SQLException {
 		try {
 			String querySQL = "DELETE FROM ENDERECO "
 					+ "WHERE STATUS = ? "
@@ -623,18 +571,20 @@ public class EnderecoDAO extends SisEducarDAO
 			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
 			ps.setInt(2, pkEndereco);
 			
-			ps.executeQuery();
-			
-			fecharConexaoBanco(con, ps, false, true);
-			fecharConexaoBanco(con, ps, true, false);
-			
+			ps.executeQuery();			
 		}
 		catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					e.toString(),null));
+		} finally {
+			ps.close();
+			con.close();
 		}
 	}
 	
+	/*
+	 * Metodo para consultar os dados de endereco
+	 * */
 	public Endereco consultaEnderecoPessoa(Integer pkEndereco) {
 		try {			
 			Endereco enderecoDados = new Endereco();

@@ -7,7 +7,7 @@ public class Fornecedor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer pkFornecedor;
-	private Integer codFornecedor;
+	private String codFornecedor;
 	private String razaoSocial;
 	private String nomeFantasia;
 	private String cnpj;
@@ -29,10 +29,10 @@ public class Fornecedor implements Serializable {
 	public void setPkFornecedor(Integer pkFornecedor) {
 		this.pkFornecedor = pkFornecedor;
 	}
-	public Integer getCodFornecedor() {
+	public String getCodFornecedor() {
 		return codFornecedor;
 	}
-	public void setCodFornecedor(Integer codFornecedor) {
+	public void setCodFornecedor(String codFornecedor) {
 		this.codFornecedor = codFornecedor;
 	}
 	public String getRazaoSocial() {

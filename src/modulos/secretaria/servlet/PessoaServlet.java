@@ -228,37 +228,6 @@ public class PessoaServlet implements Serializable{
 		} catch (Exception e) {
 			Logs.addError("Erro ao deletar cadastro.", e.toString());
 		}
-	}	
-	
-	/*
-	 * Metodo para salvar o cadastro de Pessoa
-	 * 
-	 * */
-	public String atualizarCadastroPessoa() throws SQLException {
-		if( !new ContatoService().atualizarDadosContato(contatoDados)) {
-			Logs.addError("Erro ao atualizar dados.", null);
-		} else {
-			enderecoDados.setContato(contatoDados);
-			if ( !new EnderecoService().atualizarDadosEndereco(enderecoDados) ) {
-				Logs.addError("Erro ao atualizar endereco.", null);
-			} else {
-				pessoaDados.setEndereco(enderecoDados);
-				if(pessoaDados.getSexo().equals("2")) {
-					pessoaDados.setSexo(ConstantesSisEducar.GENERO_FEMININO);
-				} else{
-					if(pessoaDados.getSexo().equals("1")) {
-						pessoaDados.setSexo(ConstantesSisEducar.GENERO_MASCULINO);
-					}
-				}
-				if ( !new PessoaService().atualizarDadosPessoa(pessoaDados) ) {
-					Logs.addError("Erro ao atualizar os dados da Pessoa.", null);
-				} else {
-					Logs.addInfo("Dados atualizados com sucesso!", null);
-				}
-			}
-			
-		}
-		return null;
 	}
 	
 	public Boolean validaDadosPessoa(){
@@ -712,14 +681,8 @@ public class PessoaServlet implements Serializable{
 	 * 
 	 * */
 	public void validaCadastro() throws SQLException{
-		if( validaDadosPessoa() ) {	
-			if(pessoaDados.getPkPessoa() == null ) {					
-				salvarCadastroPessoa();
-			} else {
-				if( pessoaDados.getPkPessoa() != null ) {
-					atualizarCadastroPessoa();
-				}
-			}
+		if( validaDadosPessoa() ) {						
+			salvarCadastroPessoa();
 		}
 	}
 

@@ -13,6 +13,7 @@ import modulos.secretaria.om.Contato;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
+import modulos.sisEducar.utils.Logs;
 
 public class ContatoDAO extends SisEducarDAO
 {
@@ -189,12 +190,16 @@ public class ContatoDAO extends SisEducarDAO
 	}
 	
 	/*
-	 * Metodo para salvar os dados de contato no cadastro da pessoa
+	 * Metodo para salvar os dados de contato
 	 * */
-	public Contato salvarContato(Contato dadosContato) {
+	public Contato salvarContato(Contato dadosContato) throws SQLException {
 		try {
 			int numeroArgumentos = 1;
+			
 			String querySQL = "INSERT INTO CONTATO ( ";
+				if( dadosContato.getPkContato() != null ) {
+					querySQL += " PKCONTATO, ";
+				}
 				if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
 					querySQL+= " TELRESIDENCIAL, ";
 				}
@@ -220,6 +225,9 @@ public class ContatoDAO extends SisEducarDAO
 				querySQL+= " STATUS ";
 				
 				querySQL+= " ) values( ";
+				if( dadosContato.getPkContato() != null ) {
+					querySQL += "?, ";
+				}
 				if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
 					querySQL+= " ?, ";
 				}
@@ -241,10 +249,39 @@ public class ContatoDAO extends SisEducarDAO
 				if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
 					querySQL+= " ?, ";
 				}
-				querySQL += "? ) RETURNING PKCONTATO ";
-			
+				querySQL += "? ) ON CONFLICT (PKCONTATO) DO UPDATE SET ";
+				
+				if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
+					querySQL+= " TELRESIDENCIAL = ?, ";
+				}
+				if( dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("") ) {
+					querySQL+= " TELCELULAR = ?, ";
+				}
+				if( dadosContato.getTelComercial() != null && !dadosContato.getTelComercial().equals("") ) {
+					querySQL+= " TELCOMERCIAL = ?, ";
+				}
+				if( dadosContato.getEmail() != null && !dadosContato.getEmail().equals("") ) {
+					querySQL+= " EMAIL = ?, ";
+				}
+				if( dadosContato.getEmailempresa() != null && !dadosContato.getEmailempresa().equals("") ) {
+					querySQL+= " EMAILEMPRESA = ?, ";
+				}
+				if( dadosContato.getSiteempresa() != null && !dadosContato.getSiteempresa().equals("") ) {
+					querySQL+= " SITEEMPRESA = ?, ";
+				}
+				if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
+					querySQL+= " FAX = ?, ";
+				}
+				
+				querySQL+= " STATUS = ? WHERE CONTATO.PKCONTATO = ? RETURNING PKCONTATO";
+				
 			ps = con.prepareStatement(querySQL);
 			
+			/* Dados para INSERT */
+			if( dadosContato.getPkContato() != null ) {
+				ps.setInt(numeroArgumentos, dadosContato.getPkContato());
+				numeroArgumentos++;
+			}
 			if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
 				ps.setString(numeroArgumentos, dadosContato.getTelResidencial());
 				numeroArgumentos++;
@@ -274,69 +311,56 @@ public class ContatoDAO extends SisEducarDAO
 				numeroArgumentos++;
 			}			
 			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			
+			/* Dados para UPDATE */
+			if( dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelResidencial());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelCelular());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getTelComercial() != null && !dadosContato.getTelComercial().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getTelComercial());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getEmail() != null && !dadosContato.getEmail().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getEmail());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getEmailempresa() != null && !dadosContato.getEmailempresa().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getEmailempresa());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getSiteempresa() != null && !dadosContato.getSiteempresa().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getSiteempresa());
+				numeroArgumentos++;
+			}
+			if( dadosContato.getFax() != null && !dadosContato.getFax().equals("") ) {
+				ps.setString(numeroArgumentos, dadosContato.getFax());
+				numeroArgumentos++;
+			}			
+			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumentos++;
+			if( dadosContato.getPkContato() != null ) {
+				ps.setInt(numeroArgumentos, dadosContato.getPkContato());
+			} else {
+				ps.setInt(numeroArgumentos, 0);
+			}
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				dadosContato.setPkContato(rs.getInt("PKCONTATO"));
 			}
 			
-			fecharConexaoBanco(con, ps, false, true);
-			
 			return dadosContato;
 		} catch (Exception e) {
-			return null;
-		}
-	}
-		
-	/*
-	 * Metodo para atualizar os dados de contato
-	 * */
-	public Boolean atualizarContatoPessoa(Contato dadosContato) throws SQLException {
-		try {
-			int numeroArgumentos = 1;
-			
-			String querySQL = "UPDATE CONTATO SET";
-				if(dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("")) {
-					querySQL += " TELRESIDENCIAL = ?, ";
-				}
-				if(dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("")) {
-					querySQL += " TELCELULAR = ?, ";
-				}
-				if(dadosContato.getEmail() != null && !dadosContato.getEmail().equals("")) {
-					querySQL += " EMAIL = ? ";
-				}
-				querySQL += " WHERE STATUS = ? ";
-				querySQL += " AND PKCONTATO = ?";
-			
-			ps = con.prepareStatement(querySQL);
-			
-			if(dadosContato.getTelResidencial() != null && !dadosContato.getTelResidencial().equals("")) {
-				ps.setString(numeroArgumentos, dadosContato.getTelResidencial());
-				numeroArgumentos++;
-			}
-			if(dadosContato.getTelCelular() != null && !dadosContato.getTelCelular().equals("")) {
-				ps.setString(numeroArgumentos, dadosContato.getTelCelular());
-				numeroArgumentos++;
-			}
-			if(dadosContato.getEmail() != null && !dadosContato.getEmail().equals("")) {
-				ps.setString(numeroArgumentos, dadosContato.getEmail());
-				numeroArgumentos++;
-			}
-			
-			ps.setInt(numeroArgumentos, ConstantesSisEducar.STATUS_ATIVO);
-			numeroArgumentos++;
-			
-			ps.setInt(numeroArgumentos, dadosContato.getPkContato());
-			
-			ps.execute();
-			
-			return true;
-		}
-		catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					e.toString(),null));
-			return false;
+			Logs.addInfo(e.toString(), null);
+			return null; 
 		} finally {
+			ps.close();
 			con.close();
 		}
 	}
@@ -344,7 +368,7 @@ public class ContatoDAO extends SisEducarDAO
 	/*
 	 * Metodo para deletar os dados de contato
 	 * */
-	public void deletarContato(Integer pkContato) {
+	public void deletarContato(Integer pkContato) throws SQLException {
 		try {
 			String querySQL = "DELETE FROM CONTATO "
 					+ "WHERE STATUS = ? "
@@ -356,12 +380,12 @@ public class ContatoDAO extends SisEducarDAO
 			ps.setInt(2, pkContato);
 			
 			ps.executeQuery();
-			fecharConexaoBanco(con, ps, false, true);
-			fecharConexaoBanco(con, ps, true, false);
 		}
 		catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-					e.toString(),null));
+			Logs.addInfo(e.toString(), null);
+		} finally {
+			ps.close();
+			con.close();
 		}
 	}
 }

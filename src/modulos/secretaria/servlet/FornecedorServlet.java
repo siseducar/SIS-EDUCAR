@@ -166,28 +166,6 @@ public class FornecedorServlet implements Serializable {
 			return false;
 		}
 		
-		if(estadoInscricaoDados.getPkEstado() == null ) {
-			Logs.addWarning("O ESTADO DA INSCRICÃO deve ser preenchido.", null);
-			return false;
-		}
-		
-		if( fornecedorDados.getNumInscriEstadual() == null || fornecedorDados.getNumInscriEstadual().equals("") ) {
-			Logs.addWarning("A INSCRIÇÃO ESTADUAL deve ser preenchida.", null);
-			return false;
-		}
-		
-		if(cidadeInscricaoDados.getPkCidade() == null ) {
-			Logs.addWarning("O MUNICIPIO DA INSCRICÃO deve ser preenchida.", null);
-			return false;
-		} else {
-			cidadeInscricaoDados.setEstado(estadoInscricaoDados);
-		}
-		
-		if( fornecedorDados.getNumInscriMunicipal() == null || fornecedorDados.getNumInscriMunicipal().equals("") ) {
-			Logs.addWarning("A INSCRIÇÃO MUNCIPAL deve ser preenchida.", null);
-			return false;
-		}
-		
 		if( paisDados.getPkPais() == null ) {
 			Logs.addWarning("O PAÍS deve ser informado.", null);
 			return false;

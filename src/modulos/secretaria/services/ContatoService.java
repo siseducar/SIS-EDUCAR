@@ -6,7 +6,7 @@ import modulos.secretaria.om.Contato;
 public class ContatoService {
 
 	/**
-	 * Salva os dados do contato da pessoa
+	 * Salva ou Atualiza os dados do contato da pessoa
 	 * @author Michael
 	 * @param Contato contatoDados
 	 * @return false/true
@@ -41,25 +41,6 @@ public class ContatoService {
 			
 		} catch (Exception e) {
 			return null;
-		}
-	}
-	
-	/**
-	 * Atualiza os dados do contato da pessoa
-	 * @author Michael
-	 * @param Contato contatoDados
-	 * @return false/true
-	 */
-	public Boolean atualizarDadosContato(Contato contatoDados) {
-		try {
-			
-			if(new ContatoDAO().atualizarContatoPessoa(contatoDados)) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
 		}
 	}
 }
