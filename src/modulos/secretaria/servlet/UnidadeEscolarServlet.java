@@ -209,7 +209,7 @@ public class UnidadeEscolarServlet implements Serializable
 			AmbienteDAO ambienteDAO = new AmbienteDAO();
 			Boolean editar = false;
 			
-			if(unidadeEscolar.getPkUnidadeEscolar()>0)
+			if(unidadeEscolar.getPkUnidadeEscolar()!=null)
 				editar = true;
 			
 			if(usuarioLogado!=null && usuarioLogado.getFkMunicipioCliente()!=null)
@@ -299,7 +299,7 @@ public class UnidadeEscolarServlet implements Serializable
 			if(unidadeEscolar!=null && unidadeEscolar.getPkUnidadeEscolar()!=null) { unidadeEscolarDAO.atualizarUnidadeEscolar(unidadeEscolar); }
 			else
 			{
-				unidadeEscolar.setCodigo(new SisEducarDAO().obtemCodigoDisponivel("UNIDADEESCOLAR", ConstantesSisEducar.STATUS_ATIVO));
+				unidadeEscolar.setCodigo(new SisEducarDAO().obtemCodigoDisponivel("UNIDADEESCOLAR", ConstantesSisEducar.STATUS_ATIVO, "PKUNIDADEESCOLAR DESC, CODIGO DESC"));
 				
 				/* Salva a unidade escolar */
 				unidadeEscolar = unidadeEscolarDAO.inserirUnidadeEscolar(unidadeEscolar);

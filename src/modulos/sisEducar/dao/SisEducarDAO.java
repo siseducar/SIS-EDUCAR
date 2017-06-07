@@ -87,7 +87,7 @@ public class SisEducarDAO
 			chaveAcesso.setPkChaveAcesso(rs.getInt("pkChaveAcesso"));
 			chaveAcesso.setChave(rs.getString("chave"));
 			chaveAcesso.setMunicipioCliente(municipioCliente);
-			
+			fecharConexaoBanco(con, ps, true, false);
 			return chaveAcesso;
 		}
 		
@@ -122,7 +122,7 @@ public class SisEducarDAO
 			
 			versoes.add(versao);
 		}
-		
+		fecharConexaoBanco(con, ps, true, false);
 		return versoes;
 	}
 	
@@ -136,6 +136,7 @@ public class SisEducarDAO
 		ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
 		
 		ps.executeQuery();
+		fecharConexaoBanco(con, ps, true, false);
 	}
 	
 	/**
@@ -146,7 +147,7 @@ public class SisEducarDAO
 	 * @return CODIGO(String)
 	 * @throws SQLException
 	 */
-	public String obtemCodigoDisponivel(String nomeTabela, Integer status) throws SQLException
+	public String obtemCodigoDisponivel(String nomeTabela, Integer status, String orderBy) throws SQLException
 	{
 		//CASO NÃO TIVER NENHUM REGISTRO ENTÃO O PADRÃO DO PRIMEIRO NÚMERO SERÁ 1
 		String numeroRetorno = "1";
@@ -154,7 +155,8 @@ public class SisEducarDAO
 		String querySQL = "SELECT * FROM "
 				+ nomeTabela
 				+ " WHERE status = ?"
-				+ " ORDER BY CODIGO DESC"
+				+ " ORDER BY "
+				+ orderBy
 				+ " LIMIT 1";
 		
 		ps = con.prepareStatement(querySQL);
@@ -168,7 +170,7 @@ public class SisEducarDAO
 			numeroAux++;
 			numeroRetorno = numeroAux.toString();
 		}
-		
+		fecharConexaoBanco(con, ps, true, false);
 		return numeroRetorno;
 	}
 }

@@ -74,7 +74,7 @@ public class CidadeDAO extends SisEducarDAO
 //			cidade.setCodigoibge(rs.getInt("codigoibge"));
 			cidade.setStatus(rs.getInt("status"));
 			cidade.setEstado(new EstadoDAO().obtemEstado(rs.getInt("fkEstado"), null, null));
-			
+			fecharConexaoBanco(con, ps, true, false);
 			return cidade;
 		}
 		
@@ -118,6 +118,7 @@ public class CidadeDAO extends SisEducarDAO
 		ResultSet rs = ps.executeQuery();
 		if(rs.next())
 		{
+			fecharConexaoBanco(con, ps, true, false);
 			return rs.getInt("pkcidade");
 		}
 		

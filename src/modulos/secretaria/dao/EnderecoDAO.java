@@ -225,7 +225,7 @@ public class EnderecoDAO extends SisEducarDAO
 		ps.setObject(9, endereco.getRegiao()!=null ? endereco.getRegiao().getPkRegiao() : null);
 		ps.setObject(10, endereco.getPkEndereco());
 		
-		fecharConexaoBanco(con, ps, false, true);
+		//fecharConexaoBanco(con, ps, false, true);
 		
 		return endereco;
 	}
@@ -440,7 +440,7 @@ public class EnderecoDAO extends SisEducarDAO
 				querySQL += " , COMPLEMENTO = ? ";
 			}
 			
-			querySQL += "WHERE ENDERECEO.PKENDERECO = ? RETURNING PKENDERECO";
+			querySQL += "WHERE ENDERECO.PKENDERECO = ? RETURNING PKENDERECO";
 			
 			ps = con.prepareStatement(querySQL.toString());
 			

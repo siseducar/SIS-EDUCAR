@@ -73,6 +73,8 @@ public class PaisDAO extends SisEducarDAO
 			pais.setSigla(rs.getString("sigla"));
 			pais.setCodigobacem(rs.getInt("codigobacem"));
 			pais.setStatus(rs.getInt("status"));
+			
+			fecharConexaoBanco(con, ps, true, false);
 			return pais;
 		}
 		

@@ -102,10 +102,10 @@ public class PopulaSecretaria
 		populaRHDAO.inserirParametros("GrauInstrucao", "FC", "Ensino Fundamental Completo", ConstantesSisEducar.STATUS_ATIVO, 2);
 		populaRHDAO.inserirParametros("GrauInstrucao", "FA", "Ensino Fundamental Cursando", ConstantesSisEducar.STATUS_ATIVO, 3);
 		populaRHDAO.inserirParametros("GrauInstrucao", "FI", "Ensino Fundamental Incompleto", ConstantesSisEducar.STATUS_ATIVO, 4);
-		populaRHDAO.inserirParametros("GrauInstrucao", "MI", "Ensino Médio Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 5);
+		populaRHDAO.inserirParametros("GrauInstrucao", "MI", "Ensino Médio Incompleto", ConstantesSisEducar.STATUS_ATIVO, 5);
 		populaRHDAO.inserirParametros("GrauInstrucao", "MA", "Ensino Médio Cursando", ConstantesSisEducar.STATUS_ATIVO, 6);
 		populaRHDAO.inserirParametros("GrauInstrucao", "MC", "Ensino Médio Completo", ConstantesSisEducar.STATUS_ATIVO, 7);
-		populaRHDAO.inserirParametros("GrauInstrucao", "SI", "Ensino Superior Imcompleto", ConstantesSisEducar.STATUS_ATIVO, 8);
+		populaRHDAO.inserirParametros("GrauInstrucao", "SI", "Ensino Superior Incompleto", ConstantesSisEducar.STATUS_ATIVO, 8);
 		populaRHDAO.inserirParametros("GrauInstrucao", "SA", "Ensino Superior Cursando", ConstantesSisEducar.STATUS_ATIVO, 9);
 		populaRHDAO.inserirParametros("GrauInstrucao", "SC", "Ensino Superior Completo", ConstantesSisEducar.STATUS_ATIVO, 10);
 		populaRHDAO.inserirParametros("GrauInstrucao", "PG", "Pós Graduação", ConstantesSisEducar.STATUS_ATIVO, 11);

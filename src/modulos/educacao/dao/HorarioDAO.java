@@ -242,6 +242,9 @@ public class HorarioDAO extends SisEducarDAO
 			}
 			
 			fecharConexaoBanco(con, ps, false, true);
+			deleteNotIn(horario);
+			fecharConexaoBanco(con, ps, false, true);
+			
 			for (HorarioAula ha : horario.getHorariosAula()) 
 			{
 				ha.setHorario(horario);
@@ -414,6 +417,29 @@ public class HorarioDAO extends SisEducarDAO
 			}
 			
 			return false;
+		} 
+		catch (Exception e) 
+		{
+			return false;
+		}
+	}
+	
+	public Boolean deleteNotIn(Horario horario) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE HORARIO SET STATUS = ? WHERE PKHORARIO <> ? AND FKTURNO = ? AND FKUNIDADEESCOLAR = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, horario.getPkHorario());
+			ps.setInt(3, horario.getTurno().getPkTurno());
+			ps.setInt(4, horario.getUnidadeEscolar().getPkUnidadeEscolar());
+
+			ps.executeQuery();
+			
+			return true;
 		} 
 		catch (Exception e) 
 		{

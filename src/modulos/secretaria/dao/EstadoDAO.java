@@ -75,6 +75,8 @@ public class EstadoDAO extends SisEducarDAO
 			estado.setCodigoibge(rs.getInt("codigoibge"));
 			estado.setStatus(rs.getInt("status"));
 			estado.setPais(new PaisDAO().obtemPais(rs.getInt("fkPais"), null, null));
+			
+			fecharConexaoBanco(con, ps, true, false);
 			return estado;
 		}
 		

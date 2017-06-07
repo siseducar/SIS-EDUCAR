@@ -61,7 +61,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 				
 				ps = con.prepareStatement(querySQL);
 				
-				ps.setInt(numeroArgumentos, new Integer(unidadeEscolar.getCodigo()));
+				ps.setString(numeroArgumentos, unidadeEscolar.getCodigo());
 				numeroArgumentos++;
 				
 				ps.setString(numeroArgumentos, unidadeEscolar.getNome());
@@ -186,7 +186,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		
 		ps = con.prepareStatement(querySQL);
 		
-		ps.setInt(1, new Integer(unidadeEscolar.getCodigo()));
+		ps.setString(1, unidadeEscolar.getCodigo());
 		ps.setString(2, unidadeEscolar.getNome());
 		ps.setBoolean(3, unidadeEscolar.getUnidadeControlada());
 		ps.setBoolean(4, unidadeEscolar.getUnidadeInformatizada());
@@ -223,7 +223,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		String querySQL = "SELECT * FROM unidadeescolar"
 				+ " WHERE status = ?";
 		
-		if(codigo!=null && codigo.length() >0) 	{  querySQL += " AND codigo = ?"; }
+		if(codigo!=null && codigo.length() >0) 	{  querySQL += " AND codigo = CAST(? as character varying)"; }
 		if(nome!=null && nome.length() >0)		{ querySQL += " AND nome = ?"; }
 		
 		querySQL += " AND fkMunicipioCliente = ?";
@@ -234,7 +234,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 		if(codigo!=null && codigo.length() >0)
 		{
 			numeroArgumentos ++;
-			ps.setInt(numeroArgumentos, new Integer(codigo));
+			ps.setString(numeroArgumentos, codigo);
 		}
 		
 		if(nome!=null && nome.length() >0)
@@ -349,7 +349,7 @@ public class UnidadeEscolarDAO extends SisEducarDAO
 			numeroArqumentos ++;
 			if(codigo!=null && codigo.length()>0)
 			{
-				ps.setInt(numeroArqumentos, new Integer(codigo));
+				ps.setString(numeroArqumentos, codigo);
 				numeroArqumentos ++;
 			}
 			if(codigoFederal!=null && codigoFederal.length()>0)
