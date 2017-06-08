@@ -12,6 +12,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
@@ -74,6 +75,7 @@ public class FornecedorServlet implements Serializable {
 		}
 		if( this.enderecoDados == null ) {
 			this.enderecoDados = new Endereco();
+			this.getEnderecoDados().setTipologradouro(new TipoLogradouro());
 		}
 		if( this.contatoDados == null ) {
 			this.contatoDados = new Contato();
@@ -139,11 +141,15 @@ public class FornecedorServlet implements Serializable {
 			if( !new EnderecoService().salvarDadosEndereco(enderecoDados)) {
 				Logs.addError("Erro ao salvar endereco.", null);
 			} else {
+				fornecedorDados.setEstadoInscricao(estadoInscricaoDados);
+				fornecedorDados.setCidadeInscricao(cidadeInscricaoDados);
 				fornecedorDados.setFkMunicipioCliente(usuarioLogadao.getFkMunicipioCliente());
+				fornecedorDados.setEndereco(enderecoDados);
+				fornecedorDados.setPessoa(pessoaDados);
 				if( !new FornecedorService().salvarCadastroFornecedor(fornecedorDados)) {
 					Logs.addError("Erro ao salvar Fornecedor.", null);
 				} else {
-					Logs.addError("Cadastro de Fornecedor OK.", null);
+					Logs.addInfo("Fornecedor cadastrado com sucesso", null);
 				}
 			}
 		}
@@ -247,8 +253,7 @@ public class FornecedorServlet implements Serializable {
 		try {
 			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() > 0) {				
 				
-				pessoaDados.setNome(new FornecedorService().consultaNomeContato(pessoaDados.getCpf()));
-				
+				pessoaDados = new PessoaDAO().obtemUnicoPessoaSimples(pessoaDados.getCpf().toString());
 				if( pessoaDados.getNome() != null ) {
 					panelDadosEmpresa = true;
 				} else {

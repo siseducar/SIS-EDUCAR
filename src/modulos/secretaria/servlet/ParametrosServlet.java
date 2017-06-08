@@ -28,6 +28,7 @@ import modulos.secretaria.dao.SituacaoEconomicaDAO;
 import modulos.secretaria.dao.SituacaoFuncionamentoDAO;
 import modulos.secretaria.dao.TipoAmbienteDAO;
 import modulos.secretaria.dao.TipoDeficienciaDAO;
+import modulos.secretaria.dao.TipoLogradouroDAO;
 import modulos.secretaria.dao.TipoOcupacaoDAO;
 import modulos.secretaria.dao.TurnoDAO;
 import modulos.secretaria.dao.UnidadeEscolarDAO;
@@ -49,6 +50,7 @@ import modulos.secretaria.om.SituacaoEconomica;
 import modulos.secretaria.om.SituacaoFuncionamento;
 import modulos.secretaria.om.TipoAmbiente;
 import modulos.secretaria.om.TipoDeficiencia;
+import modulos.secretaria.om.TipoLogradouro;
 import modulos.secretaria.om.TipoOcupacao;
 import modulos.secretaria.om.Turno;
 import modulos.secretaria.om.UnidadeEscolar;
@@ -180,6 +182,10 @@ public class ParametrosServlet {
 			this.comboBlocosAmbiente = new ArrayList<SelectItem>();
 		}
 		
+		if(this.comboTipoLogradouro == null) {
+			this.comboTipoLogradouro = new ArrayList<SelectItem>();
+		}
+		
 		carregarCombos();
 	}
 	
@@ -210,6 +216,10 @@ public class ParametrosServlet {
 		
 		if( comboTurno.isEmpty() ) {
 			consultaTurno();
+		}
+		
+		if( comboTipoLogradouro.isEmpty() ) {
+			consultaTipoLogradouro();
 		}
 		
 		if( comboEstadoCivil.isEmpty() ) {			
@@ -363,6 +373,25 @@ public class ParametrosServlet {
 		} catch (SQLException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"Erro ao carregar os dados de TURNO, contate o administrador do sistema!", null));
+			return null;
+		}
+	}
+	
+	public List<SelectItem> consultaTipoLogradouro() {
+		try {
+			TipoLogradouroDAO tipoLogradouroDAO = new TipoLogradouroDAO();
+			List<TipoLogradouro> paramLog = tipoLogradouroDAO.consultaTipoLogradouro();
+			
+			for (TipoLogradouro param : paramLog){
+				SelectItem  s = new SelectItem();
+				s.setValue(param.getPkTipoLogradouro());
+				s.setLabel(param.getDescricao());
+				comboTipoLogradouro.add(s);
+			}
+			return comboTipoLogradouro;
+		} catch (SQLException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"Erro ao carregar os dados de TIPO LOGRADOURO, contate o administrador do sistema!", null));
 			return null;
 		}
 	}

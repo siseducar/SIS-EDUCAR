@@ -38,21 +38,21 @@ public class FornecedorDAO extends SisEducarDAO {
 			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
 				querySQL += " OBSERVACOES, ";
 			}
-			querySQL += " FKPESSOA, FKENDERECO, FKMUNICIPIOCLIENTE, STATUS ";
+			querySQL += " ,FKPESSOA, FKENDERECO, FKMUNICIPIOCLIENTE, STATUS ";
 
 			querySQL += " ) VALUES ( ";
 			
-			querySQL += " ?, ?, ?, ";
+			querySQL += " ?, ?, ?";
 			if( fornecedorDados.getNumInscriEstadual() != null && !fornecedorDados.getNumInscriEstadual().equals("") ) {
-				querySQL += " ?, ?";
+				querySQL += " ,?, ?";
 			}
 			if( fornecedorDados.getNumInscriMunicipal() != null && !fornecedorDados.getNumInscriMunicipal().equals("") ) {
-				querySQL += " ?, ? ";
+				querySQL += " ,?, ? ";
 			}
 			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
-				querySQL += " ?, ";
+				querySQL += " ,?";
 			}
-			querySQL += " ?, ?, ?, ? ) RETURNING PKFORNECEDOR";
+			querySQL += " ,?, ?, ?, ? ) RETURNING PKFORNECEDOR";
 			
 			ps = con.prepareStatement(querySQL);
 			

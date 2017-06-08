@@ -145,6 +145,7 @@
 								</div>
 								<div class="space-4"/>
 								<div class="row">
+								<!-- 
 									<div class="col-xs-12 col-sm-3">
 										<h:outputLabel value="#{mensagens['label.ramo.atividade']}"/>
 										<div>
@@ -161,6 +162,7 @@
 											</h:selectOneMenu>
 										</div>
 									</div>
+									-->
 									<div class="col-xs-12 col-sm-6">
 										<h:outputLabel value="#{mensagens['label.observacao']}"/>
 										<div>
@@ -223,8 +225,10 @@
 										<h:outputLabel value="Tipo Logradouro"/>
 										<div>
 											<h:selectOneMenu id="tipoLogradouro" class="form-control"
-												value="#{forneServlet.enderecoDados.tipologradouro.pkTipoLogradouro}">
+												value="#{forneServlet.tipoLograDados.pkTipoLogradouro}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
+												<f:selectItems value="#{paramServlet.comboTipoLogradouro}"
+													var="tipoLogradouro" itemLabel="#{tipoLogradouro.descricao}" itemValue="#{tipoLogradouro.pkTipoLogradouro}"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
