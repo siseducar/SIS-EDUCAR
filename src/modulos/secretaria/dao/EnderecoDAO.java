@@ -418,11 +418,11 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			querySQL = " INSERT INTO ENDERECO ( ";
 			if( dadosEndereco.getPkEndereco() != null ) {
-				querySQL += " PKCONTATO, ";
+				querySQL += " PKENDERECO, ";
 			}
 			querySQL += " CEP, LOGRADOURO, BAIRRO, NUMERO, TIPO, STATUS, FKCIDADE, FKMUNICIPIOCLIENTE, LATITUDE, LONGITUDE, ENDERECOCOMPLETO, FKREGIAO, FKCONTATO";
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
-				querySQL += " , COMPLEMENTO, ";
+				querySQL += " , COMPLEMENTO";
 			}  
 			querySQL += " ) values ( "; 
 			if( dadosEndereco.getPkEndereco() != null ) {

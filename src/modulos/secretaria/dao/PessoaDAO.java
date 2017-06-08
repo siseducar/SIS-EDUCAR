@@ -91,7 +91,7 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			querySQL += " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE )";
 			
-			querySQL += " ON CONFLICT (PKPESSOA) DO UPDATE PESSOA SET ";
+			querySQL += " ON CONFLICT (PKPESSOA) DO UPDATE SET ";
 			
 			querySQL += " NOME = ?, CODIGO = ?, ";
 			if(pessoaDados.getCpf() != null && pessoaDados.getCpf() != 0 ) {				
@@ -111,7 +111,7 @@ public class PessoaDAO extends SisEducarDAO
 			}
 			querySQL += " DATANASCIMENTO = ?, SEXO = ?, STATUS = ?, FKRACA = ?, ";
 			querySQL += " FKSITUACAOECONOMICA = ?, FKRELIGIAO = ?, FKNACIONALIDADE = ?, FKESTADOCIVIL = ?, FKGRAUINSTRUCAO = ?, ";
-			querySQL += " FKENDERECO = ?, FKNATURALIDADE = ? WHERE PESSOA.PKPESSO = ? RETURNING PKPESSOA";
+			querySQL += " FKENDERECO = ?, FKNATURALIDADE = ? WHERE PESSOA.PKPESSOA = ? RETURNING PKPESSOA";
 			
 			ps = con.prepareStatement(querySQL);
 			
