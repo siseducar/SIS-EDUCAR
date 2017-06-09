@@ -12,6 +12,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.FornecedorDAO;
 import modulos.secretaria.dao.PessoaDAO;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
@@ -251,11 +252,22 @@ public class FornecedorServlet implements Serializable {
 	
 	public void consultaNomeContato() {
 		try {
+			Fornecedor fornecedorAux = null; 
 			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() > 0) {				
 				
 				pessoaDados = new PessoaDAO().obtemUnicoPessoaSimples(pessoaDados.getCpf().toString());
 				if( pessoaDados.getNome() != null ) {
 					panelDadosEmpresa = true;
+					
+					fornecedorAux = new FornecedorDAO().obtemFornecedor(pessoaDados.getPkPessoa());
+					if(fornecedorAux!=null)
+					{
+						fornecedorDados = fornecedorAux;
+						enderecoDados = fornecedorDados.getEndereco();
+						estadoInscricaoDados = fornecedorDados.getEstadoInscricao();
+						cidadeDados = fornecedorDados.getFkMunicipioCliente();
+						cidadeInscricaoDados = fornecedorDados.getCidadeInscricao();
+					}
 				} else {
 					pessoaDados.setCpf(null);
 					pessoaDados.setNome(null);

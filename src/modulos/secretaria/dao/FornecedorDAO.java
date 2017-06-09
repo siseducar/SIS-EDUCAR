@@ -147,4 +147,42 @@ public class FornecedorDAO extends SisEducarDAO {
 		}
 		return null;
 	}
+
+	public Fornecedor obtemFornecedor(Integer pkPessoa) 
+	{
+		try 
+		{
+			Fornecedor fornecedor = null;
+			String querySQL = "SELECT * FROM FORNECEDOR"
+					+ " WHERE STATUS = ? AND FKPESSOA = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_ATIVO);
+			ps.setInt(2, pkPessoa);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				fornecedor = new Fornecedor();
+				fornecedor.setPkFornecedor(rs.getInt("PKFORNECEDOR"));
+				fornecedor.setRazaoSocial(rs.getString("RAZAOSOCIAL"));
+				fornecedor.setNomeFantasia(rs.getString("NOMEFANTASIA"));
+				fornecedor.setCnpj(rs.getString("CNPJ"));
+				fornecedor.setNumInscriEstadual(rs.getString("INSCRICAOESTADUAL"));
+				fornecedor.setNumInscriMunicipal(rs.getString("INSCRICAOMUNICIPAL"));
+				fornecedor.setEstadoInscricao(new EstadoDAO().obtemEstado(rs.getInt("FKESTADOINSCRICAO"), null, null));
+				fornecedor.setCidadeInscricao(new CidadeDAO().obtemCidade(null, null, rs.getInt("FKMUNICIPIOINSCRICAO")));
+				fornecedor.setPessoa(new PessoaDAO().obtemPessoaSimples(rs.getInt("FKPESSOA")));
+				fornecedor.setEndereco(new EnderecoDAO().buscarEndereco(rs.getInt("FKENDERECO")));
+				fornecedor.setFkMunicipioCliente(new CidadeDAO().obtemCidade(null, null, rs.getInt("FKMUNICIPIOCLIENTE")));
+				return fornecedor;
+			}
+			
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
