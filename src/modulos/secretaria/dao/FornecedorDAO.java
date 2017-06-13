@@ -176,6 +176,7 @@ public class FornecedorDAO extends SisEducarDAO {
 				fornecedor.setPessoa(new PessoaDAO().obtemPessoaSimples(rs.getInt("FKPESSOA")));
 				fornecedor.setEndereco(new EnderecoDAO().buscarEndereco(rs.getInt("FKENDERECO")));
 				fornecedor.setFkMunicipioCliente(new CidadeDAO().obtemCidade(null, null, rs.getInt("FKMUNICIPIOCLIENTE")));
+				fornecedor.setObservacao(rs.getString("observacoes"));
 				return fornecedor;
 			}
 			

@@ -15,6 +15,7 @@ import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.Pais;
 import modulos.secretaria.om.Regiao;
+import modulos.secretaria.om.TipoLogradouro;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -376,6 +377,8 @@ public class EnderecoDAO extends SisEducarDAO
 				estadoEndereco = new Estado();
 				paisEndereco = new Pais();
 				contato = new Contato();
+				Regiao  regiao = new Regiao();
+				TipoLogradouro tipoLogradouro = new TipoLogradouro();
 				cidadeEnderecoMunicipioCliente = new Cidade();
 				endereco = new Endereco();
 				endereco.setPkEndereco(rs.getInt("pkEndereco"));
@@ -396,6 +399,12 @@ public class EnderecoDAO extends SisEducarDAO
 				contato.setPkContato(rs.getInt("fkContato"));
 				contato = new ContatoDAO().buscarContato(contato);
 				endereco.setContato(contato);
+				
+				tipoLogradouro.setPkTipoLogradouro(rs.getInt("fkTipoLogradouro"));
+				endereco.setTipologradouro(tipoLogradouro);
+				
+				regiao.setPkRegiao(rs.getInt("fkRegiao"));
+				endereco.setRegiao(regiao);
 				
 				return endereco;
 			}
@@ -424,6 +433,8 @@ public class EnderecoDAO extends SisEducarDAO
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
 				querySQL += " , COMPLEMENTO";
 			}  
+			if(dadosEndereco.getTipologradouro()!=null)
+				querySQL += " , FKTIPOLOGRADOURO "; 
 			querySQL += " ) values ( "; 
 			if( dadosEndereco.getPkEndereco() != null ) {
 				querySQL += " ?, ";
@@ -433,12 +444,16 @@ public class EnderecoDAO extends SisEducarDAO
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
 				querySQL += " , ? ";
 			}
+			if(dadosEndereco.getTipologradouro()!=null)
+				querySQL += " , ? "; 
 			
 			querySQL += ") ON CONFLICT (PKENDERECO) DO UPDATE SET ";
 			querySQL += " CEP = ?, LOGRADOURO = ?, BAIRRO = ?, NUMERO = ?, TIPO = ?, STATUS = ?, FKCIDADE = ?, FKMUNICIPIOCLIENTE = ?, LATITUDE = ?, LONGITUDE = ?, ENDERECOCOMPLETO = ?, FKREGIAO = ?, FKCONTATO = ?";
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {
 				querySQL += " , COMPLEMENTO = ? ";
 			}
+			if(dadosEndereco.getTipologradouro()!=null)
+				querySQL += " , FKTIPOLOGRADOURO = ? "; 
 			
 			querySQL += "WHERE ENDERECO.PKENDERECO = ? RETURNING PKENDERECO";
 			
@@ -492,6 +507,10 @@ public class EnderecoDAO extends SisEducarDAO
 				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
 				numeroArgumentos++;
 			}
+			if(dadosEndereco.getTipologradouro() != null) {				
+				ps.setObject(numeroArgumentos, dadosEndereco.getTipologradouro().getPkTipoLogradouro());
+				numeroArgumentos++;
+			}
 			
 			/* Dados para Update */
 			ps.setInt(numeroArgumentos, dadosEndereco.getCep());
@@ -535,6 +554,10 @@ public class EnderecoDAO extends SisEducarDAO
 			
 			if(dadosEndereco.getComplemento() != null && !dadosEndereco.getComplemento().equals("")) {				
 				ps.setString(numeroArgumentos, dadosEndereco.getComplemento());
+				numeroArgumentos++;
+			}
+			if(dadosEndereco.getTipologradouro() != null) {				
+				ps.setObject(numeroArgumentos, dadosEndereco.getTipologradouro().getPkTipoLogradouro());
 				numeroArgumentos++;
 			}
 			

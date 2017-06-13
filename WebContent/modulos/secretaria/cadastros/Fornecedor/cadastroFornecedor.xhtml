@@ -129,8 +129,9 @@
 											<h:selectOneMenu id="munInscri" class="form-control"
 												value="#{forneServlet.cidadeInscricaoDados.pkCidade}">
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
-												<f:selectItems value="#{fornceServlet.comboMunicipioInscricao}"
+												<f:selectItems value="#{forneServlet.comboMunicipioInscricao}"
 													var="cidade" itemLabel="#{cidade.descricao}" itemValue="#{cidade.pkCidade}"/>
+													<p:ajax event="change" update="numInscriMunicipal"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -207,6 +208,7 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{forneServlet.comboMunicipio}" var="municipio" 
 													itemLabel="#{municipio.nome}" itemValue="#{municipio.pkCidade}"/>
+													<f:ajax event="change"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -300,13 +302,6 @@
 												value="#{forneServlet.contatoDados.telComercial}">
 												<f:converter converterId="converte.telresidencial"/>
 											</h:inputText>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-2">
-										<h:outputLabel value="Fax"/>
-										<div>
-											<h:inputText id="numFax" class="form-control"
-												value="#{forneServlet.contatoDados.fax}"/>
 										</div>
 									</div>
 								</div>
@@ -410,6 +405,7 @@
 		<ui:define name="scriptPagina">
 			<script src="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.js"/>
 			<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/modulos/secretaria/cadastros/Fornecedor/cadastroFornecedor.css"/>
+			<script src="${facesContext.externalContext.requestContextPath}/resources/templates/ace/assets/js/jquery.maskedinput.min.js"/>
 		</ui:define>
 	</ui:composition>
 </h:html>

@@ -51,6 +51,8 @@ public class ContatoDAO extends SisEducarDAO
 				contato.setTelComercial(rs.getString("TELCOMERCIAL"));
 				contato.setTelResidencial(rs.getString("TELRESIDENCIAL"));
 				contato.setEmail(rs.getString("EMAIL"));
+				contato.setEmailempresa(rs.getString("emailEmpresa"));
+				contato.setSiteempresa(rs.getString("siteEmpresa"));
 				
 				fecharConexaoBanco(con, ps, true, false);
 				

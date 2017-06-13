@@ -265,8 +265,50 @@ public class FornecedorServlet implements Serializable {
 						fornecedorDados = fornecedorAux;
 						enderecoDados = fornecedorDados.getEndereco();
 						estadoInscricaoDados = fornecedorDados.getEstadoInscricao();
-						cidadeDados = fornecedorDados.getFkMunicipioCliente();
+						cidadeDados = fornecedorDados.getEndereco().getCidade();
 						cidadeInscricaoDados = fornecedorDados.getCidadeInscricao();
+						tipoLograDados = enderecoDados.getTipologradouro();
+						regiaoDados = enderecoDados.getRegiao();
+						contatoDados = enderecoDados.getContato();
+						
+						if(enderecoDados!=null)
+						{
+							if(cidadeDados != null) {
+								if(cidadeDados.getEstado().getPais().getPkPais() != null) {
+									for(SelectItem selectItem : paramDados.getComboPais()) {
+										if(selectItem.getValue().equals(cidadeDados.getEstado().getPais().getPkPais())) {
+											paisDados = new Pais();
+											paisDados.setPkPais(cidadeDados.getEstado().getPais().getPkPais());
+											break;
+										}
+									}
+								}
+								if(paisDados != null && paisDados.getPkPais() != null) {
+									if( comboEstado == null || comboEstado.isEmpty()) {
+										comboEstado = paramDados.consultaEstado(paisDados);
+									}
+									for(SelectItem selectItem : comboEstado) {
+										if(selectItem.getValue().equals(cidadeDados.getEstado().getPkEstado())) {
+											estadoDados = new Estado();
+											estadoDados.setPkEstado(cidadeDados.getEstado().getPkEstado());
+											break;
+										}
+									}
+								}
+								if(estadoDados != null && estadoDados.getPkEstado() != null){
+									if( comboMunicipio == null || comboMunicipio.isEmpty()) { 
+										comboMunicipio = paramDados.consultaCidade(estadoDados); 
+									}
+									for(SelectItem selectItem : comboMunicipio) {
+										if(selectItem.getValue().equals(enderecoDados.getCidade().getPkCidade())) {
+											cidadeDados = new Cidade();
+											cidadeDados.setPkCidade(enderecoDados.getCidade().getPkCidade());
+											break;
+										}
+									}
+								}
+							}
+						}
 					}
 				} else {
 					pessoaDados.setCpf(null);
@@ -445,12 +487,11 @@ public class FornecedorServlet implements Serializable {
 	}
 
 	public List<SelectItem> getComboMunicipioInscricao() {
+		Estado estado = new Estado();
+		estado.setPkEstado(25);
 		comboMunicipioInscricao.clear();
-		if( estadoInscricaoDados.getPkEstado() != null ) {
-			comboMunicipioInscricao.addAll(paramDados.consultaCidade(estadoInscricaoDados));
-			return comboMunicipioInscricao;
-		}
-		cidadeInscricaoDados.setPkCidade(null);
+		
+		comboMunicipioInscricao.addAll(paramDados.consultaCidade(estado));
 		return comboMunicipioInscricao;
 	}
 
