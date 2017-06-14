@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulos.secretaria.om.Fornecedor;
+import modulos.secretaria.om.UnidadeEscolar;
 import modulos.sisEducar.conexaoBanco.ConectaBanco;
 import modulos.sisEducar.dao.SisEducarDAO;
 import modulos.sisEducar.utils.ConstantesSisEducar;
@@ -27,22 +28,28 @@ public class FornecedorDAO extends SisEducarDAO {
 			int numeroArgumento = 1;
 			
 			String querySQL = " INSERT INTO FORNECEDOR ( ";
-			
-			querySQL += " RAZAOSOCIAL, NOMEFANTASIA, CNPJ, ";
+			if(fornecedorDados.getPkFornecedor()!=null)
+				querySQL += "PKFORNECEDOR,";
+				
+			querySQL += " RAZAOSOCIAL, NOMEFANTASIA, CNPJ";
 			if( fornecedorDados.getNumInscriEstadual() != null && !fornecedorDados.getNumInscriEstadual().equals("") ) {
-				querySQL += " INSCRICAOESTADUAL, FKESTADOINSCRICAO";
+				querySQL += " ,INSCRICAOESTADUAL, FKESTADOINSCRICAO";
 			}
 			if( fornecedorDados.getNumInscriMunicipal() != null && !fornecedorDados.getNumInscriMunicipal().equals("") ) {
-				querySQL += " INSCRICAOMUNICIPAL, FKMUNICIPIOINSCRICAO ";
+				querySQL += " ,INSCRICAOMUNICIPAL, FKMUNICIPIOINSCRICAO ";
 			}
 			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
-				querySQL += " OBSERVACOES, ";
+				querySQL += " ,OBSERVACOES";
 			}
 			querySQL += " ,FKPESSOA, FKENDERECO, FKMUNICIPIOCLIENTE, STATUS ";
 
 			querySQL += " ) VALUES ( ";
 			
+			if(fornecedorDados.getPkFornecedor()!=null)
+				querySQL += "?,";
+			
 			querySQL += " ?, ?, ?";
+			
 			if( fornecedorDados.getNumInscriEstadual() != null && !fornecedorDados.getNumInscriEstadual().equals("") ) {
 				querySQL += " ,?, ?";
 			}
@@ -52,9 +59,32 @@ public class FornecedorDAO extends SisEducarDAO {
 			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
 				querySQL += " ,?";
 			}
-			querySQL += " ,?, ?, ?, ? ) RETURNING PKFORNECEDOR";
+			
+			querySQL += " ,?, ?, ?, ? )";
+			querySQL += " ON CONFLICT (PKFORNECEDOR) DO UPDATE SET ";
+			
+			querySQL += " RAZAOSOCIAL = ?, NOMEFANTASIA = ?, CNPJ = ?";
+			if( fornecedorDados.getNumInscriEstadual() != null && !fornecedorDados.getNumInscriEstadual().equals("") ) {
+				querySQL += " ,INSCRICAOESTADUAL = ?, FKESTADOINSCRICAO = ?";
+			}
+			if( fornecedorDados.getNumInscriMunicipal() != null && !fornecedorDados.getNumInscriMunicipal().equals("") ) {
+				querySQL += " ,INSCRICAOMUNICIPAL = ?, FKMUNICIPIOINSCRICAO = ?";
+			}
+			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
+				querySQL += " ,OBSERVACOES = ?";
+			}
+			querySQL += " ,FKPESSOA = ?, FKENDERECO = ?, FKMUNICIPIOCLIENTE = ?, STATUS = ? WHERE FORNECEDOR.PKFORNECEDOR = ?";
+			
+			querySQL += " RETURNING PKFORNECEDOR";
 			
 			ps = con.prepareStatement(querySQL);
+			
+			//INSERT
+			if(fornecedorDados.getPkFornecedor()!=null)
+			{
+				ps.setObject(numeroArgumento, fornecedorDados.getPkFornecedor());
+				numeroArgumento++;
+			}
 			
 			ps.setString(numeroArgumento, fornecedorDados.getRazaoSocial());
 			numeroArgumento++;
@@ -94,6 +124,50 @@ public class FornecedorDAO extends SisEducarDAO {
 			numeroArgumento++;
 			
 			ps.setInt(numeroArgumento, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumento++;
+			
+			//UPDATE
+			ps.setString(numeroArgumento, fornecedorDados.getRazaoSocial());
+			numeroArgumento++;
+			
+			ps.setString(numeroArgumento, fornecedorDados.getNomeFantasia());
+			numeroArgumento++;
+			
+			ps.setString(numeroArgumento, fornecedorDados.getCnpj());
+			numeroArgumento++;
+			
+			if( fornecedorDados.getNumInscriEstadual() != null && !fornecedorDados.getNumInscriEstadual().equals("") ) {
+				ps.setString(numeroArgumento, fornecedorDados.getNumInscriEstadual());
+				numeroArgumento++;
+				
+				ps.setInt(numeroArgumento, fornecedorDados.getEstadoInscricao().getPkEstado());
+				numeroArgumento++;
+			}
+			if( fornecedorDados.getNumInscriMunicipal() != null && !fornecedorDados.getNumInscriMunicipal().equals("") ) {
+				ps.setString(numeroArgumento, fornecedorDados.getNumInscriMunicipal());
+				numeroArgumento++;
+				
+				ps.setInt(numeroArgumento, fornecedorDados.getCidadeInscricao().getPkCidade());
+				numeroArgumento++;
+			}
+			if( fornecedorDados.getObservacao() != null && !fornecedorDados.getObservacao().equals("") ) {
+				ps.setString(numeroArgumento, fornecedorDados.getObservacao());
+				numeroArgumento++;
+			}
+			
+			ps.setInt(numeroArgumento, fornecedorDados.getPessoa().getPkPessoa());
+			numeroArgumento++;
+			
+			ps.setInt(numeroArgumento, fornecedorDados.getEndereco().getPkEndereco());
+			numeroArgumento++;
+			
+			ps.setInt(numeroArgumento, fornecedorDados.getFkMunicipioCliente().getPkCidade());
+			numeroArgumento++;
+			
+			ps.setInt(numeroArgumento, ConstantesSisEducar.STATUS_ATIVO);
+			numeroArgumento++;
+			
+			ps.setInt(numeroArgumento, fornecedorDados.getPkFornecedor()!=null ? fornecedorDados.getPkFornecedor() : 0);
 			
 			rs = ps.executeQuery();
 			
@@ -185,5 +259,29 @@ public class FornecedorDAO extends SisEducarDAO {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public Boolean remover(Fornecedor fornecedor) throws SQLException 
+	{
+		String querySQL = "UPDATE fornecedor"
+				+ " SET status = ?"
+				+ " WHERE pkFornecedor = ? RETURNING STATUS";
+		
+		ps = con.prepareStatement(querySQL);
+		
+		ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+		ps.setInt(2, fornecedor.getPkFornecedor());
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs.next())
+		{
+			if(rs.getInt("STATUS") == ConstantesSisEducar.STATUS_REMOVIDO) {
+				return true;
+			} else {
+				return false;					
+			}
+		}
+		
+		return false;	
 	}
 }

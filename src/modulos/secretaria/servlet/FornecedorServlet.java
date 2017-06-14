@@ -1,10 +1,12 @@
 package modulos.secretaria.servlet;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -12,14 +14,17 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import modulos.secretaria.dao.AmbienteDAO;
 import modulos.secretaria.dao.FornecedorDAO;
 import modulos.secretaria.dao.PessoaDAO;
+import modulos.secretaria.dao.UnidadeEscolarDAO;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Contato;
 import modulos.secretaria.om.Endereco;
 import modulos.secretaria.om.Estado;
 import modulos.secretaria.om.Fornecedor;
 import modulos.secretaria.om.Pais;
+import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.Pessoa;
 import modulos.secretaria.om.Regiao;
 import modulos.secretaria.om.TipoLogradouro;
@@ -27,6 +32,7 @@ import modulos.secretaria.om.Usuario;
 import modulos.secretaria.services.ContatoService;
 import modulos.secretaria.services.EnderecoService;
 import modulos.secretaria.services.FornecedorService;
+import modulos.secretaria.utils.ConstantesSecretaria;
 import modulos.sisEducar.utils.Logs;
 
 @ManagedBean(name="forneServlet")
@@ -52,6 +58,14 @@ public class FornecedorServlet implements Serializable {
 	private Regiao regiaoDados;
 	
 	private Usuario usuarioLogadao;
+	
+	private Boolean btCadastrar;
+	private Boolean btExcluir;
+	private Boolean btConsultar;
+	
+	Boolean temPermissaoCadastrar = false;
+	Boolean temPermissaoExcluir = false;
+	Boolean temPermissaoConsultar = false;
 		
 	/* Combo com os valores de ESTADO */
 	private List<SelectItem> comboEstado;
@@ -115,19 +129,65 @@ public class FornecedorServlet implements Serializable {
 		
 		panelDadosEmpresa = false;
 		
-		usuarioLogadao = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		btExcluir = false;
+		btCadastrar = false;
+		btConsultar = false;
 		
+		usuarioLogadao = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		validarPermissoes();
+		if(temPermissaoCadastrar) { btCadastrar = true; }
+		if(temPermissaoConsultar) { btConsultar = true; }
+		if(temPermissaoExcluir) { btExcluir = true; }
 		pessoaDados.setFkMunicipioCliente(usuarioLogadao.getFkMunicipioCliente());
 	}
 	
+	public void validarPermissoes()
+	{
+		//validar permissão
+		for (Permissao permissao : usuarioLogadao.getPermissoes()) 
+		{
+			if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_EXCLUIR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR))
+			{
+				temPermissaoExcluir = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CADASTRAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR))
+			{
+				temPermissaoCadastrar = true;
+			}
+			else if(permissao.getTipo().equals(ConstantesSecretaria.PERMISSAO_CONSULTAR) 
+					&& permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR))
+			{
+				temPermissaoConsultar = true;
+			}
+		}
+	}
+	
+	public void deletarCadastro() throws SQLException
+	{
+		Boolean resultado = false;
+		if(fornecedorDados!=null && fornecedorDados.getPkFornecedor()!=null)
+		{
+			resultado = new FornecedorDAO().remover(fornecedorDados);
+			if(resultado)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "O fornecedor foi removido com sucesso", null));
+				resetarFormulario();
+			}
+			else
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "O fornecedor não foi removida", null));
+			}
+		}
+		else
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Salve o fornecedor antes de tentar remover", null));
+		}
+	}
 	public void validaCadastro() {
 		if( validaDados() ) {
-			if(fornecedorDados.getPkFornecedor() == null ) {
-				salvarCadastroFornecedor();
-			} else {
-				
-			}
-			
+			salvarCadastroFornecedor();
 		}
 	}
 	
@@ -150,6 +210,7 @@ public class FornecedorServlet implements Serializable {
 				if( !new FornecedorService().salvarCadastroFornecedor(fornecedorDados)) {
 					Logs.addError("Erro ao salvar Fornecedor.", null);
 				} else {
+					resetarFormulario();
 					Logs.addInfo("Fornecedor cadastrado com sucesso", null);
 				}
 			}
@@ -241,11 +302,6 @@ public class FornecedorServlet implements Serializable {
 			return false;
 		}
 		
-		if( contatoDados.getFax() == null || contatoDados.getFax().equals("")) {
-			Logs.addWarning("O FAX deve ser informado.", null);
-			return false;
-		}
-		
 		return true;
 	}
 	
@@ -253,6 +309,8 @@ public class FornecedorServlet implements Serializable {
 	public void consultaNomeContato() {
 		try {
 			Fornecedor fornecedorAux = null; 
+			Estado estadoPadrao = new Estado();
+			estadoPadrao.setPkEstado(25);
 			if( pessoaDados.getCpf() != null && pessoaDados.getCpf() > 0) {				
 				
 				pessoaDados = new PessoaDAO().obtemUnicoPessoaSimples(pessoaDados.getCpf().toString());
@@ -266,10 +324,23 @@ public class FornecedorServlet implements Serializable {
 						enderecoDados = fornecedorDados.getEndereco();
 						estadoInscricaoDados = fornecedorDados.getEstadoInscricao();
 						cidadeDados = fornecedorDados.getEndereco().getCidade();
-						cidadeInscricaoDados = fornecedorDados.getCidadeInscricao();
 						tipoLograDados = enderecoDados.getTipologradouro();
 						regiaoDados = enderecoDados.getRegiao();
 						contatoDados = enderecoDados.getContato();
+						
+						if(fornecedorDados.getCidadeInscricao()!=null)
+						{
+							if( comboMunicipioInscricao == null || comboMunicipioInscricao.isEmpty()) { 
+								comboMunicipioInscricao = paramDados.consultaCidade(estadoPadrao); 
+							}
+							for(SelectItem selectItem : comboMunicipioInscricao) {
+								if(selectItem.getValue().equals(fornecedorDados.getCidadeInscricao().getPkCidade())) {
+									cidadeInscricaoDados = new Cidade();
+									cidadeInscricaoDados.setPkCidade(fornecedorDados.getCidadeInscricao().getPkCidade());
+									break;
+								}
+							}
+						}
 						
 						if(enderecoDados!=null)
 						{
@@ -311,12 +382,14 @@ public class FornecedorServlet implements Serializable {
 						}
 					}
 				} else {
+					resetarFormulario();
 					pessoaDados.setCpf(null);
 					pessoaDados.setNome(null);
 					panelDadosEmpresa = false;
 					Logs.addInfo("CPF não encontrado!", null);
 				}
 			} else {
+				resetarFormulario();
 				pessoaDados.setCpf(null);
 				pessoaDados.setNome(null);
 				panelDadosEmpresa = false;
@@ -329,6 +402,27 @@ public class FornecedorServlet implements Serializable {
 		
 		listaConsultaFornecedores = new ArrayList<Fornecedor>();
 		listaConsultaFornecedores = new FornecedorService().consultaFornecedores();
+	}
+	
+	public void resetarFormulario() {
+		
+		fornecedorDados = new Fornecedor();
+		enderecoDados = new Endereco();
+		estadoInscricaoDados = new Estado();
+		cidadeDados = new Cidade();
+		tipoLograDados = new TipoLogradouro();
+		regiaoDados = new Regiao();
+		contatoDados = new Contato();
+		
+		paisDados = new Pais();
+		estadoDados = new Estado();
+		cidadeDados = new Cidade();
+		
+		panelDadosEmpresa = false;
+		
+		pessoaDados = new Pessoa();
+		
+		btExcluir = false;
 	}
 	
 	/* 
@@ -537,5 +631,29 @@ public class FornecedorServlet implements Serializable {
 
 	public void setPanelDadosEmpresa(Boolean panelDadosEmpresa) {
 		this.panelDadosEmpresa = panelDadosEmpresa;
+	}
+
+	public Boolean getBtExcluir() {
+		return btExcluir;
+	}
+
+	public void setBtExcluir(Boolean btExcluir) {
+		this.btExcluir = btExcluir;
+	}
+
+	public Boolean getBtCadastrar() {
+		return btCadastrar;
+	}
+
+	public void setBtCadastrar(Boolean btCadastrar) {
+		this.btCadastrar = btCadastrar;
+	}
+
+	public Boolean getBtConsultar() {
+		return btConsultar;
+	}
+
+	public void setBtConsultar(Boolean btConsultar) {
+		this.btConsultar = btConsultar;
 	}
 }

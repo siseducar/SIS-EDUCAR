@@ -131,7 +131,6 @@
 												<f:selectItem itemValue="" itemLabel="Selecione..."/>
 												<f:selectItems value="#{forneServlet.comboMunicipioInscricao}"
 													var="cidade" itemLabel="#{cidade.descricao}" itemValue="#{cidade.pkCidade}"/>
-													<p:ajax event="change" update="numInscriMunicipal"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -311,12 +310,22 @@
 							<h:commandLink type="reset"  id="btResetar" class="btn btn-white btn-info btn-round botoes">
 								<span class="bigger-110"> #{mensagens['label.botao.novo']} </span>
 								<i class="ace-icon fa fa-file"/>
+								<f:ajax event="click" render="@form" resetValues="true"
+									listener="#{forneServlet.resetarFormulario}" immediate="true"/>
 							</h:commandLink>
-							<h:commandLink type="submit" id="btRegistrar" class="btn btn-white btn-success btn-round botoes">
+							<h:commandLink type="submit" id="btCadastrar" class="btn btn-white btn-success btn-round botoes"
+							rendered="#{forneServlet.btCadastrar}">
 								<span class="bigger-110"> #{mensagens['label.botao.registrar']} </span>
 								<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 								<f:ajax event="click" render="@form" execute="@form" resetValues="true"
 									listener="#{forneServlet.validaCadastro}"/>
+							</h:commandLink>
+							<h:commandLink type="submit" id="btExcluir" class="btn btn-white btn-warning btn-round botoes"
+								rendered="#{forneServlet.btExcluir}">
+								<span class="bigger-110"> #{mensagens['label.botao.deletar']} </span>
+								<i class="ace-icon fa fa-trash-o icon-on-right"/>
+								<f:ajax event="click" render="@form" execute="@form" resetValues="true"
+									listener="#{forneServlet.deletarCadastro}"/>
 							</h:commandLink>
 						</div>
 					</h:form>
@@ -387,7 +396,8 @@
 											<i class="ace-icon fa fa-times red2"/>
 											#{mensagens['label.botao.fechar']}
 										</button>
-										<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"> 
+										<h:commandLink type="submit" id="btConsultar" class="btn btn-white btn-success btn-round"
+										rendered="#{forneServlet.btConsultar}"> 
 											<span class="bigger-110"> #{mensagens['label.botao.consultar']} </span>
 											<i class="ace-icon fa fa-arrow-right icon-on-right"/>
 											<f:ajax event="click" listener="#{forneServlet.consultaCadastro}" 
