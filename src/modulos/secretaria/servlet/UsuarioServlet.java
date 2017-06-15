@@ -315,7 +315,7 @@ public class UsuarioServlet implements Serializable
 				
 				if(resultadoRemocaoUsuario && resultadoRemocaoPermissoesUsuario)
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário removido", null));  
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário removido com sucesso", null));  
 				}
 				else
 				{
@@ -565,26 +565,25 @@ public class UsuarioServlet implements Serializable
 	 */
 	public Permissao preencherInformacoesFaltantesPermissao(Permissao permissao)
 	{
-		
 		/* ADICIONA O NOME DOS MÓDULOS NAS PERMISSÕES */
 		if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA)) { permissao.setNomeModulo("Secretaria"); }
 		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA)) { permissao.setNomeModulo("Escola"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_MERENDA)) { permissao.setNomeModulo("Merenda"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES)) { permissao.setNomeModulo("Docentes"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PORTAL)) { permissao.setNomeModulo("Portal"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO)) { permissao.setNomeModulo("Patrimônio"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO)) { permissao.setNomeModulo("Almoxarifado"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA)) { permissao.setNomeModulo("Biblioteca"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE)) { permissao.setNomeModulo("Transporte"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL)) { permissao.setNomeModulo("Social"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO)) { permissao.setNomeModulo("Protocolo"); }
-		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA)) { permissao.setNomeModulo("Ouvidoria"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_MERENDA)) { permissao.setNomeModulo("Merenda"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES)) { permissao.setNomeModulo("Docentes"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PORTAL)) { permissao.setNomeModulo("Portal"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO)) { permissao.setNomeModulo("Patrimônio"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO)) { permissao.setNomeModulo("Almoxarifado"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA)) { permissao.setNomeModulo("Biblioteca"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE)) { permissao.setNomeModulo("Transporte"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL)) { permissao.setNomeModulo("Social"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO)) { permissao.setNomeModulo("Protocolo"); }
+//		else if(permissao.getTipoModuloResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA)) { permissao.setNomeModulo("Ouvidoria"); }
 
 		/* ADICIONA O NOME DOS SUB MENUS NAS PERMISSÕES */
 		if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO)) { permissao.setNomeSubMenu("Cadastro"); }
 		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_LANCAMENTO)) { permissao.setNomeSubMenu("Lançamento"); }
 		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA)) { permissao.setNomeSubMenu("Consulta"); }
-		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
+//		else if(permissao.getTipoSubMenuResponsavel().equals(ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO)) { permissao.setNomeSubMenu("Relatório"); }
 		
 		/* ADICIONA O NOME DA TELA SELECIONADA */
 		/* SECRETARIA*/
@@ -592,7 +591,7 @@ public class UsuarioServlet implements Serializable
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_USUARIO)) { permissao.setNomeTela("Usuário"); }
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_FORNECEDOR)) { permissao.setNomeTela("Fornecedor"); }
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR)) { permissao.setNomeTela("Unidade Escolar"); }
-		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { permissao.setNomeTela("Ambiente"); }
+//		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE)) { permissao.setNomeTela("Ambiente"); }
 		else if(permissao.getTelaResponsavel().equals(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CONSULTAS_HISTORICO_ACESSO)) { permissao.setNomeTela("Histórico Acesso"); }
 	
 		/* ESCOLA */
@@ -849,7 +848,7 @@ public class UsuarioServlet implements Serializable
 	 */
 	public List<SelectItem> consultaModulos()
 	{
-		Integer qtdModulos = 12;
+		Integer qtdModulos = 2;
 		List<SelectItem> itens = new ArrayList<SelectItem>();
 		SelectItem selectItem = null;
 		String nomeModulo = "";
@@ -868,56 +867,56 @@ public class UsuarioServlet implements Serializable
 				nomeModulo = "Escola";
 				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_ESCOLA;
 			}
-			else if(i==2)
-			{
-				nomeModulo = "Merenda";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_MERENDA;
-			}
-			else if(i==3)
-			{
-				nomeModulo = "Docentes";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES;
-			}
-			else if(i==4)
-			{
-				nomeModulo = "Portal";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PORTAL;
-			}
-			else if(i==5)
-			{
-				nomeModulo = "Patrimônio";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO;
-			}
-			else if(i==6)
-			{
-				nomeModulo = "Almoxarifado";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO;
-			}
-			else if(i==7)
-			{
-				nomeModulo = "Biblioteca";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA;
-			}
-			else if(i==8)
-			{
-				nomeModulo = "Transporte";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE;
-			}
-			else if(i==9)
-			{
-				nomeModulo = "Social";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL;
-			}
-			else if(i==10)
-			{
-				nomeModulo = "Protocolo";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO;
-			}
-			else if(i==11)
-			{
-				nomeModulo = "Ouvidoria";
-				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA;
-			}
+//			else if(i==2)
+//			{
+//				nomeModulo = "Merenda";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_MERENDA;
+//			}
+//			else if(i==3)
+//			{
+//				nomeModulo = "Docentes";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_DOCENTES;
+//			}
+//			else if(i==4)
+//			{
+//				nomeModulo = "Portal";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PORTAL;
+//			}
+//			else if(i==5)
+//			{
+//				nomeModulo = "Patrimônio";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PATROMONIO;
+//			}
+//			else if(i==6)
+//			{
+//				nomeModulo = "Almoxarifado";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_ALMOXARIFADO;
+//			}
+//			else if(i==7)
+//			{
+//				nomeModulo = "Biblioteca";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_BIBLIOTECA;
+//			}
+//			else if(i==8)
+//			{
+//				nomeModulo = "Transporte";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_TRANSPORTE;
+//			}
+//			else if(i==9)
+//			{
+//				nomeModulo = "Social";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_SOCIAL;
+//			}
+//			else if(i==10)
+//			{
+//				nomeModulo = "Protocolo";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_PROTOCOLO;
+//			}
+//			else if(i==11)
+//			{
+//				nomeModulo = "Ouvidoria";
+//				tipoModulo = ConstantesSecretaria.PERMISSAO_TIPO_OUVIDORIA;
+//			}
 			
 			selectItem.setLabel(nomeModulo);
 			selectItem.setValue(tipoModulo);
@@ -935,7 +934,7 @@ public class UsuarioServlet implements Serializable
 	 */
 	public List<SelectItem> consultaTipoTela()
 	{
-		Integer qtdTipos = 4;
+		Integer qtdTipos = 3;
 		List<SelectItem> itens = new ArrayList<SelectItem>();
 		SelectItem selectItem = null;
 		String nomeModulo = "";
@@ -959,11 +958,11 @@ public class UsuarioServlet implements Serializable
 				nomeModulo = "Consulta";
 				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA;
 			}
-			else if(i==3)
-			{
-				nomeModulo = "Relatório";
-				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO;
-			}
+//			else if(i==3)
+//			{
+//				nomeModulo = "Relatório";
+//				tipoModulo = ConstantesSecretaria.TIPO_SUB_MENU_RELATORIO;
+//			}
 			
 			selectItem.setLabel(nomeModulo);
 			selectItem.setValue(tipoModulo);
@@ -1037,7 +1036,7 @@ public class UsuarioServlet implements Serializable
 	 */
 	public List<Tela> popularTelas()
 	{
-		Integer qtdTelas = 6;
+		Integer qtdTelas = 5;
 		List<Tela> telas = new ArrayList<Tela>();
 		Tela tela = null;
 		for (int i = 0; i <= qtdTelas; i++) 
@@ -1073,14 +1072,14 @@ public class UsuarioServlet implements Serializable
 				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_UNIDADE_ESCOLAR);
 				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
+//			else if(i==4)
+//			{
+//				tela.setNome("Ambiente");
+//				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
+//				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE);
+//				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
+//			}
 			else if(i==4)
-			{
-				tela.setNome("Ambiente");
-				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);
-				tela.setTipoTela(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA_CADASTROS_AMBIENTE);
-				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
-			}
-			else if(i==5)
 			{
 				tela.setNome("Histórico Acesso");
 				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CONSULTA);
@@ -1088,7 +1087,7 @@ public class UsuarioServlet implements Serializable
 				tela.setModulo(ConstantesSecretaria.PERMISSAO_TIPO_SECRETARIA);
 			}
 			//ESCOLA
-			else if(i==6)
+			else if(i==5)
 			{
 				tela.setNome("Horário");
 				tela.setTipoSubMenu(ConstantesSecretaria.TIPO_SUB_MENU_CADASTRO);

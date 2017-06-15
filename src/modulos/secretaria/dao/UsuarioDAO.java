@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import modulos.educacao.om.Horario;
 import modulos.secretaria.om.Cidade;
 import modulos.secretaria.om.Permissao;
 import modulos.secretaria.om.PermissaoUsuario;
@@ -105,6 +106,8 @@ public class UsuarioDAO extends SisEducarDAO
 				}
 			}
 			
+			fecharConexaoBanco(con, ps, false, true);
+			deleteNotIn(usuario);
 			fecharConexaoBanco(con, ps, false, true);
 			return true;
 		} 
@@ -762,6 +765,28 @@ public class UsuarioDAO extends SisEducarDAO
 		{
 			System.out.println(e);
 			return null;
+		}
+	}
+	
+	public Boolean deleteNotIn(Usuario usuario) 
+	{
+		try 
+		{
+			String querySQL = "UPDATE USUARIO SET STATUS = ? WHERE PKUSUARIO <> ? AND FKPESSOA = ?";
+			
+			ps = con.prepareStatement(querySQL);
+			
+			ps.setInt(1, ConstantesSisEducar.STATUS_REMOVIDO);
+			ps.setInt(2, new Integer(usuario.getPkUsuario()));
+			ps.setInt(3, usuario.getPessoa().getPkPessoa());
+
+			ps.executeQuery();
+			
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			return false;
 		}
 	}
 }
